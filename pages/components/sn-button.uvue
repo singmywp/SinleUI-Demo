@@ -2,7 +2,7 @@
 	<sn-page>
 		<sn-topbar title="Button 按钮"></sn-topbar>
 		<com-card title="基础用法"
-		note="普普通通的按钮，内置了一套样式，自由可调">
+		note="普普通通的按钮，内置了一套样式，自由可调。">
 			<sn-row wrap>
 				<sn-button class="button" text="Info"></sn-button>
 				<sn-button class="button" text="Primary" type="primary"></sn-button>
