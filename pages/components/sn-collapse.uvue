@@ -3,7 +3,7 @@
 		<sn-topbar title="Collapse 折叠面板"></sn-topbar>
 		<sn-alert type="warning"
 		icon="error-warning-fill"
-		text="sn-collapse-item 必须为 sn-collapse-group 的直接子节点。"></sn-alert>
+		text="sn-collapse-item 必须为 sn-collapse-group 的直接子节点"></sn-alert>
 		<com-card title="基础用法"
 		note="通过折叠面板收纳内容区域。">
 		</com-card>
