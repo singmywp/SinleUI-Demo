@@ -11,7 +11,7 @@
 					<sn-switch v-model="(configs['maskClose'] as boolean)"></sn-switch>
 				</sn-form-item>
 				<sn-form-item label="动画时长">
-					<sn-stepper v-model="(configs['aniDur'] as number)"
+					<sn-stepper v-model="(configs['aniTime'] as number)"
 					:step="100"
 					:min="100"></sn-stepper>
 				</sn-form-item>
@@ -33,7 +33,7 @@
 	<sn-overlay ref="overlayEle"
 	:maskClose="configs['maskClose']"
 	:opacity="configs['opacity']" 
-	:aniDur="configs['aniDur']">
+	:aniTime="configs['aniTime']">
 	</sn-overlay>
 </template>
 
@@ -44,7 +44,7 @@
 	
 	const configs = ref({
 		maskClose: true,
-		aniDur: parseInt($snui.configs.aniTime.long),
+		aniTime: parseInt($snui.configs.aniTime.long),
 		opacity: 0.3
 	})
 	

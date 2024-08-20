@@ -8,7 +8,7 @@
 	</com-card>
 		
 	<com-card title="获取未授权的系统权限"
-	note="检查当前应用是否已经具备指定权限。">
+	note="获取指定权限列表中未授权的权限。">
 		<sn-text :text="`权限：${JSON.stringify(p3)}\n未授权列表：${p4}\n\n`"></sn-text>
 		<sn-button type="primary"
 		text="获取权限列表"

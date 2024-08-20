@@ -3,13 +3,46 @@
   @see https://gitcode.com/kviewui/kux-autocss
   @version: v1.0.11
   @author kux <kviewui@163.com>
-  2024-08-19 18:07:22
+  2024-08-21 00:58:11
   该文件将会自动初始化并更新，切勿直接修改！
 */
 
-/* wordBreak */
-.word-break-break-all{ word-break: break-all; }
+/* borderRadius */
+.br-16\!{ border-radius: 16px !important; }
+/* border */
+.border-w-4\!{ border-width: 4px !important; }
+/* colors */
+.border-c-black\!{ border-color: rgba(0,0,0,1) !important; }
+/* margin-t */
+.m-t-5{ margin-top: 5px; }
+.m-t-8{ margin-top: 8px; }
+.m-t-10{ margin-top: 10px; }
+.m-t-20{ margin-top: 20px; }
+.m-t-30{ margin-top: 30px; }
+/* width */
+.w-80p{ width: 80%; }
+.w-100{ width: 100px; }
+.w-200p{ width: 200%; }
+.w-200{ width: 200px; }
 /* margin-b */
+.m-b-5{ margin-bottom: 5px; }
 .m-b-10{ margin-bottom: 10px; }
 /* margin-l */
+.m-l-5{ margin-left: 5px; }
 .m-l-10{ margin-left: 10px; }
+/* alignItems */
+.align-items-center{ align-items: center; }
+/* height */
+.h-250{ height: 250px; }
+.h-72{ height: 72px; }
+/* margin-r */
+.m-r-20{ margin-right: 20px; }
+.m-r-50{ margin-right: 50px; }
+/* flex */
+.flex-1{ flex: 1; }
+/* justify-content */
+.justify-center{ justify-content: center; }
+/* padding-b */
+.\!p-b-5{ padding-bottom: 5px !important; }
+/* wordBreak */
+.word-break-break-all{ word-break: break-all; }

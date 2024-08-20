@@ -27,7 +27,7 @@
 					</sn-select>
 				</sn-form-item>
 				<sn-form-item label="动画时长">
-					<sn-stepper v-model="(configs['aniDur'] as number)"
+					<sn-stepper v-model="(configs['aniTime'] as number)"
 					:step="100"
 					:min="100"></sn-stepper>
 				</sn-form-item>
@@ -83,7 +83,7 @@
 	:width="`${configs['width']}px`"
 	:slideHeight="`${configs['slideHeight']}px`"
 	:slideWidth="`${configs['slideWidth']}px`"
-	:aniDur="configs['aniDur']"
+	:aniTime="configs['aniTime']"
 	:maskOpacity="configs['maskOpacity']"
 	:maskClose="configs['maskClose']"
 	:slideClose="configs['slideClose']"
@@ -110,7 +110,7 @@
 		width: 300,
 		slideHeight: 100,
 		slideWidth: 100,
-		aniDur: parseInt($snui.configs.aniTime.long),
+		aniTime: parseInt($snui.configs.aniTime.long),
 		maskOpacity: 0.3
 	})
 	

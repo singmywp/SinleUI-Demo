@@ -20,20 +20,20 @@
 		</com-card>
 		<com-card title="动画时长"
 		note="支持自定义动画时长">
-			<sn-countto :aniDur="10000"
+			<sn-countto :aniTime="10000"
 			:startVal="6666"
 			:endVal="7777"></sn-countto>
 		</com-card>
 		<com-card title="缓动动画"
 		note="以 easeOutSine 缓动动画代替默认的 linear 动画，使得动画在结束前减速">
 			<sn-countto easing
-			:aniDur="5000"
+			:aniTime="5000"
 			:endVal="7777"></sn-countto>
 		</com-card>
 		<com-card title="分割数字"
 		note="常用于金融场景">
 			<sn-countto :separate="3"
-			:aniDur="10000"
+			:aniTime="10000"
 			:endVal="1000000"></sn-countto>
 		</com-card>
 		<com-card title="自定义样式"
@@ -47,7 +47,7 @@
 		note="提供 API 以自由控制数字滚动的状态。">
 			<view class="align-items-center">
 				<sn-countto ref="counttoEle"
-				:aniDur="5000"
+				:aniTime="5000"
 				:endVal="7777"></sn-countto>
 				<sn-button-group align="center">
 					<sn-button round-size="50px" 

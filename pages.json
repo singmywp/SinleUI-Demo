@@ -1,422 +1,427 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-alert",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-avatar",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-backtop",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-badge",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-button",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-checkbox",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-col",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-card",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-countto",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-collapse",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-countdown",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-empty",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-gap",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-grid",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-icon",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-icon__all",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-image",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-input",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-line",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-link",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-list",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-loading",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-loading-page",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-loadmore",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-modal",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-overlay",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-page",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-popup",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-radio",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-rate",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-result",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-row",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-scan",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-scan__view",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-select",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-stepper",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-subsection",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-switch",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-tabs",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-tag",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-text",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-textarea",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-timer",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-tooltip",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-topbar",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-transition",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/components/sn-view",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/libs/sn-color",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/libs/sn-gesture",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/libs/sn-utils",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/libs/sn-date",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/components/sn-toast",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/components/sn-form",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/libs/sn-store",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/libs/sn-store-sub",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/components/sn-slider",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/components/sn-drawer",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/components/sn-float-board",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/components/sn-float-button",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/components/sn-notice-bar",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/components/sn-longlist",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/other/webview",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/components/sn-skeleton",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/components/sn-refresher",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/components/sn-markdown",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path" : "pages/other/temp",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
-			}
-		},
-		{
-			"path" : "pages/other/about",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
-			}
-		}
-	],
-	"globalStyle": {
-		"navigationStyle": "custom",
-		"backgroundColor": "@backgroundColor",
-		"navigationBarTextStyle": "@navigationBarTextStyle",
-		"backgroundColorContent": "@backgroundColorContent",
-		"pageOrientation": "auto"
-	},
-	"uniIdRouter": {}
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-alert",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-avatar",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-backtop",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-badge",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-button",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-checkbox",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-col",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-card",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-countto",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-collapse",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-countdown",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-empty",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-gap",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-grid",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-icon",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-icon__all",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-image",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-input",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-line",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-link",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-list",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-loading",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-loading-page",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-loadmore",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-modal",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-overlay",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-page",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-popup",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-radio",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-rate",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-result",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-row",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-scan",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-scan__view",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-select",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-stepper",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-subsection",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-switch",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-tabs",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-tag",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-text",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-textarea",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-timer",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-tooltip",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-topbar",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-transition",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/components/sn-view",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/libs/sn-color",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/libs/sn-gesture",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/libs/sn-utils",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/libs/sn-date",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    },
+    {
+      "path": "pages/components/sn-toast",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    },
+    {
+      "path": "pages/components/sn-form",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    },
+    {
+      "path": "pages/libs/sn-store",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    },
+    {
+      "path": "pages/libs/sn-store-sub",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    },
+    {
+      "path": "pages/components/sn-slider",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    },
+    {
+      "path": "pages/components/sn-drawer",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    },
+    {
+      "path": "pages/components/sn-float-board",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    },
+    {
+      "path": "pages/components/sn-float-button",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    },
+    {
+      "path": "pages/components/sn-notice-bar",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    },
+    {
+      "path": "pages/components/sn-longlist",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    },
+    {
+      "path": "pages/other/webview",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    },
+    {
+      "path": "pages/components/sn-skeleton",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    },
+    {
+      "path": "pages/components/sn-refresher",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    },
+    {
+      "path": "pages/components/sn-markdown",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    },
+    {
+      "path": "pages/other/temp",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    },
+    {
+      "path": "pages/other/about",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    },
+    {
+    	"path" : "pages/components/sn-progress",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : ""
+    	}
+    }
+  ],
+  "globalStyle": {
+    "navigationStyle": "custom",
+    "backgroundColor": "@backgroundColor",
+    "navigationBarTextStyle": "@navigationBarTextStyle",
+    "backgroundColorContent": "@backgroundColorContent",
+    "pageOrientation": "auto"
+  },
+  "uniIdRouter": {}
 }

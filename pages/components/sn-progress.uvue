@@ -1,0 +1,91 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Progress 进度条"></sn-topbar>
+		<com-card title="基础用法">
+			<sn-progress class="m-t-10" v-model="v1"></sn-progress>
+		</com-card>
+		<com-card title="高度"
+		note="可以自定义进度条的高度，灵活百变">
+			<sn-progress class="m-t-10" v-model="v2"
+			height="3px"></sn-progress>
+			<sn-progress class="m-t-20" v-model="v3"
+			height="15px"></sn-progress>
+		</com-card>
+		<com-card title="颜色"
+		note="百变颜色，随心所欲">
+			<sn-progress class="m-t-10"
+			v-model="v2"
+			height="6px"
+			:activeColor="colors.error"></sn-progress>
+			<sn-progress class="m-t-10" 
+			v-model="v1"
+			height="6px"
+			:activeColor="colors.warning"></sn-progress>
+			<sn-progress class="m-t-10"
+			v-model="v3"
+			height="6px"
+			:activeColor="colors.primary"></sn-progress>
+			<sn-progress class="m-t-10"
+			v-model="v1"
+			height="6px"
+			:activeColor="colors.success"></sn-progress>
+		</com-card>
+		<com-card title="动画时长"
+		note="支持双向绑定，动态赋值，可自由设置值变化时的动画时长">
+			<sn-progress class="m-t-10" v-model="v4"></sn-progress>
+			<sn-progress class="m-t-10" v-model="v4"
+			:activeColor="colors.warning"
+			:aniTime="parseInt($snui.configs.aniTime.short)"></sn-progress>
+			<sn-progress class="m-t-10" v-model="v4"
+			:activeColor="colors.success"
+			:aniTime="parseInt($snui.configs.aniTime.xlong)"></sn-progress>
+			<sn-row  class="m-t-10">
+				<sn-button
+				text="增加"
+				@click="v4 += 10"></sn-button>
+				<sn-button class="m-l-10"
+				text="减少"
+				@click="v4 -= 10"></sn-button>
+			</sn-row>
+		</com-card>
+		<com-card title="文本"
+		note="支持显示当前值的文本，提供两种位置：内部和外部。">
+			<sn-progress class="m-t-10" 
+			v-model="v5"
+			showValueText></sn-progress>
+			<sn-progress class="m-t-10"
+			v-model="v5"
+			height="20px"
+			showValueText
+			valueTextPosition="inside"
+			textColor="black"
+			:activeColor="colors.warning"></sn-progress>
+			<sn-row  class="m-t-10">
+				<sn-button
+				text="增加"
+				@click="v5 += 10"></sn-button>
+				<sn-button class="m-l-10"
+				text="减少"
+				@click="v5 -= 10"></sn-button>
+			</sn-row>
+		</com-card>
+		<sn-gap></sn-gap>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	const snu = $snui.utils
+	
+	const v1 = ref(30)
+	const v2 = ref(50)
+	const v3 = ref(70)
+	const v4 = ref(10)
+	const v5 = ref(30)
+
+</script>
+
+<style>
+		
+</style>

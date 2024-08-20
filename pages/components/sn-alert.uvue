@@ -28,7 +28,7 @@
 			<sn-alert icon="contrast-drop-line" icon-color="#fc5454" type="error" text="夫惟弗居，是以不去"></sn-alert>
 		</com-card>
 		<com-card title="自定义样式"
-		note="更多样式，随心而变。">
+		note="更多样式，随心而变">
 			<sn-alert class="br-16! border-w-4! border-c-black!"
 			textColor="#000" 
 			textSize="18px"

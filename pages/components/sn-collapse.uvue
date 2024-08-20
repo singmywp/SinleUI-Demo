@@ -35,7 +35,7 @@
 		<com-card title="动画时长"
 		note="可以自定义动画时长，比如当你对性能有要求时，可以设置其为 0。">
 		</com-card>
-		<sn-collapse-group :aniDur="0">
+		<sn-collapse-group :aniTime="0">
 			<sn-collapse-item title="中国">
 				<sn-text :text="'\u3000\u3000中华人民共和国（the People\'s Republic of China），简称“中国”，成立于1949年10月1日，位于亚洲东部，太平洋西岸，是工人阶级领导的、以工农联盟为基础的人民民主专政的社会主义国家，以五星红旗为国旗、《义勇军进行曲》为国歌，国徽中间是五星照耀下的天安门，周围是谷穗和齿轮，通用语言文字是普通话和规范汉字，首都北京，是一个以汉族为主体、56个民族共同组成的统一的多民族国家。'"></sn-text>
 			</sn-collapse-item>

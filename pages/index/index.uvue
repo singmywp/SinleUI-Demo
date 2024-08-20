@@ -30,7 +30,7 @@
 			</sn-button>
 		</com-card>
 		<!--
-		<com-card title="演示 - 开发用途">
+		<com-card title="演示 - 开发用途 ">
 			<sn-button text="前往"
 			@click="goTo('/pages/other/temp')"></sn-button>
 		</com-card>
@@ -358,6 +358,11 @@
 			icon: 'refresh-line',
 			text: '下拉刷新',
 			name: 'sn-refresher',
+		},
+		{
+			icon: 'bar-chart-horizontal-line',
+			text: '进度条',
+			name: 'sn-progress'
 		}
 	]
 
