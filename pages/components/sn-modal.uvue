@@ -1,0 +1,265 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Modal 模态框"
+		:features="[{id:'run',icon:'play-circle-fill'} as SnDataItem]"
+		@button-click="buttonClicked"></sn-topbar>
+		<sn-gap></sn-gap>
+		<com-card title="组件演示"
+		note="如果需要对话框，那么官方的 uni.showModal 应该足以满足你的需求。\n当你需要更自由地控制动画、插槽时，不妨试试本组件。">
+			<sn-form v-model="configs"
+			:showBorder="false">
+				<sn-form-item label="显示确认按钮">
+					<sn-switch v-model="(configs['showConfirm'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="显示取消按钮">
+					<sn-switch v-model="(configs['showCancel'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="禁用">
+					<sn-switch v-model="(configs['disabled'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="遮罩关闭">
+					<sn-switch v-model="(configs['maskClose'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="阻止返回事件">
+					<sn-switch v-model="(configs['preventBack'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="遮罩透明度">
+					<sn-stepper v-model="(configs['maskOpacity'] as number)"
+					:step="0.1"
+					:min="0"
+					:max="1"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="位置">
+					<sn-select 
+					v-model="(configs['position'] as number)"
+					width="200px"
+					:data="positions">
+					</sn-select>
+				</sn-form-item>
+				<sn-form-item label="按钮风格">
+					<sn-select 
+					v-model="(configs['buttonType'] as number)"
+					width="200px"
+					:data="buttonTypeData">
+					</sn-select>
+				</sn-form-item>
+				<sn-form-item label="内容">
+					<sn-select v-model="(configs['content'] as number)" 
+					width="200px"
+					:data="contentData">
+					</sn-select>
+				</sn-form-item>
+				<sn-form-item label="标题">
+					<sn-input class="input"
+					v-model="(configs['title'] as string)"
+					placeholder="默认值">
+					</sn-input>
+				</sn-form-item>
+				<sn-form-item label="内容字体">
+					<sn-input class="input"
+					v-model="(configs['contentFont'] as string)"
+					placeholder="默认值">
+					</sn-input>
+				</sn-form-item>
+				<sn-form-item label="内容颜色">
+					<sn-input class="input"
+					v-model="(configs['contentColor'] as string)"
+					placeholder="默认值">
+					</sn-input>
+				</sn-form-item>
+				<sn-form-item label="内容字体大小">
+					<sn-input class="input"
+					v-model="(configs['contentSize'] as string)"
+					placeholder="默认值">
+					</sn-input>
+				</sn-form-item>
+				<sn-form-item label="标题字体">
+					<sn-input class="input"
+					v-model="(configs['titleFont'] as string)"
+					placeholder="默认值">
+					</sn-input>
+				</sn-form-item>
+				<sn-form-item label="标题颜色">
+					<sn-input class="input"
+					v-model="(configs['titleColor'] as string)"
+					placeholder="默认值">
+					</sn-input>
+				</sn-form-item>
+				<sn-form-item label="标题字体大小">
+					<sn-input class="input"
+					v-model="(configs['titleSize'] as string)"
+					placeholder="默认值">
+					</sn-input>
+				</sn-form-item>
+				<sn-form-item label="确定按钮文字">
+					<sn-input class="input"
+					v-model="(configs['confirmText'] as string)"
+					placeholder="默认值">
+					</sn-input>
+				</sn-form-item>
+				<sn-form-item label="取消按钮文字">
+					<sn-input class="input"
+					v-model="(configs['cancelText'] as string)"
+					placeholder="默认值">
+					</sn-input>
+				</sn-form-item>
+				<sn-form-item label="确定按钮字体大小">
+					<sn-input class="input"
+					v-model="(configs['confirmTextSize'] as string)"
+					placeholder="默认值">
+					</sn-input>
+				</sn-form-item>
+				<sn-form-item label="确定按钮字体颜色">
+					<sn-input class="input"
+					v-model="(configs['confirmTextColor'] as string)"
+					placeholder="默认值">
+					</sn-input>
+				</sn-form-item>
+				<sn-form-item label="取消按钮字体大小">
+					<sn-input class="input"
+					v-model="(configs['cancelTextSize'] as string)"
+					placeholder="默认值">
+					</sn-input>
+				</sn-form-item>
+				<sn-form-item label="取消按钮字体颜色">
+					<sn-input class="input"
+					v-model="(configs['cancelTextColor'] as string)"
+					placeholder="默认值">
+					</sn-input>
+				</sn-form-item>
+				<sn-button text="打开" 
+				level="second" 
+				type="primary" 
+				@click="show()"
+				style="margin-top: 10px;">
+				</sn-button>
+			</sn-form>
+		</com-card>
+		<sn-gap></sn-gap>
+	</sn-page>
+	<sn-modal ref="modalEle"
+	:title="configs['title']"
+	:content="textC"
+	:buttonType="buttonTypeData[configs['buttonType'] as number]['id']"
+	:position="positions[configs['position'] as number]['id']"
+	:showConfirm="configs['showConfirm']"
+	:showCancel="configs['showCancel']"
+	:maskOpacity="configs['maskOpacity']"
+	:disabled="configs['disabled']"
+	:maskClose="configs['maskClose']"
+	:preventBack="configs['preventBack']"
+	:titleSize="configs['titleSize']"
+	:titleColor="configs['titleColor']"
+	:titleFont="configs['titleFont']"
+	:contentSize="configs['contentSize']"
+	:contentColor="configs['contentColor']"
+	:contentFont="configs['contentFont']"
+	:confirmText="configs['confirmText']"
+	:cancelText="configs['cancelText']"
+	:confirmTextSize="configs['confirmTextSize']"
+	:cancelTextSize="configs['cancelTextSize']"
+	:confirmTextColor="configs['confirmTextColor']"
+	:cancelTextColor="configs['cancelTextColor']"></sn-modal>
+</template>
+
+<script setup>
+	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
+	import { article1 } from '@/source/longtext.uts'
+	const snu = $snui.utils
+	
+	const modalEle = ref(null as SnModalComponentPublicInstance | null)
+	
+	const configs = ref({
+		showCancel: true,
+		showConfirm: true,
+		disabled: false,
+		maskClose: false,
+		preventBack: false,
+		content: 0,
+		title: '标题',
+		contentColor: '',
+		contentSize: '',
+		contentFont: 'misans-normal',
+		titleFont: 'misans-semibold',
+		titleColor: '',
+		titleSize: '',
+		confirmText: '确定',
+		confirmTextColor: '',
+		confirmTextSize: '',
+		cancelText: '取消',
+		cancelTextColor: '',
+		cancelTextSize: '',
+		buttonType: 0,
+		position: 1,
+		maskOpacity: 0.4
+	})
+	
+	const positions = [
+		{
+			id: 'top',
+			text: '顶部',
+		},
+		{
+			id: 'center',
+			text: '居中',
+		},
+		{
+			id: 'bottom',
+			text: '底部',
+		},
+		{
+			id: 'left',
+			text: '左侧',
+		},
+		{
+			id: 'right',
+			text: '右侧',
+		}
+	] as SnDataItem[]
+	
+	const contentData = [
+		{
+			id: 'short',
+			text: '短文本',
+		},
+		{
+			id: 'long',
+			text: '长文本（可滚动）',
+		},
+	] as SnDataItem[]
+	
+	const buttonTypeData = [
+		{
+			id: 'embed',
+			text: '嵌入式',
+		},
+		{
+			id: 'float',
+			text: '浮动式',
+		},
+	] as SnDataItem[]
+	
+	const textC = computed(():string=>{
+		switch (configs.value['content']??0) {
+			case 0:
+				return '如果需要对话框，那么官方的 uni.showModal 足以满足你的需求。当你需要更自由地控制动画、插槽时，不妨试试本组件。'
+			case 1:
+				return article1
+			default:
+				return '如果需要对话框，那么官方的 uni.showModal 足以满足你的需求。当你需要更自由地控制动画、插槽时，不妨试试本组件。'
+		}
+	})
+
+	function show() {
+		snu.throttle(()=>{
+			(modalEle.value as SnModalComponentPublicInstance).open()
+		}, 50)
+	}
+	
+	function buttonClicked(e: SnDataItem){
+		if (e.id == 'run') show()
+	}
+</script>
+
+<style lang="scss">
+</style>

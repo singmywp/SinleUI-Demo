@@ -1,0 +1,64 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Select 选择框"></sn-topbar>
+		<com-card title="基础用法"
+		note="用于简单的数据选择。对于大量、复杂数据请使用 sn-picker 组件">
+		</com-card>
+		<sn-select v-model="v" :data="data1"></sn-select>
+		<com-card title="禁用"
+		note="禁用组件">
+			<sn-card>
+				<sn-row justify="space-between">
+					<sn-text text="是否禁用" :size="`${$snui.utils.getPx($snui.configs.font.size(3))+1}px`"></sn-text>
+					<sn-switch v-model="disabled"></sn-switch>
+				</sn-row>
+			</sn-card>
+		</com-card>
+		<sn-select v-model="v" :data="data1" :disabled="disabled"></sn-select>
+		<com-card title="自定义样式"
+		note="多姿多彩，随心所欲">
+		</com-card>
+		<sn-select v-model="v"  
+		width="300px" 
+		height="50px"
+		:data="data1" ></sn-select>
+		<sn-gap></sn-gap>
+		<sn-select v-model="v"
+		borderRadius="20px"
+		:data="data1"></sn-select>
+		<sn-gap></sn-gap>
+		<sn-select v-model="v" 
+		bgColor="#e8f1e2" 
+		textColor="#35b571"
+		popBgColor="#e8f1e2" 
+		popActiveBgColor="#dee5d9" 
+		activeTextColor="#113e25"
+		:data="data1" ></sn-select>
+		<sn-gap height="200px"></sn-gap>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	
+	const data1 = [{
+		id: 'apple',
+		text: '苹果'
+	}, {
+		id: 'banana',
+		text: '香蕉'
+	}, {
+		id: 'orange',
+		text: '橘子'
+	}, {
+		id: 'grape',
+		text: '葡萄'
+	}] as SnDataItem[]
+	
+	const v = ref(0)
+	const disabled = ref(true)
+</script>
+
+<style lang="scss">
+</style>

@@ -1,0 +1,56 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Rate 评分"></sn-topbar>
+		<com-card title="基础用法"
+		note="普普通通的评分组件">
+			<sn-rate v-model="v1"></sn-rate>
+		</com-card>
+		<com-card title="颜色"
+		note="平凡普通的星星，也会绽放绚丽的色彩">
+			<sn-rate v-model="v2" 
+			:activeColor="colors.dark" 
+			inactiveColor="#c3c3c3"></sn-rate>
+		</com-card>
+		<com-card title="图标"
+		note="除了星星之外，你还可以设置其他的图标，比如，一颗怦动鲜活的爱心。">
+			<sn-rate v-model="v3" icon="heart-fill" active-icon="heart-fill" active-color="#f05811"></sn-rate>
+		</com-card>
+		<com-card title="允许半选"
+		note="有时，你可能需要更精细的分值️">
+			<sn-rate v-model="v4" allow-half></sn-rate>
+		</com-card>
+		<com-card title="可清空"
+		note="设置后，点击当前的位置会清空值">
+			<sn-rate v-model="v5" clearable></sn-rate>
+		</com-card>
+		<com-card title="只读"
+		note="没什么可说的。">
+			<sn-rate v-model="vreadonly" allow-half readonly></sn-rate>
+		</com-card>
+		<com-card title="数量"
+		note="自定义评分值的范围">
+			<sn-rate ref="rateEle" v-model="v6" :count="8"></sn-rate>
+		</com-card>
+		<sn-gap></sn-gap>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	
+	const v1 = ref(3)
+	const v2 = ref(2)
+	const v3 = ref(5)
+	const v4 = ref(2.5)
+	const v5 = ref(0)
+	const v6 = ref(0)
+	const rateEle = ref(null as SnRateComponentPublicInstance | null)
+	
+	const vreadonly = ref(4.5)
+	
+	
+</script>
+
+<style lang="scss">
+</style>

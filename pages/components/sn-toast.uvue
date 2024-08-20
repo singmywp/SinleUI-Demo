@@ -1,0 +1,159 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Toast 轻提示"
+		:features="([{id:'run',icon:'play-circle-fill'}, {id:'close',icon:'close-circle-fill'}] as SnDataItem[])"
+		@button-click="buttonClicked"></sn-topbar>
+		<com-card title="基础用法"
+		note="很常见的吐司，但可玩性较高。通过 ref 方法使用。\n提供 15+ 配置属性，支持 props 和方法参数两种配置方法，能够面对绝大部分使用场景。"></com-card>
+		<com-card title="使用配置">
+			<sn-form v-model="configs"
+			:showBorder="false">
+				<sn-form-item label="提示文本">
+					<sn-input v-model="(configs['text'] as string)"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="显示位置">
+					<sn-select v-model="(configs['position'] as number)"
+					:data="positionsData"></sn-select>
+				</sn-form-item>
+				<sn-form-item label="显示时长">
+					<sn-stepper v-model="(configs['duration'] as number)"
+					:min="500"
+					:step="500"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="加载中（强制覆盖图标）">
+					<sn-switch v-model="(configs['loading'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="遮罩层（防穿透）">
+					<sn-switch v-model="(configs['overlay'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="内边距">
+					<sn-input v-model="(configs['padding'] as string)"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="圆角">
+					<sn-input v-model="(configs['borderRadius'] as string)"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="图标">
+					<sn-input v-model="(configs['icon'] as string)"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="文本大小">
+					<sn-input v-model="(configs['textSize'] as string)"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="文本颜色">
+					<sn-input v-model="(configs['textColor'] as string)"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="图标大小">
+					<sn-input v-model="(configs['iconSize'] as string)"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="图标颜色">
+					<sn-input v-model="(configs['iconColor'] as string)"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="文本行数">
+					<sn-stepper v-model="(configs['textLines'] as number)"
+					:min="0"
+					:step="1"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="文本对齐">
+					<sn-select v-model="(configs['textAlign'] as string)"
+					:data="textAlignData"></sn-select>
+				</sn-form-item>
+				<sn-row>
+					<sn-button text="展示"
+					type="primary"
+					level="second"
+					long
+					@click="showToast()"></sn-button>
+					<sn-button class="m-l-10"
+					text="关闭"
+					type="error"
+					level="second"
+					long
+					@click="closeToast()"></sn-button>
+				</sn-row>
+			</sn-form>
+		</com-card>
+		<sn-gap height="100px"></sn-gap>
+		<sn-toast ref="toastEle"></sn-toast>
+	</sn-page>
+</template>
+
+<script setup>
+	// #ifdef WEB
+	// @ts-nocheck
+	// #endif
+	import { $snui, SnToastParams, SnDataItem } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	
+	const toastEle = ref(null as SnToastComponentPublicInstance | null)
+	
+	const positionsData = ref([{
+		id: 'top',
+		text: '顶部'
+	},{
+		id: 'center',
+		text: '居中'
+	},{
+		id: 'bottom',
+		text: '底部'
+	}] as SnDataItem[]) 
+	
+	const textAlignData = ref([{
+		id: 'left',
+		text: '居左'
+	},{
+		id: 'center',
+		text: '居中'
+	},{
+		id: 'right',
+		text: '居右'
+	}] as SnDataItem[])
+	
+	const configs = ref({
+		text: '这是一条轻提示',
+		position: 1,
+		duration: 2000,
+		borderRadius: $snui.configs.radius.normal,
+		padding: '12px 15px',
+		icon: '',
+		loading: false,
+		overlay: false,
+		bgColor: colors.value.toast,
+		textSize: $snui.configs.font.size(2),
+		textColor: '#fff',
+		iconSize: $snui.configs.font.size(5),
+		iconColor: '#fff',
+		textLines: 0,
+		textAlign: 1
+	})
+	
+	function showToast(){
+		toastEle.value!.configShow({
+			text: configs.value['text'] as string,
+			position: positionsData.value[configs.value['position'] as number]['id'] as string,
+			duration: configs.value['duration'] as number,
+			borderRadius: configs.value['borderRadius'] as string,
+			padding: configs.value['padding'] as string,
+			icon: configs.value['icon'] as string,
+			loading: configs.value['loading'] as boolean,
+			overlay: configs.value['overlay'] as boolean,
+			textSize: configs.value['textSize'] as string,
+			textColor: configs.value['textColor'] as string,
+			iconSize: configs.value['iconSize'] as string,
+			iconColor: configs.value['iconColor'] as string,
+			textLines: configs.value['textLines'] as number,
+			textAlign: textAlignData.value[configs.value['textAlign'] as number]['id'] as string,
+		} as SnToastParams)
+	}
+	
+	function closeToast(){
+		(toastEle.value as SnToastComponentPublicInstance).close()
+	}
+	
+	function buttonClicked(e: SnDataItem){
+		if (e.id == 'run') showToast()
+		if (e.id == 'close') closeToast()
+	}
+</script>
+
+<style>
+		
+</style>

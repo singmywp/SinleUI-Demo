@@ -1,0 +1,30 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Backtop 回到顶部"></sn-topbar>
+		<com-card title="基础用法"
+		note="用于长页面，滑动一定距离后，出现返回顶部按钮，点击按钮快速返回顶部。自动绑定父级 sn-scroll/sn-list/sn-page"></com-card>
+		<com-card title="丰富属性"
+		note="支持自由设置滚动出现高度，图标及其颜色、尺寸，以及主题和背景色，禁用，所处位置，动画时长等多种属性"></com-card>
+		<sn-alert type="primary" text="下滑页面查看效果"></sn-alert>
+		<sn-gap height="200%"></sn-gap>
+		<sn-backtop :top="200"></sn-backtop>
+		<sn-backtop icon="close-line" 
+		disabled
+		:right="90"></sn-backtop>
+		<sn-backtop type="success" :right="150"></sn-backtop>
+		<sn-backtop type="warning" 
+		level="second" 
+		icon="arrow-up-line" 
+		size="60px" 
+		:right="210"
+		:bottom="80"></sn-backtop>
+	</sn-page>
+</template>
+
+<script setup>
+		
+</script>
+
+<style>
+		
+</style>

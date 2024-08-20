@@ -1,0 +1,77 @@
+<template>
+	<sn-page :scrollOn="false">
+		<sn-topbar :title="`图标预览（共${_icons.length}个）`"></sn-topbar>
+		<list-view class="icon-group" :bounces="false" :show-scrollbar="false" @scrolltolower="loadmore">
+			<list-item class="icon-row"
+			v-for="(e1, index1) in (groupsData as string[][])"
+			:key="index1">
+				<view class="icon-item"
+				v-for="(e2, index2) in (e1 as string[])"
+				:key="index2"
+				@click="copy(e2)"
+				:style="itemStylesC">
+					<sn-icon :name="e2"></sn-icon>
+					<sn-text :text="e2" align="center" :size="$snui.configs.font.size(1)"></sn-text>
+				</view>
+			</list-item>
+			<list-item>
+				<sn-line :text="loadingC?'加载中':'没有啦(●\'◡\'●)'"></sn-line>
+				<sn-gap height="50px"></sn-gap>
+			</list-item>
+		</list-view>
+	</sn-page>
+</template>
+
+<script setup>
+	import { icons } from './obj/icon-list.uts'
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	const page = ref(1)
+	const pageItems = 30
+	const _icons = icons.split(',') as string[]
+	const iconsData = computed(():string[]=>_icons.slice(0, page.value * pageItems))
+	const loadingC = computed(():boolean=>iconsData.value.length<_icons.length)
+	
+	const groupsData = computed(():string[][] => {
+	    const groups = [] as string[][]
+	    for (let i = 0; i < iconsData.value.length; i += 3) {
+	      groups.push(iconsData.value.slice(i, i + 3));
+	    }
+	    return groups;
+	});
+	
+	const itemStylesC = computed((): Map<string, any>=>{
+		let styles = new Map<string, any>()
+		styles.set('background', colors.value.front)
+		styles.set('border-radius', $snui.configs.radius.small)
+		styles.set('transition-duration',$snui.configs.aniTime.normal)
+		return styles
+	})
+	
+	function loadmore(){
+		page.value ++
+	}
+	
+	function copy(str:string){
+		$snui.utils.setClipboardData(str)
+		$snui.utils.showToast({
+			title: '复制成功'
+		})
+	}
+</script>
+
+<style lang="scss">
+	.icon-group {
+		flex: 1;
+		.icon-row {
+			flex-direction: row;
+		}
+		.icon-item {
+			flex: 1;
+			flex-direction: column;
+			align-items: center;
+			padding: 10px;
+			margin: 5px;
+		}
+	}
+</style>

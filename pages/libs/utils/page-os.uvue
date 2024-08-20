@@ -1,0 +1,17 @@
+<template>
+	<com-card title="振动"
+	note="使振动器产生振动">
+		<sn-button type="primary"
+		text="振动"
+		@click="snu.vibrate()"></sn-button>
+	</com-card>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const snu = $snui.utils
+</script>
+
+<style>
+		
+</style>

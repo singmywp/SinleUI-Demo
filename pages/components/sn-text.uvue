@@ -1,0 +1,78 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Text 文本"></sn-topbar>
+		<com-card title="基础用法"
+		note="这个组件的作用就不用再说了吧">
+			<sn-text text="孤帆远影碧空尽，唯见长江天际流。"></sn-text>
+		</com-card>
+		<com-card title="加粗"
+		note="更突出、更显眼\n（部分字体不生效，如本框架内置字体 Misans）">
+			<sn-text text="窗含西岭千秋雪，门泊东吴万里船。"
+			font=" "
+			bold></sn-text>
+		</com-card>
+		<com-card title="类型"
+		note="根据场景的不同，应当使用不同类型的文本，更具识别度">
+			<sn-text class="spacing" type="info" text="粉骨碎身浑不怕，要留清白在人间。"></sn-text>
+			<sn-text class="spacing" type="primary" text="接天莲叶无穷碧，映日荷花别样红。"></sn-text>
+			<sn-text class="spacing" type="success" text="春风又绿江南岸，明月何时照我还？"></sn-text>
+			<sn-text class="spacing" type="warning" text="劝君更尽一杯酒，西出阳关无故人。"></sn-text>
+			<sn-text class="spacing" type="error" text="人生自古谁无死？留取丹心照汗青。"></sn-text>
+		</com-card>
+		<com-card title="尺寸"
+		note="选择合适的大小也是一门技术活️">
+			<sn-text size="14px" text="烟笼寒水月笼沙，夜泊秦淮近酒家。"></sn-text>
+			<sn-text size="18px" text="商女不知亡国恨，隔江犹唱后庭花。"></sn-text>
+		</com-card>
+		<com-card title="超出隐藏"
+		note="超出️指定行数后自动隐藏后续文本">
+			<sn-text :text="longText1" :lines="6"></sn-text>
+		</com-card>
+		<com-card title="可选择"
+		note="使文本段落可以被复制">
+			<sn-text type="info" :text="longText1" :lines="6" size="18px" selectable></sn-text>
+		</com-card>
+		<com-card title="模式"
+		note="特殊的️情景需要特殊对待">
+			<sn-text text="拨打电话(需用户确认)" :color="colors.lineText"></sn-text>
+			<sn-text mode="phone" type="primary" text="10086"></sn-text>
+			<sn-line></sn-line>
+			<sn-text text="直接拨打电话(无需用户确认)" :color="colors.lineText"></sn-text>
+			<sn-text mode="phone-direct" type="primary" text="10086"></sn-text>
+			<sn-line></sn-line>
+			<sn-text text="日期" :color="colors.lineText"></sn-text>
+			<sn-text mode="date" :text="(new Date()).valueOf().toString()"></sn-text>
+			<sn-text mode="date-cn" :text="(new Date()).valueOf().toString()"></sn-text>
+			<sn-line></sn-line>
+			<sn-text text="超链接 (该功能较简单, 推荐使用sn-link) " :color="colors.lineText"></sn-text>
+			<sn-text mode="link" type="primary" text="https://www.baidu.com"></sn-text>
+			<sn-text mode="link" type="primary" text="tel:123456"></sn-text>
+			<sn-text mode="link" type="primary" text="weixin://"></sn-text>
+			<sn-line></sn-line>
+			<sn-text text="价格" :color="colors.lineText"></sn-text>
+			<sn-text mode="price" text="3999.67"></sn-text>
+			<sn-text mode="price-upper" text="168201.03"></sn-text>
+			<sn-line></sn-line>
+			<sn-text text="脱敏" :color="colors.lineText"></sn-text>
+			<sn-text class="spacing" mode="name" text="张三" encrypt></sn-text>
+			<sn-text mode="name" text="李金刚" encrypt></sn-text>
+			<sn-text mode="idcard" text="110105199001012345" encrypt></sn-text>
+			<sn-text mode="bankcard" text="123456789012345678" encrypt></sn-text>
+			<sn-text mode="email" type="primary" text="123456789@example.com" encrypt></sn-text>
+			<sn-text mode="phone" type="primary" text="10086" encrypt></sn-text>
+			<sn-text mode="phone" type="primary" text="13700001234" encrypt></sn-text>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { longText1 } from '@/source/longtext.uts'
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+</script>
+
+<style lang="scss">
+	.spacing {
+		margin-bottom: 10px;
+	}
+</style>

@@ -1,0 +1,534 @@
+<template>
+	<sn-page id="page">
+		<sn-topbar title="SinleUI" 
+		height="80px" 
+		menuButton
+		:backButton="false"
+		:menuData="menuData"
+		@menu-click="menuClicked"></sn-topbar>
+		<com-card>
+			<sn-alert type="primary" 
+			text="SinleUI 全新发布，欢迎各位大佬体验" 
+			icon="notification-fill">
+			</sn-alert>
+			<sn-form v-model="_tmpValue" :showBorder="false">
+				<sn-form-item class="m-t-8" label="跟随系统主题">
+					<sn-switch v-model="autoTheme">
+					</sn-switch>
+				</sn-form-item>
+				<sn-form-item label="字体">
+					<sn-slider v-model="fontSizeValue"
+					:max="30"
+					:min="5"
+					showValueText
+					@change="changeSize"></sn-slider>
+				</sn-form-item>
+			</sn-form>
+			<sn-button type="primary" 
+			text="切换主题"
+			@click="changeTheme">
+			</sn-button>
+		</com-card>
+		<!--
+		<com-card title="演示 - 开发用途">
+			<sn-button text="前往"
+			@click="goTo('/pages/other/temp')"></sn-button>
+		</com-card>
+		-->
+		<com-card v-for="(list, listIndex) in (comLists as UTSJSONObject[])" :key="listIndex" :title="list['name']">
+			<sn-grid-group>
+				<sn-grid-item v-for="(e,index) in (list['data'] as UTSJSONObject[])" class="com-item" :key="index"
+					@click="gotoComponentPage(e)">
+					<sn-icon :name="e['icon']??''"></sn-icon>
+					<sn-text align="center"
+					:text="e['text']??''" 
+					:size="$snui.configs.font.size(1)"></sn-text>
+				</sn-grid-item>
+			</sn-grid-group>
+		</com-card>
+		<com-card title="核心库">
+			<sn-grid-group>
+				<sn-grid-item v-for="(e,index) in (libList as UTSJSONObject[])" class="com-item" :key="index"
+					@click="gotoLibPage(e)">
+					<sn-icon :name="e['icon']??''"></sn-icon>
+					<sn-text :text="e['text']??''" :size="$snui.configs.font.size(1)"></sn-text>
+				</sn-grid-item>
+			</sn-grid-group>
+		</com-card>
+		<sn-backtop type="primary" 
+		level="second"
+		listenTo="page"></sn-backtop>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
+	
+	const snu = $snui.utils
+	const theme = computed(() : string => $snui.configs.app.theme)
+	const fontSizeValue = ref(14)
+	const autoTheme = ref(true)
+	const _tmpValue = reactive({})
+	
+	const menuData = [
+		{id:'about',icon:'information-line',text:'关于'},
+		{id:'document',icon:'book-2-line',text:'文档'},
+		{id:'uniappx',icon:'user-2-line',text:'uni-app x'},
+	] as SnDataItem[]
+	
+	const autoThemeC = computed(() : boolean => $snui.configs.app.autoTheme)
+	
+	watch(autoThemeC, (v:boolean)=>{
+		autoTheme.value = v
+	})
+	watch(autoTheme, (v:boolean)=>{
+		$snui.configs.app.autoTheme = v
+	})
+	
+	onLoad((_)=>{
+		autoTheme.value = $snui.configs.app.autoTheme
+	})
+	
+	function goTo(src:string){
+		uni.navigateTo({
+			url:src
+		})
+	}
+	
+	function changeSize(v: number) {
+		snu.debounce(()=>{
+			$snui.configs.font.baseSize = `${v}px`
+		}, 100, 'snui-font-size')
+		
+	}
+
+	function changeTheme() {
+		$snui.configs.app.theme = theme.value == 'light' ? 'dark' : 'light'
+	}
+	
+	function menuClicked(item: SnDataItem){
+		switch (item.id) {
+			case 'about':
+				goTo('/pages/other/about')
+				break;
+			case 'document':
+				snu.openLink('https://singmywp.github.io/')
+				break;
+			case 'uniappx':
+				snu.openLink('https://doc.dcloud.net.cn/uni-app-x/')
+				break;
+			default:
+				break
+		}
+	}
+
+	const basicList = [
+		{
+			icon: 'text',
+			text: '文本',
+			name: 'sn-text',
+		},
+		{
+			icon: 'rectangle-line',
+			text: '按钮',
+			name: 'sn-button',
+		},
+		{
+			icon: 'instance-line',
+			text: '视图容器',
+			name: 'sn-view',
+		},
+		{
+			icon: 'image-line',
+			text: '图片',
+			name: 'sn-image',
+		},
+		{
+			icon: 'remixicon-line',
+			text: '图标',
+			name: 'sn-icon',
+		},
+		{
+			icon: 'separator',
+			text: '分割线',
+			name: 'sn-line',
+		},
+		{
+			icon: 'link',
+			text: '链接',
+			name: 'sn-link',
+		},
+		{
+			icon: 'remix-run-line',
+			text: '过渡动画',
+			name: 'sn-transition',
+		},
+	]
+
+	const formList = [
+		{
+			icon: 'article-line',
+			text: '表单',
+			name: 'sn-form',
+		},
+		{
+			icon: 'toggle-line',
+			text: '开关',
+			name: 'sn-switch',
+		},
+		{
+			icon: 'checkbox-line',
+			text: '复选框',
+			name: 'sn-checkbox',
+		},
+		{
+			icon: 'radio-button-line',
+			text: '单选框',
+			name: 'sn-radio',
+		},
+		{
+			icon: 'input-field',
+			text: '输入框',
+			name: 'sn-input',
+		},
+		{
+			icon: 'text-block',
+			text: '文本域',
+			name: 'sn-textarea',
+		},
+		{
+			icon: 'star-line',
+			text: '评分',
+			name: 'sn-rate',
+		},
+		{
+			icon: 'skip-down-line',
+			text: '选择框',
+			name: 'sn-select',
+		},
+		{
+			icon: 'add-box-line',
+			text: '步进器',
+			name: 'sn-stepper',
+		},
+		{
+			icon: 'equalizer-2-line',
+			text: '滑动选择',
+			name: 'sn-slider',
+		},
+		/*
+		{
+			icon: 'cursor-line',
+			text: '选择器容器',
+			name: 'sn-picker-view',
+		},
+		{
+			icon: 'cursor-fill',
+			text: '选择器',
+			name: 'sn-picker',
+		},
+		*/
+	]
+
+	const displayList = [
+		{
+			icon: 'alarm-warning-line',
+			text: '警告信息',
+			name: 'sn-alert',
+		},
+		{
+			icon: 'notification-4-line',
+			text: '通知栏',
+			name: 'sn-notice-bar',
+		},
+		{
+			icon: 'user-smile-line',
+			text: '头像',
+			name: 'sn-avatar',
+		},
+		{
+			icon: 'notification-badge-line',
+			text: '徽标',
+			name: 'sn-badge',
+		},
+		{
+			icon: 'price-tag-3-line',
+			text: '标签',
+			name: 'sn-tag',
+		},
+		{
+			icon: 'id-card-line',
+			text: '卡片',
+			name: 'sn-card',
+		},
+		{
+			icon: 'file-list-2-line',
+			text: '列表',
+			name: 'sn-list',
+		},
+		{
+			icon: 'list-view',
+			text: '长列表',
+			name: 'sn-longlist',
+		},
+		{
+			icon: 'timer-2-line',
+			text: '倒计时',
+			name: 'sn-countdown',
+		},
+		{
+			icon: 'number-6',
+			text: '数字滚动',
+			name: 'sn-countto',
+		},
+		{
+			icon: 'timer-line',
+			text: '计时器',
+			name: 'sn-timer',
+		},
+		{
+			icon: 'loader-4-line',
+			text: '加载',
+			name: 'sn-loading',
+		},
+		{
+			icon: 'loader-3-line',
+			text: '加载页',
+			name: 'sn-loading-page',
+		},
+		{
+			icon: 'bar-chart-horizontal-fill',
+			text: '骨架屏',
+			name: 'sn-skeleton',
+		},
+		{
+			icon: 'markdown-line',
+			text: '富文本',
+			name: 'sn-markdown',
+		},
+	]
+
+	const feedbackList = [
+		{
+			icon: 'question-mark',
+			text: '缺省页',
+			name: 'sn-empty',
+		},
+		{
+			icon: 'file-check-line',
+			text: '结果页',
+			name: 'sn-result'
+		},
+		{
+			icon: 'shadow-line',
+			text: '遮罩层',
+			name: 'sn-overlay',
+		},
+		{
+			icon: 'chat-3-line',
+			text: '弹出层',
+			name: 'sn-popup',
+		},
+		{
+			icon: 'archive-drawer-line',
+			text: '抽屉',
+			name: 'sn-drawer',
+		},
+		{
+			icon: 'chat-smile-2-line',
+			text: '模态框',
+			name: 'sn-modal',
+		},
+		{
+			icon: 'message-3-line',
+			text: '轻提示',
+			name: 'sn-toast',
+		},
+		{
+			icon: 'sticky-note-line',
+			text: '弹出提示',
+			name: 'sn-tooltip',
+		},
+		{
+			icon: 'skip-down-line',
+			text: '加载更多',
+			name: 'sn-loadmore',
+		},
+		{
+			icon: 'refresh-line',
+			text: '下拉刷新',
+			name: 'sn-refresher',
+		}
+	]
+
+	const layoutList = [
+		{
+			icon: 'pages-line',
+			text: '页面',
+			name: 'sn-page',
+		},
+		{
+			icon: 'space',
+			text: '占位间隔',
+			name: 'sn-gap',
+		},
+		{
+			icon: 'skip-up-line',
+			text: '返回顶部',
+			name: 'sn-backtop',
+		},
+		{
+			icon: 'layout-bottom-line',
+			text: '折叠面板',
+			name: 'sn-collapse',
+		},
+		{
+			icon: 'layout-row-line',
+			text: '水平布局',
+			name: 'sn-row',
+		},
+		{
+			icon: 'layout-column-line',
+			text: '垂直布局',
+			name: 'sn-col',
+		},
+		{
+			icon: 'grid-line',
+			text: '宫格布局',
+			name: 'sn-grid',
+		},
+		{
+			icon: 'kanban-view-2',
+			text: '分段器',
+			name: 'sn-subsection',
+		},
+		{
+			icon: 'folder-3-line',
+			text: '标签页',
+			name: 'sn-tabs',
+		},
+		{
+			icon: 'compass-discover-line',
+			text: '导航栏',
+			name: 'sn-topbar',
+		},
+		{
+			icon: 'bill-line',
+			text: '浮动面板',
+			name: 'sn-float-board',
+		},
+		{
+			icon: 'circle-line',
+			text: '浮动按钮',
+			name: 'sn-float-button',
+		},
+	]
+
+	const functionList = [
+		{
+			icon: 'qr-scan-2-line',
+			text: '扫码',
+			name: 'sn-scan',
+		},
+	]
+
+	const comLists = [
+		{
+			name: '基础组件',
+			data: basicList
+		},
+		{
+			name: '表单组件',
+			data: formList
+		},
+		{
+			name: '展示组件',
+			data: displayList
+		},
+		{
+			name: '反馈组件',
+			data: feedbackList
+		},
+		{
+			name: '布局组件',
+			data: layoutList
+		},
+		{
+			name: '功能组件',
+			data: functionList
+		},
+	]
+
+	const libList = [
+		{
+			icon: 'tools-line',
+			text: '工具库',
+			name: 'sn-utils',
+		},
+		{
+			icon: 'palette-line',
+			text: '颜色库',
+			name: 'sn-color',
+		},
+		{
+			icon: 'hand',
+			text: '手势库',
+			name: 'sn-gesture',
+		},
+		{
+			icon: 'calendar-2-line',
+			text: '日期库',
+			name: 'sn-date',
+		},
+		{
+			icon: 'database-2-line',
+			text: '状态管理',
+			name: 'sn-store',
+		}
+	]
+
+	function gotoComponentPage(e : UTSJSONObject) {
+		uni.navigateTo({
+			url: `/pages/components/${e['name'] as string}`
+		})
+	}
+
+	function gotoLibPage(e : UTSJSONObject) {
+		uni.navigateTo({
+			url: `/pages/libs/${e['name'] as string}`
+		})
+	}
+</script>
+
+<style lang="scss">
+	.components-list {
+		margin-top: 20px;
+	}
+
+
+	.content {
+		display: flex;
+		flex: 1;
+	}
+
+	.contain {
+		padding: 30px 20px;
+	}
+
+	.description {
+		font-size: 15px;
+		color: #6e7073;
+	}
+
+	.popup-content {
+		background: white;
+		padding: 10px;
+		width: 80%;
+		margin: 10px auto;
+		border-radius: 15px;
+	}
+
+	.com-item {
+		padding: 10px 0;
+	}
+</style>

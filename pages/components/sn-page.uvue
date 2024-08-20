@@ -1,0 +1,87 @@
+<template>
+	<sn-page :bgColor="bgColor">
+		<sn-topbar title="Page 页面"
+		:bgColor="bgColor"
+		:titleColor="frontColorC"
+		:buttonBgColor="bgColor"
+		:buttonActiveBgColor="activeBtnBgColor"
+		:customButtonIconStyle="{
+			color: frontColorC
+		}"></sn-topbar>
+		<com-card title="基础用法"
+		note="页面容器，是页面的根节点。使用页面容器可帮助您快速布局页面，无需手动管理滚动相关组件及事件。\n支持动态修改页面背景色、全局背景色。"
+		:noteColor="frontColorC"
+		:titleColor="frontColorC"
+		:bgColor="cardBgC">
+		</com-card>
+		<com-card title="修改背景色"
+		:titleColor="frontColorC"
+		:bgColor="cardBgC">
+			<sn-button text="随机背景色" 
+			long
+			:bgColor="bgColor"
+			:textColor="frontColorC"
+			:activeBgColor="activeBtnBgColor"
+			@click="randomBgColor"
+			style="margin-bottom: 10px;"></sn-button>
+			<sn-button text="还原"
+			long
+			:bgColor="bgColor"
+			:textColor="frontColorC"
+			:activeBgColor="activeBtnBgColor"
+			@click="resetBgColor"></sn-button>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	const colorLib = $snui.libs.color
+	
+	const bgColor = ref(colors.value.page)
+	const padding = ref('15')
+	
+	const frontColorC = computed((): string =>{
+		return colorLib.tinyColor(bgColor.value).contrasting().toHexString()
+	})
+	
+	const cardBgC = computed((): string =>{
+		if (frontColorC.value == '#ffffff'){
+			return colorLib.tinyColor(bgColor.value).lighten(15).toHexString()
+		} else{
+			return colorLib.tinyColor(bgColor.value).darken(4).toHexString()
+		}
+	})
+	
+	const activeBtnBgColor = computed((): string =>{
+		if (frontColorC.value == '#ffffff'){
+			return colorLib.tinyColor(bgColor.value).lighten(5).toHexString()
+		} else{
+			return colorLib.tinyColor(bgColor.value).darken(2).toHexString()
+		}
+	})
+
+	function randomBgColor(){
+		let allow = false
+		let _bg = colorLib.random()
+		let _front = colorLib.tinyColor(_bg).contrasting()
+		let _cardBg = _bg
+		if (_front.toHexString() == '#ffffff'){
+			_cardBg = _bg.lighten(15)
+		} else{
+			_cardBg = colorLib.tinyColor(_bg).darken(4)
+		}
+		bgColor.value = _bg.toHexString()
+			
+	}
+	
+	function resetBgColor(){
+		bgColor.value = colors.value.page
+	}
+	
+</script>
+
+<style>
+
+</style>

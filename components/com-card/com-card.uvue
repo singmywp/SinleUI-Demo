@@ -1,0 +1,100 @@
+<template>
+	<view class="com-card" :style="[cardStylesC, customStyle]">
+		<sn-text v-if="title!=''"
+		class="com-card-title" 
+		font="misans-semibold"
+		:text="title"
+		:size="$snui.configs.font.size(4)"
+		:color="titleColorC"
+		:style="[{
+			marginBottom: !$snui.utils.isEmpty(noteC)?'10px':'0px'
+		}]"></sn-text>
+		<sn-text v-if="note!=''"
+		class="com-card-note"
+		:text="noteC"
+		:size="$snui.configs.font.size(2)"
+		:color="noteColorC"
+		:style="[{
+			marginBottom: $slots['default']!=null?'10px':'0px'
+		}]"></sn-text>
+		<slot></slot>
+	</view>
+</template>
+
+<script setup>
+	// 依赖
+	import { $snui } from '@/uni_modules/sinle-ui'
+
+	// SinleUI 配置
+	const colors = $snui.colors
+	// 组件属性
+	const props = defineProps({
+		title: {
+			type: String,
+			default: ''
+		},
+		note: {
+			type: String,
+			default: ''
+		},
+		titleColor: {
+			type: String,
+			default: ''
+		},
+		noteColor: {
+			type: String,
+			default: ''
+		},
+		bgColor: {
+			type: String,
+			default: ''
+		},
+		spaceBeforeParagraph: {
+			type: Boolean,
+			default: true
+		},
+		customStyle: {
+			type: Object,
+			default: {}
+		}
+	})
+
+	// 计算属性
+	const noteColorC = computed(() : string => {
+		return props.noteColor == '' ? colors.value.textLight : props.noteColor
+	})
+	
+	const titleColorC = computed(() : string => {
+		return props.titleColor == '' ? colors.value.title : props.titleColor
+	})
+	
+	const bgColorC = computed(() : string => {
+		return props.bgColor == '' ? colors.value.front : props.bgColor
+	})
+
+	const noteC = computed(() : string => {
+		if (!props.spaceBeforeParagraph) return props.note
+		return '\u3000\u3000' + props.note.replaceAll('\\n', '\n\u3000\u3000')
+	})
+
+	const cardStylesC = computed(() : Map<string, any> => {
+		let styles = new Map<string, any>()
+		styles.set('background', bgColorC.value)
+		styles.set('border-radius', $snui.configs.radius.normal)
+		styles.set('transition-duration',$snui.configs.aniTime.normal)
+		return styles
+	})
+	
+</script>
+
+<style lang="scss">
+	.com-card {
+		width: 100%;
+		min-height: 10px;
+		padding: 10px 15px;
+		margin: 5px 0;
+		&-title {
+			padding: 5px;
+		}
+	}
+</style>

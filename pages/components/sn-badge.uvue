@@ -1,0 +1,123 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Badge 徽标"></sn-topbar>
+		<sn-alert type="warning"
+		icon="error-warning-fill"
+		text="Badge 组件的父节点需要设置 overflow: visible;"></sn-alert>
+		<com-card title="基础用法"
+		note="页面里最令强迫症患者讨厌的东西，但确实有用">
+			<sn-row class="ov">
+				<sn-badge class="spacing" :value="6">
+					<sn-avatar mode="text" text="徽"></sn-avatar>
+				</sn-badge>
+				<sn-badge class="spacing" :value="13">
+					<sn-avatar mode="text" text="标"></sn-avatar>
+				</sn-badge>
+				<sn-badge class="spacing" :value="2">
+					<sn-button text="Badge"></sn-button>
+				</sn-badge>
+				<sn-badge class="spacing" mode="text" text="爆">
+					<sn-avatar mode="text" text="新"></sn-avatar>
+				</sn-badge>
+				<sn-badge class="spacing" mode="text" text="VIP" bgColor="#f5a854" :size="`${$snui.utils.getPx($snui.configs.font.size(1))-2}px`">
+					<sn-avatar mode="text" text="视频"></sn-avatar>
+				</sn-badge>
+			</sn-row>
+		</com-card>
+		<com-card title="最大值"
+		note="设置数据上限，超出则显示最大值">
+			<sn-row class="ov">
+				<sn-badge class="spacing" :value="valueC" :max="maxC">
+					<sn-avatar mode="text" text="张三"></sn-avatar>
+				</sn-badge>
+				<sn-badge class="spacing" :value="valueC" :max="maxC">
+					<sn-button text="立即更新" type="primary" level="second"></sn-button>
+				</sn-badge>
+			</sn-row>
+			<sn-card>
+				<sn-input v-model="value" 
+				type="number"
+				placeholder="设置数据值"
+				style="margin-bottom: 10px;"></sn-input>
+				<sn-input v-model="max" 
+				type="number" 
+				placeholder="设置最大值"></sn-input>
+			</sn-card>
+		</com-card>
+		<com-card title="圆点"
+		note="用于重要程度较低的消息，或者不便统计数字的场合，如更新提示，至少让人一看就懂">
+			<sn-row class="ov">
+				<sn-badge class="spacing" mode="dot">
+					<sn-avatar mode="text" text="张三"></sn-avatar>
+				</sn-badge>
+				<sn-badge class="spacing" mode="dot">
+					<sn-button text="立即更新" type="primary" level="second"></sn-button>
+				</sn-badge>
+			</sn-row>
+		</com-card>
+		<com-card title="位置偏移"
+		note="重新调整 badge 的位置，使其适合各种各样的组件">
+			<sn-row class="ov">
+				<sn-badge class="spacing" :value="10" offset="translate(-8px, 12px)">
+					<sn-avatar mode="text" text="张三"></sn-avatar>
+				</sn-badge>
+				<sn-badge class="spacing" mode="dot" offset="translate(-3px, 16px)" size="8px">
+					<sn-button text="立即更新" type="primary" level="second"></sn-button>
+				</sn-badge>
+			</sn-row>
+		</com-card>
+		<com-card title="尺寸"
+		note="badge 类型不为 dot 时可以设置字体大小，badge 类型为 dot 时可以设置 dot 大小">
+			<sn-row class="ov">
+				<sn-badge class="spacing" :value="10" size="16px">
+					<sn-avatar mode="text" text="张三"></sn-avatar>
+				</sn-badge>
+				<sn-badge class="spacing" :value="10" size="10px">
+					<sn-avatar mode="text" text="李四"></sn-avatar>
+				</sn-badge>
+				<sn-badge class="spacing" mode="dot" size="8px">
+					<sn-avatar mode="text" text="王五"></sn-avatar>
+				</sn-badge>
+			</sn-row>
+		</com-card>
+		<com-card title="自定义颜色"
+		note="多姿多彩">
+			<sn-row class="ov">
+				<sn-badge class="spacing" :value="13" bgColor="#83b59a">
+					<sn-avatar mode="text" text="张三"></sn-avatar>
+				</sn-badge>
+				<sn-badge class="spacing" :value="5" bgColor="#f6b142" textColor="#000">
+					<sn-avatar mode="text" text="李四"></sn-avatar>
+				</sn-badge>
+			</sn-row>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+
+	const max = ref('99')
+	const value = ref('100')
+
+	const maxC = computed(() : number => {
+		let p = parseInt(max.value)
+		return Math.max(isNaN(p) ? 0 : p, 0)
+	})
+
+	const valueC = computed(() : number => {
+		let p = parseInt(value.value)
+		return Math.max(isNaN(p) ? 0 : p, 0)
+	})
+</script>
+
+<style lang="scss">
+	.ov {
+		overflow: visible;
+	}
+	
+	.spacing {
+		margin-right: 10px;
+	}
+</style>

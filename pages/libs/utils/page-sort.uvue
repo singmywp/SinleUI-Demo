@@ -1,0 +1,135 @@
+<template>
+	<com-card title="排序"
+	note="SinleUI 支持多种排序算法，具体请见文档">
+		<sn-text class="word-break-break-all m-b-10" 
+		:text="arrStr"
+		:lines="3"></sn-text>
+		<sn-form-item label="算法">
+			<sn-select v-model="algo"
+			width="200px"
+			:data="data"
+			@change="init()"></sn-select>
+		</sn-form-item>
+		<sn-form-item label="数据量">
+			<sn-stepper v-model="length"
+			:min="10"
+			:max="10000"
+			:step="100"
+			@change="init()"></sn-stepper>
+		</sn-form-item>
+		<sn-row>
+			<sn-button type="primary"
+			level="second"
+			text="排序"
+			long
+			@click="sort()"></sn-button>
+			<sn-button class="m-l-10"
+			type="error"
+			level="second"
+			text="打乱"
+			long
+			@click="init"></sn-button>
+		</sn-row>
+	</com-card>
+	<sn-toast ref="toastEle"></sn-toast>
+</template>
+
+<script setup>
+	import { $snui, SnDataItem, SnToastParams } from '@/uni_modules/sinle-ui'
+	const snu = $snui.utils
+	const arr = ref([0] as number[])
+	const algo = ref(0)
+	const length = ref(100)
+	const data = ref([
+		{
+			id: 'bubble',
+			text: '冒泡排序'
+		},
+		{
+			id: 'insert',
+			text: '插入排序'
+		},
+		{
+			id: 'select',
+			text: '选择排序'
+		},
+		{
+			id: 'quick',
+			text: '快速排序'
+		},
+		{
+			id: 'shell',
+			text: '希尔排序'
+		},
+		{
+			id: 'heap',
+			text: '堆排序'
+		},
+		{
+			id: 'merge',
+			text: '归并排序'
+		},
+		{
+			id: 'bucket',
+			text: '桶排序'
+		},
+	] as SnDataItem[])
+	const toastEle = ref(null as SnToastComponentPublicInstance | null)
+	const arrStr = computed(():string=>JSON.stringify(arr.value))
+	
+	function sort(){
+		toastEle.value!.configShow({
+			text: '算法运行中',
+			loading: true
+		} as SnToastParams)
+		snu.debounce(()=>{
+			let t0 = Date.now()
+			switch(algo.value) {
+				case 0:
+					arr.value = snu.bubbleSort(arr.value)
+					break
+				case 1:
+					arr.value = snu.insertionSort(arr.value)
+					break
+				case 2:
+					arr.value = snu.selectionSort(arr.value)
+					break
+				case 3:
+					arr.value = snu.quickSort(arr.value)
+					break
+				case 4:
+					arr.value = snu.shellSort(arr.value)
+					break
+				case 5:
+					arr.value = snu.heapSort(arr.value)
+					break
+				case 6:
+					arr.value = snu.mergeSort(arr.value)
+					break
+				case 7:
+					arr.value = snu.bucketSort(arr.value)
+					break
+				default:
+					break
+			}
+			toastEle.value!.configShow({
+				text: `${data.value[algo.value].text} ${length.value} 个数据\n耗时：${Date.now()-t0}ms`
+			} as SnToastParams)
+		}, parseInt($snui.configs.aniTime.normal))
+	}
+	
+	function init(){
+		arr.value = []
+		for (let i = 0; i < length.value; i++) {
+		    arr.value.push(snu.randint(0, 1000));
+		}
+	}
+	
+	onMounted(()=>{
+		init()
+	})
+</script>
+
+<style>
+		
+</style>

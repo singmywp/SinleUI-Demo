@@ -1,0 +1,147 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Color 颜色库"></sn-topbar>
+		<sn-alert type="primary" text="SinleUI 颜色处理插件，基于 lime-color 插件" icon="notification-fill"></sn-alert>
+		<com-card title="色板生成演示" v-if="(colorsArr as UTSJSONObject)['palette']!=null">
+			<view class="color-row" v-for="(row,rindex) in (colorsArr['palette'] as string[][])" :key="rindex">
+				<view class="color" v-for="(e,iindex) in row" :key="iindex" :style="{background:e}">
+				</view>
+			</view>
+		</com-card>
+		<com-card title="颜色操作演示">
+			<sn-text type="info" text="lighten 淡化"></sn-text>
+			<view class="color-row" v-if="colorsArr['lighten']!=null">
+				<view class="color" v-for="(e,i) in (colorsArr['lighten']  as string[])" :key="i"
+					:style="{background:e}">
+				</view>
+			</view>
+			<sn-text type="info" text="darken 深化"></sn-text>
+			<view class="color-row" v-if="colorsArr['darken']!=null">
+				<view class="color" v-for="(e,i) in (colorsArr['darken'] as string[])" :key="i" :style="{background:e}">
+				</view>
+			</view>
+			<sn-text type="info" text="mean 平均颜色 - 中间项是两边的平均颜色"></sn-text>
+			<view class="color-row" v-if="colorsArr['mean']!=null">
+				<view class="color" v-for="(e,i) in (colorsArr['mean'] as string[])" :key="i" :style="{background:e}">
+					<text class="color-text"
+						:style="{color: tinyColor(e).contrasting().toHexString(),fontSize:'14px'}">{{tinyColor(e).toRgb().r}},{{tinyColor(e).toRgb().g}},{{tinyColor(e).toRgb().b}}</text>
+				</view>
+			</view>
+			<sn-text type="info" text="互补色 - 色相旋转180°得到的颜色"></sn-text>
+			<view class="color-row" v-if="colorsArr['complement']!=null">
+				<view class="color" v-for="(e,i) in (colorsArr['complement'] as UTSJSONObject[])" :key="i"
+					:style="{background:(e as UTSJSONObject)['v']}">
+					<text class="color-text"
+						:style="{color:(colorsArr['complement'] as UTSJSONObject[])[Math.abs(i-1)]['v']}">色相
+						{{e['k']}}</text>
+				</view>
+			</view>
+		</com-card>
+		<com-card title="APCA 对比度"
+			note="可访问的感知对比度算法（APCA），基于字形属性、文本与背景的感知亮度差异、环境与上下文等特征进行对比度计算，目标是更接近人眼的实际感受。\nWCAG 3.0 无障碍标准候选方法之一。\n由于 WCAG 2.0 对暗黑背景的支持较差，故选用了APCA 作为计算文字-背景颜色对比度的方法。\n因该项目处于实验阶段，未来可能会进行一定调整。">
+			<view class="color-row">
+				<view class="color" v-for="(row,rindex) in (colorsArr['apca'] as UTSJSONObject[])" :key="rindex"
+					:style="{background:(row as UTSJSONObject)['bgColor']}">
+					<text class="color-text" :style="{color:row['textColor']}">{{row['apca']}}</text>
+				</view>
+			</view>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	// #ifdef WEB
+	// @ts-nocheck
+	// #endif
+	
+	// 依赖
+	import { $snui, LGenerateOptions, TinyColor } from '@/uni_modules/sinle-ui'
+
+	// SinleUI 配置
+	const colors = $snui.colors
+	const colorLib = $snui.libs.color
+
+	const colorsArr = ref({
+		'palette': [] as string[][],
+		'lighten': [] as string[],
+		'darken': []as string[],
+		'mean': [] as string[],
+		'complement': [] as UTSJSONObject[],
+		'apca': [] as UTSJSONObject[],
+	})
+
+	function tinyColor(color : any) : TinyColor {
+		return colorLib.tinyColor(color)
+	}
+
+	onLoad((_) => {
+		let colorGroup = ['#4f78ff', '#f6b142', '#39c478', '#fc5454']
+		let paletteTmp = [] as string[][]
+		for (let j = 0; j < colorGroup.length; j++) {
+			paletteTmp.push(colorLib.generate(colorGroup[j], {
+				backgroundColor: colors.value.page,
+				theme: 'light',
+			} as LGenerateOptions))
+			
+		}
+		
+		(colorsArr.value)['palette'] = paletteTmp
+		let lightenTmp = [] as string[]
+		let darkenTmp = [] as string[]
+		let apcaTmp = [] as UTSJSONObject[]
+		
+		for (let i = 1; i <= 10; i++) {
+			lightenTmp.push(tinyColor(colorGroup[0]).lighten(i * 10).toHexString())
+		}
+		(colorsArr.value)['lighten'] = lightenTmp
+		
+		for (let i = 1; i <= 10; i++) {
+			darkenTmp.push(tinyColor(colorGroup[2]).darken(i * 10).toHexString())
+		}
+		(colorsArr.value)['darken'] = darkenTmp;
+		
+		(colorsArr.value)['mean'] = [colorGroup[1], colorLib.mean([tinyColor(colorGroup[1]), tinyColor(colorGroup[3])]).toHexString(), colorGroup[3]]
+		
+		let complementColor = tinyColor(colorGroup[0]).complement().toHexString();
+		(colorsArr.value)['complement'] = [
+			{ v: colorGroup[0], k: Math.trunc(tinyColor(colorGroup[0]).toHsl().h) },
+			{ v: complementColor, k: Math.trunc(tinyColor(complementColor).toHsl().h) },
+		]
+		
+		for (let i = 0; i < colorGroup.length; i++) {
+			let textColor = tinyColor(colorGroup[i]).darken(20)
+			let bgColor = tinyColor(colorGroup[Math.abs(colorGroup.length - 1 - i)]).lighten(50)
+			apcaTmp.push({ textColor, bgColor, apca: colorLib.calcAPCA(textColor, bgColor) })
+		}
+		(colorsArr.value)['apca'] = apcaTmp
+		
+	})
+</script>
+
+<style lang="scss">
+	.color-row {
+		width: 100%;
+		flex: 1;
+		flex-direction: row;
+		margin: 2px;
+		border-radius: 13px;
+
+		.color {
+			flex: 1;
+			height: 60px;
+			justify-content: center;
+
+			.color-text {
+				font-size: 20px;
+				text-align: center;
+				font-weight: bold;
+			}
+		}
+	}
+
+
+	.description {
+		font-size: 15px;
+		color: #6e7073;
+	}
+</style>

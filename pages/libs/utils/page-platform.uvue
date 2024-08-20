@@ -1,0 +1,88 @@
+<template>
+	<com-card title="打开链接"
+	note="使用默认应用打开链接（Url、Schemes等）。Android 必须加上协议，否则会报错。">
+		<sn-button type="primary"
+		text="tel:10086"
+		@click="snu.openLink('tel:10086')"></sn-button>
+		<sn-button type="primary"
+		text="https://www.dcloud.net.cn"
+		@click="snu.openLink('https://www.dcloud.net.cn')"
+		style="margin-top: 10px;"></sn-button>
+		<sn-button type="primary"
+		text="mqq://"
+		@click="snu.openLink('mqq://')"
+		style="margin-top: 10px;"></sn-button>
+	</com-card>
+	<com-card title="拨打电话"
+	note="直接拨打指定的电话号码。">
+		<sn-button type="primary"
+		text="拨打 10086"
+		@click="snu.makePhoneCall('10086')"></sn-button>
+	</com-card>
+	<com-card title="写入剪切板"
+	note="将文本写入剪切板。">
+		<sn-button type="primary"
+		text="写入文本: Hello, SinleUI!"
+		@click="snu.setClipboardData('Hello, SinleUI!')"></sn-button>
+	</com-card>
+	<com-card title="从剪切板读取"
+	note="从剪切板读取文本数据。">
+		<sn-text :text="`剪切板数据：${clipboardData}`"></sn-text>
+		<sn-button class="spacing"
+		type="primary"
+		text="读取文本"
+		@click="getClipboardData()"></sn-button>
+	</com-card>
+	<com-card title="显示提示框"
+	note="在不同平台上显示原生提示框。Android 平台可设置提示框的显示时长和位置。">
+		<sn-button type="primary"
+		text="Toast"			
+		@click="showToast()"></sn-button>
+	</com-card>
+	<com-card title="使用内置全屏Webview打开网址"
+	note="使用内置全屏 Webview 打开网址。">
+		<sn-button type="primary"
+		text="https://cn.bing.com/"
+		@click="snu.viewUrlByWebview('https://cn.bing.com/')"></sn-button>
+	</com-card>
+	<com-card title="获取平台主题"
+	note="获取当前平台的主题设置，包括暗黑模式和浅色模式。">
+	<sn-text :text="`当前平台主题：${osTheme}`"></sn-text>
+		<sn-button class="spacing"
+		type="primary"
+		text="获取主题"
+		@click="osTheme = snu.getOsTheme()"></sn-button>
+	</com-card>
+	<com-card title="获取窗口高度"
+	note="获取当前窗口的高度，以像素为单位。支持分屏模式。">
+	<sn-text :text="`窗口高度：${windowHeight}`"></sn-text>
+		<sn-button class="spacing"
+		type="primary"
+		text="获取高度"
+		@click="windowHeight = snu.getWindowHeight()"></sn-button>
+	</com-card>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const snu = $snui.utils
+	const clipboardData = ref('')
+	const osTheme = ref('')
+	const windowHeight = ref(0)
+	
+	function getClipboardData(){
+		snu.getClipboardData().then((text:string)=>{
+			clipboardData.value = text
+		})
+	}
+	
+	function showToast(){
+		snu.showToast({
+			title:'Hello, SinleUI!',
+			position:'center'
+		})
+	}
+</script>
+
+<style lang="scss">
+</style>

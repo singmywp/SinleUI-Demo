@@ -1,0 +1,167 @@
+<template>
+    <sn-page>
+        <sn-topbar title="Column 垂直布局"></sn-topbar>
+        <com-card title="基础用法" 
+		note="用于快速设置栅格布局。\n搭配 sn-row 组件使用更佳哦">
+            <sn-row>
+                <sn-col :span="4" gutter="5px">
+                    <view :style="blockStylesC">
+                        <sn-text text="4"></sn-text>
+                    </view>
+                </sn-col>
+                <sn-col :span="4" gutter="5px">
+                    <view :style="blockStylesC">
+                        <sn-text text="4"></sn-text>
+                    </view>
+                </sn-col>
+                <sn-col :span="4" gutter="5px">
+                    <view :style="blockStylesC">
+                        <sn-text text="4"></sn-text>
+                    </view>
+                </sn-col>
+            </sn-row>
+        </com-card>
+        <com-card title="栅格" 
+		note="提供 12 个栅格，通过设置每个节点的 span 属性来自由分配（span 为 number 类型）。\n当 flex=false 时开启栅格">
+            <sn-row>
+                <sn-col :span="2" gutter="5px">
+                    <view :style="blockStylesC">
+                        <sn-text text="2"></sn-text>
+                    </view>
+                </sn-col>
+                <sn-col :span="6" gutter="5px">
+                    <view :style="blockStylesC">
+                        <sn-text text="6"></sn-text>
+                    </view>
+                </sn-col>
+                <sn-col :span="4" gutter="5px">
+                    <view :style="blockStylesC">
+                        <sn-text text="4"></sn-text>
+                    </view>
+                </sn-col>
+            </sn-row>
+            <sn-row class="marginTop">
+                <sn-col :span="8" gutter="5px">
+                    <view :style="blockStylesC">
+                        <sn-text text="8"> </sn-text>
+                    </view>
+                </sn-col>
+                <sn-col :span="4" gutter="5px">
+                    <view :style="blockStylesC"><sn-text text="4"></sn-text></view>
+                </sn-col>
+            </sn-row>
+        </com-card>
+        <com-card title="间距" 
+		note="每个节点都可单独设置间距">
+            <sn-row>
+                <sn-col :span="3" gutter="20px">
+                    <view :style="blockStylesC"><sn-text text="3"></sn-text></view>
+                </sn-col>
+                <sn-col :span="6" gutter="20px">
+                    <view :style="blockStylesC"><sn-text text="6"></sn-text></view>
+                </sn-col>
+                <sn-col :span="3" gutter="20px">
+                    <view :style="blockStylesC"><sn-text text="3"></sn-text></view>
+                </sn-col>
+            </sn-row>
+            <sn-row class="marginTop">
+                <sn-col :span="8" gutter="2px">
+                    <view :style="blockStylesC"><sn-text text="8"></sn-text></view>
+                </sn-col>
+                <sn-col :span="4" gutter="0px">
+                    <view :style="blockStylesC"><sn-text text="4"></sn-text></view>
+                </sn-col>
+            </sn-row>
+        </com-card>
+        <com-card title="分栏偏移" 
+		note="支持设置分栏向右偏移量。类似于 span 属性，都是以 12 栅格为基准，number 类型。">
+            <sn-row>
+                <sn-col :span="3" gutter="5" :offset="2">
+                    <view :style="blockStylesC">
+                        <sn-text text="3"></sn-text>
+                    </view>
+                </sn-col>
+                <sn-col :span="4" gutter="5">
+                    <view :style="blockStylesC">
+                        <sn-text text="4"></sn-text>
+                    </view>
+                </sn-col>
+                <sn-col :span="3" gutter="5">
+                    <view :style="blockStylesC">
+                        <sn-text text="3"></sn-text>
+                    </view>
+                </sn-col>
+            </sn-row>
+            <sn-row class="marginTop">
+                <sn-col :span="8" gutter="2px">
+                    <view :style="blockStylesC">
+                        <sn-text text="8"></sn-text>
+                    </view>
+                </sn-col>
+                <sn-col :span="2" :offset="2" gutter="0px">
+                    <view :style="blockStylesC">
+                        <sn-text text="2"></sn-text>
+                    </view>
+                </sn-col>
+            </sn-row>
+        </com-card>
+        <com-card title="对齐方式" 
+		note="支持水平和垂直方向的对齐方式。">
+            <sn-row>
+                <sn-col :span="4" gutter="5" align="right">
+                    <view class="w-80p m-b-5"
+					:style="blockStylesC">
+                        <sn-text text="4.1"></sn-text>
+                    </view>
+                    <view class="w-80p"
+					:style="blockStylesC">
+                        <sn-text text="4.2"></sn-text>
+                    </view>
+                </sn-col>
+                <sn-col :span="3" gutter="5" align="left">
+                    <view class="w-80p m-b-5"
+					:style="blockStylesC">
+                        <sn-text text="3.1"></sn-text>
+                    </view>
+                    <view class="w-80p"
+					:style="blockStylesC">
+                        <sn-text text="3.2"></sn-text>
+                    </view>
+                </sn-col>
+                <sn-col :span="5" gutter="5">
+                    <view class="w-80p m-b-5"
+					:style="blockStylesC">
+                        <sn-text text="5.1"></sn-text>
+                    </view>
+                    <view class="w-80p"
+					:style="blockStylesC">
+                        <sn-text text="5.2"></sn-text>
+                    </view>
+                </sn-col>
+            </sn-row>
+        </com-card>
+    </sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+
+	const blockStylesC = computed((): Map<string, any> => {
+		let styles = new Map < string, any> ()
+		styles.set('background', colors.value.info)
+		styles.set('height', '30px')
+		styles.set('width', '100%')
+		styles.set('border-radius', '5px')
+		styles.set('justify-content', 'center')
+		styles.set('align-items', 'center')
+		return styles
+	})
+
+</script>
+
+<style lang="scss">
+	.marginTop {
+		margin-top: 5px;
+	}
+</style>

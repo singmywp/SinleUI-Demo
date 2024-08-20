@@ -1,0 +1,47 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Notice Bar 通知栏" />
+		<com-card title="基础用法"
+		note="一般用于滚动公告等多种场景。\n注意和 Alert 组件区别。Notice Bar 单行、可多条、可滚动；Alert 可多行，多主题，固定不滚动。">
+			<sn-notice-bar :texts="ins" />
+		</com-card>
+		<com-card title="可关闭">
+			<sn-notice-bar closable
+			:texts="ins" />
+		</com-card>
+		<com-card title="无图标">
+			<sn-notice-bar icon=" "
+			:texts="ins" />
+		</com-card>
+		<com-card title="自定义滚动速度">
+			<sn-notice-bar :speed="200"
+			:texts="ins" />
+		</com-card>
+		<com-card title="步进滚动">
+			<sn-notice-bar mode="swiper"
+			:texts="poem" />
+			<sn-notice-bar vertical
+			:texts="poem" />
+		</com-card>
+		<com-card title="自定义样式">
+			<sn-notice-bar :texts="ins"
+			 :bgColor="colors.primary"
+			 :textColor="colors.primaryText" />
+			 <sn-notice-bar vertical
+			  :texts="poem"
+			  :bgColor="colors.errorLight"
+			  :textColor="colors.errorLightText" />
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	const poem = ['朝辞白帝彩云间','千里江陵一日还。','两岸猿声啼不住','轻舟已过万重山。']
+	const ins = ['SinleUI ，一个简洁、轻巧的现代移动应用UI框架。']
+</script>
+
+<style>
+		
+</style>

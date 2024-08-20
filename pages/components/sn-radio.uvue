@@ -1,0 +1,188 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Radio 单选"></sn-topbar>
+		<sn-view :loading="loadingComponents">
+		<com-card title="基础用法"
+		note="普普通通的单选组件，用于数据选择\n（注意：一组sn-radio、sn-radio-tag必须放在sn-radio-group里）">
+			<sn-radio-group v-model="v1">
+				<sn-radio text="确定"></sn-radio>
+				<sn-radio text="取消"></sn-radio>
+			</sn-radio-group>
+		</com-card>
+		<com-card title="类型"
+		note="自定义单选组显示的样式（支持两种组件：sn-radio 和 sn-radio-tag）">
+			<sn-radio-group class="spacing" v-model="v2">
+				<sn-radio text="东方"></sn-radio>
+				<sn-radio text="西方"></sn-radio>
+			</sn-radio-group>
+			<sn-radio-group class="spacing" v-model="v2">
+				<sn-radio-tag text="东方"></sn-radio-tag>
+				<sn-radio-tag text="西方"></sn-radio-tag>
+			</sn-radio-group>
+		</com-card>
+		<com-card title="圆角 【Tag 特色】"
+		note="tag 单选组件可设置统一的圆角。">
+			<sn-radio-group v-model="v3" tagBorderRadius="100px">
+				<sn-radio-tag text="男"></sn-radio-tag>
+				<sn-radio-tag text="女"></sn-radio-tag>
+				<sn-radio-tag text="未知"></sn-radio-tag>
+			</sn-radio-group>
+		</com-card>
+		<com-card title="方向"
+		note="单选组可以设置排列的方向（竖向和横向），适用于多种场景">
+			<sn-radio-group v-model="v4" 
+			vertical 
+			spacing="20px">
+				<sn-radio text="中文"></sn-radio>
+				<sn-radio text="英文"></sn-radio>
+				<sn-radio text="法文"></sn-radio>
+			</sn-radio-group>
+			<sn-radio-group v-model="v4" 
+			vertical  
+			spacing="10px"
+			tagPadding="8px 0">
+				<sn-radio-tag text="中文"></sn-radio-tag>
+				<sn-radio-tag text="英文"></sn-radio-tag>
+				<sn-radio-tag text="法文"></sn-radio-tag>
+			</sn-radio-group>
+		</com-card>
+		<com-card title="默认值"
+		note="单选组可以设置默认的选项，更懂用户的选择">
+			<sn-radio-group v-model="v5" spacing="30px">
+				<sn-radio text="篮球"></sn-radio>
+				<sn-radio text="足球"></sn-radio>
+				<sn-radio text="网球"></sn-radio>
+			</sn-radio-group>
+			<sn-radio-group v-model="v5" type="tag" spacing="30px">
+				<sn-radio-tag text="篮球"></sn-radio-tag>
+				<sn-radio-tag text="足球"></sn-radio-tag>
+				<sn-radio-tag text="网球"></sn-radio-tag>
+			</sn-radio-group>
+		</com-card>
+		<com-card title="颜色"
+		note="单选可以设置一个统一的颜色">
+			<sn-radio-group v-model="v6"
+			spacing="30px" 
+			:radioBorderColor="colors.dark" 
+			:radioActiveColor="colors.dark"
+			:radioActiveBorderColor="colors.dark">
+				<sn-radio text="篮球"></sn-radio>
+				<sn-radio text="足球"></sn-radio>
+				<sn-radio text="网球"></sn-radio>
+			</sn-radio-group>
+			<sn-radio-group v-model="v6"
+			spacing="30px" 
+			:tagActiveBorderColor="colors.dark" 
+			:tagActiveTextColor="colors.front" 
+			:tagTextColor="colors.infoDark" 
+			:tagActiveBgColor="colors.dark">
+				<sn-radio-tag text="篮球"></sn-radio-tag>
+				<sn-radio-tag text="足球"></sn-radio-tag>
+				<sn-radio-tag text="网球"></sn-radio-tag>
+			</sn-radio-group>
+		</com-card>
+		<com-card title="禁用"
+		note="为单个单选设置禁用状态\n注意：只是禁用手动点击，不会屏蔽数据的修改">
+			<sn-radio-group v-model="v7"
+			spacing="30px" 
+			radioActiveColor="#b8ccc0">
+				<sn-radio text="UTS"></sn-radio>
+				<sn-radio text="TS"></sn-radio>
+				<sn-radio text="JS" disabled></sn-radio>
+			</sn-radio-group>
+			<sn-radio-group v-model="v8"
+			spacing="30px" 
+			radioActiveColor="#b8ccc0">
+				<sn-radio disabled text="百年难遇"></sn-radio>
+				<sn-radio text="普通"></sn-radio>
+				<sn-radio text="珍贵"></sn-radio>
+			</sn-radio-group>
+			<sn-radio-group v-model="v7">
+				<sn-radio-tag text="UTS"></sn-radio-tag>
+				<sn-radio-tag text="TS"></sn-radio-tag>
+				<sn-radio-tag text="JS" disabled></sn-radio-tag>
+			</sn-radio-group>
+			<sn-radio-group v-model="v8">
+				<sn-radio-tag disabled text="百年难遇"></sn-radio-tag>
+				<sn-radio-tag text="普通"></sn-radio-tag>
+				<sn-radio-tag text="珍贵"></sn-radio-tag>
+			</sn-radio-group>
+		</com-card>
+		<com-card title="手动修改"
+		note="手动修改radio的值，适用于自动化等场景">
+			<sn-button-group class="m-b-10">
+				<sn-button text="选中UTS" 
+				@click="v9=0"></sn-button>
+				<sn-button class="m-l-5"
+				text="选中TS" 
+				@click="v9=1"></sn-button>
+				<sn-button class="m-l-5"
+				text="选中JS" 
+				@click="v9=2"></sn-button>
+			</sn-button-group>
+			<sn-radio-group v-model="v9" spacing="30px">
+				<sn-radio text="UTS"></sn-radio>
+				<sn-radio text="TS"></sn-radio>
+				<sn-radio text="JS" disabled></sn-radio>
+			</sn-radio-group>
+			<sn-radio-group v-model="v9" type="tag">
+				<sn-radio-tag text="UTS"></sn-radio-tag>
+				<sn-radio-tag text="TS"></sn-radio-tag>
+				<sn-radio-tag text="JS" disabled></sn-radio-tag>
+			</sn-radio-group>
+		</com-card>
+		<com-card title="自定义样式"
+		note="通过丰富的组件属性，你可以自由地控制组件每个部分的样式，实现一些很酷的东西，比如下面这个高仿某大厂软件界面">
+			<sn-radio-group v-model="v10"
+			spacing="10px" 
+			tagActiveTextColor="#f55009"
+			:tagBorderColor="colors.infoLight" 
+			:tagBgColor="colors.infoLight" 
+			:tagActiveBorderColor="colors.infoLight"
+			:tagActiveBgColor="colors.infoLight" 
+			tagBorderRadius="100px" 
+			tagPadding="4px 8px" 
+			tagTextSize="12px"
+			:tagTextColor="theme=='light'?'#d6d6db':'#8e8f91'" 
+			:customContainStyle="{marginBottom:'10px'}">
+				<sn-radio-tag text="近朱者赤，近你者甜"></sn-radio-tag>
+				<sn-radio-tag text="风止于秋水，我止于你"></sn-radio-tag>
+				<sn-radio-tag text="眼里都是你，亿万星辰犹不及"></sn-radio-tag>
+			</sn-radio-group>
+		</com-card>
+		</sn-view>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	
+	const v1 = ref(0)
+	const v2 = ref(0)
+	const v3 = ref(0)
+	const v4 = ref(0)
+	const v5 = ref(1)
+	const v6 = ref(0)
+	const v7 = ref(0)
+	const v8 = ref(0)
+	const v9 = ref(0)
+	const v10 = ref(0)
+	const loadingComponents = ref(true)
+	
+	const theme = computed(():string=>$snui.configs.app.theme)
+	
+	onMounted(()=>{
+		nextTick(()=>{
+			setTimeout(()=>{
+				loadingComponents.value = false
+			}, 500)
+		})
+	})
+</script>
+
+<style lang="scss">
+	.spacing {
+		margin: 0 5px 5px 0;
+	}
+</style>

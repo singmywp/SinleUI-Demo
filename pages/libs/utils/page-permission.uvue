@@ -1,0 +1,79 @@
+<template>
+	<com-card title="是否具备指定权限"
+	note="检查当前应用是否已经具备指定权限。">
+		<sn-text :text="`权限：${JSON.stringify(p1)}\n是否具备：${p2}\n\n`"></sn-text>
+		<sn-button type="primary"
+		text="检查权限"
+		@click="p2 = snu.checkSystemPermissionGranted(p1).toString()"></sn-button>
+	</com-card>
+		
+	<com-card title="获取未授权的系统权限"
+	note="检查当前应用是否已经具备指定权限。">
+		<sn-text :text="`权限：${JSON.stringify(p3)}\n未授权列表：${p4}\n\n`"></sn-text>
+		<sn-button type="primary"
+		text="获取权限列表"
+		@click="p4 = JSON.stringify(snu.getSystemPermissionDenied(p3))"></sn-button>
+	</com-card>
+		
+	<com-card title="请求系统权限"
+	note="向用户请求指定的系统权限。">
+		<sn-text :text="`请求权限：${JSON.stringify(p5)}\n\n`"></sn-text>
+		<sn-button type="primary"
+		text="请求权限"
+		@click="requestPerm()"></sn-button>
+	</com-card>
+		
+	<com-card title="跳转到系统权限设置页面"
+	note="跳转到操作系统的权限设置页面，以便用户可以直接在系统设置中管理应用权限。">
+		<sn-text :text="`请求权限：${JSON.stringify(p6)}\n\n`"></sn-text>
+		<sn-button type="primary"
+		text="跳转"
+		@click="snu.gotoSystemPermissionActivity(p6)"></sn-button>
+	</com-card>
+</template>
+
+<script setup>
+	import { $snui, SnRequestSystemPermissionOptions } from '@/uni_modules/sinle-ui'
+	
+	const snu = $snui.utils
+	
+	const p1 = ['android.permission.CAMERA']
+	const p2 = ref('')
+	const p3 = ['android.permission.CAMERA','android.permission.ACCESS_FINE_LOCATION']
+	const p4 = ref('')
+	const p5 = ['android.permission.CAMERA','android.permission.READ_MEDIA_IMAGES']
+	const p6 = ['android.permission.MANAGE_EXTERNAL_STORAGE']
+	
+	function requestPerm(){
+		let tip = ''
+		snu.requestSystemPermission({
+			permissions: p5,
+			success: (allRight: boolean, grantedList: string[]) => {
+				if (allRight){
+					tip = '所有权限皆已授予'
+				} else{
+					tip = '用户授予了部分权限'
+				}
+				uni.showModal({
+					title: '提示',
+					content: `${tip}\n\n已授予权限列表：\n${grantedList}`
+				})
+			},
+			fail: (doNotAskAgain:boolean, deniedList: string[]) => {
+				if (doNotAskAgain){
+					tip = '用户拒绝了所有权限且选择不再询问'
+				} else{
+					tip = '用户拒绝了部分权限'
+				}
+				uni.showModal({
+					title: '提示',
+					content: `${tip}\n\n已拒绝权限列表：\n${deniedList}`
+				})
+			}
+		} as SnRequestSystemPermissionOptions)
+	}
+</script>
+
+<style>
+		
+</style>

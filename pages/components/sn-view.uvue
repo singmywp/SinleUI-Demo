@@ -1,0 +1,58 @@
+<template>
+	<sn-page>
+		<sn-topbar title="View 视图容器"></sn-topbar>
+		<sn-alert type="warning"
+		icon="notification-fill"
+		text="手势事件可通过 event 属性操作原事件，例如阻止冒泡、阻止默认行为"></sn-alert>
+		<com-card title="基础用法"
+		note="用法与内置 view 组件无异。但扩展了组件的手势事件，相当于简化版的 sn-e-gesture。">
+			<sn-view></sn-view>
+		</com-card>
+		<com-card title="手势事件">
+			<sn-view class="gesture-block" 
+			padding="10px"
+			:borderRadius="$snui.configs.radius.normal"
+			:bgColor="colors.page"
+			@click="pointGestureEvent" 
+			@longpress="touchGestureEvent" 
+			@dbclick="pointGestureEvent"
+			@touchmove="touchGestureEvent" 
+			@touchstart="touchGestureEvent" 
+			@touchend="touchGestureEvent"
+			@touchcancel="touchGestureEvent">
+				<sn-text :text="gestureEventText"
+				:color="colors.text"
+				:style="{
+					height: 'auto',
+					wordBreak: 'break-all'
+				}"></sn-text>
+			</sn-view>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui, SnPointerEvent, SnTouchEvent } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	
+	const gestureEventText = ref('')
+	
+	function touchGestureEvent(event : SnTouchEvent) {
+		event.event.preventDefault()
+		let strE = JSON.stringify(event)!
+		gestureEventText.value = strE
+	}
+	
+	function pointGestureEvent(event : SnPointerEvent) {
+		event?.event?.preventDefault()
+		let strE = JSON.stringify(event)!
+		gestureEventText.value = strE
+	}
+</script>
+
+<style lang="scss">
+	.gesture-block {
+		width: 100%;
+		min-height: 200px;
+	}
+</style>

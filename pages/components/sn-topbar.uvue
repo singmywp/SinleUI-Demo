@@ -1,0 +1,84 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Topbar 导航栏"
+		:menuButton="enableMenu"
+		:menuData="menuData" 
+		@menuClick="menuClicked"
+		:customStyle="{zIndex:200}"></sn-topbar>
+		<sn-gap></sn-gap>
+		<com-card title="基础用法"
+		note="导航栏默认置顶（即fixed值为true），效果如页面顶端所示">
+		</com-card>
+		<com-card title="取消置顶"
+		note="当你因某种特殊需求（比如本demo的实现）而需要将导航栏放置在容器中时，可以取消导航栏的置顶\n为方便显示，接下来的demo示范皆已取消置顶">
+			<sn-topbar title="非置顶导航栏" :fixed="false"></sn-topbar>
+		</com-card>
+		<com-card title="取消返回键"
+		note="有些特殊场景，比如应用的主页，不需要返回上一页，可以取消返回按钮的显示">
+			<sn-topbar title="主页" :fixed="false" :backButton="false"></sn-topbar>
+		</com-card>
+		<com-card title="标题位置"
+		note="中央还是两边？">
+			<sn-topbar title="LEFT" :fixed="false" titleAlign="left"></sn-topbar>
+			<sn-line></sn-line>
+			<sn-topbar title="CENTER" :fixed="false" titleAlign="center"></sn-topbar>
+			<sn-line></sn-line>
+			<sn-topbar title="RIGHT" :fixed="false" titleAlign="right"></sn-topbar>
+		</com-card>
+		<com-card title="功能按钮区"
+		note="各式各样的功能，尽你所用">
+			<sn-topbar title="导航栏"
+			:fixed="false"
+			:features="features"
+			@button-click="buttonClicked"></sn-topbar>
+		</com-card>
+		<com-card title="菜单"
+		note="集成了常见的菜单悬浮窗，可与features连用，极大地扩展了导航栏的按钮位☺\n（请一定要将有菜单的导航栏置顶）">
+			<sn-card>
+				<sn-row justify="space-between">
+					<sn-text text="启用菜单"></sn-text>
+					<sn-switch v-model="enableMenu"></sn-switch>
+				</sn-row>
+			</sn-card>
+		</com-card>
+		<com-card title="自定义样式"
+		note="多姿多彩，追求独特">
+			<sn-topbar title="星空征途，永不停息" 
+			:bgColor="colors.front" 
+			boxShadow="0"
+			:titleColor="colors.primaryDark" 
+			borderRadius="0"
+			:fixed="false" 
+			:backButton="false"></sn-topbar>
+		</com-card>
+		<sn-gap></sn-gap>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	
+	const features = [{ icon: 'refresh-line', id: 'refresh' }, { icon: 'delete-bin-4-line', id: 'remove' }] as SnDataItem[]
+	const menuData = [{ icon: 'refresh-line', text: '刷新', id: 'refresh' }, { icon: 'search-2-line', text: '搜索', id: 'search' }, { icon: 'check-line', text: '提交', id: 'submit' }, { icon: 'information-line', text: '关于', id: 'about' }] as SnDataItem[]
+	const enableMenu = ref(false)
+	
+	function buttonClicked(e : SnDataItem) {
+		uni.showModal({
+			title: "按钮点击事件",
+			content: JSON.stringify(e),
+			showCancel: false
+		})
+	}
+	
+	function menuClicked(e : SnDataItem) {
+		uni.showModal({
+			title: "菜单点击事件",
+			content: JSON.stringify(e),
+			showCancel: false
+		})
+	}
+</script>
+
+<style lang="scss">
+</style>

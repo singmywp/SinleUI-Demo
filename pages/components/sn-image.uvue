@@ -1,0 +1,131 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Image 图片"></sn-topbar>
+		<sn-view :loading="loadingComponents">
+		<com-card title="基础用法"
+		note="相比于内置 image 组件更加方便使用。\n支持图片加载占位、图片预览、懒加载（同 image 组件）、动画效果（同 image 组件）\n默认为 aspectFit 模式">
+			<sn-image src="https://img1.baidu.com/it/u=2572795898,2432467619&fm=253&fmt=auto&app=138&f=JPEG?w=640&h=427"
+			width="200px"></sn-image>
+		</com-card>
+		<com-card title="模式"
+		note="支持设置图片裁剪、缩放模式，其值同内置 image 组件">
+			<sn-row wrap>
+				<sn-image class="spacing"
+				mode="scaleToFill"
+				src="/static/strawberry.jpg"
+				width="80px"
+				height="80px"></sn-image>
+				<sn-image class="spacing"
+				mode="aspectFit"
+				src="/static/strawberry.jpg"
+				width="80px"
+				height="80px"></sn-image>
+				<sn-image class="spacing"
+				mode="aspectFill"
+				src="/static/strawberry.jpg"
+				width="80px"
+				height="80px"></sn-image>
+				<sn-image class="spacing"
+				mode="widthFix"
+				src="/static/strawberry.jpg"
+				width="80px"
+				height="80px"></sn-image>
+				<sn-image class="spacing"
+				mode="heightFix"
+				src="/static/strawberry.jpg"
+				width="80px"
+				height="80px"></sn-image>
+				<sn-image class="spacing"
+				mode="top"
+				src="/static/strawberry.jpg"
+				width="80px"
+				height="80px"></sn-image>
+				<sn-image class="spacing"
+				mode="bottom"
+				src="/static/strawberry.jpg"
+				width="80px"
+				height="80px"></sn-image>
+				<sn-image class="spacing"
+				mode="center"
+				src="/static/strawberry.jpg"
+				width="80px"
+				height="80px"></sn-image>
+				<sn-image class="spacing"
+				mode="left"
+				src="/static/strawberry.jpg"
+				width="80px"
+				height="80px"></sn-image>
+				<sn-image class="spacing"
+				mode="right"
+				src="/static/strawberry.jpg"
+				width="80px"
+				height="80px"></sn-image>
+				<sn-image class="spacing"
+				mode="top left"
+				src="/static/strawberry.jpg"
+				width="80px"
+				height="80px"></sn-image>
+				<sn-image class="spacing"
+				mode="top right"
+				src="/static/strawberry.jpg"
+				width="80px"
+				height="80px"></sn-image>
+				<sn-image class="spacing"
+				mode="bottom left"
+				src="/static/strawberry.jpg"
+				width="80px"
+				height="80px"></sn-image>
+				<sn-image class="spacing"
+				mode="bottom right"
+				src="/static/strawberry.jpg"
+				width="80px"
+				height="80px"></sn-image>
+			</sn-row>
+		</com-card>
+		<com-card title="自动计算长宽"
+		note="aspectFit 模式支持根据父容器自动设置图片长宽、给定宽度自动计算长度，设置 height 属性后此功能失效">
+			<sn-row>
+				<sn-image class="spacing"
+				 src="https://img0.baidu.com/it/u=854650116,3372822797&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=667"></sn-image>
+				<sn-image class="spacing"
+				src="https://img2.baidu.com/it/u=448582925,1585814755&fm=253&fmt=auto&app=138&f=JPEG?w=333&h=500"></sn-image>
+				<sn-image class="spacing"
+				src="https://img1.baidu.com/it/u=1431796479,1028246143&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=743"></sn-image>
+			</sn-row>
+		</com-card>
+		<com-card>
+			<sn-row>
+				<sn-image class="spacing"
+				src="https://img2.baidu.com/it/u=3307857314,3539337404&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800"
+				width="150px"></sn-image>
+				<sn-image class="spacing"
+				src="https://img1.baidu.com/it/u=3587186811,3730884801&fm=253&fmt=auto&app=138&f=JPEG?w=424&h=600"
+				width="70px"></sn-image>
+			</sn-row>
+		</com-card>
+		<com-card title="图片预览"
+		note="调用内置的 uni.previewImage 进行图片预览">
+			<sn-image enablePreview src="https://img1.baidu.com/it/u=253682624,1679759773&fm=253&fmt=auto&app=138&f=JPEG?w=900&h=500"></sn-image>
+		</com-card>
+		<sn-gap></sn-gap>
+		</sn-view>
+	</sn-page>
+</template>
+
+<script setup>
+	const loadingComponents = ref(true)
+	
+	onMounted(()=>{
+		nextTick(()=>{
+			setTimeout(()=>{
+				loadingComponents.value = false
+			}, 500)
+		})
+	})
+</script>
+
+<style lang="scss">
+	.spacing {
+		margin: 0 5px 5px 0;
+	}
+</style>

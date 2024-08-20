@@ -1,0 +1,106 @@
+<template>
+	<sn-page>
+		<sn-topbar title="List 列表"></sn-topbar>
+		<com-card title="基础用法"
+		note="List 组件用于显示列表信息、聊天信息，内置一套组件模板。\nsn-list 下的子组件可为 sn-list-item 和 sn-list-chat。">
+		</com-card>
+		<sn-list>
+			<sn-list-item title="列表文字"></sn-list-item>
+			<sn-list-item title="列表文字" rightText="右侧文字"></sn-list-item>
+			<sn-list-item title="列表文字" note="列表描述信息" rightText="右侧文字"></sn-list-item>
+		</sn-list>
+		<com-card title="禁用状态"
+		note="可为单独的子项设置禁用状态">
+		</com-card>
+		<sn-list>
+			<sn-list-item title="列表启用状态" rightText="右侧文字"></sn-list-item>
+			<sn-list-item title="列表禁用状态"
+			disabled></sn-list-item>
+			<sn-list-item title="列表启用状态" rightText="右侧文字"></sn-list-item>
+		</sn-list>
+		<com-card title="右侧箭头"
+		note="可为单独的子项设置右侧箭头">
+		</com-card>
+		<sn-list>
+			<sn-list-item title="列表文字" rightText="右侧文字"></sn-list-item>
+			<sn-list-item title="列表文字" rightText="右侧文字" showArrow></sn-list-item>
+		</sn-list>
+		<com-card title="无分割线"
+		note="可为单独的子项取消分割线">
+		</com-card>
+		<sn-list :showBorder="false">
+			<sn-list-item title="列表文字" rightText="右侧文字"></sn-list-item>
+			<sn-list-item title="列表文字" rightText="右侧文字"></sn-list-item>
+		</sn-list>
+		<com-card title="文本溢出隐藏"
+		note="可设置最大行数，超过则以省略号隐藏文本">
+		</com-card>
+		<sn-list>
+			<sn-list-item :title="longText1" 
+			:ellipsis="1"></sn-list-item>
+			<sn-list-item rightText="2 行"
+			:title="longText2" 
+			:ellipsis="2" ></sn-list-item>
+			<sn-list-item rightText="3 行"
+			:title="longText3" 
+			:ellipsis="3"  
+			showArrow></sn-list-item>
+		</sn-list>
+		<com-card title="显示图标或图片"
+		note="每个单独的子项都可以设置图标或图片">
+		</com-card>
+		<sn-list>
+			<sn-list-item title="列表左侧带扩展图标" 
+			note="列表描述信息"
+			icon="settings-line"
+			showArrow></sn-list-item>
+			<sn-list-item title="列表左侧带缩略图" 
+			note="列表描述信息" 
+			avatar="https://img01.sogoucdn.com/app/a/100520093/8379901cc65ba509-45c21ceb904429fc-fffc7639a9a4d453515b56b6c1a3fc58.jpg"
+			showArrow></sn-list-item>
+			<sn-list-item title="列表左侧带缩略图"
+			note="列表描述信息"
+			rightText="大图"
+			avatar="http://img.wxcha.com/m00/bb/18/bc2167461f0ba311a992f3f00a45c58d.jpg"
+			avatarSize="40px"
+			showArrow></sn-list-item>
+		</sn-list>
+		<com-card title="聊天列表"
+		note="像聊天列表一样">
+		</com-card>
+		<sn-list :showBorder="false">
+			<sn-list-chat title="琴易文" 
+			note="你好, 这里是 SinleUI"
+			avatar="https://img01.sogoucdn.com/app/a/100520093/8379901cc65ba509-45c21ceb904429fc-fffc7639a9a4d453515b56b6c1a3fc58.jpg"
+			avatarShape="circle"></sn-list-chat>
+			<sn-list-chat title="道夏柳" 
+			note="emmm... 逆天[惊]" 
+			avatar="https://ww3.sinaimg.cn/mw690/007QvzfIly1ho2zt8iyznj30sg0sgneb.jpg"
+			time="15:35"
+			:badgeConfig="({
+				value: 32,
+				max: 99
+			} as SnBadgeParams)">
+			</sn-list-chat>
+			<sn-list-chat title="灯塔上的雾"
+			note="[图片] 这种报错如何解决"
+			avatar="http://img.wxcha.com/m00/bb/18/bc2167461f0ba311a992f3f00a45c58d.jpg"
+			time="昨天"
+			:badgeConfig="({
+				value: 158,
+				max: 99
+			} as SnBadgeParams)"></sn-list-chat>
+		</sn-list>
+	</sn-page>
+</template>
+
+<script setup>
+	import { longText1, longText2, longText3 } from '@/source/longtext';
+	import { $snui, SnBadgeParams } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+
+</script>
+
+<style>
+		
+</style>

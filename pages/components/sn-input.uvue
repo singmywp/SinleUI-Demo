@@ -1,0 +1,291 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Input 输入框"></sn-topbar>
+		<sn-view :loading="loadingComponents">
+		<com-card title="基础用法"
+		note="普普通通的输入框">
+			<sn-input v-model="val"></sn-input>
+		</com-card>
+		<com-card title="提示文字"
+		note="为输入框添加提示文字，让用户更懂你的意图">
+			<sn-input v-model="val"
+			class="spacing"
+			placeholder="带有placeholder的输入框"></sn-input>
+			<sn-input v-model="val" 
+			class="spacing"
+			placeholder="自定义placeholder的样式" placeholder-style="color: black"></sn-input>
+		</com-card>
+		<com-card title="圆角"
+		note="自定义输入框的圆角，更具特色">
+			<sn-input v-model="val"
+			class="spacing"
+			placeholder="圆形" 
+			border-radius="100px"></sn-input>
+			<sn-input v-model="val" 
+			class="spacing"
+			placeholder="圆角矩形" 
+			border-radius="15px"></sn-input>
+			<sn-input v-model="val"
+			placeholder="异形" 
+			border-radius="15px 0 15px 0"></sn-input>
+		</com-card>
+		<com-card title="颜色"
+		note="输入框的各种颜色，由你决定">
+			<sn-input v-model="val"
+			placeholder="自定义颜色" 
+			border-radius="15px" 
+			:bgColor="colors.info" 
+			:activeBgColor="colors.info"
+			text-color="#35b571"
+			active-border-color="#35b571"
+			border-width="2px"
+			cursor-color="#35b571"></sn-input>
+		</com-card>
+		<com-card title="边框"
+		note="当默认的边框太过突兀时，可以取消边框的显示">
+			<sn-input v-model="val"
+			class="spacing"
+			placeholder="无边框" 
+			borderRadius="15px" 
+			:bgColor="colors.info" 
+			:activeBgColor="colors.info" 
+			border-color="transparent"></sn-input>
+			<sn-input v-model="val"
+			class="spacing"
+			placeholder="无焦点边框" 
+			border-radius="15px" 
+			:bgColor="colors.info" 
+			:activeBgColor="colors.info" 
+			:showActiveBorder="false"></sn-input>
+			<sn-input v-model="val"
+			class="spacing"
+			placeholder="完全无边框" 
+			borderRadius="15px" 
+			:bgColor="colors.info" 
+			:activeBgColor="colors.info"
+			:showBorder="false"></sn-input>
+		</com-card>
+		<com-card title="类型"
+		note="不同的场景对输入的数据也是有要求的">
+			<sn-input type="text" 
+			class="spacing"
+			placeholder="文字输入框" 
+			border-radius="15px" 
+			:bgColor="colors.info"
+			:borderColor="colors.info"></sn-input>
+			<sn-input type="number" 
+			class="spacing"
+			placeholder="数字输入框" 
+			border-radius="15px" 
+			:bgColor="colors.info"
+			:borderColor="colors.info"></sn-input>
+			<sn-input type="digit" 
+			class="spacing"
+			placeholder="带小数点数字输入框" 
+			border-radius="15px" 
+			:bgColor="colors.info"
+			:borderColor="colors.info"></sn-input>
+			<sn-input type="tel" 
+			class="spacing"
+			placeholder="电话输入框" 
+			border-radius="15px" 
+			:bgColor="colors.info"
+			:borderColor="colors.info"></sn-input>
+		</com-card>
+		<com-card title="密码"
+		note="对于输入密码的场景，要求显然更高">
+			<sn-input class="spacing"
+			password
+			placeholder="密码输入框"
+			border-radius="15px"
+			:bgColor="colors.info"
+			:borderColor="colors.info"></sn-input>
+		</com-card>
+		<com-card title="键盘右下角按钮"
+		note="自定义键盘右下角显示的文字，也许能帮你省下一个按钮的空间\n（输入法不同，实际显示会有一定差异）">
+			<sn-input v-model="val"
+			class="spacing"
+			confirm-type="done" 
+			placeholder="完成" 
+			border-radius="15px" 
+			:bgColor="colors.info"
+			:borderColor="colors.info"></sn-input>
+			<sn-input v-model="val"
+			class="spacing"
+			confirm-type="next"
+			placeholder="下一步" 
+			border-radius="15px" 
+			:bgColor="colors.info"
+			:borderColor="colors.info"></sn-input>
+			<sn-input v-model="val"
+			class="spacing"
+			confirm-type="send"
+			placeholder="发送" 
+			border-radius="15px" 
+			:bgColor="colors.info"
+			:borderColor="colors.info"></sn-input>
+			<sn-input v-model="val"
+			class="spacing"
+			confirm-type="search" 
+			placeholder="搜索" 
+			border-radius="15px" 
+			:bgColor="colors.info"
+			:borderColor="colors.info"></sn-input>
+			<sn-input v-model="val"
+			class="spacing"
+			confirm-type="go" 
+			placeholder="前往" 
+			border-radius="15px" 
+			:bgColor="colors.info"
+			:borderColor="colors.info"></sn-input>
+		</com-card>
+		<com-card title="上推界面"
+		note="用于确定键盘弹起时是否自动上推页面，默认开启">
+			<sn-input v-model="val"
+			class="spacing"
+			:adjust-position="false" 
+			placeholder="禁用自动上推界面" 
+			border-radius="15px" 
+			:bgColor="colors.info"
+			:borderColor="colors.info"></sn-input>
+		</com-card>
+		<com-card title="焦点"
+		note="输入框也可以自由控制焦点">
+			<sn-card>
+				<sn-row justify="space-between">
+					<sn-text text="获得焦点" :size="$snui.utils.addUnit($snui.utils.getPx($snui.configs.font.size(3))+1)"></sn-text>
+					<sn-switch v-model="focus"></sn-switch>
+				</sn-row>
+			</sn-card>
+			<sn-input v-model="val"
+			placeholder="自由控制焦点" 
+			border-radius="15px"
+			:bgColor="colors.info"
+			:focus="focus" 
+			:maxlength="10"
+			:borderColor="colors.info"></sn-input>
+		</com-card>
+		<com-card title="最大输入长度"
+		note="限制字数的工具，默认设为-1（不限制）">
+			<sn-input placeholder="限制10字" 
+			border-radius="15px" 
+			:bgColor="colors.info" 
+			:maxlength="10"
+			:borderColor="colors.info"></sn-input>
+		</com-card>
+		<com-card title="加载"
+		note="给输入框加入加载动效，至少看起来没有在偷懒">
+			<sn-card>
+				<sn-row justify="space-between">
+					<sn-text text="加载中" :size="$snui.utils.addUnit($snui.utils.getPx($snui.configs.font.size(3))+1)"></sn-text>
+					<sn-switch v-model="loading"></sn-switch>
+				</sn-row>
+			</sn-card>
+			<sn-input v-model="val"
+			placeholder="加载中"
+			border-radius="15px" 
+			:bgColor="colors.info" 
+			border-color="transparent"
+			:loading="loading"
+			></sn-input>
+		</com-card>
+		<com-card title="禁用"
+		note="禁用输入框，也许能让有些人闭嘴">
+			<sn-input v-model="val"
+			placeholder="禁用" 
+			border-radius="15px" 
+			:bgColor="colors.info" 
+			border-color="transparent"
+			disabled></sn-input>
+		</com-card>
+		<com-card title="可清除内容"
+		note="有时候可能会需要快捷地清除已输入的内容，为了少写点代码，就内置了这个功能">
+			<sn-input v-model="val"
+			placeholder="搜索" 
+			border-radius="15px" 
+			clearable
+			:showBorder="false"
+			:bgColor="colors.info" 
+			:activeBgColor="colors.info">
+			</sn-input>
+		</com-card>
+		<com-card title="字体大小"
+		note="适配多种复杂场景">
+			<sn-input placeholder="搜索" 
+			text-size="23px"
+			padding="18px 20px"
+			border-radius="100px"
+			icon-size="24px" 
+			icon-color="#676767" 
+			prefix-icon="search-2-line"
+			:bgColor="colors.info"
+			:activeBgColor="colors.info"
+			:showBorder="false"></sn-input>
+		</com-card>
+		<com-card title="前缀&后缀"
+		note="在输入框的前后插入一些元素，比如图标">
+			<sn-input placeholder="搜索" 
+			class="spacing"
+			border-radius="15px" 
+			prefix-icon="search-2-line" 
+			icon-size="16px" 
+			icon-color="#676767"
+			:showBorder="false"
+			:bgColor="colors.info"
+			:activeBgColor="colors.info">
+			</sn-input>
+			<sn-input placeholder="请输入网址" 
+			border-radius="15px" 
+			:bgColor="colors.info" 
+			:activeBgColor="colors.info"
+			:showBorder="false">
+				<template v-slot:prefix>
+					<sn-text text="https://"
+					:color="colors.text"
+					size="18px"
+					style="margin-right:5px;"></sn-text>
+				</template>
+				<template v-slot:suffix>
+					<sn-button level="second" 
+					type="primary" 
+					round-size="35px"
+					round
+					style="margin: 0px -3px 0px 5px">
+					<sn-icon name="arrow-right-line" 
+					:color="colors.primary"
+					size="18px"></sn-icon>
+					</sn-button>
+				</template>
+			</sn-input>
+		</com-card>
+		</sn-view>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	const focus = ref(false)
+	const loading = ref(false)
+	const val = ref('')
+	
+	const loadingComponents = ref(true)
+	onMounted(()=>{
+		// #ifdef APP
+		nextTick(()=>{
+			setTimeout(()=>{
+				loadingComponents.value = false
+			}, 500)
+		})
+		// #endif
+		// #ifndef APP
+		loadingComponents.value = false
+		// #endif
+	})
+</script>
+
+<style lang="scss">
+	.spacing {
+		margin-bottom: 5px;
+	}
+</style>

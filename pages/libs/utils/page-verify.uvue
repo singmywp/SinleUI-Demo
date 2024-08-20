@@ -1,0 +1,143 @@
+<template>
+		<com-card title="是否为日期"
+		note="验证输入的值是否为有效的日期。\n如果传入Date构造器的参数字符串不合法，在web平台会抛出 Invalid Date 异常；在Android/IOS平台，会转换为程序执行时的时间">
+			<sn-text :text="`数据【${d1}】  校验结果：${snu.isDate(d1)}`"></sn-text>
+			<sn-text :text="`数据【${d2}】  校验结果：${snu.isDate(d2)}`"></sn-text>
+			<sn-text :text="`数据【${d3}】  校验结果：${snu.isDate(d3)}`"></sn-text>
+		</com-card>
+		<com-card title="是否为URL"
+		note="验证输入的字符串是否为有效的URL。">
+			<sn-text :text="`数据【${d4}】\n校验结果：${snu.isURL(d4)}`"></sn-text>
+			<sn-text :text="`数据【${d5}】\n校验结果：${snu.isURL(d5)}`"></sn-text>
+			<sn-text :text="`数据【${d6}】\n校验结果：${snu.isURL(d6)}`"></sn-text>
+			<sn-text :text="`数据【${d7}】\n校验结果：${snu.isURL(d7)}`"></sn-text>
+		</com-card>
+		<com-card title="是否为数字"
+		note="验证输入的字符串是否为有效的数字。">
+			<sn-text :text="`数据【${d8}】校验结果：${snu.isNumberString(d8)}`"></sn-text>
+			<sn-text :text="`数据【${d9}】校验结果：${snu.isNumberString(d9)}`"></sn-text>
+			<sn-text :text="`数据【${d10}】校验结果：${snu.isNumberString(d10)}`"></sn-text>
+			<sn-text :text="`数据【${d11}】校验结果：${snu.isNumberString(d11)}`"></sn-text>
+		</com-card>
+		<com-card title="是否为字母"
+		note="验证输入的字符串是否为有效的字母。">
+			<sn-text :text="`数据【${d12}】校验结果：${snu.isAbc(d12)}`"></sn-text>
+		</com-card>
+		<com-card title="是否为中文"
+		note="验证输入的字符串是否为有效的中文。">
+			<sn-text :text="`数据【${d13}】校验结果：${snu.isChinese(d13)}`"></sn-text>
+			<sn-text :text="`数据【${d14}】校验结果：${snu.isChinese(d14)}`"></sn-text>
+		</com-card>
+		<com-card title="是否为邮箱"
+		note="验证输入的字符串是否为有效的邮箱地址。">
+			<sn-text :text="`数据【${d15}】校验结果：${snu.isEmail(d15)}`"></sn-text>
+			<sn-text :text="`数据【${d16}】校验结果：${snu.isEmail(d16)}`"></sn-text>
+		</com-card>
+		<com-card title="是否为手机号"
+		note="验证输入的字符串是否为有效的手机号。">
+			<sn-text :text="`数据【${d17}】校验结果：${snu.isPhone(d17)}`"></sn-text>
+			<sn-text :text="`数据【${d18}】校验结果：${snu.isPhone(d18)}`"></sn-text>
+		</com-card>
+		<com-card title="是否为座机号"
+		note="验证输入的字符串是否为有效的座机号。">
+			<sn-text :text="`数据【${d19}】校验结果：${snu.isLandline(d19)}`"></sn-text>
+			<sn-text :text="`数据【${d20}】校验结果：${snu.isLandline(d20)}`"></sn-text>
+		</com-card>
+		<com-card title="是否为QQ号"
+		note="验证输入的字符串是否为有效的QQ号。">
+			<sn-text :text="`数据【${d21}】校验结果：${snu.isQQNumber(d21)}`"></sn-text>
+			<sn-text :text="`数据【${d22}】校验结果：${snu.isQQNumber(d22)}`"></sn-text>
+		</com-card>
+		<com-card title="是否为IPv6"
+		note="验证输入的字符串是否为有效的IPv6地址。">
+			<sn-text :text="`数据【${d23}】校验结果：${snu.isIPv6(d23)}`"></sn-text>
+			<sn-text :text="`数据【${d24}】校验结果：${snu.isIPv6(d24)}`"></sn-text>
+			<sn-text :text="`数据【${d25}】校验结果：${snu.isIPv6(d25)}`"></sn-text>
+		</com-card>
+		<com-card title="是否为IPv4"
+		note="验证输入的字符串是否为有效的IPv4地址。">
+			<sn-text :text="`数据【${d25}】校验结果：${snu.isIPv4(d25)}`"></sn-text>
+			<sn-text :text="`数据【${d26}】校验结果：${snu.isIPv4(d26)}`"></sn-text>
+			<sn-text :text="`数据【${d23}】校验结果：${snu.isIPv4(d23)}`"></sn-text>
+		</com-card>
+		<com-card title="是否为第二代公民身份号码"
+		note="验证输入的字符串是否为有效的中华人民共和国居民身份证（第二代）号码。自动计算身份证校验码是否正确。\n（身份证号来源：公安部网站）">
+			<sn-text :text="`数据【${d27}】校验结果：${snu.isIDCard(d27)}`"></sn-text>
+			<sn-text :text="`数据【${d28}】校验结果：${snu.isIDCard(d28)}`"></sn-text>
+			<sn-text :text="`数据【${d29}】校验结果：${snu.isIDCard(d29)}`"></sn-text>
+		</com-card>
+		<com-card title="是否为图片文件"
+		note="验证输入的字符串是否为有效的图片文件名。">
+			<sn-text :text="`数据【${d30}】校验结果：${snu.isImage(d30)}`"></sn-text>
+		</com-card>
+		<com-card title="是否为视频文件"
+		note="验证输入的字符串是否为有效的视频文件名。">
+			<sn-text :text="`数据【${d31}】校验结果：${snu.isVideo(d31)}`"></sn-text>
+		</com-card>
+		<com-card title="是否为车牌号码"
+		note="验证输入的字符串是否为有效的中华人民共和国车辆牌照号码。">
+			<sn-text :text="`数据【${d32}】校验结果：${snu.isCarNumber(d32)}`"></sn-text>
+			<sn-text :text="`数据【${d33}】校验结果：${snu.isCarNumber(d33)}`"></sn-text>
+			<sn-text :text="`数据【${d34}】校验结果：${snu.isCarNumber(d34)}`"></sn-text>
+		</com-card>
+		<com-card title="是否为整数"
+		note="验证输入的数字是否为整数。">
+			<sn-text :text="`数据【${d35}】校验结果：${snu.isInteger(d35)}`"></sn-text>
+			<sn-text :text="`数据【${d36}】校验结果：${snu.isInteger(d36)}`"></sn-text>
+			<sn-text :text="`数据【${d37}】校验结果：${snu.isInteger(d37)}`"></sn-text>
+			<sn-text :text="`数据【${d38}】校验结果：${snu.isInteger(d38)}`"></sn-text>
+		</com-card>
+		<com-card title="是否为小数"
+		note="验证输入的数字是否为小数。">
+			<sn-text :text="`数据【${d35}】校验结果：${snu.isFloat(d35)}`"></sn-text>
+			<sn-text :text="`数据【${d36}】校验结果：${snu.isFloat(d36)}`"></sn-text>
+			<sn-text :text="`数据【${d37}】校验结果：${snu.isFloat(d37)}`"></sn-text>
+			<sn-text :text="`数据【${d38}】校验结果：${snu.isFloat(d38)}`"></sn-text>
+		</com-card>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const snu = $snui.utils
+	const d1 = '2023-01-01'
+	const d2 = '非日期文本'
+	const d3 = new Date()
+	const d4 = `http://www.example.com`
+	const d5 = `https://www.baidu.com/s?ie=utf-8&wd=SinleUI`
+	const d6 = `ftp://example:example`
+	const d7 = `not a URL`
+	const d8 = `12345`
+	const d9 = `1515.14`
+	const d10 = `-145.7452`
+	const d11 = `x+y=10`
+	const d12 = `abcdEFG`
+	const d13 = `天地玄黄`
+	const d14 = `土地平旷AND屋舍俨然`
+	const d15 = `12345abc@test.com`
+	const d16 = `0000test.com`
+	const d17 = `13523456789`
+	const d18 = `10000000000`
+	const d19 = `027-62039999`
+	const d20 = `123456789000`
+	const d21 = `10000`
+	const d22 = `1445645789`
+	const d23 = `2400:da00::6666`
+	const d24 = `2001:da8:208:10::6`
+	const d25 = `101.470.215.442`
+	const d26 = `180.76.76.76`
+	const d27 = `41048219911004595X`
+	const d28 = `350783199003058516`
+	const d29 = `41272219801215771X`
+	const d30 = `/static/sub/com.jpeg`
+	const d31 = `视频1.m3u8`
+	const d32 = `京A12345`
+	const d33 = `渝A000124`
+	const d34 = `not a valid car number`
+	const d35 = 3
+	const d36 = 66.41
+	const d37 = NaN
+	const d38 = Infinity
+</script>
+
+<style>
+</style>

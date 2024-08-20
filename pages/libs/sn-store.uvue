@@ -1,0 +1,90 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Store 状态管理"></sn-topbar>
+		<sn-alert type="primary"
+		icon="database-2-fill"
+		text="一个轻量简洁的全局响应式状态管理库。支持持久化数据储存、过期机制。"></sn-alert>
+		<com-card title="基础用法"
+		note="全局响应式存储，重启应用自动销毁">
+			<com-card :bgColor="colors.info"
+			:title="`key1：${storeLib.get('key1') ?? ''}`"></com-card>
+			<sn-row>
+				<sn-button class="m-t-10"
+				type="primary"
+				level="second"
+				text="设置"
+				@click="storeLib.set('key1', '数据1')"></sn-button>
+				<sn-button class="m-t-10 m-l-10"
+				type="primary"
+				level="second"
+				text="删除"
+				@click="storeLib.delete('key1')"></sn-button>
+				<sn-button class="m-t-10 m-l-10"
+				type="primary"
+				level="second"
+				text="子页面"
+				@click="toSub"></sn-button>
+			</sn-row>
+		</com-card>
+		<com-card title="持久化数据"
+		note="全局响应式存储，同步将数据存储在本地 Storage 中，应用重启后保持原状态">
+			<com-card :bgColor="colors.info"
+			:title="`key2：${storeLib.get('key2') ?? ''}`"></com-card>
+			<sn-row>
+				<sn-button class="m-t-10"
+				type="primary"
+				level="second"
+				text="设置"
+				@click="storeLib.set('key2', '数据2',true)"></sn-button>
+				<sn-button class="m-t-10 m-l-10"
+				type="primary"
+				level="second"
+				text="删除"
+				@click="storeLib.delete('key2')"></sn-button>
+				<sn-button class="m-t-10 m-l-10"
+				type="primary"
+				level="second"
+				text="子页面"
+				@click="toSub"></sn-button>
+			</sn-row>
+		</com-card>
+		<com-card title="过期机制"
+		note="采用惰性删除策略，在对数据读写前检查是否过期。一方面避免了定期删除和定时删除对 CPU 资源的过度占用，另一方面，用户端不需要像服务端那样缓存庞大的数据，因此惰性删除导致的内存资源占用也不会过多。">
+			<com-card :bgColor="colors.info"
+			:title="`key3：${storeLib.get('key3') ?? ''}`"></com-card>
+			<sn-row>
+				<sn-button class="m-t-10"
+				type="primary"
+				level="second"
+				text="获取"
+				@click="storeLib.get('key3')"></sn-button>
+				<sn-button class="m-t-10 m-l-10"
+				type="primary"
+				level="second"
+				text="设置(3s后点获取)"
+				@click="storeLib.set('key3', '数据3',true, 3)"></sn-button>
+				<sn-button class="m-t-10 m-l-10"
+				type="primary"
+				level="second"
+				text="删除"
+				@click="storeLib.delete('key3')"></sn-button>
+			</sn-row>
+		</com-card>
+		<sn-gap></sn-gap>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	const storeLib = $snui.store
+	
+	function toSub(){
+		uni.navigateTo({
+			url:'/pages/libs/sn-store-sub',
+		})
+	}
+</script>
+
+<style lang="scss">
+</style>

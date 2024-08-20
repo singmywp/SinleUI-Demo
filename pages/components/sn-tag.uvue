@@ -1,0 +1,129 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Tag 标签"></sn-topbar>
+		<com-card title="基础用法"
+		note="一般用于标记某个对象和附加说明">
+			<sn-row>
+				<sn-tag class="spacing" text="SinleUI"></sn-tag>
+				<sn-tag class="spacing" text="Uniapp X"></sn-tag>
+				<sn-tag class="spacing" text="UTS"></sn-tag>
+				<sn-tag class="spacing" text="Vue 3"></sn-tag>
+			</sn-row>
+		</com-card>
+		<com-card title="类型"
+		note="根据场景的不同，应当使用不同类型的标签，更具识别度">
+			<sn-row>
+				<sn-tag class="spacing" text="SinleUI" type="info"></sn-tag>
+				<sn-tag class="spacing" text="Uni" type="primary"></sn-tag>
+				<sn-tag class="spacing" text="Vue" type="success"></sn-tag>
+				<sn-tag class="spacing" text="Web" type="warning"></sn-tag>
+				<sn-tag class="spacing" text="UTS" type="error"></sn-tag>
+			</sn-row>
+		</com-card>
+		<com-card title="等级"
+		note="不同等级的标签会呈现不同样式">
+			<sn-row>
+				<sn-tag class="spacing" text="SinleUI" type="info"></sn-tag>
+				<sn-tag class="spacing" text="Uni" type="primary"></sn-tag>
+				<sn-tag class="spacing" text="Vue" type="success"></sn-tag>
+				<sn-tag class="spacing" text="Web" type="warning"></sn-tag>
+				<sn-tag class="spacing" text="UTS" type="error"></sn-tag>
+			</sn-row>
+			<sn-line></sn-line>
+			<sn-row>
+				<sn-tag class="spacing" text="SinleUI" type="info" level="second"></sn-tag>
+				<sn-tag class="spacing" text="Uni" type="primary" level="second"></sn-tag>
+				<sn-tag class="spacing" text="Vue" type="success" level="second"></sn-tag>
+				<sn-tag class="spacing" text="Web" type="warning" level="second"></sn-tag>
+				<sn-tag class="spacing" text="UTS" type="error" level="second"></sn-tag>
+			</sn-row>
+			<sn-line></sn-line>
+			<sn-row>
+				<sn-tag class="spacing" text="SinleUI" type="info" level="third"></sn-tag>
+				<sn-tag class="spacing" text="Uni" type="primary" level="third"></sn-tag>
+				<sn-tag class="spacing" text="Vue" type="success" level="third"></sn-tag>
+				<sn-tag class="spacing" text="Web" type="warning" level="third"></sn-tag>
+				<sn-tag class="spacing" text="UTS" type="error" level="third"></sn-tag>
+			</sn-row>
+			<sn-line></sn-line>
+			<sn-row>
+				<sn-tag class="spacing" text="SinleUI" type="info" level="least"></sn-tag>
+				<sn-tag class="spacing" text="Uni" type="primary" level="least"></sn-tag>
+				<sn-tag class="spacing" text="Vue" type="success" level="least"></sn-tag>
+				<sn-tag class="spacing" text="Web" type="warning" level="least"></sn-tag>
+				<sn-tag class="spacing" text="UTS" type="error" level="least"></sn-tag>
+			</sn-row>
+		</com-card>
+		<com-card title="可关闭"
+		note="部分情况需要取消标签的显示，可以使用closable的标签️">
+			<sn-row wrap>
+				<sn-tag class="spacing"
+				text="SinleUI" 
+				type="info" 
+				level="second" 
+				padding="8px 10px"
+				closable></sn-tag>
+				<sn-tag class="spacing"
+				text="uni-app x" 
+				type="primary" 
+				level="second" padding="8px 10px"
+				closable ></sn-tag>
+				<sn-tag class="spacing"
+				text="Vue" 
+				type="success" 
+				level="second" 
+				padding="8px 10px"
+				closable></sn-tag>
+				<sn-tag class="spacing"
+				text="Web" 
+				type="warning" 
+				level="second" 
+				padding="8px 10px"
+				closable></sn-tag>
+				<sn-tag class="spacing"
+				text="UTS" 
+				type="error" 
+				level="second" 
+				padding="8px 10px"
+				closable></sn-tag>
+			</sn-row>
+		</com-card>
+		<com-card title="自定义样式"
+		note="定制专属于你的标签">
+			<sn-row>
+				<sn-tag class="spacing"
+				text="SinleUI" 
+				type="primary" 
+				level="second"
+				:customStyle="{
+					border: `1px solid ${colors.primary}`
+				}"></sn-tag>
+				<sn-tag class="spacing"
+				text="uni-app x" 
+				type="primary" 
+				level="least"
+				:customStyle="{
+					border: `0.5px solid ${colors.primary}`
+				}"></sn-tag>
+				<sn-tag class="spacing"
+				text="UTS" 
+				type="primary" 
+				level="least"
+				:customStyle="{
+					border: `1px dotted ${colors.primary}`
+				}"></sn-tag>
+			</sn-row>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+</script>
+
+<style lang="scss">
+	.spacing {
+		margin: 0 5px 5px 0;
+	}
+</style>

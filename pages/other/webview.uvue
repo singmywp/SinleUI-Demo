@@ -1,0 +1,19 @@
+<template>
+	<sn-topbar :title="title"></sn-topbar>
+	<web-view class="web-view" :src="url"></web-view>
+</template>
+
+<script setup>
+	const title = ref('')
+	const url = ref('')
+	onLoad((options: OnLoadOptions) =>{
+		url.value = options['url'] ?? ''
+		title.value = options['title'] ?? ''
+	})
+</script>
+
+<style lang="scss">
+	.web-view {
+		flex: 1;
+	}
+</style>

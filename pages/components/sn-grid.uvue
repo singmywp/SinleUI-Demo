@@ -1,0 +1,104 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Grid 宫格布局"></sn-topbar>
+		<sn-view :loading="loadingComponents">
+		<com-card title="基础用法"
+		note="一般用于功能展示，比如本 Demo 的首页">
+			<sn-grid-group>
+				<sn-grid-item v-for="(_, index) in array8"
+				:key="index">
+					<sn-icon name="image-line"></sn-icon>
+					<sn-text text="标题":styles="titleStylesC"></sn-text>
+				</sn-grid-item>
+			</sn-grid-group>
+		</com-card>
+		<com-card title="对齐方式"
+		note="支持三种的对齐方式。">
+			<sn-grid-group align="right">
+				<sn-grid-item v-for="(_, index) in array6"
+				:key="index">
+					<sn-icon name="image-line"></sn-icon>
+					<sn-text text="标题":styles="titleStylesC"></sn-text>
+				</sn-grid-item>
+			</sn-grid-group>
+		</com-card>
+		<com-card title="列数"
+		note="支持自定义列数。">
+			<sn-grid-group :col="3">
+				<sn-grid-item v-for="(_, index) in array6"
+				:key="index">
+					<sn-icon name="image-line"></sn-icon>
+					<sn-text text="标题":styles="titleStylesC"></sn-text>
+				</sn-grid-item>
+			</sn-grid-group>
+		</com-card>
+		<com-card title="可滚动"
+		note="套一层 scroll-view 就支持滚动了哦">
+			<scroll-view direction="horizontal">
+				<sn-grid-group class="w-200p" :col="8">
+					<sn-grid-item v-for="(_, index) in array16"
+					:key="index">
+						<sn-icon name="image-line"></sn-icon>
+						<sn-text text="标题":styles="titleStylesC"></sn-text>
+					</sn-grid-item>
+				</sn-grid-group>
+			</scroll-view>
+		</com-card>
+		<com-card title="可滑动"
+		note="套一层 swiper 就支持滑动了哦">
+			<swiper>
+				<swiper-item>
+					<sn-grid-group>
+						<sn-grid-item v-for="(_, index) in array8"
+						:key="index">
+							<sn-icon name="image-line"></sn-icon>
+							<sn-text text="标题":styles="titleStylesC"></sn-text>
+						</sn-grid-item>
+					</sn-grid-group>
+				</swiper-item>
+				<swiper-item>
+					<sn-grid-group>
+						<sn-grid-item v-for="(_, index) in array8"
+						:key="index">
+							<sn-icon name="image-line"></sn-icon>
+							<sn-text text="标题":styles="titleStylesC"></sn-text>
+						</sn-grid-item>
+					</sn-grid-group>
+				</swiper-item>
+			</swiper>
+		</com-card>
+		<sn-gap></sn-gap>
+		</sn-view>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	
+	
+	const array6 = [0, 1, 2, 3, 4, 5]
+	const array8 = [0, 1, 2, 3, 4, 5, 6, 7]
+	const array16 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+	
+	const titleStylesC = computed((): Map<string, any> => {
+		let styles = new Map < string, any> ()
+		styles.set('font-size', $snui.configs.font.size(1))
+		return styles
+	})
+	
+	const loadingComponents = ref(true)
+	onMounted(()=>{
+		nextTick(()=>{
+			setTimeout(()=>{
+				loadingComponents.value = false
+			}, 500)
+		})
+	})
+</script>
+
+<style lang="scss">
+	.marginTop {
+		margin-top: 5px;
+	}
+</style>

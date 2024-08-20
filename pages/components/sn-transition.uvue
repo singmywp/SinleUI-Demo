@@ -1,0 +1,137 @@
+<template>
+	<sn-page>
+		<sn-topbar class="com-card" title="Transition 过渡动画"></sn-topbar>
+		<com-card class="com-card" title="淡入淡出">
+			<sn-button text="播放"
+			style="z-index: 2;"
+			@click="play(0)"></sn-button>
+		</com-card>
+		<sn-transition mode="fade"
+		:show="values[0]">
+			<view :style="blockStylesC"></view>
+		</sn-transition>
+		<com-card class="com-card" title="缩放">
+			<sn-button text="播放"
+			style="z-index: 2;"
+			@click="play(1)"></sn-button>
+		</com-card>
+		<sn-transition mode="zoom"
+		:show="values[1]">
+			<view :style="blockStylesC"></view>
+		</sn-transition>
+		<com-card class="com-card" title="淡入淡出缩放">
+			<sn-button text="播放"
+			style="z-index: 2;"
+			@click="play(2)"></sn-button>
+		</com-card>
+		<sn-transition mode="fadeZoom"
+		:show="values[2]">
+			<view :style="blockStylesC"></view>
+		</sn-transition>
+		<com-card class="com-card" title="上滑淡入">
+			<sn-button text="播放"
+			style="z-index: 2;"
+			@click="play(3)"></sn-button>
+		</com-card>
+		<sn-transition mode="fadeUp"
+		:show="values[3]">
+			<view :style="blockStylesC"></view>
+		</sn-transition>
+		<com-card class="com-card" title="右滑淡入">
+			<sn-button text="播放"
+			style="z-index: 2;"
+			@click="play(4)"></sn-button>
+		</com-card>
+		<sn-transition mode="fadeRight"
+		:show="values[4]">
+			<view :style="blockStylesC"></view>
+		</sn-transition>
+		<com-card class="com-card" title="下滑淡入">
+			<sn-button text="播放"
+			style="z-index: 2;"
+			@click="play(5)"></sn-button>
+		</com-card>
+		<sn-transition mode="fadeDown"
+		:show="values[5]">
+			<view :style="blockStylesC"></view>
+		</sn-transition>
+		<com-card class="com-card" title="左滑淡入">
+			<sn-button text="播放"
+			style="z-index: 2;"
+			@click="play(6)"></sn-button>
+		</com-card>
+		<sn-transition mode="fadeLeft"
+		:show="values[6]">
+			<view :style="blockStylesC"></view>
+		</sn-transition>
+		<com-card class="com-card" title="上拉">
+			<sn-button text="播放"
+			style="z-index: 2;"
+			@click="play(7)"></sn-button>
+		</com-card>
+		<sn-transition mode="slideUp"
+		:show="values[7]">
+			<view :style="blockStylesC"></view>
+		</sn-transition>
+		<com-card class="com-card" title="右拉">
+			<sn-button text="播放"
+			style="z-index: 2;"
+			@click="play(8)"></sn-button>
+		</com-card>
+		<sn-transition mode="slideRight"
+		:show="values[8]">
+			<view :style="blockStylesC"></view>
+		</sn-transition>
+		<com-card class="com-card" title="下拉">
+			<sn-button text="播放"
+			style="z-index: 2;"
+			@click="play(9)"></sn-button>
+		</com-card>
+		<sn-transition mode="slideDown"
+		:show="values[9]">
+			<view :style="blockStylesC"></view>
+		</sn-transition>
+		<com-card class="com-card" title="左拉">
+			<sn-button text="播放"
+			style="z-index: 2;"
+			@click="play(10)"></sn-button>
+		</com-card>
+		<sn-transition mode="slideLeft"
+		:show="values[10]">
+			<view :style="blockStylesC"></view>
+		</sn-transition>
+		<sn-gap></sn-gap>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+
+	const values = ref([false,false,false,false,false,false,false,false,false,false,false])
+	
+	const blockStylesC = computed((): Map<string, any>=>{
+		let styles = new Map<string, any>()
+		styles.set('width', '100%')
+		styles.set('height', '50px')
+		styles.set('margin', '20px 0')
+		styles.set('background', colors.value.primary)
+		styles.set('border-radius', $snui.configs.radius.normal)
+		styles.set('transition-duration',$snui.configs.aniTime.normal)
+		return styles
+	})
+	
+	function play(index: number){
+
+		values.value[index] = true
+		setTimeout(()=>{
+			values.value[index] = false
+		}, parseFloat($snui.configs.aniTime.normal)*2)
+	}
+</script>
+
+<style lang="scss">
+	.com-card {
+		z-index: 1;
+	}
+</style>

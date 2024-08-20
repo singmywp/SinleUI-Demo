@@ -1,0 +1,62 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Row 水平布局"></sn-topbar>
+		<com-card title="基础用法"
+		note="用于快速设置栅格布局。\n搭配 sn-col 组件使用更佳哦。">
+			<sn-row>
+				<sn-col :span="4" gutter="5px">
+					<view :style="blockStylesC">
+                        <sn-text text="4"></sn-text>
+                    </view>
+				</sn-col>
+				<sn-col :span="4" gutter="5px">
+					<view :style="blockStylesC">
+                        <sn-text text="4"></sn-text>
+                    </view>
+				</sn-col>
+				<sn-col :span="4" gutter="5px">
+					<view :style="blockStylesC">
+                        <sn-text text="4"></sn-text>
+                    </view>
+				</sn-col>
+			</sn-row>
+		</com-card>
+		<com-card title="对齐方式"
+		note="支持水平和垂直方向的对齐方式。">
+			<sn-row justify="right">
+				<sn-col :span="4" gutter="5px">
+					<view :style="blockStylesC">
+                        <sn-text text="4"></sn-text>
+                    </view>
+				</sn-col>
+				<sn-col :span="4" gutter="5px">
+					<view :style="blockStylesC">
+                        <sn-text text="4"></sn-text>
+                    </view>
+				</sn-col>
+			</sn-row>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	
+	const blockStylesC = computed((): Map<string, any> => {
+		let styles = new Map < string, any> ()
+		styles.set('background', colors.value.info)
+		styles.set('height', '30px')
+		styles.set('width', '100%')
+		styles.set('border-radius', '5px')
+		styles.set('justify-content', 'center')
+		styles.set('align-items', 'center')
+		return styles
+	})
+</script>
+
+<style lang="scss">
+	.marginTop {
+		margin-top: 5px;
+	}
+</style>

@@ -1,0 +1,82 @@
+<template>
+	
+	<com-card title="格式化数字"
+	note="返回给定数字的格式化结果，如果数字为整数，则返回整数部分（例如 12.0 转换为 12）；如果数字为小数，则返回原数字。">
+		<sn-text :text="`数字【${d1}】\n转换结果：${snu.formatNumber(d1)}`"></sn-text>
+		<sn-text :text="`\n数字【${d2}】\n转换结果：${snu.formatNumber(d2)}`"></sn-text>
+	</com-card>
+		
+	<com-card title="深拷贝（基础类型）"
+	note="使用 TypeScript 实现的深拷贝方法。（注意：通过JSON序列化实现，内部不能含有复杂对象和函数）">
+		<sn-text :text="`原始对象：${JSON.stringify(d3)}\n浅拷贝对象：${JSON.stringify(d4)}\n深拷贝对象：${JSON.stringify(d5)}\n\n`"></sn-text>
+		<sn-button type="primary"
+		text="修改原始数据的属性 a"
+		@click="changeOrigin"></sn-button>
+	</com-card>
+		
+	<com-card title="数组洗牌"
+	note="使用 Fisher–Yates 算法对数组进行洗牌，打乱数组的顺序。">
+		<sn-text :text="`原始数据：${JSON.stringify(d6)}\n打乱后数据：${JSON.stringify(d7)}\n\n`"></sn-text>
+		<sn-button type="primary"
+		text="打乱顺序"
+		@click="d7 = snu.shuffle(snu.deepClone(d6) as any[])"></sn-button>
+	</com-card>
+		
+	<com-card title="节流函数"
+	note="创建一个节流函数，指定的时间内多次执行，只执行第一次调用">
+		<sn-text :text="`cnt: ${d8}\n\n`"></sn-text>
+		<sn-button type="primary" 
+		text="cnt ++ (每 1s 只允许执行一次)"
+		@click="snu.throttle(()=>{d8++}, 1000)"></sn-button>
+	</com-card>
+	<com-card title="防抖函数"
+	note="创建一个防抖函数，指定的时间运行多次，将重新计时，并只执行最后一次调用">
+		<sn-text :text="`cnt: ${d9}`"></sn-text>
+		<sn-text :text="`result: ${d10}\n\n`"></sn-text>
+		<sn-button type="primary" 
+		:text="`result = cnt\n(延时 1s 执行最后一次调用)`"
+		@click="debounce()"></sn-button>
+	</com-card>
+		
+	<com-card title="是否为 Number 类型"
+	note="检查输入的值是否为 Number 类型。">
+		<sn-text :text="`数据【${d11}】\n校验结果：${snu.isNumber(d11)}`"></sn-text>
+		<sn-text :text="`\n数据【'${d12}'】\n校验结果：${snu.isNumber(d12)}`"></sn-text>
+		<sn-text :text="`\n数据【${d13}】\n校验结果：${snu.isNumber(d13)}`"></sn-text>
+	</com-card>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const snu = $snui.utils
+	const d1 = ref(10.0)
+	const d2 = ref(1201.51)
+	const d3 = ref({ a: '原始数据', b: 2 })
+	const d4 = ref(d3.value)
+	const d5 = ref(snu.deepClone(d3.value))
+	const d6 = ref([0,1,2,3,4,5,6,7,8,9,10])
+	const d7 = ref(snu.shuffle(snu.deepClone(d6.value) as any[]))
+	const d8 = ref(0)
+	const d9 = ref(0)
+	const d10 = ref(0)
+	const d11 = ref(156.1)
+	const d12 = ref('120')
+	const d13 = ref([0,1,2])
+	const d14 = ref(0)
+	
+	function debounce() {
+		d9.value++;
+		snu.debounce(() => {
+			d10.value = d9.value
+		}, 1000)
+	}
+	
+	function changeOrigin(){
+		d14.value++
+		d3.value['a'] = `改动数据${d14.value}`
+	}
+</script>
+
+<style>
+		
+</style>

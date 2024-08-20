@@ -1,0 +1,64 @@
+<script lang="uts">
+	let firstBackTime = 0
+	export default {
+		onLaunch: function () {
+			console.log('App Launch')
+		},
+		onShow: function () {
+			console.log('App Show')
+		},
+		onHide: function () {
+			console.log('App Hide')
+		},
+		// #ifdef APP-ANDROID
+		onLastPageBackPress: function () {
+			console.log('App LastPageBackPress')
+			if (firstBackTime == 0) {
+				uni.showToast({
+					title: '再按一次退出应用',
+					position: 'bottom',
+				})
+				firstBackTime = Date.now()
+				setTimeout(() => {
+					firstBackTime = 0
+				}, 2000)
+			} else if (Date.now() - firstBackTime < 2000) {
+				firstBackTime = Date.now()
+				uni.exit()
+			}
+		},
+		// #endif
+		onExit: function () {
+			console.log('App Exit')
+		},
+	}
+</script>
+
+<style lang="scss">
+	/* #ifdef WEB */
+	@import url('@/style/auto.css');
+	/* #endif */
+	@import "@/uni_modules/sinle-ui/static/styles/snui.scss";
+	@import "@/uni_modules/sinle-ui/static/styles/fonts.scss";
+	
+	/*每个页面公共css */
+	.uni-row {
+		flex-direction: row;
+	}
+
+	.uni-column {
+		flex-direction: column;
+	}
+</style>
+<style>
+	/**
+	 * 该样式文件导入由autocss自动生成
+	 * @version 1.0.11
+	 * @author kux <kviewui@163.com>
+	 * @repository https://gitcode.com/kviewui/kux-autocss
+	 * @date 2024-08-19 18:07:22
+	 */
+	/* #ifdef WEB */
+	@import url('@/style/auto.css');
+	/* #endif */
+</style>

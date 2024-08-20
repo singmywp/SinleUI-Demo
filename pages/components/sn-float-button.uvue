@@ -1,0 +1,130 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Float Button 浮动按钮"></sn-topbar>
+		<com-card title="组件演示"
+		note="单纯的悬浮按钮，也能有很多趣味。">
+			<sn-form v-model="configs"
+			:showBorder="false">
+				<sn-form-item label="是否预设位置">
+					<sn-switch v-model="(configs['init'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="松手吸附">
+					<sn-switch v-model="(configs['absorb'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="位置">
+					<sn-select 
+					v-model="(configs['position'] as number)"
+					width="200px"
+					:data="positions">
+					</sn-select>
+				</sn-form-item>
+				<sn-form-item label="动画时长">
+					<sn-stepper v-model="(configs['aniDur'] as number)"
+					:step="100"
+					:min="100"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="按钮尺寸">
+					<sn-input v-model="(configs['size'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="背景颜色">
+					<sn-input v-model="(configs['bgColor'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="圆角大小">
+					<sn-input v-model="(configs['borderRadius'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="阴影">
+					<sn-input v-model="(configs['boxShadow'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="图标">
+					<sn-input v-model="(configs['icon'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="图标字体大小">
+					<sn-input v-model="(configs['iconSize'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="图标颜色">
+					<sn-input v-model="(configs['iconColor'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+			</sn-form>
+		</com-card>
+	</sn-page>
+	<sn-float-button 	
+	v-model="(configs['model'] as number[])"
+	:init="(configs['init'] ?? true)"
+	:aniDur="(configs['aniDur'] ?? 0)"
+	:absorb="(configs['absorb'] ?? true)"
+	:position="positions[(configs['position']??4) as number]['id']"
+	:bgColor="(configs['bgColor'] ?? '')"
+	:size="(configs['size'] ?? '')"
+	:icon="(configs['icon'] ?? '')"
+	:iconSize="(configs['iconSize'] ?? '')"
+	:iconColor="(configs['iconColor'] ?? '')"
+	:boxShadow="(configs['boxShadow'] ?? '')"
+	:borderRadius="(configs['borderRadius'] ?? '')">
+	</sn-float-button>
+</template>
+
+<script setup>
+	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	
+	const configs = ref({
+		model:[0,0],
+		init: true,
+		position: 4,
+		absorb: true,
+		margin: 20,
+		boxShadow: '0 0 15px -10px',
+		aniDur: parseInt($snui.configs.aniTime.long),
+		borderRadius: '',
+		icon:'add-line',
+		iconSize:'',
+		iconColor: 'white',
+		size: '60px',
+		bgColor: colors.value.primary
+	})
+	
+	const positions = [
+		{
+			id: 'top-start',
+			text: '左上',
+		},
+		{
+			id: 'top',
+			text: '正上',
+		},
+		{
+			id: 'top-end',
+			text: '右上',
+		},
+		{
+			id: 'right',
+			text: '右侧',
+		},
+		{
+			id: 'bottom-end',
+			text: '右下',
+		},
+		{
+			id: 'bottom',
+			text: '正下',
+		},
+		{
+			id: 'bottom-start',
+			text: '左下',
+		},
+		{
+			id: 'left',
+			text: '左侧',
+		},
+	] as SnDataItem[]
+</script>
+
+<style lang="scss">
+</style>

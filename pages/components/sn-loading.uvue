@@ -1,0 +1,100 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Loading 加载"></sn-topbar>
+		<com-card title="基础用法"
+		note="显示加载状态。">
+			<sn-loading></sn-loading>
+		</com-card>
+		<com-card title="模式"
+		note="提供两种模式：icon（图标模式）和 draw（canvas 模式）">
+			<sn-row>
+				<sn-loading class="spacing"></sn-loading>
+				<sn-loading class="spacing" mode="draw"></sn-loading>
+			</sn-row>
+		</com-card>
+		<com-card title="图标【icon 特色】"
+		note="icon 模式下可自由更换旋转图标">
+			<sn-view :loading="loadingIcons"
+			style="flex-wrap: wrap;flex-direction: row">
+					<sn-loading class="spacing" icon="loader-line"></sn-loading>
+					<sn-loading class="spacing" icon="loader-2-line"></sn-loading>
+					<sn-loading class="spacing" icon="loader-3-line"></sn-loading>
+					<sn-loading icon="refresh-line"></sn-loading>
+					<sn-loading class="spacing" icon="user-smile-line"></sn-loading>
+					<sn-loading class="spacing" icon="copyleft-line"></sn-loading>
+					<sn-loading class="spacing" icon="copyright-line"></sn-loading>
+					<sn-loading class="spacing" icon="donut-chart-line"></sn-loading>
+					<sn-loading class="spacing" icon="pie-chart-line"></sn-loading>
+					<sn-loading class="spacing" icon="global-line"></sn-loading>
+					<sn-loading class="spacing" icon="contrast-2-line"></sn-loading>
+					<sn-loading class="spacing" icon="edit-circle-line"></sn-loading>
+					<sn-loading class="spacing" icon="crosshair-2-line"></sn-loading>
+					<sn-loading class="spacing" icon="gps-line"></sn-loading>
+					<sn-loading class="spacing" icon="gradienter-line"></sn-loading>
+					<sn-loading class="spacing" icon="rfid-line"></sn-loading>
+					<sn-loading class="spacing" icon="dashboard-3-line"></sn-loading>
+					<sn-loading class="spacing" icon="asterisk"></sn-loading>
+					<sn-loading class="spacing" icon="exchange-line"></sn-loading>
+					<sn-loading class="spacing" icon="copper-coin-line"></sn-loading>
+					<sn-loading class="spacing" icon="disc-line"></sn-loading>
+			</sn-view>
+		</com-card>
+		<com-card title="颜色"
+		note="自定义加载条的颜色 (colorful">
+			<sn-row>
+				<sn-loading class="spacing" iconColor="#ff9b9b"></sn-loading>
+				<sn-loading class="spacing" iconColor="#9dc3a8"></sn-loading>
+				<sn-loading class="spacing" iconColor="#a29bff"></sn-loading>
+			</sn-row>
+			<sn-row>
+				<sn-loading class="spacing" mode="draw" iconColor="#ff9b9b"></sn-loading>
+				<sn-loading class="spacing" mode="draw" iconColor="#9dc3a8"></sn-loading>
+				<sn-loading class="spacing" mode="draw" iconColor="#a29bff"></sn-loading>
+			</sn-row>
+		</com-card>
+		<com-card title="尺寸"
+		note="不同大小的加载条">
+			<sn-row>
+				<sn-loading class="spacing" iconSize="15px"></sn-loading>
+				<sn-loading class="spacing" iconSize="25px"></sn-loading>
+				<sn-loading class="spacing" iconSize="35px"></sn-loading>
+			</sn-row>
+			<sn-row>
+				<sn-loading class="spacing" mode="draw" iconSize="15px"></sn-loading>
+				<sn-loading class="spacing" mode="draw" iconSize="25px"></sn-loading>
+				<sn-loading class="spacing" mode="draw" iconSize="35px"></sn-loading>
+			</sn-row>
+		</com-card>
+		<com-card title="自定义文字"
+		note="在加载条旁加一行字">
+			<sn-row>
+				<sn-loading class="spacing" text="加载中"></sn-loading>
+				<sn-loading class="spacing" text="加载中" textSize="16px" textColor="#5777ff"></sn-loading>
+				<sn-loading class="spacing" text="加载中" vertical></sn-loading>
+			</sn-row>
+			<sn-row>
+				<sn-loading class="spacing" mode="draw" text="加载中"></sn-loading>
+				<sn-loading class="spacing" mode="draw" text="加载中" textSize="16px" textColor="#5777ff"></sn-loading>
+				<sn-loading class="spacing" mode="draw" text="加载中" vertical></sn-loading>
+			</sn-row>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	const loadingIcons = ref(true)
+	
+	onMounted(()=>{
+		nextTick(()=>{
+			setTimeout(()=>{
+				loadingIcons.value = false
+			}, 1000)
+		})
+	})
+</script>
+
+<style lang="scss">
+	.spacing {
+		margin: 0 5px 5px 0;
+	}
+</style>

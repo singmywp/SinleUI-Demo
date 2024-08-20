@@ -1,0 +1,99 @@
+<template>
+	<sn-page :scrollOn="false">
+		<sn-topbar title="Gesture 手势库"></sn-topbar>
+		<sn-alert type="primary" text="SinleUI 手势库 sn-gesture" icon="notification-fill"></sn-alert>
+		<com-card title="手势库 sn-view">
+			<sn-view class="gesture-block" 
+			padding="10px"
+			:bgColor="colors.info"
+			:borderRadius="$snui.configs.radius.normal"
+			@click="gestureEvent" 
+			@longpress="gestureEvent" 
+			@dbclick="gestureEvent"
+			@touchmove="gestureEvent" 
+			@touchstart="gestureEvent" 
+			@touchend="gestureEvent"
+			@touchcancel="gestureEvent">
+				<sn-text type="info" 
+				:text="gestureEventText"
+				:style="{
+					wordBreak: 'break-all'
+				}"></sn-text>
+			</sn-view>
+		</com-card>
+		<!-- #ifdef APP -->
+		<com-card title="原生手势库 sn-e-gesture">
+			<sn-e-gesture class="gesture-block" 
+			@scale="nativeGestureEvent" 
+			@click="nativeGestureEvent"
+			@longpress="nativeGestureEvent" 
+			@dbclick="nativeGestureEvent" 
+			@touchstart="nativeGestureEvent"
+			@touchmove="nativeGestureEvent" 
+			@touchend="nativeGestureEvent" 
+			@touchcancel="nativeGestureEvent"
+			@down="nativeGestureEvent" 
+			@showpress="nativeGestureEvent" 
+			@fling="nativeGestureEvent"
+			:style="{
+				borderRadius: $snui.configs.radius.normal,
+				transitionDuration:$snui.configs.aniTime.normal,
+				background: colors.info
+			}"> 
+				<view class="gesture-block-contain">
+					<sn-text type="info" 
+					:text="nativeGestureTouchEventText"
+					:style="{
+						wordBreak: 'break-all'
+					}"></sn-text>
+					<sn-text type="info" 
+					:text="nativeGestureEventText"
+					:style="{
+						wordBreak: 'break-all'
+					}"></sn-text>
+				</view>
+			</sn-e-gesture>
+		</com-card>
+		<!--#endif-->
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui, SnPointerEvent } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	
+	const gestureEventText = ref('')
+	const nativeGestureEventText = ref('')
+	const nativeGestureTouchEventText = ref('')
+
+	function gestureEvent(event : any) {
+		let strE = JSON.stringify(event)
+		gestureEventText.value = strE
+	}
+	function nativeGestureEvent(event : any) {
+		let strE = JSON.stringify(event)
+		let eveS = JSON.parse(strE) as UTSJSONObject
+		if (eveS['type'] != null && (eveS['type'] as string).includes('touch')) {
+			nativeGestureTouchEventText.value = strE
+		} else {
+			nativeGestureEventText.value = strE
+		}
+	}
+</script>
+
+<style lang="scss">
+	.gesture-block {
+		width: 100%;
+		min-height: 200px;
+		padding: 10px !important;
+
+		&-contain {
+			padding: 10px;
+		}
+
+		.gesture-text {
+			height: auto;
+			color: #6e7073;
+		}
+	}
+</style>

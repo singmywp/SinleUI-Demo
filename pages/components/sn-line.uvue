@@ -1,0 +1,52 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Line 线条"></sn-topbar>
+		<com-card title="基础用法"
+		note="普普通通的分割线，用于切割内容">
+			<sn-text class="introduction" :text="'\u3000\u3000段落1'"></sn-text>
+			<sn-line></sn-line>
+			<sn-text class="introduction" :text="'\u3000\u3000段落2'"></sn-text>
+		</com-card>
+		<com-card title="插入文字"
+		note="放点有趣的东西，比如旁白君">
+			<sn-text class="introduction" :text="'\u3000\u3000段落1'"></sn-text>
+			<sn-line text="这是一条分割线"></sn-line>
+			<sn-text class="introduction" :text="'\u3000\u3000段落2'"></sn-text>
+		</com-card>
+		<com-card title="以点代字"
+		note="装饰美观，强制设置title为•">
+			<sn-text class="introduction" :text="'\u3000\u3000段落1'"></sn-text>
+			<sn-line text="这是一条分割线" dot></sn-line>
+			<sn-text class="introduction" :text="'\u3000\u3000段落2'"></sn-text>
+		</com-card>
+		<com-card title="虚线"
+		note="总有时候会用到">
+			<sn-text class="introduction" :text="'\u3000\u3000段落1'"></sn-text>
+			<sn-line dashed></sn-line>
+			<sn-text class="introduction" :text="'\u3000\u3000段落2'"></sn-text>
+		</com-card>
+		<com-card title="自定义样式"
+		note="对于热衷于突显自己特色的开发者来说是个好东西">
+			<view class="align-items-center">
+				<sn-line line-color="#000" 
+				height="5px" 
+				width="70%" 
+				border-radius="100px">
+				</sn-line>
+				<sn-line line-color="#f03c46" 
+				height="6px">
+				</sn-line>
+				<sn-line dashed 
+				line-color="#ffd800" 
+				height="2px">
+				</sn-line>
+			</view>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+</script>
+
+<style lang="scss">
+</style>

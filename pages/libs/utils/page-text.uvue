@@ -1,0 +1,80 @@
+<template>
+	<com-card title="是否为空文本"
+	note="判断字符串是否为空（自动去除空格）">
+		<sn-text :text="`文本【${t1}】  是否为空：${snu.isEmpty(t1)}`"></sn-text>
+		<sn-text :text="`文本【${t2}】  是否为空：${snu.isEmpty(t2)}`"></sn-text>
+	</com-card>
+	<com-card title="计算文本字数"
+	note="计算文本字数。使用 emoji-regex 库，能够正确计算表情符号的数量。">
+		<sn-text :text="`文本【${t3}】  字数：${snu.len(t3)}`"></sn-text>
+	</com-card>
+	<com-card title="Kebab命名法转小驼峰命名法"
+	note="将Kebab命名法的文本转为小驼峰命名法">
+		<sn-text :text="`文本【${t4}】\n转换结果：${snu.kebabCaseToCamelCase(t4)}`"></sn-text>
+	</com-card>
+	<com-card title="小驼峰命名法转Kebab命名法"
+	note="将小驼峰命名法的文本转为Kebab命名法">
+		<sn-text :text="`文本【${t5}】\n转换结果：${snu.camelCaseToKebabCase(t5)}`"></sn-text>
+	</com-card>
+	<com-card title="数字转大写金额"
+	note="将阿拉伯数字转换为中文大写金额。">
+		<sn-text :text="`文本【${t6}】\n转换结果：${snu.numToUpper(t6)}`"></sn-text>
+	</com-card>
+	<com-card title="姓名脱敏"
+	note="为姓名脱敏。">
+		<sn-text :text="`文本【${t7}】	转换结果：${snu.encryptName(t7)}`"></sn-text>
+		<sn-text :text="`文本【${t8}】	转换结果：${snu.encryptName(t8)}`"></sn-text>
+		<sn-text :text="`文本【${t9}】	转换结果：${snu.encryptName(t9)}`"></sn-text>
+	</com-card>
+	<com-card title="电话号码脱敏"
+	note="为电话号码脱敏。支持 11 位手机号码和座机号码。">
+		<sn-text :text="`文本【${t10}】	转换结果：${snu.encryptPhone(t10)}`"></sn-text>
+		<sn-text :text="`文本【${t11}】	转换结果：${snu.encryptPhone(t11)}`"></sn-text>
+		<sn-text :text="`文本【${t12}】	转换结果：${snu.encryptPhone(t12)}`"></sn-text>
+	</com-card>
+	<com-card title="身份证号脱敏"
+	note="为身份证号脱敏。隐藏中间的11位数字，只保留前3位和后4位。\n（身份证号来源： 公安部网站）">
+		<sn-text :text="`文本【${t13}】\n转换结果：${snu.encryptIDCard(t13)}`"></sn-text>
+	</com-card>
+	<com-card title="邮箱脱敏"
+	note="为邮箱邮箱。隐藏用户名的一部分。">
+		<sn-text :text="`文本【${t14}】\n转换结果：${snu.encryptEmail(t14)}`"></sn-text>
+	</com-card>
+	<com-card title="银行卡号脱敏"
+	note="为银行卡号脱敏，隐藏中间的部分数字，只保留前3位和后4位。">
+		<sn-text :text="`文本【${t15}】\n转换结果：${snu.encryptBankCard(t15)}`"></sn-text>
+	</com-card>
+	<com-card title="分割数字"
+	note="将数字字符串格式化为带有指定分隔符的格式，例如每三位数字后加一个逗号。">
+		<sn-text :text="`文本【${t16}】\n转换结果：${snu.separateNumber(t16)}`"></sn-text>
+		<sn-text :text="`文本【${t17}】\n转换结果：${snu.separateNumber(t17, 4)}`"></sn-text>
+		<sn-text :text="`文本【${t18}】\n转换结果：${snu.separateNumber(t18, 3, '|')}`"></sn-text>
+	</com-card>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const snu = $snui.utils
+	const t1 = '文本一😁abcd'
+	const t2 = '\u3000\u3000\u3000\u3000\u3000\u3000   \u3000'
+	const t3 = '😄😃🤣😂😁Abcd文字'
+	const t4 = 'sinle-ui-text'
+	const t5 = 'sinleUiText'
+	const t6 = '124569655868.16'
+	const t7 = '张三'
+	const t8 = '李二狗'
+	const t9 = '慕容京诸葛'
+	const t10 = '13700001234'
+	const t11 = '10086'
+	const t12 = '066-66668888'
+	const t13 = '131124198508122256'
+	const t14 = 'sinleui@sinleui.com'
+	const t15 = '6217006666666666111'
+	const t16 = '1234567890'
+	const t17 = '-1234567890'
+	const t18 = '2123456765568.5556'
+</script>
+
+<style>
+		
+</style>

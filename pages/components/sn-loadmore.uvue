@@ -1,0 +1,59 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Loadmore 加载更多"></sn-topbar>
+		<com-card title="基础用法"
+		note="一般用于标识页面底部加载数据时的状态">
+			<sn-loadmore class="spacing" status="loadmore"></sn-loadmore>
+			<sn-loadmore class="spacing" status="nomore"></sn-loadmore>
+			<sn-loadmore class="spacing" status="loading"></sn-loadmore>
+		</com-card>
+		<com-card title="事件"
+		note="提供loadmore事件，当组件被点击且status为 loadmore 时触发此事件">
+			<sn-loadmore :status="status1" @loadmore="loadmore"></sn-loadmore>
+		</com-card>
+		<com-card title="自定义提示语"
+		note="自由定制提示语">
+			<sn-loadmore class="spacing" status="loadmore" loadmoreText="点我继续搜索"></sn-loadmore>
+			<sn-loadmore class="spacing" status="nomore" nomoreText="额……没有了"></sn-loadmore>
+			<sn-loadmore class="spacing" status="loading" loadingText="努力加载吖"></sn-loadmore>
+		</com-card>
+		<com-card title="自定义样式"
+		note="我就是我，不一样的烟火~">
+			<sn-loadmore lineHeight="2px" 
+			:status="status2"  
+			:line-color="colors.successLight"
+			dashed 
+			:textColor="colors.success"
+			:icon-color="colors.success" 
+			@loadmore="loadmore2"></sn-loadmore>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+
+	const status1 = ref('loadmore')
+	const status2 = ref('loadmore')
+	
+	function loadmore() {
+		status1.value = 'loading'
+		setTimeout(() => {
+			status1.value = 'nomore'
+		}, 3000)
+	}
+	
+	function loadmore2() {
+		status2.value = 'loading'
+		setTimeout(() => {
+			status2.value = 'nomore'
+		}, 3000)
+	}
+</script>
+
+<style lang="scss">
+	.spacing {
+		margin-bottom: 10px;
+	}
+</style>

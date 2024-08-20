@@ -1,0 +1,95 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Slider 滑动选择"></sn-topbar>
+		<com-card title="基础用法"
+		note="和内置 Slider 组件不同的是，本组件并非使用 Draw Api 绘制。大部分场景下，不会出现大量 Slider 联动的高性能需求，使用多 DOM 布局以更好满足用户个性化需求。支持双向 Slider。">
+			<sn-slider v-model="v1"></sn-slider>
+			<sn-slider-double class="m-t-10"
+			v-model="d1"></sn-slider-double>
+		</com-card>
+		<com-card title="滑块大小"
+		note="可以自由设置滑块大小">
+			<sn-slider v-model="v2"
+			thumbSize="16px"></sn-slider>
+			<sn-slider-double v-model="d2"
+			class="m-t-10"
+			thumbSize="20px"
+			thickness="2px"
+			valueTextWidth="50px"
+			thumbBorder="1px solid #ededed">
+			</sn-slider-double>
+		</com-card>
+		<com-card title="厚度"
+		note="调节 Slider 的显示厚度，可以更小，也可更大">
+			<sn-slider v-model="v3"
+			thickness="15px"
+			padding="3px"></sn-slider>
+			<sn-slider-double v-model="d3"
+			class="m-t-10"
+			thickness="15px"
+			padding="3px"
+			valueTextWidth="50px"></sn-slider-double>
+		</com-card>
+		<com-card title="显示值"
+		note="可以显示当前数值文本">
+			<sn-slider v-model="v4"
+			showValueText></sn-slider>
+			<sn-slider-double v-model="d4"
+			class="m-t-10"
+			showValueText
+			valueTextWidth="50px"></sn-slider-double>
+		</com-card>
+		<com-card title="极值和步长"
+		note="可以自由设置最大值、最小值、步长。支持自动检查初始数据并纠错。">
+			<sn-text class="m-b-10"
+			:text="`最小值：10\n最大值：60\n步长：5\n当前值：${v5}`"></sn-text>
+			<sn-slider v-model="v5"
+			:min="10"
+			:max="60"
+			:step="5"></sn-slider>
+			<sn-slider-double class="m-t-10"
+			v-model="d6"
+			:min="10"
+			:max="60"
+			:step="5"></sn-slider-double>
+		</com-card>
+		<com-card title="竖向"
+		note="支持设置竖向显示">
+			<sn-row class="h-250">
+				<sn-slider v-model="v6"
+				vertical></sn-slider>
+				<sn-slider class="m-r-50"
+				v-model="v6"
+				vertical
+				showValueText>
+				</sn-slider>
+				<sn-slider-double v-model="d5"
+				vertical></sn-slider-double>
+				<sn-slider-double v-model="d5"
+				vertical
+				showValueText
+				valueTextWidth="60px"></sn-slider-double>
+			</sn-row>
+		</com-card>
+		<sn-gap height="50px"></sn-gap>
+	</sn-page>
+</template>
+
+<script setup>
+	const v1 = ref(70)
+	const v2 = ref(50)
+	const v3 = ref(20)
+	const v4 = ref(20)
+	const v5 = ref(20)
+	const v6 = ref(20)
+	const d1 = ref([20, 40] as number[])
+	const d2 = ref([20, 40] as number[])
+	const d3 = ref([20, 40] as number[])
+	const d4 = ref([20, 40] as number[])
+	const d5 = ref([20, 40] as number[])
+	const d6 = ref([20, 40] as number[])
+</script>
+
+<style>
+		
+</style>

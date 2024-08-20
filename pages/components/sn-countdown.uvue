@@ -1,0 +1,109 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Countdown 倒计时"></sn-topbar>
+		<com-card title="基础用法"
+		note="顾名思义，就是一个倒计时。\n推荐使用插槽布局为主，样式更好调。">
+			<sn-countdown :time="5 * 60 * 1000"></sn-countdown>
+		</com-card>
+		<com-card title="自定义样式"
+		note="可以自由设置文本的颜色和大小等样式">
+			<sn-countdown :time="5 * 60 * 1000"
+			:textColor="colors.successDark"
+			:textSize="$snui.configs.font.size(3)"
+			:customStyle="{fontFamily:'alipuhuiheavy'}"></sn-countdown>
+		</com-card>
+		<com-card title="格式化"
+		note="倒计时内置文字支持时间格式化（参照Day.js）。">
+			<sn-countdown format="DD 天 HH 小时 mm 分钟 ss 秒"
+			:time="5 * 60 * 1000"></sn-countdown>
+		</com-card>
+		<com-card title="毫秒精度"
+		note="虽然使用一般模式也支持获取毫秒，但误差极大，不如此模式精确。">
+			<sn-countdown format="mm:ss.SSS"
+			millisecond
+			:time="5 * 60 * 1000"></sn-countdown>
+		</com-card>
+		<com-card title="插槽"
+		note="推荐使用插槽模式，自由度更高。">
+			<sn-countdown millisecond
+			:time="5 * 60 * 1000"
+			@change="onChange">
+			<sn-row>
+				<sn-tag class="spacing" type="primary" :text="`${timedata.h}`"></sn-tag>
+				<sn-text class="spacing" text="时" font="alipuhuiheavy"></sn-text>
+				<sn-tag class="spacing" type="primary" :text="`${timedata.m}`"></sn-tag>
+				<sn-text class="spacing" text="分" font="alipuhuiheavy"></sn-text>
+				<sn-tag class="spacing" type="primary" :text="`${timedata.s}`"></sn-tag>
+				<sn-text class="spacing" text="秒" font="alipuhuiheavy"></sn-text>
+			</sn-row>
+			</sn-countdown>
+		</com-card>
+		<com-card title="自由控制"
+		note="提供 API 以自由控制倒计时的状态。">
+			<view class="align-items-center">
+				<sn-countdown ref="countdownEle"
+				format="mm:ss.SS"
+				millisecond
+				:time="5 * 60 * 1000"></sn-countdown>
+				<sn-button-group align="center">
+					<sn-button round-size="50px" round
+					@click="reset">
+						<sn-icon name="refresh-line"></sn-icon>
+					</sn-button>
+					<sn-button class="m-l-10"
+					type="primary"
+					level="second"
+					round-size="60px"
+					round
+					@click="playOrPause">
+						<sn-icon :name="`${running?'pause':'play'}-fill`" 
+						:color="colors.primary"></sn-icon>
+					</sn-button>
+					<sn-button class="m-l-10"
+					round-size="50px" round
+					@click="stop">
+						<sn-icon name="stop-circle-fill"></sn-icon>
+					</sn-button>
+				</sn-button-group>
+			</view>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui, SnCountdownTime } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	const running = ref(true)
+	const timedata = ref({d:0,h:0,m:0,s:0,ms:0} as SnCountdownTime)
+	const countdownEle = ref(null as SnCountdownComponentPublicInstance | null)
+	
+	function onChange(data: SnCountdownTime){
+		timedata.value = data
+	}
+	
+	function playOrPause(){
+		running.value = !running.value
+		if (running.value) {
+			countdownEle.value!.start()
+		} else {
+			countdownEle.value!.pause()
+		}
+		
+	}
+	
+	function stop(){
+		running.value = false
+		countdownEle.value!.stop()
+	}
+	
+	function reset(){
+		running.value = true
+		countdownEle.value!.reset()
+	}
+</script>
+
+<style lang="scss">
+	.spacing {
+		margin-right: 5px;
+	}
+</style>

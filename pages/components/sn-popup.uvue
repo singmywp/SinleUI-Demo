@@ -1,0 +1,107 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Popup 弹出层"
+		:features="[{id:'run',icon:'play-circle-fill'} as SnDataItem]"
+		@button-click="buttonClicked"></sn-topbar>
+		<com-card title="组件演示"
+		note="需要弹窗？试试它吧。\n请注意区分 Popup 和 Drawer。Popup 只控制动画和显隐逻辑，UI 需要自己写。而 Drawer 则是在 Popup 的基础上加了一层 UI 模板。">
+			<sn-form v-model="configs"
+			:showBorder="false">
+				<sn-form-item label="遮罩关闭">
+					<sn-switch v-model="(configs['maskClose'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="阻止返回事件">
+					<sn-switch v-model="(configs['preventBack'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="位置">
+					<sn-select 
+					v-model="(configs['position'] as number)"
+					width="200px"
+					:data="positions">
+					</sn-select>
+				</sn-form-item>
+				<sn-form-item label="动画时长">
+					<sn-stepper v-model="(configs['aniDur'] as number)"
+					:step="100"
+					:min="100"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="遮罩透明度">
+					<sn-stepper v-model="(configs['maskOpacity'] as number)"
+					:step="0.1"
+					:min="0"
+					:max="1"></sn-stepper>
+				</sn-form-item>
+				<sn-button text="打开" 
+				level="second" 
+				type="primary" 
+				@click="show()"
+				style="margin-top: 10px;">
+				</sn-button>
+			</sn-form>
+		</com-card>
+		<sn-gap></sn-gap>
+	</sn-page>
+	<sn-popup ref="popupEle"
+	:position="positions[configs['position'] as number ?? 1]['id'] ?? ''"
+	:aniDur="configs['aniDur']"
+	:maskOpacity="configs['maskOpacity']"
+	:maskClose="configs['maskClose']"
+	:preventBack="configs['preventBack']">
+		<sn-row justify="center">
+			<image class="w-200"
+			mode="aspectFit"
+			src="/static/images/letter-open.png" ></image>
+		</sn-row>
+	</sn-popup>
+</template>
+
+<script setup>
+	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
+	const snu = $snui.utils
+	
+	const popupEle = ref(null as SnPopupComponentPublicInstance | null)
+	
+	const configs = ref({
+		position: 1,
+		maskClose: true,
+		preventBack: false,
+		aniDur: parseInt($snui.configs.aniTime.long),
+		maskOpacity: 0.3
+	})
+	
+	const positions = [
+		{
+			id: 'top',
+			text: '顶部',
+		},
+		{
+			id: 'center',
+			text: '居中',
+		},
+		{
+			id: 'bottom',
+			text: '底部',
+		},
+		{
+			id: 'left',
+			text: '左侧',
+		},
+		{
+			id: 'right',
+			text: '右侧',
+		}
+	] as SnDataItem[]
+
+	function show() {
+		snu.throttle(()=>{
+			(popupEle.value as SnPopupComponentPublicInstance).open()
+		}, 50)
+	}
+	
+	function buttonClicked(e: SnDataItem){
+		if (e.id == 'run') show()
+	}
+</script>
+
+<style lang="scss">
+</style>

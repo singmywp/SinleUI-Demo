@@ -1,0 +1,99 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Skeleton 骨架屏"></sn-topbar>
+		<com-card title="基础用法"
+		note="加载较慢时，在页面真实数据加载之前，给用户展示出页面的大致结构。\n你可以把它当做一个带闪烁动画的 view 来用，本身不带UI，样式完全由你控制。">
+		</com-card>
+		<com-card>
+			<sn-skeleton height="20px"></sn-skeleton>
+		</com-card>
+		<com-card title="组合示例"></com-card>
+		<com-card>
+			<sn-skeleton width="50%"
+			height="15px"></sn-skeleton>
+			<sn-skeleton height="15px"
+			margin="10px 0 0 0"></sn-skeleton>
+			<sn-skeleton width="80%"
+			height="15px"
+			margin="10px 0 0 0"></sn-skeleton>
+		</com-card>
+		<com-card>
+			<sn-row>
+				<sn-col v-for="_ in [0,1]"
+				gutter="20px"
+				:span="6">
+					<sn-skeleton width="100%"
+					height="50px">
+					</sn-skeleton>
+					<sn-row>
+						<sn-skeleton height="30px"
+						width="30px"
+						borderRadius="10000px"
+						margin="5px 10px 0 0"></sn-skeleton>
+						<sn-skeleton height="20px"
+						width="50px"
+						margin="5px 0 0 0"></sn-skeleton>
+					</sn-row>
+					<sn-skeleton width="80%"
+					height="10px"
+					margin="5px 0 0 0"></sn-skeleton>
+					<sn-skeleton width="100%"
+					height="10px"
+					margin="5px 0 0 0"></sn-skeleton>
+				</sn-col>
+			</sn-row>
+		</com-card>
+		<com-card>
+			<sn-form-item label="显示内容">
+				<sn-switch v-model="showContent"></sn-switch>
+			</sn-form-item>
+			<sn-row align="flex-start">
+				<view class="m-r-20">
+					<sn-skeleton v-if="!showContent"
+					height="45px"
+					width="45px"
+					borderRadius="10000px"></sn-skeleton>
+					<sn-avatar v-else
+					shape="circle"
+					size="45px"
+					src="https://i03piccdn.sogoucdn.com/70e95b16d3488d9b"></sn-avatar>
+				</view>
+				<view class="flex-1">
+					<sn-skeleton v-if="!showContent"
+					height="20px"
+					width="50%">
+					</sn-skeleton>
+					<sn-text v-else
+					text="寅晨: 诸神黄昏"
+					size="20px"
+					font="alipuhuiheavy"></sn-text>
+					<template v-if="!showContent">
+						<sn-skeleton height="20px"
+						margin="8px 0 0 0">
+						</sn-skeleton>
+						<sn-skeleton height="20px"
+						margin="8px 0 0 0">
+						</sn-skeleton>
+						<sn-skeleton height="20px"
+						width="80%"
+						margin="8px 0 0 0">
+						</sn-skeleton>
+					</template>
+					<sn-text v-else
+					class="m-t-8 h-72"
+					text="《寅晨: 诸神黄昏》最早由独立开发者开发，是单机游戏市场上为数不多的仍在流行的回合战略游戏。"
+					size="15px"
+					line-height="1.5"></sn-text>
+				</view>
+			</sn-row>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	const showContent = ref(false)
+</script>
+
+<style>
+		
+</style>

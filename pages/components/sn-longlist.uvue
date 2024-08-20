@@ -1,0 +1,121 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Longlist 长列表"></sn-topbar>
+		<sn-alert type="primary" text="一次性初始化太多列表项，因为创建大量 vnode 耗时，会导致列表初始化变慢。此时推荐使用官方的扩展组件 uni-recycle-view 来解决初始化慢的问题，该组件内部会分批创建节点，自动实现节点复用。"></sn-alert>
+		<com-card note="Longlist 组件用于显示大量同类信息。Longlist 本身只是容器，不预设任何样式。在 Android 端基于 recycle-view，性能优秀（设置固定的高度才支持高性能滚动）。\nsn-longlist 的子组件为 list-item。">
+		</com-card>
+		<sn-longlist :loadmoreStatus="status"
+		:refresherTriggered="refresherTriggered"
+		refresherEnabled
+		@refresherrefresh="refresh"
+		@scrolltolower="loadmore"
+		style="flex: 1;">
+			<list-item v-for="(e, i) in (items as newType[])"
+			@click="goTo(e)"
+			:style="itemStylesC">
+				<sn-row justify="space-between">
+					<sn-text :text="e.title">
+					</sn-text>
+					<sn-tag type="error"
+					:text="e.hotValue"
+					:customStyle="{
+						padding: '2px 7px',
+						borderRadius: '1000px',
+					}">
+					</sn-tag>
+				</sn-row>
+			</list-item>
+		</sn-longlist>
+		<sn-toast ref="toastEle"
+		text="加载中"
+		loading></sn-toast>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	
+	type newType = {
+		title: string;
+		index: number;
+		hotValue: string;
+		link: string;
+	}
+	
+	type IRootType = {
+		code: number;
+		result: newType[];
+		msg: string;
+	}
+	
+	const refresherTriggered = ref(false)
+	const news = ref([] as newType[])
+	const items = ref([] as newType[])
+	const status = ref('loading')
+	const loadCnt = ref(0)
+	const toastEle = ref(null as SnToastComponentPublicInstance | null)
+	
+	onReady(()=>{
+		toastEle.value!.show()
+		uni.request<IRootType>({
+			url: 'https://api.oioweb.cn/api/common/fetchHotSearchBoard?type=toutiao',
+			method: 'GET',
+			success:(res)=>{
+				let data = (res.data?.result ?? []) as newType[]
+				toastEle.value!.close();
+				news.value = data
+				items.value = items.value.concat(news.value)
+				status.value = 'loadmore'
+				loadCnt.value += 1
+			}
+		})
+	})
+	
+	const itemStylesC = computed((): Map<string, any>=>{
+		let styles = new Map<string, any>()
+		styles.set('padding', '15px 10px')
+		styles.set('margin-bottom', '10px')
+		styles.set('border-radius', $snui.configs.radius.normal)
+		styles.set('background', colors.value.front)
+		styles.set('overflow', 'visible')
+		styles.set('transition-duration', $snui.configs.aniTime.normal)
+		return styles
+	})
+	
+	function goTo(news: newType){
+		uni.navigateTo({
+			url: `/pages/other/webview?title=${news.title}&url=${encodeURIComponent(news.link)}`
+		})
+	}
+	
+	function loadmore(){
+		if (status.value == 'nomore') return
+		loadCnt.value += 1
+		status.value = 'loading';
+		toastEle.value!.show();
+		setTimeout(()=>{
+			toastEle.value!.close();
+			items.value = items.value.concat(news.value)
+			setTimeout(()=>{
+				if (loadCnt.value >= 3) {
+					status.value = 'nomore'
+				} else {
+					status.value = 'loadmore'
+				}
+			}, 1000)
+		}, 500)
+	}
+	
+	function refresh(){
+		refresherTriggered.value = true
+		setTimeout(()=>{
+			refresherTriggered.value = false
+		}, 2000)
+	}
+
+</script>
+
+<style lang="scss">
+	
+</style>

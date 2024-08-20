@@ -1,0 +1,99 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Subsection 分段器"></sn-topbar>
+		<com-card title="基础用法"
+		note="选择合适的子界面"
+		:bgColor="bgColorC">
+			<sn-subsection v-model="v1"
+			:data="list1"></sn-subsection>
+		</com-card>
+		<com-card title="默认值"
+		note="可以提前设置分段器的选中项目"
+		:bgColor="bgColorC">
+			<sn-subsection v-model="v2" :data="list2"></sn-subsection>
+		</com-card>
+		<com-card title="颜色"
+		note="自定义组件各部分的颜色"
+		:bgColor="bgColorC">
+			<sn-subsection v-model="v3"
+			:data="list2" 
+			:activeTextColor="colors.successDark"></sn-subsection>
+		</com-card>
+		<com-card title="禁用"
+		note="屏蔽手动操作️"
+		:bgColor="bgColorC">
+			<sn-subsection v-model="v4"
+			:data="list2" 
+			disabled></sn-subsection>
+		</com-card>
+		<com-card title="自定义样式"
+		note="自定义组件的各种样式"
+		:bgColor="bgColorC">
+			<sn-subsection v-model="v5" 
+			class="spacing"
+			textSize="12px"
+			borderRadius="5px" 
+			padding="2px" 
+			:data="list3"
+			:activeTextColor="colors.text"
+			:customStyle="{width:'100px !important'}"></sn-subsection>
+			<sn-subsection v-model="v5" 
+			class="spacing"
+			:data="list3" 
+			textSize="16px"
+			padding="5px" 
+			:borderRadius="$snui.configs.radius.circle"
+			:textColor="colors[`info${theme=='light'?'Dark':''}`]"
+			:activeTextColor="colors.text"
+			:customItemStyle="{
+				fontFamily:'misans-semibold'
+			}" 
+			:customStyle="{
+				margin:'10px',
+				width:'200px !important',
+				boxShadow:'2px 2px 30px -2px ' + colors.infoDark
+			}"></sn-subsection>
+			<sn-subsection v-model="v6" 
+			class="spacing"
+			:data="list2" 
+			:activeTextColor="colors.primary" 
+			textColor="#b6b6b6"
+			textSize="16px" 
+			blockBgColor="transparent" 
+			borderRadius="5px" 
+			padding="5px" 
+			:customBlockStyle="{
+				borderRadius:'0',
+				borderBottom:'2px solid ' + colors.primary
+			}" 
+			:customItemStyle="{
+				fontFamily:'misans-semibold'
+			}"></sn-subsection>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	
+	const v1 = ref(0)
+	const v2 = ref(2)
+	const v3 = ref(0)
+	const v4 = ref(0)
+	const v5 = ref(0)
+	const v6 = ref(0)
+	const list1 = ['优秀', '良好', '及格']
+	const list2 = ['已付款', '已发货', '已收货', '已评价']
+	const list3 = ['最新', '热门']
+	const bgColorC = computed(():string=>{
+		return colors.value[$snui.configs.app.theme=='light'?'front':'infoDark'] as string
+	})
+	const theme = computed(():string=>$snui.configs.app.theme)
+</script>
+
+<style lang="scss">
+	.spacing {
+		margin-bottom: 15px;
+	}
+</style>

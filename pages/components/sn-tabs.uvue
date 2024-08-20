@@ -1,0 +1,142 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Tabs 标签页"></sn-topbar>
+		<com-card title="基础用法"
+		note="跟 Tabbar 很像，一般用于顶部的分页导航">
+			<sn-tabs v-model="v1"
+			:data="d1"></sn-tabs>
+		</com-card>
+		<com-card title="滚动"
+		note="支持滚动，子项自动计算宽度，且将选中项居中">
+			<sn-tabs v-model="v2"
+			scrollable
+			:data="d2"></sn-tabs>
+		</com-card>
+		<com-card title="禁用"
+		note="可为子项单独设置禁用">
+			<sn-tabs v-model="v3"
+			:data="d3"></sn-tabs>
+		</com-card>
+		<com-card title="徽标"
+		note="可为子项单独添加徽标，支持自定义徽标属性">
+			<sn-tabs v-model="v4"
+			:data="d4"></sn-tabs>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui, SnTabParams } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	
+	const v1 = ref(0)
+	const v2 = ref(0)
+	const v3 = ref(0)
+	const v4 = ref(0)
+	
+	const d1 = [
+		{
+			id: 'tab1',
+			text: '选项1'
+		},
+		{
+			id: 'tab2',
+			text: '选项2'
+		},
+		{
+			id: 'tab3',
+			text: '选项3'
+		}
+	] as SnTabParams[]
+	
+	const d2 = [
+		{
+			id: 'tab1',
+			text: '选项1'
+		},
+		{
+			id: 'tab2',
+			text: '选项2'
+		},
+		{
+			id: 'tab3',
+			text: '选项3'
+		},
+		{
+			id: 'tab4',
+			text: '选项4'
+		},
+		{
+			id: 'tab5',
+			text: '选项5'
+		},
+		{
+			id: 'tab6',
+			text: '选项6'
+		},
+		{
+			id: 'tab7',
+			text: '选项7'
+		},
+		{
+			id: 'tab8',
+			text: '选项8'
+		}
+	] as SnTabParams[]
+	
+	const d3 = [
+		{
+			id: 'tab1',
+			text: '选项1'
+		},
+		{
+			id: 'tab2',
+			text: '选项2',
+			disabled: true
+		},
+		{
+			id: 'tab3',
+			text: '选项3'
+		},
+		{
+			id: 'tab4',
+			text: '选项4'
+		}
+	] as SnTabParams[]
+	
+	const d4 = [
+		{
+			id: 'tab1',
+			text: '选项1'
+		},
+		{
+			id: 'tab2',
+			text: '选项2',
+			badgeConfig: {
+				mode: 'text',
+				text: '热'
+			}
+		},
+		{
+			id: 'tab3',
+			text: '选项3',
+			badgeConfig: {
+				value: 66
+			}
+		},
+		{
+			id: 'tab4',
+			text: '选项4',
+			badgeConfig: {
+				mode: 'dot',
+				size: '7px',
+				bgColor: colors.value.primary
+			}
+		}
+	] as SnTabParams[]
+	
+</script>
+
+<style>
+		
+</style>

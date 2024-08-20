@@ -1,0 +1,209 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Date 日期库"></sn-topbar>
+		<sn-alert type="primary"
+		text="此库基于陌上年华的开源 UTS 插件 lime-dayuts 开发，几乎和 Day.js 保持一样的API。">
+		</sn-alert>
+		<com-card title="当前时间"
+		note="直接调用 dayuts() 将返回一个包含当前日期和时间的 Dayuts 对象。">
+			<sn-text type="primary"
+			:text="`${d1}`"></sn-text>
+		</com-card>
+		<com-card title="解析字符串"
+		note="解析传入的符合 UTS Date 格式的字符串并返回一个 Dayuts 对象实例。">
+			<sn-text type="primary"
+			:text="`字符串：2023/08/13 12:35:54\n解析结果：${DateLib.dayuts('2023/08/13 12:35:54')}`"></sn-text>
+		</com-card>
+		<com-card title="解析 Unix 时间戳 (毫秒)"
+		note="解析传入的一个 Unix 时间戳 (13 位数字，从1970年1月1日 UTC 午夜开始所经过的毫秒数) 创建一个 Dayuts 对象。">
+			<sn-text type="primary"
+			:text="`时间戳：1318781796406\n解析结果：${DateLib.dayuts(1318781796406)}`"></sn-text>
+		</com-card>
+		<com-card title="解析 Date 对象"
+		note="使用 UTS Date 内置对象创建一个 Dayuts 对象。">
+			<sn-text type="primary"
+			:text="`对象：new Date(2010,1,5)\n解析结果：${DateLib.dayuts(new Date(2010,1,5))}`"></sn-text>
+		</com-card>
+		<com-card title="解析数组"
+		note="您可以传入一个数组来创建一个 Dayuts 对象，数组和结构和 new Date() 十分类似。">
+			<sn-text type="primary"
+			:text="`数组：[2018,8,6,12,54]\n解析结果：${DateLib.dayuts([2018,8,6,12,54])}`"></sn-text>
+		</com-card>
+		<com-card title="格式化"
+		note="根据传入的占位符返回格式化后的日期。\n将字符放在方括号中，即可原样返回而不被格式化替换 (例如， [MM])">
+			<sn-text type="primary"
+			:text="`${DateLib.dayuts('2019-01-25').format('DD/MM/YYYY')}`"></sn-text>
+			<sn-text type="primary"
+			:text="`${DateLib.dayuts('2019-01-25').format('YYYY-MM-DD HH:mm:ss')}`"></sn-text>
+		</com-card>
+		<com-card title="取值/赋值"
+		note="在设计上 Dayuts 的 getter 和 setter 使用了相同的 API，也就是说，不传参数调用方法即为 getter，调用并传入参数为 setter。">
+			<sn-text type="primary"
+			:text="`${d1}`"></sn-text>
+			<sn-text type="primary"
+			:text="`年:${d1.year()}`"></sn-text>
+			<sn-text type="primary"
+			:text="`月:${d1.month()}`"></sn-text>
+			<sn-text type="primary"
+			:text="`日:${d1.date()}`"></sn-text>
+			<sn-text type="primary"
+			:text="`周:${d1.day()}`"></sn-text>
+			<sn-text type="primary"
+			:text="`时:${d1.hour()}`"></sn-text>
+			<sn-text type="primary"
+			:text="`分:${d1.minute()}`"></sn-text>
+			<sn-text type="primary"
+			:text="`秒:${d1.second()}`"></sn-text>
+			<sn-text type="primary"
+			:text="`毫秒:${d1.millisecond()}`"></sn-text>
+		</com-card>
+		<com-card title="操作"
+		note="提供一系列日期操作方法。支持链式调用。">
+			<sn-text type="primary"
+			:text="`${d2.format('YYYY-MM-DD HH:mm:ss')}`"></sn-text>
+			<sn-row>
+				<sn-button class="spacing" 
+				text="+1时" 
+				@click="d2 = d2.add(1, 'hour')">
+				</sn-button>
+				<sn-button class="spacing"
+				text="+1天" 
+				@click="d2 = d2.add(1, 'day')">
+				</sn-button>
+				<sn-button class="spacing"
+				text="+1月" 
+				@click="d2 = d2.add(1, 'month')">
+				</sn-button>
+				<sn-button class="spacing"
+				text="+1年" 
+				@click="d2 = d2.add(1, 'year')">
+				</sn-button>
+			</sn-row>
+			<sn-row>
+				<sn-button class="spacing" 
+				text="-2时" 
+				@click="d2 = d2.subtract(2, 'hour')">
+				</sn-button>
+				<sn-button class="spacing"
+				text="-2天" 
+				@click="d2 = d2.subtract(2, 'day')">
+				</sn-button>
+				<sn-button class="spacing"
+				text="-2月" 
+				@click="d2 = d2.subtract(2, 'month')">
+				</sn-button>
+				<sn-button class="spacing"
+				text="-2年" 
+				@click="d2 = d2.subtract(2, 'year')">
+				</sn-button>
+			</sn-row>
+			<sn-line></sn-line>
+			<sn-text type="primary"
+			:text="`转Date：\n${d2.toDate()}\n`"></sn-text>
+			<sn-text type="primary"
+			:text="`转Array：\n${d2.toArray()}\n`"></sn-text>
+			<sn-text type="primary"
+			:text="`转JSON：\n${d2.toJSON()}\n`"></sn-text>
+			<sn-text type="primary"
+			:text="`转Object：\n${JSON.stringify(d2.toObject())}\n`"></sn-text>
+			<sn-text type="primary"
+			:text="`转String：\n${d2.toString()}`"></sn-text>
+			<sn-line></sn-line>
+			<sn-text type="primary"
+			:text="`本月开始日期：${d2.startOf('month').format('YYYY-MM-DD HH:mm:ss')}`"></sn-text>
+			<sn-text type="primary"
+			:text="`本年终止日期：${d2.startOf('year').format('YYYY-MM-DD HH:mm:ss')}`"></sn-text>
+			<sn-line></sn-line>
+			<sn-text type="primary"
+			:text="`是否今日：${d2.isToday()}`"></sn-text>
+			<sn-text type="primary"
+			:text="`本月天数：${d2.daysInMonth()}`"></sn-text>
+			<sn-text type="primary"
+			:text="`今年是否闰年：${d2.isLeapYear()}`"></sn-text>
+		</com-card>
+		<com-card title="相对时间"
+		note="返回日期与现在日期或其他日期的相对时间差异。">
+			<sn-text type="primary"
+			:text="`实例1：${ins1.format('YYYY-MM-DD HH:mm:ss')}`"></sn-text>
+			<sn-text type="primary"
+			:text="`实例2：${ins2.format('YYYY-MM-DD HH:mm:ss')}`"></sn-text>
+			<sn-text type="primary"
+			:text="`实例1相对于现在：${ins1.fromNow()}`"></sn-text>
+			<sn-text type="primary"
+			:text="`实例1相对于实例2：${ins1.from(ins2)}`"></sn-text>
+			<sn-text type="primary"
+			:text="`现在相对于实例1：${ins1.toNow()}`"></sn-text>
+			<sn-text type="primary"
+			:text="`实例2相对于实例1：${ins1.to(ins2)}`"></sn-text>
+		</com-card>
+		<com-card title="差异"
+		note="返回指定单位下两个日期时间之间的差异。">
+			<sn-text type="primary"
+			:text="`日期1：${d3.format('YYYY-MM-DD HH:mm:ss')}`"></sn-text>
+			<sn-text type="primary"
+			:text="`日期2：${d4.format('YYYY-MM-DD HH:mm:ss')}`"></sn-text>
+			<sn-text type="primary"
+			:text="`毫秒为单位：${d3.diff(d4)}`"></sn-text>
+			<sn-text type="primary"
+			:text="`天为单位：${d3.diff(d4, 'days')}`"></sn-text>
+			<sn-text type="primary"
+			:text="`月为单位：${d3.diff(d4, 'months')}`"></sn-text>
+		</com-card>
+		<com-card title="Unix 时间戳 (毫秒)"
+		note="返回当前实例的 UNIX 时间戳，13位数字，毫秒。">
+			<sn-text type="primary"
+			:text="`${d1}\n${d1.valueOf()}`"></sn-text>
+		</com-card>
+		<com-card title="查询"
+		note="返回当前实例的 UNIX 时间戳，13位数字，毫秒。">
+			<sn-text type="primary"
+			:text="`实例1：${ins1.format('YYYY-MM-DD HH:mm:ss')}`"></sn-text>
+			<sn-text type="primary"
+			:text="`实例2：${ins3.format('YYYY-MM-DD HH:mm:ss')}`"></sn-text>
+			<sn-text type="primary"
+			:text="`实例1是否在现在之前：${ins1.isBefore(d1)}`"></sn-text>
+			<sn-text type="primary"
+			:text="`实例2是否在现在之后：${ins3.isAfter(d1)}`"></sn-text>
+			<sn-text type="primary"
+			:text="`实例2是否在本月：${ins3.isSame(d1, 'month')}`"></sn-text>
+			<sn-text type="primary"
+			:text="`实例2是否在今年：${ins3.isSame(d1, 'year')}`"></sn-text>
+			<sn-text type="primary"
+			:text="`实例2是否与现在相同或在现在之后：${ins3.isSameOrAfter(d1)}`"></sn-text>
+			<sn-text type="primary"
+			:text="`现在是否在实例1和实例2之间：${d1.isBetween(ins1, ins3)}`"></sn-text>
+		</com-card>
+		<com-card title="国际化"
+		note="目前内置了中英两种语言">
+			<sn-text type="primary"
+			:text="`中文\n${d1}\n${d1.locale('zh-cn').toNow()}\n\n`"></sn-text>
+			<sn-text type="primary"
+			:text="`英文\n${d1}\n${d1.locale('en').toNow()}`"></sn-text>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	// #ifdef WEB
+	// @ts-nocheck
+	// #endif
+	import { $snui } from "@/uni_modules/sinle-ui"
+	
+	const colors = $snui.colors
+	const DateLib = $snui.libs.date
+	
+	const d1 = DateLib.dayuts()
+	const d2 = ref(DateLib.dayuts())
+	const d3 = DateLib.dayuts('2019-01-25 03:01:52')
+	const d4 = DateLib.dayuts('2018-06-05 13:51:20')
+	const ins1 = DateLib.dayuts('1999-01-01 03:01:08',null,'zh-cn')
+	const ins2 = DateLib.dayuts('2015-12-06 15:11:20',null,'zh-cn')
+	const ins3 = DateLib.dayuts('2024-12-05 14:02:45',null,'zh-cn')
+</script>
+
+<style lang="scss">
+	.spacing {
+		margin-bottom: 10px;
+		margin-right: 10px;
+	}
+</style>

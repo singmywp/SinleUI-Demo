@@ -1,0 +1,121 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Float Board 浮动面板"></sn-topbar>
+		<com-card title="组件演示"
+		note="通常用于半屏窗口的场景。\n请注意区分 Drawer 和 Float Board。Drawer 是弹出层，需要调用方法才能显示；而 Float Board 则始终显示，且可以通过用户手势操作完全显露。（可以把 Drawer 理解为关闭的抽屉，FloatBoard 则是半开的抽屉）">
+			<sn-form v-model="configs"
+			:showBorder="false">
+				<sn-form-item label="显示指示条">
+					<sn-switch v-model="(configs['showLine'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="位置">
+					<sn-select 
+					v-model="(configs['position'] as number)"
+					width="200px"
+					:data="positions">
+					</sn-select>
+				</sn-form-item>
+				<sn-form-item label="动画时长">
+					<sn-stepper v-model="(configs['aniDur'] as number)"
+					:step="100"
+					:min="100"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="展开宽度(仅left/right)">
+					<sn-stepper v-model="(configs['maxWidth'] as number)"
+					:step="20"
+					:min="0"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="展开高度(仅top/bottom)">
+					<sn-stepper v-model="(configs['maxHeight'] as number)"
+					:step="20"
+					:min="0"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="折叠宽度(仅left/right)">
+					<sn-stepper v-model="(configs['minWidth'] as number)"
+					:step="20"
+					:min="0"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="折叠高度(仅top/bottom)">
+					<sn-stepper v-model="(configs['minHeight'] as number)"
+					:step="20"
+					:min="0"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="滑动折叠阈值（宽度）">
+					<sn-stepper v-model="(configs['slideWidth'] as number)"
+					:step="20"
+					:min="0"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="滑动折叠阈值（高度）">
+					<sn-stepper v-model="(configs['slideHeight'] as number)"
+					:step="20"
+					:min="0"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="背景颜色">
+					<sn-input v-model="(configs['bgColor'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="指示条颜色">
+					<sn-input v-model="(configs['lineColor'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+			</sn-form>
+		</com-card>
+		<sn-gap :height="`${configs['maxHeight'] as number + 20}px`"></sn-gap>
+	</sn-page>
+	<sn-float-board :bgColor="`${configs['bgColor']}`"
+	:position="positions[configs['position'] as number ?? 0]['id'] ?? ''"
+	:lineColor="`${configs['lineColor']}`"
+	:maxHeight="`${configs['maxHeight']}px`"
+	:maxWidth="`${configs['maxWidth']}px`"
+	:minHeight="`${configs['minHeight']}px`"
+	:minWidth="`${configs['minWidth']}px`"
+	:slideHeight="`${configs['slideHeight']}px`"
+	:slideWidth="`${configs['slideWidth']}px`"
+	:aniDur="configs['aniDur']"
+	:showLine="configs['showLine']">
+	</sn-float-board>
+</template>
+
+<script setup>
+	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
+	const snu = $snui.utils
+	const colors = $snui.colors
+	
+	const drawerEle = ref(null as SnDrawerComponentPublicInstance | null)
+	
+	const configs = ref({
+		showLine: true,
+		bgColor: '',
+		lineColor: '',
+		position: 0,
+		maxHeight: 500,
+		maxWidth: 300,
+		minHeight: 50,
+		minWidth: 50,
+		slideHeight: 100,
+		slideWidth: 100,
+		aniDur: parseInt($snui.configs.aniTime.long)
+	})
+	
+	const positions = [
+		{
+			id: 'bottom',
+			text: '底部',
+		},
+		{
+			id: 'top',
+			text: '顶部',
+		},
+		{
+			id: 'left',
+			text: '左侧',
+		},
+		{
+			id: 'right',
+			text: '右侧',
+		}
+	] as SnDataItem[]
+</script>
+
+<style lang="scss">
+</style>

@@ -1,0 +1,81 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Tooltip 弹出提示"></sn-topbar>
+		<com-card title="基础用法"
+		note="也许当你想要动态介绍某个按钮的用途时会用到它">
+			<sn-tooltip>
+				<template #trigger>
+					<sn-button type="error" 
+					level="second"
+					round>
+						<sn-icon name="fire-fill" 
+						:color="colors.error"></sn-icon>
+					</sn-button>
+				</template>
+				<sn-text text="⚠️ WARNING: 发射核武器"></sn-text>
+			</sn-tooltip>
+		</com-card>
+		<com-card title="位置"
+		note="诶，怎……怎么会在这儿 (#ﾟДﾟ)">
+			<sn-tooltip :position="position" :customStyle="{margin:'50px'}">
+				<template #trigger>
+					<sn-button level="second" 
+					text="Click Me"
+					@click="onClick"></sn-button>
+				</template>
+				<sn-text text="Hello!"></sn-text>
+			</sn-tooltip>
+		</com-card>
+		<com-card title="插槽"
+		note="你可以放点更多别的东西">
+			<sn-tooltip position="bottom" padding="70px">
+				<template #trigger>
+					<sn-button level="second"
+					round>
+						<sn-icon name="number-1" 
+						:color="colors.primary"></sn-icon>
+					</sn-button>
+				</template>
+				<sn-tooltip position="top" width="100px" :bgColor="colors.front">
+					<template #trigger>
+						<sn-button type="error" 
+						level="second"
+						round>
+							<sn-icon name="number-2" 
+							:color="colors.error"></sn-icon>
+						</sn-button>
+					</template>
+					<sn-text text="嵌套第三层 (●'◡'●)"></sn-text>
+				</sn-tooltip>
+			</sn-tooltip>
+			<sn-gap height="200px"></sn-gap>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	const cnt = ref(0)
+	const index = ref(0)
+	const position = ref('top-start')
+	
+	function onClick() {
+		let positions = ['top-start', 'top', 'top-end', 'right-start', 'right', 'right-end', 'bottom-end', 'bottom', 'bottom-start', 'left-end', 'left', 'left-start']
+		cnt.value++
+		if (cnt.value >= 2) {
+			cnt.value = 0
+			if (index.value < positions.length - 1) {
+				index.value++
+				position.value = positions[index.value]
+			} else {
+				index.value = 0
+				position.value = positions[0]
+			}
+		}
+	}
+
+</script>
+
+<style lang="scss">
+</style>

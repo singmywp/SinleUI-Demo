@@ -1,0 +1,63 @@
+<template>
+	<!-- #ifdef APP-->
+	<sn-scan 
+	ref="scanEle"
+	:enableDing="data['enableDing']"
+	:showTorch="data['showTorch']"
+	:dingFileSrc="data['dingFileSrc']"
+	:scanType="data['scanType']"
+	:continuous="data['continuous']"
+	:scanOnlyOnce="data['scanOnlyOnce']"
+	:title="data['title']"
+	:initZoomScale="data['initZoomScale']"
+	:continuousSleep="data['continuousSleep']"
+	:showAlbum="data['showAlbum']"
+	:showBackButton="data['showBackButton']"
+	:showAni="data['showAni']"
+	:enableZoom="data['enableZoom']"
+	@goin="goin"></sn-scan>
+	<!--#endif-->
+</template>
+
+<script setup>
+	import { $snui, SnScanParams } from '@/uni_modules/sinle-ui'
+	const data = ref({
+		enableDing: true,
+		showTorch: true,
+		dingFileSrc: '',
+		scanType: 'all',
+		continuous: false,
+		scanOnlyOnce: false,
+		title: '扫一扫',
+		initZoomScale: 0,
+		continuousSleep: 100,
+		showAlbum: true,
+		showBackButton: true,
+		showAni: true,
+		enableZoom: true
+	} as SnScanParams)
+	
+	const scanEle = ref(null as SnScanComponentPublicInstance | null)
+	
+	onLoad((_)=>{
+		let _data = $snui.store.get('demo-scan-params')
+		if (_data != null) {
+			data.value = _data as SnScanParams
+		}
+	})
+	
+	function goin(d: string) {
+		uni.showModal({
+			title: '扫描结果',
+			content: d,
+			showCancel: false,
+			complete:()=>{
+				scanEle.value!.rescan()
+			}
+		})
+	}
+</script>
+
+<style lang="scss">
+
+</style>

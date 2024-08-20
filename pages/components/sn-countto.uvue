@@ -1,0 +1,109 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Countto 数字滚动"></sn-topbar>
+		<com-card title="基础用法"
+		note="滚动的数字，常用在 PPT 的大屏上">
+			<sn-countto :endVal="6666"></sn-countto>
+		</com-card>
+		<com-card title="开始值 & 结束值"
+		note="支持自定义开始和结束的数值">
+			<sn-countto :startVal="6666" :endVal="7777"></sn-countto>
+		</com-card>
+		<com-card title="小数精度"
+		note="支持自定义小数滚动位数">
+			<sn-countto :startVal="6666" 
+			:endVal="7777"
+			:decimals="2"></sn-countto>
+			<sn-countto :startVal="6666"
+			:endVal="7777"
+			:decimals="8"></sn-countto>
+		</com-card>
+		<com-card title="动画时长"
+		note="支持自定义动画时长">
+			<sn-countto :aniDur="10000"
+			:startVal="6666"
+			:endVal="7777"></sn-countto>
+		</com-card>
+		<com-card title="缓动动画"
+		note="以 easeOutSine 缓动动画代替默认的 linear 动画，使得动画在结束前减速">
+			<sn-countto easing
+			:aniDur="5000"
+			:endVal="7777"></sn-countto>
+		</com-card>
+		<com-card title="分割数字"
+		note="常用于金融场景">
+			<sn-countto :separate="3"
+			:aniDur="10000"
+			:endVal="1000000"></sn-countto>
+		</com-card>
+		<com-card title="自定义样式"
+		note="多姿多样，丰富多彩">
+			<sn-countto :endVal="7777"
+			:textColor="colors.successDark"
+			:textSize="$snui.configs.font.size(3)"
+			:customStyle="{fontFamily: 'alipuhuiheavy'}"></sn-countto>
+		</com-card>
+		<com-card title="自由控制"
+		note="提供 API 以自由控制数字滚动的状态。">
+			<view class="align-items-center">
+				<sn-countto ref="counttoEle"
+				:aniDur="5000"
+				:endVal="7777"></sn-countto>
+				<sn-button-group align="center">
+					<sn-button round-size="50px" 
+					round
+					@click="reset">
+						<sn-icon name="refresh-line"></sn-icon>
+					</sn-button>
+					<sn-button class="m-l-10"
+					type="primary"
+					level="second"
+					round-size="60px"
+					round
+					@click="playOrPause">
+						<sn-icon :name="`${running?'pause':'play'}-fill`" 
+						:color="colors.primary"></sn-icon>
+					</sn-button>
+					<sn-button class="m-l-10"
+					round-size="50px" 
+					round
+					@click="stop">
+						<sn-icon name="stop-circle-fill"></sn-icon>
+					</sn-button>
+				</sn-button-group>
+			</view>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	
+	const running = ref(true)
+	const counttoEle = ref(null as SnCounttoComponentPublicInstance | null)
+	
+	function playOrPause(){
+		running.value = !running.value
+		if (running.value) {
+			counttoEle.value!.play()
+		} else {
+			counttoEle.value!.pause()
+		}
+		
+	}
+	
+	function stop(){
+		running.value = false
+		counttoEle.value!.stop()
+	}
+	
+	function reset(){
+		running.value = true
+		counttoEle.value!.reset()
+	}
+</script>
+
+<style lang="scss">
+
+</style>

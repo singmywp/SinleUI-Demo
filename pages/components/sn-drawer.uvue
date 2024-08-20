@@ -1,0 +1,148 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Drawer 抽屉"
+		:features="[{id:'run',icon:'play-circle-fill'} as SnDataItem]"
+		@button-click="buttonClicked"></sn-topbar>
+		<com-card title="组件演示"
+		note="通常用于半屏窗口的场景。\n请注意区分 Popup 和 Drawer。Popup 只控制动画和显隐逻辑，UI 需要自己写。而 Drawer 则是在 Popup 的基础上加了一层 UI 模板。\n请注意区分 Drawer 和 Float Board。Drawer 是弹出层，需要调用方法才能显示；而 Float Board 则始终显示，且可以通过用户手势操作完全显露。（可以把 Drawer 理解为关闭的抽屉，FloatBoard 则是半开的抽屉）">
+			<sn-form v-model="configs"
+			:showBorder="false">
+				<sn-form-item label="遮罩关闭">
+					<sn-switch v-model="(configs['maskClose'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="滑动手势关闭">
+					<sn-switch v-model="(configs['slideClose'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="阻止返回事件">
+					<sn-switch v-model="(configs['preventBack'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="显示指示条">
+					<sn-switch v-model="(configs['showLine'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="位置">
+					<sn-select 
+					v-model="(configs['position'] as number)"
+					width="200px"
+					:data="positions">
+					</sn-select>
+				</sn-form-item>
+				<sn-form-item label="动画时长">
+					<sn-stepper v-model="(configs['aniDur'] as number)"
+					:step="100"
+					:min="100"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="遮罩透明度">
+					<sn-stepper v-model="(configs['maskOpacity'] as number)"
+					:step="0.1"
+					:min="0"
+					:max="1"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="宽度(仅left/right)">
+					<sn-stepper v-model="(configs['width'] as number)"
+					:step="20"
+					:min="0"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="高度(仅top/bottom)">
+					<sn-stepper v-model="(configs['height'] as number)"
+					:step="20"
+					:min="0"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="滑动关闭阈值（宽度）">
+					<sn-stepper v-model="(configs['slideWidth'] as number)"
+					:step="20"
+					:min="0"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="滑动关闭阈值（高度）">
+					<sn-stepper v-model="(configs['slideHeight'] as number)"
+					:step="20"
+					:min="0"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="背景颜色">
+					<sn-input v-model="(configs['bgColor'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="指示条颜色">
+					<sn-input v-model="(configs['lineColor'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-button text="打开" 
+				level="second" 
+				type="primary" 
+				@click="show()"
+				style="margin-top: 10px;">
+				</sn-button>
+			</sn-form>
+		</com-card>
+		<sn-gap></sn-gap>
+	</sn-page>
+	<sn-drawer ref="drawerEle"
+	:position="positions[configs['position'] as number ?? 0]['id'] ?? ''"
+	:bgColor="`${configs['bgColor']}`"
+	:lineColor="`${configs['lineColor']}`"
+	:height="`${configs['height']}px`"
+	:width="`${configs['width']}px`"
+	:slideHeight="`${configs['slideHeight']}px`"
+	:slideWidth="`${configs['slideWidth']}px`"
+	:aniDur="configs['aniDur']"
+	:maskOpacity="configs['maskOpacity']"
+	:maskClose="configs['maskClose']"
+	:slideClose="configs['slideClose']"
+	:showLine="configs['showLine']"
+	:preventBack="configs['preventBack']">
+	</sn-drawer>
+</template>
+
+<script setup>
+	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
+	const snu = $snui.utils
+	
+	const drawerEle = ref(null as SnDrawerComponentPublicInstance | null)
+	
+	const configs = ref({
+		maskClose: true,
+		preventBack: false,
+		showLine: true,
+		slideClose: true,
+		bgColor: '',
+		lineColor: '',
+		position: 0,
+		height: 300,
+		width: 300,
+		slideHeight: 100,
+		slideWidth: 100,
+		aniDur: parseInt($snui.configs.aniTime.long),
+		maskOpacity: 0.3
+	})
+	
+	const positions = [
+		{
+			id: 'bottom',
+			text: '底部',
+		},
+		{
+			id: 'top',
+			text: '顶部',
+		},
+		{
+			id: 'left',
+			text: '左侧',
+		},
+		{
+			id: 'right',
+			text: '右侧',
+		}
+	] as SnDataItem[]
+
+	function show() {
+		snu.throttle(()=>{
+			drawerEle.value?.open?.()
+		}, 50)
+	}
+	
+	function buttonClicked(e: SnDataItem){
+		if (e.id == 'run') show()
+	}
+</script>
+
+<style lang="scss">
+</style>

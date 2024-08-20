@@ -1,0 +1,86 @@
+{
+    "name" : "SinleUI",
+    "appid" : "__UNI__B140C8B",
+    "description" : "一个简洁、轻巧的现代移动应用UI框架。",
+    "versionName" : "1.0.4",
+    "versionCode" : 104,
+    "uni-app-x" : {},
+    /* 快应用特有相关 */
+    "quickapp" : {},
+    /* 小程序特有相关 */
+    "mp-weixin" : {
+        "appid" : "",
+        "setting" : {
+            "urlCheck" : false
+        },
+        "usingComponents" : true
+    },
+    "mp-alipay" : {
+        "usingComponents" : true
+    },
+    "mp-baidu" : {
+        "usingComponents" : true
+    },
+    "mp-toutiao" : {
+        "usingComponents" : true
+    },
+    "uniStatistics" : {
+        "enable" : false
+    },
+    "vueVersion" : "3",
+    "app" : {
+        "distribute" : {
+            "android" : {
+                "packagename" : "com.singmy.sinleui",
+                "abiFilters" : [ "arm64-v8a" ],
+                "minSdkVersion" : "21",
+                "targetSdkVersion" : "33"
+            },
+            "icons" : {
+                "android" : {
+                    "hdpi" : "unpackage/res/icons/72x72.png",
+                    "xhdpi" : "unpackage/res/icons/96x96.png",
+                    "xxhdpi" : "unpackage/res/icons/144x144.png",
+                    "xxxhdpi" : "unpackage/res/icons/192x192.png"
+                },
+                "ios" : {
+                    "appstore" : "unpackage/res/icons/1024x1024.png"
+                }
+            },
+            "splashScreens" : {
+                "android" : {
+                    "xhdpi" : "",
+                    "xxhdpi" : "E:/Projects/SinleUI 设计/启动图/mid.9.png",
+                    "xxxhdpi" : ""
+                }
+            }
+        }
+    },
+    "web" : {
+        "title" : "SinleUI",
+        "router" : {
+            "mode" : "hash",
+            "base" : "/demo/"
+        },
+        "unipush" : {
+            "enable" : false
+        },
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : true
+            }
+        }
+    },
+    "h5" : {
+        "title" : "SinleUI",
+        "router" : {
+            "mode" : "hash",
+            "base" : "/demo/"
+        },
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : true
+            }
+        }
+    }
+}

@@ -1,0 +1,114 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Switch 开关"></sn-topbar>
+		<com-card title="基础用法"
+		note="跟官方的很相似，但扩展了一些功能">
+			<sn-switch v-model="v1"></sn-switch>
+		</com-card>
+		<com-card title="颜色"
+		note="丰富多彩的颜色 (colorful">
+			<sn-row>
+				<sn-switch v-model="v2" 
+				class="spacing"
+				bgColor="#b5b5b5" 
+				:activeBgColor="theme=='light'?'#000': '#6d6d6d'"></sn-switch>
+				<sn-switch v-model="v2" 
+				class="spacing"
+				activeBlockColor="#eeebd6" 
+				activeBgColor="#e1c783"></sn-switch>
+			</sn-row>
+		</com-card>
+		<com-card title="尺寸"
+		note="可以自由调整 switch 的尺寸">
+			<sn-row>
+				<sn-switch v-model="v3" 
+				class="spacing"
+				width="100px"></sn-switch>
+				<sn-switch v-model="v3"
+				class="spacing"
+				width="40px"></sn-switch>
+			</sn-row>
+		</com-card>
+		<com-card title="圆角"
+		note="可以自由调整 switch 的圆角">
+			<sn-row>
+				<sn-switch v-model="v4"
+				class="spacing"
+				borderRadius="3px" 
+				blockBorderRadius="2px">
+				</sn-switch>
+			</sn-row>
+		</com-card>
+		<com-card title="间隙"
+		note="可以自由调整 switch 滑块的间隙">
+			<sn-row>
+				<sn-switch v-model="v5"
+				class="spacing"
+				padding="7px"></sn-switch>
+				<sn-switch v-model="v5" 
+				class="spacing"
+				padding="2px"></sn-switch>
+			</sn-row>
+		</com-card>
+		<com-card title="文本"
+		note="switch 内部可以添加自定义文字">
+			<sn-switch v-model="tV"
+			width="150px" 
+			height="40px" 
+			padding="10px" 
+			textSize="18px"
+			activeBgColor="#ce2c2f"
+			activeBlockColor="#ffe167"
+			:text="tV?'匹夫有责':'天下兴亡'" 
+			:blockBorderRadius="tV?'30px 100px 100px 30px':'100px 30px 30px 100px'"></sn-switch>
+		</com-card>
+		<com-card title="图标"
+		note="switch 的滑块内可以添加图标，更具美感">
+			<sn-switch v-model="v6" :icon="v6?'check-line':'close-line'" activeBgColor="#59b584"></sn-switch>
+		</com-card>
+		<com-card title="加载中"
+		note="加载中的 switch，至少不会让用户认为你在偷懒">
+			<sn-switch v-model="v7" :loading="loading"></sn-switch>
+			<sn-card>
+				<sn-row justify="space-between">
+					<sn-text text="加载状态"
+					:size="$snui.configs.font.size(3)"></sn-text>
+					<sn-switch v-model="loading"></sn-switch>
+				</sn-row>
+			</sn-card>
+		</com-card>
+		<com-card title="禁用"
+		note="为 switch 设置禁用状态，注意：只是禁用手动点击，不会屏蔽数据的修改">
+			<sn-row>
+				<sn-switch v-model="v8" 
+				class="spacing"
+				disabled></sn-switch>
+				<sn-switch v-model="v8"
+				class="spacing"></sn-switch>
+			</sn-row>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	const theme = computed(():string=>$snui.configs.app.theme)
+	
+	const v1 = ref(false)
+	const v2 = ref(false)
+	const v3 = ref(true)
+	const v4 = ref(false)
+	const v5 = ref(false)
+	const v6 = ref(false)
+	const v7 = ref(false)
+	const v8 = ref(false)
+	const loading = ref(true)
+	const tV = ref(false)
+</script>
+
+<style lang="scss">
+	.spacing {
+		margin: 0 10px 10px 0;
+	}
+</style>

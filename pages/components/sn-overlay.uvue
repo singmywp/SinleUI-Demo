@@ -1,0 +1,67 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Overlay 遮罩层"
+		:features="[{id:'run',icon:'play-circle-fill'} as SnDataItem]"
+		@button-click="buttonClicked"></sn-topbar>
+		<com-card title="组件演示"
+		note="强调特定元素，常与弹出层等组件搭配使用。通过插槽放置弹出层。">
+			<sn-form v-model="configs"
+			:showBorder="false">
+				<sn-form-item label="点击遮罩关闭">
+					<sn-switch v-model="(configs['maskClose'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="动画时长">
+					<sn-stepper v-model="(configs['aniDur'] as number)"
+					:step="100"
+					:min="100"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="遮罩透明度">
+					<sn-stepper v-model="(configs['opacity'] as number)"
+					:step="0.1"
+					:min="0"
+					:max="1"></sn-stepper>
+				</sn-form-item>
+				<sn-button text="打开" 
+				level="second" 
+				type="primary" 
+				@click="show()"
+				style="margin-top: 10px;">
+				</sn-button>
+			</sn-form>
+		</com-card>
+	</sn-page>
+	<sn-overlay ref="overlayEle"
+	:maskClose="configs['maskClose']"
+	:opacity="configs['opacity']" 
+	:aniDur="configs['aniDur']">
+	</sn-overlay>
+</template>
+
+<script setup>
+	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
+	
+	const overlayEle = ref(null as SnOverlayComponentPublicInstance | null)
+	
+	const configs = ref({
+		maskClose: true,
+		aniDur: parseInt($snui.configs.aniTime.long),
+		opacity: 0.3
+	})
+	
+	function show(){
+		overlayEle.value?.open?.()
+	}
+	
+	function buttonClicked(e: SnDataItem){
+		if (e.id == 'run') show()
+	}
+</script>
+
+<style lang="scss">
+	.content {
+		margin: 0 auto;
+		padding: 20px;
+		transform: translateY(300%);
+		border-radius: 12px;
+	}
+</style>

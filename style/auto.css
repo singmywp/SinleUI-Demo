@@ -1,0 +1,15 @@
+/* stylelint-disable */
+/* 
+  @see https://gitcode.com/kviewui/kux-autocss
+  @version: v1.0.11
+  @author kux <kviewui@163.com>
+  2024-08-19 18:07:22
+  该文件将会自动初始化并更新，切勿直接修改！
+*/
+
+/* wordBreak */
+.word-break-break-all{ word-break: break-all; }
+/* margin-b */
+.m-b-10{ margin-bottom: 10px; }
+/* margin-l */
+.m-l-10{ margin-left: 10px; }

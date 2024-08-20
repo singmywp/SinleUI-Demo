@@ -1,0 +1,40 @@
+<template>
+	<com-card title="生成随机整数"
+	note="生成一个介于最小值和最大值之间的随机整数。">
+		<sn-button type="primary"
+		text="生成 0 ~ 100 之间的随机整数"
+		@click="d1 = snu.randint(0, 100).toString()"></sn-button>
+		<com-card :title="d1"
+		:bgColor="colors.info"></com-card>
+	</com-card>
+	<com-card title="生成指定位数的随机整数"
+	note="生成一个指定位数的随机整数。">
+		<sn-button type="primary"
+		text="生成 5 位的随机整数"
+		@click="d2 = snu.formatNumber(snu.randomNumber(5)).toString()"></sn-button>
+		<com-card :title="d2"
+		:bgColor="colors.info"></com-card>
+	</com-card>
+	<com-card title="生成UUID"
+	note="生成一个UUID格式的字符串。">
+		<sn-button type="primary"
+		text="生成 UUID"
+		@click="d3 = snu.uuid()"></sn-button>
+		<com-card :title="d3"
+		:bgColor="colors.info"></com-card>
+	</com-card>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const snu = $snui.utils
+	const colors = $snui.colors
+	
+	const d1 = ref(snu.randint(0, 100).toString())
+	const d2 = ref(snu.formatNumber(snu.randomNumber(5)).toString())
+	const d3 = ref(snu.uuid())
+</script>
+
+<style>
+		
+</style>

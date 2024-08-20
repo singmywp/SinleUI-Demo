@@ -1,0 +1,64 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Stepper 步进器"></sn-topbar>
+		<com-card title="基础用法"
+		note="据我所知，它在购物页面里很常见\n长按按钮可以快速增减哦">
+			<sn-stepper v-model="v1"></sn-stepper>
+		</com-card>
+		<com-card title="最值及步长"
+		note="可以为步进器设置最小值、最大值及步长。">
+			<sn-text class="spacing" type="info" text="最大值: 38.5, 最小值:2, 步长:5.5" size="14px"></sn-text>
+			<sn-stepper v-model="v2" 
+			:max="38.5" 
+			:min="2" 
+			:step="5.5"></sn-stepper>
+		</com-card>
+		<com-card title="禁用长按"
+		note="如果你不需要长按按钮增减的功能，可以在这里禁用">
+			<sn-stepper v-model="v3"
+			:longpress="false"></sn-stepper>
+		</com-card>
+		<com-card title="禁用输入框"
+		note="如果你不需要输入框编辑的功能，可以在这里禁用">
+			<sn-stepper v-model="v4"
+			disable-input></sn-stepper>
+		</com-card>
+		<com-card title="禁用"
+		note="禁用整个组件的操作（但不会屏蔽数据上的修改）">
+			<sn-stepper v-model="v5" disabled></sn-stepper>
+		</com-card>
+		<com-card title="自定义样式"
+		note="调出你喜欢的样子">
+			<sn-stepper v-model="v6"
+			class="spacing"
+			:bgColor="colors.primaryLight"
+			:textColor="colors.primary"></sn-stepper>
+			<sn-stepper v-model="v6"
+			text-size="20px"
+			size="40px" 
+			input-width="100px"
+			spacing="10px"
+			:bgColor="colors.successLight" 
+			:borderRadius="$snui.configs.radius.circle"
+			:textColor="colors.success"></sn-stepper>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	
+	const v1 = ref(0)
+	const v2 = ref(0)
+	const v3 = ref(0)
+	const v4 = ref(0)
+	const v5 = ref(5)
+	const v6 = ref(0)
+</script>
+
+<style lang="scss">
+	.spacing {
+		margin-bottom: 5px;
+	}
+</style>

@@ -1,0 +1,70 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Loading Page 加载页"></sn-topbar>
+		<sn-gap></sn-gap>
+		<com-card title="组件演示">
+			<sn-text class="introduction" :text="'\u3000\u3000在页面信息尚未完全加载时使用，避免出现视觉空白'"></sn-text>
+			<sn-form v-model="configs"
+			:showBorder="false">
+				<sn-form-item label="自定义图片代替加载">
+					<sn-switch v-model="(configs['image'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="提示文本">
+					<sn-input v-model="(configs['text'] as string)"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="文本颜色">
+					<sn-input v-model="(configs['textColor'] as string)"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="文本大小">
+					<sn-input v-model="(configs['textSize'] as string)"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="图标颜色">
+					<sn-input v-model="(configs['iconColor'] as string)"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="图标大小">
+					<sn-input v-model="(configs['iconSize'] as string)"></sn-input>
+				</sn-form-item>
+			</sn-form>
+			<sn-button text="打开" level="second" type="primary" @click="showLoadingPage()"
+				style="margin-top: 10px;"></sn-button>
+		</com-card>
+		<sn-gap></sn-gap>
+	</sn-page>
+	<sn-loading-page :show="show"
+	:imgSrc="isImageMode?'/static/logo-trans.png':''" 
+	:text="isImageMode?'SinleUI':configs['text']"
+	:textColor="isImageMode?colors.dark:configs['textColor']" 
+	:iconColor="isImageMode?colors.dark:configs['iconColor']" 
+	:textSize="isImageMode?'20px':configs['textSize']"
+	:iconSize="isImageMode?'':configs['iconSize']"
+	:customTextStyle="isImageMode?{marginTop:'10px',fontFamily:'alipuhuiheavy'}:{marginTop:'15px'}"></sn-loading-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+
+	const show = ref(false)
+	
+	const configs = ref({
+		text: '加载中',
+		textColor: '',
+		iconColor: '',
+		textSize: $snui.configs.font.size(4) as string,
+		iconSize: '40px',
+		image: false
+	})
+	
+	const isImageMode = computed(():boolean=>configs.value['image'] as boolean)
+	
+
+	function showLoadingPage() {
+		show.value = true
+		setTimeout(() => {
+			show.value = false
+		}, 2000)
+	}
+</script>
+
+<style lang="scss">
+</style>

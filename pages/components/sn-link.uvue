@@ -1,0 +1,68 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Link 超链接"></sn-topbar>
+		<com-card title="基础用法"
+		note="链接直达">
+			<sn-link class="spacing"
+			text="uni-app x 官网" 
+			href="https://doc.dcloud.net.cn/uni-app-x/"></sn-link>
+			<sn-link class="spacing"
+			text="拨号给 中国联通"
+			href="tel:10010"></sn-link>
+			<sn-link class="spacing"
+			text="打开QQ" 
+			href="mqq://"></sn-link>
+		</com-card>
+		<com-card title="下划线"
+		note="通常超链接都是这样的经典样式">
+			<sn-link text="百度首页" 
+			href="https://www.baidu.com/"
+			underline></sn-link>
+		</com-card>
+		<com-card title="前后图标"
+		note="大厂的链接都是这样的">
+			<sn-link class="spacing"
+			text="Ant Design"
+			href="https://ant-design.antgroup.com/index-cn/"	
+			prefixIcon="link"></sn-link>
+			<sn-link class="spacing"
+			text="TDesign" 
+			href="https://tdesign.tencent.com/"
+			suffixIcon="external-link-line"></sn-link>
+		</com-card>
+		<com-card title="自定义颜色"
+		note="也许你需要将链接隐藏在彩色的文字中">
+			<sn-link text="uni-app x 官网" 
+			href="https://doc.dcloud.net.cn/uni-app-x/"
+			:color="colors.successDark"></sn-link>
+		</com-card>
+		<com-card title="尺寸"
+		note="选择合适的大小也是一门技术活️">
+			<sn-link class="spacing"
+			text="Dcloud 插件市场" 
+			href="https://ext.dcloud.net.cn/" 
+			size="14px"></sn-link>
+			<sn-link class="spacing"
+			text="问答社区" 
+			href="https://ask.dcloud.net.cn/explore/" 
+			size="18px"></sn-link>
+		</com-card>
+		<com-card title="本地"
+		note="使用本地内置Webview打开（仅对Web URL生效）">
+			<sn-link text="必应" 
+			local
+			href="https://cn.bing.com/"></sn-link>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+</script>
+
+<style lang="scss">
+	.spacing {
+		margin-bottom: 10px;
+	}
+</style>

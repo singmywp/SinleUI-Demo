@@ -1,0 +1,27 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Markdown 富文本"></sn-topbar>
+		<sn-alert type="primary"
+		text="基于 markdown-it 实现 Markdown 富文本渲染，支持暗黑模式，内置 highlight.js、上下标、Emoji、 自定义容器等插件，以及类 VitePress 的样式，帮助您更轻松地插入 Markdown 文本"></sn-alert>
+		<sn-alert type="warning"
+		icon="notification-4-fill"
+		text="因基于 WebView 渲染，页面中不宜放置大量 Markdown 组件，会引起性能问题"></sn-alert>
+		<sn-alert type="success"
+		icon="checkbox-circle-fill"
+		text="支持双向同步渲染，此处不再演示"></sn-alert>
+		<com-card title="基础用法"></com-card>
+		<sn-markdown height="500px"
+		:content="c1"
+		:theme="themeC"></sn-markdown>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const themeC = computed(():string=>$snui.configs.app.theme)
+	const c1 = ref('# :tada: Hi, Markdown!\n---\n基于 `markdown-it` 实现 Markdown 富文本渲染。\n\n---\n:::tip\n类 VitePress 的自定义容器\n:::\n---\n\n**下标**：水（H~2~O）\n\n**上标**：mx^|m-2|^+ac=0\n\n---\n```vue\n<template>\n  <Code text="highlight.js 支持的代码高亮插件" />\n</template>\n```\n---\n![SinleUI](https://singmywp.github.io/logo.png)')
+</script>
+
+<style>
+		
+</style>
