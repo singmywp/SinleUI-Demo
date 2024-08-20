@@ -2,7 +2,7 @@
 	<sn-page>
 		<sn-topbar title="Alert 警告信息"></sn-topbar>
 		<com-card title="基础用法"
-		note="用于向用户说明或警告信息">
+		note="用于向用户说明或警告信息。">
 			<sn-alert text="道可道，非常道"></sn-alert>
 			<sn-alert type="primary" text="名可名，非常名"></sn-alert>
 			<sn-alert type="success" text="无名，天地之始"></sn-alert>
