@@ -5,7 +5,7 @@
 		icon="error-warning-fill"
 		text="Badge 组件的父节点需要设置 overflow: visible;"></sn-alert>
 		<com-card title="基础用法"
-		note="页面里最令强迫症患者讨厌的东西，但确实有用">
+		note="页面里最令强迫症患者讨厌的东西，但确实有用。">
 			<sn-row class="ov">
 				<sn-badge class="spacing" :value="6">
 					<sn-avatar mode="text" text="徽"></sn-avatar>
