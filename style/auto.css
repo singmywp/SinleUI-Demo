@@ -44,3 +44,5 @@
 .justify-center{ justify-content: center; }
 /* padding-b */
 .\!p-b-5{ padding-bottom: 5px !important; }
+/* wordBreak */
+.word-break-break-all{ word-break: break-all; }

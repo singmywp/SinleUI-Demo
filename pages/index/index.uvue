@@ -29,12 +29,12 @@
 			@click="changeTheme">
 			</sn-button>
 		</com-card>
-		
+		<!--
 		<com-card title="演示 - 开发用途 ">
 			<sn-button text="前往"
 			@click="goTo('/pages/other/temp')"></sn-button>
 		</com-card>
-		
+		-->
 		<com-card v-for="(list, listIndex) in (comLists as UTSJSONObject[])" :key="listIndex" :title="list['name']">
 			<sn-grid-group>
 				<sn-grid-item v-for="(e,index) in (list['data'] as UTSJSONObject[])" class="com-item" :key="index"
