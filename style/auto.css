@@ -3,7 +3,7 @@
   @see https://gitcode.com/kviewui/kux-autocss
   @version: v1.0.11
   @author kux <kviewui@163.com>
-  2024-08-22 04:24:27
+  2024-08-22 04:37:10
   该文件将会自动初始化并更新，切勿直接修改！
 */
 
@@ -44,5 +44,3 @@
 .justify-center{ justify-content: center; }
 /* padding-b */
 .\!p-b-5{ padding-bottom: 5px !important; }
-/* wordBreak */
-.word-break-break-all{ word-break: break-all; }
