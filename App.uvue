@@ -56,7 +56,7 @@
 	 * @version 1.0.11
 	 * @author kux <kviewui@163.com>
 	 * @repository https://gitcode.com/kviewui/kux-autocss
-	 * @date 2024-08-21 00:58:11
+	 * @date 2024-08-22 04:24:27
 	 */
 	/* #ifdef WEB */
 	@import url('@/style/auto.css');

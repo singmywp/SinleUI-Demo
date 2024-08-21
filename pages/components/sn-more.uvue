@@ -1,0 +1,51 @@
+<template>
+	<sn-page>
+		<sn-topbar title="More 查看更多"></sn-topbar>
+		<com-card title="基础用法"
+		note="内容太长可以先收起一部分">
+			<sn-more>
+				<sn-text :text="`\u3000\u3000`+longText3"
+				:size="$snui.configs.font.size(3)"></sn-text>
+			</sn-more>
+		</com-card>
+		<com-card title="自定义文字">
+			<sn-more unfoldText="开"
+			foldText="关">
+				<sn-text :text="article5"
+				:size="$snui.configs.font.size(3)"></sn-text>
+			</sn-more>
+		</com-card>
+		<com-card title="自定义展示高度">
+			<sn-more minHeight="250px"> 
+				<sn-text :text="`\u3000\u3000`+longText4"
+				:size="$snui.configs.font.size(3)"></sn-text>
+			</sn-more>
+		</com-card>
+		<com-card title="动画时长"
+		note="如果你在意性能的话，可以关闭动画">
+			<sn-more :aniTime="0">
+				<sn-text :text="article3"
+				:size="$snui.configs.font.size(3)"></sn-text>
+			</sn-more>
+		</com-card>
+		<com-card title="禁用">
+			<sn-more unfoldText="开通大会员畅享百万好文"
+			icon="vip-crown-line"
+			disabled>
+				<sn-text :text="article1"
+				:size="$snui.configs.font.size(3)"></sn-text>
+			</sn-more>
+		</com-card>
+		<sn-gap></sn-gap>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	import { longText3,longText4, article1,article3,article5 } from '@/source/longtext.uts'
+	const colors = $snui.colors
+</script>
+
+<style>
+		
+</style>

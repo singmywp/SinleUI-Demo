@@ -414,6 +414,13 @@
     	{
     		"navigationBarTitleText" : ""
     	}
+    },
+    {
+    	"path" : "pages/components/sn-more",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : ""
+    	}
     }
   ],
   "globalStyle": {

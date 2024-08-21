@@ -11,6 +11,9 @@
 				<sn-form-item label="松手吸附">
 					<sn-switch v-model="(configs['absorb'] as boolean)"></sn-switch>
 				</sn-form-item>
+				<sn-form-item label="禁用">
+					<sn-switch v-model="(configs['disabled'] as boolean)"></sn-switch>
+				</sn-form-item>
 				<sn-form-item label="位置">
 					<sn-select 
 					v-model="(configs['position'] as number)"
@@ -57,6 +60,7 @@
 	<sn-float-button 	
 	v-model="(configs['model'] as number[])"
 	:init="(configs['init'] ?? true)"
+	:disabled="(configs['disabled'] ?? false)"
 	:aniTime="(configs['aniTime'] ?? 0)"
 	:absorb="(configs['absorb'] ?? true)"
 	:position="positions[(configs['position']??4) as number]['id']"
@@ -80,6 +84,7 @@
 		position: 4,
 		absorb: true,
 		margin: 20,
+		disabled: false,
 		boxShadow: '0 0 15px -10px',
 		aniTime: parseInt($snui.configs.aniTime.long),
 		borderRadius: '',

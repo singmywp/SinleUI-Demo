@@ -5,8 +5,39 @@
 		icon="notification-fill"
 		text="手势事件可通过 event 属性操作原事件，例如阻止冒泡、阻止默认行为"></sn-alert>
 		<com-card title="基础用法"
-		note="用法与内置 view 组件无异。但扩展了组件的手势事件，相当于简化版的 sn-e-gesture。">
-			<sn-view></sn-view>
+		note="用法与内置 view 组件无异。但样式更好调；扩展了组件的手势事件，相当于简化版的 sn-e-gesture。">
+		</com-card>
+		<com-card title="加载"
+		note="可以通过 View 组件设置区域加载">
+			<sn-form>
+				<sn-form-item label="是否加载">
+					<sn-switch v-model="loading"></sn-switch>
+				</sn-form-item>
+			</sn-form>
+			<sn-view borderRadius="10px"
+			padding="2px 10px"
+			:loading="loading">
+				<sn-row justify="space-between">
+					<sn-text text="这是文字"></sn-text>
+					<sn-button text="这是 View 的子组件"></sn-button>
+				</sn-row>
+			</sn-view>
+		</com-card>
+		<com-card title="禁用"
+		note="可以通过 View 组件设置区域禁用">
+			<sn-form>
+				<sn-form-item label="是否禁用">
+					<sn-switch v-model="disabled"></sn-switch>
+				</sn-form-item>
+			</sn-form>
+			<sn-view borderRadius="10px"
+			padding="2px 10px"
+			:disabled="disabled">
+				<sn-row justify="space-between">
+					<sn-text text="这是文字"></sn-text>
+					<sn-button text="这是 View 的子组件"></sn-button>
+				</sn-row>
+			</sn-view>
 		</com-card>
 		<com-card title="手势事件">
 			<sn-view class="gesture-block" 
@@ -36,6 +67,8 @@
 	const colors = $snui.colors
 	
 	const gestureEventText = ref('')
+	const disabled = ref(true)
+	const loading = ref(true)
 	
 	function touchGestureEvent(event : SnTouchEvent) {
 		event.event.preventDefault()

@@ -71,6 +71,15 @@
 				valueTextWidth="60px"></sn-slider-double>
 			</sn-row>
 		</com-card>
+		<com-card title="禁用"
+		note="支持设置禁用">
+			<sn-slider v-model="v3"
+			disabled></sn-slider>
+			<sn-slider-double v-model="d3"
+			class="m-t-10"
+			disabled
+			valueTextWidth="50px"></sn-slider-double>
+		</com-card>
 		<sn-gap height="50px"></sn-gap>
 	</sn-page>
 </template>
