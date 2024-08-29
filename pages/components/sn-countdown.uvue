@@ -45,7 +45,7 @@
 				format="mm:ss.SS"
 				millisecond
 				:time="5 * 60 * 1000"></sn-countdown>
-				<sn-button-group align="center">
+				<sn-row align="center">
 					<sn-button round-size="50px" round
 					@click="reset">
 						<sn-icon name="refresh-line"></sn-icon>
@@ -64,7 +64,7 @@
 					@click="stop">
 						<sn-icon name="stop-circle-fill"></sn-icon>
 					</sn-button>
-				</sn-button-group>
+				</sn-row>
 			</view>
 		</com-card>
 	</sn-page>

@@ -1,2 +1,10 @@
 /uni_modules/sinle-ui/
-/unpackage/
+/uni_modules/uni-id-common/
+/uni_modules/uni-config-center/
+/unpackage/debug/
+/unpackage/resources/
+/unpackage/cache/
+/unpackage/dist/
+/uniCloud/
+/.vscode/
+/.hbuilderx/

@@ -73,6 +73,7 @@ export default defineConfig({
 > **提示**
 > 
 > `v1.0.6` 及以上版本 `web` 支持自动导入样式，上面示例代码可以省略。
+> `v1.0.12` 及以上版本样式生成为行内样式，不再需要上面的全局样式导入。插件也不再有生成自动导入样式代码的逻辑。
 
 ## 插件配置
 插件配置支持 `注册配置` 和 `插件配置`。其中 `注册配置` 完全继承 `插件配置`，注册配置即在 `vite.config` 中注册时传的配置内容。具体定义如下：
@@ -102,6 +103,16 @@ interface PluginOptions extends AutocssConfig {
      * CSS代码提示文件位置，如：`'../my-auto.snippets.css'`
      */
     cssSnippetsFile?: string;
+    /**
+	 * 是否开启调试模式，开启后将输出详细的日志信息
+	 *  `v1.0.12` 及以上版本支持
+	 */
+	debug?: boolean
+	/**
+	 * 是否生成全局css文件
+	 *  `v1.0.12` 及以上版本支持
+	 */
+	generateGlobalCss?: boolean
 }
 ```
 
@@ -277,6 +288,17 @@ interface AutocssConfig {
 	 * ]
 	 */
 	shortcuts: Shortcut
+	/**
+	 * 是否开启调试模式，开启后将输出详细的日志信息
+	 *  `v1.0.12` 及以上版本支持
+	 */
+	debug?: boolean
+	/**
+	 * 是否生成全局css文件
+	 *  `v1.0.12` 及以上版本支持
+	 */
+	generateGlobalCss?: boolean
+
 }
 ```
 
@@ -357,6 +379,16 @@ module.exports = {
 	 * 快捷方式
 	 */
 	shortcuts: {"kux-btn":"py-2 px-4 font-semibold rounded-lg shadow-md"},
+	/**
+	 * 是否开启调试模式，开启后将输出详细的日志信息
+	 *  `v1.0.12` 及以上版本支持
+	 */
+	debug: true
+	/**
+	 * 是否生成全局css文件
+	 *  `v1.0.12` 及以上版本支持
+	 */
+	generateGlobalCss: true
 }
 ```
 

@@ -32,7 +32,7 @@
 					if (new File(path).exists()) {
 						this.$el?.setSVG(SVG.getFromInputStream(new FileInputStream(path)))
 					} else {
-						console.error(`sn-e-svg: Svg path [${path}] donnot exist`)
+						console.error(`sn-e-svg: Svg path [${path}] does not exist`)
 					}
 				}
 			}

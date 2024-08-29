@@ -23,18 +23,27 @@
 					showValueText
 					@change="changeSize"></sn-slider>
 				</sn-form-item>
+				<sn-form-item label="圆角">
+					<sn-slider v-model="radiusValue"
+					:max="30"
+					:min="0"
+					showValueText
+					@change="changeRadius"></sn-slider>
+				</sn-form-item>
 			</sn-form>
 			<sn-button type="primary" 
 			text="切换主题"
 			@click="changeTheme">
 			</sn-button>
 		</com-card>
+		
 		<!--
 		<com-card title="演示 - 开发用途 ">
 			<sn-button text="前往"
 			@click="goTo('/pages/other/temp')"></sn-button>
 		</com-card>
 		-->
+		
 		<com-card v-for="(list, listIndex) in (comLists as UTSJSONObject[])" :key="listIndex" :title="list['name']">
 			<sn-grid-group>
 				<sn-grid-item v-for="(e,index) in (list['data'] as UTSJSONObject[])" class="com-item" :key="index"
@@ -67,6 +76,7 @@
 	const snu = $snui.utils
 	const theme = computed(() : string => $snui.configs.app.theme)
 	const fontSizeValue = ref(14)
+	const radiusValue = ref(12)
 	const autoTheme = ref(true)
 	const _tmpValue = reactive({})
 	
@@ -74,6 +84,7 @@
 		{id:'about',icon:'information-line',text:'关于'},
 		{id:'document',icon:'book-2-line',text:'文档'},
 		{id:'uniappx',icon:'user-2-line',text:'uni-app x'},
+		{id:'ui',icon:'quill-pen-line',text:'UI 框架推荐'}
 	] as SnDataItem[]
 	
 	const autoThemeC = computed(() : boolean => $snui.configs.app.autoTheme)
@@ -99,6 +110,12 @@
 		snu.debounce(()=>{
 			$snui.configs.font.baseSize = `${v}px`
 		}, 100, 'snui-font-size')
+	}
+	
+	function changeRadius(v: number) {
+		snu.debounce(()=>{
+			$snui.configs.radius.baseSize = `${v}px`
+		}, 100, 'snui-border-radius')
 		
 	}
 
@@ -116,6 +133,9 @@
 				break;
 			case 'uniappx':
 				snu.openLink('https://doc.dcloud.net.cn/uni-app-x/')
+				break;
+			case 'ui':
+				goTo('/pages/other/ui')
 				break;
 			default:
 				break
@@ -216,6 +236,11 @@
 			text: '滑动选择',
 			name: 'sn-slider',
 		},
+		{
+			icon: 'gallery-upload-line',
+			text: '媒体上传',
+			name: 'sn-upload-media',
+		}
 		/*
 		{
 			icon: 'cursor-line',
@@ -311,6 +336,21 @@
 			text: '查看更多',
 			name: 'sn-more', 
 		},
+		{
+			icon: 'barcode-line',
+			text: '条形码',
+			name: 'sn-e-barcode',
+		},
+		{
+			icon: 'qr-code-line',
+			text: '二维码',
+			name: 'sn-e-qrcode',
+		},
+		{
+			icon: 'file-image-line',
+			text: 'SVG',
+			name: 'sn-e-svg',
+		}
 	]
 
 	const feedbackList = [
@@ -432,6 +472,11 @@
 			text: '浮动按钮',
 			name: 'sn-float-button',
 		},
+		{
+			icon: 'search-2-line',
+			text: '搜索框',
+			name: 'sn-search'
+		}
 	]
 
 	const functionList = [
@@ -440,6 +485,11 @@
 			text: '扫码',
 			name: 'sn-scan',
 		},
+		{
+			icon: 'pen-nib-line',
+			text: '签名',
+			name: 'sn-signature'
+		}
 	]
 
 	const comLists = [

@@ -1,7 +1,7 @@
 {
   "id": "kux-autocss",
   "displayName": "kux-autocss 即时原子化CSS框架",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "即时原子化CSS框架，让你省去手写样式的烦恼~。插件基于 `vite HMR` 根据页面class实时生成行内样式。",
   "keywords": [
     "kux-autocss",

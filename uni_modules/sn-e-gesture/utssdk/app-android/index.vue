@@ -57,7 +57,7 @@
 			let diffX = x - info.get('x')!
 			let diffY = y - info.get('y')!
 			let direction = Math.abs(diffX) > Math.abs(diffY) ? (diffX < 0 ? 'left' : 'right') : (diffY < 0 ? 'up' : 'down')
-			diffPos = [x, y, Math.abs(diffX), Math.abs(diffY), direction, id]
+			diffPos = [x, y, diffX, diffY, direction, id]
 		} else {
 			let info = new Map<string, number>()
 			info.set('x', x)

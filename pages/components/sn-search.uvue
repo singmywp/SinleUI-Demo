@@ -1,0 +1,87 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Search 搜索框"></sn-topbar>
+		<com-card title="基础使用"
+		note="Search 是基于 Input 的二次封装，比 Input 更为简洁，更方便实现一个搜索框">
+			<sn-search v-model="v1"></sn-search>
+		</com-card>
+		<com-card title="不显示取消按钮"
+		note="如果你不需要右侧的取消按钮，可以关闭">
+			<sn-search v-model="v2"
+			:showCancel="false"></sn-search>
+		</com-card>
+		<com-card title="固定取消按钮"
+		note="如果你需要一直显示右侧的取消按钮，可以固定">
+			<sn-search v-model="v10" fixCancel></sn-search>
+		</com-card>
+		<com-card title="提示文本"
+		note="支持自由设置搜索框的提示文本">
+			<sn-search v-model="v3"
+			placeholder="歌曲名/歌手/专辑"></sn-search>
+		</com-card>
+		<com-card title="图标"
+		note="支持自由修改前置图标，提供支持点击反馈的后置图标">
+			<sn-search v-model="v4"
+			prefixIcon="menu-search-line"
+			suffixIcon="camera-line"
+			placeholder="搜索你想要的商品"
+			:showCancel="false"
+			@suffix-click="showModal"></sn-search>
+		</com-card>
+		<com-card title="禁用/只读/加载/清除">
+			<sn-search v-model="v5" 
+			disabled
+			:showCancel="false"></sn-search>
+			<sn-search class="m-t-10" 
+			v-model="v6" 
+			readonly
+			:showCancel="false"></sn-search>
+			<sn-search class="m-t-10" 
+			v-model="v7" 
+			loading
+			:showCancel="false"></sn-search>
+			<sn-search class="m-t-10" 
+			v-model="v8" 
+			clearable
+			:showCancel="false"></sn-search>
+		</com-card>
+		<com-card title="自定义样式">
+			<sn-search v-model="v9"
+			padding="10px 20px"
+			:showCancel="false"
+			:borderRadius="$snui.configs.radius.circle"
+			:bgColor="colors.info"
+			:activeBgColor="colors.front"
+			:activeBorderColor="colors.primary"
+			placeholder="请输入搜索内容"></sn-search>
+		</com-card>
+		<sn-gap></sn-gap>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	const v1 = ref('')
+	const v2 = ref('')
+	const v3 = ref('')
+	const v4 = ref('')
+	const v5 = ref('此搜索框已被禁用')
+	const v6 = ref('此搜索框只读')
+	const v7 = ref('')
+	const v8 = ref('支持一键清除')
+	const v9 = ref('')
+	const v10 = ref('')
+	
+	function showModal(){
+		uni.showModal({
+			title: '提示',
+			content: '点击了拍照按钮',
+			showCancel: false
+		})
+	}
+</script>
+
+<style>
+		
+</style>

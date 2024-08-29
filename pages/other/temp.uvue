@@ -1,18 +1,15 @@
 <template>
 	<sn-page>
-		<sn-topbar title="测试页 - 开发用途"></sn-topbar>
-		<com-card>
-		</com-card>
+		<sn-topbar title="测试页 - 开发用途 "></sn-topbar>
 	</sn-page>
 </template>
 
 <script setup>
 	import { $snui } from '@/uni_modules/sinle-ui'
-	
+
 	const colors = $snui.colors
-	const article1 = ``
+	
 </script>
 
-<style>
-
+<style lang="scss">
 </style>

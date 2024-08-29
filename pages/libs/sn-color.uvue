@@ -2,6 +2,8 @@
 	<sn-page>
 		<sn-topbar title="Color 颜色库"></sn-topbar>
 		<sn-alert type="primary" text="SinleUI 颜色处理插件，基于 lime-color 插件" icon="notification-fill"></sn-alert>
+		<!--此条件判断将在 HBX 4.27 以后删除-->
+		<!-- #ifdef WEB -->
 		<com-card title="色板生成演示" v-if="(colorsArr as UTSJSONObject)['palette']!=null">
 			<view class="color-row" v-for="(row,rindex) in (colorsArr['palette'] as string[][])" :key="rindex">
 				<view class="color" v-for="(e,iindex) in row" :key="iindex" :style="{background:e}">
@@ -46,6 +48,12 @@
 				</view>
 			</view>
 		</com-card>
+		<!--#endif -->
+		<!-- #ifndef WEB -->
+		<com-card title="兼容性问题"
+		note="由于官方底层函数Bug，颜色库在 HBX 4.26 版本运行出现问题，Demo 暂不予展出。HBX 下一版本会修复。">
+		</com-card>
+		<!-- #endif -->
 	</sn-page>
 </template>
 
@@ -73,7 +81,8 @@
 	function tinyColor(color : any) : TinyColor {
 		return colorLib.tinyColor(color)
 	}
-
+	
+	// #ifdef WEB
 	onLoad((_) => {
 		let colorGroup = ['#4f78ff', '#f6b142', '#39c478', '#fc5454']
 		let paletteTmp = [] as string[][]
@@ -116,6 +125,8 @@
 		(colorsArr.value)['apca'] = apcaTmp
 		
 	})
+	
+	// #endif
 </script>
 
 <style lang="scss">

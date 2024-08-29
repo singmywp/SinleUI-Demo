@@ -1,3 +1,9 @@
+## 1.0.12（2024-08-26）
++ 修复编译器 `4.26` 版本编译样式失效问题。
++ 对齐全端使用体验，`web` 环境不再需要导入全局样式文件。
++ 插件配置新增 `debug` 参数，用来开启关闭控制台调试内容。
++ 插件配置新增 `generateGlobalCss` 参数，用来开启关闭是否生成全局样式文件。
++ 优化其他已知问题。
 ## 1.0.11（2024-08-01）
 + `textEllipsis`：调整为仅实现 `text-ellipsis-{num}` 语法，不再支持 `text-ellipsis` 语法。且该语法仅支持 `vue` 文件。
 + 新增 `textOverflow` 样式语法，可支持主流原子化框架的语法，如：`text-ellipsis`、`text-clip`、`truncate`。参考 [ucss text-overflow 属性值](https://doc.dcloud.net.cn/uni-app-x/css/text-overflow.html)。

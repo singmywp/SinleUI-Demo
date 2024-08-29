@@ -60,7 +60,7 @@
 			valueTextPosition="inside"
 			textColor="black"
 			:activeColor="colors.warning"></sn-progress>
-			<sn-row  class="m-t-10">
+			<sn-row class="m-t-10">
 				<sn-button
 				text="增加"
 				@click="v5 += 10"></sn-button>

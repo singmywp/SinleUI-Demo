@@ -110,7 +110,7 @@
 		</com-card>
 		<com-card title="手动修改"
 		note="手动修改radio的值，适用于自动化等场景">
-			<sn-button-group class="m-b-10">
+			<sn-row class="m-b-10">
 				<sn-button text="选中UTS" 
 				@click="v9=0"></sn-button>
 				<sn-button class="m-l-5"
@@ -119,7 +119,7 @@
 				<sn-button class="m-l-5"
 				text="选中JS" 
 				@click="v9=2"></sn-button>
-			</sn-button-group>
+			</sn-row>
 			<sn-radio-group v-model="v9" spacing="30px">
 				<sn-radio text="UTS"></sn-radio>
 				<sn-radio text="TS"></sn-radio>

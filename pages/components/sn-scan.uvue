@@ -91,7 +91,7 @@
 		continuous: false,
 		scanType: 0,
 		dingFileSrc: 0
-	})
+	} as UTSJSONObject)
 	const scanTypes = [
 		{ id: 'all', text: '全部' },
 	    { id: 'barcode', text: '仅条码' },

@@ -56,7 +56,7 @@ module.exports = {
 	root            : './', // 必填项，源码根目录
 	cssFile          : 'style/auto.css', // 必填项，自动生成的css文件位置（不存在会自动创建目录【hbx 可视化创建的项目暂时不会自动创建，需要手动创建好目录】）
 	type            : 'uniapp', // 必填项，项目类型，暂时固定 uniapp类型
-	extName         : ['vue', 'nvue', 'uvue'], // 可选项，自动生成css时检索的文件类型，可根据自己的项目自由调整，不过需注意为数组类型。
+	extName         : ['vue', 'uvue'], // 可选项，自动生成css时检索的文件类型，可根据自己的项目自由调整，不过需注意为数组类型。
 	unit            : 'px', // 可选项，默认单位 px 如填 v 则必须配合 vToAny
 	
 	/**

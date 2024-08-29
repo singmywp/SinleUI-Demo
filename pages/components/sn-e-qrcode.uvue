@@ -1,0 +1,62 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Qrcode 二维码"></sn-topbar>
+		<com-card title="基础用法"
+		note="支持 Android / Web 双端，Android 使用 Zxing 库，Web 使用 bwip-js 库，原生生成">
+			<sn-e-qrcode :data="qrcodeData"
+			style="width: 100px;height: 100px;"></sn-e-qrcode>
+			<sn-input class="m-t-20"
+			v-model="qrcodeData"
+			placeholder="输入生成的数据"
+			padding="15px"
+			:textSize="$snui.configs.font.size(3)"
+			:bgColor="colors.info"
+			:activeBgColor="colors.info"
+			:showBorder="false"></sn-input>
+		</com-card>
+		<com-card title="纠错等级"
+		note="可设置不同的纠错等级">
+			<sn-row>
+				<sn-col :span="3">
+					<sn-e-qrcode data="Hello, world!"
+					errorLevel="L"
+					style="width: 50px;height: 50px;"></sn-e-qrcode>
+				</sn-col>
+				<sn-col :span="3">
+					<sn-e-qrcode data="Hello, world!"
+					errorLevel="M"
+					style="width: 50px;height: 50px;"></sn-e-qrcode>
+				</sn-col>
+				<sn-col :span="3">
+					<sn-e-qrcode data="Hello, world!"
+					errorLevel="Q"
+					style="width: 50px;height: 50px;"></sn-e-qrcode>
+				</sn-col>
+				<sn-col :span="3">
+					<sn-e-qrcode data="Hello, world!"
+					errorLevel="H"
+					style="width: 50px;height: 50px;"></sn-e-qrcode>
+				</sn-col>
+			</sn-row>
+		</com-card>
+		<com-card title="自定义样式"
+		note="可自定义样式，Web 端样式比 App 端更为丰富">
+			<sn-e-qrcode data="Hello, world!"
+			:margin="10"
+			bgColor="#f3f3f3"
+			dotColor="#0077ff"
+			style="width: 100px;height: 100px;"></sn-e-qrcode>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	
+	const qrcodeData = ref('Hello, world!')
+</script>
+
+<style>
+		
+</style>

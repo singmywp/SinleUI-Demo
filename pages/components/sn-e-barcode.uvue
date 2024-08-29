@@ -1,0 +1,33 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Barcode 条形码"></sn-topbar>
+		<com-card title="基础用法"
+		note="支持 Android / Web 双端，Android 使用 Zxing 库，Web 使用 bwip-js 库，原生生成">
+			<sn-e-barcode data="6902094911850"
+			style="width: 200px;height: 50px;"></sn-e-barcode>
+		</com-card>
+		<com-card title="格式"
+		note="支持多种格式（不常见的格式部分设备可能不支持）">
+			<sn-e-barcode class="m-t-10"
+			data="123456789104"
+			format="UPC_A"
+			style="width: 100px;height: 50px;"></sn-e-barcode>
+		</com-card>
+		<com-card title="自定义样式"
+		note="可自定义样式，Web 端样式比 App 端更为丰富">
+			<sn-e-barcode data="6902094911850"
+			showText
+			:margin="10"
+			bgColor="#f3f3f3"
+			style="width: 175px;height: 75px;"></sn-e-barcode>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+		
+</script>
+
+<style>
+		
+</style>

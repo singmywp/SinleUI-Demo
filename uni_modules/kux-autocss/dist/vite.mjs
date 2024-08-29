@@ -1,6 +1,7 @@
 import path$3 from 'path';
+import { config } from 'process';
 
-const version = "1.0.11";
+const version = "1.0.12";
 const author = "kux <kviewui@163.com>";
 const repository = "https://gitcode.com/kviewui/kux-autocss";
 
@@ -213,6 +214,22 @@ const CONFIG_CONTENT = (pluginOptions) => {
     str += `	shortcuts: ${JSON.stringify(pluginOptions.shortcuts)},
 `;
   }
+  str += `	/**
+`;
+  str += `	 * \u662F\u5426\u5F00\u542F\u8C03\u8BD5\u6A21\u5F0F\uFF0C\u5F00\u542F\u540E\u5C06\u8F93\u51FA\u8BE6\u7EC6\u7684\u65E5\u5FD7\u4FE1\u606F
+`;
+  str += `	 */
+`;
+  str += `	debug           : ${pluginOptions?.debug ?? true},
+`;
+  str += `	/**
+`;
+  str += `	 * \u662F\u5426\u751F\u6210\u5168\u5C40css\u6587\u4EF6\uFF0C\u9ED8\u8BA4\u5F00\u542F
+`;
+  str += `	 */
+`;
+  str += `	generateGlobalCss : ${pluginOptions?.generateGlobalCss ?? true},
+`;
   str += `}
 `;
   return str;
@@ -284,8 +301,10 @@ const prefixStr = (isPrefix = getConfig$1(PREFIX)) => {
 const regex = /^\\!|!$/;
 const toRegexImportant = (className) => regex.test(className);
 const getExtName = (url) => {
-  const ext = url.split(".").pop();
-  return ext?.startsWith(".") ? ext.substring(1) : ext;
+  const path = require("path");
+  const pathWithoutQuery = url.split("?")[0];
+  const extension = path.extname(pathWithoutQuery).substring(1);
+  return extension;
 };
 const getRoot = (config) => {
   return process.env.UNI_INPUT_DIR || config.root || process.cwd();
@@ -353,7 +372,7 @@ const readConfigFile = (config, pluginOptions2) => {
   if (fs$4.existsSync(getFilePath(configFile, config, pluginOptions2))) {
     options = require(getFilePath(configFile, config, pluginOptions2));
     const cssFilePath = getFilePath(options.cssFile, config, pluginOptions2);
-    if (!fs$4.existsSync(cssFilePath)) {
+    if (!fs$4.existsSync(cssFilePath) && options["generateGlobalCss"]) {
       fs$4.writeFileSync(cssFilePath, "");
     }
   } else {
@@ -629,13 +648,17 @@ const genInitConfig = async (config, options) => {
   if (!fs$3.existsSync(outputPath)) {
     try {
       await fsSync$1.writeFile(outputPath, CONFIG_CONTENT(options));
-      consolePrint("autocss config write complete", "success");
+      if (options?.debug) {
+        consolePrint("autocss config write complete", "success");
+      }
     } catch (err) {
       if (err.code === "EACCES") {
         try {
           await fsSync$1.chmod(outputPath, 438);
           await fsSync$1.writeFile(outputPath, CONFIG_CONTENT(options));
-          consolePrint("autocss config write complete", "success");
+          if (options?.debug) {
+            consolePrint("autocss config write complete", "success");
+          }
         } catch (chmodErr) {
           throw chmodErr;
         }
@@ -644,62 +667,16 @@ const genInitConfig = async (config, options) => {
       }
     }
   } else {
-    consolePrint("autocss config already exists, skipping write", "warning");
+    if (options?.debug) {
+      consolePrint("autocss config already exists, skipping write", "warning");
+    }
   }
 };
 const initCssDir = async (config, options) => {
   const outputPath = getFilePath(options?.cssFile ?? CSS_FILE_NAME, config, options);
   const cssDirPath = path$3.dirname(outputPath);
-  if (!fs$3.existsSync(cssDirPath)) {
+  if (!fs$3.existsSync(cssDirPath) && options?.generateGlobalCss) {
     await fsSync$1.mkdir(cssDirPath, { recursive: true });
-  }
-};
-const initApp = async (config, options) => {
-  const appPath = getFilePath(process.env.UNI_APP_X ? "App.uvue" : "App.vue", config, options);
-  const cacheDirPath = getFilePath(".autocss", config, options);
-  if (!fs$3.existsSync(cacheDirPath)) {
-    await fsSync$1.mkdir(cacheDirPath, { recursive: true });
-  }
-  const autoimportStyleJsonPath = path$3.resolve(cacheDirPath, "autoimport-style.json");
-  let autoimportStyleJson = {};
-  try {
-    autoimportStyleJson = JSON.parse(await fsSync$1.readFile(autoimportStyleJsonPath, "utf-8"));
-  } catch (err) {
-    await fsSync$1.writeFile(autoimportStyleJsonPath, "{}");
-  }
-  const styleImport = autoimportStyleJson["content"];
-  let appContent = await fsSync$1.readFile(appPath, "utf-8");
-  let appendContent = "";
-  const globalConfig = readConfigFile(config, options);
-  if (globalConfig) {
-    appendContent += "\n<style>\n";
-    appendContent += `	/**
-`;
-    appendContent += `	 * \u8BE5\u6837\u5F0F\u6587\u4EF6\u5BFC\u5165\u7531autocss\u81EA\u52A8\u751F\u6210
-`;
-    appendContent += `	 * @version ${PACKAGE_VERSION}
-`;
-    appendContent += `	 * @author ${AUTHOR}
-`;
-    appendContent += `	 * @repository ${GIT_REPOSITORY_URL}
-`;
-    appendContent += `	 * @date ${formatDate(date)}
-`;
-    appendContent += `	 */
-`;
-    appendContent += "	/* #ifdef WEB */\n";
-    appendContent += `	@import url('@/${globalConfig["cssFile"]}');
-`;
-    appendContent += "	/* #endif */\n";
-    appendContent += "</style>";
-    if (styleImport) {
-      appContent = appContent.replace(styleImport, appendContent);
-    } else {
-      appContent += appendContent;
-    }
-    await fsSync$1.writeFile(appPath, appContent);
-    autoimportStyleJson["content"] = appendContent;
-    await fsSync$1.writeFile(autoimportStyleJsonPath, JSON.stringify(autoimportStyleJson));
   }
 };
 
@@ -863,7 +840,7 @@ const colors = {
     `^(?<important1>!?)?(?<type>color|c|text|bg|background|border-color|border-c|border)-((?<direction>[trblxy])-)?(?<color>(#?([a-fA-F0-9]{8}$|[a-fA-F0-9]{6}|[a-fA-F0-9]{3}))|${getColorsKey().join("|")})(-(?<opacity>1|([1-9]\\d?)))?(?<important2>!?)?$`
   ),
   render({ groups }) {
-    let { type, color, opacity, direction } = groups;
+    let { type, color, themeColor, opacity, direction } = groups;
     color = getColorValue(color, opacity);
     let prefix = "";
     switch (type) {
@@ -2825,7 +2802,9 @@ const generator = (options) => {
   fwFile("", "w", options);
   const snippetStr = getRegList().reduce((t, c) => `${t}${c.render()}`, "");
   fwFile(snippetStr, "w", options);
-  console.log(changeConsoleColor("autocss snippets created successfully by vite", 32));
+  if (getConfig$1("debug")) {
+    console.log(changeConsoleColor("autocss snippets created successfully by vite", 32));
+  }
 };
 
 const fs$1 = require("fs");
@@ -2866,7 +2845,10 @@ const logUseTime = () => {
 const hotReload = async (txt, extName = "uvue", options) => {
   setTimeStart();
   filterClassNames(txt, extName);
-  writeToFile();
+  const configContent = readConfigFile(config, options);
+  if (configContent["generateGlobalCss"]) {
+    writeToFile();
+  }
   let scssVariables = "";
   const cssStr = `${getConfig$1(BEFORE_CONTENTS) || ""}
 ${CSS_ANNOTATION}
@@ -2880,7 +2862,9 @@ ${cssStr}
     generator(options);
   }
   setTimeEnd();
-  logUseTime();
+  if (getConfig$1("debug")) {
+    logUseTime();
+  }
   return {
     css: cssStr,
     sourceCode: txt
@@ -2890,16 +2874,20 @@ ${cssStr}
 const fs = require("fs");
 fs.promises;
 const micromatch = require("micromatch");
+async function genConfig(config, options) {
+  let newConfig;
+  await genInitConfig(config, options);
+  await initCssDir(config, options);
+  newConfig = Object.assign(config, setConfig(readConfigFile(config, options)));
+  return newConfig;
+}
 function Autocss(options) {
   let globalConfig = null;
   return {
     name: "vite-plugin-autocss",
     enforce: "pre",
     async config(config) {
-      await genInitConfig(config, options);
-      await initCssDir(config, options);
-      await initApp(config, options);
-      globalConfig = Object.assign(config, setConfig(readConfigFile(config, options)));
+      globalConfig = await genConfig(config, options);
       return config;
     },
     async transform(code, id) {
@@ -2921,9 +2909,11 @@ function Autocss(options) {
       let newCode = code;
       if (micromatch.isMatch(id, includePaths)) {
         const extName = getExtName(id);
-        if (globalConfig?.extName.includes(`${extName}`)) {
-          console.log("\u76D1\u542C\u5230\u76EE\u6807\u6587\u4EF6\u4FEE\u6539\uFF1A", id);
-          const { css, sourceCode } = await hotReload(code, extName, options);
+        if (globalConfig?.extName.includes(`${extName}`) && (id.indexOf("type=style") < 0 && id.indexOf("type=script") < 0)) {
+          if (globalConfig?.debug) {
+            console.log("\u76D1\u542C\u5230\u76EE\u6807\u6587\u4EF6\u4FEE\u6539\uFF1A", id);
+          }
+          const { sourceCode } = await hotReload(code, extName, options);
           newCode = sourceCode;
         }
       }

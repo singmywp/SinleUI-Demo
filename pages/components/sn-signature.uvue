@@ -1,0 +1,71 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Signature 签名"></sn-topbar>
+		<com-card title="基础用法"
+		note="基于 canvas 的签名板，适配各端，内置一套精美模版，提供 20+ 属性，支持插槽定制操作栏，任意搭配">
+		</com-card>
+		<sn-signature ref="signEle"></sn-signature>
+		<com-card title="导出图片"
+		note="支持导出为 base64 图片，App 端还可利用 view 进行组件截图生成 png 图片">
+			<sn-button text="导出为 base64"
+			@click="getImage"></sn-button>
+			<!--#ifdef APP-->
+			<sn-button class="m-t-10"
+			text="保存 png 图片至相册"
+			@click="takeSnapshot"></sn-button>
+			<!--#endif-->
+		</com-card>
+		<com-card>
+			<sn-image ref="imageEle" 
+			class="m-t-10" 
+			enablePreview
+			:src="base64"></sn-image>
+		</com-card>
+		<sn-gap></sn-gap>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+
+	const colors = $snui.colors
+	const snu = $snui.utils
+	
+	const base64 = ref('')
+	const imageEle = ref(null as SnImageComponentPublicInstance | null)
+	
+	const signEle = ref(null as SnSignatureComponentPublicInstance | null)
+	
+	function getImage() {
+		base64.value = signEle.value?.getBase64?.() ?? ''
+	}
+	
+	
+	// #ifdef APP
+	
+	function takeSnapshot(){
+		if (imageEle.value == null) return
+		getImage()
+		snu.throttle(()=>{
+			imageEle.value!.$el!.takeSnapshot({
+				success: (res) =>{
+					uni.saveImageToPhotosAlbum({
+						filePath: res.tempFilePath,
+						success: (_) =>{
+							snu.showToast({
+								title: '保存成功'
+							})
+						},
+					})
+				}
+			})
+		}, 500, 'takeSnapshot')
+		
+		
+	}
+	// #endif
+</script>
+
+<style>
+
+</style>

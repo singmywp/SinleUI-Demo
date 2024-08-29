@@ -41,7 +41,7 @@
 				format="mm:ss.SS"
 				millisecond
 				:autoplay="false"></sn-timer>
-				<sn-button-group class="m-t-10"
+				<sn-row class="m-t-10"
 				align="center">
 					<sn-button @click="reset">
 						<sn-icon name="refresh-line"></sn-icon>
@@ -53,7 +53,7 @@
 						<sn-icon :name="`${running?'pause':'play'}-fill`" 
 						:color="colors.primary"></sn-icon>
 					</sn-button>
-				</sn-button-group>
+				</sn-row>
 			</view>
 		</com-card>
 	</sn-page>

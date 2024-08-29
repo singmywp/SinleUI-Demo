@@ -49,7 +49,7 @@
 				<sn-countto ref="counttoEle"
 				:aniTime="5000"
 				:endVal="7777"></sn-countto>
-				<sn-button-group align="center">
+				<sn-row align="center">
 					<sn-button round-size="50px" 
 					round
 					@click="reset">
@@ -70,7 +70,7 @@
 					@click="stop">
 						<sn-icon name="stop-circle-fill"></sn-icon>
 					</sn-button>
-				</sn-button-group>
+				</sn-row>
 			</view>
 		</com-card>
 	</sn-page>

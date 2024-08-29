@@ -1,0 +1,7 @@
+{
+	"minSdkVersion": "23",
+	"dependencies": [
+		"com.google.zxing:core:3.4.1",
+		"com.journeyapps:zxing-android-embedded:4.3.0"
+	]
+}
