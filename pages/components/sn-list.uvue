@@ -71,12 +71,17 @@
 		<sn-list :showBorder="false">
 			<sn-list-chat title="琴易文" 
 			note="你好, 这里是 SinleUI"
-			avatar="https://img01.sogoucdn.com/app/a/100520093/8379901cc65ba509-45c21ceb904429fc-fffc7639a9a4d453515b56b6c1a3fc58.jpg"
-			avatarShape="circle"></sn-list-chat>
+			:avatarConfig="({
+				src: 'https://img01.sogoucdn.com/app/a/100520093/8379901cc65ba509-45c21ceb904429fc-fffc7639a9a4d453515b56b6c1a3fc58.jpg',
+				shape: 'circle'
+			} as SnAvatarParams)"
+			></sn-list-chat>
 			<sn-list-chat title="道夏柳" 
 			note="emmm... 逆天[惊]" 
-			avatar="https://ww3.sinaimg.cn/mw690/007QvzfIly1ho2zt8iyznj30sg0sgneb.jpg"
 			time="15:35"
+			:avatarConfig="({
+				src: 'https://ww3.sinaimg.cn/mw690/007QvzfIly1ho2zt8iyznj30sg0sgneb.jpg',
+			} as SnAvatarParams)"
 			:badgeConfig="({
 				value: 32,
 				max: 99
@@ -84,8 +89,10 @@
 			</sn-list-chat>
 			<sn-list-chat title="灯塔上的雾"
 			note="[图片] 这种报错如何解决"
-			avatar="http://img.wxcha.com/m00/bb/18/bc2167461f0ba311a992f3f00a45c58d.jpg"
 			time="昨天"
+			:avatarConfig="({
+				src: 'http://img.wxcha.com/m00/bb/18/bc2167461f0ba311a992f3f00a45c58d.jpg',
+			} as SnAvatarParams)"
 			:badgeConfig="({
 				value: 158,
 				max: 99
@@ -96,7 +103,7 @@
 
 <script setup>
 	import { longText1, longText2, longText3 } from '@/source/longtext';
-	import { $snui, SnBadgeParams } from '@/uni_modules/sinle-ui'
+	import { $snui, SnBadgeParams, SnAvatarParams } from '@/uni_modules/sinle-ui'
 	const colors = $snui.colors
 
 </script>

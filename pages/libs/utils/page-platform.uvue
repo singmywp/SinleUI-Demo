@@ -53,14 +53,6 @@
 		text="获取主题"
 		@click="osTheme = snu.getOsTheme()"></sn-button>
 	</com-card>
-	<com-card title="获取窗口高度"
-	note="获取当前窗口的高度，以像素为单位。支持分屏模式。">
-	<sn-text :text="`窗口高度：${windowHeight}`"></sn-text>
-		<sn-button class="spacing"
-		type="primary"
-		text="获取高度"
-		@click="windowHeight = snu.getWindowHeight()"></sn-button>
-	</com-card>
 </template>
 
 <script setup>

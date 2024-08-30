@@ -19,6 +19,8 @@
 			showText
 			:margin="10"
 			bgColor="#f3f3f3"
+			lineColor="#0077ff"
+			textColor="#0077ff"
 			style="width: 175px;height: 75px;"></sn-e-barcode>
 		</com-card>
 	</sn-page>

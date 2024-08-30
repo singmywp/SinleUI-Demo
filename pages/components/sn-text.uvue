@@ -51,7 +51,7 @@
 			<sn-line></sn-line>
 			<sn-text text="价格" :color="colors.lineText"></sn-text>
 			<sn-text mode="price" text="3999.67"></sn-text>
-			<sn-text mode="price-upper" text="168201.03"></sn-text>
+			<sn-text mode="price-upper" text="3999.67"></sn-text>
 			<sn-line></sn-line>
 			<sn-text text="脱敏" :color="colors.lineText"></sn-text>
 			<sn-text class="spacing" mode="name" text="张三" encrypt></sn-text>

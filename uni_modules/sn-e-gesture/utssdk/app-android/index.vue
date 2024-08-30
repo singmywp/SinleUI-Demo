@@ -5,11 +5,6 @@
 </template>
 
 <script lang="uts">
-	// #ifdef APP-ANDROID
-	/**
-   * 引用 Android 系统库
-   * [可选实现，按需引入]
-   */
 	import Context from 'android.content.Context';
 	import LinearLayout from 'android.widget.LinearLayout';
 	import View from 'android.view.View';

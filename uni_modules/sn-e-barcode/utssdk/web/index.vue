@@ -6,6 +6,42 @@
 </template>
 
 <script setup lang="uts">
+	/**
+	 * @name sn-e-barcode
+	 * @tutorial https://sinleui.pages.dev/components/sn-e-barcode
+	 * @description  Barcode 条形码
+	 * @property {String} data    String | 条形码数据
+	 * @property {Number} margin    Number | 条形码内边距
+	 * @property {String} format=[UPC_A|UPC_E|EAN_8|EAN_13|CODE_39|CODE_93|CODE_128|ITF|CODABAR|DATA_MATRIX|AZTEC|PDF_417|MAXICODE|RSS_14|RSS_EXPANDED]    String | 条形码格式（不常见的格式部分设备可能不支持）具体[见下](#格式)
+	 * @value UPC_A
+	 * @value UPC_E
+	 * @value EAN_8
+	 * @value EAN_13
+	 * @value CODE_39
+	 * @value CODE_93
+	 * @value CODE_128
+	 * @value ITF
+	 * @value CODABAR
+	 * @value DATA_MATRIX
+	 * @value AZTEC
+	 * @value PDF_417
+	 * @value MAXICODE
+	 * @value RSS_14
+	 * @value RSS_EXPANDED
+	 * @property {String} bgColor    String | 条形码背景颜色（Android端有限制，必须为颜色名或完整不简写的Hex格式，不支持类似于CSS函数的用法）
+	 * @property {String} lineColor    String | 条形码前景（线）的颜色（Android端有限制，必须为颜色名或完整不简写的Hex格式，不支持类似于CSS函数的用法）
+	 * @property {String} charset    String | 条形码数据字符集（仅支持 Android）
+	 * @property {Boolean} showText    Boolean | 是否在条形码下方显示数据文本（仅支持 Web）
+	 * @property {String} textColor    String | 数据文本颜色（仅支持 Web）
+	 * @property {String} textAlign=[left|center|right]    String | 数据文本对齐方式（仅支持 Web）
+	 * @value left 左对齐
+	 * @value center 居中对齐
+	 * @value right 右对齐
+	 * @property {String} textSize    String | 数据文本字体大小（仅支持 Web）
+	 * @property {String} textXOffset    String | 数据文本横向偏移量（仅支持 Web）
+	 * @property {String} textYOffset    String | 数据文本纵向偏移量（仅支持 Web）
+	 * @property {String} textGap    String | 数据文本字符间距（仅支持 Web）
+	 */
 	// @ts-ignore
 	import { tmp } from "./bwip-js.js"
 	import { getPx, getDPI, px2mm } from "./utils.ts"

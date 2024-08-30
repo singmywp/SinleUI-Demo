@@ -4,10 +4,7 @@
 </template>
 
 <script lang="uts">
-	/**
-   * 引用 Android 系统库
-   * [可选实现，按需引入]
-   */
+	
 	import ImageView from 'android.widget.ImageView';
 	import Uri from "android.net.Uri"
 

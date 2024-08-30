@@ -6,6 +6,21 @@
 </template>
 
 <script setup lang="uts">
+	/**
+	 * @name sn-e-qrcode
+	 * @tutorial https://sinleui.pages.dev/components/sn-e-qrcode
+	 * @description  Qrcode 二维码
+	 * @property {String} data    String | 二维码数据
+	 * @property {Number} margin    Number | 二维码内边距
+	 * @property {String} errorLevel=[L|M|Q|H]    String | 二维码纠错等级
+	 * @value L 低
+	 * @value M 中
+	 * @value Q 中高
+	 * @value H 高
+	 * @property {String} bgColor    String | 二维码背景颜色（Android端有限制，必须为颜色名或完整不简写的Hex格式，不支持类似于CSS函数的用法）
+	 * @property {String} dotColor    String | 二维码前景（点）的颜色（Android端有限制，必须为颜色名或完整不简写的Hex格式，不支持类似于CSS函数的用法）
+	 * @property {String} charset    String | 二维码数据字符集（仅支持 Android）
+	 */
 	import { tmp } from "./bwip-js.js"
 	
 	const props = defineProps({

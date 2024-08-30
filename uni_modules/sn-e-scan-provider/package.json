@@ -1,7 +1,7 @@
 {
   "id": "sn-e-scan-provider",
   "displayName": "sn-e-scan-provider",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "sn-e-scan-provider 是 SinleUI 框架的扩展组件，也是 sn-scan 组件的核心依赖，负责摄像头预览、扫码解析等基础工作，并向外部提供接口。需搭配 SinleUI 框架使用。",
   "keywords": [
     "sn-e-scan-provider",
@@ -25,7 +25,7 @@
       }
     },
     "contact": {
-      "qq": ""
+      "qq": "2444290609"
     },
     "declaration": {
       "ads": "无",

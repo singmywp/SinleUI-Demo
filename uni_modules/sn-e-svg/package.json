@@ -1,7 +1,7 @@
 {
   "id": "sn-e-svg",
   "displayName": "sn-e-svg SVG 组件",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "sn-e-svg 是 SinleUI 框架的扩展组件，部分基础组件依赖此组件。",
   "keywords": [
     "sn-e-svg",
@@ -25,7 +25,7 @@
       }
     },
     "contact": {
-      "qq": ""
+      "qq": "2444290609"
     },
     "declaration": {
       "ads": "无",

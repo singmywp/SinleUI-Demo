@@ -1,7 +1,7 @@
 {
   "id": "sn-e-gesture",
   "displayName": "sn-e-gesture 手势组件",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "sn-e-gesture 是 SinleUI 框架的手势库核心组件，属于 uts 组件插件，因此需要单独下载。主要集成了一些原生手势事件（非 uni 内置事件），以便开发使用。",
   "keywords": [
     "sn-e-gesture",

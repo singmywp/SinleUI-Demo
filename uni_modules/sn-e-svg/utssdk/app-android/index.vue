@@ -2,6 +2,7 @@
 	<view></view>
 </template>
 <script lang="uts">
+	
 	// #ifdef APP-ANDROID
 	import FileInputStream from 'java.io.FileInputStream';
 	import File from 'java.io.File';
