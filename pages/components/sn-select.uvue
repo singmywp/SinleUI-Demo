@@ -30,6 +30,7 @@
 		<sn-select v-model="v" 
 		bgColor="#e8f1e2" 
 		textColor="#35b571"
+		popTextColor="#2a2a2a"
 		popBgColor="#e8f1e2" 
 		popActiveBgColor="#dee5d9" 
 		activeTextColor="#113e25"

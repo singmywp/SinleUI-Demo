@@ -75,8 +75,8 @@
 	
 	const snu = $snui.utils
 	const theme = computed(() : string => $snui.configs.app.theme)
-	const fontSizeValue = ref(14)
-	const radiusValue = ref(12)
+	const fontSizeValue = ref<number>(snu.getPx($snui.configs.font.baseSize))
+	const radiusValue = ref<number>(snu.getPx($snui.configs.radius.baseSize))
 	const autoTheme = ref(true)
 	const _tmpValue = reactive({})
 	
