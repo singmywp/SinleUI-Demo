@@ -1,0 +1,194 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Tabbar 底部导航栏"></sn-topbar>
+		<com-card title="组件演示">
+			<sn-button text="演示1"
+			@click="goTo('/pages/components/tabbar/demo1')"></sn-button>
+			<sn-button class="m-t-5" text="演示2"
+			@click="goTo('/pages/components/tabbar/demo2')"></sn-button>
+			<sn-button class="m-t-5" text="演示3"
+			@click="goTo('/pages/components/tabbar/demo3')"></sn-button>
+		</com-card>
+		<com-card title="自由配置"
+		note="自定义 Tabbar，支持字体图标、图片，样式自由可调，支持拦截鉴权，可以设置角标，最大支持5个子项">
+			<sn-form v-model="configs"
+			:showBorder="false">
+				<sn-form-item label="是否禁用">
+					<sn-switch v-model="(configs['disabled'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="背景颜色">
+					<sn-input v-model="(configs['bgColor'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="圆角大小">
+					<sn-input v-model="(configs['borderRadius'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="外边距">
+					<sn-input v-model="(configs['margin'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="内边距">
+					<sn-input v-model="(configs['padding'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="边框">
+					<sn-input v-model="(configs['border'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="子项内边距">
+					<sn-input v-model="(configs['itemPadding'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="子项间距">
+					<sn-input v-model="(configs['itemSpacing'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="子项背景颜色">
+					<sn-input v-model="(configs['itemBgColor'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="子项选中时背景颜色">
+					<sn-input v-model="(configs['itemActiveBgColor'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="文本颜色">
+					<sn-input v-model="(configs['textColor'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="选中时文本颜色">
+					<sn-input v-model="(configs['activeTextColor'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="文本字体大小">
+					<sn-input v-model="(configs['textSize'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="图标颜色">
+					<sn-input v-model="(configs['iconColor'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="选中时图标颜色">
+					<sn-input v-model="(configs['activeIconColor'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="图标大小">
+					<sn-input v-model="(configs['iconSize'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="图片大小">
+					<sn-input v-model="(configs['imageSize'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+			</sn-form>
+		</com-card>
+		<sn-gap :height="tabbarHeight"></sn-gap>
+		<sn-tabbar :data="data"
+		:showPages="false"
+		:bgColor="configs['bgColor']"
+		:margin="configs['margin']"
+		:padding="configs['padding']"
+		:border="configs['border']"
+		:borderRadius="configs['borderRadius']"
+		:itemSpacing="configs['itemSpacing']"
+		:itemPadding="configs['itemPadding']"
+		:itemBgColor="configs['itemBgColor']"
+		:itemActiveBgColor="configs['itemActiveBgColor']"
+		:textColor="configs['textColor']"
+		:activeTextColor="configs['activeTextColor']"
+		:textSize="configs['textSize']"
+		:iconColor="configs['iconColor']"
+		:activeIconColor="configs['activeIconColor']"
+		:iconSize="configs['iconSize']"
+		:imageSize="configs['imageSize']"
+		:disabled="configs['disabled']"
+		@heightchange="onHeightchange">
+		</sn-tabbar>
+		<sn-toast ref="toastEle"></sn-toast>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui, SnTabbarItem, SnBadgeParams, SnToastParams } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	const snu = $snui.utils
+	const toastEle = ref(null as SnToastComponentPublicInstance | null)
+	
+	const configs = reactive({
+		bgColor: '',
+		itemBgColor: '',
+		margin: '0px',
+		padding: '5px',
+		border: 'none',
+		itemPadding: '0px',
+		itemSpacing: '0px',
+		itemActiveBgColor: '',
+		borderRadius: '0px',
+		textColor: '',
+		activeTextColor: '',
+		textSize: '',
+		iconColor: '',
+		activeIconColor: '',
+		iconSize: '',
+		imageSize: '35px',
+		disabled: false
+	})
+	
+	const tabbarHeight = ref('0px')
+	
+	const theme = computed(():string=>$snui.configs.app.theme)
+	
+	
+	const data = computed(() : SnTabbarItem[] => {
+		return [
+			{
+				icon: 'home-5-line',
+				text: '首页',
+				activeIcon: 'home-5-fill'
+			},
+			{
+				icon: 'community-line',
+				text: '社区',
+				activeIcon: 'community-fill',
+				interceptor: ():boolean=>{
+					toastEle.value?.configShow?.({
+						text: '拦截器：社区功能暂未开放'
+					} as SnToastParams)
+					return false
+				}
+			},
+			{
+				image: '/static/images/logo-inactive.png',
+				activeImage: theme.value=='light'?'/static/images/logo-active-light.png':'/static/images/logo-active-dark.png'
+			},
+			{
+				icon: 'message-3-line',
+				text: '信息',
+				activeIcon: 'message-3-fill',
+				badge: {
+					value: 6
+				} as SnBadgeParams
+			},
+			{
+				icon: 'user-3-line',
+				text: '我的',
+				activeIcon: 'user-3-fill',
+			}
+		] as SnTabbarItem[]
+	})
+	
+	function onHeightchange(height: number) {
+		tabbarHeight.value = snu.addPx(height)
+	}
+	
+	function goTo(url:string){
+		uni.navigateTo({
+			url
+		})
+	}
+</script>
+
+
+<style>
+		
+</style>

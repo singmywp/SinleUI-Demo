@@ -1,0 +1,68 @@
+<template>
+	<sn-page padding="0"
+	:scroll-on="false">
+		<sn-tabbar :data="data"
+		padding="5px"
+		:textSize="$snui.configs.font.size(3)"
+		:iconSize="$snui.configs.font.size(6)"
+		:textColor="colors.textLight"
+		:iconColor="colors.error"
+		:activeTextColor="colors.title">
+			<template #1>
+				<sub1></sub1>
+			</template>
+			<template #2>
+				<sub2></sub2>
+			</template>
+			<template #3>
+				
+			</template>
+			<template #4>
+				<sub3></sub3>
+			</template>
+			<template #5>
+				<sub4></sub4>
+			</template>
+		</sn-tabbar>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui, SnTabbarItem } from '@/uni_modules/sinle-ui'
+	import Sub1 from './sub1.uvue'
+	import Sub2 from './sub2.uvue'
+	import Sub3 from './sub3.uvue'
+	import Sub4 from './sub4.uvue'
+	
+	const colors = $snui.colors
+	
+	const data = [
+		{
+			text: '首页',
+		},
+		{
+			text: '社区',
+		},
+		{
+			icon: 'add-circle-fill',
+			interceptor: (): boolean => {
+				uni.showModal({
+					title: '发布作品',
+					editable: true
+				})
+				return false
+			}
+		},
+		{
+			text: '消息',
+		},
+		{
+			text: '我的',
+		}
+	] as SnTabbarItem[]
+	
+	
+</script>
+
+<style lang="scss">
+</style>

@@ -1,21 +1,24 @@
 <template>
-	<sn-page>
-		<sn-topbar title="测试页"></sn-topbar>
-		<com-card>
-			<sn-more minHeight="50px">
-				<sn-text text="这是一小段文本"></sn-text>
-			</sn-more>
+	<sn-page :lowerThreshold="500"
+	@scrolltolower="onscrolltolower">
+		<sn-topbar title="Waterfall 瀑布流"></sn-topbar>
+		<com-card title="基础用法"
+		note="用于实现瀑布流布局。">
 		</com-card>
-		<com-card>
-			<sn-more minHeight="50px">
-				<sn-text text="这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本"></sn-text>
-			</sn-more>
-		</com-card>
+		<sn-waterfall :col="2">
+			<sn-waterfall-item v-for="(e,index) in (list as poet[])"
+			:index="index"
+			:imgSrc="e.avatar">
+				<view class="p-10">
+					<sn-text :text="e.description"></sn-text>
+				</view>
+			</sn-waterfall-item>
+		</sn-waterfall>
 	</sn-page>
 </template>
 
 <script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
+	import { $snui, SnToastParams } from '@/uni_modules/sinle-ui'
 	
 	const colors = $snui.colors
 	
@@ -25,7 +28,7 @@
 		avatar: string
 	}
 	
-	const poets = ref<poet[]>([
+	const poets = [
 		{
 			name: '李白',
 			description: `\u3000\u3000李白，字太白，号青莲居士，又号“谪仙人”。唐代伟大的浪漫主义诗人，被后人誉为“诗仙”，与杜甫并称为“李杜”。`,
@@ -50,8 +53,41 @@
 			name: '辛弃疾',
 			description: `\u3000\u3000辛弃疾，原字坦夫，后改字幼安，中年后别号稼轩。南宋官员、将领、文学家，豪放派词人，有“词中之龙”之称。与苏轼合称“苏辛”，与李清照并称“济南二安”。`,
 			avatar: 'https://ziyuan.guwendao.net/authorImg300/xinqiji.jpg',
+		},
+		{
+			name: '李清照',
+			description: `\u3000\u3000李清照，号易安居士。宋代词人，婉约词派代表，有“千古第一才女”之称。所作词，前期多写其悠闲生活，后期多悲叹身世，情调感伤。论词强调协律，崇尚典雅，提出词“别是一家”之说，反对以作诗文之法作词。`,
+			avatar: 'https://ziyuan.guwendao.net/authorImg300/liqingzhao.jpg',
+		},
+		{
+			name: '李商隐',
+			description: `\u3000\u3000李商隐，字义山，号玉溪生、樊南生，唐代著名诗人。晚唐最出色的诗人之一，和杜牧合称“小李杜”，与温庭筠合称为“温李”。其诗构思新奇，风格秾丽，优美动人，广为传诵。`,
+			avatar: 'https://ziyuan.guwendao.net/authorImg300/lishangyin.jpg',
+		},
+		{
+			name: '王维',
+			description: `\u3000\u3000王维，字摩诘，号摩诘居士。唐朝诗人，有“诗佛”之称。苏轼评价其：“诗中有画”“画中有诗”。王维是盛唐诗人的代表，精通佛学，受禅宗影响很大。书画都很有名，多才多艺，音乐也很精通。与孟浩然合称“王孟”。`,
+			avatar: 'https://ziyuan.guwendao.net/authorImg300/wangwei.jpg',
 		}
-	])
+	] as poet[]
+	
+	const list = ref<poet[]>([])
+	
+	function loadmore() {
+		poets.forEach((e: poet)=>{
+			list.value.push(e)
+		})
+	}
+	
+	function onscrolltolower(e: UniEvent){
+		loadmore()
+	}
+	
+	onLoad((_)=>{
+		poets.forEach((e: poet)=>{
+			list.value.push(e)
+		})
+	})
 </script>
 
 <style lang="scss">

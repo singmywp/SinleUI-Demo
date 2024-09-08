@@ -1,0 +1,56 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Menu Item 菜单项"></sn-topbar>
+		<com-card title="基础用法"
+		note="主要作为菜单型组件的子项，可设置图标、文本、背景颜色等多个属性">
+			<sn-menu-item icon="check-line" text="确定"></sn-menu-item>
+			<sn-menu-item icon="close-line" text="取消"></sn-menu-item>
+		</com-card>
+		<com-card title="间距"
+		note="可以自由修改间距">
+			<sn-menu-item icon="android-fill" 
+			text="Android" 
+			padding="4px 20px"></sn-menu-item>
+			<sn-menu-item icon="apple-fill" 
+			text="iOS"
+			padding="4px 20px"></sn-menu-item>
+			<sn-menu-item icon="windows-fill"
+			text="Windows"
+			padding="4px 20px"></sn-menu-item>
+		</com-card>
+		<com-card title="圆角&颜色&禁用"
+		note="可以自由修改各项颜色、圆角大小，可以为每一项单独设置禁用">
+			<sn-menu-item icon="wechat-2-fill" 
+			text="微信"
+			borderRadius="1000px"
+			:textColor="colors.primary"
+			:iconColor="colors.primary"
+			:bgColor="colors.primaryLight"
+			:activeBgColor="colors.primaryLightActive"></sn-menu-item>
+			<sn-menu-item class="m-t-5"
+			icon="qq-fill"
+			text="QQ"
+			borderRadius="1000px"
+			:textColor="colors.primary"
+			:iconColor="colors.primary"
+			:bgColor="colors.primaryLight"
+			:activeBgColor="colors.primaryLightActive"></sn-menu-item>
+			<sn-menu-item class="m-t-5"
+			icon="telegram-2-fill"
+			text="Telegram"
+			borderRadius="1000px"
+			disabled></sn-menu-item>
+		</com-card>
+		<sn-gap></sn-gap>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	
+	const colors = $snui.colors
+</script>
+
+<style>
+		
+</style>

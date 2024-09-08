@@ -38,7 +38,7 @@
 		</com-card>
 		
 		<!--
-		<com-card title="演示 - 开发用途 ">
+		<com-card title="测试页 - 开发用途 ">
 			<sn-button text="前往"
 			@click="goTo('/pages/other/temp')"></sn-button>
 		</com-card>
@@ -476,6 +476,21 @@
 			icon: 'search-2-line',
 			text: '搜索框',
 			name: 'sn-search'
+		},
+		{
+			icon: 'layout-2-line',
+			text: '菜单项',
+			name: 'sn-menu-item'
+		},
+		{
+			icon: 'slideshow-view',
+			text: '底部导航栏',
+			name: 'sn-tabbar',
+		},
+		{
+			icon: 'layout-column-line',
+			text: '瀑布流',
+			name: 'sn-waterfall'
 		}
 	]
 

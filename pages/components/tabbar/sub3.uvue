@@ -1,0 +1,16 @@
+<template>
+	<sn-page>
+		<sn-topbar title="消息"
+		:backButton="false"></sn-topbar>
+		<sn-empty mode="fail"
+		text="正在开发中"></sn-empty>
+	</sn-page>
+</template>
+
+<script setup>
+		
+</script>
+
+<style>
+		
+</style>

@@ -412,65 +412,106 @@
     	"path" : "pages/components/sn-progress",
     	"style" : 
     	{
-    		"navigationBarTitleText" : ""
+    		"navigationStyle": "custom"
     	}
     },
     {
     	"path" : "pages/components/sn-more",
     	"style" : 
     	{
-    		"navigationBarTitleText" : ""
+    		"navigationStyle": "custom"
     	}
     },
     {
     	"path" : "pages/components/sn-search",
     	"style" : 
     	{
-    		"navigationBarTitleText" : ""
+    		"navigationStyle": "custom"
     	}
     },
     {
     	"path" : "pages/other/ui",
     	"style" : 
     	{
-    		"navigationBarTitleText" : ""
+    		"navigationStyle": "custom"
     	}
     },
     {
     	"path" : "pages/components/sn-e-barcode",
     	"style" : 
     	{
-    		"navigationBarTitleText" : ""
+    		"navigationStyle": "custom"
     	}
     },
     {
     	"path" : "pages/components/sn-e-qrcode",
     	"style" : 
     	{
-    		"navigationBarTitleText" : ""
+    		"navigationStyle": "custom"
     	}
     },
     {
     	"path" : "pages/components/sn-signature",
     	"style" : 
     	{
-    		"navigationBarTitleText" : ""
+    		"navigationStyle": "custom"
     	}
     },
     {
     	"path" : "pages/components/sn-e-svg",
     	"style" : 
     	{
-    		"navigationBarTitleText" : ""
+    		"navigationStyle": "custom"
     	}
     },
     {
     	"path" : "pages/components/sn-upload-media",
     	"style" : 
     	{
-    		"navigationBarTitleText" : ""
+    		"navigationStyle": "custom"
     	}
-    }
+    },
+	{
+		"path": "pages/components/sn-menu-item",
+		"style": {
+			"navigationStyle": "custom"
+		}
+	},
+	{
+		"path" : "pages/components/sn-tabbar",
+		"style" : 
+		{
+			"navigationBarTitleText" : ""
+		}
+	},
+	{
+		"path" : "pages/components/tabbar/demo1",
+		"style" : 
+		{
+			"navigationBarTitleText" : ""
+		}
+	},
+	{
+		"path" : "pages/components/tabbar/demo2",
+		"style" : 
+		{
+			"navigationBarTitleText" : ""
+		}
+	},
+	{
+		"path" : "pages/components/tabbar/demo3",
+		"style" : 
+		{
+			"navigationBarTitleText" : ""
+		}
+	},
+	{
+		"path" : "pages/components/sn-waterfall",
+		"style" : 
+		{
+			"navigationBarTitleText" : ""
+		}
+	}
   ],
   "globalStyle": {
     "navigationStyle": "custom",

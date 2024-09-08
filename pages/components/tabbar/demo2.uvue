@@ -1,0 +1,63 @@
+<template>
+	<sn-page padding="0"
+	:scroll-on="false">
+		<sn-tabbar :data="data"
+		margin="10px"
+		itemPadding="5px"
+		boxShadow="0 0 10px 0 rgba(0,0,0,.1)"
+		:border="`1px solid ${colors.line}`"
+		:itemActiveBgColor="colors.primaryLight"
+		:borderRadius="$snui.configs.radius.xlarge">
+			<template #1>
+				<sub1></sub1>
+			</template>
+			<template #2>
+				<sub2></sub2>
+			</template>
+			<template #3>
+				<sub3></sub3>
+			</template>
+			<template #4>
+				<sub4></sub4>
+			</template>
+		</sn-tabbar>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui, SnTabbarItem } from '@/uni_modules/sinle-ui'
+	import Sub1 from './sub1.uvue'
+	import Sub2 from './sub2.uvue'
+	import Sub3 from './sub3.uvue'
+	import Sub4 from './sub4.uvue'
+	
+	const colors = $snui.colors
+	
+	const data = [
+		{
+			icon: 'home-5-line',
+			text: '首页',
+			activeIcon: 'home-5-fill'
+		},
+		{
+			icon: 'community-line',
+			text: '社区',
+			activeIcon: 'community-fill',
+		},
+		{
+			icon: 'message-3-line',
+			text: '消息',
+			activeIcon: 'message-3-fill',
+		},
+		{
+			icon: 'user-3-line',
+			text: '我的',
+			activeIcon: 'user-3-fill',
+		}
+	] as SnTabbarItem[]
+	
+	
+</script>
+
+<style lang="scss">
+</style>

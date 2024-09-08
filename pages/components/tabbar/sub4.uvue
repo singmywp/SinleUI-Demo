@@ -1,0 +1,79 @@
+<template>
+	<sn-page>
+		<sn-topbar title="我的"
+		:backButton="false"></sn-topbar>
+		<com-card>
+			<sn-row>
+				<sn-avatar
+				src="http://img.wxcha.com/m00/bb/18/bc2167461f0ba311a992f3f00a45c58d.jpg"
+				style="margin-right: 10px;"></sn-avatar>
+				<sn-text text="Toxic"
+				font="alipuhuiheavy"
+				:size="$snui.configs.font.size(4)">
+				</sn-text>
+			</sn-row>
+		</com-card>
+		<com-card>
+			<sn-grid-group>
+				<sn-grid-item v-for="(item, index) in (features as feature[])">
+					<view class="p-10 align-items-center flex-1">
+						<sn-icon :name="item.icon"></sn-icon>
+						<sn-text :text="item.text"
+						align="center"></sn-text>
+					</view>
+				</sn-grid-item>
+			</sn-grid-group>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	const snu = $snui.utils
+	
+	type feature = {
+		icon: string,
+		text: string,
+	}
+	
+	const features = [
+		{
+			icon: 'star-line',
+			text: '收藏',
+		},
+		{
+			icon: 'download-cloud-line',
+			text: '下载',
+		},
+		{
+			icon: 'history-line',
+			text: '历史',
+		},
+		{
+			icon: 'user-follow-fill',
+			text: '关注',
+		},
+		{
+			icon: 'article-line',
+			text: '文章'
+		},
+		{
+			icon: 'money-cny-circle-line',
+			text: '收益'
+		},
+		{
+			icon: 'share-circle-line',
+			text: '推荐',
+		},
+		{
+			icon: 'question-line',
+			text: '帮助',
+		}
+	] as feature[]
+
+</script>
+
+<style>
+		
+</style>

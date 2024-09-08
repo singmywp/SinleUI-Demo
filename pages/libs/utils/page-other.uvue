@@ -6,8 +6,8 @@
 		<sn-text :text="`\n数字【${d2}】\n转换结果：${snu.formatNumber(d2)}`"></sn-text>
 	</com-card>
 		
-	<com-card title="深拷贝（基础类型）"
-	note="使用 TypeScript 实现的深拷贝方法。（注意：通过JSON序列化实现，内部不能含有复杂对象和函数）">
+	<com-card title="深拷贝"
+	note="使用 UTS 实现的深拷贝方法，支持 UTS 的标准内置类型（不包括 Element、Math、Promise、Console 等对象）和自定义类型复制，在 Web 端还支持一些 JS 内置对象，如 Blob、File、URL。对于不支持的对象，将返回源数据。复制大量数据时性能高于 JSON 序列化。">
 		<sn-text :text="`原始对象：${JSON.stringify(d3)}\n浅拷贝对象：${JSON.stringify(d4)}\n深拷贝对象：${JSON.stringify(d5)}\n\n`"></sn-text>
 		<sn-button type="primary"
 		text="修改原始数据的属性 a"
@@ -26,7 +26,7 @@
 	note="创建一个节流函数，指定的时间内多次执行，只执行第一次调用">
 		<sn-text :text="`cnt: ${d8}\n\n`"></sn-text>
 		<sn-button type="primary" 
-		text="cnt ++ (每 1s 只允许执行一次)"
+		text="每 1s 只执行一次"
 		@click="snu.throttle(()=>{d8++}, 1000)"></sn-button>
 	</com-card>
 	<com-card title="防抖函数"
@@ -34,7 +34,7 @@
 		<sn-text :text="`cnt: ${d9}`"></sn-text>
 		<sn-text :text="`result: ${d10}\n\n`"></sn-text>
 		<sn-button type="primary" 
-		:text="`result = cnt\n(延时 1s 执行最后一次调用)`"
+		:text="`延时 1s 执行最后一次调用`"
 		@click="debounce()"></sn-button>
 	</com-card>
 		

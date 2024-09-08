@@ -2,17 +2,21 @@
 	<sn-page>
 		<sn-topbar title="Upload Media 媒体上传"></sn-topbar>
 		<com-card title="基础使用"
-		note="本组件用于快速上传图片媒体文件，分为基础版和 uniCloud 版"></com-card>
+		note="本组件用于快速上传图片/视频媒体文件，分为基础版和 uniCloud 版"></com-card>
 		<com-card title="基础版"
 		note="基于 uni.uploadFile，可上传到开发者服务器">
 			<sn-upload-media :url="testUrl"></sn-upload-media>
 		</com-card>
 		<com-card title="uniCloud 版"
-		note="基于 uniCloud.uploadFile，需先绑定服务空间\n（这个 Demo 没绑定，但亲测可用）">
+		note="基于 uniCloud.uploadFile，需先绑定服务空间\n（此 Demo 未绑定）">
 			<sn-upload-media-unicloud></sn-upload-media-unicloud>
 		</com-card>
+		<com-card title="上传视频"
+		note="支持视频上传，支持显示缩略图。">
+			<sn-upload-media mode="video" :url="testUrl"></sn-upload-media>
+		</com-card>
 		<com-card title="限制数量"
-		note="可以限制选择数量以及最大总数量，选择数量最多 20 个">
+		note="可以限制选择数量以及最大总数量.图片每次最多选择 20 个，视频每次最多选择1个。">
 		<sn-text class="m-b-10"
 		:text="'选择：最大 3 张\n总数：最大 4 张'"></sn-text>
 			<sn-upload-media :url="testUrl"
@@ -27,7 +31,7 @@
 			:maxCount="1"
 			:url="testUrl">
 				<image mode="widthFix" 
-				src="/static/idcard.png" 
+				src="/static/images/idcard.png" 
 				style="width: 280px;height: 173px;"></image>
 			</sn-upload-media>
 		</com-card>
@@ -37,7 +41,7 @@
 			:clearable="false"></sn-upload-media>
 		</com-card>
 		<com-card title="图片预览"
-		note="选择的图片默认可点击预览，如果怕点错，可以取消">
+		note="选择的图片默认可点击预览，如果怕点错，可以取消。视频文件不支持点击预览。">
 			<sn-upload-media :url="testUrl"
 			:enablePreview="false"></sn-upload-media>
 		</com-card>
