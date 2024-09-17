@@ -31,14 +31,14 @@
 				<sn-avatar class="avatar"
 				mode="text" 
 				text="李四" 
-				:textColor="colors.primary"
-				:bgColor="colors.primaryLight">
+				textColor="$primary"
+				bgColor="$primaryLight">
 				</sn-avatar>
 				<sn-avatar class="avatar"
 				mode="icon" 
 				icon="heart-fill" 
 				iconColor="#fff" 
-				:bgColor="colors.warning">
+				bgColor="$warning">
 				</sn-avatar>
 			</sn-row>
 		</com-card>

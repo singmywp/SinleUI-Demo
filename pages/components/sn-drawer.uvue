@@ -83,7 +83,7 @@
 	:width="`${configs['width']}px`"
 	:slideHeight="`${configs['slideHeight']}px`"
 	:slideWidth="`${configs['slideWidth']}px`"
-	:aniTime="configs['aniTime']"
+	:aniTime="`${configs['aniTime']}ms`"
 	:maskOpacity="configs['maskOpacity']"
 	:maskClose="configs['maskClose']"
 	:slideClose="configs['slideClose']"

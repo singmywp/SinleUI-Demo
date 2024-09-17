@@ -4,7 +4,6 @@ import { createSSRApp } from 'vue'
 import { $snui } from './uni_modules/sinle-ui'
 export function createApp() {
 	const app = createSSRApp(App)
-	
 	return {
 		app
 	}

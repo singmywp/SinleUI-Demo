@@ -14,8 +14,8 @@
 			<sn-refresher status="refresh"
 			icon="arrow-down-circle-line"
 			refreshText="我就是我，不一样的烟火~"
-			:textColor="colors.success"
-			:iconColor="colors.success">
+			textColor="$success"
+			iconColor="$success">
 			</sn-refresher>
 		</com-card>
 	</sn-page>

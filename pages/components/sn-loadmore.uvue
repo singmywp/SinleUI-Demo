@@ -19,12 +19,12 @@
 		</com-card>
 		<com-card title="自定义样式"
 		note="我就是我，不一样的烟火~">
-			<sn-loadmore lineHeight="2px" 
-			:status="status2"  
-			:line-color="colors.successLight"
-			dashed 
-			:textColor="colors.success"
-			:icon-color="colors.success" 
+			<sn-loadmore dashed 
+			lineHeight="2px" 
+			status="status2"  
+			line-color="$successLight"
+			textColor="$success"
+			icon-color="$success" 
 			@loadmore="loadmore2"></sn-loadmore>
 		</com-card>
 	</sn-page>

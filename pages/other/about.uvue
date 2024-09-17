@@ -6,9 +6,9 @@
 			<view class="justify-center">
 				<sn-text text="SinleUI" 
 				font="alipuhuiheavy"
-				bold
-				:size="$snui.configs.font.size(5)" 
-				:color="colors.title"></sn-text>
+				size="$5" 
+				color="$title"
+				bold></sn-text>
 				<sn-text class="m-t-5"
 				type="info" 
 				text="一个简洁、轻巧的现代移动应用UI框架">
@@ -35,8 +35,8 @@
 		</sn-card>
 		<sn-card title="📖 MIT许可证" border="none" padding="20px">
 			<sn-text size="14px"
+			color="$textLight"
 			:text="mit" 
-			:color="colors.textLight"
 			selectable></sn-text>
 		</sn-card>
 		<sn-gap></sn-gap>

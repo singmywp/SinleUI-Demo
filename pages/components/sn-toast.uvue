@@ -53,7 +53,7 @@
 					:step="1"></sn-stepper>
 				</sn-form-item>
 				<sn-form-item label="文本对齐">
-					<sn-select v-model="(configs['textAlign'] as string)"
+					<sn-select v-model="(configs['textAlign'] as number)"
 					:data="textAlignData"></sn-select>
 				</sn-form-item>
 				<sn-row>

@@ -42,8 +42,8 @@
 		<com-card title="手势事件">
 			<sn-view class="gesture-block" 
 			padding="10px"
-			:borderRadius="$snui.configs.radius.normal"
-			:bgColor="colors.page"
+			borderRadius="$normal"
+			bgColor="$page"
 			@click="pointGestureEvent" 
 			@longpress="touchGestureEvent" 
 			@dbclick="pointGestureEvent"
@@ -52,7 +52,7 @@
 			@touchend="touchGestureEvent"
 			@touchcancel="touchGestureEvent">
 				<sn-text :text="gestureEventText"
-				:color="colors.text"
+				color="$text"
 				:style="{
 					height: 'auto',
 					wordBreak: 'break-all'

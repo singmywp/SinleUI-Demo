@@ -5,8 +5,8 @@
 		<com-card title="手势库 sn-view">
 			<sn-view class="gesture-block" 
 			padding="10px"
-			:bgColor="colors.info"
-			:borderRadius="$snui.configs.radius.normal"
+			borderRadius="$normal"
+			bgColor="$info"
 			@click="gestureEvent" 
 			@longpress="gestureEvent" 
 			@dbclick="gestureEvent"

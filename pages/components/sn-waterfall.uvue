@@ -2,6 +2,8 @@
 	<sn-page :lowerThreshold="500"
 	@scrolltolower="onscrolltolower">
 		<sn-topbar title="Waterfall 瀑布流"></sn-topbar>
+		<sn-alert type="error"
+		text="此瀑布流组件并不完善，存在一些问题且不支持虚拟列表，不建议正式使用。多列瀑布流官方后续会提供，请使用官方组件或后续的封装组件。"></sn-alert>
 		<com-card title="基础用法"
 		note="用于实现瀑布流布局。">
 		</com-card>

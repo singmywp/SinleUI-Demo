@@ -5,7 +5,8 @@
 		note="本组件用于快速上传图片/视频媒体文件，分为基础版和 uniCloud 版"></com-card>
 		<com-card title="基础版"
 		note="基于 uni.uploadFile，可上传到开发者服务器">
-			<sn-upload-media :url="testUrl"></sn-upload-media>
+			<sn-upload-media :url="testUrl"
+			></sn-upload-media>
 		</com-card>
 		<com-card title="uniCloud 版"
 		note="基于 uniCloud.uploadFile，需先绑定服务空间\n（此 Demo 未绑定）">
@@ -45,12 +46,29 @@
 			<sn-upload-media :url="testUrl"
 			:enablePreview="false"></sn-upload-media>
 		</com-card>
-		<sn-gap></sn-gap>
+		<com-card title="手动上传"
+		:note="`设置 autoUpload=false 即可通过 upload 方法手动上传`">
+			<sn-upload-media ref="mediaRef"
+			:url="testUrl"
+			:autoUpload="false"></sn-upload-media>
+			<sn-button class="m-t-10"
+			type="primary" 
+			level="second"
+			text="上传" 
+			@click="upload"></sn-button>
+		</com-card>
+		<sn-gap height="40px"></sn-gap>
 	</sn-page>
 </template>
 
 <script setup>
 	const testUrl = 'https://unidemo.dcloud.net.cn/upload"'
+	
+	const mediaRef = ref(null as SnUploadMediaComponentPublicInstance | null)
+	
+	function upload() {
+		mediaRef.value?.upload?.()
+	}
 </script>
 
 <style>

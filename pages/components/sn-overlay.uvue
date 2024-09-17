@@ -33,7 +33,7 @@
 	<sn-overlay ref="overlayEle"
 	:maskClose="configs['maskClose']"
 	:opacity="configs['opacity']" 
-	:aniTime="configs['aniTime']">
+	:aniTime="`${configs['aniTime']}ms`">
 	</sn-overlay>
 </template>
 

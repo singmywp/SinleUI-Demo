@@ -70,7 +70,7 @@
 		note="插槽分为 avatar, header-extra, default, footer, action">
 			<sn-card title="SinleUI" 
 			titleFont="alipuhuiheavy" 
-			:bgColor="colors.front">
+			bgColor="$front">
 				<template v-slot:avatar>
 					<sn-avatar src="/static/logo-trans.png"></sn-avatar>
 				</template>

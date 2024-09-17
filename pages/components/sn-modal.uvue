@@ -159,7 +159,8 @@
 	:confirmTextSize="configs['confirmTextSize']"
 	:cancelTextSize="configs['cancelTextSize']"
 	:confirmTextColor="configs['confirmTextColor']"
-	:cancelTextColor="configs['cancelTextColor']"></sn-modal>
+	:cancelTextColor="configs['cancelTextColor']">
+	</sn-modal>
 </template>
 
 <script setup>

@@ -4,36 +4,45 @@
 		<com-card title="基础用法"
 		note="内容太长可以先收起一部分">
 			<sn-more>
-				<sn-text :text="`\u3000\u3000`+longText3"
-				:size="$snui.configs.font.size(3)"></sn-text>
+				<sn-text size="$3"
+				:text="`\u3000\u3000`+longText3"></sn-text>
 			</sn-more>
 		</com-card>
 		<com-card title="自定义文字">
 			<sn-more unfoldText="开"
 			foldText="关">
 				<sn-text :text="article5"
-				:size="$snui.configs.font.size(3)"></sn-text>
+				size="$3"></sn-text>
 			</sn-more>
 		</com-card>
-		<com-card title="自定义展示高度">
+		<com-card title="自定义展示高度"
+		note="低于展示高度则全部显示，高于则隐藏">
+		</com-card>
+		<com-card>
+			<sn-more minHeight="250px">
+				<sn-text text="这是一小段文本，不会被折叠"
+				size="$3"></sn-text>
+			</sn-more>
+		</com-card>
+		<com-card>
 			<sn-more minHeight="250px"> 
-				<sn-text :text="`\u3000\u3000`+longText4"
-				:size="$snui.configs.font.size(3)"></sn-text>
+				<sn-text size="$3"
+				:text="`\u3000\u3000`+longText4"></sn-text>
 			</sn-more>
 		</com-card>
 		<com-card title="动画时长"
 		note="如果你在意性能的话，可以关闭动画">
-			<sn-more :aniTime="0">
-				<sn-text :text="article3"
-				:size="$snui.configs.font.size(3)"></sn-text>
+			<sn-more aniTime="0ms">
+				<sn-text size="$3"
+				:text="article3"></sn-text>
 			</sn-more>
 		</com-card>
 		<com-card title="禁用">
 			<sn-more unfoldText="开通大会员畅享百万好文"
 			icon="vip-crown-line"
 			disabled>
-				<sn-text :text="article1"
-				:size="$snui.configs.font.size(3)"></sn-text>
+				<sn-text size="$3"
+				:text="article1"></sn-text>
 			</sn-more>
 		</com-card>
 		<sn-gap></sn-gap>

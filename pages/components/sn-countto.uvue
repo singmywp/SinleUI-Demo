@@ -20,34 +20,34 @@
 		</com-card>
 		<com-card title="动画时长"
 		note="支持自定义动画时长">
-			<sn-countto :aniTime="10000"
+			<sn-countto :duration="10000"
 			:startVal="6666"
 			:endVal="7777"></sn-countto>
 		</com-card>
 		<com-card title="缓动动画"
 		note="以 easeOutSine 缓动动画代替默认的 linear 动画，使得动画在结束前减速">
 			<sn-countto easing
-			:aniTime="5000"
+			:duration="5000"
 			:endVal="7777"></sn-countto>
 		</com-card>
 		<com-card title="分割数字"
 		note="常用于金融场景">
 			<sn-countto :separate="3"
-			:aniTime="10000"
+			:duration="10000"
 			:endVal="1000000"></sn-countto>
 		</com-card>
 		<com-card title="自定义样式"
 		note="多姿多样，丰富多彩">
-			<sn-countto :endVal="7777"
-			:textColor="colors.successDark"
-			:textSize="$snui.configs.font.size(3)"
+			<sn-countto textSize="$3"
+			textColor="$successDark"
+			:endVal="7777"
 			:customStyle="{fontFamily: 'alipuhuiheavy'}"></sn-countto>
 		</com-card>
 		<com-card title="自由控制"
 		note="提供 API 以自由控制数字滚动的状态。">
 			<view class="align-items-center">
 				<sn-countto ref="counttoEle"
-				:aniTime="5000"
+				:duration="5000"
 				:endVal="7777"></sn-countto>
 				<sn-row align="center">
 					<sn-button round-size="50px" 
@@ -61,8 +61,8 @@
 					round-size="60px"
 					round
 					@click="playOrPause">
-						<sn-icon :name="`${running?'pause':'play'}-fill`" 
-						:color="colors.primary"></sn-icon>
+						<sn-icon color="$primary"
+						:name="`${running?'pause':'play'}-fill`" ></sn-icon>
 					</sn-button>
 					<sn-button class="m-l-10"
 					round-size="50px" 

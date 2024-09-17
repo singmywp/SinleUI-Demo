@@ -19,7 +19,10 @@
 		</com-card>
 		<com-card title="图标"
 		note="在警告信息旁添上图标">
-			<sn-alert icon="home-smile-fill" icon-color="#6d6d6d" text="天下皆知美之为美，斯恶已，皆知善之为善，斯不善已"></sn-alert>
+			<sn-alert icon="home-smile-fill" 
+			icon-color="#6d6d6d" 
+			text="天下皆知美之为美，斯恶已，皆知善之为善，斯不善已">
+			</sn-alert>
 			<sn-alert icon="cloud-fill" icon-color="#5777ff" type="primary"
 				text="故有无相生，难易相成，长短相形，高下相倾，音声相和，前后相随"></sn-alert>
 			<sn-alert icon="bookmark-3-fill" icon-color="#06ad56" type="success"
@@ -32,11 +35,11 @@
 			<sn-alert class="br-16! border-w-4! border-c-black!"
 			textColor="#000" 
 			textSize="18px"
+			bgColor="$front"
 			:text="'\u3000天下皆知美之为美，斯恶已，皆知善之为善，斯不善已'" 
-			:bgColor="colors.front"
 			:custom-style="{
-				border:'4px solid #000',
-			}"></sn-alert>
+			border:`4px solid ${colors.title} !important`
+		}"></sn-alert>
 		</com-card>
 	</sn-page>
 </template>

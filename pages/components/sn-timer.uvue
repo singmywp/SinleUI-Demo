@@ -7,8 +7,8 @@
 		</com-card>
 		<com-card title="自定义样式"
 		note="可以自由设置文本的颜色和大小等样式">
-			<sn-timer :textColor="colors.successDark"
-			:textSize="$snui.configs.font.size(3)"
+			<sn-timer textSize="$3"
+			textColor="$successDark"
 			:customStyle="{fontFamily:'alipuhuiheavy'}"></sn-timer>
 		</com-card>
 		<com-card title="格式化"
@@ -50,8 +50,8 @@
 					type="primary"
 					level="second"
 					@click="playOrPause">
-						<sn-icon :name="`${running?'pause':'play'}-fill`" 
-						:color="colors.primary"></sn-icon>
+						<sn-icon color="$primary"
+						:name="`${running?'pause':'play'}-fill`" ></sn-icon>
 					</sn-button>
 				</sn-row>
 			</view>

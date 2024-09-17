@@ -7,16 +7,25 @@
 		</com-card>
 		<com-card title="颜色"
 		note="可以为占位间隔添加背景颜色，更显眼\n（下面为了方便展示，均已设置背景色）">
-			<sn-gap :bgColor="colors.info"></sn-gap>
+			<sn-gap bgColor="$info"></sn-gap>
 		</com-card>
 		<com-card title="模式"
 		note="分为三种：statusbar、safearea、custom。默认采用 custom 模式，即用户自定义高度">
-			<sn-text class="spacing" text="状态栏高度"></sn-text>
-			<sn-gap class="spacing" mode="statusbar" :bgColor="colors.info"></sn-gap>
-			<sn-text class="spacing" text="底部安全区高度"></sn-text>
-			<sn-gap class="spacing" mode="safearea" :bgColor="colors.info"></sn-gap>
-			<sn-text class="spacing" text="自定义高度：70px"></sn-text>
-			<sn-gap class="spacing" height="70px" :bgColor="colors.info"></sn-gap>
+			<sn-text class="spacing" 
+			text="状态栏高度"></sn-text>
+			<sn-gap class="spacing" 
+			mode="statusbar" 
+			bgColor="$info"></sn-gap>
+			<sn-text class="spacing" 
+			text="底部安全区高度"></sn-text>
+			<sn-gap class="spacing" 
+			mode="safearea" 
+			bgColor="$info"></sn-gap>
+			<sn-text class="spacing" 
+			text="自定义高度：70px"></sn-text>
+			<sn-gap class="spacing" 
+			height="70px" 
+			bgColor="$info"></sn-gap>
 		</com-card>
 	</sn-page>
 </template>

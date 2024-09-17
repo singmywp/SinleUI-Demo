@@ -2,7 +2,8 @@
 	<sn-page>
 		<sn-topbar title="Icon 图标"></sn-topbar>
 		<sn-alert type="primary">
-			<sn-link href="https://remixicon.com/" :color="colors.primary"
+			<sn-link href="https://remixicon.com/" 
+			color="$primary"
 				:text="'\u3000\u3000SinleUI 内置 Remix Icon 图标库。所有图标均免费用于个人和商业用途。'"></sn-link>
 		</sn-alert>
 		<com-card title="基础用法"
@@ -16,30 +17,30 @@
 		note="自定义颜色，让单调的图标更具表现力">
 			<view class="icons">
 				<sn-icon name="mic-2-fill" 
-				:color="colors.primary"></sn-icon>
+				color="$primary"></sn-icon>
 				<sn-icon name="user-smile-fill"
-				:color="colors.success"></sn-icon>
+				color="$success"></sn-icon>
 				<sn-icon name="service-fill" 
-				:color="colors.error"></sn-icon>
+				color="$error"></sn-icon>
 				<sn-icon name="error-warning-fill" 
-				:color="colors.warning"></sn-icon>
+				color="$warning"></sn-icon>
 				</view>
 		</com-card>
 		<com-card title="尺寸"
 		note="自定义尺寸，让枯燥的图标更具灵动性">
 			<view class="icons">
 				<sn-icon name="mic-2-fill"
-				:color="colors.primary"
-				:size="$snui.configs.font.size(3)"></sn-icon>
+				size="$3"
+				color="$primary"></sn-icon>
 				<sn-icon name="user-smile-fill"
-				:color="colors.success"
-				:size="$snui.configs.font.size(4)"></sn-icon>
+				size="$4"
+				color="$success"></sn-icon>
 				<sn-icon name="service-fill" 
-				:color="colors.error"
-				:size="$snui.configs.font.size(5)"></sn-icon>
+				size="$5"
+				color="$error"></sn-icon>
 				<sn-icon name="error-warning-fill" 
-				:color="colors.warning"
-				:size="$snui.configs.font.size(6)"></sn-icon>
+				size="$6"
+				color="$warning"></sn-icon>
 			</view>
 		</com-card>
 		<com-card title="图标预览">

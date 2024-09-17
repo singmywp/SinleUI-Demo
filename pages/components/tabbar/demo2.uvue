@@ -5,9 +5,9 @@
 		margin="10px"
 		itemPadding="5px"
 		boxShadow="0 0 10px 0 rgba(0,0,0,.1)"
-		:border="`1px solid ${colors.line}`"
-		:itemActiveBgColor="colors.primaryLight"
-		:borderRadius="$snui.configs.radius.xlarge">
+		borderRadius="$xlarge"
+		itemActiveBgColor="$primaryLight"
+		:border="`1px solid ${colors.line}`">
 			<template #1>
 				<sub1></sub1>
 			</template>

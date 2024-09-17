@@ -8,7 +8,7 @@
 		<com-card title="颜色"
 		note="平凡普通的星星，也会绽放绚丽的色彩">
 			<sn-rate v-model="v2" 
-			:activeColor="colors.dark" 
+			activeColor="$dark" 
 			inactiveColor="#c3c3c3"></sn-rate>
 		</com-card>
 		<com-card title="图标"

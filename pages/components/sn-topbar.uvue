@@ -44,9 +44,9 @@
 		<com-card title="自定义样式"
 		note="多姿多彩，追求独特">
 			<sn-topbar title="星空征途，永不停息" 
-			:bgColor="colors.front" 
+			bgColor="$front" 
 			boxShadow="0"
-			:titleColor="colors.primaryDark" 
+			titleColor="$primaryDark" 
 			borderRadius="0"
 			:fixed="false" 
 			:backButton="false"></sn-topbar>

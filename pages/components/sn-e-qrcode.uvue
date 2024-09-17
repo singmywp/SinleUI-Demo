@@ -9,9 +9,9 @@
 			v-model="qrcodeData"
 			placeholder="输入生成的数据"
 			padding="15px"
-			:textSize="$snui.configs.font.size(3)"
-			:bgColor="colors.info"
-			:activeBgColor="colors.info"
+			textSize="$4"
+			bgColor="$info"
+			activeBgColor="$info"
 			:showBorder="false"></sn-input>
 		</com-card>
 		<com-card title="纠错等级"

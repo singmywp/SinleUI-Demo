@@ -16,29 +16,29 @@
 			<sn-progress class="m-t-10"
 			v-model="v2"
 			height="6px"
-			:activeColor="colors.error"></sn-progress>
+			activeColor="$error"></sn-progress>
 			<sn-progress class="m-t-10" 
 			v-model="v1"
 			height="6px"
-			:activeColor="colors.warning"></sn-progress>
+			activeColor="$warning"></sn-progress>
 			<sn-progress class="m-t-10"
 			v-model="v3"
 			height="6px"
-			:activeColor="colors.primary"></sn-progress>
+			activeColor="$primary"></sn-progress>
 			<sn-progress class="m-t-10"
 			v-model="v1"
 			height="6px"
-			:activeColor="colors.success"></sn-progress>
+			activeColor="$success"></sn-progress>
 		</com-card>
 		<com-card title="动画时长"
 		note="支持双向绑定，动态赋值，可自由设置值变化时的动画时长">
 			<sn-progress class="m-t-10" v-model="v4"></sn-progress>
 			<sn-progress class="m-t-10" v-model="v4"
-			:activeColor="colors.warning"
-			:aniTime="parseInt($snui.configs.aniTime.short)"></sn-progress>
+			aniTime="$short"
+			activeColor="$warning"></sn-progress>
 			<sn-progress class="m-t-10" v-model="v4"
-			:activeColor="colors.success"
-			:aniTime="parseInt($snui.configs.aniTime.xlong)"></sn-progress>
+			aniTime="$xlong"
+			activeColor="$success"></sn-progress>
 			<sn-row  class="m-t-10">
 				<sn-button
 				text="增加"
@@ -59,7 +59,7 @@
 			showValueText
 			valueTextPosition="inside"
 			textColor="black"
-			:activeColor="colors.warning"></sn-progress>
+			activeColor="$warning"></sn-progress>
 			<sn-row class="m-t-10">
 				<sn-button
 				text="增加"

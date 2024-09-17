@@ -59,18 +59,18 @@
 	</sn-page>
 	<sn-float-button 	
 	v-model="(configs['model'] as number[])"
-	:init="(configs['init'] ?? true)"
-	:disabled="(configs['disabled'] ?? false)"
-	:aniTime="(configs['aniTime'] ?? 0)"
-	:absorb="(configs['absorb'] ?? true)"
+	:init="configs['init']"
+	:disabled="configs['disabled']"
+	:aniTime="`${configs['aniTime']}ms`"
+	:absorb="configs['absorb']"
 	:position="positions[(configs['position']??4) as number]['id']"
-	:bgColor="(configs['bgColor'] ?? '')"
-	:size="(configs['size'] ?? '')"
-	:icon="(configs['icon'] ?? '')"
-	:iconSize="(configs['iconSize'] ?? '')"
-	:iconColor="(configs['iconColor'] ?? '')"
-	:boxShadow="(configs['boxShadow'] ?? '')"
-	:borderRadius="(configs['borderRadius'] ?? '')">
+	:bgColor="configs['bgColor']"
+	:size="configs['size']"
+	:icon="configs['icon']"
+	:iconSize="configs['iconSize']"
+	:iconColor="configs['iconColor']"
+	:boxShadow="configs['boxShadow']"
+	:borderRadius="configs['borderRadius']">
 	</sn-float-button>
 </template>
 

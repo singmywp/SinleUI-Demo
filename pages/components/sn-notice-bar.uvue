@@ -25,12 +25,12 @@
 		</com-card>
 		<com-card title="自定义样式">
 			<sn-notice-bar :texts="ins"
-			 :bgColor="colors.primary"
-			 :textColor="colors.primaryText" />
+			 bgColor="$primary"
+			 textColor="$primaryText" />
 			 <sn-notice-bar vertical
 			  :texts="poem"
-			  :bgColor="colors.errorLight"
-			  :textColor="colors.errorLightText" />
+			  bgColor="$errorLight"
+			  textColor="$errorLightText" />
 		</com-card>
 	</sn-page>
 </template>

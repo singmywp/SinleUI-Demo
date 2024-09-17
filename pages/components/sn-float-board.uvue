@@ -71,7 +71,7 @@
 	:minWidth="`${configs['minWidth']}px`"
 	:slideHeight="`${configs['slideHeight']}px`"
 	:slideWidth="`${configs['slideWidth']}px`"
-	:aniTime="configs['aniTime']"
+	:aniTime="`${configs['aniTime']}ms`"
 	:showLine="configs['showLine']">
 	</sn-float-board>
 </template>

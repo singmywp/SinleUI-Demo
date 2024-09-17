@@ -9,7 +9,7 @@
 				style="margin-right: 10px;"></sn-avatar>
 				<sn-text text="Toxic"
 				font="alipuhuiheavy"
-				:size="$snui.configs.font.size(4)">
+				size="$4">
 				</sn-text>
 			</sn-row>
 		</com-card>

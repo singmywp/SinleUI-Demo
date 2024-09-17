@@ -34,8 +34,8 @@
 			<sn-input v-model="val"
 			placeholder="自定义颜色" 
 			border-radius="15px" 
-			:bgColor="colors.info" 
-			:activeBgColor="colors.info"
+			bgColor="$info" 
+			activeBgColor="$info"
 			text-color="#35b571"
 			active-border-color="#35b571"
 			border-width="2px"
@@ -47,22 +47,22 @@
 			class="spacing"
 			placeholder="无边框" 
 			borderRadius="15px" 
-			:bgColor="colors.info" 
-			:activeBgColor="colors.info" 
+			bgColor="$info" 
+			activeBgColor="$info" 
 			border-color="transparent"></sn-input>
 			<sn-input v-model="val"
 			class="spacing"
 			placeholder="无焦点边框" 
 			border-radius="15px" 
-			:bgColor="colors.info" 
-			:activeBgColor="colors.info" 
+			bgColor="$info" 
+			activeBgColor="$info" 
 			:showActiveBorder="false"></sn-input>
 			<sn-input v-model="val"
 			class="spacing"
 			placeholder="完全无边框" 
 			borderRadius="15px" 
-			:bgColor="colors.info" 
-			:activeBgColor="colors.info"
+			bgColor="$info" 
+			activeBgColor="$info"
 			:showBorder="false"></sn-input>
 		</com-card>
 		<com-card title="类型"
@@ -71,26 +71,26 @@
 			class="spacing"
 			placeholder="文字输入框" 
 			border-radius="15px" 
-			:bgColor="colors.info"
-			:borderColor="colors.info"></sn-input>
+			bgColor="$info"
+			borderColor="$info"></sn-input>
 			<sn-input type="number" 
 			class="spacing"
 			placeholder="数字输入框" 
 			border-radius="15px" 
-			:bgColor="colors.info"
-			:borderColor="colors.info"></sn-input>
+			bgColor="$info"
+			borderColor="$info"></sn-input>
 			<sn-input type="digit" 
 			class="spacing"
 			placeholder="带小数点数字输入框" 
 			border-radius="15px" 
-			:bgColor="colors.info"
-			:borderColor="colors.info"></sn-input>
+			bgColor="$info"
+			borderColor="$info"></sn-input>
 			<sn-input type="tel" 
 			class="spacing"
 			placeholder="电话输入框" 
 			border-radius="15px" 
-			:bgColor="colors.info"
-			:borderColor="colors.info"></sn-input>
+			bgColor="$info"
+			borderColor="$info"></sn-input>
 		</com-card>
 		<com-card title="密码"
 		note="对于输入密码的场景，要求显然更高">
@@ -98,8 +98,8 @@
 			password
 			placeholder="密码输入框"
 			border-radius="15px"
-			:bgColor="colors.info"
-			:borderColor="colors.info"></sn-input>
+			bgColor="$info"
+			borderColor="$info"></sn-input>
 		</com-card>
 		<com-card title="键盘右下角按钮"
 		note="自定义键盘右下角显示的文字，也许能帮你省下一个按钮的空间\n（输入法不同，实际显示会有一定差异）">
@@ -108,36 +108,36 @@
 			confirm-type="done" 
 			placeholder="完成" 
 			border-radius="15px" 
-			:bgColor="colors.info"
-			:borderColor="colors.info"></sn-input>
+			bgColor="$info"
+			borderColor="$info"></sn-input>
 			<sn-input v-model="val"
 			class="spacing"
 			confirm-type="next"
 			placeholder="下一步" 
 			border-radius="15px" 
-			:bgColor="colors.info"
-			:borderColor="colors.info"></sn-input>
+			bgColor="$info"
+			borderColor="$info"></sn-input>
 			<sn-input v-model="val"
 			class="spacing"
 			confirm-type="send"
 			placeholder="发送" 
 			border-radius="15px" 
-			:bgColor="colors.info"
-			:borderColor="colors.info"></sn-input>
+			bgColor="$info"
+			borderColor="$info"></sn-input>
 			<sn-input v-model="val"
 			class="spacing"
 			confirm-type="search" 
 			placeholder="搜索" 
 			border-radius="15px" 
-			:bgColor="colors.info"
-			:borderColor="colors.info"></sn-input>
+			bgColor="$info"
+			borderColor="$info"></sn-input>
 			<sn-input v-model="val"
 			class="spacing"
 			confirm-type="go" 
 			placeholder="前往" 
 			border-radius="15px" 
-			:bgColor="colors.info"
-			:borderColor="colors.info"></sn-input>
+			bgColor="$info"
+			borderColor="$info"></sn-input>
 		</com-card>
 		<com-card title="上推界面"
 		note="用于确定键盘弹起时是否自动上推页面，默认开启">
@@ -146,8 +146,8 @@
 			:adjust-position="false" 
 			placeholder="禁用自动上推界面" 
 			border-radius="15px" 
-			:bgColor="colors.info"
-			:borderColor="colors.info"></sn-input>
+			bgColor="$info"
+			borderColor="$info"></sn-input>
 		</com-card>
 		<com-card title="焦点"
 		note="输入框也可以自由控制焦点">
@@ -160,31 +160,32 @@
 			<sn-input v-model="val"
 			placeholder="自由控制焦点" 
 			border-radius="15px"
-			:bgColor="colors.info"
+			bgColor="$info"
 			:focus="focus" 
 			:maxlength="10"
-			:borderColor="colors.info"></sn-input>
+			borderColor="$info"></sn-input>
 		</com-card>
 		<com-card title="最大输入长度"
 		note="限制字数的工具，默认设为-1（不限制）">
 			<sn-input placeholder="限制10字" 
 			border-radius="15px" 
-			:bgColor="colors.info" 
+			bgColor="$info" 
 			:maxlength="10"
-			:borderColor="colors.info"></sn-input>
+			borderColor="$info"></sn-input>
 		</com-card>
 		<com-card title="加载"
 		note="给输入框加入加载动效，至少看起来没有在偷懒">
 			<sn-card>
 				<sn-row justify="space-between">
-					<sn-text text="加载中" :size="$snui.utils.addUnit($snui.utils.getPx($snui.configs.font.size(3))+1)"></sn-text>
+					<sn-text text="加载中" 
+					:size="$snui.utils.addUnit($snui.utils.getPx($snui.configs.font.size(3))+1)"></sn-text>
 					<sn-switch v-model="loading"></sn-switch>
 				</sn-row>
 			</sn-card>
 			<sn-input v-model="val"
 			placeholder="加载中"
 			border-radius="15px" 
-			:bgColor="colors.info" 
+			bgColor="$info" 
 			border-color="transparent"
 			:loading="loading"
 			></sn-input>
@@ -194,7 +195,7 @@
 			<sn-input v-model="val"
 			placeholder="禁用" 
 			border-radius="15px" 
-			:bgColor="colors.info" 
+			bgColor="$info" 
 			border-color="transparent"
 			disabled></sn-input>
 		</com-card>
@@ -205,8 +206,8 @@
 			border-radius="15px" 
 			clearable
 			:showBorder="false"
-			:bgColor="colors.info" 
-			:activeBgColor="colors.info">
+			bgColor="$info" 
+			activeBgColor="$info">
 			</sn-input>
 		</com-card>
 		<com-card title="字体大小"
@@ -218,8 +219,8 @@
 			icon-size="24px" 
 			icon-color="#676767" 
 			prefix-icon="search-2-line"
-			:bgColor="colors.info"
-			:activeBgColor="colors.info"
+			bgColor="$info"
+			activeBgColor="$info"
 			:showBorder="false"></sn-input>
 		</com-card>
 		<com-card title="前缀&后缀"
@@ -231,17 +232,17 @@
 			icon-size="16px" 
 			icon-color="#676767"
 			:showBorder="false"
-			:bgColor="colors.info"
-			:activeBgColor="colors.info">
+			bgColor="$info"
+			activeBgColor="$info">
 			</sn-input>
 			<sn-input placeholder="请输入网址" 
 			border-radius="15px" 
-			:bgColor="colors.info" 
-			:activeBgColor="colors.info"
+			bgColor="$info" 
+			activeBgColor="$info"
 			:showBorder="false">
 				<template v-slot:prefix>
 					<sn-text text="https://"
-					:color="colors.text"
+					color="$text"
 					size="18px"
 					style="margin-right:5px;"></sn-text>
 				</template>
@@ -252,7 +253,7 @@
 					round
 					style="margin: 0px -3px 0px 5px">
 					<sn-icon name="arrow-right-line" 
-					:color="colors.primary"
+					color="$primary"
 					size="18px"></sn-icon>
 					</sn-button>
 				</template>

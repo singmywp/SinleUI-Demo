@@ -34,7 +34,7 @@
 		note="也许你需要将链接隐藏在彩色的文字中">
 			<sn-link text="uni-app x 官网" 
 			href="https://doc.dcloud.net.cn/uni-app-x/"
-			:color="colors.successDark"></sn-link>
+			color="$successDark"></sn-link>
 		</com-card>
 		<com-card title="尺寸"
 		note="选择合适的大小也是一门技术活️">

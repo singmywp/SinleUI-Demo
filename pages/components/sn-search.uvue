@@ -48,12 +48,12 @@
 		<com-card title="自定义样式">
 			<sn-search v-model="v9"
 			padding="10px 20px"
-			:showCancel="false"
-			:borderRadius="$snui.configs.radius.circle"
-			:bgColor="colors.info"
-			:activeBgColor="colors.front"
-			:activeBorderColor="colors.primary"
-			placeholder="请输入搜索内容"></sn-search>
+			borderRadius="$circle"
+			bgColor="$info"
+			activeBgColor="$front"
+			activeBorderColor="$primary"
+			placeholder="请输入搜索内容"
+			:showCancel="false"></sn-search>
 		</com-card>
 		<sn-gap></sn-gap>
 	</sn-page>

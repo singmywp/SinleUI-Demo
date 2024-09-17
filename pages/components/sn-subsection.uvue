@@ -16,8 +16,8 @@
 		note="自定义组件各部分的颜色"
 		:bgColor="bgColorC">
 			<sn-subsection v-model="v3"
-			:data="list2" 
-			:activeTextColor="colors.successDark"></sn-subsection>
+			activeTextColor="$successDark"
+			:data="list2" ></sn-subsection>
 		</com-card>
 		<com-card title="禁用"
 		note="屏蔽手动操作️"
@@ -34,17 +34,17 @@
 			textSize="12px"
 			borderRadius="5px" 
 			padding="2px" 
+			activeTextColor="$text"
 			:data="list3"
-			:activeTextColor="colors.text"
 			:customStyle="{width:'100px !important'}"></sn-subsection>
 			<sn-subsection v-model="v5" 
 			class="spacing"
 			:data="list3" 
 			textSize="16px"
 			padding="5px" 
-			:borderRadius="$snui.configs.radius.circle"
+			borderRadius="$circle"
+			activeTextColor="$text"
 			:textColor="colors[`info${theme=='light'?'Dark':''}`]"
-			:activeTextColor="colors.text"
 			:customItemStyle="{
 				fontFamily:'misans-semibold'
 			}" 
@@ -55,13 +55,13 @@
 			}"></sn-subsection>
 			<sn-subsection v-model="v6" 
 			class="spacing"
-			:data="list2" 
-			:activeTextColor="colors.primary" 
+			activeTextColor="$primary" 
 			textColor="#b6b6b6"
 			textSize="16px" 
 			blockBgColor="transparent" 
 			borderRadius="5px" 
 			padding="5px" 
+			:data="list2" 
 			:customBlockStyle="{
 				borderRadius:'0',
 				borderBottom:'2px solid ' + colors.primary

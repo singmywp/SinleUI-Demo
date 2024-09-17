@@ -11,7 +11,8 @@
 				@click="copy(e2)"
 				:style="itemStylesC">
 					<sn-icon :name="e2"></sn-icon>
-					<sn-text :text="e2" align="center" :size="$snui.configs.font.size(1)"></sn-text>
+					<sn-text :text="e2" align="center" 
+					size="$1"></sn-text>
 				</view>
 			</list-item>
 			<list-item>

@@ -3,11 +3,11 @@
 	:scroll-on="false">
 		<sn-tabbar :data="data"
 		padding="5px"
-		:textSize="$snui.configs.font.size(3)"
-		:iconSize="$snui.configs.font.size(6)"
-		:textColor="colors.textLight"
-		:iconColor="colors.error"
-		:activeTextColor="colors.title">
+		textSize="$3"
+		iconSize="$6"
+		textColor="$textLight"
+		iconColor="$error"
+		activeTextColor="$title">
 			<template #1>
 				<sub1></sub1>
 			</template>

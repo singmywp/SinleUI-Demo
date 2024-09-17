@@ -43,7 +43,7 @@
 	</sn-page>
 	<sn-popup ref="popupEle"
 	:position="positions[configs['position'] as number ?? 1]['id'] ?? ''"
-	:aniTime="configs['aniTime']"
+	:aniTime="`${configs['aniTime']}ms`"
 	:maskOpacity="configs['maskOpacity']"
 	:maskClose="configs['maskClose']"
 	:preventBack="configs['preventBack']">

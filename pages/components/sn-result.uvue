@@ -19,7 +19,10 @@
 			:content="showSlot?'机密要地，无关人士速速撤离':contents[selectedId]"
 			style="margin-bottom: 30px;">
 				<template #icon>
-					<sn-icon v-if="showSlot" name="checkbox-blank-circle-line" :color="colors.error" size="45px"></sn-icon>
+					<sn-icon v-if="showSlot" 
+					name="checkbox-blank-circle-line" 
+					color="$error" 
+					size="45px"></sn-icon>
 				</template>
 				<template #action>
 					<sn-button v-if="showSlot" 

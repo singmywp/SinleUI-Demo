@@ -31,16 +31,16 @@
 		note="调出你喜欢的样子">
 			<sn-stepper v-model="v6"
 			class="spacing"
-			:bgColor="colors.primaryLight"
-			:textColor="colors.primary"></sn-stepper>
+			bgColor="$primaryLight"
+			textColor="$primary"></sn-stepper>
 			<sn-stepper v-model="v6"
 			text-size="20px"
 			size="40px" 
 			input-width="100px"
 			spacing="10px"
-			:bgColor="colors.successLight" 
-			:borderRadius="$snui.configs.radius.circle"
-			:textColor="colors.success"></sn-stepper>
+			borderRadius="$circle"
+			bgColor="$successLight" 
+			textColor="$success"></sn-stepper>
 		</com-card>
 	</sn-page>
 </template>

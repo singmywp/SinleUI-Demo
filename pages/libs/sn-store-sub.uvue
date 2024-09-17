@@ -3,7 +3,7 @@
 		<sn-topbar title="Store.Sub 状态管理子页面"></sn-topbar>
 		<com-card title="数据展示">
 			<com-card v-for="e in keys"
-			:bgColor="colors.info"
+			bgColor="$info"
 			:title="`key${e}：${storeLib.get(`key${e}`) ?? ''}`"></com-card>
 		</com-card>
 	</sn-page>

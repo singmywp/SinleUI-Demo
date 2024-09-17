@@ -3,8 +3,8 @@
 		<sn-topbar title="Utils 工具库"></sn-topbar>
 		<sn-tabs v-model="curTab"
 		scrollable
+		bgColor="$page"
 		:data="tabs"
-		:bgColor="colors.page"
 		@change="changeTab"
 		:customStyle="{
 			position: 'fixed',

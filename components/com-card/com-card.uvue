@@ -3,16 +3,16 @@
 		<sn-text v-if="title!=''"
 		class="com-card-title" 
 		font="misans-semibold"
+		size="$4"
 		:text="title"
-		:size="$snui.configs.font.size(4)"
 		:color="titleColorC"
 		:style="[{
 			marginBottom: !$snui.utils.isEmpty(noteC)?'10px':'0px'
 		}]"></sn-text>
 		<sn-text v-if="note!=''"
 		class="com-card-note"
+		size="$2"
 		:text="noteC"
-		:size="$snui.configs.font.size(2)"
 		:color="noteColorC"
 		:style="[{
 			marginBottom: $slots['default']!=null?'10px':'0px'
@@ -23,7 +23,7 @@
 
 <script setup>
 	// 依赖
-	import { $snui } from '@/uni_modules/sinle-ui'
+	import { $snui, useFormatProp } from '@/uni_modules/sinle-ui'
 
 	// SinleUI 配置
 	const colors = $snui.colors
@@ -49,27 +49,31 @@
 			type: String,
 			default: ''
 		},
+		padding: {
+			type: String,
+			default: '10px 15px'
+		},
 		spaceBeforeParagraph: {
 			type: Boolean,
 			default: true
 		},
 		customStyle: {
-			type: Object,
-			default: {}
+			type: Object as PropType<UTSJSONObject>,
+			default: {} as UTSJSONObject
 		}
 	})
 
 	// 计算属性
 	const noteColorC = computed(() : string => {
-		return props.noteColor == '' ? colors.value.textLight : props.noteColor
+		return useFormatProp('color', props.noteColor, colors.value.textLight)
 	})
 	
 	const titleColorC = computed(() : string => {
-		return props.titleColor == '' ? colors.value.title : props.titleColor
+		return useFormatProp('color', props.titleColor, colors.value.title)
 	})
 	
 	const bgColorC = computed(() : string => {
-		return props.bgColor == '' ? colors.value.front : props.bgColor
+		return useFormatProp('color', props.bgColor, colors.value.front)
 	})
 
 	const noteC = computed(() : string => {
@@ -81,6 +85,7 @@
 		let styles = new Map<string, any>()
 		styles.set('background', bgColorC.value)
 		styles.set('border-radius', $snui.configs.radius.normal)
+		styles.set('padding', props.padding)
 		styles.set('transition-duration',$snui.configs.aniTime.normal)
 		return styles
 	})
@@ -91,7 +96,6 @@
 	.com-card {
 		width: 100%;
 		min-height: 10px;
-		padding: 10px 15px;
 		margin: 5px 0;
 		&-title {
 			padding: 5px;

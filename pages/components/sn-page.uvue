@@ -8,8 +8,6 @@
 		:customButtonIconStyle="{
 			color: frontColorC
 		}"></sn-topbar>
-		<!--此条件判断将在 HBX 4.27 以后删除-->
-		<!-- #ifdef WEB -->
 		<com-card title="基础用法"
 		note="页面容器，是页面的根节点。使用页面容器可帮助您快速布局页面，无需手动管理滚动相关组件及事件。\n支持动态修改页面背景色、全局背景色。"
 		:noteColor="frontColorC"
@@ -33,12 +31,6 @@
 			:activeBgColor="activeBtnBgColor"
 			@click="resetBgColor"></sn-button>
 		</com-card>
-		<!-- #endif -->
-		<!-- #ifndef WEB -->
-		<com-card title="兼容性问题"
-		note="由于官方底层函数Bug，颜色库在 HBX 4.26 版本运行出现问题，Demo 暂不予展出。HBX 下一版本会修复。">
-		</com-card>
-		<!-- #endif -->
 	</sn-page>
 </template>
 

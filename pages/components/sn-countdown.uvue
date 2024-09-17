@@ -7,9 +7,9 @@
 		</com-card>
 		<com-card title="自定义样式"
 		note="可以自由设置文本的颜色和大小等样式">
-			<sn-countdown :time="5 * 60 * 1000"
-			:textColor="colors.successDark"
-			:textSize="$snui.configs.font.size(3)"
+			<sn-countdown textSize="$3"
+			textColor="$successDark"
+			:time="5 * 60 * 1000"
 			:customStyle="{fontFamily:'alipuhuiheavy'}"></sn-countdown>
 		</com-card>
 		<com-card title="格式化"
@@ -56,8 +56,8 @@
 					round-size="60px"
 					round
 					@click="playOrPause">
-						<sn-icon :name="`${running?'pause':'play'}-fill`" 
-						:color="colors.primary"></sn-icon>
+						<sn-icon color="$primary"
+						:name="`${running?'pause':'play'}-fill`" ></sn-icon>
 					</sn-button>
 					<sn-button class="m-l-10"
 					round-size="50px" round

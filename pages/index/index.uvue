@@ -11,36 +11,35 @@
 			text="SinleUI 全新发布，欢迎各位大佬体验" 
 			icon="notification-fill">
 			</sn-alert>
-			<sn-form v-model="_tmpValue" :showBorder="false">
-				<sn-form-item class="m-t-8" label="跟随系统主题">
-					<sn-switch v-model="autoTheme">
-					</sn-switch>
-				</sn-form-item>
-				<sn-form-item label="字体">
-					<sn-slider v-model="fontSizeValue"
-					:max="30"
-					:min="5"
-					showValueText
-					@change="changeSize"></sn-slider>
-				</sn-form-item>
-				<sn-form-item label="圆角">
-					<sn-slider v-model="radiusValue"
-					:max="30"
-					:min="0"
-					showValueText
-					@change="changeRadius"></sn-slider>
-				</sn-form-item>
-			</sn-form>
+			<sn-form-item class="m-t-8" label="跟随系统主题">
+				<sn-switch v-model="autoTheme">
+				</sn-switch>
+			</sn-form-item>
+			<sn-form-item label="字体">
+				<sn-slider v-model="fontSizeValue"
+				:max="30"
+				:min="5"
+				showValueText
+				@change="changeSize"></sn-slider>
+			</sn-form-item>
+			<sn-form-item label="圆角">
+				<sn-slider v-model="radiusValue"
+				:max="30"
+				:min="0"
+				showValueText
+				@change="changeRadius"></sn-slider>
+			</sn-form-item>
 			<sn-button type="primary" 
 			text="切换主题"
 			@click="changeTheme">
 			</sn-button>
 		</com-card>
-		
 		<!--
 		<com-card title="测试页 - 开发用途 ">
 			<sn-button text="前往"
 			@click="goTo('/pages/other/temp')"></sn-button>
+			<sn-button text="测试按钮"
+			@click="testButton"></sn-button>
 		</com-card>
 		-->
 		
@@ -50,8 +49,8 @@
 					@click="gotoComponentPage(e)">
 					<sn-icon :name="e['icon']??''"></sn-icon>
 					<sn-text align="center"
-					:text="e['text']??''" 
-					:size="$snui.configs.font.size(1)"></sn-text>
+					size="$1"
+					:text="e['text']??''" ></sn-text>
 				</sn-grid-item>
 			</sn-grid-group>
 		</com-card>
@@ -60,7 +59,8 @@
 				<sn-grid-item v-for="(e,index) in (libList as UTSJSONObject[])" class="com-item" :key="index"
 					@click="gotoLibPage(e)">
 					<sn-icon :name="e['icon']??''"></sn-icon>
-					<sn-text :text="e['text']??''" :size="$snui.configs.font.size(1)"></sn-text>
+					<sn-text size="$1"
+					:text="e['text']??''"></sn-text>
 				</sn-grid-item>
 			</sn-grid-group>
 		</com-card>
@@ -71,14 +71,13 @@
 </template>
 
 <script setup>
-	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
+	import { $snui, SnColorBase, SnDataItem } from '@/uni_modules/sinle-ui'
 	
 	const snu = $snui.utils
 	const theme = computed(() : string => $snui.configs.app.theme)
 	const fontSizeValue = ref<number>(snu.getPx($snui.configs.font.baseSize))
 	const radiusValue = ref<number>(snu.getPx($snui.configs.radius.baseSize))
 	const autoTheme = ref(true)
-	const _tmpValue = reactive({})
 	
 	const menuData = [
 		{id:'about',icon:'information-line',text:'关于'},
@@ -99,6 +98,9 @@
 	onLoad((_)=>{
 		autoTheme.value = $snui.configs.app.autoTheme
 	})
+	
+	function testButton(){
+	}
 	
 	function goTo(src:string){
 		uni.navigateTo({
@@ -240,8 +242,7 @@
 			icon: 'gallery-upload-line',
 			text: '媒体上传',
 			name: 'sn-upload-media',
-		}
-		/*
+		},
 		{
 			icon: 'cursor-line',
 			text: '选择器容器',
@@ -252,7 +253,16 @@
 			text: '选择器',
 			name: 'sn-picker',
 		},
-		*/
+		{
+			icon: 'check-line',
+			text: '标签单选',
+			name: 'sn-label-radio'
+		},
+		{
+			icon: 'check-double-line',
+			text: '标签多选',
+			name: 'sn-label-checkbox',
+		},
 	]
 
 	const displayList = [
@@ -491,6 +501,11 @@
 			icon: 'layout-column-line',
 			text: '瀑布流',
 			name: 'sn-waterfall'
+		},
+		{
+			icon: 'layout-5-line',
+			text: '侧边栏',
+			name: 'sn-sidebar'
 		}
 	]
 

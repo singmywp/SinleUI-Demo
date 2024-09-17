@@ -9,7 +9,7 @@
 					level="second"
 					round>
 						<sn-icon name="fire-fill" 
-						:color="colors.error"></sn-icon>
+						color="$error"></sn-icon>
 					</sn-button>
 				</template>
 				<sn-text text="⚠️ WARNING: 发射核武器"></sn-text>
@@ -33,16 +33,17 @@
 					<sn-button level="second"
 					round>
 						<sn-icon name="number-1" 
-						:color="colors.primary"></sn-icon>
+						color="$primary"></sn-icon>
 					</sn-button>
 				</template>
-				<sn-tooltip position="top" width="100px" :bgColor="colors.front">
+				<sn-tooltip position="top" width="100px" 
+				bgColor="$front">
 					<template #trigger>
 						<sn-button type="error" 
 						level="second"
 						round>
 							<sn-icon name="number-2" 
-							:color="colors.error"></sn-icon>
+							color="$error"></sn-icon>
 						</sn-button>
 					</template>
 					<sn-text text="嵌套第三层 (●'◡'●)"></sn-text>

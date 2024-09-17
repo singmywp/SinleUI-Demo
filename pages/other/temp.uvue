@@ -1,57 +1,43 @@
 <template>
 	<sn-page>
 		<sn-topbar title="测试页"></sn-topbar>
-		<com-card>
-			<sn-more minHeight="50px">
-				<sn-text text="这是一小段文本"></sn-text>
-			</sn-more>
+		<com-card padding="0">
+			<sn-label-radio v-model="cur"
+			icon="checkbox-circle-line"
+			:data="data">
+			</sn-label-radio>
 		</com-card>
-		<com-card>
-			<sn-more minHeight="50px">
-				<sn-text text="这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本这是一大段文本"></sn-text>
-			</sn-more>
+		<com-card padding="0">
+			<sn-label-checkbox v-model="check"
+			:data="data">
+			</sn-label-checkbox>
 		</com-card>
 	</sn-page>
 </template>
 
 <script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
+	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
 	
 	const colors = $snui.colors
 	
-	type poet = {
-		name: string,
-		description: string,
-		avatar: string
-	}
+	const cur = ref(0)
+	const check = ref([0])
 	
-	const poets = ref<poet[]>([
+	const data = [
 		{
-			name: '李白',
-			description: `\u3000\u3000李白，字太白，号青莲居士，又号“谪仙人”。唐代伟大的浪漫主义诗人，被后人誉为“诗仙”，与杜甫并称为“李杜”。`,
-			avatar: 'https://ziyuan.guwendao.net/authorImg300/libai.jpg',
+			text: '选项1',
+			id: '1',
 		},
 		{
-			name: '杜甫',
-			description: `\u3000\u3000杜甫，字子美，自号少陵野老，世称“杜工部”、“杜少陵”等。唐代伟大的现实主义诗人，被世人尊为“诗圣”，其诗被称为“诗史”。杜甫与李白合称“李杜”。`,
-			avatar: 'https://ziyuan.guwendao.net/authorImg300/dufu.jpg',
+			text: '选项2',
+			id: '2',
 		},
 		{
-			name: '白居易',
-			description:`\u3000\u3000白居易，字乐天，号香山居士，又号醉吟先生。唐代伟大的现实主义诗人，唐代三大诗人之一。白居易与元稹并称“元白”，与刘禹锡并称“刘白”。白居易的诗歌题材广泛，形式多样，语言平易通俗，有“诗魔”和“诗王”之称。`,
-			avatar: 'https://ziyuan.guwendao.net/authorImg300/baijuyi.jpg',
+			text: '选项3',
+			id: '3',
 		},
-		{
-			name: '苏轼',
-			description: `\u3000\u3000苏轼，字子瞻、和仲，号铁冠道人、东坡居士，世称苏东坡、苏仙。北宋著名文学家、书法家、画家，历史治水名人。苏轼与黄庭坚并称“苏黄”，与辛弃疾并称“苏辛”，与欧阳修并称“欧苏”，为“唐宋八大家”之一。`,
-			avatar: 'https://ziyuan.guwendao.net/authorImg300/sushi.jpg',
-		},
-		{
-			name: '辛弃疾',
-			description: `\u3000\u3000辛弃疾，原字坦夫，后改字幼安，中年后别号稼轩。南宋官员、将领、文学家，豪放派词人，有“词中之龙”之称。与苏轼合称“苏辛”，与李清照并称“济南二安”。`,
-			avatar: 'https://ziyuan.guwendao.net/authorImg300/xinqiji.jpg',
-		}
-	])
+	] as Array<SnDataItem>
+	
 </script>
 
 <style lang="scss">

@@ -36,11 +36,11 @@
 			<sn-textarea v-model="v5" 
 			placeholder="自定义颜色" 
 			borderRadius="15px" 
-			:bgColor="colors.info" 
-			:borderColor="colors.info"
-			textColor="#35b571"
-			activeBorderColor="#35b571" 
-			cursorColor="#35b571"></sn-textarea>
+			bgColor="$info" 
+			borderColor="$info"
+			textColor="$success"
+			activeBorderColor="$success" 
+			cursorColor="$success"></sn-textarea>
 		</com-card>
 		<com-card title="边框"
 		note="当默认的边框太过突兀时，可以取消边框的显示">
@@ -48,23 +48,23 @@
 			class="spacing"
 			placeholder="无边框"
 			borderRadius="15px" 
-			:bgColor="colors.info" 
-			:activeBgColor="colors.info" 
+			bgColor="$info" 
+			activeBgColor="$info" 
 			border-color="transparent"></sn-textarea>
 			<sn-textarea v-model="v6"
 			class="spacing"
 			placeholder="无焦点边框"
 			border-radius="15px" 
-			:bgColor="colors.info" 
-			:activeBgColor="colors.info" 
+			bgColor="$info" 
+			activeBgColor="$info" 
 			:activeBorder="false"></sn-textarea>
 			<sn-textarea v-model="v6"
 			class="spacing"
 			placeholder="完全无边框"
 			borderRadius="15px" 
-			:bgColor="colors.info" 
-			:activeBgColor="colors.info" 
-			borderColor="transparent"
+			bgColor="$info" 
+			activeBgColor="$info" 
+			borderColor="$transparent"
 			:activeBorder="false"></sn-textarea>
 		</com-card>
 		<com-card title="上推界面"
@@ -73,8 +73,8 @@
 			:adjustPosition="false" 
 			placeholder="禁用自动上推界面" 
 			borderRadius="15px" 
-			:bgColor="colors.info"
-			:borderColor="colors.info"></sn-textarea>
+			bgColor="$info"
+			borderColor="$info"></sn-textarea>
 		</com-card>
 		<com-card title="焦点"
 		note="文本域也可以自由控制焦点">
@@ -87,8 +87,8 @@
 			<sn-textarea v-model="v8"
 			placeholder="自由控制焦点" 
 			borderRadius="15px" 
-			:bgColor="colors.info"
-			:borderColor="colors.info"
+			bgColor="$info"
+			borderColor="$info"
 			:focus="focus"
 			@focus="focus=true"
 			@blur="focus=false"></sn-textarea>
@@ -98,7 +98,7 @@
 			<sn-textarea v-model="v9"
 			placeholder="禁用" 
 			border-radius="15px" 
-			:bgColor="colors.info" 
+			bgColor="$info" 
 			border-color="transparent"
 			disabled></sn-textarea>
 		</com-card>
@@ -112,11 +112,11 @@
 			<sn-textarea v-model="v11" 
 			placeholder="限制100字 (自定义计字器样式) " 
 			borderRadius="15px" 
-			:bgColor="colors.info" 
-			:borderColor="colors.info" 
-			:activeBgColor="colors.info" 
-			:counterBgColor="colors.front"
-			:counterColor="colors.text"
+			bgColor="$info" 
+			borderColor="$info" 
+			activeBgColor="$info" 
+			counterBgColor="$front"
+			counterColor="$text"
 			:maxlength="100"></sn-textarea>
 		</com-card>
 	</sn-page>
