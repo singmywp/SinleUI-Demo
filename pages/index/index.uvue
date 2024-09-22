@@ -42,7 +42,6 @@
 			@click="testButton"></sn-button>
 		</com-card>
 		-->
-		
 		<com-card v-for="(list, listIndex) in (comLists as UTSJSONObject[])" :key="listIndex" :title="list['name']">
 			<sn-grid-group>
 				<sn-grid-item v-for="(e,index) in (list['data'] as UTSJSONObject[])" class="com-item" :key="index"
@@ -360,6 +359,11 @@
 			icon: 'file-image-line',
 			text: 'SVG',
 			name: 'sn-e-svg',
+		},
+		{
+			icon: 'calendar-schedule-line',
+			text: '日期格式化',
+			name: 'sn-dateformat',
 		}
 	]
 
@@ -574,6 +578,11 @@
 			icon: 'database-2-line',
 			text: '状态管理',
 			name: 'sn-store',
+		},
+		{
+			icon: 'qr-scan-line',
+			text: '扫码',
+			name: 'sn-scan'
 		}
 	]
 

@@ -37,26 +37,26 @@
 			<sn-text text="拨打电话(需用户确认)" 
 			color="$lineText"></sn-text>
 			<sn-text mode="phone" type="primary" text="10086"></sn-text>
-			<sn-line></sn-line>
+			<sn-gap height="20px"></sn-gap>
 			<sn-text text="直接拨打电话(无需用户确认)" 
 			color="$lineText"></sn-text>
 			<sn-text mode="phone-direct" type="primary" text="10086"></sn-text>
-			<sn-line></sn-line>
+			<sn-gap height="20px"></sn-gap>
 			<sn-text text="日期" 
 			color="$lineText"></sn-text>
-			<sn-text mode="date" :text="(new Date()).valueOf().toString()"></sn-text>
-			<sn-text mode="date-cn" :text="(new Date()).valueOf().toString()"></sn-text>
-			<sn-line></sn-line>
+			<sn-text mode="date" :text="`${(new Date()).valueOf()}`"></sn-text>
+			<sn-text mode="date-cn" :text="`${(new Date()).valueOf()}`"></sn-text>
+			<sn-gap height="20px"></sn-gap>
 			<sn-text text="超链接 (该功能较简单, 推荐使用sn-link) "
 			color="$lineText"></sn-text>
 			<sn-text mode="link" type="primary" text="https://www.baidu.com"></sn-text>
 			<sn-text mode="link" type="primary" text="tel:123456"></sn-text>
 			<sn-text mode="link" type="primary" text="weixin://"></sn-text>
-			<sn-line></sn-line>
+			<sn-gap height="20px"></sn-gap>
 			<sn-text text="价格" color="$lineText"></sn-text>
 			<sn-text mode="price" text="3999.67"></sn-text>
 			<sn-text mode="price-upper" text="3999.67"></sn-text>
-			<sn-line></sn-line>
+			<sn-gap height="20px"></sn-gap>
 			<sn-text text="脱敏" color="$lineText"></sn-text>
 			<sn-text class="spacing" mode="name" text="张三" encrypt></sn-text>
 			<sn-text mode="name" text="李金刚" encrypt></sn-text>
@@ -66,6 +66,7 @@
 			<sn-text mode="phone" type="primary" text="10086" encrypt></sn-text>
 			<sn-text mode="phone" type="primary" text="13700001234" encrypt></sn-text>
 		</com-card>
+		<sn-gap></sn-gap>
 	</sn-page>
 </template>
 
@@ -73,6 +74,7 @@
 	import { longText1 } from '@/source/longtext.uts'
 	import { $snui } from '@/uni_modules/sinle-ui'
 	const colors = $snui.colors
+	const dateLib = $snui.libs.date
 </script>
 
 <style lang="scss">

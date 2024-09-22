@@ -567,6 +567,27 @@
 		{
 			"navigationBarTitleText" : ""
 		}
+	},
+	{
+		"path" : "pages/components/sn-dateformat",
+		"style" : 
+		{
+			"navigationBarTitleText" : ""
+		}
+	},
+	{
+		"path" : "pages/libs/sn-scan",
+		"style" : 
+		{
+			"navigationBarTitleText" : ""
+		}
+	},
+	{
+		"path" : "pages/libs/scankit",
+		"style" : 
+		{
+			"navigationBarTitleText" : ""
+		}
 	}
   ],
   "globalStyle": {

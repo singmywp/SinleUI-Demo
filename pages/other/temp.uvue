@@ -1,42 +1,12 @@
 <template>
 	<sn-page>
 		<sn-topbar title="测试页"></sn-topbar>
-		<com-card padding="0">
-			<sn-label-radio v-model="cur"
-			icon="checkbox-circle-line"
-			:data="data">
-			</sn-label-radio>
-		</com-card>
-		<com-card padding="0">
-			<sn-label-checkbox v-model="check"
-			:data="data">
-			</sn-label-checkbox>
-		</com-card>
 	</sn-page>
 </template>
 
 <script setup>
 	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
-	
 	const colors = $snui.colors
-	
-	const cur = ref(0)
-	const check = ref([0])
-	
-	const data = [
-		{
-			text: '选项1',
-			id: '1',
-		},
-		{
-			text: '选项2',
-			id: '2',
-		},
-		{
-			text: '选项3',
-			id: '3',
-		},
-	] as Array<SnDataItem>
 	
 </script>
 

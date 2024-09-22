@@ -196,7 +196,7 @@
 	const d2 = ref(DateLib.dayuts())
 	const d3 = DateLib.dayuts('2019-01-25 03:01:52')
 	const d4 = DateLib.dayuts('2018-06-05 13:51:20')
-	const ins1 = DateLib.dayuts('1999-01-01 03:01:08',null,'zh-cn')
+	const ins1 = DateLib.dayuts('1999-01-01 03:01:08 03:01:08',null,'zh-cn')
 	const ins2 = DateLib.dayuts('2015-12-06 15:11:20',null,'zh-cn')
 	const ins3 = DateLib.dayuts('2024-12-05 14:02:45',null,'zh-cn')
 </script>
