@@ -1,0 +1,47 @@
+<template>
+	<sn-page>
+		<sn-topbar title="扫码"></sn-topbar>
+		<com-card title="说明"
+		note="SinleUI 框架提供两个扫码方案：Google MLKit 和 HUAWEI ScanKit。\n其中 Google MLkit 是框架内置，功能较为齐全，样式可完全使用 Vue 自定义布局。\nHUAWEI ScanKit 则是扩展插件，提供 Default View 模式，自由度较低，但使用更简单且是大厂出品，识别度遥遥领先。">
+		</com-card>
+		<com-card padding="15px 0">
+			<sn-grid-group :col="2">
+				<sn-grid-item
+				@click="goTo('components/sn-scan')">
+					<sn-view bgColor="$info"
+					padding="10px"
+					border-radius="$normal"
+					style="align-items: center;width: 80%;">
+						<sn-avatar src="/static/images/google.png"></sn-avatar>
+						<sn-text text="MLKit"></sn-text>
+					</sn-view>
+				</sn-grid-item>
+				<sn-grid-item
+				@click="goTo('libs/scankit')">
+					<sn-view bgColor="$info"
+					padding="10px"
+					border-radius="$normal"
+					style="align-items: center;width: 80%;">
+						<sn-avatar src="/static/images/huawei.png"></sn-avatar>
+						<sn-text text="ScanKit"></sn-text>
+					</sn-view>
+				</sn-grid-item>
+			</sn-grid-group>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
+	
+	const colors = $snui.colors
+	
+	function goTo(path: string){
+		uni.navigateTo({
+			url: '/pages/' + path,
+		})
+	}
+</script>
+
+<style lang="scss">
+</style>

@@ -1,0 +1,267 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Picker 选择器"
+		:features="[{id:'run',icon:'play-circle-fill'} as SnDataItem]"
+		@button-click="buttonClicked"></sn-topbar>
+		<com-card title="组件演示"
+		note="用于数据量较大或较复杂的数据选择。对于简单的数据选择推荐使用 sn-select 组件">
+			<sn-form v-model="configs"
+			:showBorder="false">
+				<sn-form-item label="是否禁用">
+					<sn-switch v-model="(configs['disabled'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="显示确定按钮">
+					<sn-switch v-model="(configs['showConfirm'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="显示取消按钮">
+					<sn-switch v-model="(configs['showCancel'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="显示关闭按钮">
+					<sn-switch v-model="(configs['showClose'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="点击遮罩关闭">
+					<sn-switch v-model="(configs['maskClose'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="标题文本对齐方向">
+					<sn-select v-model="(configs['titleAlign'] as number)"
+					:data="aligns"></sn-select>
+				</sn-form-item>
+				<sn-form-item label="标题">
+					<sn-input v-model="(configs['title'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="标题颜色">
+					<sn-input v-model="(configs['titleColor'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="标题字体大小">
+					<sn-input v-model="(configs['titleSize'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="子项圆角大小">
+					<sn-input v-model="(configs['itemBorderRadius'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="子项文字颜色">
+					<sn-input v-model="(configs['itemTextColor'] as string)"
+				 placeholder="默认值"></sn-input>
+				 </sn-form-item>
+				<sn-form-item label="选中项文字颜色">
+					<sn-input v-model="(configs['activeItemTextColor'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="禁用项文字颜色">
+					<sn-input v-model="(configs['disabledItemTextColor'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="子项文字大小">
+					<sn-input v-model="(configs['itemTextSize'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="确定按钮文字大小">
+					<sn-input v-model="(configs['confirmTextSize'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="取消按钮文字大小">
+					<sn-input v-model="(configs['cancelTextSize'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="高度">
+					<sn-stepper v-model="(configs['height'] as number)"
+					:min="200"
+					:max="600"
+					:step="50"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="按钮间距">
+					<sn-stepper v-model="(configs['actionSpacing'] as number)"
+					:min="0"
+					:max="100"
+					:step="10"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="列间距">
+					<sn-stepper v-model="(configs['columnSpacing'] as number)"
+					:min="0"
+					:max="100"
+					:step="10"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="子项高度">
+					<sn-stepper v-model="(configs['itemHeight'] as number)"
+					:min="20"
+					:max="100"
+					:step="10"></sn-stepper>
+				</sn-form-item>
+			</sn-form>
+			<sn-row>
+				<sn-button type="primary"
+				text="打开" 
+				long
+				@click="open"></sn-button>
+				<sn-button class="m-l-10"
+				type="primary"
+				text="赋值(3,3)" 
+				long
+				@click="setValues"></sn-button>
+			</sn-row>
+		</com-card>
+		<sn-gap></sn-gap>
+		<sn-picker ref="pickerEle" 
+		v-model="pickerValue"
+		:data="data"
+		:disabled="configs['disabled']"
+		:title="configs['title']"
+		:showConfirm="configs['showConfirm']"
+		:showCancel="configs['showCancel']"
+		:showClose="configs['showClose']"
+		:actionSpacing="`${configs['actionSpacing']}px`"
+		:itemHeight="`${configs['itemHeight']}px`"
+		:columnSpacing="`${configs['columnSpacing']}px`"
+		:itemBorderRadius="configs['itemBorderRadius']"
+		:disabledItemTextColor="configs['disabledItemTextColor']"
+		:itemTextColor="configs['itemTextColor']"
+		:activeItemTextColor="configs['activeItemTextColor']"
+		:maskClose="configs['maskClose']"
+		:titleColor="configs['titleColor']"
+		:titleSize="configs['titleSize']"
+		:itemTextSize="configs['itemTextSize']"
+		:confirmTextSize="configs['confirmTextSize']"
+		:cancelTextSize="configs['cancelTextSize']"
+		:height="`${configs['height']}px`"
+		:titleAlign="(aligns[configs['titleAlign'] as number] as SnDataItem).id"></sn-picker>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
+	
+	const colors = $snui.colors
+	
+	const pickerValue = ref([] as number[])
+	const pickerEle = ref(null as SnPickerComponentPublicInstance | null)
+	
+	const configs = reactive({
+		title: '请选择',
+		disabled: false,
+		showConfirm: true,
+		showCancel: true,
+		showClose: true,
+		actionSpacing: 10,
+		columnSpacing: 10,
+		itemHeight: 50,
+		height: 350,
+		itemBorderRadius: '$normal',
+		itemTextColor: '',
+		disabledItemTextColor: '',
+		activeItemTextColor: '',
+		itemTextSize: '',
+		titleColor: '',
+		titleSize: '',
+		confirmTextSize: '',
+		cancelTextSize: '',
+		titleAlign: 1,
+		maskClose: true,
+	})
+	
+	const aligns = [{
+		id: 'left',
+		text: '左对齐'
+	}, {
+		id: 'center',
+		text: '居中',
+	}, {
+		id: 'right',
+		text: '右对齐',
+	}] as SnDataItem[]
+	
+	function open() {
+		pickerEle.value?.open?.()
+	}
+	
+	const data = [
+		[
+			{
+				id: 'newyork',
+				text: '纽约',
+			},
+			{
+				id: 'london',
+				text: '伦敦',
+			},
+			{
+				id: 'tokyo',
+				text: '东京',
+				disabled: true,
+			},
+			{
+				id: 'paris',
+				text: '巴黎',
+			},
+			{
+				id: 'moscow',
+				text: '莫斯科',
+			},
+			{
+				id: 'berlin',
+				text: '柏林',
+			},
+		] as SnDataItem[],
+		[
+			{
+				id: 'guangzhou',
+				text: '广州',
+			},
+			{
+				id: 'shenzhen',
+				text: '深圳',
+			},
+			{
+				id: 'beijing',
+				text: '北京',
+			},
+			{
+				id: 'shanghai',
+				text: '上海',
+			},
+			{
+				id: 'wuhan',
+				text: '武汉',
+				disabled: true
+			},
+			{
+				id: 'chengdu',
+				text: '成都',
+			},
+			{
+				id: 'hangzhou',
+				text: '杭州',
+			},
+			{
+				id: 'nanjing',
+				text: '南京',
+			},
+			{
+				id: 'suzhou',
+				text: '苏州',
+			},
+			{
+				id: 'xian',
+				text: '西安',
+			},
+			{
+				id: 'tianjin',
+				text: '天津',
+			},
+		] as SnDataItem[]
+	]
+	
+	function setValues(){
+		pickerValue.value = [3, 3]
+	}
+	
+	function buttonClicked(e: SnDataItem){
+		if (e.id == 'run') open()
+	}
+	
+</script>
+
+<style lang="scss">
+</style>

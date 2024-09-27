@@ -1,0 +1,79 @@
+import { ScanTypes, ScanConfigs, ScanResult, ScanResultFormat } from '../interface.uts'
+import Build from "android.os.Build"
+
+const defaultConfigs : ScanConfigs = {
+	scanTypes: ["CODE_128","CODE_39","CODE_93","CODABAR","EAN_13","EAN_8","ITF_14","UPC_A","UPC_E","QRCODE","PDF_417","AZTEC","DATAMATRIX","MULTI_FUNCTIONAL"] as ScanTypes,
+	permTip: '\u3000 本应用正在请求您的相机、相册权限，仅用于条码、二维码识别，且通过系统途径读取数据，不会将任何数据上传至云端。如不提供此权限，则无法正常使用扫码功能。',
+	titleType: 0
+}
+
+let flag = false
+let timer = 0
+
+function toScan(configs : ScanConfigs, callback: (res: ScanResult) => void){
+	let arr = (configs.scanTypes ?? defaultConfigs.scanTypes)!
+	if (arr.length == 0) {
+		arr = defaultConfigs.scanTypes as ScanTypes
+	}
+	startScan(
+	arr.toTypedArray(),
+	(configs.titleType ?? defaultConfigs.titleType) as Int,
+	(res: Array<any>)=>{
+		if (!flag) {
+			flag = true
+			timer = setTimeout(() => {
+				flag = false
+				callback({
+					format: res[0] as ScanResultFormat,
+					data: res[1] as string
+				} as ScanResult)
+			}, 5)
+		}
+	})
+}
+
+function main(configs : ScanConfigs, callback: (res: ScanResult) => void) {
+	let permissions = ['android.permission.CAMERA']
+	
+	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU || Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+		permissions.push('android.permission.READ_MEDIA_IMAGES')
+	}
+	// Android 14 及以上 选择性照片和视频访问权限
+	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+		permissions.push('android.permission.READ_MEDIA_VISUAL_USER_SELECTED')
+	}
+	// Android 12 及以下完整本地读写访问权限
+	if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+		permissions.push('android.permission.READ_EXTERNAL_STORAGE')
+	}
+	
+	
+	let granted = UTSAndroid.checkSystemPermissionGranted(UTSAndroid.getUniActivity()!, permissions)
+	if (!granted) {
+		uni.showModal({
+			title: '提示',
+			content: configs.permTip ?? defaultConfigs.permTip,
+			confirmText: '去授权',
+			cancelText: '返回',
+			success: (res) => {
+				if (res.confirm) {
+					
+					UTSAndroid.requestSystemPermission(UTSAndroid.getUniActivity()!, permissions, function (_ : boolean, _ : string[]) {
+						toScan(configs, callback)
+					}, function (_ : boolean, _ : string[]) {
+						UTSAndroid.gotoSystemPermissionActivity(UTSAndroid.getUniActivity()!, permissions)
+					})
+				}
+			}
+		})
+	} else {
+		toScan(configs, callback)
+	}
+}
+
+export function scan(
+	configs : ScanConfigs,
+	callback: (res: ScanResult) => void
+) {
+	main(configs, callback)
+}

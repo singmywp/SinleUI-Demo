@@ -1,0 +1,78 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Scankit 华为扫码"></sn-topbar>
+		<com-card title="配置">
+			<sn-form v-model="configs"
+			:showBorder="false">
+				<sn-form-item label="标题文本">
+					<sn-radio-group v-model="(configs['titleType'] as number)">
+						<sn-radio text="扫描二维码/条码"></sn-radio>
+						<sn-radio text="扫描二维码"></sn-radio>
+					</sn-radio-group>
+				</sn-form-item>
+				<sn-form-item label="权限请求文本">
+					<sn-textarea v-model="(configs['permTip'] as string)"
+					autoHeight>
+					</sn-textarea>
+				</sn-form-item>
+				<sn-form-item label="扫码类型">
+					<sn-checkbox-group v-model="(configs['scanTypes'] as number[])">
+						<sn-checkbox v-for="(e,index) in scanTypesConst"
+						:key="index"
+						:text="e">
+						</sn-checkbox>
+					</sn-checkbox-group>
+				</sn-form-item>
+			</sn-form>
+			<sn-button @click="toScan">扫码</sn-button>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	// 依赖
+	import { $snui } from '@/uni_modules/sinle-ui'
+	// #ifdef APP-ANDROID
+	import { scan, ScanConfigs, ScanResult } from '@/uni_modules/sn-e-scankit'
+	// #endif
+	
+	const scanTypesConst = ["CODE_128","CODE_39","CODE_93","CODABAR","EAN_13","EAN_8","ITF_14","UPC_A","UPC_E","QRCODE","PDF_417","AZTEC","DATAMATRIX","MULTI_FUNCTIONAL"]
+	
+	const configs = reactive({
+		scanTypes: [0,1,2,3,4,5,6,7,8,9,10,11,12,13],
+		titleType: 0,
+		permTip: '\u3000 本应用正在请求您的相机、相册权限，仅用于条码、二维码识别，且通过系统途径读取数据，不会将任何数据上传至云端。如不提供此权限，则无法正常使用扫码功能。'
+	})
+	
+	function toScan(){
+		let sys = uni.getSystemInfoSync()
+		if (sys.uniPlatform != 'app' || sys.osName != 'android') {
+			$snui.utils.showToast({
+				title: '扫码组件暂时只支持 Android 平台'
+			})
+			return
+		}
+		// #ifdef APP-ANDROID
+		let _configs = {
+			scanTypes: [] as string[],
+			titleType: 0,
+			permTip: ""
+		} as ScanConfigs
+		_configs['titleType'] = configs['titleType'] as number
+		_configs['permTip'] = configs['permTip'] as string
+		(configs['scanTypes'] as number[]).forEach((v: number)=>{
+			(_configs['scanTypes'] as string[]).push(scanTypesConst[v])
+		})
+		scan(_configs, (res: ScanResult)=>{
+			uni.showModal({
+				title: '扫码结果',
+				content: `格式：${res.format}\n数据：${res.data}`
+			})
+		})
+		// #endif
+	}
+</script>
+
+<style>
+		
+</style>

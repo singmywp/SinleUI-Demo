@@ -1,0 +1,55 @@
+export type ScanType =
+	| "CODE_128"
+	| "CODE_39"
+	| "CODE_93"
+	| "CODABAR"
+	| "EAN_13"
+	| "EAN_8"
+	| "ITF_14"
+	| "UPC_A"
+	| "UPC_E"
+	| "QRCODE"
+	| "PDF_417"
+	| "AZTEC"
+	| "DATAMATRIX"
+	| "MULTI_FUNCTIONAL";
+
+export type ScanTypes = ScanType[];
+
+export type titleType = 0 | 1
+
+export type ScanConfigs = {
+	/*
+	*  扫码类型
+	* 支持 14 种码式，默认全部支持
+	*/
+	scanTypes ?: ScanTypes | null,
+	/*
+	* 标题类型
+	* 0表示设置扫码标题为“扫描二维码/条码”，1表示设置扫码标题为“扫描二维码”
+	*/
+	titleType ?: titleType | null,
+	/*
+	* 权限请求提示语
+	*/
+	permTip ?: string | null,
+}
+
+export type ScanResultFormat = 
+	|'articleNumber' 
+	|'contactDetail' 
+	|'driverInfo'
+	|'emailContent'
+	|'eventInfo'
+	|'isbnNumber'
+	|'coordinate'
+	|'text'
+	|'sms'
+	|'telephone'
+	|'url'
+	|'wifiConnectInfo';
+
+export type ScanResult = {
+	format : ScanResultFormat,
+	data : string,
+}

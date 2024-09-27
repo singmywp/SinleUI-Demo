@@ -1,0 +1,108 @@
+<template>
+	<sn-page padding="0">
+		<sn-topbar title="Sidebar 侧边栏"></sn-topbar>
+		<com-card title="基础用法"
+		note="适用于商城选购等场景的侧边导航栏，支持锚点切换，样式随心调"
+		style="margin: 10px 10px;width: auto;">
+		</com-card>
+		<view class="h-200">
+			<sn-sidebar v-model="value"
+			:data="data">
+				<sn-view bgColor="$front"
+				padding="20px"
+				style="flex: 1;">
+					<sn-text text="这是页面内容"></sn-text>
+				</sn-view>
+			</sn-sidebar>
+		</view>
+		<com-card title="演示"
+		style="margin: 10px 10px;width: auto;">
+			<sn-grid-group :col="3">
+				<sn-grid-item
+				@click="gotoDemo(1)">
+					<sn-button class="m-b-10"
+					type="primary" round>
+						<sn-icon name="emotion-happy-fill" color="#fff"></sn-icon>
+					</sn-button>
+					<sn-text text="示例1"></sn-text>
+				</sn-grid-item>
+				<sn-grid-item
+				@click="gotoDemo(2)">
+					<sn-button class="m-b-10"
+					type="error" round>
+						<sn-icon name="meteor-fill" color="#fff"></sn-icon>
+					</sn-button>
+					<sn-text text="示例2"></sn-text>
+				</sn-grid-item>
+				<sn-grid-item
+				@click="gotoDemo(3)">
+					<sn-button class="m-b-10"
+					type="success" round>
+						<sn-icon name="skull-fill" color="#fff"></sn-icon>
+					</sn-button>
+					<sn-text text="示例3"></sn-text>
+				</sn-grid-item>
+			</sn-grid-group>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	const snu = $snui.utils
+	const value = ref(0)
+	
+	function gotoDemo(index: number){
+		uni.navigateTo({
+			url: `/pages/components/sidebar/demo${index}`
+		})
+	}
+	
+	const data = [
+		{
+			id: 'henan',
+			text: '河南省',
+		},
+		{
+			id: 'shandong',
+			text: '山东省',
+		},
+		{
+			id: 'hebei',
+			text: '河北省',
+		},
+		{
+			id: 'shanxi',
+			text: '山西省',
+		},
+		{
+			id: 'beijing',
+			text: '北京市',
+		},
+		{
+			id: 'tianjin',
+			text: '天津市',
+		},
+		{
+			id: 'heilongjiang',
+			text: '黑龙江',
+		},
+		{
+			id: 'jiangsu',
+			text: '江苏省',
+		},
+		{
+			id: 'zhejiang',
+			text: '浙江省',
+		},
+		{
+			id: 'anhui',
+			text: '安徽省',
+		},
+	] as SnDataItem[]
+</script>
+
+<style>
+		
+</style>

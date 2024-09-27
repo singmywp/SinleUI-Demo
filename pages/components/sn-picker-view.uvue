@@ -1,0 +1,180 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Picker View 选择器容器"></sn-topbar>
+		<com-card title="基础用法"
+		note="本组件是基于官方 picker-view 的封装，扩展了禁用项功能和样式，使用更加方便快捷">
+			<sn-picker-view
+			v-model="pickerValue"
+			:data="data"
+			:disabled="configs['disabled']"
+			:itemHeight="`${configs['itemHeight']}px`"
+			:columnSpacing="`${configs['columnSpacing']}px`"
+			:itemBorderRadius="configs['itemBorderRadius']"
+			:disabledItemTextColor="configs['disabledItemTextColor']"
+			:itemTextColor="configs['itemTextColor']"
+			:activeItemTextColor="configs['activeItemTextColor']"
+			:itemTextSize="configs['itemTextSize']"
+			:height="`${configs['height']}px`">
+			</sn-picker-view>
+		</com-card>
+		<com-card title="组件配置">
+			<sn-form v-model="configs"
+			:showBorder="false">
+				<sn-form-item label="是否禁用">
+					<sn-switch v-model="(configs['disabled'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="子项圆角大小">
+					<sn-input v-model="(configs['itemBorderRadius'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="子项文字颜色">
+					<sn-input v-model="(configs['itemTextColor'] as string)"
+				 placeholder="默认值"></sn-input>
+				 </sn-form-item>
+				<sn-form-item label="选中项文字颜色">
+					<sn-input v-model="(configs['activeItemTextColor'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="禁用项文字颜色">
+					<sn-input v-model="(configs['disabledItemTextColor'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="子项文字大小">
+					<sn-input v-model="(configs['itemTextSize'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="高度">
+					<sn-stepper v-model="(configs['height'] as number)"
+					:min="200"
+					:max="600"
+					:step="50"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="列间距">
+					<sn-stepper v-model="(configs['columnSpacing'] as number)"
+					:min="0"
+					:max="100"
+					:step="10"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="子项高度">
+					<sn-stepper v-model="(configs['itemHeight'] as number)"
+					:min="20"
+					:max="100"
+					:step="10"></sn-stepper>
+				</sn-form-item>
+			</sn-form>
+			<sn-row>
+				<sn-button class="m-l-10"
+				type="primary"
+				text="赋值(3,3)" 
+				long
+				@click="setValues"></sn-button>
+			</sn-row>
+		</com-card>
+		<sn-gap></sn-gap>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
+	
+	const colors = $snui.colors
+	
+	const pickerValue = ref([] as number[])
+	
+	const configs = reactive({
+		disabled: false,
+		columnSpacing: 10,
+		itemHeight: 50,
+		height: 200,
+		itemBorderRadius: '$normal',
+		itemTextColor: '',
+		disabledItemTextColor: '',
+		activeItemTextColor: '',
+		itemTextSize: '',
+	})
+
+	
+	const data = [
+		[
+			{
+				id: 'newyork',
+				text: '纽约',
+			},
+			{
+				id: 'london',
+				text: '伦敦',
+			},
+			{
+				id: 'tokyo',
+				text: '东京',
+				disabled: true,
+			},
+			{
+				id: 'paris',
+				text: '巴黎',
+			},
+			{
+				id: 'moscow',
+				text: '莫斯科',
+			},
+			{
+				id: 'berlin',
+				text: '柏林',
+			},
+		] as SnDataItem[],
+		[
+			{
+				id: 'guangzhou',
+				text: '广州',
+			},
+			{
+				id: 'shenzhen',
+				text: '深圳',
+			},
+			{
+				id: 'beijing',
+				text: '北京',
+			},
+			{
+				id: 'shanghai',
+				text: '上海',
+			},
+			{
+				id: 'wuhan',
+				text: '武汉',
+				disabled: true
+			},
+			{
+				id: 'chengdu',
+				text: '成都',
+			},
+			{
+				id: 'hangzhou',
+				text: '杭州',
+			},
+			{
+				id: 'nanjing',
+				text: '南京',
+			},
+			{
+				id: 'suzhou',
+				text: '苏州',
+			},
+			{
+				id: 'xian',
+				text: '西安',
+			},
+			{
+				id: 'tianjin',
+				text: '天津',
+			},
+		] as SnDataItem[]
+	]
+	
+	function setValues(){
+		pickerValue.value = [3, 3]
+	}
+</script>
+
+<style lang="scss">
+</style>

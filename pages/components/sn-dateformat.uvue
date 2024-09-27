@@ -1,0 +1,48 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Dateformat 日期格式化"></sn-topbar>
+		<com-card title="基础用法"
+		note="用于将时间戳格式化为文字，用法与 uni-dateformat 对齐">
+			<sn-dateformat :date="now"
+			:threshold="[0,0]"></sn-dateformat>
+			<sn-dateformat :date="now"
+			format="MM月DD日"
+			:threshold="[0,0]"></sn-dateformat>
+			<sn-dateformat :date="now"
+			format="HH:mm"
+			:threshold="[0,0]"></sn-dateformat>
+		</com-card>
+		<com-card title="设置阈值"
+		note="阈值用于控制什么时候显示刚刚|马上，什么时候显示xx分钟前|xx分钟后">
+			<sn-dateformat :date="now-300000"
+			:threshold="[0,3600000]"></sn-dateformat>
+			<sn-dateformat :date="now-300000"
+			:threshold="[0,0]"></sn-dateformat>
+			<sn-dateformat :date="dateLib.dayuts().subtract(2,'day').valueOf()"
+			:threshold="[0,7*24*60*60*1000]">
+			</sn-dateformat>
+		</com-card>
+		<com-card title="多语言"
+		note="目前已支持中(zh-cn)、英(en) 两种语言">
+			<sn-dateformat locale="en"
+			:date="now-300000"
+			:threshold="[0,3600000]"></sn-dateformat>
+			<sn-dateformat locale="en"
+			:date="now"></sn-dateformat>
+			<sn-dateformat locale="en"
+			:date="dateLib.dayuts().subtract(2,'day').valueOf()"
+			:threshold="[0,7*24*60*60*1000]">
+			</sn-dateformat>
+		</com-card>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
+	const dateLib = $snui.libs.date
+	const now = Date.now()
+</script>
+
+<style>
+		
+</style>

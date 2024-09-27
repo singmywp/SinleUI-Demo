@@ -1,0 +1,82 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Label Radio 标签单选"></sn-topbar>
+		<com-card title="基础用法"
+		note="与 Radio 不同的是， 该组件只需提供数据，使用更简单">
+		</com-card>
+		<com-card padding="0">
+			<sn-label-radio v-model="r1"
+			:data="d1">
+			</sn-label-radio>
+		</com-card>
+		<com-card title="图标位置"
+		note="支持左侧和右侧图标">
+		</com-card>
+		<com-card padding="0">
+			<sn-label-radio v-model="r1"
+			iconPosition="right"
+			:data="d1">
+			</sn-label-radio>
+		</com-card>
+		<com-card title="自定义样式">
+		</com-card>
+		<com-card padding="0">
+			<sn-label-radio v-model="r1"
+			icon="user-smile-fill"
+			iconPosition="right"
+			iconColor="$successDark"
+			activeTextColor="$successDark"
+			textSize="$3"
+			itemPadding="10px 15px"
+			activeItemBgColor="$front"
+			disabledItemBgColor="$transparent"
+			:data="d1">
+			</sn-label-radio>
+		</com-card>
+		<sn-gap></sn-gap>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	const snu = $snui.utils
+	
+	const r1 = ref(0)
+	
+	const d1 = [
+		{
+			text: '华为',
+			id: 'huawei',
+		},
+		{
+			text: '小米',
+			id: 'xiaomi',
+		},
+		{
+			text: '苹果',
+			id: 'apple',
+		},
+		{
+			text: '三星',
+			id: 'samsung',
+			disabled: true
+		},
+		{
+			text: 'OPPO',
+			id: 'oppo',
+		},
+		{
+			text: 'VIVO',
+			id: 'vivo',
+		},
+		{
+			text: '魅族',
+			id: 'meizu',
+		},
+	] as SnDataItem[]
+</script>
+
+<style>
+		
+</style>
