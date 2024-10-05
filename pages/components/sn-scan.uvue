@@ -114,7 +114,7 @@
 	function scan() {
 		let sys = uni.getSystemInfoSync()
 		if (sys.uniPlatform != 'app' || sys.osName != 'android') {
-			$snui.utils.showToast({
+			$snui.utils.showSysToast({
 				title: '扫码组件暂时只支持 Android 平台'
 			})
 			return

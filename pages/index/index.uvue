@@ -3,6 +3,7 @@
 		<sn-topbar title="SinleUI" 
 		height="80px" 
 		menuButton
+		blur
 		:backButton="false"
 		:menuData="menuData"
 		@menu-click="menuClicked"></sn-topbar>
@@ -13,6 +14,10 @@
 			</sn-alert>
 			<sn-form-item class="m-t-8" label="跟随系统主题">
 				<sn-switch v-model="autoTheme">
+				</sn-switch>
+			</sn-form-item>
+			<sn-form-item label="哀悼模式">
+				<sn-switch v-model="grayMode">
 				</sn-switch>
 			</sn-form-item>
 			<sn-form-item label="字体">
@@ -39,9 +44,24 @@
 			<sn-button text="前往"
 			@click="goTo('/pages/other/temp')"></sn-button>
 			<sn-button text="测试按钮"
-			@click="testButton"></sn-button>
+			@click="testButton()"></sn-button>
 		</com-card>
 		-->
+		<com-card title="🎉新特性速览🎊">
+			<sn-grid-group>
+				<sn-grid-item v-for="(e,index) in (newFeatures as UTSJSONObject[])" 
+				class="com-item" 
+				:key="index"
+				@click="goTo((e['src'] ?? '') as string)">
+					<sn-icon :name="e['icon']??''">
+					</sn-icon>
+					<sn-text align="center"
+					size="$1"
+					:text="e['text']??''" >
+					</sn-text>
+				</sn-grid-item>
+			</sn-grid-group>
+		</com-card>
 		<com-card v-for="(list, listIndex) in (comLists as UTSJSONObject[])" :key="listIndex" :title="list['name']">
 			<sn-grid-group>
 				<sn-grid-item v-for="(e,index) in (list['data'] as UTSJSONObject[])" class="com-item" :key="index"
@@ -70,13 +90,37 @@
 </template>
 
 <script setup>
-	import { $snui, SnColorBase, SnDataItem } from '@/uni_modules/sinle-ui'
+	import { $snui, SnDataItem,  } from '@/uni_modules/sinle-ui'
 	
 	const snu = $snui.utils
 	const theme = computed(() : string => $snui.configs.app.theme)
 	const fontSizeValue = ref<number>(snu.getPx($snui.configs.font.baseSize))
 	const radiusValue = ref<number>(snu.getPx($snui.configs.radius.baseSize))
-	const autoTheme = ref(true)
+	
+	function setSettings(key: string, value: any){
+		let configs = $snui.store.get('app_settings') as UTSJSONObject | null
+		if (configs == null) return
+		configs[key] = value
+		$snui.store.set('app_settings', configs, true)
+	}
+	
+	const autoTheme = ref(false)
+	const grayMode = ref(false)
+	
+	onLoad((_)=>{
+		autoTheme.value = $snui.configs.app.autoTheme
+		grayMode.value = $snui.configs.app.grayMode
+	})
+	
+	watch(autoTheme, (value:boolean)=>{
+		$snui.configs.app.autoTheme = value
+		setSettings('autoTheme', value)
+	})
+	
+	watch(grayMode, (value:boolean)=>{
+		$snui.configs.app.grayMode = value
+		setSettings('grayMode', value)
+	})
 	
 	const menuData = [
 		{id:'about',icon:'information-line',text:'关于'},
@@ -85,18 +129,38 @@
 		{id:'ui',icon:'quill-pen-line',text:'UI 框架推荐'}
 	] as SnDataItem[]
 	
-	const autoThemeC = computed(() : boolean => $snui.configs.app.autoTheme)
-	
-	watch(autoThemeC, (v:boolean)=>{
-		autoTheme.value = v
-	})
-	watch(autoTheme, (v:boolean)=>{
-		$snui.configs.app.autoTheme = v
-	})
-	
-	onLoad((_)=>{
-		autoTheme.value = $snui.configs.app.autoTheme
-	})
+	const newFeatures = [
+		{
+			icon: 'barcode-box-line',
+			text: '华为码图',
+			src: '/pages/components/sn-e-scankit-code'
+		},
+		{
+			icon: 'group-line',
+			text: '头像组',
+			src: '/pages/components/sn-avatar-group',
+		},
+		{
+			icon: 'arrow-right-circle-line',
+			text: '操作菜单',
+			src: '/pages/components/sn-actionsheet'
+		},
+		{
+			icon: 'drop-line',
+			text: '高斯模糊',
+			src: '/pages/components/sn-e-blurview',
+		},
+		{
+			icon: 'information-line',
+			text: '提示框',
+			src: '/pages/libs/sn-utils?page=platform'
+		},
+		{
+			icon: 'share-circle-line',
+			text: '系统分享',
+			src: '/pages/libs/sn-utils?page=os'
+		}
+	]
 	
 	function testButton(){
 	}
@@ -107,23 +171,30 @@
 		})
 	}
 	
+	
 	function changeSize(v: number) {
 		snu.debounce(()=>{
 			$snui.configs.font.baseSize = `${v}px`
+			setSettings('fontSize',v)
 		}, 100, 'snui-font-size')
 	}
 	
 	function changeRadius(v: number) {
 		snu.debounce(()=>{
 			$snui.configs.radius.baseSize = `${v}px`
+			setSettings('borderRadius',v)
 		}, 100, 'snui-border-radius')
 		
 	}
 
 	function changeTheme() {
-		$snui.configs.app.theme = theme.value == 'light' ? 'dark' : 'light'
+		let _theme = theme.value == 'light' ? 'dark' : 'light'
+		$snui.configs.app.theme = _theme
+		setSettings('theme',_theme)
+		setSettings('autoTheme', false)
 	}
-	
+
+
 	function menuClicked(item: SnDataItem){
 		switch (item.id) {
 			case 'about':
@@ -276,11 +347,6 @@
 			name: 'sn-notice-bar',
 		},
 		{
-			icon: 'user-smile-line',
-			text: '头像',
-			name: 'sn-avatar',
-		},
-		{
 			icon: 'notification-badge-line',
 			text: '徽标',
 			name: 'sn-badge',
@@ -364,7 +430,22 @@
 			icon: 'calendar-schedule-line',
 			text: '日期格式化',
 			name: 'sn-dateformat',
-		}
+		},
+		{
+			icon: 'barcode-box-line',
+			text: '华为码图',
+			name: 'sn-e-scankit-code'
+		},
+		{
+			icon: 'user-smile-line',
+			text: '头像',
+			name: 'sn-avatar',
+		},
+		{
+			icon: 'group-line',
+			text: '头像组',
+			name: 'sn-avatar-group',
+		},
 	]
 
 	const feedbackList = [
@@ -422,6 +503,11 @@
 			icon: 'bar-chart-horizontal-line',
 			text: '进度条',
 			name: 'sn-progress'
+		},
+		{
+			icon: 'arrow-right-circle-line',
+			text: '操作菜单',
+			name: 'sn-actionsheet'
 		}
 	]
 
@@ -510,6 +596,11 @@
 			icon: 'layout-5-line',
 			text: '侧边栏',
 			name: 'sn-sidebar'
+		},
+		{
+			icon: 'drop-line',
+			text: '高斯模糊',
+			name: 'sn-e-blurview'
 		}
 	]
 

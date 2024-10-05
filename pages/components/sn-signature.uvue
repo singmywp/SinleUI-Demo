@@ -52,7 +52,7 @@
 					uni.saveImageToPhotosAlbum({
 						filePath: res.tempFilePath,
 						success: (_) =>{
-							snu.showToast({
+							snu.showSysToast({
 								title: '保存成功'
 							})
 						},

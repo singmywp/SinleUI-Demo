@@ -1,0 +1,29 @@
+export type SnToastConfig = {
+	/**
+	 * 提示框的位置，默认为top
+	 * 可选：top、center、bottom
+	 */
+	position ?: 'top' | 'center' | 'bottom',
+	/**
+	 * 提示框的显示时间，默认为short
+	 * 可选：short、long
+	 */
+	duration ?: 'short' | 'long',
+	/**
+	 * 提示框的文本内容
+	 */
+	text : string,
+	/**
+	 * 提示框的横向偏移量，用于微调提示框的位置
+	 */
+	offsetX ?: number | null,
+	/**
+	 * 提示框的纵向偏移量，用于微调提示框的位置
+	 */
+	offsetY ?: number | null,
+	/**
+	 * 提示框的类型，不同的类型有不同的颜色风格，默认为normal
+	 * 可选值：normal、success、error、warning、info
+	 */
+	type?: 'normal' | 'success' | 'error' | 'warning' | 'info',
+}

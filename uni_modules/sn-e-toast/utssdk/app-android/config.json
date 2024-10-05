@@ -1,0 +1,7 @@
+{
+	"minSdkVersion": "23",
+	"dependencies": [
+		"androidx.annotation:annotation:1.1.0",
+		"com.github.GrenderG:Toasty:1.5.2"
+	]
+}

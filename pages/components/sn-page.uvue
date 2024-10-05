@@ -46,11 +46,8 @@
 	})
 	
 	const cardBgC = computed((): string =>{
-		if (frontColorC.value == '#ffffff'){
-			return colorLib.tinyColor(bgColor.value).lighten(15).toHexString()
-		} else{
-			return colorLib.tinyColor(bgColor.value).darken(4).toHexString()
-		}
+		let v = colorLib.tinyColor(bgColor.value).isLight() ? 0 : 255
+		return `rgba(${v},${v},${v},${v==0?0.1:0.3})`
 	})
 	
 	const activeBtnBgColor = computed((): string =>{
@@ -62,15 +59,7 @@
 	})
 
 	function randomBgColor(){
-		let allow = false
 		let _bg = colorLib.random()
-		let _front = colorLib.tinyColor(_bg).contrasting()
-		let _cardBg = _bg
-		if (_front.toHexString() == '#ffffff'){
-			_cardBg = _bg.lighten(15)
-		} else{
-			_cardBg = colorLib.tinyColor(_bg).darken(4)
-		}
 		bgColor.value = _bg.toHexString()
 	}
 	

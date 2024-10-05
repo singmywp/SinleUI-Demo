@@ -24,7 +24,8 @@
 					</sn-checkbox-group>
 				</sn-form-item>
 			</sn-form>
-			<sn-button @click="toScan">扫码</sn-button>
+			<sn-button text="扫码" 
+			@click="toScan"></sn-button>
 		</com-card>
 	</sn-page>
 </template>
@@ -47,7 +48,7 @@
 	function toScan(){
 		let sys = uni.getSystemInfoSync()
 		if (sys.uniPlatform != 'app' || sys.osName != 'android') {
-			$snui.utils.showToast({
+			$snui.utils.showSysToast({
 				title: '扫码组件暂时只支持 Android 平台'
 			})
 			return

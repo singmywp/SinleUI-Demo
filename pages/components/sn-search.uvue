@@ -1,7 +1,7 @@
 <template>
 	<sn-page>
 		<sn-topbar title="Search 搜索框"></sn-topbar>
-		<com-card title="基础使用"
+		<com-card title="基础用法"
 		note="Search 是基于 Input 的二次封装，比 Input 更为简洁，更方便实现一个搜索框">
 			<sn-search v-model="v1"></sn-search>
 		</com-card>

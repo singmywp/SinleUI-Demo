@@ -1,13 +1,31 @@
 <template>
 	<sn-page>
 		<sn-topbar title="测试页"></sn-topbar>
+		<sn-alert text="测试页"
+		type="primary"></sn-alert>
+		
+		<com-card>
+			<sn-button text="置灰"
+			@click="gray(true)"></sn-button>
+			<sn-button class="m-t-10"
+			text="取消"
+			@click="gray(false)"></sn-button>
+		</com-card>
 	</sn-page>
 </template>
 
 <script setup>
-	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
+	import { $snui } from '@/uni_modules/sinle-ui'
 	
+	
+	
+	const colors = $snui.colors
+	const snu = $snui.utils
+	
+	function gray(enabled: boolean) {
+		$snui.configs.app.grayMode = enabled
+	}
+
 </script>
 
 <style lang="scss">

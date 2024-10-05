@@ -55,7 +55,7 @@
 	
 	function copy(str:string){
 		$snui.utils.setClipboardData(str)
-		$snui.utils.showToast({
+		$snui.utils.showSysToast({
 			title: '复制成功'
 		})
 	}

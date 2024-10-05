@@ -1,7 +1,7 @@
 <template>
 	<sn-page>
 		<sn-topbar title="Upload Media 媒体上传"></sn-topbar>
-		<com-card title="基础使用"
+		<com-card title="基础用法"
 		note="本组件用于快速上传图片/视频媒体文件，分为基础版和 uniCloud 版"></com-card>
 		<com-card title="基础版"
 		note="基于 uni.uploadFile，可上传到开发者服务器">

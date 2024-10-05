@@ -1,4 +1,8 @@
 <template>
+	<!-- #ifndef APP -->
+	<com-card title="请前往 App 端查看"></com-card>
+	<!-- #endif -->
+	<!-- #ifdef APP -->
 	<com-card title="是否具备指定权限"
 	note="检查当前应用是否已经具备指定权限。">
 		<sn-text :text="`权限：${JSON.stringify(p1)}\n是否具备：${p2}\n\n`"></sn-text>
@@ -30,6 +34,7 @@
 		text="跳转"
 		@click="snu.gotoSystemPermissionActivity(p6)"></sn-button>
 	</com-card>
+	<!-- #endif -->
 </template>
 
 <script setup>

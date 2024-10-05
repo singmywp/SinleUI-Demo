@@ -61,7 +61,6 @@
 		}">
 			<page-sort></page-sort>
 		</view>
-		<!--#ifdef APP-->
 		<view v-if="ifList.includes(7)"
 		:style="{
 			visibility: curTab==7?'visible':'hidden',
@@ -69,7 +68,6 @@
 		}">
 			<page-permission></page-permission>
 		</view>
-		<!--#endif-->
 	</sn-page>
 </template>
 
@@ -120,12 +118,10 @@
 			id: 'sort',
 			text: '排序类',
 		},
-		// #ifdef APP
 		{
 			id: 'permission',
 			text: '权限类',
 		}
-		// #endif
 	] as SnTabParams[]
 	
 	function changeTab(index: number) {
@@ -133,6 +129,16 @@
 			ifList.value.push(index)
 		}
 	}
+	
+	onLoad((opt: OnLoadOptions) => {
+		let index = opt['page']
+		if (index != null) {
+			let i = tabs.findIndex((v:SnTabParams):boolean=>v.id==`${index}`)
+			i = i == -1 ? 0 : i
+			changeTab(i)
+			curTab.value = i
+		}
+	})
 </script>
 
 <style lang="scss">

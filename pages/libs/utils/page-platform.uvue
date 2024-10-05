@@ -33,11 +33,33 @@
 		text="读取文本"
 		@click="getClipboardData()"></sn-button>
 	</com-card>
-	<com-card title="显示提示框"
+	<com-card title="显示原生提示框"
 	note="在不同平台上显示原生提示框。Android 平台可设置提示框的显示时长和位置。">
 		<sn-button type="primary"
 		text="Toast"			
-		@click="showToast()"></sn-button>
+		@click="showSysToast()"></sn-button>
+	</com-card>
+	<com-card title="显示提示框"
+	note="在各端提供基本一致的提示框样式。">
+		<sn-button type="info"
+		text="Default"			
+		@click="showToast('default','默认')"></sn-button>
+		<sn-button type="primary"
+		text="Info"		
+		class="m-t-10"
+		@click="showToast('info','信息')"></sn-button>
+		<sn-button type="success"
+		text="Success"		
+		class="m-t-10"
+		@click="showToast('success','成功')"></sn-button>
+		<sn-button type="error"
+		text="Error"
+		class="m-t-10"
+		@click="showToast('error','错误')"></sn-button>
+		<sn-button type="warning"
+		text="Warning"
+		class="m-t-10"
+		@click="showToast('warning','警告')"></sn-button>
 	</com-card>
 	<com-card title="使用内置全屏Webview打开网址"
 	note="使用内置全屏 Webview 打开网址。">
@@ -56,7 +78,7 @@
 </template>
 
 <script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
+	import { $snui, SnToastConfig } from '@/uni_modules/sinle-ui'
 	const snu = $snui.utils
 	const clipboardData = ref('')
 	const osTheme = ref('')
@@ -68,8 +90,15 @@
 		})
 	}
 	
-	function showToast(){
+	function showToast(type: string, text: string){
 		snu.showToast({
+			type: type,
+			text: `${text}：Hello, SinleUI!`
+		} as SnToastConfig)
+	}
+	
+	function showSysToast(){
+		snu.showSysToast({
 			title:'Hello, SinleUI!',
 			position:'center'
 		})

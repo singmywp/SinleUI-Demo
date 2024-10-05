@@ -1,0 +1,94 @@
+
+import Toasty from "es.dmoral.toasty.Toasty"
+import Gravity from "android.view.Gravity"
+import Toast from "android.widget.Toast"
+import { SnToastConfig } from "../interface.uts"
+
+
+export function toast(config: SnToastConfig){
+	const context = UTSAndroid.getAppContext()!
+	const type = config.type ?? 'normal'
+	const duration = config.duration ?? 'short'
+	const position = config.position ?? 'center'
+	const text = config.text
+	const offsetX : Int = (config.offsetX ?? 0) as Int
+	const offsetY : Int = (config.offsetY ?? 0)  as Int
+	let gravity : Int = 0
+	let durInt : Int = 0
+	switch (duration) {
+		case 'short':
+			durInt = Toast.LENGTH_SHORT
+			break;
+		case 'long':
+			durInt = Toast.LENGTH_LONG
+			break;
+		default:
+			durInt = Toast.LENGTH_SHORT
+			break;
+	}
+	switch (position) {
+		case 'top':
+			gravity = Gravity.TOP
+			break;
+		case 'center':
+			gravity = Gravity.CENTER
+			break;
+		case 'bottom':
+			gravity = Gravity.BOTTOM
+			break;
+		default:
+			gravity = Gravity.CENTER
+			break;
+	}
+	switch (type) {
+		case 'normal':
+			Toasty.Config.getInstance()
+			.allowQueue(true)
+			.supportDarkTheme(true)
+			.setGravity(gravity, offsetX, offsetY)
+			.apply()
+			Toasty.normal(context, text, durInt).show()
+			break;
+		case 'success':
+			Toasty.Config.getInstance()
+			.allowQueue(true)
+			.supportDarkTheme(true)
+			.setGravity(gravity, offsetX, offsetY)
+			.apply()
+			Toasty.success(context, text, durInt).show()
+			break;
+		
+		case 'error':
+			Toasty.Config.getInstance()
+			.allowQueue(true)
+			.supportDarkTheme(true)
+			.setGravity(gravity, offsetX, offsetY)
+			.apply()
+			Toasty.error(context, text, durInt).show()
+			break;
+		case 'warning':
+			Toasty.Config.getInstance()
+			.allowQueue(true)
+			.supportDarkTheme(true)
+			.setGravity(gravity, offsetX, offsetY)
+			.apply()
+			Toasty.warning(context, text, durInt).show()
+			break;
+		case 'info':
+			Toasty.Config.getInstance()
+			.allowQueue(true)
+			.supportDarkTheme(true)
+			.setGravity(gravity, offsetX, offsetY)
+			.apply()
+			Toasty.info(context, text, durInt).show()
+			break;
+		default:
+			Toasty.Config.getInstance()
+			.allowQueue(true)
+			.supportDarkTheme(true)
+			.setGravity(gravity, offsetX, offsetY)
+			.apply()
+			Toasty.normal(context, text, durInt).show()
+			break;
+	}
+}

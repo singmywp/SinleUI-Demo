@@ -1,0 +1,151 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Actionsheet 操作菜单"
+		:features="[{id:'run',icon:'play-circle-fill'} as SnDataItem]"
+		@button-click="buttonClicked"></sn-topbar>
+		<com-card title="组件演示"
+		note="从底部弹出一个操作菜单，供用户选择。\n本组件类似于 uni.showActionSheet API，不同的是样式更倾向于 iOS 而非微信，且样式配置更加自由">
+			<sn-form v-model="configs"
+			:showBorder="false">
+				<sn-form-item label="禁用">
+					<sn-switch v-model="(configs['disabled'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="遮罩关闭">
+					<sn-switch v-model="(configs['maskClose'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="阻止返回事件">
+					<sn-switch v-model="(configs['preventBack'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="动画时长">
+					<sn-stepper v-model="(configs['aniTime'] as number)"
+					:step="100"
+					:min="100"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="遮罩透明度">
+					<sn-stepper v-model="(configs['maskOpacity'] as number)"
+					:step="0.1"
+					:min="0"
+					:max="1"></sn-stepper>
+				</sn-form-item>
+				<sn-form-item label="是否显示取消按钮">
+					<sn-switch v-model="(configs['showCancel'] as boolean)"></sn-switch>
+				</sn-form-item>
+				<sn-form-item label="标题">
+					<sn-input v-model="(configs['title'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-form-item label="圆角大小">
+					<sn-input v-model="(configs['borderRadius'] as string)"
+					placeholder="默认值"></sn-input>
+				</sn-form-item>
+				<sn-row>
+					<sn-button text="默认"
+					level="second" 
+					type="primary" 
+					long
+					@click="show(1)"
+					style="margin-top: 10px;">
+					</sn-button>
+					<sn-button class="m-l-10"
+					text="自定义样式"
+					level="second" 
+					type="primary" 
+					long
+					@click="show(2)"
+					style="margin-top: 10px;">
+					</sn-button>
+				</sn-row>
+			</sn-form>
+		</com-card>
+	</sn-page>
+	<sn-actionsheet ref="actionsheetEle"
+	:title="configs['title']"
+	:showCancel="configs['showCancel']"
+	:disabled="configs['disabled']"
+	:maskClose="configs['maskClose']"
+	:preventBack="configs['preventBack']"
+	:aniTime="`${configs['aniTime']}ms`"
+	:maskOpacity="configs['maskOpacity']"
+	:borderRadius="configs['borderRadius']"
+	:actions="actions"
+	@clickItem="clickItem"></sn-actionsheet>
+	<sn-toast ref="toastEle"></sn-toast>
+</template>
+
+<script setup>
+	import { $snui, SnActionsheetItem, SnDataItem, SnToastParams } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	const snu = $snui.utils
+	const actionsheetEle = ref(null as SnActionsheetComponentPublicInstance | null)
+	const toastEle = ref(null as SnToastComponentPublicInstance | null)
+	
+	const configs = ref({
+		title: '这是标题',
+		maskClose: true,
+		disabled: false,
+		preventBack: false,
+		aniTime: parseInt($snui.configs.aniTime.long),
+		maskOpacity: 0.3,
+		showCancel: true,
+		borderRadius: '',
+	})
+	
+	const actions = ref([] as SnActionsheetItem[])
+	
+	const actions1 = [
+		{
+			text: '选项1',
+		},
+		{
+			text: '选项2'
+		},
+		{
+			text: '选项3',
+		}
+	] as SnActionsheetItem[]
+	
+	const actions2 = [
+		{
+			text: '选项1',
+		},
+		{
+			text: '选项2',
+			color: colors.value.errorDark
+		},
+		{
+			text: '选项3',
+			disabled: true
+		},
+		{
+			text: '选项4',
+		}
+	] as SnActionsheetItem[]
+	
+	function show(type: number) {
+		if (type == 1) {
+			actions.value = actions1
+		} else if (type == 2) {
+			actions.value = actions2
+		}
+		snu.throttle(()=>{
+			actionsheetEle.value?.open?.()
+		}, 50)
+	}
+	
+	function buttonClicked(e: SnDataItem){
+		if (e.id == 'run') show(1)
+	}
+	
+	function clickItem(e: SnActionsheetItem){
+		toastEle.value?.configShow?.({
+			text: `点击了${e.text}`,
+			duration: 2000,
+			borderRadius: '10000px',
+			padding: '12px 20px'
+		} as SnToastParams)
+	}
+</script>
+
+<style>
+
+</style>

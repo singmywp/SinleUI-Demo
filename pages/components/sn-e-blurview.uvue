@@ -1,0 +1,59 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Blurview 高斯模糊"></sn-topbar>
+		<com-card title="基础用法"
+		note="动态模糊，支持 Android/Web 多端">
+		</com-card>
+		<sn-alert type="primary"
+		text="这是占位内容"></sn-alert>
+		<sn-alert type="success"
+		text="这是占位内容"></sn-alert>
+		<sn-alert type="error"
+		text="这是占位内容"></sn-alert>
+		<sn-alert type="warning"
+		text="这是占位内容"></sn-alert>
+		<sn-alert type="primary"
+		text="这是占位内容"></sn-alert>
+		<sn-alert type="success"
+		text="这是占位内容"></sn-alert>
+		<sn-alert type="error"
+		text="这是占位内容"></sn-alert>
+		<sn-alert type="warning"
+		text="这是占位内容"></sn-alert>
+		<sn-alert type="primary"
+		text="这是占位内容"></sn-alert>
+		<sn-alert type="success"
+		text="这是占位内容"></sn-alert>
+		<sn-alert type="error"
+		text="这是占位内容"></sn-alert>
+		<sn-alert type="warning"
+		text="这是占位内容"></sn-alert>
+		<sn-alert type="primary"
+		text="这是占位内容"></sn-alert>
+		<sn-alert type="success"
+		text="这是占位内容"></sn-alert>
+		<sn-alert type="error"
+		text="这是占位内容"></sn-alert>
+		<sn-alert type="warning"
+		text="这是占位内容"></sn-alert>
+		<sn-alert type="primary"
+		text="这是占位内容"></sn-alert>
+		<sn-alert type="success"
+		text="这是占位内容"></sn-alert>
+		<sn-alert type="error"
+		text="这是占位内容"></sn-alert>
+		<sn-alert type="warning"
+		text="这是占位内容"></sn-alert>
+		<sn-e-blurview style="position: fixed;left: 0;top: 200px;right: 0;height: 100px;padding: 50px;">
+			<sn-text text="内部内容不会被模糊，只会处理背景部分"></sn-text>
+		</sn-e-blurview>
+	</sn-page>
+</template>
+
+<script setup>
+		
+</script>
+
+<style>
+		
+</style>

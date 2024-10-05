@@ -26,7 +26,7 @@
 			<sn-list-item title="列表文字" rightText="右侧文字" showArrow></sn-list-item>
 		</sn-list>
 		<com-card title="无分割线"
-		note="可为单独的子项取消分割线">
+		note="可为列表取消分割线">
 		</com-card>
 		<sn-list :showBorder="false">
 			<sn-list-item title="列表文字" rightText="右侧文字"></sn-list-item>

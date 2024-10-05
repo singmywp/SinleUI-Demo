@@ -1,0 +1,134 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Avatar Group 头像组"></sn-topbar>
+		<com-card title="基础用法"
+		note="支持多个头像组合成头像组，提供丰富的自定义样式，支持两种模式：铺排和堆叠">
+			<sn-avatar-group :data="avatars1">
+			</sn-avatar-group>
+			<sn-avatar-group class="m-t-10" 
+			mode="spread"
+			:data="avatars1">
+			</sn-avatar-group>
+		</com-card>
+		<com-card title="间距"
+		note="铺排模式还支持自定义头像间距">
+			<sn-avatar-group mode="spread"
+			spacing="20px"
+			:data="avatars1">
+			</sn-avatar-group>
+		</com-card>
+		<com-card title="形状"
+		note="支持圆角矩形和圆形头像，其中圆角矩形头像还可设置圆角大小">
+			<sn-avatar-group mode="spread"
+			shape="square"
+			borderRadius="$small"
+			:data="avatars1">
+			</sn-avatar-group>
+		</com-card>
+		<com-card title="图文混排"
+		note="支持图片、文字、图标混合使用">
+			<sn-avatar-group 
+			:data="avatars2">
+			</sn-avatar-group>
+		</com-card>
+		<com-card title="最大数量"
+		note="可以限制头像的最大数量，多余的显示为“N+”">
+			<sn-avatar-group 
+			:data="avatars2"
+			:max="5">
+			</sn-avatar-group>
+		</com-card>
+		<com-card title="随机背景色"
+		note="对于图标、文字头像，可以设置随机背景色，同时会自动生成与之匹配的字体颜色">
+			<sn-avatar-group mode="spread"
+			randomBgColor
+			:data="avatars3">
+			</sn-avatar-group>
+		</com-card>
+		<sn-gap></sn-gap>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui, SnAvatarGroupItem } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	const snu = $snui.utils
+	
+	const avatars1 = [
+		{
+			src:'https://img1.baidu.com/it/u=1465664392,2808406094&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+		},
+		{
+			src:'https://img2.baidu.com/it/u=955864846,4066226710&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=800',
+		},
+		{
+			src:'https://img2.baidu.com/it/u=1316245042,2395535024&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500',
+		},
+		{
+			src:'https://img1.baidu.com/it/u=2047704858,918592447&fm=253&fmt=auto&app=120&f=JPEG?w=800&h=800',
+		},
+		{
+			src:'https://img0.baidu.com/it/u=2264207564,2939741236&fm=253&fmt=auto&app=120&f=JPEG?w=506&h=500',
+		},
+	] as SnAvatarGroupItem[]
+	
+	const avatars2 = [
+		{
+			src:'https://img0.baidu.com/it/u=1785299157,3302446795&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500',
+		},
+		{
+			src:'https://img1.baidu.com/it/u=732365727,3649150979&fm=253&fmt=auto&app=120&f=JPEG?w=666&h=500',
+		},
+		{
+			mode: 'icon',
+			icon: 'user-fill'
+		},
+		{
+			src:'https://img2.baidu.com/it/u=2614684919,3437897058&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
+		},
+		{
+			src:'https://img2.baidu.com/it/u=2165576910,2454073122&fm=253&fmt=auto&app=120&f=JPEG?w=500&h=500',
+		},
+		{
+			mode: 'text',
+			text: '王'
+		},
+		{
+			src:'https://img0.baidu.com/it/u=2264207564,2939741236&fm=253&fmt=auto&app=120&f=JPEG?w=506&h=500',
+		},
+		{
+			mode: 'text',
+			text: '李'
+		},
+		{
+			src: 'https://img2.baidu.com/it/u=315001929,4032998020&fm=253&fmt=auto&app=120&f=JPEG?w=507&h=500'
+		},
+	] as SnAvatarGroupItem[]
+	
+	const avatars3 = [
+		{
+			mode: 'text',
+			text: '王'
+		},
+		{
+			mode: 'icon',
+			icon: 'shield-star-fill'
+		},
+		{
+			mode: 'text',
+			text: '李'
+		},
+		{
+			mode: 'icon',
+			icon: 'user-fill'
+		},
+		{
+			mode: 'text',
+			text: '张'
+		}
+	] as SnAvatarGroupItem[]
+</script>
+
+<style>
+		
+</style>

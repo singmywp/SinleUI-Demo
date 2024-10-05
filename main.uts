@@ -1,9 +1,15 @@
 import App from './App.uvue'
 
 import { createSSRApp } from 'vue'
-import { $snui } from './uni_modules/sinle-ui'
+import { init } from './init.uts'
+
 export function createApp() {
 	const app = createSSRApp(App)
+	
+	nextTick(()=>{
+		init()
+	})
+	
 	return {
 		app
 	}

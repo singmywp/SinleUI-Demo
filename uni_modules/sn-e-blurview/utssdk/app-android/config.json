@@ -1,0 +1,6 @@
+{
+	"minSdkVersion": "23",
+	"dependencies": [
+		"com.eightbitlab:blurview:1.6.6"
+	]
+}

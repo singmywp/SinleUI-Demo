@@ -1,0 +1,105 @@
+import { SnToastConfig } from '../interface.uts'
+
+const toastQueue: SnToastConfig[] = [];
+let isToastVisible = false;
+
+export function toast(config: SnToastConfig) {
+  toastQueue.push(config);
+  if (!isToastVisible) {
+    showNextToast();
+  }
+}
+
+function showNextToast() {
+  if (toastQueue.length === 0) {
+    isToastVisible = false;
+    return;
+  }
+
+  isToastVisible = true;
+  const config = toastQueue.shift()!;
+  const popup = document.createElement('div');
+  popup.style.position = 'fixed';
+  switch (config.position) {
+    case 'top':
+      popup.style.top = `0px`;
+      popup.style.left = config.offsetX ? `${config.offsetX}px` : '50%';
+      popup.style.transform = 'translateX(-50%)';
+      break;
+    case 'bottom':
+      popup.style.bottom = `0px`;
+      popup.style.left = config.offsetX ? `${config.offsetX}px` : '50%';
+      popup.style.transform = 'translateX(-50%)';
+      break;
+    default:
+      popup.style.left = '50%';
+      popup.style.top = '50%';
+      popup.style.transform = 'translate(-50%, -50%)';
+      break;
+  }
+  popup.className = 'sn-utils-toast';
+  popup.style.display = 'flex';
+  popup.style.zIndex = '1002';
+  popup.style.alignItems = 'center';
+  popup.style.padding = '12px 20px';
+  popup.style.borderRadius = '100000px';
+  popup.style.backgroundColor = '#fff';
+  popup.style.zIndex = '1000';
+  popup.style.color = '#fff';
+  const theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? 'dark' : 'light';
+
+  let icon = '';
+  switch (config.type) {
+    case 'success':
+      popup.style.backgroundColor = '#209b44e6';
+      icon = '\ueb7b';
+      break;
+    case 'error':
+      popup.style.backgroundColor = '#ed0000e6';
+      icon = '\ueb99';
+      break;
+    case 'warning':
+      popup.style.backgroundColor = '#ffad00e6';
+      icon = '\ueca1';
+      break;
+    case 'info':
+      popup.style.backgroundColor = '#4e62c2e6';
+      icon = '\uee59';
+      break;
+    default:
+      popup.style.backgroundColor = theme == 'light' ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.9)';
+	  if (theme == 'light') popup.style.color = '#000';
+  }
+
+  popup.innerHTML = `<span style="font-family: 'remixicon'; color: ${popup.style.color}; margin-right: 8px;font-size:21px;">${icon}</span><span style="font-size:15px;">${config.text}</span>`;
+  popup.style.width = 'fit-content';
+  popup.style.maxWidth = '70%';
+  popup.style.opacity = '0';
+  popup.style.transition = 'opacity 0.5s';
+
+  document.body.appendChild(popup);
+
+  setTimeout(() => {
+    popup.style.opacity = '1';
+  }, 100);
+
+  let durationMs = 0;
+  switch (config.duration) {
+    case 'short':
+      durationMs = 2000;
+      break;
+    case 'long':
+      durationMs = 3500;
+      break;
+    default:
+      durationMs = 2000;
+  }
+
+  setTimeout(() => {
+    popup.style.opacity = '0';
+    setTimeout(() => {
+      document.body.removeChild(popup);
+      showNextToast(); // 显示下一个 toast
+    }, 500);
+  }, durationMs);
+}

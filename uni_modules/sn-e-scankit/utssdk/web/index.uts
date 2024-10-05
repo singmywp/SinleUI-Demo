@@ -1,0 +1,8 @@
+import { ScanConfigs, ScanResult } from '../interface.uts'
+
+export function scan(
+	configs : ScanConfigs,
+	callback: (res: ScanResult) => void
+) {
+	
+}
