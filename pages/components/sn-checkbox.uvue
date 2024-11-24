@@ -1,7 +1,6 @@
 <template>
 	<sn-page>
 		<sn-topbar title="Checkbox 复选"></sn-topbar>
-		<sn-view :loading="loadingComponents">
 		<com-card title="基础用法"
 		note="跟radio的用法很像，但可以多选 \n（注意：一组sn-checkbox、sn-checkbox-tag必须放在sn-checkbox-group里）">
 			<sn-checkbox-group v-model="v1">
@@ -115,7 +114,6 @@
 				<sn-checkbox-tag text="小院闲庭，轻寒翠袖生"></sn-checkbox-tag>
 			</sn-checkbox-group>
 		</com-card>
-		</sn-view>
 	</sn-page>
 </template>
 
@@ -131,15 +129,6 @@
 	const v7 = ref([0, 2] as number[])
 	const v8 = ref([0, 1, 3] as number[])
 	const v9 = ref([] as number[])
-	const loadingComponents = ref(true)
-	
-	onMounted(()=>{
-		nextTick(()=>{
-			setTimeout(()=>{
-				loadingComponents.value = false
-			}, 500)
-		})
-	})
 </script>
 
 <style lang="scss">

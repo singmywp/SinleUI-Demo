@@ -1,14 +1,18 @@
 {
   "id": "sn-e-blurview",
-  "displayName": "sn-e-blurview",
+  "displayName": "sn-e-blurview 高斯模糊",
   "version": "1.0.0",
-  "description": "sn-e-blurview",
+  "description": "sn-e-blurview 是 SinleUI 框架的高斯模糊组件，SinleUI 框架实现高斯模糊/毛玻璃效果的组件都依赖此插件",
   "keywords": [
-    "sn-e-blurview"
+    "sn-e-blurview",
+    "sn",
+    "sinleui",
+    "blurview",
+    "高斯模糊"
 ],
   "repository": "",
   "engines": {
-    "HBuilderX": "^3.7.0"
+    "HBuilderX": "^4.27"
   },
   "dcloudext": {
     "type": "component-uts",
@@ -21,12 +25,12 @@
       }
     },
     "contact": {
-      "qq": ""
+      "qq": "2444290609"
     },
     "declaration": {
-      "ads": "",
-      "data": "",
-      "permissions": ""
+      "ads": "无",
+      "data": "插件不采集任何数据",
+      "permissions": "无"
     },
     "npmurl": ""
   },
@@ -35,31 +39,33 @@
     "encrypt": [],
     "platforms": {
       "cloud": {
-        "tcb": "u",
-        "aliyun": "u",
-        "alipay": "u"
+        "tcb": "y",
+        "aliyun": "y",
+        "alipay": "y"
       },
       "client": {
         "Vue": {
           "vue2": "u",
-          "vue3": "u"
+          "vue3": "y"
         },
         "App": {
-          "app-android": "u",
+          "app-android": {
+            "minVersion": "23"
+        },
           "app-ios": "u"
         },
         "H5-mobile": {
-          "Safari": "u",
-          "Android Browser": "u",
-          "微信浏览器(Android)": "u",
-          "QQ浏览器(Android)": "u"
+          "Safari": "y",
+          "Android Browser": "y",
+          "微信浏览器(Android)": "y",
+          "QQ浏览器(Android)": "y"
         },
         "H5-pc": {
-          "Chrome": "u",
-          "IE": "u",
-          "Edge": "u",
-          "Firefox": "u",
-          "Safari": "u"
+          "Chrome": "y",
+          "IE": "y",
+          "Edge": "y",
+          "Firefox": "y",
+          "Safari": "y"
         },
         "小程序": {
           "微信": "u",

@@ -481,137 +481,193 @@
 		"path" : "pages/components/sn-tabbar",
 		"style" : 
 		{
-			"navigationBarTitleText" : ""
+			"navigationStyle": "custom"
 		}
 	},
 	{
 		"path" : "pages/components/tabbar/demo1",
 		"style" : 
 		{
-			"navigationBarTitleText" : ""
+			"navigationStyle": "custom"
 		}
 	},
 	{
 		"path" : "pages/components/tabbar/demo2",
 		"style" : 
 		{
-			"navigationBarTitleText" : ""
+			"navigationStyle": "custom"
 		}
 	},
 	{
 		"path" : "pages/components/tabbar/demo3",
 		"style" : 
 		{
-			"navigationBarTitleText" : ""
+			"navigationStyle": "custom"
 		}
 	},
 	{
 		"path" : "pages/components/sn-waterfall",
 		"style" : 
 		{
-			"navigationBarTitleText" : ""
+			"navigationStyle": "custom"
 		}
 	},
 	{
 		"path" : "pages/components/sn-picker",
 		"style" : 
 		{
-			"navigationBarTitleText" : ""
+			"navigationStyle": "custom"
 		}
 	},
 	{
 		"path" : "pages/components/sn-picker-view",
 		"style" : 
 		{
-			"navigationBarTitleText" : ""
+			"navigationStyle": "custom"
 		}
 	},
 	{
 		"path" : "pages/components/sn-sidebar",
 		"style" : 
 		{
-			"navigationBarTitleText" : ""
+			"navigationStyle": "custom"
 		}
 	},
 	{
 		"path" : "pages/components/sidebar/demo1",
 		"style" : 
 		{
-			"navigationBarTitleText" : ""
+			"navigationStyle": "custom"
 		}
 	},
 	{
 		"path" : "pages/components/sidebar/demo2",
 		"style" : 
 		{
-			"navigationBarTitleText" : ""
+			"navigationStyle": "custom"
 		}
 	},
 	{
 		"path" : "pages/components/sidebar/demo3",
 		"style" : 
 		{
-			"navigationBarTitleText" : ""
+			"navigationStyle": "custom"
 		}
 	},
 	{
 		"path" : "pages/components/sn-label-radio",
 		"style" :
 		{
-			"navigationBarTitleText" : ""
+			"navigationStyle": "custom"
 		}
 	},
 	{
 		"path" : "pages/components/sn-label-checkbox",
 		"style" : 
 		{
-			"navigationBarTitleText" : ""
+			"navigationStyle": "custom"
 		}
 	},
 	{
 		"path" : "pages/components/sn-dateformat",
 		"style" : 
 		{
-			"navigationBarTitleText" : ""
+			"navigationStyle": "custom"
 		}
 	},
 	{
 		"path" : "pages/libs/sn-scan",
 		"style" : 
 		{
-			"navigationBarTitleText" : ""
+			"navigationStyle": "custom"
 		}
 	},
 	{
 		"path" : "pages/libs/scankit",
 		"style" : 
 		{
-			"navigationBarTitleText" : ""
+			"navigationStyle": "custom"
 		}
 	},
 	{
 		"path" : "pages/components/sn-e-blurview",
 		"style" : 
 		{
-			"navigationBarTitleText" : ""
+			"navigationStyle": "custom"
 		}
 	},
 	{
 		"path" : "pages/components/sn-e-scankit-code",
 		"style" : 
 		{
-			"navigationBarTitleText" : ""
+			"navigationStyle": "custom"
 		}
 	},
 	{
 		"path" : "pages/components/sn-actionsheet",
 		"style" : 
 		{
-			"navigationBarTitleText" : ""
+			"navigationStyle": "custom"
 		}
 	},
 	{
 		"path" : "pages/components/sn-avatar-group",
+		"style" : 
+		{
+			"navigationStyle": "custom"
+		}
+	},
+	{
+		"path" : "pages/other/aboutApp",
+		"style" : 
+		{
+			"navigationStyle": "custom"
+		}
+	},
+	{
+		"path" : "uni_modules/sinle-ui/pages/utils/previewImage",
+		"style" : 
+		{
+			"navigationStyle": "custom"
+		}
+	},
+	{
+		"path" : "uni_modules/sinle-ui/pages/popups/showActionsheet",
+		"style" : 
+		{
+			"navigationStyle": "custom"
+		}
+	},
+	{
+		"path" : "pages/other/tmp1",
+		"style" : 
+		{
+			"navigationStyle": "custom"
+		}
+	},
+	{
+		"path" : "uni_modules/sinle-ui/pages/popups/showToast",
+		"style" : 
+		{
+			"navigationStyle": "custom"
+		}
+	},
+	{
+		"path" : "uni_modules/sinle-ui/pages/popups/showModal",
+		"style" : 
+		{
+			"navigationStyle": "custom"
+		}
+	},
+	{
+		"path" : "pages/templates/swiper-tabs",
+		"style" : 
+		{
+			"navigationBarTitleText" : ""
+		}
+	},
+	{
+		"path" : "pages/components/sn-perm-listener",
 		"style" : 
 		{
 			"navigationBarTitleText" : ""
@@ -620,8 +676,8 @@
   ],
   "globalStyle": {
     "navigationStyle": "custom",
+	"navigationBarTextStyle": "@navigationBarTextStyle",
     "backgroundColor": "@backgroundColor",
-    "navigationBarTextStyle": "@navigationBarTextStyle",
     "backgroundColorContent": "@backgroundColorContent",
     "pageOrientation": "auto"
   },

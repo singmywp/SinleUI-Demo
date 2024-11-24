@@ -2,8 +2,8 @@
 	<view class="com-card" :style="[cardStylesC, customStyle]">
 		<sn-text v-if="title!=''"
 		class="com-card-title" 
-		font="misans-semibold"
 		size="$4"
+		bold
 		:text="title"
 		:color="titleColorC"
 		:style="[{
@@ -58,7 +58,7 @@
 			default: true
 		},
 		customStyle: {
-			type: Object as PropType<UTSJSONObject>,
+			type: Object as PropType<UTSJSONObject>,
 			default: {} as UTSJSONObject
 		}
 	})
@@ -82,7 +82,7 @@
 	})
 
 	const cardStylesC = computed(() : Map<string, any> => {
-		let styles = new Map<string, any>()
+		const styles = new Map<string, any>()
 		styles.set('background', bgColorC.value)
 		styles.set('border-radius', $snui.configs.radius.normal)
 		styles.set('padding', props.padding)

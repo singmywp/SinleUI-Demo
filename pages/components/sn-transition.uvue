@@ -111,7 +111,7 @@
 	const values = ref([false,false,false,false,false,false,false,false,false,false,false])
 	
 	const blockStylesC = computed((): Map<string, any>=>{
-		let styles = new Map<string, any>()
+		const styles = new Map<string, any>()
 		styles.set('width', '100%')
 		styles.set('height', '50px')
 		styles.set('margin', '20px 0')

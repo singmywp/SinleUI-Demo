@@ -1,0 +1,42 @@
+<template>
+	<sn-page>
+		<sn-topbar title="模板"
+		:backButton="false"></sn-topbar>
+		<sn-alert type="primary"
+		icon="lightbulb-fill"
+		text="此页面展示了 SinleUI Demo 项目的模板，辅助开发者快速开发。源代码可前往 Github 或官网获取。"
+		style="margin-bottom: 20px;"></sn-alert>
+		<sn-list>
+			<sn-list-item v-for="(e,i) in data"
+			:key="i"
+			:title="e.text"
+			showArrow
+			@click="clickItem(i)">
+			</sn-list-item>
+		</sn-list>
+		<sn-gap height="60px"></sn-gap>
+	</sn-page>
+</template>
+
+<script setup>
+	type template = {
+		text: string,
+		src: string
+	}
+	const data = [
+		{
+			text: 'swiper-tabs',
+			src: '/pages/templates/swiper-tabs'
+		}
+	] as template[]
+	
+	function clickItem(i: number) {
+		uni.navigateTo({
+			url: data[i].src,
+		})
+	}
+</script>
+
+<style>
+		
+</style>

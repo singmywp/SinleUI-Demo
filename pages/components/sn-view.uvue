@@ -45,6 +45,8 @@
 			borderRadius="$normal"
 			bgColor="$page"
 			@click="pointGestureEvent" 
+			@scale="scaleGestureEvent" 
+			@rotate="rotateGestureEvent"
 			@longpress="touchGestureEvent" 
 			@dbclick="pointGestureEvent"
 			@touchmove="touchGestureEvent" 
@@ -57,16 +59,30 @@
 					height: 'auto',
 					wordBreak: 'break-all'
 				}"></sn-text>
+				<sn-text :text="gestureScaleEventText"
+				color="$text"
+				:style="{
+					height: 'auto',
+					wordBreak: 'break-all'
+				}"></sn-text>
+				<sn-text :text="gestureRotateEventText"
+				color="$text"
+				:style="{
+					height: 'auto',
+					wordBreak: 'break-all'
+				}"></sn-text>
 			</sn-view>
 		</com-card>
 	</sn-page>
 </template>
 
 <script setup>
-	import { $snui, SnPointerEvent, SnTouchEvent } from '@/uni_modules/sinle-ui'
+	import { $snui, SnPointerEvent, SnTouchEvent, SnScaleEvent, SnRotateEvent } from '@/uni_modules/sinle-ui'
 	const colors = $snui.colors
 	
 	const gestureEventText = ref('')
+	const gestureScaleEventText = ref('')
+	const gestureRotateEventText = ref('')
 	const disabled = ref(true)
 	const loading = ref(true)
 	
@@ -76,10 +92,20 @@
 		gestureEventText.value = strE
 	}
 	
+	function rotateGestureEvent(event : SnRotateEvent) {
+		let strE = JSON.stringify(event)!
+		gestureRotateEventText.value = strE
+	}
+	
 	function pointGestureEvent(event : SnPointerEvent) {
 		event?.event?.preventDefault()
 		let strE = JSON.stringify(event)!
 		gestureEventText.value = strE
+	}
+	
+	function scaleGestureEvent(event : SnScaleEvent) {
+		let strE = JSON.stringify(event)!
+		gestureScaleEventText.value = strE
 	}
 </script>
 

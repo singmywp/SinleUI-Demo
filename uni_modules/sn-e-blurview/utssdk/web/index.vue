@@ -18,7 +18,7 @@
 	})
 	
 	const blurviewStylesC = computed(() : Map<string, any> => {
-		let styles = new Map<string, any>()
+		const styles = new Map<string, any>()
 		styles.set('backdrop-filter', `blur(${props.radius}px)`)
 		styles.set('-webkit-backdrop-filter', `blur(${props.radius}px)`)
 		

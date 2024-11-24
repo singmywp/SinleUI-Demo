@@ -1,0 +1,100 @@
+<template>
+	<sn-page :bounces="false">
+		<sn-topbar title="关于"></sn-topbar>
+		<view class="center-area">
+			<image src="/static/logo-trans.png"
+			style="width: 100px;height: 100px;"></image>
+			<sn-text text="SinleUI"
+			font="alipuhuiheavy"
+			size="$5"></sn-text>
+		</view>
+		<sn-list style="margin-bottom: 15px;">
+			<sn-list-item title="应用版本"
+			rightTextSize="$2"
+			:rightText="`v${version}`">
+			</sn-list-item>
+			<sn-list-item title="编译版本"
+			rightTextSize="$2"
+			:rightText="`HBuilder X ${compilerVersion}`">
+			</sn-list-item>
+		</sn-list>
+		<sn-list>
+			<sn-list-item title="交流反馈"
+			showArrow
+			@click="joinQQGroup"></sn-list-item>
+			<sn-list-item title="访问官网"
+			showArrow
+			@click="website"></sn-list-item>
+		</sn-list>
+		<view class="bottom-area">
+			<sn-text color="$textLight"
+			text="Copyright ©2023-present Singmy"
+			size="$1"></sn-text>
+		</view>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui, SnActionsheetItem } from '@/uni_modules/sinle-ui'
+	
+	const snu = $snui.utils
+	
+	
+	const version = ref('')
+	const compilerVersion = ref('')
+	
+	onLoad((_)=>{
+		const info = uni.getAppBaseInfo({
+			filter: ['appVersion', 'uniCompilerVersionCode']
+		})
+		compilerVersion.value = `${info.uniCompilerVersionCode}` ?? ''
+		version.value = info.appVersion ?? ''
+	})
+	
+	function joinQQGroup() {
+		// #ifdef APP-ANDROID
+		snu.openLink('mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26jump_from%3Dwebapi%26k%3Dk-lW1BIDpMjxCkApqaYWvy7qTGicsBbm')
+		// #endif
+		// #ifdef WEB
+		snu.openLink('https://qm.qq.com/cgi-bin/qm/qr?k=KsbLR9q_Fh-hfvJ0qu52vhJNYpjAiJYu&jump_from=webapi&authKey=f942Tzu/PNlEAjM8KCeGAQvJJhv26DFSRnskoraxlHoVG+4I4UIyB7eUJOKCzvPS')
+		// #endif
+	}
+	
+	function website() {
+		let actions =  [
+			{
+				text: 'singmywp.github.io',
+			},
+			{
+				text: 'sinleui.pages.dev'
+			}
+		] as SnActionsheetItem[]
+		snu.showActionsheet({
+			actions,
+			success: (tapIndex: number)=>{
+				const item = actions[tapIndex]
+				uni.navigateTo({
+					url: `/pages/other/webview?title=SinleUI&url=${encodeURI('https://'+item.text)}`
+				})
+			}
+		})
+	}
+
+</script>
+
+<style lang="scss">
+	.center-area {
+		margin: 10% auto 60px auto;
+		align-items: center;
+		justify-content: center;
+	}
+	
+	.bottom-area {
+		position: fixed;
+		bottom: 30px;
+		left: 0;
+		right: 0;
+		align-items: center;
+		justify-content: center;
+	}
+</style>

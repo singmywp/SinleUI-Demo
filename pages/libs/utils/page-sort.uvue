@@ -1,4 +1,5 @@
 <template>
+	<sn-page>
 	<com-card title="排序"
 	note="SinleUI 支持多种排序算法，具体请见文档">
 		<sn-text class="word-break-break-all m-b-10" 
@@ -31,6 +32,8 @@
 			@click="init"></sn-button>
 		</sn-row>
 	</com-card>
+	<sn-gap></sn-gap>
+	</sn-page>
 	<sn-toast ref="toastEle"></sn-toast>
 </template>
 
@@ -78,10 +81,11 @@
 	const arrStr = computed(():string=>JSON.stringify(arr.value))
 	
 	function sort(){
-		toastEle.value!.configShow({
+		toastEle.value?.configShow?.({
 			text: '算法运行中',
 			loading: true
 		} as SnToastParams)
+		
 		snu.debounce(()=>{
 			let t0 = Date.now()
 			switch(algo.value) {
@@ -112,7 +116,7 @@
 				default:
 					break
 			}
-			toastEle.value!.configShow({
+			toastEle.value?.configShow?.({
 				text: `${data.value[algo.value].text} ${length.value} 个数据\n耗时：${Date.now()-t0}ms`
 			} as SnToastParams)
 		}, parseInt($snui.configs.aniTime.normal))

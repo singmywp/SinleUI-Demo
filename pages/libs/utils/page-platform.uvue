@@ -1,4 +1,5 @@
 <template>
+	<sn-page>
 	<com-card title="打开链接"
 	note="使用默认应用打开链接（Url、Schemes等）。Android 必须加上协议，否则会报错。">
 		<sn-button type="primary"
@@ -75,10 +76,12 @@
 		text="获取主题"
 		@click="osTheme = snu.getOsTheme()"></sn-button>
 	</com-card>
+	<sn-gap></sn-gap>
+	</sn-page>
 </template>
 
 <script setup>
-	import { $snui, SnToastConfig } from '@/uni_modules/sinle-ui'
+	import { $snui } from '@/uni_modules/sinle-ui'
 	const snu = $snui.utils
 	const clipboardData = ref('')
 	const osTheme = ref('')
@@ -91,10 +94,10 @@
 	}
 	
 	function showToast(type: string, text: string){
-		snu.showToast({
+		snu.showToasty({
 			type: type,
 			text: `${text}：Hello, SinleUI!`
-		} as SnToastConfig)
+		})
 	}
 	
 	function showSysToast(){

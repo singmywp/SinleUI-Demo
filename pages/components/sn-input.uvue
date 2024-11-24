@@ -1,7 +1,6 @@
 <template>
 	<sn-page>
 		<sn-topbar title="Input 输入框"></sn-topbar>
-		<sn-view :loading="loadingComponents">
 		<com-card title="基础用法"
 		note="普普通通的输入框">
 			<sn-input v-model="val"></sn-input>
@@ -259,7 +258,6 @@
 				</template>
 			</sn-input>
 		</com-card>
-		</sn-view>
 	</sn-page>
 </template>
 
@@ -270,19 +268,6 @@
 	const loading = ref(false)
 	const val = ref('')
 	
-	const loadingComponents = ref(true)
-	onMounted(()=>{
-		// #ifdef APP
-		nextTick(()=>{
-			setTimeout(()=>{
-				loadingComponents.value = false
-			}, 500)
-		})
-		// #endif
-		// #ifndef APP
-		loadingComponents.value = false
-		// #endif
-	})
 </script>
 
 <style lang="scss">

@@ -1,0 +1,109 @@
+<template>
+	<sn-page padding="0">
+		<sn-topbar title="Swiper Tabs"></sn-topbar>
+		<sn-tabs v-model="curTab"
+		scrollable
+		bgColor="$page"
+		aniTime="200ms"
+		:data="tabs"
+		@change="changeTab"
+		:customStyle="{
+			position: 'fixed',
+			zIndex: 1,
+			top: $snui.configs.page.topbarHeight
+		}"></sn-tabs>
+		<sn-gap height="40px"></sn-gap>
+		<swiper :current="curTab"
+		:disable-touch="disableTouch"
+		@change="swiperChange"
+		style="flex: 1">
+			<swiper-item style="flex: 1;overflow: visible;">
+				<Sub1 v-if="ifList.includes(0)"></Sub1>
+			</swiper-item>
+			<swiper-item style="flex: 1">
+				<Sub2 v-if="ifList.includes(1)"></Sub2>
+			</swiper-item>
+			<swiper-item style="flex: 1">
+				<Sub3 v-if="ifList.includes(2)"></Sub3>
+			</swiper-item>
+			<swiper-item style="flex: 1">
+				<Sub4 v-if="ifList.includes(3)"></Sub4>
+			</swiper-item>
+			<swiper-item style="flex: 1">
+				<Sub5 v-if="ifList.includes(4)"></Sub5>
+			</swiper-item>
+		</swiper>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui, SnTabParams } from '@/uni_modules/sinle-ui'
+	import Sub1 from '@/pages/templates/swiper-tabs-sub/sub1.uvue'
+	import Sub2 from '@/pages/templates/swiper-tabs-sub/sub2.uvue'
+	import Sub3 from '@/pages/templates/swiper-tabs-sub/sub3.uvue'
+	import Sub4 from '@/pages/templates/swiper-tabs-sub/sub4.uvue'
+	import Sub5 from '@/pages/templates/swiper-tabs-sub/sub5.uvue'
+	
+	const curTab = ref(0)
+	
+	const ifList = ref([0] as number[])
+	const disableTouch = ref(false)
+	
+	function swiperChange(event: UniSwiperChangeEvent) {
+		curTab.value = event.detail.current
+	}
+	
+	const tabs = [
+		{
+			id: 'tab1',
+			text: 'Tab1 Alpha',
+		},
+		{
+			id: 'tab2',
+			text: 'Tab2 Beta',
+		},
+		{
+			id: 'tab3',
+			text: 'Tab3 Gamma',
+		},
+		{
+			id: 'tab4',
+			text: 'Tab4 Delta',
+		},
+		{
+			id: 'tab5',
+			text: 'Tab5 Epsilon',
+		}
+	] as SnTabParams[]
+	
+	function changeTab(index: number) {
+		if (ifList.value.length != tabs.length) {
+			const before = Math.max(0, index-1)
+			const after = Math.min(tabs.length - 1, index+1)
+			if (ifList.value.includes(index)){
+				disableTouch.value = true
+				setTimeout(()=>{
+					if (!ifList.value.includes(before)) {
+						ifList.value.push(before)
+					}
+					if (!ifList.value.includes(after)) {
+						ifList.value.push(after)
+					}
+					disableTouch.value = false
+				}, 400)
+			} else {
+				ifList.value.push(index)
+			}
+		}
+	}
+	
+	onReady(() => {
+		changeTab(curTab.value)
+	})
+</script>
+
+<style lang="scss">
+	.com-item {
+		padding: 10px 0;
+	}
+</style>

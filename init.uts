@@ -1,6 +1,6 @@
 import { $snui } from './uni_modules/sinle-ui'
 
-const defaultSettings = {
+const defaultSettings : UTSJSONObject = {
 	'theme': 'light',
 	'autoTheme': true,
 	'fontSize': 14,
@@ -9,16 +9,18 @@ const defaultSettings = {
 }
 
 export function init() {
-		// 初始化应用设置
-		let configs = $snui.store.get('app_settings') as UTSJSONObject | null
-		if (configs == null) {
-			$snui.store.set('app_settings', defaultSettings, true)
-			configs = defaultSettings
-		}
-		$snui.configs.app.theme = `${configs['theme'] ?? 'light'}`
-		$snui.configs.app.autoTheme = configs['autoTheme'] == true
-		$snui.configs.font.baseSize = `${configs['fontSize'] ?? 14}`
-		$snui.configs.radius.baseSize = `${configs['borderRadius'] ?? 12}`
-		$snui.configs.app.grayMode = configs['grayMode'] == true
-	
+	// 初始化应用设置
+
+	let configs = $snui.store.get('app_settings') as UTSJSONObject | null
+
+	if (configs == null) {
+		configs = defaultSettings
+		$snui.store.set('app_settings', defaultSettings, true)
+	}
+	$snui.configs.app.theme = `${configs['theme'] ?? 'light'}`
+	$snui.configs.app.autoTheme = configs['autoTheme'] == true
+	$snui.configs.font.baseSize = `${configs['fontSize'] ?? 14}`
+	$snui.configs.radius.baseSize = `${configs['borderRadius'] ?? 12}`
+	$snui.configs.app.grayMode = configs['grayMode'] == true
+
 }

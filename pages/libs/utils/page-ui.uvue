@@ -1,0 +1,89 @@
+<template>
+	<sn-page>
+	<sn-alert type="warning"
+	text="部分 API 在此展示无意义，请查看文档了解更多"></sn-alert>
+	<com-card title="预览图片"
+	note="全局 API 预览图片，多端样式统一。支持手势缩放、拖拽，支持长按唤出自定义菜单。\n可以在任意位置调用，无需放置组件。">
+		<sn-button class="mt-10"
+		type="primary"
+		text="预览"
+		@click="previewImage"></sn-button>
+	</com-card>
+	<com-card title="显示轻提示"
+	note="根据配置信息显示全局轻提示。\n与 sn-toast 不同的是，它可以在任意位置调用，无需放置组件。">
+		<sn-button class="mt-10"
+		type="primary"
+		text="显示"
+		@click="showToast"></sn-button>
+	</com-card>
+	<com-card title="显示模态框"
+	note="根据配置信息显示全局模态框。\n与 sn-modal 不同的是，它可以在任意位置调用，无需放置组件。">
+		<sn-button class="mt-10"
+		type="primary"
+		text="显示"
+		@click="showModal"></sn-button>
+	</com-card>
+	<com-card title="打开操作菜单"
+	note="根据配置信息显示全局操作菜单。\n与 sn-actionsheet 不同的是，它可以在任意位置调用，无需放置组件。">
+		<sn-button class="mt-10"
+		type="primary"
+		text="显示"
+		@click="showActionsheet"></sn-button>
+	</com-card>
+	<sn-gap></sn-gap>
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui, SnShowActionsheetConfig, SnActionsheetItem, SnPreviewImageConfig, SnTabParams } from '@/uni_modules/sinle-ui'
+	const snu = $snui.utils
+	
+	function previewImage() {
+		snu.previewImage({
+			urls: [
+				'https://q0.itc.cn/q_70/images03/20240309/a2b719342f7b478c8633c0ade4792e46.jpeg',
+			],
+		} as SnPreviewImageConfig)
+		
+	}
+	
+	function showActionsheet() {
+		snu.showActionsheet({
+			actions: [
+				{
+					text: '选项1'
+				},
+				{
+					text: '选项2',
+				},
+				{
+					text: '选项3',
+				},
+				{
+					text: '选项4',
+				}
+			]
+		} as SnShowActionsheetConfig)
+	}
+	
+	function showToast() {
+		snu.showToast({
+			text: '轻提示',
+			loading: true
+		})
+	}
+	
+	function showModal() {
+		snu.showModal({
+			title: 'Modal',
+			content: 'Hello World',
+			buttonType: 'float',
+			preventBack: true,
+		})
+	}
+	
+</script>
+
+<style>
+		
+</style>

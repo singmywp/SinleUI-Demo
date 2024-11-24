@@ -1,4 +1,5 @@
 <template>
+	<sn-page>
 	<com-card title="生成随机整数"
 	note="生成一个介于最小值和最大值之间的随机整数。">
 		<sn-button type="primary"
@@ -23,6 +24,8 @@
 		<com-card :title="d3"
 		bgColor="$info"></com-card>
 	</com-card>
+	<sn-gap></sn-gap>
+	</sn-page>
 </template>
 
 <script setup>

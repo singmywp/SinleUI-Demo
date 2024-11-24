@@ -17,7 +17,7 @@
 				<sn-form-item label="禁用">
 					<sn-switch v-model="(configs['disabled'] as boolean)"></sn-switch>
 				</sn-form-item>
-				<sn-form-item label="遮罩关闭">
+				<sn-form-item label="点击遮罩关闭">
 					<sn-switch v-model="(configs['maskClose'] as boolean)"></sn-switch>
 				</sn-form-item>
 				<sn-form-item label="阻止返回事件">
@@ -180,8 +180,8 @@
 		title: '标题',
 		contentColor: '',
 		contentSize: '',
-		contentFont: 'misans-normal',
-		titleFont: 'misans-semibold',
+		contentFont: '',
+		titleFont: '',
 		titleColor: '',
 		titleSize: '',
 		confirmText: '确定',

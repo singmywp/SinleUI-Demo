@@ -83,7 +83,8 @@
 			</sn-form>
 		</com-card>
 		<sn-gap :height="tabbarHeight"></sn-gap>
-		<sn-tabbar :data="data"
+		<sn-tabbar v-model:height="tabbarHeight"
+		:data="data"
 		:showPages="false"
 		:bgColor="configs['bgColor']"
 		:margin="configs['margin']"
@@ -101,8 +102,7 @@
 		:activeIconColor="configs['activeIconColor']"
 		:iconSize="configs['iconSize']"
 		:imageSize="configs['imageSize']"
-		:disabled="configs['disabled']"
-		@heightchange="onHeightchange">
+		:disabled="configs['disabled']">
 		</sn-tabbar>
 		<sn-toast ref="toastEle"></sn-toast>
 	</sn-page>
@@ -176,11 +176,6 @@
 			}
 		] as SnTabbarItem[]
 	})
-	
-	function onHeightchange(height: number) {
-		tabbarHeight.value = snu.addPx(height)
-	}
-	
 	function goTo(url:string){
 		uni.navigateTo({
 			url

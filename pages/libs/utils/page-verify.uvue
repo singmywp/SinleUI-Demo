@@ -1,4 +1,5 @@
 <template>
+	<sn-page>
 		<com-card title="是否为日期"
 		note="验证输入的值是否为有效的日期。\n如果传入Date构造器的参数字符串不合法，在web平台会抛出 Invalid Date 异常；在Android/IOS平台，会转换为程序执行时的时间">
 			<sn-text :text="`数据【${d1}】  校验结果：${snu.isDate(d1)}`"></sn-text>
@@ -94,6 +95,8 @@
 			<sn-text :text="`数据【${d37}】校验结果：${snu.isFloat(d37)}`"></sn-text>
 			<sn-text :text="`数据【${d38}】校验结果：${snu.isFloat(d38)}`"></sn-text>
 		</com-card>
+		<sn-gap></sn-gap>
+	</sn-page>
 </template>
 
 <script setup>

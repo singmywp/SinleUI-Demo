@@ -8,6 +8,8 @@
 			borderRadius="$normal"
 			bgColor="$info"
 			@click="gestureEvent" 
+			@scale="gestureScaleEvent"
+			@rotate="gestureRotateEvent"
 			@longpress="gestureEvent" 
 			@dbclick="gestureEvent"
 			@touchmove="gestureEvent" 
@@ -16,6 +18,16 @@
 			@touchcancel="gestureEvent">
 				<sn-text type="info" 
 				:text="gestureEventText"
+				:style="{
+					wordBreak: 'break-all'
+				}"></sn-text>
+				<sn-text type="info"
+				:text="gestureScaleEventText"
+				:style="{
+					wordBreak: 'break-all'
+				}"></sn-text>
+				<sn-text type="info"
+				:text="gestureRotateEventText"
 				:style="{
 					wordBreak: 'break-all'
 				}"></sn-text>
@@ -59,17 +71,34 @@
 </template>
 
 <script setup>
-	import { $snui, SnPointerEvent } from '@/uni_modules/sinle-ui'
+	import { $snui, SnPointerEvent, SnTouchEvent, SnScaleEvent, SnRotateEvent } from '@/uni_modules/sinle-ui'
 	const colors = $snui.colors
 	
 	const gestureEventText = ref('')
+	const gestureScaleEventText = ref('')
+	const gestureRotateEventText = ref('')
 	const nativeGestureEventText = ref('')
 	const nativeGestureTouchEventText = ref('')
 
 	function gestureEvent(event : any) {
+		if (event instanceof SnTouchEvent) {
+			(event as SnTouchEvent).event.preventDefault()
+		}
 		let strE = JSON.stringify(event)
 		gestureEventText.value = strE
 	}
+	
+	function gestureScaleEvent(event : SnScaleEvent) {
+		let strE = JSON.stringify(event)
+		gestureScaleEventText.value = strE
+	}
+	
+	function gestureRotateEvent(event : SnRotateEvent) {
+		let strE = JSON.stringify(event)
+		gestureRotateEventText.value = strE
+	}
+		
+	
 	function nativeGestureEvent(event : any) {
 		let strE = JSON.stringify(event)
 		let eveS = JSON.parse(strE) as UTSJSONObject

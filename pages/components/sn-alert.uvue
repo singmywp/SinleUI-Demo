@@ -32,14 +32,11 @@
 		</com-card>
 		<com-card title="自定义样式"
 		note="更多样式，随心而变">
-			<sn-alert class="br-16! border-w-4! border-c-black!"
+			<sn-alert borderRadius="$normal"
 			textColor="#000" 
 			textSize="18px"
-			bgColor="$front"
-			:text="'\u3000天下皆知美之为美，斯恶已，皆知善之为善，斯不善已'" 
-			:custom-style="{
-			border:`4px solid ${colors.title} !important`
-		}"></sn-alert>
+			bgColor="#c3c3c3"
+			:text="'\u3000天下皆知美之为美，斯恶已，皆知善之为善，斯不善已'"></sn-alert>
 		</com-card>
 	</sn-page>
 </template>

@@ -1,0 +1,19 @@
+<template>
+	<com-card
+	padding="20px"
+	style="margin: 100px auto; width: auto;">
+		<sn-text text="Tab3"
+		size="$5"
+		align="center"
+		bold></sn-text>
+	</com-card>
+	
+</template>
+
+<script setup>
+		
+</script>
+
+<style>
+		
+</style>

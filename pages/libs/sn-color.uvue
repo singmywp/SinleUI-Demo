@@ -75,7 +75,11 @@
 	}
 	
 	onLoad((_) => {
-		let colorGroup = ['#4f78ff', '#f6b142', '#39c478', '#fc5454']
+		const colorGroup = ['#4f78ff', '#f6b142', '#39c478', '#fc5454']
+		const primary = '#4f78ff'
+		const warning = '#f6b142'
+		const success = '#39c478'
+		const error = '#fc5454'
 		let paletteTmp = [] as string[][]
 		for (let j = 0; j < colorGroup.length; j++) {
 			paletteTmp.push(colorLib.generate(colorGroup[j], {
@@ -91,20 +95,21 @@
 		let apcaTmp = [] as UTSJSONObject[]
 		
 		for (let i = 1; i <= 10; i++) {
-			lightenTmp.push(tinyColor(colorGroup[0]).lighten(i * 10).toHexString())
+			lightenTmp.push(tinyColor(primary).lighten(i * 10).toHexString())
 		}
 		(colorsArr.value)['lighten'] = lightenTmp
 		
 		for (let i = 1; i <= 10; i++) {
-			darkenTmp.push(tinyColor(colorGroup[2]).darken(i * 10).toHexString())
+			darkenTmp.push(tinyColor(success).darken(i * 10).toHexString())
 		}
 		(colorsArr.value)['darken'] = darkenTmp;
 		
-		(colorsArr.value)['mean'] = [colorGroup[1], colorLib.mean([tinyColor(colorGroup[1]), tinyColor(colorGroup[3])]).toHexString(), colorGroup[3]]
+		let arr = [warning, error];
+		(colorsArr.value)['mean'] = [warning, colorLib.mean([warning, error]).toHexString(), error]
 		
-		let complementColor = tinyColor(colorGroup[0]).complement().toHexString();
+		let complementColor = tinyColor(primary).complement().toHexString();
 		(colorsArr.value)['complement'] = [
-			{ v: colorGroup[0], k: Math.trunc(tinyColor(colorGroup[0]).toHsl().h) },
+			{ v: primary, k: Math.trunc(tinyColor(primary).toHsl().h) },
 			{ v: complementColor, k: Math.trunc(tinyColor(complementColor).toHsl().h) },
 		]
 		

@@ -1,11 +1,12 @@
-
+import { SnToastyConfig, SnNativeError } from '../interface.uts'
 import Toasty from "es.dmoral.toasty.Toasty"
 import Gravity from "android.view.Gravity"
 import Toast from "android.widget.Toast"
-import { SnToastConfig } from "../interface.uts"
 
 
-export function toast(config: SnToastConfig){
+
+// 提示框
+export function toast(config: SnToastyConfig){
 	const context = UTSAndroid.getAppContext()!
 	const type = config.type ?? 'normal'
 	const duration = config.duration ?? 'short'

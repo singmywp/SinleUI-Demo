@@ -1,5 +1,5 @@
 <template>
-	
+	<sn-page>
 	<com-card title="格式化数字"
 	note="返回给定数字的格式化结果，如果数字为整数，则返回整数部分（例如 12.0 转换为 12）；如果数字为小数，则返回原数字。">
 		<sn-text :text="`数字【${d1}】\n转换结果：${snu.formatNumber(d1)}`"></sn-text>
@@ -44,6 +44,8 @@
 		<sn-text :text="`\n数据【'${d12}'】\n校验结果：${snu.isNumber(d12)}`"></sn-text>
 		<sn-text :text="`\n数据【${d13}】\n校验结果：${snu.isNumber(d13)}`"></sn-text>
 	</com-card>
+	<sn-gap></sn-gap>
+	</sn-page>
 </template>
 
 <script setup>

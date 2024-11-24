@@ -12,6 +12,13 @@
 			scrollable
 			:data="d2"></sn-tabs>
 		</com-card>
+		<com-card title="动画"
+		note="支持滑动和推压两种动画">
+			<sn-tabs v-model="v5"
+			scrollable
+			mode="push"
+			:data="d5"></sn-tabs>
+		</com-card>
 		<com-card title="禁用"
 		note="可为子项单独设置禁用">
 			<sn-tabs v-model="v3"
@@ -33,84 +40,120 @@
 	const v2 = ref(0)
 	const v3 = ref(0)
 	const v4 = ref(0)
+	const v5 = ref(0)
 	
 	const d1 = [
 		{
-			id: 'tab1',
+			id: 'd1tab1',
 			text: '选项1'
 		},
 		{
-			id: 'tab2',
+			id: 'd1tab2',
 			text: '选项2'
 		},
 		{
-			id: 'tab3',
+			id: 'd1tab3',
 			text: '选项3'
 		}
 	] as SnTabParams[]
 	
 	const d2 = [
 		{
-			id: 'tab1',
+			id: 'd2tab1',
 			text: '选项1'
 		},
 		{
-			id: 'tab2',
+			id: 'd2tab2',
 			text: '选项2'
 		},
 		{
-			id: 'tab3',
+			id: 'd2tab3',
 			text: '选项3'
 		},
 		{
-			id: 'tab4',
+			id: 'd2tab4',
 			text: '选项4'
 		},
 		{
-			id: 'tab5',
+			id: 'd2tab5',
 			text: '选项5'
 		},
 		{
-			id: 'tab6',
+			id: 'd2tab6',
 			text: '选项6'
 		},
 		{
-			id: 'tab7',
+			id: 'd2tab7',
 			text: '选项7'
 		},
 		{
-			id: 'tab8',
+			id: 'd2tab8',
 			text: '选项8'
+		}
+	] as SnTabParams[]
+	
+	const d5 = [
+		{
+			id: 'd5tab1',
+			text: '选项1 Alpha'
+		},
+		{
+			id: 'd5tab2',
+			text: '选项2 Beta'
+		},
+		{
+			id: 'd5tab3',
+			text: '选项3 Gamma'
+		},
+		{
+			id: 'd5tab4',
+			text: '选项4 Delta'
+		},
+		{
+			id: 'd5tab5',
+			text: '选项5 Epsilon'
+		},
+		{
+			id: 'd5tab6',
+			text: '选项6 Zeta'
+		},
+		{
+			id: 'd5tab7',
+			text: '选项7 Eta'
+		},
+		{
+			id: 'd5tab8',
+			text: '选项8 Theta'
 		}
 	] as SnTabParams[]
 	
 	const d3 = [
 		{
-			id: 'tab1',
+			id: 'd3tab1',
 			text: '选项1'
 		},
 		{
-			id: 'tab2',
+			id: 'd3tab2',
 			text: '选项2',
 			disabled: true
 		},
 		{
-			id: 'tab3',
+			id: 'd3tab3',
 			text: '选项3'
 		},
 		{
-			id: 'tab4',
+			id: 'd3tab4',
 			text: '选项4'
 		}
 	] as SnTabParams[]
 	
 	const d4 = [
 		{
-			id: 'tab1',
+			id: 'd4tab1',
 			text: '选项1'
 		},
 		{
-			id: 'tab2',
+			id: 'd4tab2',
 			text: '选项2',
 			badgeConfig: {
 				mode: 'text',
@@ -118,14 +161,14 @@
 			}
 		},
 		{
-			id: 'tab3',
+			id: 'd4tab3',
 			text: '选项3',
 			badgeConfig: {
 				value: 66
 			}
 		},
 		{
-			id: 'tab4',
+			id: 'd4tab4',
 			text: '选项4',
 			badgeConfig: {
 				mode: 'dot',

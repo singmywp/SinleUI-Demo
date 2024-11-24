@@ -60,13 +60,13 @@
 </template>
 
 <script setup>
-	import { $snui, SnTimerTime } from '@/uni_modules/sinle-ui'
+	import { $snui, SnTime } from '@/uni_modules/sinle-ui'
 	const colors = $snui.colors
 	const running = ref(false)
-	const timedata = ref({d:0,h:0,m:0,s:0,ms:0} as SnTimerTime)
+	const timedata = ref({d:0,h:0,m:0,s:0,ms:0} as SnTime)
 	const timerEle = ref(null as SnTimerComponentPublicInstance | null)
 	
-	function onChange(data: SnTimerTime){
+	function onChange(data: SnTime){
 		timedata.value = data
 	}
 	

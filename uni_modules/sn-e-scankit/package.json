@@ -1,7 +1,7 @@
 {
   "id": "sn-e-scankit",
   "displayName": "sn-e-scankit",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "该组件是 SinleUI 框架的扩展插件，集成了华为 ScanKit 扫码能力，扫描速度及准确率极高",
   "keywords": [
     "sn-e-scankit"
@@ -26,7 +26,7 @@
     "declaration": {
       "ads": "无",
       "data": "插件不采集任何数据",
-      "permissions": "无"
+      "permissions": "<uses-permission android:name=\"android.permission.CAMERA\" />\n\n<uses-permission android:name=\"android.permission.FLASHLIGHT\" />\n\n<uses-permission android:name=\"android.permission.READ_MEDIA_IMAGES\" />\n\n<uses-permission android:name=\"android.permission.READ_MEDIA_VIDEO\" />\n\n<uses-permission android:name=\"android.permission.READ_MEDIA_AUDIO\" />\n\n<uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" android:maxSdkVersion=\"32\" />\n\n<uses-permission android:name=\"android.permission.READ_MEDIA_VISUAL_USER_SELECTED\" />\n\n"
     },
     "npmurl": ""
   },
@@ -45,10 +45,11 @@
           "vue3": "y"
         },
         "App": {
-          "app-android": {
-            "minVersion": "23"
-        },
-          "app-ios": "n"
+            "app-android": {
+                "minVersion": "23"
+            },
+            "app-ios": "n",
+            "app-harmony": "u"
         },
         "H5-mobile": {
           "Safari": "n",

@@ -46,7 +46,7 @@
 			activeTextColor="$text"
 			:textColor="colors[`info${theme=='light'?'Dark':''}`]"
 			:customItemStyle="{
-				fontFamily:'misans-semibold'
+				fontWeight:'bold'
 			}" 
 			:customStyle="{
 				margin:'10px',
@@ -67,7 +67,7 @@
 				borderBottom:'2px solid ' + colors.primary
 			}" 
 			:customItemStyle="{
-				fontFamily:'misans-semibold'
+				fontWeight:'bold'
 			}"></sn-subsection>
 		</com-card>
 	</sn-page>

@@ -33,7 +33,7 @@
 			@button-click="buttonClicked"></sn-topbar>
 		</com-card>
 		<com-card title="菜单"
-		note="集成了常见的菜单悬浮窗，可与features连用，极大地扩展了导航栏的按钮位☺\n（请一定要将有菜单的导航栏置顶）">
+		note="集成了常见的菜单悬浮窗，可与features连用，极大地扩展了导航栏的按钮位\n（请一定要将有菜单的导航栏置顶）">
 			<sn-card>
 				<sn-row justify="space-between">
 					<sn-text text="启用菜单"></sn-text>
@@ -49,7 +49,26 @@
 			titleColor="$primaryDark" 
 			borderRadius="0"
 			:fixed="false" 
-			:backButton="false"></sn-topbar>
+			:backButton="false">
+				<template #header>
+					<view :style="[{
+						flexDirection: 'row',
+						justifyContent: 'space-around',
+						border: `1px solid ${colors.line}`,
+						borderRadius: $snui.configs.radius.circle,
+						padding: '3px 8px'
+					} as Map<string,any>]">
+						<sn-icon name="arrow-left-line"
+						size="$4"
+						style="padding-right: 5px;"
+						@click="alarm('触发事件：返回上一级页面')"></sn-icon>
+						<sn-icon name="home-4-line"
+						size="$4"
+						style="border-left: 1px solid #ededed;padding-left: 5px;"
+						@click="alarm('触发事件：返回首页')"></sn-icon>
+					</view>
+				</template>
+			</sn-topbar>
 		</com-card>
 		<sn-gap></sn-gap>
 	</sn-page>
@@ -58,13 +77,14 @@
 <script setup>
 	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
 	const colors = $snui.colors
+	const snu = $snui.utils
 	
 	const features = [{ icon: 'refresh-line', id: 'refresh' }, { icon: 'delete-bin-4-line', id: 'remove' }] as SnDataItem[]
 	const menuData = [{ icon: 'refresh-line', text: '刷新', id: 'refresh' }, { icon: 'search-2-line', text: '搜索', id: 'search' }, { icon: 'check-line', text: '提交', id: 'submit' }, { icon: 'information-line', text: '关于', id: 'about' }] as SnDataItem[]
 	const enableMenu = ref(false)
 	
 	function buttonClicked(e : SnDataItem) {
-		uni.showModal({
+		snu.showModal({
 			title: "按钮点击事件",
 			content: JSON.stringify(e),
 			showCancel: false
@@ -72,9 +92,17 @@
 	}
 	
 	function menuClicked(e : SnDataItem) {
-		uni.showModal({
+		snu.showModal({
 			title: "菜单点击事件",
 			content: JSON.stringify(e),
+			showCancel: false
+		})
+	}
+	
+	function alarm(text: string) {
+		snu.showModal({
+			title: '提示',
+			content: text,
 			showCancel: false
 		})
 	}

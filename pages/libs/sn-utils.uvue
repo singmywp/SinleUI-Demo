@@ -1,9 +1,10 @@
 <template>
-	<sn-page>
+	<sn-page padding="0">
 		<sn-topbar title="Utils 工具库"></sn-topbar>
 		<sn-tabs v-model="curTab"
 		scrollable
 		bgColor="$page"
+		aniTime="200ms"
 		:data="tabs"
 		@change="changeTab"
 		:customStyle="{
@@ -12,62 +13,38 @@
 			top: $snui.configs.page.topbarHeight
 		}"></sn-tabs>
 		<sn-gap height="40px"></sn-gap>
-		<view v-if="ifList.includes(0)"
-		:style="{
-			visibility: curTab==0?'visible':'hidden',
-			height: curTab==0?'':'0'
-		}">
-			<page-text></page-text>
-		</view>
-		<view v-if="ifList.includes(1)"
-		:style="{
-			visibility: curTab==1?'visible':'hidden',
-			height: curTab==1?'':'0'
-		}">
-			<page-verify></page-verify>
-		</view>
-		<view v-if="ifList.includes(2)" 
-		:style="{
-			visibility: curTab==2?'visible':'hidden',
-			height: curTab==2?'':'0'
-		}">
-			<page-os></page-os>
-		</view>
-		<view v-if="ifList.includes(3)"
-		:style="{
-			visibility: curTab==3?'visible':'hidden',
-			height: curTab==3?'':'0'
-		}">
-			<page-platform></page-platform>
-		</view>
-		<view v-if="ifList.includes(4)"
-		:style="{
-			visibility: curTab==4?'visible':'hidden',
-			height: curTab==4?'':'0'
-		}">
-			<page-random></page-random>
-		</view>
-		<view v-if="ifList.includes(5)"
-		:style="{
-			visibility: curTab==5?'visible':'hidden',
-			height: curTab==5?'':'0'
-		}">
-			<page-other></page-other>
-		</view>
-		<view v-if="ifList.includes(6)"
-		:style="{
-			visibility: curTab==6?'visible':'hidden',
-			height: curTab==6?'':'0'
-		}">
-			<page-sort></page-sort>
-		</view>
-		<view v-if="ifList.includes(7)"
-		:style="{
-			visibility: curTab==7?'visible':'hidden',
-			height: curTab==7?'':'0'
-		}">
-			<page-permission></page-permission>
-		</view>
+		<swiper :current="curTab"
+		:disable-touch="disableTouch"
+		@change="swiperChange"
+		style="flex: 1">
+		<swiper-item style="flex: 1;overflow: visible;">
+			<page-text v-if="ifList.includes(0)"></page-text>
+		</swiper-item>
+		<swiper-item style="flex: 1">
+			<page-verify v-if="ifList.includes(1)"></page-verify>
+		</swiper-item>
+		<swiper-item style="flex: 1">
+			<page-os v-if="ifList.includes(2)"></page-os>
+		</swiper-item>
+		<swiper-item style="flex: 1">
+			<page-platform v-if="ifList.includes(3)"></page-platform>
+		</swiper-item>
+		<swiper-item style="flex: 1">
+			<page-random v-if="ifList.includes(4)"></page-random>
+		</swiper-item>
+		<swiper-item style="flex: 1">
+			<page-other v-if="ifList.includes(5)"></page-other>
+		</swiper-item>
+		<swiper-item style="flex: 1">
+			<page-sort v-if="ifList.includes(6)"></page-sort>
+		</swiper-item>
+		<swiper-item style="flex: 1">
+			<page-permission v-if="ifList.includes(7)"></page-permission>
+		</swiper-item>
+		<swiper-item style="flex: 1">
+			<page-ui v-if="ifList.includes(8)"></page-ui>
+		</swiper-item>
+		</swiper>
 	</sn-page>
 </template>
 
@@ -81,13 +58,17 @@
 	import PageOther from '@/pages/libs/utils/page-other.uvue'
 	import PageSort from '@/pages/libs/utils/page-sort.uvue'
 	import PagePermission from '@/pages/libs/utils/page-permission.uvue'
+	import PageUi from '@/pages/libs/utils/page-ui.uvue'
 	
-	
-	const colors = $snui.colors
 	
 	const curTab = ref(0)
 	
 	const ifList = ref([0] as number[])
+	const disableTouch = ref(false)
+	
+	function swiperChange(event: UniSwiperChangeEvent) {
+		curTab.value = event.detail.current
+	}
 	
 	const tabs = [
 		{
@@ -121,14 +102,37 @@
 		{
 			id: 'permission',
 			text: '权限类',
-		}
+		},
+		{
+			id: 'ui',
+			text: '界面类',
+		},
 	] as SnTabParams[]
 	
 	function changeTab(index: number) {
-		if (!ifList.value.includes(index)) {
-			ifList.value.push(index)
+		if (ifList.value.length != tabs.length) {
+			const before = Math.max(0, index-1)
+			const after = Math.min(tabs.length - 1, index+1)
+			if (ifList.value.includes(index)){
+				disableTouch.value = true
+				setTimeout(()=>{
+					if (!ifList.value.includes(before)) {
+						ifList.value.push(before)
+					}
+					if (!ifList.value.includes(after)) {
+						ifList.value.push(after)
+					}
+					disableTouch.value = false
+				}, 400)
+			} else {
+				ifList.value.push(index)
+			}
 		}
 	}
+	
+	onReady(() => {
+		changeTab(curTab.value)
+	})
 	
 	onLoad((opt: OnLoadOptions) => {
 		let index = opt['page']

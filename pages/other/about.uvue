@@ -60,7 +60,6 @@
 	
 	const fonts = [
 		{ name: '阿里巴巴普惠体', description: '免费商用', type: 'success' },
-		{ name: 'Mi Sans', description: '免费商用', type: 'success' },
 		{ name: 'Remix Icon', description: '免费商用', type: 'success' },
 	]
 </script>

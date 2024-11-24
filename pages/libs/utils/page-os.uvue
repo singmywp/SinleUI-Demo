@@ -1,4 +1,5 @@
 <template>
+	<sn-page>
 	<!-- #ifndef APP -->
 	<com-card title="请前往 App 端查看"></com-card>
 	<!-- #endif -->
@@ -10,7 +11,7 @@
 		@click="snu.vibrate()"></sn-button>
 	</com-card>
 	<com-card title="系统分享"
-	note="调用系统分享功能，分享文本、图片、视频、音频、文档等任何文件至其他应用。">
+	note="(已废弃,请改用官方API) 调用系统分享功能，分享文本、图片、视频、音频、文档等任何文件至其他应用。">
 		<sn-button text="分享文本"
 		@click="shareText()"></sn-button>
 		<sn-button class="m-t-10"
@@ -27,46 +28,85 @@
 		@click="shareFile()"></sn-button>
 	</com-card>
 	<!-- #endif -->
+	<com-card title="选择媒体文件"
+	note="允许用户调用系统界面从设备选择图片或视频文件。">
+		<sn-button text="选择图片"
+		@click="chooseFile('image')"></sn-button>
+		<sn-button class="m-t-10"
+		text="选择视频"
+		@click="chooseFile('video')"></sn-button>
+		<sn-button class="m-t-10"
+		text="图片/视频混选"
+		@click="chooseFile('all')"></sn-button>
+	</com-card>
+	<sn-gap></sn-gap>
+	</sn-page>
 </template>
 
 <script setup>
-	import { $snui, SnShareConfig } from '@/uni_modules/sinle-ui'
+	import { $snui, SnShowModalConfig, SnFile } from '@/uni_modules/sinle-ui'
 	const snu = $snui.utils
+	const colors = $snui.colors
 	
+	function chooseFile(type: string){
+		snu.chooseMedia({
+			type: type,
+			multiple: type=='all',
+			success: (files: SnFile[]) => {
+				const paths = files.map((file: SnFile) => file.path)
+				snu.showModal({
+					title: '选择结果',
+					content: paths.join('\n'),
+					showCancel: false
+				})
+			},
+			fail: (err: any) => {
+				snu.showModal({
+					title: '选择失败',
+					content: JSON.stringify(err),
+					showCancel: false,
+					confirmTextColor: colors.value.errorDark
+				})
+			}
+		})
+	}
+	
+	// #ifdef APP
 	function shareText(){
-		snu.share({
+		uni.shareWithSystem({
 			type: 'text',
-			content: '这是一段文本'	
-		} as SnShareConfig)
+			summary: '这是一段文本'
+		})
 	}
 	
 	function shareImage(){
-		snu.share({
+		uni.shareWithSystem({
 			type: 'image',
-			path: 'static/logo.png'	
-		} as SnShareConfig)
+			imagePaths: ['/static/logo.png']
+		})
 	}
 	
 	function shareVideo(){
-		snu.share({
+		uni.shareWithSystem({
 			type: 'video',
-			path: 'static/media/test1.mp4'	
-		} as SnShareConfig)
+			videoPaths: ['/static/media/test1.mp4']
+		})
 	}
 	
 	function shareAudio(){
-		snu.share({
+		uni.shareWithSystem({
 			type: 'audio',
-			path: 'static/media/jump.mp3'	
-		} as SnShareConfig)
+			audioPaths: ['/static/media/jump.mp3']
+		})
 	}
 	
 	function shareFile(){
-		snu.share({
+		uni.shareWithSystem({
 			type: 'file',
-			path: "static/files/宪法.docx"	
-		} as SnShareConfig)
+			filePaths: ["/static/files/宪法.docx"]
+		})
 	}
+	// #endif
 </script>
 
 <style>

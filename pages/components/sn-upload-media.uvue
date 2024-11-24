@@ -5,16 +5,20 @@
 		note="本组件用于快速上传图片/视频媒体文件，分为基础版和 uniCloud 版"></com-card>
 		<com-card title="基础版"
 		note="基于 uni.uploadFile，可上传到开发者服务器">
-			<sn-upload-media :url="testUrl"
-			></sn-upload-media>
+			<sn-upload-media :url="testUrl"></sn-upload-media>
 		</com-card>
 		<com-card title="uniCloud 版"
-		note="基于 uniCloud.uploadFile，需先绑定服务空间\n（此 Demo 未绑定）">
+		note="基于 uniCloud.uploadFile，需先绑定服务空间">
 			<sn-upload-media-unicloud></sn-upload-media-unicloud>
 		</com-card>
 		<com-card title="上传视频"
 		note="支持视频上传，支持显示缩略图。">
 			<sn-upload-media mode="video" :url="testUrl"></sn-upload-media>
+		</com-card>
+		<com-card title="视频图片混传"
+		note="mode 设为 all 以支持视频图片混传，使用系统相册选择">
+			<sn-upload-media mode="all"
+			:url="testUrl"></sn-upload-media>
 		</com-card>
 		<com-card title="限制数量"
 		note="可以限制选择数量以及最大总数量.图片每次最多选择 20 个，视频每次最多选择1个。">

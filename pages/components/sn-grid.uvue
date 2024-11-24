@@ -35,7 +35,8 @@
 		<com-card title="可滚动"
 		note="套一层 scroll-view 就支持滚动了哦">
 			<scroll-view direction="horizontal">
-				<sn-grid-group class="w-200p" :col="8">
+				<sn-grid-group :col="8"
+				style="width: 200%">
 					<sn-grid-item v-for="(_, index) in array16"
 					:key="index">
 						<sn-icon name="image-line"></sn-icon>

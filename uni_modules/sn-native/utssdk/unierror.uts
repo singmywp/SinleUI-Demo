@@ -1,0 +1,51 @@
+export const UniErrorSubject = 'sn-native';
+
+export type SnErrorCode = 0 | 1 | 3 | 1300002 | 9010002 | 9010005 | 9010006 | 9010007 | 9010008 | 9010009 | 9010010 | 9010011 | 9010012 | 9010013 | 9010014 | 9010015 | 9010051 | 9010052 | 9010053 | 9010054;
+
+const SnErrors : Map<SnErrorCode, string> = new Map([
+  [0, 'ok'],
+  [1, 'cancel'],
+  [3, 'system permission denied'],
+  [1300002, 'No such file or directory'],
+  [9010002, 'not support on this platform'],
+  [9010005, 'no returned data'],
+  [9010006, 'cannot find object "uniCloud", please bind uniCloud first'],
+  [9010007, 'please bind URL first'],
+  [9010008, 'fail to read file'],
+  [9010009, 'fail to upload file'],
+  [9010010, 'fail to choose file'],
+  [9010011, 'brothers or parent of sn-backtop must be sn-scroll, sn-longlist or sn-page'],
+  [9010012, 'v-model must be a length-2 number[]'],
+  [9010013, 'id of param feature\'s item cannot be "menu"'],
+  [9010014, 'param "digit" must be a positive integer'],
+  [9010015, 'this storeKey already exists, please try another one'],
+  [9010051, 'param "content"  not provided'],
+  [9010052, 'param "path"  not provided'],
+  [9010053, 'invalid param "path"'],
+  [9010054, 'failed to open dialogPage'],
+]);
+
+
+type module = 'utils' | 'store' | 'components'
+
+/**
+ * @name SnNativeError
+ * @description 创建一个 SinleUI 错误实例，用于处理模块中特定 API 的错误。
+ * @param {string} moduleName - 发生错误的模块名称。
+ * @param {string} apiname - 发生错误的 API 名称。
+ * @param {SnErrorCode} errCode - 错误代码。
+ * @returns {void}
+ * @example
+ * // 示例用法：创建一个 SinleUI 错误实例
+ * const error = new SnNativeError('utils', 'chooseMedia', 1);
+ */
+
+export class SnNativeError extends UniError {
+  constructor(moduleName: module, apiname: string, errCode : SnErrorCode, cause : Error | null = null) {
+    super();
+    this.errSubject = `${UniErrorSubject}-${moduleName}-${apiname}`;
+    this.errCode = errCode;
+    this.errMsg = SnErrors.get(errCode) ?? "";
+	this.cause = cause;
+  }
+}

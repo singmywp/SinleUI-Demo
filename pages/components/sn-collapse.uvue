@@ -8,13 +8,16 @@
 		note="通过折叠面板收纳内容区域。">
 		</com-card>
 		<sn-collapse-group>
-			<sn-collapse-item title="地形多种多样">
+			<sn-collapse-item title="地形多种多样"
+			note="查看详情">
 				<sn-text :text="'\u3000\u3000在中国辽阔的大地上，有雄伟的高原、起伏的山岭、广阔的平原、低缓的丘陵，还有四周群山环抱、中间低平的大小盆地。陆地上的5种基本地形类型，中国均有分布，这为中国工农业的发展提供了多种多样的条件。'"></sn-text>
 			</sn-collapse-item>
-			<sn-collapse-item title="山区面积广大">
+			<sn-collapse-item title="山区面积广大"
+			note="点击预览">
 				<sn-text :text="'\u3000\u3000通常人们把山地、丘陵和比较崎岖的高原称为山区。中国山区面积占全国总面积的2/3，这是中国地形的又一显著特征。山区面积广大，给交通运输和农业发展带来一定困难，但山区可提供林产、矿产、水能和旅游资源，为改变山区面貌、发展山区经济提供了资源保证。'"></sn-text>
 			</sn-collapse-item>
-			<sn-collapse-item title="地势西高东低">
+			<sn-collapse-item title="地势西高东低"
+			note="展开看看">
 				<sn-text :text="'\u3000\u3000呈阶梯状分布地势是地表高低起伏的总趋势。中国地势西高东低，大致呈阶梯状分布。'"></sn-text>
 			</sn-collapse-item>
 		</sn-collapse-group>

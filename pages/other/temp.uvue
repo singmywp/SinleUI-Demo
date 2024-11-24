@@ -1,31 +1,187 @@
 <template>
 	<sn-page>
-		<sn-topbar title="测试页"></sn-topbar>
-		<sn-alert text="测试页"
-		type="primary"></sn-alert>
-		
+		<sn-topbar title="测试页"
+		bgColor="$front">
+		</sn-topbar>
+		<sn-alert text="本页面是开发时页面,仅作为开发用途，正式包不会打包此页面"
+		icon="notification-fill"
+		type="warning"
+		style="margin-top: 10px;"></sn-alert>
 		<com-card>
-			<sn-button text="置灰"
-			@click="gray(true)"></sn-button>
-			<sn-button class="m-t-10"
-			text="取消"
-			@click="gray(false)"></sn-button>
+			<sn-button text="请求相机权限"
+			@click="requestCamera"></sn-button>
+			<sn-button text="请求相册权限"
+			@click="requestAlbum"></sn-button>
 		</com-card>
+		<com-card title="🎉 全局 API">
+			<sn-button text="全局操作菜单"
+			@click="showActionsheet"></sn-button>
+			<sn-button class="mt-10"
+			text="全局图片预览"
+			@click="previewImage"></sn-button>
+			<sn-button class="mt-10"
+			text="全局模态框"
+			@click="showModal"></sn-button>
+			<sn-button class="mt-10"
+			text="全局轻提示"
+			@click="showToast"></sn-button>
+		</com-card>
+		<sn-perm-listener :data="permConfigs"></sn-perm-listener>
 	</sn-page>
 </template>
 
 <script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	
-	
-	
+	import { $snui, SnShowActionsheetConfig, SnActionsheetItem, SnPreviewImageConfig, SnTabParams } from '@/uni_modules/sinle-ui'
+
+
 	const colors = $snui.colors
 	const snu = $snui.utils
 	
-	function gray(enabled: boolean) {
-		$snui.configs.app.grayMode = enabled
+	const v1 = ref(0)
+	
+	const permConfigs = new Map<string, UTSJSONObject>()
+	permConfigs.set('android.permission.CAMERA', {
+		title: '正在请求相机权限',
+		content: '仅用于扫描二维码，不会将您的任何隐私数据上传云端'
+	})
+	permConfigs.set('android.permission.READ_MEDIA_IMAGES', {
+		title: '正在请求相册权限',
+		content: '仅用于选择图片，不会将您的任何隐私数据上传云端',
+		icon: 'image-circle-fill'
+	})
+	permConfigs.set('android.permission.READ_MEDIA_VIDEO', {
+		title: '正在请求视频权限',
+		content: '仅用于选择视频，不会将您的任何隐私数据上传云端',
+	})
+	permConfigs.set('android.permission.READ_MEDIA_AUDIO', {
+		title: '正在请求音频权限',
+		content: '仅用于选择音频，不会将您的任何隐私数据上传云端',
+		icon: 'disc-line'
+	})
+		
+		
+	
+	function requestCamera() {
+		snu.requestSystemPermission({
+			permissions: ['android.permission.CAMERA'],
+			success: (allRight: boolean, grantedList: string[]) => {
+				console.log('请求相机权限成功',allRight, grantedList)
+			},
+			
+			fail: (doNotAskAgain: boolean, deniedList: string[]) => {
+				console.log('请求相机权限失败',doNotAskAgain, deniedList)
+			}
+		})
+	}
+	
+	function requestAlbum() {
+		snu.requestMediaPermission({
+			types: ['image', 'audio'],
+			success: (allRight: boolean, grantedList: string[]) => {
+				console.log('请求相册权限成功',allRight, grantedList)
+			},
+			
+			fail: (doNotAskAgain: boolean, deniedList: string[]) => {
+				console.log('请求相册权限失败',doNotAskAgain, deniedList)
+			}
+		})
+	}
+	
+	const d1 = [
+		{
+			id: 'tab1',
+			text: '选项1'
+		},
+		{
+			id: 'tab2',
+			text: '选项2er1485rh148e5r'
+		},
+		{
+			id: 'tab3',
+			text: '选围观项3'
+		},
+		{
+			id: 'tab4',
+			text: '选项4'
+		},
+		{
+			id: 'tab5',
+			text: '选项5erge58g而我国'
+		},
+		{
+			id: 'tab6',
+			text: '选项额我给6'
+		},
+		{
+			id: 'tab7',
+			text: '选人个人各项7'
+		},
+		{
+			id: 'tab8',
+			text: '选项8'
+		},
+	] as SnTabParams[]
+	
+	function goTo(url: string) {
+		uni.navigateTo({
+			url: url,
+		})
+	}
+	
+
+	function select() {
+		snu.chooseMedia({
+			type: 'image',
+			multiple: true,
+			success: (files) => {
+				console.log(files)
+			}
+		})
+	}
+	
+	function previewImage() {
+		snu.previewImage({
+			urls: [
+				'https://q0.itc.cn/q_70/images03/20240309/a2b719342f7b478c8633c0ade4792e46.jpeg',
+			],
+		} as SnPreviewImageConfig)
+		
 	}
 
+	function showActionsheet() {
+		snu.showActionsheet({
+			actions: [
+				{
+					text: '选项1'
+				},
+				{
+					text: '选项2',
+				},
+				{
+					text: '选项3',
+				},
+				{
+					text: '选项4',
+				}
+			]
+		} as SnShowActionsheetConfig)
+	}
+	
+	function showToast() {
+		snu.showToast({
+			text: '轻提示',
+			loading: true
+		})
+	}
+	
+	function showModal() {
+		snu.showModal({
+			title: 'Modal',
+			content: 'Hello World',
+			buttonType: 'float',
+			
+		})
+	}
 </script>
 
 <style lang="scss">

@@ -74,22 +74,25 @@ fun startScan(
 	
 	ScanUtil.startScan(context!!, REQUEST_CODE_SCAN_ONE, options)
 	
-	UTSAndroid.onAppActivityResult { requestCode: Int, _, data: Intent? ->
+	fun handleActivityResult(requestCode: Int, resultCode: Int,data: Intent?) {
 	    if (data != null && requestCode == REQUEST_CODE_SCAN_ONE) {
-			val errorCode: Int = data.getIntExtra(ScanUtil.RESULT_CODE, ScanUtil.SUCCESS)
-			if (errorCode == ScanUtil.SUCCESS) {
+	        val errorCode: Int = data.getIntExtra(ScanUtil.RESULT_CODE, ScanUtil.SUCCESS)
+	        if (errorCode == ScanUtil.SUCCESS) {
 				val obj = data.getParcelableExtra(ScanUtil.RESULT) as Parcelable?
-				if (obj != null) {
-					val res = obj as HmsScan
-					callback(
-						UTSArray(getResultType(res.getScanTypeForm()),res.getOriginalValue())
-					)
-			    }
-			}
-			if (errorCode == ScanUtil.ERROR_NO_READ_PERMISSION) {
-				val toast = Toast.makeText(UTSAndroid.getAppContext(), "请授权相册权限重试", Toast.LENGTH_SHORT);
-				toast.show();
-			}
-		}
+	            if (obj != null) {
+	                val res = obj as HmsScan
+	                callback(
+	                    UTSArray(getResultType(res.getScanTypeForm()), res.getOriginalValue())
+	                )
+	            }
+	        }
+	        if (errorCode == ScanUtil.ERROR_NO_READ_PERMISSION) {
+	            val toast = Toast.makeText(UTSAndroid.getAppContext(), "请授权相册权限重试", Toast.LENGTH_SHORT)
+	            toast.show()
+	        }
+	    }
+		UTSAndroid.offAppActivityResult(::handleActivityResult);
 	}
+	
+	UTSAndroid.onAppActivityResult(::handleActivityResult);
 }

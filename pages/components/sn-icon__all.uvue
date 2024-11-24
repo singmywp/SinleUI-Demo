@@ -42,7 +42,7 @@
 	});
 	
 	const itemStylesC = computed((): Map<string, any>=>{
-		let styles = new Map<string, any>()
+		const styles = new Map<string, any>()
 		styles.set('background', colors.value.front)
 		styles.set('border-radius', $snui.configs.radius.small)
 		styles.set('transition-duration',$snui.configs.aniTime.normal)

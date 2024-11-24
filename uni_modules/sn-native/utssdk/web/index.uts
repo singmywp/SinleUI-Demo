@@ -1,9 +1,10 @@
-import { SnToastConfig } from '../interface.uts'
+import { SnToastyConfig, SnNativeError } from '../interface.uts'
 
-const toastQueue: SnToastConfig[] = [];
+// 提示框
+const toastQueue: SnToastyConfig[] = [];
 let isToastVisible = false;
 
-export function toast(config: SnToastConfig) {
+export function toast(config: SnToastyConfig) {
   toastQueue.push(config);
   if (!isToastVisible) {
     showNextToast();
@@ -99,6 +100,7 @@ function showNextToast() {
     popup.style.opacity = '0';
     setTimeout(() => {
       document.body.removeChild(popup);
+	  // 队列
       showNextToast(); // 显示下一个 toast
     }, 500);
   }, durationMs);

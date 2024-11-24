@@ -1,4 +1,5 @@
 <template>
+	<sn-page>
 	<com-card title="是否为空文本"
 	note="判断字符串是否为空（自动去除空格）">
 		<sn-text :text="`文本【${t1}】  是否为空：${snu.isEmpty(t1)}`"></sn-text>
@@ -50,6 +51,8 @@
 		<sn-text :text="`文本【${t17}】\n转换结果：${snu.separateNumber(t17, 4)}`"></sn-text>
 		<sn-text :text="`文本【${t18}】\n转换结果：${snu.separateNumber(t18, 3, '|')}`"></sn-text>
 	</com-card>
+	<sn-gap></sn-gap>
+	</sn-page>
 </template>
 
 <script setup>

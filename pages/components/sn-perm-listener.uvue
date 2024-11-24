@@ -1,0 +1,89 @@
+<template>
+	<sn-page>
+		<sn-topbar title="Perm Listener 权限申请监听"></sn-topbar>
+		<!-- #ifndef APP -->
+		<com-card title="请前往 App 端查看"></com-card>
+		<!-- #endif -->
+		<!-- #ifdef APP -->
+		<com-card title="基础用法"
+		note="应用申请权限时，同步弹出权限用途说明弹窗，只在单页面生效。">
+		</com-card>
+		<com-card title="演示"
+		note="当权限已授予或永久拒绝后，不再弹出">
+			<sn-button text="请求相机权限"
+			@click="requestPerm(['android.permission.CAMERA'])"></sn-button>
+			<sn-button class="m-t-10"
+			text="请求日历权限"
+			@click="requestPerm(['android.permission.READ_CALENDAR'])"></sn-button>
+			<sn-button class="m-t-10"
+			text="请求拨号权限"
+			@click="requestPerm(['android.permission.CALL_PHONE'])"></sn-button>	
+			<sn-button class="m-t-10"
+			text="请求定位权限"
+			@click="requestPerm(['android.permission.ACCESS_FINE_LOCATION'])"></sn-button>
+			<sn-button class="m-t-10"
+			text="请求媒体权限"
+			@click="requestAlbum"></sn-button>
+		</com-card>
+		<sn-perm-listener :data="permConfigs"></sn-perm-listener>
+		<!-- #endif -->
+	</sn-page>
+</template>
+
+<script setup>
+	import { $snui } from '@/uni_modules/sinle-ui'
+	const colors = $snui.colors
+	const snu = $snui.utils
+	
+	const permConfigs = new Map<string, UTSJSONObject>()
+	permConfigs.set('android.permission.CAMERA', {
+		title: '正在请求相机权限',
+		content: '仅用于扫描二维码，不会将您的任何隐私数据上传云端'
+	})
+	permConfigs.set('android.permission.READ_MEDIA_IMAGES', {
+		title: '正在请求图片权限',
+		content: '仅用于选择图片，不会将您的任何隐私数据上传云端',
+		icon: 'image-circle-fill'
+	})
+	permConfigs.set('android.permission.READ_MEDIA_VIDEO', {
+		title: '正在请求视频权限',
+		content: '仅用于选择视频，不会将您的任何隐私数据上传云端',
+		icon: 'movie-fill',
+	})
+	permConfigs.set('android.permission.READ_MEDIA_AUDIO', {
+		title: '正在请求音频权限',
+		content: '仅用于选择音频，不会将您的任何隐私数据上传云端',
+		icon: 'disc-fill'
+	})
+	permConfigs.set('android.permission.ACCESS_FINE_LOCATION', {
+		title: '正在请求定位权限',
+		content: '仅用于辅助填写收货地址，不会将您的任何隐私数据上传云端',
+		icon: 'map-pin-fill'
+	})
+	permConfigs.set('android.permission.CALL_PHONE', {
+		title: '正在请求拨号权限',
+		content: '仅用于快速拨打电话，不会将您的任何隐私数据上传云端',
+		icon: 'phone-fill'
+	})
+	permConfigs.set('android.permission.READ_CALENDAR', {
+		title: '正在请求日历权限',
+		content: '仅用于辅助填写日程',
+		icon: 'calendar-2-fill'
+	})
+	
+	function requestPerm(perms: string[]) {
+		snu.requestSystemPermission({
+			permissions: perms
+		})
+	}
+	
+	function requestAlbum() {
+		snu.requestMediaPermission({
+			types: ['image', 'audio','video']
+		})
+	}
+</script>
+
+<style>
+		
+</style>

@@ -71,13 +71,13 @@
 </template>
 
 <script setup>
-	import { $snui, SnCountdownTime } from '@/uni_modules/sinle-ui'
+	import { $snui, SnTime } from '@/uni_modules/sinle-ui'
 	const colors = $snui.colors
 	const running = ref(true)
-	const timedata = ref({d:0,h:0,m:0,s:0,ms:0} as SnCountdownTime)
+	const timedata = ref({d:0,h:0,m:0,s:0,ms:0} as SnTime)
 	const countdownEle = ref(null as SnCountdownComponentPublicInstance | null)
 	
-	function onChange(data: SnCountdownTime){
+	function onChange(data: SnTime){
 		timedata.value = data
 	}
 	
