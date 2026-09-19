@@ -1,0 +1,305 @@
+<template>
+	<sn-page :title="t('snTable.title')" :show-back="true" padding="0 16px 32px 16px">
+
+		<demo-card :title="t('snTable.demoBasicTitle')" :subtitle="t('snTable.demoBasicSub')">
+			<sn-table>
+				<sn-tr :custom-style="headerStyle">
+					<sn-td flatten><text flatten class="td-head">ID</text></sn-td>
+					<sn-td flatten><text flatten class="td-head">{{ t('snTable.headName') }}</text></sn-td>
+					<sn-td flatten><text flatten class="td-head">{{ t('snTable.headCity') }}</text></sn-td>
+				</sn-tr>
+				<sn-tr v-for="item in basicRows" :key="item.id" flatten>
+					<sn-td flatten><text flatten class="td-text">{{ item.id }}</text></sn-td>
+					<sn-td flatten><text flatten class="td-text">{{ item.name }}</text></sn-td>
+					<sn-td flatten><text flatten class="td-text">{{ item.city }}</text></sn-td>
+				</sn-tr>
+			</sn-table>
+		</demo-card>
+
+		<demo-card :title="t('snTable.demoBorderTitle')" :subtitle="t('snTable.demoBorderSub')">
+			<sn-table bordered border-color="$lineText">
+				<sn-tr :custom-style="headerStyle">
+					<sn-td flatten><text flatten class="td-head">ID</text></sn-td>
+					<sn-td flatten><text flatten class="td-head">{{ t('snTable.headName') }}</text></sn-td>
+					<sn-td flatten><text flatten class="td-head">{{ t('snTable.headCity') }}</text></sn-td>
+				</sn-tr>
+				<sn-tr v-for="item in basicRows" :key="item.id" flatten>
+					<sn-td flatten><text flatten class="td-text">{{ item.id }}</text></sn-td>
+					<sn-td flatten><text flatten class="td-text">{{ item.name }}</text></sn-td>
+					<sn-td flatten><text flatten class="td-text">{{ item.city }}</text></sn-td>
+				</sn-tr>
+			</sn-table>
+		</demo-card>
+
+		<demo-card :title="t('snTable.demoUnderlineTitle')" :subtitle="t('snTable.demoUnderlineSub')">
+			<sn-table underline>
+				<sn-tr :custom-style="headerStyle">
+					<sn-td flatten><text flatten class="td-head">ID</text></sn-td>
+					<sn-td flatten><text flatten class="td-head">{{ t('snTable.headName') }}</text></sn-td>
+					<sn-td flatten><text flatten class="td-head">{{ t('snTable.headCity') }}</text></sn-td>
+				</sn-tr>
+				<sn-tr v-for="item in basicRows" :key="item.id" flatten>
+					<sn-td flatten><text flatten class="td-text">{{ item.id }}</text></sn-td>
+					<sn-td flatten><text flatten class="td-text">{{ item.name }}</text></sn-td>
+					<sn-td flatten><text flatten class="td-text">{{ item.city }}</text></sn-td>
+				</sn-tr>
+			</sn-table>
+		</demo-card>
+
+		<demo-card :title="t('snTable.demoStripeTitle')" :subtitle="t('snTable.demoStripeSub')">
+			<sn-table>
+				<sn-tr flatten>
+					<sn-td flatten><text flatten class="td-head">ID</text></sn-td>
+					<sn-td flatten><text flatten class="td-head">{{ t('snTable.headName') }}</text></sn-td>
+					<sn-td flatten><text flatten class="td-head">{{ t('snTable.headCity') }}</text></sn-td>
+				</sn-tr>
+				<sn-tr v-for="(item, index) in stripeRows" :key="item.id" flatten :custom-style="getStripeStyle(index)">
+					<sn-td flatten><text flatten class="td-text">{{ item.id }}</text></sn-td>
+					<sn-td flatten><text flatten class="td-text">{{ item.name }}</text></sn-td>
+					<sn-td flatten><text flatten class="td-text">{{ item.city }}</text></sn-td>
+				</sn-tr>
+			</sn-table>
+		</demo-card>
+
+		<demo-card :title="t('snTable.demoWidthTitle')" :subtitle="t('snTable.demoWidthSub')">
+			<sn-table underline>
+				<sn-tr :custom-style="headerStyle">
+					<sn-td flatten width="2"><text flatten class="td-head">ID</text></sn-td>
+					<sn-td flatten width="2"><text flatten class="td-head">{{ t('snTable.headName') }}</text></sn-td>
+					<sn-td flatten width="3"><text flatten class="td-head">{{ t('snTable.headCity') }}</text></sn-td>
+				</sn-tr>
+				<sn-tr flatten>
+					<sn-td flatten width="2"><text flatten class="td-text">1001</text></sn-td>
+					<sn-td flatten width="2"><text flatten class="td-text">{{ t('snTable.wangXiaoming') }}</text></sn-td>
+					<sn-td flatten width="3"><text flatten class="td-text">{{ t('snTable.shanghai') }}</text></sn-td>
+				</sn-tr>
+			</sn-table>
+			<sn-table underline custom-style="margin-top:16px;">
+				<sn-tr :custom-style="headerStyle">
+					<sn-td flatten width="90px"><text flatten class="td-head">ID</text></sn-td>
+					<sn-td flatten width="110px"><text flatten class="td-head">{{ t('snTable.headName') }}</text></sn-td>
+					<sn-td flatten width="2"><text flatten class="td-head">{{ t('snTable.headCity') }}</text></sn-td>
+				</sn-tr>
+				<sn-tr flatten>
+					<sn-td flatten width="90px"><text flatten class="td-text">1001</text></sn-td>
+					<sn-td flatten width="110px"><text flatten class="td-text">{{ t('snTable.wangXiaoming') }}</text></sn-td>
+					<sn-td flatten width="2"><text flatten class="td-text">{{ t('snTable.addr2') }}</text></sn-td>
+				</sn-tr>
+			</sn-table>
+		</demo-card>
+
+		<demo-card :title="t('snTable.demoFixedHeadTitle')" :subtitle="t('snTable.demoFixedHeadSub')">
+			<sn-table height="240px" @scrolltolower="onLoadMore">
+				<template #head>
+					<sn-tr :custom-style="headerStyle">
+						<sn-td flatten width="1"><text flatten class="td-head">{{ t('snTable.headEmpId') }}</text></sn-td>
+						<sn-td flatten width="2"><text flatten class="td-head">{{ t('snTable.headEmpName') }}</text></sn-td>
+						<sn-td flatten width="2"><text flatten class="td-head">{{ t('snTable.headDept') }}</text></sn-td>
+					</sn-tr>
+				</template>
+				<sn-tr v-for="item in employees" :key="item.id" flatten>
+					<sn-td flatten width="1"><text flatten class="td-text">{{ item.id }}</text></sn-td>
+					<sn-td flatten width="2"><text flatten class="td-text">{{ item.name }}</text></sn-td>
+					<sn-td flatten width="2"><text flatten class="td-text">{{ item.dept }}</text></sn-td>
+				</sn-tr>
+			</sn-table>
+			<sn-text v-if="loadTip != ''" font-size="$12" :color="tipColor" custom-style="margin-top:8px;" flatten>{{ loadTip }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snTable.demoFixedBothTitle')" :subtitle="t('snTable.demoFixedBothSub')">
+			<sn-table height="240px" underline>
+				<template #head>
+					<sn-tr :custom-style="headerStyle">
+						<sn-td fixed width="90px" :custom-style="headerStyle"><text class="td-head" flatten>ID</text></sn-td>
+						<sn-td width="110px"><text class="td-head" flatten>{{ t('snTable.headDate') }}</text></sn-td>
+						<sn-td width="90px"><text class="td-head" flatten>{{ t('snTable.headName') }}</text></sn-td>
+						<sn-td width="180px"><text class="td-head" flatten>{{ t('snTable.headEmail') }}</text></sn-td>
+						<sn-td width="190px"><text class="td-head" flatten>{{ t('snTable.headAddr') }}</text></sn-td>
+						<sn-td fixed="right" width="90px" :custom-style="headerStyle"><text class="td-head" flatten>{{ t('snTable.headOp') }}</text></sn-td>
+					</sn-tr>
+				</template>
+				<sn-tr v-for="item in orders" :key="item.id">
+					<sn-td fixed width="90px"><text class="td-text" flatten>{{ item.id }}</text></sn-td>
+					<sn-td width="110px"><text class="td-text" flatten>{{ item.date }}</text></sn-td>
+					<sn-td width="90px"><text class="td-text" flatten>{{ item.name }}</text></sn-td>
+					<sn-td width="180px"><text class="td-text">{{ item.email }}</text></sn-td>
+					<sn-td width="190px"><text class="td-text">{{ item.address }}</text></sn-td>
+					<sn-td fixed="right" width="90px">
+						<view class="op-wrap">
+							<text class="op-text" @click="onOpClick(item, 'edit')">{{ t('snTable.opEdit') }}</text>
+							<text class="op-text" @click="onOpClick(item, 'delete')">{{ t('snTable.opDelete') }}</text>
+						</view>
+					</sn-td>
+				</sn-tr>
+			</sn-table>
+			<sn-text v-if="lastAction != ''" font-size="$12" :color="tipColor" custom-style="margin-top:8px;">{{ lastAction }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snTable.demoMultiTitle')" :subtitle="t('snTable.demoMultiSub')">
+			<sn-table bordered height="280px">
+				<template #head>
+					<sn-tr :custom-style="headerStyle">
+						<sn-td flatten width="90px"><text flatten class="td-head">ID</text></sn-td>
+						<sn-td flatten width="360px">
+							<sn-tr>
+								<sn-td flatten width="90px"><text flatten class="td-head">{{ t('snTable.headRecipient') }}</text></sn-td>
+								<sn-td flatten width="270px"><text flatten class="td-head">{{ t('snTable.headShipAddr') }}</text></sn-td>
+							</sn-tr>
+							<sn-tr>
+								<sn-td flatten width="90px"><text flatten class="td-head">{{ t('snTable.headPhone') }}</text></sn-td>
+								<sn-td flatten width="270px"><text flatten class="td-head">{{ t('snTable.headOrderTime') }}</text></sn-td>
+							</sn-tr>
+						</sn-td>
+						<sn-td flatten width="90px"><text flatten class="td-head">{{ t('snTable.headAmount') }}</text></sn-td>
+					</sn-tr>
+				</template>
+				<sn-tr v-for="item in parcelRows" :key="item.id" flatten>
+					<sn-td flatten width="90px"><text flatten class="td-text">{{ item.id }}</text></sn-td>
+					<sn-td flatten width="360px">
+						<sn-tr>
+							<sn-td flatten width="90px"><text flatten class="td-text">{{ item.name }}</text></sn-td>
+							<sn-td flatten width="270px"><text flatten class="td-text">{{ item.address }}</text></sn-td>
+						</sn-tr>
+						<sn-tr>
+							<sn-td flatten width="90px"><text flatten class="td-text">{{ item.phone }}</text></sn-td>
+							<sn-td flatten width="270px"><text flatten class="td-text">{{ item.time }}</text></sn-td>
+						</sn-tr>
+					</sn-td>
+					<sn-td flatten width="90px"><text flatten class="td-text">{{ item.amount }}</text></sn-td>
+				</sn-tr>
+			</sn-table>
+		</demo-card>
+
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { $snui } from '@/uni_modules/sinle-ui/index.uts'
+
+const { t } = useI18n()
+
+type BasicRow = {
+	id: string
+	name: string
+	city: string
+}
+
+type Employee = {
+	id: string
+	name: string
+	dept: string
+}
+
+type Order = {
+	id: string
+	date: string
+	name: string
+	email: string
+	address: string
+}
+
+type Parcel = {
+	id: string
+	name: string
+	address: string
+	phone: string
+	time: string
+	amount: string
+}
+
+const basicRows = computed<BasicRow[]>(() => [
+	{ id: '1', name: t('snTable.zhangSan'), city: t('snTable.gz') },
+	{ id: '2', name: t('snTable.liSi'), city: t('snTable.sz') },
+	{ id: '3', name: t('snTable.wangWu'), city: t('snTable.bj') }
+])
+
+const stripeRows = computed<BasicRow[]>(() => [
+	{ id: '1', name: t('snTable.zhangSan'), city: t('snTable.gz') },
+	{ id: '2', name: t('snTable.liSi'), city: t('snTable.sz') },
+	{ id: '3', name: t('snTable.wangWu'), city: t('snTable.bj') },
+	{ id: '4', name: t('snTable.zhaoLiu'), city: t('snTable.hz') }
+])
+
+const employees = ref<Employee[]>([])
+for (let i = 1; i <= 12; i++) {
+	employees.value.push({
+		id: `2100${i}`,
+		name: t('snTable.empName', { n: i } as UTSJSONObject),
+		dept: i % 2 == 0 ? t('snTable.deptTech') : t('snTable.deptProduct')
+	})
+}
+
+const orders = computed<Order[]>(() => [
+	{ id: '1001', date: '2026-03-01', name: t('snTable.zhangSan'), email: 'zhangsan@example.com', address: t('snTable.addr1') },
+	{ id: '1002', date: '2026-03-02', name: t('snTable.liSi'), email: 'lisi@example.com', address: t('snTable.addr2') },
+	{ id: '1003', date: '2026-03-03', name: t('snTable.wangWu'), email: 'wangwu@example.com', address: t('snTable.addr3') },
+	{ id: '1004', date: '2026-03-04', name: t('snTable.zhaoLiu'), email: 'zhaoliu@example.com', address: t('snTable.addr4') }
+])
+
+const parcelRows = computed<Parcel[]>(() => [
+	{ id: '9001', name: t('snTable.zhangSan'), address: t('snTable.addr1'), phone: '138-0013-8000', time: '2026-03-01 10:24', amount: '¥299.00' },
+	{ id: '9002', name: t('snTable.liSi'), address: t('snTable.addr2'), phone: '139-0013-9000', time: '2026-03-02 18:05', amount: '¥1,280.50' }
+])
+
+const headerStyle = computed<string>(() : string => {
+	return `background-color:${$snui.colors.info};`
+})
+
+const stripeStyle = computed<string>(() : string => {
+	return `background-color:${$snui.colors.info};border-radius:8px;`
+})
+
+const tipColor = computed<string>(() => $snui.colors.textLight)
+
+const loadTip = ref<string>('')
+const lastAction = ref<string>('')
+
+function getStripeStyle(index: number): string {
+	return index % 2 == 0 ? stripeStyle.value : ''
+}
+
+function onLoadMore(): void {
+	const len = employees.value.length
+	if (len >= 30) {
+		loadTip.value = t('snTable.loadedAll')
+		return
+	}
+	const end = Math.min(len + 6, 30)
+	for (let i = len + 1; i <= end; i++) {
+		employees.value.push({
+			id: `2100${i}`,
+			name: t('snTable.empName', { n: i } as UTSJSONObject),
+			dept: i % 2 == 0 ? t('snTable.deptTech') : t('snTable.deptProduct')
+		})
+	}
+	loadTip.value = t('snTable.loadedCount', { n: end } as UTSJSONObject)
+}
+
+function onOpClick(item: Order, action: string): void {
+	const actionText = action == 'edit' ? t('snTable.opEdit') : t('snTable.opDelete')
+	lastAction.value = t('snTable.actionTip', { action: actionText, id: item.id } as UTSJSONObject)
+}
+</script>
+
+<style lang="scss">
+.td-text {
+	font-size: 14px;
+	color: var(--sn-text);
+}
+.td-head {
+	font-size: 14px;
+	font-weight: bold;
+	color: var(--sn-title);
+}
+.op-wrap {
+	flex-direction: row;
+	align-items: center;
+}
+.op-text {
+	font-size: 14px;
+	color: var(--sn-primary);
+	margin-right: 12px;
+}
+</style>

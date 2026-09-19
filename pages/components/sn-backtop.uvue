@@ -1,30 +1,83 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Backtop 回到顶部"></sn-topbar>
-		<com-card title="基础用法"
-		note="用于长页面，滑动一定距离后，出现返回顶部按钮，点击按钮快速返回顶部。自动绑定父级 sn-scroll/sn-list/sn-page"></com-card>
-		<com-card title="丰富属性"
-		note="支持自由设置滚动出现高度，图标及其颜色、尺寸，以及主题和背景色，禁用，所处位置，动画时长等多种属性"></com-card>
-		<sn-alert type="primary" text="下滑页面查看效果"></sn-alert>
-		<sn-gap height="200%"></sn-gap>
-		<sn-backtop :top="200"></sn-backtop>
-		<sn-backtop icon="close-line" 
-		disabled
-		:right="90"></sn-backtop>
-		<sn-backtop type="success" :right="150"></sn-backtop>
-		<sn-backtop type="warning" 
-		level="second" 
-		icon="arrow-up-line" 
-		size="60px" 
-		:right="210"
-		:bottom="80"></sn-backtop>
+	<sn-page :title="t('snBacktop.title')" :show-back="true">
+		<demo-card :title="t('snBacktop.autoBind')" :subtitle="t('snBacktop.autoBindSub')">
+			<sn-alert type="primary" :text="t('snBacktop.scrollTip')" style="margin: 0 16px 16px;" />
+			<view v-for="(item, index) in pageItems" :key="item" class="page-item" flatten>
+				<sn-text font-size="$14" :color="itemColor" flatten>{{ item }}</sn-text>
+			</view>
+		</demo-card>
+		<!-- 自动绑定页面：作为 sn-page 直接子节点（demo-card 内亦可自动绑定祖先 sn-page） -->
+		<sn-backtop :top="300" />
+
+		<demo-card :title="t('snBacktop.bindContainer')" :subtitle="t('snBacktop.bindContainerSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="primary" custom-style="margin-right:10px;" @click="openSub('scroll')">{{ t('snBacktop.scrollTop') }}</sn-button>
+				<sn-button type="primary" custom-style="margin-right:10px;" @click="openSub('list')">{{ t('snBacktop.listTop') }}</sn-button>
+				<sn-button type="primary" @click="openSub('waterflow')">{{ t('snBacktop.waterflowTop') }}</sn-button>
+			</view>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>
+				{{ t('snBacktop.containerDesc') }}
+			</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snBacktop.richProps')" :subtitle="t('snBacktop.richPropsSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="primary" custom-style="margin-right:10px;" @click="onToggleDisabled">
+					{{ disabled ? t('snBacktop.restoreEnable') : t('snBacktop.setDisabled') }}
+				</sn-button>
+			</view>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>
+				{{ t('snBacktop.disableDesc') }}
+			</sn-text>
+		</demo-card>
+		<sn-backtop type="warning" level="second" icon="arrow-up-line" size="60px" :right="90" :bottom="110" />
+		<sn-backtop type="info" shape="square" :right="160" :bottom="110" />
+		<sn-backtop icon="rocket-2-line" :disabled="disabled" :right="230" :bottom="100" />
 	</sn-page>
 </template>
 
-<script setup>
-		
+<script lang="uts" setup>
+		import { useI18n } from 'vue-i18n'
+		import { $snui } from '@/uni_modules/sinle-ui'
+
+		const { t } = useI18n()
+		const disabled = ref<boolean>(false)
+		const pageItems = ref<string[]>([])
+
+		const itemColor = computed<string>(() => $snui.colors.text)
+
+		function initPageItems(): void {
+			const arr: string[] = []
+			for (let i = 1; i <= 20; i++) {
+				arr.push(t('snBacktop.pageItem', { index: i } as UTSJSONObject))
+			}
+			pageItems.value = arr
+		}
+
+	function openSub(type: string): void {
+		uni.navigateTo({
+			url: '/pages/components/backtop/' + type
+		})
+	}
+
+	function onToggleDisabled(): void {
+		disabled.value = !disabled.value
+	}
+
+	onMounted((): void => {
+		initPageItems()
+	})
 </script>
 
-<style>
-		
+<style lang="scss">
+	.page-item {
+		padding: 14px;
+		margin-top: 8px;
+		border-radius: 10px;
+		background-color: var(--sn-front);
+	}
+	.btn-row {
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
 </style>

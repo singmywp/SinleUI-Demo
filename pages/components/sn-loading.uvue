@@ -1,100 +1,161 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Loading 加载"></sn-topbar>
-		<com-card title="基础用法"
-		note="显示加载状态。">
-			<sn-loading></sn-loading>
-		</com-card>
-		<com-card title="模式"
-		note="提供两种模式：icon（图标模式）和 draw（canvas 模式）">
-			<sn-row>
-				<sn-loading class="spacing"></sn-loading>
-				<sn-loading class="spacing" mode="draw"></sn-loading>
-			</sn-row>
-		</com-card>
-		<com-card title="图标【icon 特色】"
-		note="icon 模式下可自由更换旋转图标">
-			<sn-view :loading="loadingIcons"
-			style="flex-wrap: wrap;flex-direction: row">
-					<sn-loading class="spacing" icon="loader-line"></sn-loading>
-					<sn-loading class="spacing" icon="loader-2-line"></sn-loading>
-					<sn-loading class="spacing" icon="loader-3-line"></sn-loading>
-					<sn-loading icon="refresh-line"></sn-loading>
-					<sn-loading class="spacing" icon="user-smile-line"></sn-loading>
-					<sn-loading class="spacing" icon="copyleft-line"></sn-loading>
-					<sn-loading class="spacing" icon="copyright-line"></sn-loading>
-					<sn-loading class="spacing" icon="donut-chart-line"></sn-loading>
-					<sn-loading class="spacing" icon="pie-chart-line"></sn-loading>
-					<sn-loading class="spacing" icon="global-line"></sn-loading>
-					<sn-loading class="spacing" icon="contrast-2-line"></sn-loading>
-					<sn-loading class="spacing" icon="edit-circle-line"></sn-loading>
-					<sn-loading class="spacing" icon="crosshair-2-line"></sn-loading>
-					<sn-loading class="spacing" icon="gps-line"></sn-loading>
-					<sn-loading class="spacing" icon="gradienter-line"></sn-loading>
-					<sn-loading class="spacing" icon="rfid-line"></sn-loading>
-					<sn-loading class="spacing" icon="dashboard-3-line"></sn-loading>
-					<sn-loading class="spacing" icon="asterisk"></sn-loading>
-					<sn-loading class="spacing" icon="exchange-line"></sn-loading>
-					<sn-loading class="spacing" icon="copper-coin-line"></sn-loading>
-					<sn-loading class="spacing" icon="disc-line"></sn-loading>
-			</sn-view>
-		</com-card>
-		<com-card title="颜色"
-		note="自定义加载条的颜色 (colorful">
-			<sn-row>
-				<sn-loading class="spacing" iconColor="#ff9b9b"></sn-loading>
-				<sn-loading class="spacing" iconColor="#9dc3a8"></sn-loading>
-				<sn-loading class="spacing" iconColor="#a29bff"></sn-loading>
-			</sn-row>
-			<sn-row>
-				<sn-loading class="spacing" mode="draw" iconColor="#ff9b9b"></sn-loading>
-				<sn-loading class="spacing" mode="draw" iconColor="#9dc3a8"></sn-loading>
-				<sn-loading class="spacing" mode="draw" iconColor="#a29bff"></sn-loading>
-			</sn-row>
-		</com-card>
-		<com-card title="尺寸"
-		note="不同大小的加载条">
-			<sn-row>
-				<sn-loading class="spacing" iconSize="15px"></sn-loading>
-				<sn-loading class="spacing" iconSize="25px"></sn-loading>
-				<sn-loading class="spacing" iconSize="35px"></sn-loading>
-			</sn-row>
-			<sn-row>
-				<sn-loading class="spacing" mode="draw" iconSize="15px"></sn-loading>
-				<sn-loading class="spacing" mode="draw" iconSize="25px"></sn-loading>
-				<sn-loading class="spacing" mode="draw" iconSize="35px"></sn-loading>
-			</sn-row>
-		</com-card>
-		<com-card title="自定义文字"
-		note="在加载条旁加一行字">
-			<sn-row>
-				<sn-loading class="spacing" text="加载中"></sn-loading>
-				<sn-loading class="spacing" text="加载中" textSize="16px" textColor="#5777ff"></sn-loading>
-				<sn-loading class="spacing" text="加载中" vertical></sn-loading>
-			</sn-row>
-			<sn-row>
-				<sn-loading class="spacing" mode="draw" text="加载中"></sn-loading>
-				<sn-loading class="spacing" mode="draw" text="加载中" textSize="16px" textColor="#5777ff"></sn-loading>
-				<sn-loading class="spacing" mode="draw" text="加载中" vertical></sn-loading>
-			</sn-row>
-		</com-card>
+	<sn-page :title="t('snLoading.title')" :show-back="true">
+		<demo-card :title="t('snLoading.basicTitle')" :subtitle="t('snLoading.basicDesc')">
+			<sn-loading :text="t('snLoading.loadingText')" />
+		</demo-card>
+
+		<demo-card :title="t('snLoading.modeTitle')" :subtitle="t('snLoading.modeDesc')">
+			<view class="demo-row" flatten>
+				<view class="demo-col" flatten>
+					<sn-loading />
+					<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLoading.iconMode') }}</sn-text>
+				</view>
+				<view class="demo-col" flatten>
+					<sn-loading mode="native" />
+					<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLoading.nativeMode') }}</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snLoading.iconTitle')" :subtitle="t('snLoading.iconDesc')">
+			<view class="demo-icons" flatten>
+				<sn-loading mode="icon" custom-class="demo-spacing" icon="loader-line" />
+				<sn-loading mode="icon" custom-class="demo-spacing" icon="loader-2-line" />
+				<sn-loading mode="icon" custom-class="demo-spacing" icon="loader-3-line" />
+				<sn-loading mode="icon" custom-class="demo-spacing" icon="refresh-line" />
+				<sn-loading mode="icon" custom-class="demo-spacing" icon="gps-line" />
+				<sn-loading mode="icon" custom-class="demo-spacing" icon="gradienter-line" />
+				<sn-loading mode="icon" custom-class="demo-spacing" icon="dashboard-3-line" />
+				<sn-loading mode="icon" custom-class="demo-spacing" icon="disc-line" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snLoading.colorTitle')" :subtitle="t('snLoading.colorDesc')">
+			<view class="demo-row" flatten>
+				<sn-loading custom-class="demo-spacing" icon-color="#ff9b9b" />
+				<sn-loading custom-class="demo-spacing" icon-color="$success" />
+				<sn-loading custom-class="demo-spacing" icon-color="$warning" />
+			</view>
+			<view class="demo-row" flatten>
+				<sn-loading custom-class="demo-spacing" mode="native" icon-color="$error" />
+				<sn-loading custom-class="demo-spacing" mode="native" icon-color="$info" />
+				<sn-loading custom-class="demo-spacing" mode="native" icon-color="#a29bff" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snLoading.sizeTitle')" :subtitle="t('snLoading.sizeDesc')">
+			<view class="demo-row" flatten>
+				<sn-loading custom-class="demo-spacing" icon-size="15px" />
+				<sn-loading custom-class="demo-spacing" icon-size="25px" />
+				<sn-loading custom-class="demo-spacing" icon-size="35px" />
+			</view>
+			<view class="demo-row" flatten>
+				<sn-loading custom-class="demo-spacing" mode="native" icon-size="$20" />
+				<sn-loading custom-class="demo-spacing" mode="native" icon-size="$30" />
+				<sn-loading custom-class="demo-spacing" mode="native" icon-size="$40" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snLoading.textTitle')" :subtitle="t('snLoading.textDesc')">
+			<view class="demo-row" flatten>
+				<sn-loading custom-class="demo-spacing" :text="t('snLoading.loading')" />
+				<sn-loading custom-class="demo-spacing" :text="t('snLoading.loading')" text-size="16px" text-color="$primary" />
+				<sn-loading custom-class="demo-spacing" :text="t('snLoading.loading')" vertical />
+			</view>
+			<view class="demo-row" flatten>
+				<sn-loading custom-class="demo-spacing" mode="native" :text="t('snLoading.loading')" text-size="$16" text-color="$primary" />
+				<sn-loading custom-class="demo-spacing" mode="native" :text="t('snLoading.loading')" vertical />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snLoading.styleTitle')" :subtitle="t('snLoading.styleDesc')">
+			<view class="demo-row" flatten>
+				<sn-loading loading-style="padding: 8px; border-radius: 50%; background-color: var(--sn-primary-light);"
+					custom-style="padding: 10px;" />
+				<sn-loading mode="native" :text="t('snLoading.styledText')" text-style="font-weight: bold;"
+					loading-class="demo-loading-big" custom-style="margin-left: 16px;" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snLoading.slotTitle')" :subtitle="t('snLoading.slotDesc')">
+			<sn-loading :text="t('snLoading.defaultText')">
+				<view class="demo-slot-text" flatten>
+					<sn-text flatten font-size="$13" color="$primary">{{ t('snLoading.slotContent') }}</sn-text>
+				</view>
+			</sn-loading>
+		</demo-card>
+
+		<demo-card :title="t('snLoading.sceneTitle')" :subtitle="t('snLoading.sceneDesc')">
+			<view class="scene-card" flatten>
+				<view class="demo-row" flatten>
+					<sn-loading mode="native" :text="t('snLoading.refreshing')" text-size="$13" />
+					<sn-button type="primary" level="third" size="normal" custom-style="margin-left:auto;"
+						@click="onRefresh">{{ t('snLoading.simulateRefresh') }}</sn-button>
+				</view>
+				<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ refreshLog }}</sn-text>
+			</view>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	const loadingIcons = ref(true)
-	
-	onMounted(()=>{
-		nextTick(()=>{
-			setTimeout(()=>{
-				loadingIcons.value = false
-			}, 1000)
-		})
-	})
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+const refreshLog = ref<string>(t('snLoading.refreshHint'))
+let refreshTimer: number | null = null
+
+function onRefresh(): void {
+	refreshLog.value = t('snLoading.requesting')
+	if (refreshTimer != null) {
+		clearTimeout(refreshTimer)
+	}
+	refreshTimer = setTimeout((): void => {
+		refreshLog.value = t('snLoading.refreshDone')
+		refreshTimer = null
+	}, 1500)
+}
+
+onUnmounted((): void => {
+	if (refreshTimer != null) {
+		clearTimeout(refreshTimer)
+		refreshTimer = null
+	}
+})
 </script>
 
 <style lang="scss">
-	.spacing {
-		margin: 0 5px 5px 0;
-	}
+.demo-row {
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+}
+.demo-col {
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin-right: 24px;
+}
+.demo-icons {
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+.demo-spacing {
+	margin: 0 14px 12px 0;
+}
+.demo-loading-big {
+	width: 30px;
+	height: 30px;
+}
+.demo-slot-text {
+	padding: 4px 10px;
+	border-radius: 6px;
+	background-color: var(--sn-primary-light);
+	margin-left: 8px;
+}
+.scene-card {
+	padding: 14px;
+	border-radius: 10px;
+	background-color: var(--sn-front);
+}
 </style>

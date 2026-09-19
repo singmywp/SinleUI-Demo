@@ -1,0 +1,151 @@
+<template>
+	<sn-page :title="t('snQrcode.title')" :show-back="true">
+			<demo-card :title="t('snQrcode.realtimeTitle')" :subtitle="t('snQrcode.realtimeSubtitle')">
+			<view class="qr-preview-wrap" flatten>
+				<sn-qrcode :value="content" :size="size" :padding="padding" :error-correction-level="currentErrorCorrectionLevel"
+					:qr-version="qrVersion" :mask-pattern="maskPattern" :info-dot-shape="currentInfoDotShape"
+					:locate-dot-shape="currentLocateDotShape" :locate-dot-pattern="currentLocateDotPattern"
+					:info-dot-scale="infoDotScale" :locate-dot-scale="locateDotScale" :info-dot-radius="infoDotRadius"
+					:locate-dot-radius="locateDotRadius" :info-dot-gap="infoDotGap" :info-dot-color="infoDotColor"
+					:locate-dot-color="locateDotColor" :align-dot-color="alignDotColor" :timing-dot-color="timingDotColor"
+					:background-color="backgroundColor" :show-background="showBackground" :logo-src="logoSrc"
+					:logo-size="logoSize" :logo-padding="logoPadding" :logo-radius="logoRadius"
+					:logo-background-color="logoBackgroundColor" :custom-style="customStyle" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snQrcode.limitTitle')" :subtitle="t('snQrcode.limitSubtitle')">
+				<sn-text :text="t('snQrcode.limitText')" custom-style="font-size:12px;color:var(--sn-text-light);line-height:20px;" flatten />
+			</demo-card>
+
+			<demo-card :title="t('snQrcode.encodeTitle')">
+				<view class="config-row" flatten><sn-text :text="t('snQrcode.content')" custom-style="width:112px;" flatten /><sn-input v-model="content" custom-style="flex:1;" /></view>
+				<view class="config-row" flatten><sn-text :text="t('snQrcode.size')" custom-style="width:112px;" flatten /><sn-stepper v-model="size" :min="96" :max="360" :step="8" /></view>
+				<view class="config-row" flatten><sn-text :text="t('snQrcode.marginPadding')" custom-style="width:112px;" flatten /><sn-stepper v-model="padding" :min="0" :max="16" :step="1" /></view>
+				<view class="config-row" flatten><sn-text :text="t('snQrcode.ecLevel')" custom-style="width:112px;" flatten /><sn-select v-model="errorCorrectionLevelIndex" :data="errorCorrectionLevelOptions" width="168px" selected-mode="check" /></view>
+				<view class="config-row"><sn-text :text="t('snQrcode.qrVersion')" custom-style="width:112px;" /><sn-stepper v-model="qrVersion" :min="0" :max="40" :step="1" /></view>
+				<view class="config-row"><sn-text :text="t('snQrcode.maskPattern')" custom-style="width:112px;" /><sn-stepper v-model="maskPattern" :min="maskPatternMin" :max="7" :step="1" /></view>
+			</demo-card>
+
+			<demo-card :title="t('snQrcode.infoDotTitle')">
+				<view class="config-row"><sn-text :text="t('snQrcode.shape')" custom-style="width:112px;" /><sn-select v-model="infoDotShapeIndex" :data="shapeOptions" width="168px" selected-mode="check" /></view>
+				<view class="config-row"><sn-text :text="t('snQrcode.scale')" custom-style="width:112px;" /><sn-stepper v-model="infoDotScale" :min="0.6" :max="1.2" :step="0.05" /></view>
+				<view class="config-row"><sn-text :text="t('snQrcode.radius')" custom-style="width:112px;" /><sn-stepper v-model="infoDotRadius" :min="0" :max="0.5" :step="0.02" /></view>
+				<view class="config-row"><sn-text :text="t('snQrcode.gap')" custom-style="width:112px;" /><sn-stepper v-model="infoDotGap" :min="0" :max="0.35" :step="0.01" /></view>
+				<view class="config-row"><sn-text :text="t('snQrcode.color')" custom-style="width:112px;" /><sn-input v-model="infoDotColor" custom-style="flex:1;" /></view>
+			</demo-card>
+
+			<demo-card :title="t('snQrcode.locateDotTitle')">
+				<view class="config-row"><sn-text :text="t('snQrcode.shape')" custom-style="width:112px;" /><sn-select v-model="locateDotShapeIndex" :data="shapeOptions" width="168px" selected-mode="check" /></view>
+				<view class="config-row"><sn-text :text="t('snQrcode.locateDotPattern')" custom-style="width:112px;" /><sn-select v-model="locateDotPatternIndex" :data="locateDotPatternOptions" width="168px" selected-mode="check" /></view>
+				<view class="config-row"><sn-text :text="t('snQrcode.scale')" custom-style="width:112px;" /><sn-stepper v-model="locateDotScale" :min="0.6" :max="1.2" :step="0.05" /></view>
+				<view class="config-row"><sn-text :text="t('snQrcode.radius')" custom-style="width:112px;" /><sn-stepper v-model="locateDotRadius" :min="0" :max="0.5" :step="0.02" /></view>
+				<view class="config-row"><sn-text :text="t('snQrcode.locateDotColor')" custom-style="width:112px;" /><sn-input v-model="locateDotColor" custom-style="flex:1;" /></view>
+				<view class="config-row"><sn-text :text="t('snQrcode.alignDotColor')" custom-style="width:112px;" /><sn-input v-model="alignDotColor" custom-style="flex:1;" /></view>
+				<view class="config-row"><sn-text :text="t('snQrcode.timingDotColor')" custom-style="width:112px;" /><sn-input v-model="timingDotColor" custom-style="flex:1;" /></view>
+			</demo-card>
+
+			<demo-card :title="t('snQrcode.logoTitle')">
+				<view class="config-row"><sn-text :text="t('snQrcode.imagePath')" custom-style="width:112px;" /><sn-input v-model="logoSrc" custom-style="flex:1;" /></view>
+				<view class="config-row"><sn-text :text="t('snQrcode.size')" custom-style="width:112px;" /><sn-stepper v-model="logoSize" :min="16" :max="120" :step="2" /></view>
+				<view class="config-row"><sn-text :text="t('snQrcode.innerPadding')" custom-style="width:112px;" /><sn-stepper v-model="logoPadding" :min="0" :max="24" :step="1" /></view>
+				<view class="config-row"><sn-text :text="t('snQrcode.radius')" custom-style="width:112px;" /><sn-stepper v-model="logoRadius" :min="0" :max="40" :step="1" /></view>
+				<view class="config-row"><sn-text :text="t('snQrcode.bgColor')" custom-style="width:112px;" /><sn-input v-model="logoBackgroundColor" custom-style="flex:1;" /></view>
+			</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+
+type ShapeValue = 'square' | 'rounded' | 'circle' | 'diamond'
+type ErrorCorrectionLevel = 'low' | 'medium' | 'quartile' | 'high'
+type LocateDotPattern = 'dots' | 'square' | 'rounded-square' | 'circle'
+
+const errorCorrectionLevelOptions = computed<SnDataItem[]>(() => [
+	{ id: 'low', text: t('snQrcode.errorCorrection.low') },
+	{ id: 'medium', text: t('snQrcode.errorCorrection.medium') },
+	{ id: 'quartile', text: t('snQrcode.errorCorrection.quartile') },
+	{ id: 'high', text: t('snQrcode.errorCorrection.high') }
+])
+const shapeOptions = computed<SnDataItem[]>(() => [
+	{ id: 'square', text: t('snQrcode.shape.square') },
+	{ id: 'rounded', text: t('snQrcode.shape.rounded') },
+	{ id: 'circle', text: t('snQrcode.shape.circle') },
+	{ id: 'diamond', text: t('snQrcode.shape.diamond') }
+])
+const locateDotPatternOptions = computed<SnDataItem[]>(() => [
+	{ id: 'dots', text: t('snQrcode.locatePattern.dots') },
+	{ id: 'square', text: t('snQrcode.locatePattern.square') },
+	{ id: 'rounded-square', text: t('snQrcode.locatePattern.roundedSquare') },
+	{ id: 'circle', text: t('snQrcode.locatePattern.circle') }
+])
+
+const content = ref<string>('https://sinleui.pages.dev')
+const maskPatternMin = -1
+const size = ref<number>(248)
+const padding = ref<number>(2)
+const qrVersion = ref<number>(0)
+const maskPattern = ref<number>(-1)
+const errorCorrectionLevelIndex = ref<number>(1)
+const infoDotShapeIndex = ref<number>(1)
+const locateDotShapeIndex = ref<number>(1)
+const locateDotPatternIndex = ref<number>(2)
+const infoDotScale = ref<number>(0.92)
+const locateDotScale = ref<number>(1)
+const infoDotRadius = ref<number>(0.22)
+const locateDotRadius = ref<number>(0.28)
+const infoDotGap = ref<number>(0.04)
+const infoDotColor = ref<string>('#111111')
+const locateDotColor = ref<string>('#2563eb')
+const alignDotColor = ref<string>('#10b981')
+const timingDotColor = ref<string>('#6366f1')
+const backgroundColor = ref<string>('#ffffff')
+const showBackground = ref<boolean>(true)
+const logoSrc = ref<string>('/static/logo-trans.png')
+const logoSize = ref<number>(52)
+const logoPadding = ref<number>(8)
+const logoRadius = ref<number>(14)
+const logoBackgroundColor = ref<string>('#ffffff')
+const customStyle = ref<string>('border-radius:18px;border-width:1px;border-style:solid;border-color:var(--sn-line);')
+
+const currentErrorCorrectionLevel = computed((): ErrorCorrectionLevel => {
+	if (errorCorrectionLevelIndex.value == 0) return 'low'
+	if (errorCorrectionLevelIndex.value == 2) return 'quartile'
+	if (errorCorrectionLevelIndex.value == 3) return 'high'
+	return 'medium'
+})
+function shapeAt(index: number): ShapeValue {
+	if (index == 1) return 'rounded'
+	if (index == 2) return 'circle'
+	if (index == 3) return 'diamond'
+	return 'square'
+}
+
+const currentInfoDotShape = computed((): ShapeValue => shapeAt(infoDotShapeIndex.value))
+const currentLocateDotShape = computed((): ShapeValue => shapeAt(locateDotShapeIndex.value))
+const currentLocateDotPattern = computed((): LocateDotPattern => {
+	if (locateDotPatternIndex.value == 1) return 'square'
+	if (locateDotPatternIndex.value == 2) return 'rounded-square'
+	if (locateDotPatternIndex.value == 3) return 'circle'
+	return 'dots'
+})
+</script>
+
+<style lang="scss">
+.qr-preview-wrap {
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	padding: 8px 0px;
+}
+.config-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+</style>

@@ -1,0 +1,276 @@
+<template>
+	<sn-page :title="t('snFormField.title')" :show-back="true">
+
+		<demo-card :title="t('snFormField.basicTitle')" :subtitle="t('snFormField.basicDesc')">
+			<sn-form-field :label="t('snFormField.nickname')">
+				<input class="demo-field-input" v-model="value1" :placeholder="t('snFormField.nickPh')" />
+			</sn-form-field>
+		</demo-card>
+
+		<demo-card :title="t('snFormField.requiredTitle')" :subtitle="t('snFormField.requiredDesc')">
+			<sn-form-field :label="t('snFormField.account')" required>
+				<input class="demo-field-input" v-model="value2" :placeholder="t('snFormField.accountPh')" />
+			</sn-form-field>
+		</demo-card>
+
+		<demo-card :title="t('snFormField.slotTitle')" :subtitle="t('snFormField.slotDesc')">
+			<sn-form-field :label="t('snFormField.volume')">
+				<sn-slider v-model="sliderVal" custom-style="flex:1;" />
+			</sn-form-field>
+			<sn-form-field :label="t('snFormField.code')">
+				<sn-code-input v-model="codeVal" :length="4" format="number" />
+			</sn-form-field>
+			<sn-form-field :label="t('snFormField.gender')">
+				<sn-radio-group v-model="radioVal">
+					<sn-radio :text="t('snFormField.male')" />
+					<sn-radio :text="t('snFormField.female')" />
+				</sn-radio-group>
+			</sn-form-field>
+			<sn-form-field :label="t('snFormField.loves')">
+				<sn-checkbox-group v-model="checkVal">
+					<sn-checkbox :text="t('snFormField.read')" />
+					<sn-checkbox :text="t('snFormField.sport')" />
+					<sn-checkbox :text="t('snFormField.music')" />
+				</sn-checkbox-group>
+			</sn-form-field>
+			<sn-form-field :label="t('snFormField.city')">
+				<sn-select v-model="selectVal" :data="cityOptions" width="140px" />
+			</sn-form-field>
+			<sn-form-field :label="t('snFormField.avatar')">
+				<sn-upload-media mode="image" :auto-upload="false" width="64px" height="64px" />
+			</sn-form-field>
+		</demo-card>
+
+		<demo-card :title="t('snFormField.labelTitle')" :subtitle="t('snFormField.labelDesc')">
+			<sn-form-field :label="t('snFormField.labelRight')" label-align="right" label-width="80px">
+				<sn-switch v-model="switchAlign" />
+			</sn-form-field>
+			<sn-form-field :label="t('snFormField.bigLabel')" label-size="$18" label-color="$primaryDark">
+				<sn-rate v-model="rateStyle" />
+			</sn-form-field>
+			<sn-form-field :label="t('snFormField.longLabel')" label-width="100px">
+				<sn-stepper v-model="stepLong" :min="0" :max="10" />
+			</sn-form-field>
+		</demo-card>
+
+		<demo-card :title="t('snFormField.vTitle')" :subtitle="t('snFormField.vDesc')">
+			<sn-form-field :label="t('snFormField.topLeft')" label-justify="top" label-width="100px">
+				<sn-text font-size="$13" color="$textLight" custom-style="flex:1;height:56px;line-height:56px;" flatten>{{ t('snFormField.content56') }}</sn-text>
+			</sn-form-field>
+			<sn-form-field :label="t('snFormField.vCenter')" label-justify="center" label-width="100px" custom-style="margin-top:12px;">
+				<sn-text font-size="$13" color="$textLight" custom-style="flex:1;height:56px;line-height:56px;" flatten>{{ t('snFormField.content56') }}</sn-text>
+			</sn-form-field>
+			<sn-form-field :label="t('snFormField.bottomRight')" label-justify="bottom" label-align="right" label-width="100px" custom-style="margin-top:12px;">
+				<sn-text font-size="$13" color="$textLight" custom-style="flex:1;height:56px;line-height:56px;" flatten>{{ t('snFormField.content56') }}</sn-text>
+			</sn-form-field>
+		</demo-card>
+
+		<demo-card :title="t('snFormField.verticalTitle')" :subtitle="t('snFormField.verticalDesc')">
+			<sn-form-field :label="t('snFormField.autoHeight')" direction="vertical">
+				<sn-rate v-model="rateV" />
+			</sn-form-field>
+			<sn-form-field :label="t('snFormField.vibration')" direction="vertical">
+				<sn-switch v-model="switchV" />
+			</sn-form-field>
+		</demo-card>
+
+		<demo-card :title="t('snFormField.alignTitle')" :subtitle="t('snFormField.alignDesc')">
+			<sn-form-field :label="t('snFormField.alignLeft')" content-align="left">
+				<sn-switch v-model="switchL" />
+			</sn-form-field>
+			<sn-form-field :label="t('snFormField.alignCenter')" content-align="center">
+				<sn-switch v-model="switchC" />
+			</sn-form-field>
+			<sn-form-field :label="t('snFormField.alignRight')" content-align="right">
+				<sn-switch v-model="switchR" />
+			</sn-form-field>
+		</demo-card>
+
+		<demo-card :title="t('snFormField.pickerTitle')" :subtitle="t('snFormField.pickerDesc')">
+			<sn-form-field :label="t('snFormField.city')">
+				<sn-text font-size="$13" color="$textLight" custom-style="flex:1;" flatten>{{ cityText }}</sn-text>
+				<sn-button type="info" level="first" :text="t('snFormField.chooseCity')" @click="openCityPicker" />
+			</sn-form-field>
+			<sn-form-field :label="t('snFormField.datetime')">
+				<sn-text font-size="$13" color="$textLight" custom-style="flex:1;" flatten>{{ dateText }}</sn-text>
+				<sn-button type="info" level="first" :text="t('snFormField.chooseDate')" @click="openDatePicker" />
+			</sn-form-field>
+			<sn-form-field :label="t('snFormField.address')">
+				<sn-text font-size="$13" color="$textLight" custom-style="flex:1;" flatten>{{ regionText }}</sn-text>
+				<sn-button type="info" level="first" :text="t('snFormField.chooseRegion')" @click="openRegionPicker" />
+			</sn-form-field>
+		</demo-card>
+
+		<demo-card :title="t('snFormField.errorTitle')" :subtitle="t('snFormField.errorDesc')">
+			<sn-form-field :label="t('snFormField.rateRequired')" required :error="errorRate" labelJustify="top">
+				<sn-rate v-model="rateErr" />
+			</sn-form-field>
+			<sn-form-field :label="t('snFormField.errCenter')" content-align="center" :error="errorRate" custom-style="margin-top:12px;">
+				<sn-rate v-model="rateErr" />
+			</sn-form-field>
+			<sn-form-field :label="t('snFormField.errLeft')" content-align="left" :error="errorRate" custom-style="margin-top:12px;">
+				<sn-rate v-model="rateErr" />
+			</sn-form-field>
+		</demo-card>
+
+		<demo-card :title="t('snFormField.lineTitle')" :subtitle="t('snFormField.lineDesc')">
+			<sn-form-field :label="t('snFormField.defaultLine')" show-border>
+				<sn-switch v-model="switchBorder1" />
+			</sn-form-field>
+			<sn-form-field :label="t('snFormField.customLine')" show-border border-style="background-color:#f60;height:2px;">
+				<sn-switch v-model="switchBorder2" />
+			</sn-form-field>
+		</demo-card>
+
+		<demo-card :title="t('snFormField.extTitle')" :subtitle="t('snFormField.extDesc')">
+			<sn-form-field :label="t('snFormField.rootStyle')" custom-class="demo-formfield-row">
+				<sn-switch v-model="switchExt" />
+			</sn-form-field>
+			<sn-form-field :label="t('snFormField.redLabel')" label-color="$error" label-style="background-color:rgba(255,77,79,0.12);">
+				<sn-switch v-model="switchExt2" />
+			</sn-form-field>
+		</demo-card>
+
+		<demo-card :title="t('snFormField.settingTitle')" :subtitle="t('snFormField.settingDesc')">
+			<sn-form-field :label="t('snFormField.msgNotify')" show-border>
+				<sn-switch v-model="notify" />
+			</sn-form-field>
+			<sn-form-field :label="t('snFormField.darkMode')" show-border>
+				<sn-switch v-model="darkMode" />
+			</sn-form-field>
+			<sn-form-field :label="t('snFormField.quietMode')" show-border>
+				<sn-switch v-model="quietMode" />
+			</sn-form-field>
+		</demo-card>
+
+		<sn-picker ref="cityPickerRef" v-model="cityValue" :data="cityData" :title="t('snFormField.chooseCity')" @change="onCityChange" />
+		<sn-datetime-picker ref="datePickerRef" v-model="dateValue" :title="t('snFormField.datetime')" @change="onDateChange" />
+		<sn-region-picker ref="regionPickerRef" v-model="regionValue" :title="t('snFormField.address')" @change="onRegionChange" />
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import type { ComponentPublicInstance } from 'vue'
+import type { SnDataItem, SnDatetimePickerValue, SnRegionDetail, SnRegionValue } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+
+const value1 = ref<string>('')
+const value2 = ref<string>('')
+
+const sliderVal = ref<number>(30)
+const codeVal = ref<string>('')
+const radioVal = ref<number>(0)
+const checkVal = ref<number[]>([0])
+const selectVal = ref<number>(0)
+const cityOptions = ref<SnDataItem[]>([
+	{ id: 'beijing', text: t('snFormField.cityBeijing') },
+	{ id: 'shanghai', text: t('snFormField.cityShanghai') },
+	{ id: 'guangzhou', text: t('snFormField.cityGuangzhou') },
+	{ id: 'shenzhen', text: t('snFormField.cityShenzhen') }
+] as SnDataItem[])
+
+const switchAlign = ref<boolean>(false)
+const rateStyle = ref<number>(4)
+const stepLong = ref<number>(2)
+
+const rateV = ref<number>(5)
+const switchV = ref<boolean>(false)
+
+const switchL = ref<boolean>(false)
+const switchC = ref<boolean>(true)
+const switchR = ref<boolean>(true)
+
+const cityPickerRef = ref<ComponentPublicInstance | null>(null)
+const datePickerRef = ref<ComponentPublicInstance | null>(null)
+const regionPickerRef = ref<ComponentPublicInstance | null>(null)
+
+const cityValue = ref<number[]>([0, 0])
+const cityText = ref<string>(t('snFormField.cityBeijing') + ' · ' + t('snFormField.cityChaoyang'))
+const cityData = [
+	[
+		{ id: 'beijing', text: t('snFormField.cityBeijing') },
+		{ id: 'shanghai', text: t('snFormField.cityShanghai') }
+	] as SnDataItem[],
+	[
+		{ id: 'chaoyang', text: t('snFormField.cityChaoyang') },
+		{ id: 'haidian', text: t('snFormField.cityHaidian') }
+	] as SnDataItem[]
+]
+
+const dateValue = ref<SnDatetimePickerValue>('2026-08-18 10:30:00')
+const dateText = ref<string>('2026-08-18 10:30:00')
+
+const regionValue = ref<SnRegionValue>(['110000', '110000', '110105'])
+const regionText = ref<string>(t('snFormField.regionDefault'))
+
+function openCityPicker(): void {
+	cityPickerRef.value?.$callMethod('open')
+}
+
+function openDatePicker(): void {
+	datePickerRef.value?.$callMethod('open')
+}
+
+function openRegionPicker(): void {
+	regionPickerRef.value?.$callMethod('open')
+}
+
+function onCityChange(value: number[]): void {
+	const list = cityData
+	let text = ''
+	if (value.length > 0 && value[0] >= 0 && value[0] < list[0].length) {
+		text += (list[0][value[0]].text ?? '')
+	}
+	if (value.length > 1 && value[1] >= 0 && value[1] < list[1].length) {
+		text += ' · ' + (list[1][value[1]].text ?? '')
+	}
+	cityText.value = text
+}
+
+function onDateChange(value: SnDatetimePickerValue): void {
+	dateText.value = value as string
+}
+
+function onRegionChange(_v: SnRegionValue, detail: SnRegionDetail): void {
+	let s = ''
+	for (let i = 0; i < detail.names.length; i++) {
+		const n = detail.names[i]
+		if (n == '') {
+			continue
+		}
+		if (s != '') {
+			s += ' '
+		}
+		s += n
+	}
+	regionText.value = s
+}
+
+const rateErr = ref<number>(0)
+const errorRate = ref<string>(t('snFormField.errorRateMsg'))
+
+const switchBorder1 = ref<boolean>(true)
+const switchBorder2 = ref<boolean>(false)
+
+const switchExt = ref<boolean>(true)
+const switchExt2 = ref<boolean>(false)
+
+const notify = ref<boolean>(true)
+const darkMode = ref<boolean>(false)
+const quietMode = ref<boolean>(false)
+</script>
+
+<style lang="scss">
+.demo-field-input {
+	flex: 1;
+	font-size: 14px;
+	color: var(--sn-text);
+	background-color: var(--sn-transparent);
+}
+.demo-formfield-row {
+	border-radius: 8px;
+	background-color: var(--sn-front);
+}
+</style>

@@ -1,92 +1,157 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Timer 计时器"></sn-topbar>
-		<com-card title="基础用法"
-		note="顾名思义，就是一个计时器。\n推荐使用插槽布局为主，样式更好调。">
-			<sn-timer></sn-timer>
-		</com-card>
-		<com-card title="自定义样式"
-		note="可以自由设置文本的颜色和大小等样式">
-			<sn-timer textSize="$3"
-			textColor="$successDark"
-			:customStyle="{fontFamily:'alipuhuiheavy'}"></sn-timer>
-		</com-card>
-		<com-card title="格式化"
-		note="计时器内置文字支持时间格式化（参照Day.js）。">
-			<sn-timer format="DD 天 HH 小时 mm 分钟 ss 秒"></sn-timer>
-		</com-card>
-		<com-card title="毫秒精度"
-		note="虽然使用一般模式也支持获取毫秒，但误差极大，不如此模式精确。">
-			<sn-timer format="mm:ss.SS"
-			millisecond></sn-timer>
-		</com-card>
-		<com-card title="插槽"
-		note="推荐使用插槽模式，自由度更高。">
-			<sn-timer millisecond
-			@change="onChange">
-			<sn-row>
-				<sn-tag class="spacing" type="primary" :text="`${timedata.h}`"></sn-tag>
-				<sn-text class="spacing" text="时" font="alipuhuiheavy"></sn-text>
-				<sn-tag class="spacing" type="primary" :text="`${timedata.m}`"></sn-tag>
-				<sn-text class="spacing" text="分" font="alipuhuiheavy"></sn-text>
-				<sn-tag class="spacing" type="primary" :text="`${timedata.s}`"></sn-tag>
-				<sn-text class="spacing" text="秒" font="alipuhuiheavy"></sn-text>
-			</sn-row>
-			</sn-timer>
-		</com-card>
-		<com-card title="自由控制"
-		note="提供 API 以自由控制计时器的状态。">
-			<view class="align-items-center">
-				<sn-timer ref="timerEle"
-				format="mm:ss.SS"
-				millisecond
-				:autoplay="false"></sn-timer>
-				<sn-row class="m-t-10"
-				align="center">
-					<sn-button @click="reset">
-						<sn-icon name="refresh-line"></sn-icon>
-					</sn-button>
-					<sn-button class="m-l-10"
-					type="primary"
-					level="second"
-					@click="playOrPause">
-						<sn-icon color="$primary"
-						:name="`${running?'pause':'play'}-fill`" ></sn-icon>
-					</sn-button>
-				</sn-row>
+	<sn-page :title="t('snTimer.title')" :show-back="true">
+		<demo-card :title="t('snTimer.basicTitle')" :subtitle="t('snTimer.basicSubtitle')">
+			<sn-timer ref="timer1" format="HH:mm:ss" @change="onChange1" />
+			<sn-text type="text-light" :font-size="13" :text="t('snTimer.changeCount', { count: changeCount1 } as UTSJSONObject)" custom-style="margin-top:8px;" flatten />
+		</demo-card>
+
+		<demo-card :title="t('snTimer.msTitle')" :subtitle="t('snTimer.msSubtitle')">
+			<sn-timer ref="timer2" format="mm:ss.SSS" :millisecond="true" text-color="$primary" text-size="$18" />
+			<sn-timer ref="timer2b" format="mm:ss.SS" :millisecond="true" text-color="$warning" custom-style="margin-top:6px;" />
+		</demo-card>
+
+		<demo-card :title="t('snTimer.formatTitle')" :subtitle="t('snTimer.formatSubtitle')">
+			<sn-timer format="DD天HH小时mm分钟ss秒" custom-style="margin-bottom:10px;" />
+			<sn-timer format="mm:ss" text-color="$success" text-size="$20" custom-style="margin-bottom:10px;" />
+			<sn-timer format="ss秒" text-color="$error" />
+		</demo-card>
+
+		<demo-card :title="t('snTimer.apiTitle')" :subtitle="t('snTimer.apiSubtitle')">
+			<view class="timer-control-row" flatten>
+				<sn-timer ref="timerCtl" format="HH:mm:ss" :autoplay="false" text-size="$22" text-color="$primaryDark" />
 			</view>
-		</com-card>
+			<view class="timer-control-row" flatten>
+				<sn-button :text="t('snTimer.start')"  type="primary" custom-style="margin-right:8px;" @click="startTimer" />
+				<sn-button :text="t('snTimer.pause')"  type="info" custom-style="margin-right:8px;" @click="pauseTimer" />
+				<sn-button :text="t('snTimer.reset')"  type="warning" @click="resetTimer" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snTimer.slotTitle')" :subtitle="t('snTimer.slotSubtitle')">
+			<sn-timer ref="timerSeg" format="HH:mm:ss" :autoplay="false" @change="onSegChange"
+				custom-style="justify-content:center;padding-top:16px;padding-bottom:16px;">
+				<view class="timer-seg-cell" flatten>
+					<sn-text bold :font-size="24" color="#fff" :text="segTexts[0]" flatten />
+				</view>
+				<sn-text bold :font-size="22" color="$textLight" text=":" custom-style="margin-left:5px;margin-right:5px;" flatten />
+				<view class="timer-seg-cell timer-seg-cell-accent" flatten>
+					<sn-text bold :font-size="24" color="#fff" :text="segTexts[1]" flatten />
+				</view>
+				<sn-text bold :font-size="22" color="$textLight" text=":" custom-style="margin-left:5px;margin-right:5px;" flatten />
+				<view class="timer-seg-cell" flatten>
+					<sn-text bold :font-size="24" color="#fff" :text="segTexts[2]" flatten />
+				</view>
+			</sn-timer>
+			<sn-text type="text-light" :font-size="12" :text="segHint" custom-style="margin-top:8px;" flatten />
+			<view class="timer-seg-actions">
+					<sn-button :text="t('snTimer.start')" type="primary" custom-style="flex:1;margin-right:8px;" @click="startSegTimer" />
+					<sn-button :text="t('snTimer.pause')" type="info" custom-style="flex:1;margin-right:8px;" @click="pauseSegTimer" />
+					<sn-button :text="t('snTimer.reset')" type="warning" custom-style="flex:1;" @click="resetSegTimer" />
+			</view>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui, SnTime } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	const running = ref(false)
-	const timedata = ref({d:0,h:0,m:0,s:0,ms:0} as SnTime)
-	const timerEle = ref(null as SnTimerComponentPublicInstance | null)
-	
-	function onChange(data: SnTime){
-		timedata.value = data
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import type { SnTime } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type { ComponentPublicInstance } from 'vue'
+
+const { t } = useI18n()
+
+
+
+const timer1 = ref<UniElement | null>(null)
+const timer2 = ref<UniElement | null>(null)
+const timer2b = ref<UniElement | null>(null)
+const timerCtl = ref<ComponentPublicInstance | null>(null)
+const timerSeg = ref<ComponentPublicInstance | null>(null)
+
+const changeCount1 = ref<number>(0)
+const segTexts = ref<string[]>(['00', '00', '00'])
+const segHint = ref<string>(t('snTimer.segPaused'))
+
+function onChange1(v: SnTime): void {
+	changeCount1.value = changeCount1.value + 1
+}
+
+
+function onSegChange(v: SnTime): void {
+	segTexts.value = [pad2(v.h), pad2(v.m), pad2(v.s)]
+}
+
+function pad2(n: number): string {
+	const s = `${n}`
+	return s.length < 2 ? `0${s}` : s
+}
+
+function startTimer(): void {
+	const ele = timerCtl.value
+	if (ele != null) {
+		ele.$callMethod('start')
 	}
-	
-	function playOrPause(){
-		running.value = !running.value
-		if (running.value) {
-			timerEle.value!.start()
-		} else {
-			timerEle.value!.pause()
-		}
+}
+
+function pauseTimer(): void {
+	const ele = timerCtl.value
+	if (ele != null) {
+		ele.$callMethod('pause')
 	}
-	
-	function reset(){
-		running.value = false
-		timerEle.value!.reset()
+}
+
+function resetTimer(): void {
+	const ele = timerCtl.value
+	if (ele != null) {
+		ele.$callMethod('reset')
 	}
+}
+
+function startSegTimer(): void {
+	segHint.value = t('snTimer.segRunning')
+	const ele = timerSeg.value
+	if (ele != null) {
+		ele.$callMethod('start')
+	}
+}
+
+function pauseSegTimer(): void {
+	segHint.value = t('snTimer.segPaused2')
+	const ele = timerSeg.value
+	if (ele != null) {
+		ele.$callMethod('pause')
+	}
+}
+
+function resetSegTimer(): void {
+	segHint.value = t('snTimer.segReset')
+	const ele = timerSeg.value
+	if (ele != null) {
+		ele.$callMethod('reset')
+	}
+}
 </script>
 
 <style lang="scss">
-	.spacing {
-		margin-right: 5px;
-	}
+.timer-control-row {
+	flex-direction: row;
+	align-items: center;
+	margin-bottom: 10px;
+}
+.timer-seg-actions {
+	flex-direction: row;
+	align-items: center;
+	margin-top: 10px;
+}
+.timer-seg-cell {
+	width: 46px;
+	height: 46px;
+	border-radius: 10px;
+	background-color: var(--sn-primary-dark);
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+.timer-seg-cell-accent {
+	background-color: var(--sn-primary);
+}
 </style>

@@ -1,0 +1,538 @@
+<template>
+	<sn-page :title="t('snEMarkdown.title')" :show-back="true" padding="0 16px 32px 16px">
+		<demo-card :title="t('snEMarkdown.basicTitle')" :subtitle="t('snEMarkdown.basicSubtitle')">
+			<sn-e-markdown :text="basicMarkdown" />
+		</demo-card>
+
+		<demo-card :title="t('snEMarkdown.headingsTitle')" :subtitle="t('snEMarkdown.headingsSubtitle')">
+			<sn-e-markdown :text="headingsMarkdown" />
+		</demo-card>
+
+		<demo-card :title="t('snEMarkdown.emphasisTitle')" :subtitle="t('snEMarkdown.emphasisSubtitle')">
+			<sn-e-markdown :text="emphasisMarkdown" />
+		</demo-card>
+
+		<demo-card :title="t('snEMarkdown.listTitle')" :subtitle="t('snEMarkdown.listSubtitle')">
+			<sn-e-markdown :text="listMarkdown" />
+		</demo-card>
+
+		<demo-card :title="t('snEMarkdown.linkImageTitle')" :subtitle="t('snEMarkdown.linkImageSubtitle')">
+			<sn-e-markdown :text="linkImageMarkdown" />
+		</demo-card>
+
+		<demo-card :title="t('snEMarkdown.codeTitle')" :subtitle="t('snEMarkdown.codeSubtitle')">
+			<sn-e-markdown :text="codeMarkdown" />
+		</demo-card>
+
+		<demo-card :title="t('snEMarkdown.tableTitle')" :subtitle="t('snEMarkdown.tableSubtitle')">
+			<sn-e-markdown :text="tableMarkdown" />
+		</demo-card>
+
+		<demo-card :title="t('snEMarkdown.quoteTitle')" :subtitle="t('snEMarkdown.quoteSubtitle')">
+			<sn-e-markdown :text="quoteMarkdown" />
+		</demo-card>
+
+		<demo-card :title="t('snEMarkdown.styleExtTitle')" :subtitle="t('snEMarkdown.styleExtSubtitle')">
+			<sn-e-markdown :text="styleExtMarkdown" />
+		</demo-card>
+
+		<demo-card :title="t('snEMarkdown.containerTitle')" :subtitle="t('snEMarkdown.containerSubtitle')">
+			<sn-e-markdown :text="containerMarkdown" />
+		</demo-card>
+
+		<demo-card :title="t('snEMarkdown.alignTitle')" :subtitle="t('snEMarkdown.alignSubtitle')">
+			<sn-e-markdown :text="alignMarkdown" />
+		</demo-card>
+
+		<demo-card :title="t('snEMarkdown.footnoteTitle')" :subtitle="t('snEMarkdown.footnoteSubtitle')">
+			<sn-e-markdown :text="footnoteMarkdown" />
+		</demo-card>
+
+		<demo-card :title="t('snEMarkdown.katexTitle')" :subtitle="t('snEMarkdown.katexSubtitle')">
+			<sn-e-markdown :text="katexMarkdown" />
+		</demo-card>
+
+		<demo-card :title="t('snEMarkdown.emojiTitle')" :subtitle="t('snEMarkdown.emojiSubtitle')">
+			<sn-e-markdown :text="emojiMarkdown" />
+		</demo-card>
+
+		<demo-card :title="t('snEMarkdown.fontTitle')" :subtitle="t('snEMarkdown.fontSubtitle')">
+			<view class="config-row" flatten>
+				<sn-text :text="t('snEMarkdown.baseFontSize')" custom-style="width:96px;" flatten />
+				<sn-stepper v-model="baseFontSize" :min="10" :max="24" :step="1" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snEMarkdown.lineHeight')" custom-style="width:96px;" flatten />
+				<sn-stepper v-model="lineHeightInt" :min="12" :max="24" :step="1" />
+			</view>
+			<sn-e-markdown :text="styleMarkdown" :base-font-size="baseFontSize" :line-height="lineHeight" />
+		</demo-card>
+
+		<demo-card :title="t('snEMarkdown.colorTitle')" :subtitle="t('snEMarkdown.colorSubtitle')">
+			<view class="config-row" flatten>
+				<sn-text :text="t('snEMarkdown.textColor')" custom-style="width:96px;" flatten />
+				<sn-input v-model="textColor" custom-style="flex:1;" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snEMarkdown.linkColor')" custom-style="width:96px;" flatten />
+				<sn-input v-model="linkColor" custom-style="flex:1;" />
+			</view>
+			<sn-e-markdown :text="styleMarkdown" :text-color="textColor" :link-color="linkColor" />
+		</demo-card>
+
+		<demo-card :title="t('snEMarkdown.linkClickTitle')" :subtitle="t('snEMarkdown.linkClickSubtitle')">
+			<sn-e-markdown :text="linkMarkdown" @linkclick="onLinkClick" />
+			<view class="link-result" flatten>
+				<sn-text font-size="$13" :color="linkResultColor" flatten>{{ t('snEMarkdown.recentLink') }}：{{ lastLinkText }}</sn-text>
+			</view>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import type { SnMarkdownLinkEvent } from '@/uni_modules/sn-e-markdown/index.uts'
+
+const { t } = useI18n()
+const basicMarkdown = ref<string>(
+	'# SinleUI Markdown\n\n' +
+	'SinleUI 的 **Markdown 富文本组件** 基于 markdown-it（Web 端 UTS 移植）与 Markwon（Android 端）实现，' +
+	'并内置多种扩展语法：*上标*、~下标~、==标记==、`容器`、`对齐`、`脚注`、`数学公式`、`任务列表` 与 `代码高亮`。\n\n' +
+	'> 引用：以上所有语法在 Web 与 App 端保持一致。\n\n' +
+	'---'
+)
+
+const headingsMarkdown = ref<string>(
+	'# 一级标题\n\n## 二级标题\n\n### 三级标题\n\n#### 四级标题\n\n##### 五级标题\n\n###### 六级标题\n\n' +
+	'也可以通过 Setext 语法创建标题：\n\n' +
+	'Setext 一级标题\n=================\n\n' +
+	'Setext 二级标题\n-----------------\n\n' +
+	'---'
+)
+
+const emphasisMarkdown = ref<string>(
+	'**加粗文字**\n\n*斜体文字*\n\n***加粗斜体***\n\n~~删除线文字~~\n\n' +
+	'行内混合：**加粗**、*斜体*、***粗斜***、~~删除~~、`行内代码` 与 [内联链接](https://sinleui.pages.dev) 混排。'
+)
+
+const listMarkdown = ref<string>(
+	'无序列表：\n\n' +
+	'- 苹果\n' +
+	'- 香蕉\n' +
+	'  - 子项 A\n' +
+	'  - 子项 B\n' +
+	'- 橘子\n\n' +
+	'有序列表：\n\n' +
+	'1. 第一步\n' +
+	'2. 第二步\n' +
+	'   1. 嵌套有序 a\n' +
+	'   2. 嵌套有序 b\n' +
+	'3. 第三步\n\n' +
+	'GFM 任务列表：\n\n' +
+	'- [x] 已经完成的任务\n' +
+	'- [ ] 待完成的任务 1\n' +
+	'- [ ] 待完成的任务 2\n\n' +
+	'1. [ ] 有序任务列表\n' +
+	'2. [x] 有序任务（已完成）'
+)
+
+const linkImageMarkdown = ref<string>(
+	'[行内链接 SinleUI 文档](https://sinleui.pages.dev)\n\n' +
+	'[带悬浮标题的链接](https://doc.dcloud.net.cn/uni-app-x/ "uni-app x 官方文档")\n\n' +
+	'引用式链接 [Markdown Guide][mdn]，再次引用 [Markdown Guide][mdn]。\n\n' +
+	'自动链接：\u003Chttps://www.dcloud.io\u003E（两端点击均会触发 linkclick 事件）\n\n' +
+	'![SinleUI Logo](https://singmywp.github.io/logo.png)\n\n' +
+	'[mdn]: https://developer.mozilla.org "MDN 文档"'
+)
+
+const codeMarkdown = ref<string>(
+	'行内代码：调用 snu.randomComId() 可以生成随机组件 id。\n\n' +
+	'当前内置高亮语言：`js`、`ts`、`uts`、`uvue`、`ucss`、`html/xml/vue/svg`、`css/scss/less`、`json`、`yaml`、`python`、`java`、`kotlin`、`c`、`cpp`、`go`、`bash`、`php`、`powershell`、`rust`、`swift`、`lua`、`c#`、`r`、`perl`、`objective-c`、`sql`。\n\n' +
+	'```js\n' +
+	'const hello = (name) => {\n' +
+	'  let msg = \'Hello, \' + name + \'!\'\n' +
+	'  counter += 1\n' +
+	'  return { name: name, time: Date.now(), msg: msg }\n' +
+	'}\n' +
+	'hello(\'SinleUI\')\n' +
+	'```\n\n' +
+	'```ts\n' +
+	'interface User {\n' +
+	'  id: number\n' +
+	'  name: string\n' +
+	'  online: boolean\n' +
+	'}\n' +
+	'type Id = string | number\n' +
+	'const user: User = { id: 1, name: \'Aaron\', online: true }\n' +
+	'```\n\n' +
+	'```uts\n' +
+	'// 平台专有类型：Int Float Double Long Char Short Byte\n' +
+	'final val count: Int = 10\n' +
+	'val price: Double = 9.99\n' +
+	'var flag: boolean = true\n' +
+	'\n' +
+	'// uts 特有对象类型\n' +
+	'const json: UTSJSONObject = new UTSJSONObject()\n' +
+	'let el: UniElement | null = null\n' +
+	'\n' +
+	'// 新增保留字：byte char native synchronized transient volatile\n' +
+	'synchronized function lock(): void {\n' +
+	'  let byte: Byte = 1\n' +
+	'}\n' +
+	'\n' +
+	'function calc(a: Int, b: Long): Double {\n' +
+	'  return a + b\n' +
+	'}\n' +
+	'```\n\n' +
+	'```html\n' +
+	'\u003Cdiv class="card" style="color: red"\u003E\n' +
+	'  \u003Ch2\u003EHello SinleUI\u003C/h2\u003E\n' +
+	'  \u003Cp\u003Euni-app x vapor mode\u003C/p\u003E\n' +
+	'\u003C/div\u003E\n' +
+	'```\n\n' +
+	'```xml\n' +
+	'\u003Cnote\u003E\n' +
+	'  \u003Cto\u003ESinleUI\u003C/to\u003E\n' +
+	'  \u003Cfrom\u003Euni-agent\u003C/from\u003E\n' +
+	'  \u003Cbody\u003EXML 也走 markup 高亮。\u003C/body\u003E\n' +
+	'\u003C/note\u003E\n' +
+	'```\n\n' +
+	'```vue\n' +
+	'\u003Ctemplate\u003E\n' +
+	'  \u003Cview class="demo"\u003E{{ title }}\u003C/view\u003E\n' +
+	'\u003C/template\u003E\n' +
+	'\u003Cscript setup\u003E\n' +
+	'const title = "sn-e-markdown"\n' +
+	'\u003C/script\u003E\n' +
+	'```\n\n' +
+	'```uvue\n' +
+	'\u003Ctemplate\u003E\n' +
+	'  \u003Cview class="demo"\u003E{{ title }}\u003C/view\u003E\n' +
+	'\u003C/template\u003E\n' +
+	'\u003Cscript setup lang="uts"\u003E\n' +
+	'const title: string = \'sn-e-markdown\'\n' +
+	'let el: UniTextElement | null = null\n' +
+	'function setText(text: string): void {\n' +
+	'  title = text\n' +
+	'}\n' +
+	'\u003C/script\u003E\n' +
+	'\u003Cstyle lang="ucss"\u003E\n' +
+	'.demo {\n' +
+	'  flex-direction: row;\n' +
+	'  color: #333;\n' +
+	'}\n' +
+	'\u003C/style\u003E\n' +
+	'```\n\n' +
+	'```svg\n' +
+	'\u003Csvg viewBox="0 0 24 24"\u003E\n' +
+	'  \u003Ccircle cx="12" cy="12" r="10" fill="#3b82f6" /\u003E\n' +
+	'\u003C/svg\u003E\n' +
+	'```\n\n' +
+	'```css\n' +
+	'.card{\n' +
+	'  border-radius: 8px;\n' +
+	'  padding: 12px 16px;\n' +
+	'  background: #f5f5f7;\n' +
+	'}\n' +
+	'.card:hover {\n' +
+	'  transform: translateY(-2px);\n' +
+	'}\n' +
+	'```\n\n' +
+	'```ucss\n' +
+	'.cell {\n' +
+	'  flex-direction: row;\n' +
+	'  justify-content: center;\n' +
+	'  align-items: center;\n' +
+	'  border-radius: 8px;\n' +
+	'  background-color: #f5f5f7;\n' +
+	'  padding: 10px 12px;\n' +
+	'}\n' +
+	'```\n\n' +
+	'```scss\n' +
+	'$primary: #3b82f6;\n' +
+	'.panel {\n' +
+	'  color: $primary;\n' +
+	'  &.active {\n' +
+	'    border-color: $primary;\n' +
+	'  }\n' +
+	'}\n' +
+	'```\n\n' +
+	'```less\n' +
+	'@gap: 12px;\n' +
+	'.box {\n' +
+	'  padding: @gap;\n' +
+	'  .title {\n' +
+	'    color: #222;\n' +
+	'  }\n' +
+	'}\n' +
+	'```\n\n' +
+	'```json\n' +
+	'{\n' +
+	'  "name": "sinle-ui",\n' +
+	'  "version": "2.0.0",\n' +
+	'  "platforms": ["web", "app-android"]\n' +
+	'}\n' +
+	'```\n\n' +
+	'```yaml\n' +
+	'name: sn-e-markdown\n' +
+	'platforms:\n' +
+	'  - web\n' +
+	'  - app-android\n' +
+	'enabled: true\n' +
+	'```\n\n' +
+	'```python\n' +
+	'def fib(n: int) -> int:\n' +
+	'    a, b = 0, 1\n' +
+	'    for _ in range(n):\n' +
+	'        a, b = b, a + b\n' +
+	'    return a\n' +
+	'\n' +
+	'print(fib(10))\n' +
+	'```\n\n' +
+	'```java\n' +
+	'public class Hello {\n' +
+	'    public static void main(String[] args) {\n' +
+	'        System.out.println("Hello, SinleUI!");\n' +
+	'    }\n' +
+	'}\n' +
+	'```\n\n' +
+	'```kotlin\n' +
+	'fun main() {\n' +
+	'    val list = listOf(1, 2, 3)\n' +
+	'    list.map { it * 2 }.forEach { println(it) }\n' +
+	'}\n' +
+	'```\n\n' +
+	'```c\n' +
+	'#include \u003Cstdio.h\u003E\n' +
+	'\n' +
+	'int main(void) {\n' +
+	'  printf("Hello C\\n");\n' +
+	'  return 0;\n' +
+	'}\n' +
+	'```\n\n' +
+	'```cpp\n' +
+	'#include \u003Ciostream\u003E\n' +
+	'using namespace std;\n' +
+	'\n' +
+	'int main() {\n' +
+	'  cout << "Hello C++" << endl;\n' +
+	'  return 0;\n' +
+	'}\n' +
+	'```\n\n' +
+	'```go\n' +
+	'package main\n' +
+	'\n' +
+	'import "fmt"\n' +
+	'\n' +
+	'func main() {\n' +
+	'  fmt.Println("Hello Go")\n' +
+	'}\n' +
+	'```\n\n' +
+	'```bash\n' +
+	'npm install -g @dcloudio/uvm\n' +
+	'uvm i\n' +
+	'```\n\n' +
+	'```php\n' +
+	'\u003C?php\n' +
+	'function fib(int $n): int {\n' +
+	'    if ($n < 2) return $n;\n' +
+	'    return fib($n - 1) + fib($n - 2);\n' +
+	'}\n' +
+	'echo fib(10);\n' +
+	'?>\n' +
+	'```\n\n' +
+	'```powershell\n' +
+	'$sum = 0\n' +
+	'1..10 | ForEach-Object { $sum += $_ }\n' +
+	'Write-Output "Sum: $sum"\n' +
+	'```\n\n' +
+	'```rust\n' +
+	'fn main() {\n' +
+	'    let nums = vec![1, 2, 3];\n' +
+	'    let sum: i32 = nums.iter().sum();\n' +
+	'    println!("Sum: {}", sum);\n' +
+	'}\n' +
+	'```\n\n' +
+	'```swift\n' +
+	'func greet(name: String) -> String {\n' +
+	'    return "Hello, \\(name)!"\n' +
+	'}\n' +
+	'print(greet(name: "SinleUI"))\n' +
+	'```\n\n' +
+	'```lua\n' +
+	'local function fib(n)\n' +
+	'    if n < 2 then return n end\n' +
+	'    return fib(n - 1) + fib(n - 2)\n' +
+	'end\n' +
+	'print(fib(10))\n' +
+	'```\n\n' +
+	'```c#\n' +
+	'using System;\n' +
+	'class Program {\n' +
+	'    static void Main() {\n' +
+	'        var nums = new[] { 1, 2, 3 };\n' +
+	'        int sum = 0;\n' +
+	'        foreach (var n in nums) sum += n;\n' +
+	'        Console.WriteLine($"Sum: {sum}");\n' +
+	'    }\n' +
+	'}\n' +
+	'```\n\n' +
+	'```r\n' +
+	'fib <- function(n) {\n' +
+	'  if (n < 2) return(n)\n' +
+	'  fib(n - 1) + fib(n - 2)\n' +
+	'}\n' +
+	'print(fib(10))\n' +
+	'```\n\n' +
+	'```perl\n' +
+	'use strict;\n' +
+	'use warnings;\n' +
+	'sub fib {\n' +
+	'    my $n = shift;\n' +
+	'    return $n if $n < 2;\n' +
+	'    return fib($n - 1) + fib($n - 2);\n' +
+	'}\n' +
+	'print fib(10), "\\n";\n' +
+	'```\n\n' +
+	'```objective-c\n' +
+	'#import \u003CFoundation/Foundation.h\u003E\n' +
+	'\n' +
+	'int main(void) {\n' +
+	'    @autoreleasepool {\n' +
+	'        NSArray *names = @[@"SinleUI", @"uni-app x"];\n' +
+	'        for (NSString *name in names) {\n' +
+	'            NSLog(@"Hello, %@", name);\n' +
+	'        }\n' +
+	'    }\n' +
+	'    return 0;\n' +
+	'}\n' +
+	'```\n\n' +
+	'```sql\n' +
+	'SELECT name, COUNT(*) AS cnt\n' +
+	'FROM users\n' +
+	'WHERE online = true\n' +
+	'GROUP BY name\n' +
+	'ORDER BY cnt DESC\n' +
+	'LIMIT 10;\n' +
+	'```'
+)
+
+const tableMarkdown = ref<string>(
+	'| 功能 | 支持平台 | 说明 |\n' +
+	'| :--- | :---: | ---: |\n' +
+	'| **粗体** | Web / App | 左对齐列 |\n' +
+	'| *斜体* | Web / App | 居中对齐列 |\n' +
+	'| `行内代码` | Web / App | 右对齐列 |\n\n' +
+	'表格单元格内支持 **粗体**、*斜体*、`代码` 与 [链接](https://sinleui.pages.dev) 等行内语法。'
+)
+
+const quoteMarkdown = ref<string>(
+	'> 一行引用\n> 支持多行引用内容\n>\n' +
+	'> > 引用内还可以嵌套引用\n\n' +
+	'---\n\n***\n\n下划线形式的分割线：\n\n___'
+)
+
+const styleExtMarkdown = ref<string>(
+	'**上标**：x^2^、19^th^ 世纪、E=mc^2^、m^|x|^ 绝对值写法\n\n' +
+	'**下标**：H~2~O 水的化学式、CO~2~ 二氧化碳、log~2~N\n\n' +
+	'**标记**：这是一段 ==重点内容==，请 ==特别注意== 上下两行\n\n' +
+	'综合示例：水的电离 H~2~O ⇌ H^+^ + OH^-^，能量方程 E=mc^2^。'
+)
+
+const containerMarkdown = ref<string>(
+	'::: tip 提示\n这是一个 **tip** 类型的自定义容器，内容支持完整 Markdown 语法。\n:::\n\n' +
+	'::: warning 警告\n注意：这里可能存在 *风险*，请谨慎操作后进行。\n:::\n\n' +
+	'::: danger 危险\n禁止在使用 `==危险操作==` 时忽略提示。\n:::\n\n' +
+	'::: info 信息\n这是 info 容器，使用主题色描边，可放置 [链接](https://sinleui.pages.dev)。\n:::\n\n' +
+	'::: success 成功\n操作已成功完成，可以点击[这里](https://sinleui.pages.dev)查看文档。\n:::\n\n' +
+	'嵌套容器（增加冒号个数）：\n\n' +
+	':::: warning 外层容器\n外层容器内容。\n\n' +
+	'::: danger 内层容器\n内层容器的内容。\n:::\n\n' +
+	'外层容器结束。\n' +
+	'::::'
+)
+
+const alignMarkdown = ref<string>(
+	'::: left\n这是左对齐的内容，默认对齐方式。\n:::\n\n' +
+	'::: center\n这是居中对齐的内容，居中展示更醒目。\n:::\n\n' +
+	'::: right\n这是右对齐的内容，右侧对齐展示。\n:::\n\n' +
+	'::: justify\n这是两端对齐的内容，两端对齐会均匀拉伸文字分布。\n:::'
+)
+
+const footnoteMarkdown = ref<string>(
+	'脚注 1 可以引用其他脚注[^second]，形成脚注之间的关联。\n\n' +
+	'也可以使用行内脚注^[行内脚注直接写在括号中]的语法。\n\n' +
+	'[^second]: 另一个脚注，内容可以包含多种语法。'
+)
+
+const katexMarkdown = ref<string>(
+	'欧拉恒等式 $e^{i\\pi}+1=0$ 是数学中最优美的公式之一，还有 $\u221A{x^2+y^2}$、$E=mc^2$ 等行内公式。\n\n' +
+	'行内展示模式：$$a^2 + b^2 = c^2$$\n\n' +
+	'块级公式：\n\n' +
+	'$$\n' +
+	'\\frac{\\partial^r}{\\partial \\omega^r} \\left(\\frac{y^{\\omega}}{\\omega}\\right) =\n' +
+	'\\left(\\frac{y^{\\omega}}{\\omega}\\right) \\left\\{(\\log y)^r + \\sum_{i=1}^r \\frac{(-1)^i}{(\\log y)^i} \\right\\}\n' +
+	'$$'
+)
+
+const emojiMarkdown = ref<string>(
+	'直接使用 Unicode：😀 😎 🚀 ✨ ❤️ ✅ 🎉\n\n' +
+	'常见短码会自动转成 Unicode：:smile: :rocket: :sparkles: :heart: :white_check_mark: :tada:\n\n' +
+	'任务流示例：\n\n' +
+	'- [x] 发布版本 :rocket:\n' +
+	'- [x] 通过检查 :white_check_mark:\n' +
+	'- [ ] 补充文档 :memo:\n\n' +
+	'情绪表达：:heart_eyes: :thinking: :joy: :sob:\n\n' +
+	'未知短码保持原样，便于继续编辑：:not-supported-emoji:'
+)
+
+const styleMarkdown = ref<string>(
+	'这是一段用于验证样式的 Markdown 文本，包含 **加粗**、*斜体*、`行内代码` 与 [一个链接](https://sinleui.pages.dev)。\n\n' +
+	'> 第二段引用内容，用于观察行高与颜色的变化效果。'
+)
+
+const linkMarkdown = ref<string>(
+	'## 链接测试\n\n' +
+	'- [SinleUI 文档站点](https://sinleui.pages.dev)\n' +
+	'- [uni-app x 官方文档](https://doc.dcloud.net.cn/uni-app-x/)\n' +
+	'- [DCloud 官网](https://www.dcloud.io)\n\n' +
+	'自动链接：\u003Chttps://www.dcloud.io\u003E\n\n' +
+	'点击上方链接，观察底部回显的 href 地址。'
+)
+
+const lastLinkText = ref<string>(t('snEMarkdown.noLinkClicked'))
+const baseFontSize = ref<number>(15)
+const lineHeightInt = ref<number>(16)
+const textColor = ref<string>('$text')
+const linkColor = ref<string>('$primary')
+
+const lineHeight = computed<number>(() => {
+	return lineHeightInt.value / 10
+})
+
+const linkResultColor = computed<string>(() => {
+	return 'var(--sn-primary)'
+})
+
+function onLinkClick(e: SnMarkdownLinkEvent): void {
+	lastLinkText.value = e.href
+}
+</script>
+
+<style lang="scss">
+.config-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+
+.link-result {
+	flex-direction: row;
+	align-items: center;
+	margin-top: 12px;
+	padding: 10px 12px;
+	border-radius: 10px;
+	background-color: var(--sn-info);
+}
+</style>

@@ -1,0 +1,244 @@
+<template>
+	<sn-page :show-back="false">
+		<sn-topbar :fixed="true" :status-bar="true"
+			:features="topbarFeatures" @featureclick="onThemeBtnClick">
+			<template #default>
+				<sn-text bold font-size="$16" :color="titleColor" flatten>{{ t('designColor.title') }}</sn-text>
+			</template>
+		</sn-topbar>
+
+		
+		<demo-card :title="t('designColor.funcTitle')" :subtitle="t('designColor.funcSub')">
+			<view v-for="(g, gi) in funcGroups" :key="'g' + gi" class="func-block">
+				<sn-text font-size="$13" bold :color="groupTitleColor">{{ g.title }}</sn-text>
+				<view class="tile-row">
+					<view v-for="(t, ti) in g.tiles" :key="'gt' + gi + '_' + ti" class="color-tile"
+						:style="tileStyle(t)">
+						<sn-text font-size="$11" bold :color="t.text">{{ t.label }}</sn-text>
+						<sn-text font-size="$9" :color="t.text" custom-style="opacity:0.82;margin-top:2px;">{{ t.css }}</sn-text>
+					</view>
+				</view>
+				<view class="tile-row">
+					<view v-for="(t, ti) in g.activeTiles" :key="'ga' + gi + '_' + ti" class="color-tile"
+						:style="tileStyle(t)">
+						<sn-text font-size="$11" bold :color="t.text">{{ t.label }}</sn-text>
+						<sn-text font-size="$9" :color="t.text" custom-style="opacity:0.82;margin-top:2px;">{{ t.css }}</sn-text>
+					</view>
+				</view>
+			</view>
+		</demo-card>
+
+		
+		<demo-card :title="t('designColor.specialTitle')" :subtitle="t('designColor.specialSub')">
+			<view class="tile-row">
+				<view v-for="(t, ti) in specialTiles" :key="'st' + ti" class="color-tile"
+					:style="tileStyle(t)">
+					<sn-text font-size="$10" bold :color="t.text">{{ t.label }}</sn-text>
+					<sn-text font-size="$8" :color="t.text" custom-style="opacity:0.82;margin-top:2px;">{{ t.css }}</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+// ---- import ----
+import { $snui, ColorLib, useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import { useI18n } from 'vue-i18n'
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+
+// ---- 类型定义 ----
+type ColorTile = {
+	
+	label: string
+	
+	css: string
+	
+	color: string
+	
+	text: string
+}
+
+type FuncColorGroup = {
+	title: string
+	// 第一行：主色 / 浅色 / 深色
+	tiles: ColorTile[]
+	// 第二行：对应激活态
+	activeTiles: ColorTile[]
+}
+
+
+// ---- 主题 ----
+const { isDark, toggleTheme: themeToggle } = useTheme()
+
+// ---- 顶部栏 ----
+const topbarFeatures = computed<SnDataItem[]>(() => {
+	return [{ icon: isDark.value ? 'sun-line' : 'moon-line' }]
+})
+
+const titleColor = computed<string>(() => isDark.value ? '#FFFFFF' : '#1E293B')
+
+const groupTitleColor = computed<string>(() => isDark.value ? '#E2E8F0' : '#334155')
+
+function onThemeBtnClick(_item: SnDataItem, _idx: number): void {
+	themeToggle()
+}
+
+// ---- 结构数据 ----
+// 功能色：每个 group 两行，第一行 主色 / 浅色 / 深色，第二行对应激活态，浮文字为其配套文字色
+const funcGroups = computed<FuncColorGroup[]>(() => {
+	const c = $snui.colors
+	return [
+		{
+			title: t('designColor.groupPrimary'),
+			tiles: [
+				buildTile(t('designColor.base'), 'primary', c.primary, c.primaryText),
+				buildTile(t('designColor.light'), 'primaryLight', c.primaryLight, c.primaryLightText),
+				buildTile(t('designColor.dark'), 'primaryDark', c.primaryDark, c.primaryDarkText)
+			],
+			activeTiles: [
+				buildTile(t('designColor.baseActive'), 'primaryActive', c.primaryActive, c.primaryActiveText),
+				buildTile(t('designColor.lightActive'), 'primaryLightActive', c.primaryLightActive, c.primaryLightActiveText),
+				buildTile(t('designColor.darkActive'), 'primaryDarkActive', c.primaryDarkActive, c.primaryDarkActiveText)
+			]
+		},
+		{
+			title: t('designColor.groupInfo'),
+			tiles: [
+				buildTile(t('designColor.base'), 'info', c.info, c.infoText),
+				buildTile(t('designColor.light'), 'infoLight', c.infoLight, c.infoLightText),
+				buildTile(t('designColor.dark'), 'infoDark', c.infoDark, c.infoDarkText)
+			],
+			activeTiles: [
+				buildTile(t('designColor.baseActive'), 'infoActive', c.infoActive, c.infoActiveText),
+				buildTile(t('designColor.lightActive'), 'infoLightActive', c.infoLightActive, c.infoLightActiveText),
+				buildTile(t('designColor.darkActive'), 'infoDarkActive', c.infoDarkActive, c.infoDarkActiveText)
+			]
+		},
+		{
+			title: t('designColor.groupSuccess'),
+			tiles: [
+				buildTile(t('designColor.base'), 'success', c.success, c.successText),
+				buildTile(t('designColor.light'), 'successLight', c.successLight, c.successLightText),
+				buildTile(t('designColor.dark'), 'successDark', c.successDark, c.successDarkText)
+			],
+			activeTiles: [
+				buildTile(t('designColor.baseActive'), 'successActive', c.successActive, c.successActiveText),
+				buildTile(t('designColor.lightActive'), 'successLightActive', c.successLightActive, c.successLightActiveText),
+				buildTile(t('designColor.darkActive'), 'successDarkActive', c.successDarkActive, c.successDarkActiveText)
+			]
+		},
+		{
+			title: t('designColor.groupError'),
+			tiles: [
+				buildTile(t('designColor.base'), 'error', c.error, c.errorText),
+				buildTile(t('designColor.light'), 'errorLight', c.errorLight, c.errorLightText),
+				buildTile(t('designColor.dark'), 'errorDark', c.errorDark, c.errorDarkText)
+			],
+			activeTiles: [
+				buildTile(t('designColor.baseActive'), 'errorActive', c.errorActive, c.errorActiveText),
+				buildTile(t('designColor.lightActive'), 'errorLightActive', c.errorLightActive, c.errorLightActiveText),
+				buildTile(t('designColor.darkActive'), 'errorDarkActive', c.errorDarkActive, c.errorDarkActiveText)
+			]
+		},
+		{
+			title: t('designColor.groupWarning'),
+			tiles: [
+				buildTile(t('designColor.base'), 'warning', c.warning, c.warningText),
+				buildTile(t('designColor.light'), 'warningLight', c.warningLight, c.warningLightText),
+				buildTile(t('designColor.dark'), 'warningDark', c.warningDark, c.warningDarkText)
+			],
+			activeTiles: [
+				buildTile(t('designColor.baseActive'), 'warningActive', c.warningActive, c.warningActiveText),
+				buildTile(t('designColor.lightActive'), 'warningLightActive', c.warningLightActive, c.warningLightActiveText),
+				buildTile(t('designColor.darkActive'), 'warningDarkActive', c.warningDarkActive, c.warningDarkActiveText)
+			]
+		}
+	]
+})
+
+
+// 特殊色：无配套文字色的场景，色块文字依据亮度自动取黑 / 白
+const specialTiles = computed<ColorTile[]>(() => {
+	const c = $snui.colors
+	return [
+		buildAutoTile(t('designColor.pageBg'), 'page', c.page),
+		buildAutoTile(t('designColor.front'), 'front', c.front),
+		buildAutoTile(t('designColor.darkText'), 'dark', c.dark),
+		buildAutoTile(t('designColor.title'), 'title', c.title),
+		buildAutoTile(t('designColor.text'), 'text', c.text),
+		buildAutoTile(t('designColor.textLight'), 'textLight', c.textLight),
+		buildAutoTile(t('designColor.disabledBg'), 'disabled', c.disabled),
+		buildAutoTile(t('designColor.disabledText'), 'disabledText', c.disabledText),
+		buildAutoTile(t('designColor.disabledDarkBg'), 'disabledDark', c.disabledDark),
+		buildAutoTile(t('designColor.disabledDarkText'), 'disabledDarkText', c.disabledDarkText),
+		buildAutoTile(t('designColor.line'), 'line', c.line),
+		buildAutoTile(t('designColor.lineDark'), 'lineDark', c.lineDark),
+		buildAutoTile(t('designColor.lineText'), 'lineText', c.lineText),
+		buildAutoTile(t('designColor.toastBg'), 'toast', c.toast),
+		buildAutoTile(t('designColor.shadow'), 'shadow', c.shadow)
+	]
+})
+
+
+// ---- 内部函数 ----
+function buildTile(label: string, css: string, color: string, text: string): ColorTile {
+	return {
+		label: label,
+		css: css,
+		color: color,
+		text: text
+	}
+}
+
+function buildAutoTile(label: string, css: string, color: string): ColorTile {
+	let text = '#1f2937'
+	try {
+		const tc = ColorLib.tinyColor(color)
+		text = tc.isDark() ? '#ffffff' : '#1f2937'
+	} catch (e) {
+		text = '#1f2937'
+	}
+	return buildTile(label, css, color, text)
+}
+
+
+function tileStyle(t: ColorTile): Map<string, any> {
+	const styles = new Map<string, any>()
+	styles.set('width', '30.9%')
+	styles.set('height', '64px')
+	styles.set('borderRadius', '12px')
+	styles.set('alignItems', 'center')
+	styles.set('justifyContent', 'center')
+	styles.set('backgroundColor', t.color)
+	styles.set('borderWidth', '1px')
+	styles.set('borderStyle', 'solid')
+	styles.set('borderColor', 'rgba(128,128,128,0.25)')
+	styles.set('marginBottom', '10px')
+	return styles
+}
+</script>
+
+<style lang="scss">
+.func-block {
+	flex-direction: column;
+	margin-bottom: 16px;
+}
+
+.tile-row {
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin-top: 8px;
+}
+
+.color-tile {
+	align-items: center;
+	justify-content: center;
+	transition-property: background-color;
+	transition-duration: var(--ani-time-normal);
+}
+</style>

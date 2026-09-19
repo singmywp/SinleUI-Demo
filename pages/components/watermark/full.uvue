@@ -1,0 +1,89 @@
+<template>
+	<sn-page :title="t('watermarkFull.title')" :show-back="true">
+		<sn-watermark :content="t('watermarkFull.content')" :min-height="wmMinH" :row-gap="120" :col-gap="150" :rotate="pageRotate">
+			<view class="wm-page-body" flatten>
+				<view class="wm-page-card" :style="cardStyle" flatten>
+					<sn-text bold font-size="$15" color="$title" flatten>{{ t('watermarkFull.page') }}</sn-text>
+					<sn-text font-size="$13" color="$text" custom-style="margin-top:6px;line-height:20px;" flatten>{{ t('watermarkFull.desc') }}</sn-text>
+				</view>
+
+				<view class="config-row" flatten>
+					<sn-text :text="t('watermarkFull.notify')" custom-style="width:140px;" flatten />
+					<sn-switch v-model="switchNotify" />
+				</view>
+				<view class="config-row" flatten>
+					<sn-text :text="t('watermarkFull.update')" custom-style="width:140px;" flatten />
+					<sn-switch v-model="switchUpdate" />
+				</view>
+
+				<sn-button :text="t('watermarkFull.btn')" type="primary" @click="onPageBtn" />
+
+				<view class="wm-page-card" :style="cardStyle" flatten>
+					<sn-text bold font-size="$15" color="$title" flatten>{{ t('watermarkFull.scrollTitle') }}</sn-text>
+					<sn-text v-for="(line, idx) in lines" :key="idx" font-size="$13" color="$text"
+						custom-style="margin-top:8px;line-height:20px;" flatten>{{ line }}</sn-text>
+				</view>
+			</view>
+		</sn-watermark>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui'
+
+const { t } = useI18n()
+
+const pageRotate = -35
+
+const switchNotify = ref<boolean>(true)
+const switchUpdate = ref<boolean>(false)
+
+const wmMinH = ref<number>(667)
+
+const lines = computed<string[]>(() => [
+	t('watermarkFull.line1'),
+	t('watermarkFull.line2'),
+	t('watermarkFull.line3'),
+	t('watermarkFull.line4'),
+	t('watermarkFull.line5')
+])
+
+onLoad((): void => {
+	try {
+		const info = uni.getSystemInfoSync()
+		if (info.windowHeight > 0) {
+			wmMinH.value = info.windowHeight
+		}
+	} catch (e) {
+	}
+})
+
+function onPageBtn(): void {
+	snu.showToast({
+		text: t('watermarkFull.toast')
+	})
+}
+
+const cardStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('backgroundColor', 'var(--sn-front)')
+	styles.set('borderRadius', '16px')
+	styles.set('padding', '16px')
+	styles.set('marginBottom', '12px')
+	return styles
+})
+</script>
+
+<style lang="scss">
+.wm-page-body {
+	flex-direction: column;
+	padding: 16px;
+}
+.config-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px 4px;
+}
+</style>

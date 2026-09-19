@@ -1,90 +1,120 @@
 <template>
-	<sn-page>
-		<sn-topbar title="社区"
-		:backButton="false"></sn-topbar>
-		<sn-waterfall :col="2">
-			<sn-waterfall-item v-for="(e,index) in (poets as poet[])"
-			:index="index"
-			:imgSrc="e.avatar">
-				<view class="p-10">
-					<sn-text :text="e.description"></sn-text>
+	<view class="sub-page" flatten>
+		<sn-topbar :title="t('tabbarSub2.title')" :back-button="false" :fixed="false" />
+		
+		<!-- #ifdef APP -->
+		<waterflow :cross-axis-count="2" main-axis-gap="10px" cross-axis-gap="10px"
+			class="sub-waterflow" :show-scrollbar="false">
+			<flow-item v-for="(e, index) in poets" :key="index" :item-key="index" :type="1">
+				<view class="wf-item" flatten>
+					<image :src="e.avatar" mode="widthFix" class="wf-img" />
+					<view class="wf-desc" flatten>
+						<sn-text :text="t(e.description)" flatten />
+					</view>
 				</view>
-			</sn-waterfall-item>
-		</sn-waterfall>
-		<sn-toast ref="toastEle"></sn-toast>
-	</sn-page>
+			</flow-item>
+		</waterflow>
+		<!-- #endif -->
+		<!-- #ifdef WEB -->
+		<scroll-view direction="vertical" class="sub-waterflow" :show-scrollbar="false">
+			<view v-for="(e, index) in poets" :key="index" class="wf-item" style="margin-bottom:10px;" flatten>
+				<image :src="e.avatar" mode="widthFix" class="wf-img" />
+				<view class="wf-desc" flatten>
+					<sn-text :text="t(e.description)" flatten />
+				</view>
+			</view>
+		</scroll-view>
+		<!-- #endif -->
+	</view>
 </template>
 
-<script setup>
-	import { $snui, SnToastParams } from '@/uni_modules/sinle-ui'
-	
-	const colors = $snui.colors
-	
-	type poet = {
-		name: string,
-		description: string,
-		avatar: string
+<script lang="uts" setup>
+
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+type poet = {
+	name: string
+	description: string
+	avatar: string
+}
+
+const poets = ref<poet[]>([
+	{
+		name: 'tabbarSub2.liBai',
+		description: 'tabbarSub2.liBaiDesc',
+		avatar: 'https://ziyuan.guwendao.net/authorImg300/libai.jpg',
+	},
+	{
+		name: 'tabbarSub2.duFu',
+		description: 'tabbarSub2.duFuDesc',
+		avatar: 'https://ziyuan.guwendao.net/authorImg300/dufu.jpg',
+	},
+	{
+		name: 'tabbarSub2.baiJuYi',
+		description: 'tabbarSub2.baiJuYiDesc',
+		avatar: 'https://ziyuan.guwendao.net/authorImg300/baijuyi.jpg',
+	},
+	{
+		name: 'tabbarSub2.suShi',
+		description: 'tabbarSub2.suShiDesc',
+		avatar: 'https://ziyuan.guwendao.net/authorImg300/sushi.jpg',
+	},
+	{
+		name: 'tabbarSub2.xinQiJi',
+		description: 'tabbarSub2.xinQiJiDesc',
+		avatar: 'https://ziyuan.guwendao.net/authorImg300/xinqiji.jpg',
+	},
+	{
+		name: 'tabbarSub2.liQingZhao',
+		description: 'tabbarSub2.liQingZhaoDesc',
+		avatar: 'https://ziyuan.guwendao.net/authorImg300/liqingzhao.jpg',
+	},
+	{
+		name: 'tabbarSub2.liShangYin',
+		description: 'tabbarSub2.liShangYinDesc',
+		avatar: 'https://ziyuan.guwendao.net/authorImg300/lishangyin.jpg',
+	},
+	{
+		name: 'tabbarSub2.wangWei',
+		description: 'tabbarSub2.wangWeiDesc',
+		avatar: 'https://ziyuan.guwendao.net/authorImg300/wangwei.jpg',
 	}
-	
-	const toastEle = ref(null as SnToastComponentPublicInstance | null)
-	
-	const poets = ref<poet[]>([
-		{
-			name: '李白',
-			description: `\u3000\u3000李白，字太白，号青莲居士，又号“谪仙人”。唐代伟大的浪漫主义诗人，被后人誉为“诗仙”，与杜甫并称为“李杜”。`,
-			avatar: 'https://ziyuan.guwendao.net/authorImg300/libai.jpg',
-		},
-		{
-			name: '杜甫',
-			description: `\u3000\u3000杜甫，字子美，自号少陵野老，世称“杜工部”、“杜少陵”等。唐代伟大的现实主义诗人，被世人尊为“诗圣”，其诗被称为“诗史”。杜甫与李白合称“李杜”。`,
-			avatar: 'https://ziyuan.guwendao.net/authorImg300/dufu.jpg',
-		},
-		{
-			name: '白居易',
-			description:`\u3000\u3000白居易，字乐天，号香山居士，又号醉吟先生。唐代伟大的现实主义诗人，唐代三大诗人之一。白居易与元稹并称“元白”，与刘禹锡并称“刘白”。白居易的诗歌题材广泛，形式多样，语言平易通俗，有“诗魔”和“诗王”之称。`,
-			avatar: 'https://ziyuan.guwendao.net/authorImg300/baijuyi.jpg',
-		},
-		{
-			name: '苏轼',
-			description: `\u3000\u3000苏轼，字子瞻、和仲，号铁冠道人、东坡居士，世称苏东坡、苏仙。北宋著名文学家、书法家、画家，历史治水名人。苏轼与黄庭坚并称“苏黄”，与辛弃疾并称“苏辛”，与欧阳修并称“欧苏”，为“唐宋八大家”之一。`,
-			avatar: 'https://ziyuan.guwendao.net/authorImg300/sushi.jpg',
-		},
-		{
-			name: '辛弃疾',
-			description: `\u3000\u3000辛弃疾，原字坦夫，后改字幼安，中年后别号稼轩。南宋官员、将领、文学家，豪放派词人，有“词中之龙”之称。与苏轼合称“苏辛”，与李清照并称“济南二安”。`,
-			avatar: 'https://ziyuan.guwendao.net/authorImg300/xinqiji.jpg',
-		},
-		{
-			name: '李清照',
-			description: `\u3000\u3000李清照，号易安居士。宋代词人，婉约词派代表，有“千古第一才女”之称。所作词，前期多写其悠闲生活，后期多悲叹身世，情调感伤。论词强调协律，崇尚典雅，提出词“别是一家”之说，反对以作诗文之法作词。`,
-			avatar: 'https://ziyuan.guwendao.net/authorImg300/liqingzhao.jpg',
-		},
-		{
-			name: '李商隐',
-			description: `\u3000\u3000李商隐，字义山，号玉溪生、樊南生，唐代著名诗人。晚唐最出色的诗人之一，和杜牧合称“小李杜”，与温庭筠合称为“温李”。其诗构思新奇，风格秾丽，优美动人，广为传诵。`,
-			avatar: 'https://ziyuan.guwendao.net/authorImg300/lishangyin.jpg',
-		},
-		{
-			name: '王维',
-			description: `\u3000\u3000王维，字摩诘，号摩诘居士。唐朝诗人，有“诗佛”之称。苏轼评价其：“诗中有画”“画中有诗”。王维是盛唐诗人的代表，精通佛学，受禅宗影响很大。书画都很有名，多才多艺，音乐也很精通。与孟浩然合称“王孟”。`,
-			avatar: 'https://ziyuan.guwendao.net/authorImg300/wangwei.jpg',
-		}
-	])
-	
-	onMounted(()=>{
-		nextTick(()=>{
-			toastEle.value?.configShow?.({
-				text: '加载中',
-				loading: true,
-				overlay: true
-			} as SnToastParams)
-			setTimeout(()=>{
-				toastEle.value?.close?.()
-			}, 1000)
-		})
+])
+
+onMounted(() => {
+	uni.showLoading({
+		title: t('tabbarSub2.loading')
 	})
-	
+	setTimeout(() => {
+		uni.hideLoading()
+	}, 1000)
+})
 </script>
 
 <style lang="scss">
+.sub-page {
+	height: 100%;
+}
+
+.sub-waterflow {
+	flex: 1;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.wf-item {
+	background-color: var(--sn-front);
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+.wf-img {
+	width: 100%;
+}
+
+.wf-desc {
+	padding: 10px;
+}
 </style>

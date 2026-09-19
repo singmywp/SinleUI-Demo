@@ -1,146 +1,125 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Textarea 文本域"></sn-topbar>
-		<com-card title="基础用法"
-		note="普普通通的文本域">
-			<sn-text class="introduction" :text="'\u3000\u3000'"></sn-text>
-			<sn-textarea v-model="v1"></sn-textarea>
-		</com-card>
-		<com-card title="提示文字"
-		note="为文本域添加提示文字，让用户更懂你的意图">
-			<sn-textarea v-model="v2" 
-			class="spacing"
-			placeholder="带有placeholder的文本域"></sn-textarea>
-			<sn-textarea v-model="v2" 
-			placeholder="自定义placeholder的样式" 
-			placeholderStyle="color: black"></sn-textarea>
-		</com-card>
-		<com-card title="自动增高"
-		note="自动增高的文本域，自由根据用户需求变化">
-			<sn-textarea v-model="v3" 
-			placeholder="自动增高"
-			autoHeight></sn-textarea>
-		</com-card>
-		<com-card title="圆角"
-		note="自定义文本域的圆角，更具特色">
-			<sn-textarea v-model="v4" 
-			class="spacing"
-			placeholder="方形"
-			border-radius="0px"></sn-textarea>
-			<sn-textarea v-model="v4" 
-			placeholder="异形" 
-			border-radius="15px 0 15px 0"></sn-textarea>
-		</com-card>
-		<com-card title="颜色"
-		note="文本域的各种颜色，由你决定">
-			<sn-textarea v-model="v5" 
-			placeholder="自定义颜色" 
-			borderRadius="15px" 
-			bgColor="$info" 
-			borderColor="$info"
-			textColor="$success"
-			activeBorderColor="$success" 
-			cursorColor="$success"></sn-textarea>
-		</com-card>
-		<com-card title="边框"
-		note="当默认的边框太过突兀时，可以取消边框的显示">
-			<sn-textarea v-model="v6" 
-			class="spacing"
-			placeholder="无边框"
-			borderRadius="15px" 
-			bgColor="$info" 
-			activeBgColor="$info" 
-			border-color="transparent"></sn-textarea>
-			<sn-textarea v-model="v6"
-			class="spacing"
-			placeholder="无焦点边框"
-			border-radius="15px" 
-			bgColor="$info" 
-			activeBgColor="$info" 
-			:activeBorder="false"></sn-textarea>
-			<sn-textarea v-model="v6"
-			class="spacing"
-			placeholder="完全无边框"
-			borderRadius="15px" 
-			bgColor="$info" 
-			activeBgColor="$info" 
-			borderColor="$transparent"
-			:activeBorder="false"></sn-textarea>
-		</com-card>
-		<com-card title="上推界面"
-		note="用于确定键盘弹起时是否自动上推页面，默认开启">
-			<sn-textarea v-model="v7" 
-			:adjustPosition="false" 
-			placeholder="禁用自动上推界面" 
-			borderRadius="15px" 
-			bgColor="$info"
-			borderColor="$info"></sn-textarea>
-		</com-card>
-		<com-card title="焦点"
-		note="文本域也可以自由控制焦点">
-			<sn-card>
-				<sn-row justify="space-between">
-					<sn-text text="获得焦点" :size="`${$snui.utils.getPx($snui.configs.font.size(3))+1}px`"></sn-text>
-					<sn-switch v-model="focus"></sn-switch>
-				</sn-row>
-			</sn-card>
-			<sn-textarea v-model="v8"
-			placeholder="自由控制焦点" 
-			borderRadius="15px" 
-			bgColor="$info"
-			borderColor="$info"
-			:focus="focus"
-			@focus="focus=true"
-			@blur="focus=false"></sn-textarea>
-		</com-card>
-		<com-card title="禁用"
-		note="禁用文本域，也许能让有些人闭嘴">
-			<sn-textarea v-model="v9"
-			placeholder="禁用" 
-			border-radius="15px" 
-			bgColor="$info" 
-			border-color="transparent"
-			disabled></sn-textarea>
-		</com-card>
-		<com-card title="最大输入长度"
-		note="限制字数的工具，默认设为-1（不限制）">
-			<sn-textarea v-model="v11"
-			class="spacing"
-			placeholder="限制100字" 
-			borderRadius="15px" 
-			:maxlength="100"></sn-textarea>
-			<sn-textarea v-model="v11" 
-			placeholder="限制100字 (自定义计字器样式) " 
-			borderRadius="15px" 
-			bgColor="$info" 
-			borderColor="$info" 
-			activeBgColor="$info" 
-			counterBgColor="$front"
-			counterColor="$text"
-			:maxlength="100"></sn-textarea>
-		</com-card>
+	<sn-page :title="t('snTextarea.title')" :show-back="true">
+		<demo-card :title="t('snTextarea.basicTitle')" :subtitle="t('snTextarea.basicSubtitle')">
+			<sn-textarea v-model="value1" :placeholder="t('snTextarea.placeholder')" />
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snTextarea.currentValue') }}：{{ value1 }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snTextarea.heightTitle')" :subtitle="t('snTextarea.heightSubtitle')">
+			<sn-textarea v-model="value2" height="60px" :placeholder="t('snTextarea.smallHeight')" />
+			<sn-textarea v-model="value3" height="150px" :placeholder="t('snTextarea.bigHeight')" custom-style="margin-top:12px;" />
+			<sn-textarea v-model="value4" auto-height :placeholder="t('snTextarea.autoHeight')" custom-style="margin-top:12px;" />
+		</demo-card>
+
+		<demo-card :title="t('snTextarea.counterTitle')" :subtitle="t('snTextarea.counterSubtitle')">
+			<sn-textarea v-model="value5" :maxlength="50" :placeholder="t('snTextarea.max50')" />
+		</demo-card>
+
+		<demo-card :title="t('snTextarea.borderTitle')" :subtitle="t('snTextarea.borderSubtitle')">
+			<sn-textarea v-model="value6" show-border active-border :placeholder="t('snTextarea.focusBorder')" border-color="$info"
+				active-border-color="$primary" bg-color="$front" />
+			<sn-textarea v-model="value7" :active-border="false" :placeholder="t('snTextarea.noActiveBorder')"
+				custom-style="margin-top:12px;" />
+			<sn-textarea v-model="value8" :show-border="false" bg-color="$infoLight" :placeholder="t('snTextarea.noBorder')"
+				custom-style="margin-top:12px;" />
+		</demo-card>
+
+		<demo-card :title="t('snTextarea.disabledTitle')" :subtitle="t('snTextarea.disabledSubtitle')">
+			<sn-textarea v-model="valueDisabled" disabled :placeholder="t('snTextarea.disabledPh')" />
+			<sn-textarea v-model="valueReadonly" readonly :placeholder="t('snTextarea.readonlyPh')" custom-style="margin-top:12px;" />
+		</demo-card>
+
+		<demo-card :title="t('snTextarea.colorTitle')" :subtitle="t('snTextarea.colorSubtitle')">
+			<sn-textarea v-model="valueColor" :maxlength="30" :placeholder="t('snTextarea.successTheme')" border-color="$success"
+				active-border-color="$success" bg-color="$successLight" active-bg-color="$successLight"
+				counter-bg-color="$success" counter-color="$successText" />
+			<sn-textarea v-model="valueColor2" :maxlength="30" :placeholder="t('snTextarea.infoTheme')" border-color="$infoDark"
+				bg-color="$front" counter-bg-color="$infoDark" counter-color="#fff" custom-style="margin-top:12px;" />
+		</demo-card>
+
+		<demo-card :title="t('snTextarea.textStyleTitle')" :subtitle="t('snTextarea.textStyleSubtitle')">
+			<sn-textarea v-model="valueStyle1" :placeholder="t('snTextarea.centerBig')" align="center" text-size="$16"
+				border-radius="$16" />
+			<sn-textarea v-model="valueStyle2" :placeholder="t('snTextarea.rightAlign')" align="right" border-radius="$4"
+				custom-style="margin-top:12px;" />
+		</demo-card>
+
+		<demo-card :title="t('snTextarea.eventTitle')" :subtitle="t('snTextarea.eventSubtitle')">
+			<sn-textarea v-model="valueEvent" :placeholder="t('snTextarea.inputHint')" @input="onInput" @focus="onFocus"
+				@blur="onBlur" @linechange="onLinechange" />
+			<sn-text font-size="$12" :color="eventColor" custom-style="margin-top:12px;" flatten>{{ eventLog }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snTextarea.externalTitle')" :subtitle="t('snTextarea.externalSubtitle')">
+			<sn-textarea v-model="valueExt2" input-style="font-size: 18px; font-weight: bold;" :maxlength="20" :placeholder="t('snTextarea.inputStyle')" custom-style="margin-top:12px;" />
+			<sn-textarea v-model="valueExt3" :maxlength="20" counter-class="demo-counter" :placeholder="t('snTextarea.counterClass')"
+				custom-style="margin-top:12px;" />
+			<sn-textarea v-model="valueExt4" :maxlength="20" counter-style="background-color:#ff6600;color:#fff;" :placeholder="t('snTextarea.counterStyle')" />
+		</demo-card>
+
+		<demo-card :title="t('snTextarea.sceneTitle')" :subtitle="t('snTextarea.sceneSubtitle')">
+			<sn-textarea v-model="valueComment" auto-height :maxlength="200" :placeholder="t('snTextarea.commentPh')"
+				border-radius="$12" />
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	const focus = ref(false)
-	const v1 = ref('')
-	const v2 = ref('')
-	const v3 = ref('')
-	const v4 = ref('')
-	const v5 = ref('')
-	const v6 = ref('')
-	const v7 = ref('')
-	const v8 = ref('')
-	const v9 = ref('')
-	const v10 = ref('')
-	const v11 = ref('')
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { $snui } from '@/uni_modules/sinle-ui'
+
+const { t } = useI18n()
+const value1 = ref<string>('')
+const value2 = ref<string>('')
+const value3 = ref<string>('')
+const value4 = ref<string>('')
+const value5 = ref<string>('')
+const value6 = ref<string>('')
+const value7 = ref<string>('')
+const value8 = ref<string>('')
+const valueDisabled = ref<string>(t('snTextarea.disabledContent'))
+const valueReadonly = ref<string>(t('snTextarea.readonlyContent'))
+const valueColor = ref<string>('')
+const valueColor2 = ref<string>('')
+const valueStyle1 = ref<string>('')
+const valueStyle2 = ref<string>('')
+const valueEvent = ref<string>('')
+const valueExt2 = ref<string>('')
+const valueExt3 = ref<string>('')
+const valueExt4 = ref<string>('')
+const valueComment = ref<string>('')
+const eventLog = ref<string>(t('snTextarea.noEvent'))
+const eventColor = ref<string>($snui.colors.textLight)
+
+function setLog(text: string, color: string = $snui.colors.primary): void {
+	eventLog.value = text
+	eventColor.value = color
+}
+
+function onInput(e: UniInputEvent): void {
+	setLog('input: ' + e.detail.value)
+}
+
+function onFocus(e: UniTextareaFocusEvent): void {
+	setLog('focus: ' + e.detail.value, $snui.colors.success)
+}
+
+function onBlur(e: UniTextareaBlurEvent): void {
+	setLog('blur: ' + e.detail.value, $snui.colors.textLight)
+}
+
+function onLinechange(e: UniTextareaLineChangeEvent): void {
+	setLog(`linechange: ${t('snTextarea.lineCount', { count: e.detail.lineCount } as UTSJSONObject)}`, $snui.colors.warning)
+}
 </script>
 
 <style lang="scss">
-	.spacing {
-		margin-bottom: 5px;
-	}
+.demo-textarea-bold {
+	font-weight: bold;
+}
+.demo-counter {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #ff6600;
+}
 </style>

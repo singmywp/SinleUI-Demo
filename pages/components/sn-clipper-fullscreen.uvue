@@ -1,0 +1,41 @@
+<template>
+	<sn-page fill-content bg-color="#f5f5f5">
+		<view class="clipper-fullscreen-page" flatten>
+			<sn-clipper image-url="/static/captcha/scenic-mountain.png" bg-color="#e7eaf0"
+				fill-viewport custom-style="flex:1;border-radius:0px;"
+				@cancel="onCancel" @confirm="onConfirm"></sn-clipper>
+		</view>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui'
+
+const { t } = useI18n()
+
+type ConfirmDetail = {
+	width: number
+	height: number
+}
+
+function onCancel(): void {
+	if (getCurrentPages().length > 1) {
+		uni.navigateBack()
+	}
+}
+
+function onConfirm(detail: ConfirmDetail): void {
+	snu.showToast({
+		text: t('snClipperFullscreen.cropped', { width: detail.width, height: detail.height } as UTSJSONObject),
+		icon: 'none'
+	})
+}
+</script>
+
+<style lang="scss">
+.clipper-fullscreen-page {
+	flex: 1;
+	flex-direction: column;
+}
+</style>

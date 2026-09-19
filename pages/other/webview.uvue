@@ -1,19 +1,21 @@
 <template>
-	<sn-topbar :title="title"></sn-topbar>
-	<web-view class="web-view" :src="url"></web-view>
+	<sn-page :title="title" :show-back="true" fill-content>
+		<web-view class="web-view" :src="url"></web-view>
+	</sn-page>
 </template>
 
-<script setup>
-	const title = ref('')
-	const url = ref('')
-	onLoad((options: OnLoadOptions) =>{
-		url.value = options['url'] ?? ''
-		title.value = options['title'] ?? ''
-	})
+<script lang="uts" setup>
+const title = ref<string>('')
+const url = ref<string>('')
+
+onLoad((options: OnLoadOptions): void => {
+	url.value = options['url'] ?? ''
+	title.value = options['title'] ?? ''
+})
 </script>
 
 <style lang="scss">
-	.web-view {
-		flex: 1;
-	}
+.web-view {
+	flex: 1;
+}
 </style>

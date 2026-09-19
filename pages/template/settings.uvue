@@ -1,0 +1,155 @@
+<template>
+	<sn-page :title="t('tmplSettings.title')" :show-back="true">
+		<view class="set-content">
+			<view class="set-profile">
+				<sn-avatar mode="text" :text="t('tmplSettings.avatar')" :size="54" :text-size="20" bg-color="$primary"
+					text-color="#FFFFFF" shape="circle" />
+				<view class="set-profile-info" flatten>
+					<sn-text bold font-size="$17" color="$title" flatten>{{ t('tmplSettings.userName') }}</sn-text>
+					<sn-text font-size="$12" color="$textLight" flatten>{{ t('tmplSettings.spaceNo') }}</sn-text>
+				</view>
+				<sn-icon name="arrow-right-s-line" :size="16" color="$textLight" />
+			</view>
+
+			<sn-text flatten font-size="$11" color="$textLight"
+				custom-style="margin-top: 20px; margin-bottom: 8px; margin-left: 4px;">{{ t('tmplSettings.groupAccount') }}</sn-text>
+			<view class="set-card">
+				<sn-cell :title="t('tmplSettings.accountSafety')" icon="shield-check-line" right-icon="arrow-right" clickable
+					icon-style="color: var(--sn-primary);" @click="onCellClick(t('tmplSettings.accountSafety'))" />
+				<sn-cell :title="t('tmplSettings.phone')" icon="phone-line" value="138****6688" right-icon="arrow-right" clickable
+					icon-style="color: var(--sn-success);" :border="false" @click="onCellClick(t('tmplSettings.phone'))" />
+			</view>
+
+			<sn-text flatten font-size="$11" color="$textLight"
+				custom-style="margin-top: 20px; margin-bottom: 8px; margin-left: 4px;">{{ t('tmplSettings.groupGeneral') }}</sn-text>
+			<view class="set-card">
+				<sn-cell :title="t('tmplSettings.darkMode')" icon="moon-line" icon-style="color: var(--sn-info);">
+					<template #value>
+						<sn-switch :model-value="isDark" active-bg-color="$primary" @change="onDarkChange" />
+					</template>
+				</sn-cell>
+				<sn-cell :title="t('tmplSettings.notif')" icon="notification-3-line" icon-style="color: var(--sn-warning);">
+					<template #value>
+						<sn-switch :model-value="notifOn" active-bg-color="$primary" @change="onNotifChange" />
+					</template>
+				</sn-cell>
+				<sn-cell :title="t('tmplSettings.fontSize')" icon="font-size" :value="t('tmplSettings.standard')" right-icon="arrow-right" clickable
+					icon-style="color: var(--sn-primary);" :border="false" @click="onCellClick(t('tmplSettings.fontSize'))" />
+			</view>
+
+			<sn-text flatten font-size="$11" color="$textLight"
+				custom-style="margin-top: 20px; margin-bottom: 8px; margin-left: 4px;">{{ t('tmplSettings.groupOther') }}</sn-text>
+			<view class="set-card">
+				<sn-cell :title="t('tmplSettings.clearCache')" icon="delete-bin-line" :value="cacheSize" clickable
+					icon-style="color: var(--sn-error);" @click="onClearCache" />
+				<sn-cell :title="t('tmplSettings.help')" icon="question-line" right-icon="arrow-right" clickable
+					icon-style="color: var(--sn-success);" @click="onCellClick(t('tmplSettings.help'))" />
+				<sn-cell :title="t('tmplSettings.about')" icon="information-line" value="v2.0.0" right-icon="arrow-right" clickable
+					icon-style="color: var(--sn-info);" :border="false" @click="onCellClick(t('tmplSettings.about'))" />
+			</view>
+
+			<sn-button type="error" level="second"
+				custom-style="width: 100%; margin-top: 24px;" @click="onLogout">{{ t('tmplSettings.logout') }}</sn-button>
+		</view>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { snu, useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+const { isDark, setTheme } = useTheme()
+
+const notifOn = ref<boolean>(true)
+const cacheSize = ref<string>('128.6MB')
+
+function onDarkChange(val: boolean): void {
+	setTheme(val ? 'dark' : 'light')
+}
+
+function onNotifChange(val: boolean): void {
+	notifOn.value = val
+	if (val) {
+		snu.showToast({ text: t('tmplSettings.notifOn'), icon: 'checkbox-circle-fill' })
+	} else {
+		snu.showToast({ text: t('tmplSettings.notifOff') })
+	}
+}
+
+function onCellClick(name: string): void {
+	snu.showToast({ text: t('tmplSettings.openItem', { name: name } as UTSJSONObject) })
+}
+
+function onClearCache(): void {
+	if (cacheSize.value == '0MB') {
+		snu.showToast({ text: t('tmplSettings.cacheCleared') })
+		return
+	}
+	snu.showModal({
+		title: t('tmplSettings.cacheModalTitle'),
+		content: t('tmplSettings.cacheContent', { size: cacheSize.value } as UTSJSONObject),
+		confirmText: t('tmplSettings.cacheConfirm'),
+		success: (confirm: boolean, _cancel: boolean): void => {
+			if (confirm) {
+				cacheSize.value = '0MB'
+				snu.showToast({ text: t('tmplSettings.cacheDone'), icon: 'checkbox-circle-fill' })
+			}
+		}
+	})
+}
+
+function onLogout(): void {
+	snu.showModal({
+		title: t('tmplSettings.logoutModalTitle'),
+		content: t('tmplSettings.logoutContent'),
+		confirmText: t('tmplSettings.logoutConfirm'),
+		success: (confirm: boolean, _cancel: boolean): void => {
+			if (confirm) {
+				snu.showToast({ text: t('tmplSettings.logoutDone'), icon: 'checkbox-circle-fill' })
+			}
+		}
+	})
+}
+</script>
+
+<style lang="scss">
+.set-content {
+	flex-direction: column;
+	padding: 16px 16px 32px 16px;
+}
+
+.set-profile {
+	flex-direction: row;
+	align-items: center;
+	background-color: var(--sn-front);
+	border-radius: 16px;
+	padding: 16px;
+}
+
+.set-profile-info {
+	flex: 1;
+	flex-direction: column;
+	margin-left: 12px;
+}
+
+.set-group-title {
+	margin-top: 20px;
+	margin-bottom: 8px;
+	margin-left: 4px;
+}
+
+.set-card {
+	flex-direction: column;
+	background-color: var(--sn-front);
+	border-radius: 16px;
+	overflow: hidden;
+}
+
+
+
+.set-logout {
+	margin-top: 24px;
+}
+</style>

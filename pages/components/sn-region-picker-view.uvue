@@ -1,0 +1,112 @@
+<template>
+	<sn-page :title="t('snRegionPickerView.title')" :show-back="true">
+
+		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
+			<sn-text font-size="$12" color="$primary" flatten>{{ t('snRegionPickerView.alert') }}</sn-text>
+		</sn-alert>
+
+		<demo-card :title="t('snRegionPickerView.basicTitle')" :subtitle="t('snRegionPickerView.basicSubtitle')">
+			<sn-region-picker-view v-model="basicValue" @change="onChange" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snRegionPickerView.currentWithChange', { value: basicText, change: changeResult } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snRegionPickerView.directTitle')" :subtitle="t('snRegionPickerView.directSubtitle')">
+			<sn-region-picker-view v-model="directValue" height="220px" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snRegionPickerView.currentValue', { value: directText } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snRegionPickerView.levelTitle')" :subtitle="t('snRegionPickerView.levelSubtitle')">
+			<sn-region-picker-view v-model="provinceValue" :mode="1" height="200px" @change="onProvinceChange" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snRegionPickerView.provinceMode', { value: provinceText } as UTSJSONObject) }}</sn-text>
+			<sn-region-picker-view v-model="cityValue" mode="省市" height="200px" custom-style="margin-top:14px;" @change="onCityChange" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snRegionPickerView.cityAliasMode', { value: cityText } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snRegionPickerView.filterTitle')" :subtitle="t('snRegionPickerView.filterSubtitle')">
+			<sn-region-picker-view v-model="filterValue" :custom-filter="filterFn" height="220px" @change="onFilterChange" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snRegionPickerView.currentValue', { value: filterText } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snRegionPickerView.styleTitle')" :subtitle="t('snRegionPickerView.styleSubtitle')">
+			<sn-region-picker-view v-model="styleValue" height="220px" item-text-size="$15"
+				active-item-text-color="$primary" item-border-radius="$10" column-spacing="16px" />
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+	
+	import { useI18n } from 'vue-i18n'
+	import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+	import type { SnDataItem, SnRegionDetail, SnRegionLevel, SnRegionValue } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+	const { isDark } = useTheme()
+	const { t } = useI18n()
+
+	const descColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+
+	const basicValue = ref<SnRegionValue>(['440000', '440100', '440106'])
+	const directValue = ref<SnRegionValue>(['110000', '110000', '110105'])
+	const provinceValue = ref<SnRegionValue>(['440000'])
+	const cityValue = ref<SnRegionValue>(['440000', '440100'])
+	const filterValue = ref<SnRegionValue>(['440000', '440100', '440106'])
+	const styleValue = ref<SnRegionValue>(['440000', '440100', '440106'])
+
+	const basicText = ref<string>(t('snRegionPickerView.defaultGuangdong'))
+	const directText = ref<string>(t('snRegionPickerView.defaultBeijing'))
+	const provinceText = ref<string>(t('snRegionPickerView.provinceGuangdong'))
+	const cityText = ref<string>(t('snRegionPickerView.cityGuangdong'))
+	const filterText = ref<string>(t('snRegionPickerView.defaultGuangdong'))
+	const changeResult = ref<string>(t('snRegionPickerView.changeNone'))
+
+	function namesText(names: string[]): string {
+		let s = ''
+		for (let i = 0; i < names.length; i++) {
+			const n = names[i]
+			if (n == '') {
+				continue
+			}
+			if (s != '') {
+				s += ' '
+			}
+			s += n
+		}
+		return s
+	}
+
+	
+	const filterFn = (type: SnRegionLevel, columns: SnDataItem[]): SnDataItem[] => {
+		if (type == 'province') {
+			const res: SnDataItem[] = []
+			for (let i = 0; i < columns.length; i++) {
+				const it = columns[i]
+				const t = it.text ?? ''
+				if (t == '广东省' || t == '广西壮族自治区' || t == '海南省') {
+					res.push(it)
+				}
+			}
+			return res
+		}
+		return columns
+	}
+
+	function onChange(v: SnRegionValue, d: SnRegionDetail): void {
+		basicText.value = namesText(d.names)
+		changeResult.value = namesText(d.names)
+	}
+
+	function onProvinceChange(v: SnRegionValue, d: SnRegionDetail): void {
+		provinceText.value = namesText(d.names)
+	}
+
+	function onCityChange(v: SnRegionValue, d: SnRegionDetail): void {
+		cityText.value = namesText(d.names)
+	}
+
+	function onFilterChange(v: SnRegionValue, d: SnRegionDetail): void {
+		filterText.value = namesText(d.names)
+	}
+</script>
+
+<style lang="scss">
+</style>

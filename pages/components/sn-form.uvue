@@ -1,227 +1,355 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Form 表单"></sn-topbar>
-		<com-card title="基础用法"
-		note="用于数据收集及验证。内置的数据验证器提供了丰富的场景支持，使得数据校验变得异常容易。同时支持自定义数据校验，满足您的各种需求。">
-			<sn-form ref="formEle"
-			v-model="formData"
-			:type="formTypes[formType]['id'] ?? 'embed'"
-			:showError="showError"
-			:showBorder="showBorder"
-			:triggerChange="triggerChange">
-				<sn-form-item label="姓名" 
-				field="name" 
-				:rule="nameRule">
-					<sn-input v-model="(formData['name'] as string)"
-					align="right"
-					:showBorder="formType==0?true:false"
-					:bgColor="formType==0?'':colors.transparent"
-					:activeBgColor="formType==0?'':colors.transparent">
-					</sn-input>
-				</sn-form-item>
-				<sn-form-item label="性别"
-				field="gender" 
-				:rule="genderRule">
+	<sn-page :title="t('snForm.title')" :show-back="true">
+		<demo-card :title="t('snForm.basicTitle')" :subtitle="t('snForm.basicDesc')">
+			<sn-form ref="formRef" v-model="formData">
+				<sn-input-field field="name" :rule="nameRule" v-model="(formData['name'] as string)" :label="t('snForm.name')" :error="getFieldError('name')" :placeholder="t('snForm.namePh')" clearable />
+				<sn-input-field field="password" :rule="pwdRule" v-model="(formData['password'] as string)" :label="t('snForm.password')" :error="getFieldError('password')" password :placeholder="t('snForm.pwdPh')" clearable />
+				<sn-input-field field="phone" :rule="phoneRule" v-model="(formData['phone'] as string)" :label="t('snForm.phone')" :error="getFieldError('phone')" type="number" :placeholder="t('snForm.phonePh')" clearable />
+				<sn-form-field field="gender" :rule="genderRule" :label="t('snForm.gender')" :error="getFieldError('gender')">
 					<sn-radio-group v-model="(formData['gender'] as number)">
-						<sn-radio class="no-margin-bottom" 
-						text="男"></sn-radio>
-						<sn-radio class="no-margin-bottom" 
-						text="女"></sn-radio>
+						<sn-radio :text="t('snForm.male')" />
+						<sn-radio :text="t('snForm.female')" />
 					</sn-radio-group>
-				</sn-form-item>
-				<sn-form-item label="年龄" 
-				field="age" 
-				:rule="ageRule">
-					<sn-stepper v-model="(formData['age'] as number)"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="是否党员" 
-				field="inParty" 
-				:rule="inPartyRule">
-					<sn-switch v-model="(formData['inParty'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="手机号码"
-				field="phone" 
-				:rule="phoneRule">
-					<sn-input v-model="(formData['phone'] as string)"
-					align="right"
-					:showBorder="formType==0?true:false"
-					:bgColor="formType==0?'':colors.transparent"
-					:activeBgColor="formType==0?'':colors.transparent">
-					</sn-input>
-				</sn-form-item>
-				<sn-form-item label="自我评价"
-				field="value" 
-				:rule="valueRule">
-					<sn-rate v-model="(formData['value'] as number)"
-					clearable>
-					</sn-rate>
-				</sn-form-item>
-				<sn-form-item label="身份证号码"
-				field="idcard" 
-				:rule="idcardRule">
-					<sn-input v-model="(formData['idcard'] as string)"
-					placeholder="不收集隐私信息，可看源码"
-					:showBorder="formType==0?true:false"
-					:bgColor="formType==0?'':colors.transparent"
-					:activeBgColor="formType==0?'':colors.transparent">
-					</sn-input>
-				</sn-form-item>
-				<sn-form-item label="家庭住址"
-				field="address">
-					<sn-textarea v-model="(formData['address'] as string)"
-					autoHeight
-					:showBorder="formType==0?true:false"
-					:bgColor="formType==0?'':colors.transparent"
-					:activeBgColor="formType==0?'':colors.transparent">
-					</sn-textarea>
-				</sn-form-item>
-				<sn-gap height="20px"></sn-gap>
-				<sn-button type="primary"
-				text="提交"
-				@click="submit"></sn-button>
+				</sn-form-field>
+				<sn-form-field field="loves" :rule="lovesRule" :label="t('snForm.loves')" :error="getFieldError('loves')">
+					<sn-checkbox-group v-model="(formData['loves'] as number[])">
+						<sn-checkbox :text="t('snForm.read')" />
+						<sn-checkbox :text="t('snForm.sport')" />
+						<sn-checkbox :text="t('snForm.music')" />
+					</sn-checkbox-group>
+				</sn-form-field>
+				<sn-form-field field="age" :rule="ageRule" :label="t('snForm.age')" :error="getFieldError('age')">
+					<sn-stepper v-model="(formData['age'] as number)" :min="0" :max="150" />
+				</sn-form-field>
+				<sn-form-field field="rate" :rule="rateRule" :label="t('snForm.rate')" :error="getFieldError('rate')" labelJustify="top">
+					<sn-rate v-model="(formData['rate'] as number)" clearable />
+				</sn-form-field>
+				<sn-form-field field="volume" :rule="volumeRule" :label="t('snForm.volume')" :error="getFieldError('volume')">
+					<sn-slider v-model="(formData['volume'] as number)" :min="0" :max="100" custom-style="flex:1;" />
+				</sn-form-field>
+				<sn-form-field field="city" :rule="cityRule" :label="t('snForm.city')" :error="getFieldError('city')">
+					<sn-select v-model="(formData['city'] as number)" :data="cityOptions" width="160px" />
+				</sn-form-field>
+				<sn-textarea-field field="remark" :rule="remarkRule" v-model="(formData['remark'] as string)" :label="t('snForm.remark')" :error="getFieldError('remark')" :placeholder="t('snForm.remarkPh')" :auto-height="true" />
 			</sn-form>
-		</com-card>
-		<com-card title="使用配置">
-			<sn-form :showBorder="false">
-				<sn-form-item label="风格">
-					<sn-select v-model="formType"
-					:data="formTypes"></sn-select>
-				</sn-form-item>
-				<sn-form-item label="边框(仅嵌入式)">
-					<sn-switch v-model="showBorder"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="显示错误提示">
-					<sn-switch v-model="showError"
-					@change="changeErrorTip"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="数据变化自动校验">
-					<sn-switch v-model="triggerChange"></sn-switch>
-				</sn-form-item>
+			<sn-button :text="t('snForm.submit')" type="primary" custom-style="margin-top:16px;" @click="onSubmit" />
+			<sn-text flatten v-if="submitCount > 0" font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snForm.submitCount', { c: submitCount } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snForm.typeTitle')" :subtitle="t('snForm.typeDesc')">
+			<sn-form ref="typeFormRef" v-model="typeFormData">
+				<sn-input-field field="email" :rule="emailRule" v-model="(typeFormData['email'] as string)" :label="t('snForm.email')" :error="getTypeFieldError('email')" :placeholder="t('snForm.emailPh')" clearable />
+				<sn-input-field field="url" :rule="urlRule" v-model="(typeFormData['url'] as string)" :label="t('snForm.url')" :error="getTypeFieldError('url')" :placeholder="t('snForm.urlPh')" clearable />
+				<sn-input-field field="idcard" :rule="idcardRule" v-model="(typeFormData['idcard'] as string)" :label="t('snForm.idcard')" :error="getTypeFieldError('idcard')" :placeholder="t('snForm.idcardPh')" clearable />
+				<sn-input-field field="age" :rule="typeAgeRule" v-model="(typeFormData['age'] as string)" :label="t('snForm.age')" :error="getTypeFieldError('age')" type="number" :placeholder="t('snForm.agePh')" clearable />
 			</sn-form>
-		</com-card>
-		<sn-gap height="200px"></sn-gap>
+			<sn-button :text="t('snForm.validate')" type="primary" custom-style="margin-top:16px;" @click="onTypeSubmit" />
+		</demo-card>
+
+		<demo-card :title="t('snForm.liveTitle')" :subtitle="t('snForm.liveDesc')">
+			<sn-form v-model="liveFormData" trigger-change @fail="onLiveFail" @pass="onLivePass">
+				<sn-input-field field="username" :rule="userRule" v-model="(liveFormData['username'] as string)" :label="t('snForm.username')" :error="getLiveFieldError('username')" :placeholder="t('snForm.userPh')" clearable />
+				<sn-input-field field="qq" :rule="qqRule" v-model="(liveFormData['qq'] as string)" :label="t('snForm.qq')" :error="getLiveFieldError('qq')" type="number" :placeholder="t('snForm.qqPh')" clearable />
+			</sn-form>
+		</demo-card>
+
+		<demo-card :title="t('snForm.customTitle')" :subtitle="t('snForm.customDesc')">
+			<sn-form ref="customFormRef" v-model="customFormData">
+				<sn-input-field field="age2" :rule="adultRule" v-model="(customFormData['age2'] as string)" :label="t('snForm.age')" :error="getCustomFieldError('age2')" type="number" :placeholder="t('snForm.age2Ph')" clearable />
+				<sn-input-field field="vipCode" :rule="vipRule" v-model="(customFormData['vipCode'] as string)" :label="t('snForm.vipCode')" :error="getCustomFieldError('vipCode')" :placeholder="t('snForm.vipPh')" clearable />
+			</sn-form>
+			<sn-button :text="t('snForm.validateOnly')" type="primary" custom-style="margin-top:16px;" @click="onValidateOnly" />
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snForm.validateResultText', { v: validateResult } as UTSJSONObject) }}</sn-text>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui, SnFormValidResult, SnFormItemRule, SnDataItem } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	
-	const formEle = ref(null as SnFormComponentPublicInstance | null)
-	
-	const formType = ref(0)
-	const showBorder = ref(false)
-	const showError = ref(true)
-	const triggerChange = ref(false)
-	
-	const formTypes = [
-		{
-			text: '嵌入式',
-			id: 'embed',
+<script lang="uts" setup>
+
+
+import { useI18n } from 'vue-i18n'
+import type { ComponentPublicInstance } from 'vue'
+import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import type { SnDataItem, SnFormItemRule, SnFormItemVerifyResult, SnFormValidResult } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+
+
+const formData = ref<UTSJSONObject>({
+	name: '',
+	password: '',
+	phone: '',
+	gender: 0,
+	loves: [] as number[],
+	age: 18,
+	rate: 3,
+	volume: 30,
+	city: 0,
+	remark: ''
+} as UTSJSONObject)
+const failResults = ref<SnFormItemVerifyResult[]>([])
+const submitCount = ref<number>(0)
+
+function getFieldError(field: string): string {
+	const list = failResults.value
+	for (let i = 0; i < list.length; i++) {
+		if (list[i].field == field) {
+			return list[i].message ?? ''
+		}
+	}
+	return ''
+}
+
+const nameRule = ref<SnFormItemRule>({
+	type: 'chinese',
+	required: true,
+	message: t('snForm.nameMsg')
+} as SnFormItemRule)
+
+const pwdRule = ref<SnFormItemRule>({
+	required: true,
+	min: 6,
+	max: 20,
+	message: t('snForm.pwdMsg')
+} as SnFormItemRule)
+
+const phoneRule = ref<SnFormItemRule>({
+	type: 'phone',
+	required: true,
+	message: t('snForm.phoneMsg')
+} as SnFormItemRule)
+
+const genderRule = ref<SnFormItemRule>({
+	required: true,
+	message: t('snForm.genderMsg')
+} as SnFormItemRule)
+
+
+const lovesRule = ref<SnFormItemRule>({
+	required: true,
+	message: t('snForm.lovesMsg')
+} as SnFormItemRule)
+
+
+const ageRule = ref<SnFormItemRule>({
+	type: 'integer',
+	required: true,
+	min: 0,
+	max: 150,
+	message: t('snForm.ageMsg')
+} as SnFormItemRule)
+
+
+const rateRule = ref<SnFormItemRule>({
+	type: 'integer',
+	required: true,
+	min: 1,
+	max: 5,
+	message: t('snForm.rateMsg')
+} as SnFormItemRule)
+
+
+const volumeRule = ref<SnFormItemRule>({
+	type: 'integer',
+	min: 0,
+	max: 100,
+	message: t('snForm.volumeMsg')
+} as SnFormItemRule)
+
+const cityRule = ref<SnFormItemRule>({
+	required: true,
+	message: t('snForm.cityMsg')
+} as SnFormItemRule)
+
+
+const remarkRule = ref<SnFormItemRule>({
+	max: 100,
+	message: t('snForm.remarkMsg')
+} as SnFormItemRule)
+
+const cityOptions = ref<SnDataItem[]>([
+	{ id: 'beijing', text: t('snForm.cityBeijing') },
+	{ id: 'shanghai', text: t('snForm.cityShanghai') },
+	{ id: 'guangzhou', text: t('snForm.cityGuangzhou') },
+	{ id: 'shenzhen', text: t('snForm.cityShenzhen') }
+] as SnDataItem[])
+
+const formRef = ref<ComponentPublicInstance | null>(null)
+
+function onSubmit(): void {
+	formRef.value?.$callMethod('submit', {
+		success: () => {
+			submitCount.value++
+			failResults.value = []
+			snu.showToast({ text: t('snForm.submitOk'), icon: 'checkbox-circle-fill' })
 		},
-		{
-			text: '浮动式',
-			id: 'float'
-		}] as SnDataItem[]
-	
-	const formData = reactive({
-		name: '',
-		age: 0,
-		inParty: true,
-		phone: '',
-		gender: 0,
-		value: 0,
-		address: '',
-		idcard: ''
-	})
-	
-	const nameRule = ref({
-		type: 'chinese',
-		required: true,
-		message: '请填写正确的中文姓名',
-		valid: (value: any):string=>{
-			if ((value as string).length > 5){
-				return '姓名过长'
-			}
-			return ''
+		fail: (results: SnFormItemVerifyResult[]) => {
+			failResults.value = results
 		}
-	} as SnFormItemRule)
-	
-	const ageRule = ref({
-		type: 'integer',
-		required: true,
-		message: '请填写正确的年龄',
-		valid: (value: any):string=>{
-			if ((value as number)<18 && formData['inParty'] as boolean) {
-				return '党员必须年满18周岁'
-			}
-			return ''
-		}
-	} as SnFormItemRule)
-	
-	const inPartyRule = ref({
-		type: 'boolean',
-		required: true
-	} as SnFormItemRule)
-	
-	const phoneRule = ref({
-		type: 'phone',
-		required: true,
-		message: '请输入正确的手机号码'
-	} as SnFormItemRule)
-	
-	const genderRule = ref({
-		type: 'enum',
-		enum: [0, 1],
-		required: true,
-		message: '请选择性别'
-	} as SnFormItemRule)
-	
-	const valueRule = ref({
-		type: 'integer',
-		min: 1,
-		max: 5,
-		required: true,
-		valid: (value: any):string=>{
-			let v = value as number
-			
-			if (v == 0) {
-				return '请进行自我评价'
-			} else if (v <= 2) {
-				return `不要妄自菲薄哦，相信自己(●'◡'●)`
-			}
-			return ''
-		}
-	} as SnFormItemRule)
-	
-	const idcardRule = ref({
-		type: 'idcard',
-		message: '请输入正确的第二代公民身份证号码'
-	} as SnFormItemRule)
-	
-	function changeErrorTip() {
-		if (!showError.value){
-			uni.showModal({
-				title: '提示',
-				content: '关闭后可通过回调函数获取校验结果，自定义错误提示'
-			})
+	} as SnFormValidResult)
+}
+
+
+const typeFormData = ref<UTSJSONObject>({
+	email: '',
+	url: '',
+	idcard: '',
+	age: ''
+} as UTSJSONObject)
+const typeFailResults = ref<SnFormItemVerifyResult[]>([])
+
+function getTypeFieldError(field: string): string {
+	const list = typeFailResults.value
+	for (let i = 0; i < list.length; i++) {
+		if (list[i].field == field) {
+			return list[i].message ?? ''
 		}
 	}
+	return ''
+}
+
+const emailRule = ref<SnFormItemRule>({
+	type: 'email',
+	required: true,
+	message: t('snForm.emailMsg')
+} as SnFormItemRule)
+
+const urlRule = ref<SnFormItemRule>({
+	type: 'url',
+	required: true,
+	message: t('snForm.urlMsg')
+} as SnFormItemRule)
+
+const idcardRule = ref<SnFormItemRule>({
+	type: 'idcard',
+	required: true,
+	message: t('snForm.idcardMsg')
+} as SnFormItemRule)
+
+const typeAgeRule = ref<SnFormItemRule>({
+	type: 'integer',
+	required: true,
+	min: 0,
+	max: 150,
+	message: t('snForm.ageMsg'),
 	
-	function submit(){
-		formEle.value?.$callMethod('submit', {
-			success: ()=>{
-				uni.showModal({
-					title: '提示',
-					content: '提交成功（实际未上传云端。本 Demo 不会收集或传送您的任何隐私信息，可查看源码）'
-				})
-			}
-		} as SnFormValidResult)
+	transform: (value: any): any => {
+		if (value == null || value == '') {
+			return null
+		}
+		return parseInt(value as string)
 	}
+} as SnFormItemRule)
+
+const typeFormRef = ref<ComponentPublicInstance | null>(null)
+
+function onTypeSubmit(): void {
+	typeFormRef.value?.$callMethod('submit', {
+		success: () => {
+			typeFailResults.value = []
+			snu.showToast({ text: t('snForm.validated'), icon: 'checkbox-circle-fill' })
+		},
+		fail: (results: SnFormItemVerifyResult[]) => {
+			typeFailResults.value = results
+		}
+	} as SnFormValidResult)
+}
+
+
+const liveFormData = ref<UTSJSONObject>({
+	username: '',
+	qq: ''
+} as UTSJSONObject)
+const liveFailResults = ref<SnFormItemVerifyResult[]>([])
+
+function getLiveFieldError(field: string): string {
+	const list = liveFailResults.value
+	for (let i = 0; i < list.length; i++) {
+		if (list[i].field == field) {
+			return list[i].message ?? ''
+		}
+	}
+	return ''
+}
+
+
+function onLiveFail(results: SnFormItemVerifyResult[]): void {
+	liveFailResults.value = results
+}
+
+
+function onLivePass(): void {
+	liveFailResults.value = []
+}
+
+const userRule = ref<SnFormItemRule>({
+	pattern: /^[a-zA-Z0-9_]{4,16}$/,
+	message: t('snForm.userMsg')
+} as SnFormItemRule)
+
+const qqRule = ref<SnFormItemRule>({
+	type: 'qqnumber',
+	message: t('snForm.qqMsg')
+} as SnFormItemRule)
+
+
+const customFormData = ref<UTSJSONObject>({
+	age2: '',
+	vipCode: ''
+} as UTSJSONObject)
+const customFailResults = ref<SnFormItemVerifyResult[]>([])
+const validateResult = ref<string>('')
+
+function getCustomFieldError(field: string): string {
+	const list = customFailResults.value
+	for (let i = 0; i < list.length; i++) {
+		if (list[i].field == field) {
+			return list[i].message ?? ''
+		}
+	}
+	return ''
+}
+
+const adultRule = ref<SnFormItemRule>({
+	type: 'integer',
+	required: true,
+	message: t('snForm.adultMsg'),
+	
+	transform: (value: any): any => {
+		if (value == null || value == '') {
+			return null
+		}
+		return parseInt(value as string)
+	},
+	valid: (value: any): string => {
+		if (typeof value == 'number' && value < 18) {
+			return t('snForm.adultValid')
+		}
+		return ''
+	}
+} as SnFormItemRule)
+
+const vipRule = ref<SnFormItemRule>({
+	pattern: /^\d{6}$/,
+	message: t('snForm.vipMsg')
+} as SnFormItemRule)
+
+const customFormRef = ref<ComponentPublicInstance | null>(null)
+
+
+function onValidateOnly(): void {
+	customFormRef.value?.$callMethod('validate', {
+		success: () => {
+			customFailResults.value = []
+			validateResult.value = t('snForm.validateOk')
+		},
+		fail: (results: SnFormItemVerifyResult[]) => {
+			customFailResults.value = results
+			validateResult.value = t('snForm.validateFail', { c: results.length } as UTSJSONObject)
+		}
+	} as SnFormValidResult)
+}
 </script>
 
 <style lang="scss">
-	.no-margin-bottom {
-		margin-bottom: 0;
-	}
 </style>

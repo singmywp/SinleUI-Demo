@@ -1,34 +1,99 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Refresher 下拉刷新"></sn-topbar>
-		<com-card title="基础用法"
-		note="自定义 scroll-view 和 list-view 下拉刷新样式">
-			<sn-refresher class="spacing" status="refresh"></sn-refresher>
-			<sn-refresher class="spacing" status="refreshing"></sn-refresher>
-		</com-card>
-		<com-card title="自定义提示语">
-			<sn-refresher class="spacing" status="refresh" refreshText="下滑重开 :D"></sn-refresher>
-			<sn-refresher class="spacing" status="refreshing" refreshingText="努力刷新吖..."></sn-refresher>
-		</com-card>
-		<com-card title="自定义样式">
-			<sn-refresher status="refresh"
-			icon="arrow-down-circle-line"
-			refreshText="我就是我，不一样的烟火~"
-			textColor="$success"
-			iconColor="$success">
-			</sn-refresher>
-		</com-card>
+	<sn-page :title="t('snRefresher.title')" :show-back="true">
+		<demo-card :title="t('snRefresher.basicTitle')" :subtitle="t('snRefresher.basicSubtitle')">
+			<sn-refresher status="refresh" />
+			<sn-refresher status="refreshing" custom-style="margin-top:12px;" />
+		</demo-card>
+
+		<demo-card :title="t('snRefresher.customTextTitle')" :subtitle="t('snRefresher.customTextSubtitle')">
+			<sn-refresher status="refresh" :refresh-text="t('snRefresher.pullDownRefresh')" />
+			<sn-refresher status="refreshing" :refreshing-text="t('snRefresher.refreshing')" custom-style="margin-top:12px;" />
+		</demo-card>
+
+		<demo-card :title="t('snRefresher.customStyleTitle')" :subtitle="t('snRefresher.customStyleSubtitle')">
+			<sn-refresher status="refresh" icon="arrow-down-circle-line" :refresh-text="t('snRefresher.firework')"
+				text-color="$success" icon-color="$success" />
+			<sn-refresher status="refreshing" text-size="$14" icon-size="$18" text-color="$primary" icon-color="$primary"
+				custom-style="margin-top:12px;" />
+		</demo-card>
+
+		<demo-card :title="t('snRefresher.externalTitle')" :subtitle="t('snRefresher.externalSubtitle')">
+			<sn-refresher status="refresh" :refresh-text="t('snRefresher.zoomIconText')"
+				icon-class="demo-refresher-icon" text-class="demo-refresher-text" />
+		</demo-card>
+
+		<demo-card :title="t('snRefresher.interactiveTitle')" :subtitle="t('snRefresher.interactiveSubtitle')">
+			<sn-refresher ref="refresherRef" v-model:refresher-triggered="triggered" status="refresh"
+				:refresh-text="t('snRefresher.clickToRefresh')" @refresh="onRefresh" />
+			<sn-text font-size="$12" :color="triggered ? $snui.colors.primary : $snui.colors.textLight"
+				custom-style="margin-top:12px;margin-bottom:10px;" flatten>
+					{{ t('snRefresher.currentTriggered', { value: triggered ? 'true' : 'false' } as UTSJSONObject) }}
+			</sn-text>
+			<view class="btn-row" flatten>
+				<sn-button type="primary" custom-style="margin-right:10px;" @click="onStart">{{ t('snRefresher.start') }}</sn-button>
+				<sn-button type="primary" level="second" @click="onStop">{{ t('snRefresher.stop') }}</sn-button>
+			</view>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
+<script lang="uts" setup>
+	import { useI18n } from 'vue-i18n'
 	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	
+	import type { ComponentPublicInstance } from 'vue'
+
+	const { t } = useI18n()
+
+	const refresherRef = ref<ComponentPublicInstance | null>(null)
+	const triggered = ref<boolean>(false)
+	let refreshTimer: number | null = null
+
+	/**
+	 * 点击下拉刷新条触发：模拟 1.5s 后结束刷新
+	 */
+	function onRefresh(triggeredVal: boolean): void {
+		triggered.value = triggeredVal
+		if (refreshTimer != null) {
+			clearTimeout(refreshTimer)
+			refreshTimer = null
+		}
+		refreshTimer = setTimeout(() => {
+			refresherRef.value?.$callMethod('stopRefresh')
+			refreshTimer = null
+		}, 1500) as number
+	}
+
+	/**
+	 * 通过暴露的 startRefresh 方法主动开始刷新
+	 */
+	function onStart(): void {
+		refresherRef.value?.$callMethod('startRefresh')
+	}
+
+	/**
+	 * 通过暴露的 stopRefresh 方法主动结束刷新
+	 */
+	function onStop(): void {
+		refresherRef.value?.$callMethod('stopRefresh')
+	}
+
+	onUnmounted(() => {
+		if (refreshTimer != null) {
+			clearTimeout(refreshTimer)
+			refreshTimer = null
+		}
+	})
 </script>
 
 <style lang="scss">
-	.spacing {
-		margin-bottom: 10px;
+	.btn-row {
+		flex-direction: row;
+	}
+	.demo-refresher-icon {
+		font-size: 22px;
+	}
+	.demo-refresher-text {
+		font-size: 14px;
+		font-weight: bold;
 	}
 </style>

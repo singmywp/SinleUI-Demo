@@ -1,99 +1,128 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Skeleton 骨架屏"></sn-topbar>
-		<com-card title="基础用法"
-		note="加载较慢时，在页面真实数据加载之前，给用户展示出页面的大致结构。\n你可以把它当做一个带闪烁动画的 view 来用，本身不带UI，样式完全由你控制。">
-		</com-card>
-		<com-card>
-			<sn-skeleton height="20px"></sn-skeleton>
-		</com-card>
-		<com-card title="组合示例"></com-card>
-		<com-card>
-			<sn-skeleton width="50%"
-			height="15px"></sn-skeleton>
-			<sn-skeleton height="15px"
-			margin="10px 0 0 0"></sn-skeleton>
-			<sn-skeleton width="80%"
-			height="15px"
-			margin="10px 0 0 0"></sn-skeleton>
-		</com-card>
-		<com-card>
-			<sn-row>
-				<sn-col v-for="_ in [0,1]"
-				gutter="20px"
-				:span="6">
-					<sn-skeleton width="100%"
-					height="50px">
-					</sn-skeleton>
-					<sn-row>
-						<sn-skeleton height="30px"
-						width="30px"
-						borderRadius="10000px"
-						margin="5px 10px 0 0"></sn-skeleton>
-						<sn-skeleton height="20px"
-						width="50px"
-						margin="5px 0 0 0"></sn-skeleton>
-					</sn-row>
-					<sn-skeleton width="80%"
-					height="10px"
-					margin="5px 0 0 0"></sn-skeleton>
-					<sn-skeleton width="100%"
-					height="10px"
-					margin="5px 0 0 0"></sn-skeleton>
-				</sn-col>
-			</sn-row>
-		</com-card>
-		<com-card>
-			<sn-form-item label="显示内容">
-				<sn-switch v-model="showContent"></sn-switch>
-			</sn-form-item>
-			<sn-row align="flex-start">
-				<view class="m-r-20">
-					<sn-skeleton v-if="!showContent"
-					height="45px"
-					width="45px"
-					borderRadius="10000px"></sn-skeleton>
-					<sn-avatar v-else
-					shape="circle"
-					size="45px"
-					src="https://i03piccdn.sogoucdn.com/70e95b16d3488d9b"></sn-avatar>
+	<sn-page :title="t('snSkeleton.title')" :show-back="true">
+		<demo-card :title="t('snSkeleton.demoBasicTitle')" :subtitle="t('snSkeleton.demoBasicSub')">
+			<view class="demo-row" style="margin-bottom: 12px" flatten>
+				<sn-skeleton width="44px" height="44px" border-radius="$12" margin="0 12px 0 0" />
+				<view class="demo-col" flatten>
+					<sn-skeleton width="70%" height="16px" border-radius="$4" margin="2px 0" />
+					<sn-skeleton width="100%" height="14px" border-radius="$4" margin="2px 0" />
 				</view>
-				<view class="flex-1">
-					<sn-skeleton v-if="!showContent"
-					height="20px"
-					width="50%">
-					</sn-skeleton>
-					<sn-text v-else
-					text="寅晨: 诸神黄昏"
-					size="20px"
-					font="alipuhuiheavy"></sn-text>
-					<template v-if="!showContent">
-						<sn-skeleton height="20px"
-						margin="8px 0 0 0">
-						</sn-skeleton>
-						<sn-skeleton height="20px"
-						margin="8px 0 0 0">
-						</sn-skeleton>
-						<sn-skeleton height="20px"
-						width="80%"
-						margin="8px 0 0 0">
-						</sn-skeleton>
-					</template>
-					<sn-text v-else
-					class="m-t-8 h-72"
-					text="《寅晨: 诸神黄昏》最早由独立开发者开发，是单机游戏市场上为数不多的仍在流行的回合战略游戏。"
-					size="15px"
-					line-height="1.5"></sn-text>
+			</view>
+			<sn-skeleton width="100%" height="60px" border-radius="$8" />
+		</demo-card>
+
+		<demo-card :title="t('snSkeleton.demoGlowTitle')" :subtitle="t('snSkeleton.demoGlowSub')">
+			<view class="demo-row" flatten>
+				<sn-skeleton width="40px" height="40px" border-radius="$20" margin="0 12px 0 0" />
+				<view class="demo-col" flatten>
+					<sn-skeleton width="80%" height="16px" border-radius="$4" margin="2px 0" />
+					<sn-skeleton width="100%" height="14px" border-radius="$4" margin="2px 0" />
+					<sn-skeleton width="55%" height="14px" border-radius="$4" margin="2px 0" />
 				</view>
-			</sn-row>
-		</com-card>
+			</view>
+			<sn-skeleton width="100%" height="44px" border-radius="$8" margin="0 0 8px 0" />
+			<sn-skeleton width="100%" height="44px" border-radius="$8" />
+		</demo-card>
+
+		<demo-card :title="t('snSkeleton.demoPulseTitle')" :subtitle="t('snSkeleton.demoPulseSub')">
+			<view class="demo-row" style="margin-bottom: 12px" flatten>
+				<sn-skeleton mode="pulse" width="40px" height="40px" border-radius="$20" margin="0 12px 0 0" />
+				<view class="demo-col" flatten>
+					<sn-skeleton mode="pulse" width="80%" height="16px" border-radius="$4" margin="2px 0" />
+					<sn-skeleton mode="pulse" width="100%" height="14px" border-radius="$4" margin="2px 0" />
+					<sn-skeleton mode="pulse" width="55%" height="14px" border-radius="$4" margin="2px 0" />
+				</view>
+			</view>
+			<sn-skeleton mode="pulse" width="100%" height="44px" border-radius="$8" margin="0 0 8px 0" />
+			<sn-skeleton mode="pulse" width="100%" height="44px" border-radius="$8" />
+		</demo-card>
+
+		<demo-card :title="t('snSkeleton.demoModeTitle')" :subtitle="t('snSkeleton.demoModeSub')">
+			<view class="demo-row" style="margin-bottom: 12px" flatten>
+				<sn-skeleton :mode="currentMode" width="44px" height="44px" border-radius="$22" margin="0 12px 0 0" />
+				<view class="demo-col" flatten>
+					<sn-skeleton :mode="currentMode" width="70%" height="16px" border-radius="$4" margin="2px 0" />
+					<sn-skeleton :mode="currentMode" width="100%" height="14px" border-radius="$4" margin="2px 0" />
+				</view>
+			</view>
+			<sn-button @click="toggleMode">
+							{{ isPulse ? t('snSkeleton.modePulse') : t('snSkeleton.modeGlow') }}
+						</sn-button>
+		</demo-card>
+
+		<demo-card :title="t('snSkeleton.demoLoadTitle')" :subtitle="t('snSkeleton.demoLoadSub')">
+			<sn-button @click="loading = !loading" style="margin-bottom: 12px">{{ loading==false ? t('snSkeleton.reload') : t('snSkeleton.loadDone')}}</sn-button>
+			<view v-if="loading" class="demo-row" flatten>
+				<sn-skeleton width="48px" height="48px" border-radius="$1000" margin="0 12px 0 0" />
+				<view class="demo-col" flatten>
+					<sn-skeleton width="60%" height="16px" border-radius="$4" margin="2px 0" />
+					<sn-skeleton width="100%" height="14px" border-radius="$4" margin="2px 0" />
+				</view>
+			</view>
+			<view v-else class="demo-load-result" flatten>
+				<sn-avatar src="https://sinleui.pages.dev/logo.png" size="48px" border-radius="$24" />
+				<view class="demo-col" style="margin: 0 0 0 12px" flatten>
+					<sn-text bold font-size="$15" color="$title" flatten>SinleUI 2.0</sn-text>
+					<sn-text font-size="$12" color="$textLight" flatten>{{ t('snSkeleton.frameworkDesc') }}</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snSkeleton.demoSizeTitle')" :subtitle="t('snSkeleton.demoSizeSub')">
+			<sn-skeleton width="100%" height="80px" border-radius="$20" margin="0 0 8px 0" />
+			<sn-skeleton width="80%" height="40px" border-radius="$2" margin="0 0 8px 0" />
+			<sn-skeleton width="60%" height="40px" border-radius="$20" />
+		</demo-card>
+
+		<demo-card :title="t('snSkeleton.demoAniTitle')" :subtitle="t('snSkeleton.demoAniSub')">
+			<sn-skeleton width="100%" height="20px" border-radius="$4" ani-time="$500" margin="0 0 8px 0" />
+			<sn-skeleton width="100%" height="20px" border-radius="$4" ani-time="$2000" margin="0 0 8px 0" />
+			<sn-skeleton width="100%" height="20px" border-radius="$4" ani-time="0" />
+		</demo-card>
+
+		<demo-card :title="t('snSkeleton.demoSlotTitle')" :subtitle="t('snSkeleton.demoSlotSub')">
+			<sn-skeleton width="100%" height="56px" border-radius="$12">
+				<view class="demo-slot-content" flatten>
+					<sn-text font-size="$11" color="$textLight" flatten>{{ t('snSkeleton.slotTip') }}</sn-text>
+				</view>
+			</sn-skeleton>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	const showContent = ref(false)
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+const isPulse = ref<boolean>(false)
+
+const currentMode = computed<string>(() => isPulse.value ? 'pulse' : 'glow')
+
+function toggleMode(): void {
+	isPulse.value = !isPulse.value
+}
+
+const loading = ref<boolean>(true)
 </script>
 
-<style>
-		
+<style lang="scss">
+.demo-row {
+	flex-direction: row;
+	align-items: center;
+}
+.demo-col {
+	flex: 1;
+	flex-direction: column;
+}
+.demo-load-result {
+	flex-direction: row;
+	align-items: center;
+}
+.demo-slot-content {
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+	padding: 0 12px;
+}
 </style>

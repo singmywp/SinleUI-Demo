@@ -1,129 +1,126 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Tag 标签"></sn-topbar>
-		<com-card title="基础用法"
-		note="一般用于标记某个对象和附加说明">
-			<sn-row>
-				<sn-tag class="spacing" text="SinleUI"></sn-tag>
-				<sn-tag class="spacing" text="Uniapp X"></sn-tag>
-				<sn-tag class="spacing" text="UTS"></sn-tag>
-				<sn-tag class="spacing" text="Vue 3"></sn-tag>
-			</sn-row>
-		</com-card>
-		<com-card title="类型"
-		note="根据场景的不同，应当使用不同类型的标签，更具识别度">
-			<sn-row>
-				<sn-tag class="spacing" text="SinleUI" type="info"></sn-tag>
-				<sn-tag class="spacing" text="Uni" type="primary"></sn-tag>
-				<sn-tag class="spacing" text="Vue" type="success"></sn-tag>
-				<sn-tag class="spacing" text="Web" type="warning"></sn-tag>
-				<sn-tag class="spacing" text="UTS" type="error"></sn-tag>
-			</sn-row>
-		</com-card>
-		<com-card title="等级"
-		note="不同等级的标签会呈现不同样式">
-			<sn-row>
-				<sn-tag class="spacing" text="SinleUI" type="info"></sn-tag>
-				<sn-tag class="spacing" text="Uni" type="primary"></sn-tag>
-				<sn-tag class="spacing" text="Vue" type="success"></sn-tag>
-				<sn-tag class="spacing" text="Web" type="warning"></sn-tag>
-				<sn-tag class="spacing" text="UTS" type="error"></sn-tag>
-			</sn-row>
-			<sn-line></sn-line>
-			<sn-row>
-				<sn-tag class="spacing" text="SinleUI" type="info" level="second"></sn-tag>
-				<sn-tag class="spacing" text="Uni" type="primary" level="second"></sn-tag>
-				<sn-tag class="spacing" text="Vue" type="success" level="second"></sn-tag>
-				<sn-tag class="spacing" text="Web" type="warning" level="second"></sn-tag>
-				<sn-tag class="spacing" text="UTS" type="error" level="second"></sn-tag>
-			</sn-row>
-			<sn-line></sn-line>
-			<sn-row>
-				<sn-tag class="spacing" text="SinleUI" type="info" level="third"></sn-tag>
-				<sn-tag class="spacing" text="Uni" type="primary" level="third"></sn-tag>
-				<sn-tag class="spacing" text="Vue" type="success" level="third"></sn-tag>
-				<sn-tag class="spacing" text="Web" type="warning" level="third"></sn-tag>
-				<sn-tag class="spacing" text="UTS" type="error" level="third"></sn-tag>
-			</sn-row>
-			<sn-line></sn-line>
-			<sn-row>
-				<sn-tag class="spacing" text="SinleUI" type="info" level="least"></sn-tag>
-				<sn-tag class="spacing" text="Uni" type="primary" level="least"></sn-tag>
-				<sn-tag class="spacing" text="Vue" type="success" level="least"></sn-tag>
-				<sn-tag class="spacing" text="Web" type="warning" level="least"></sn-tag>
-				<sn-tag class="spacing" text="UTS" type="error" level="least"></sn-tag>
-			</sn-row>
-		</com-card>
-		<com-card title="可关闭"
-		note="部分情况需要取消标签的显示，可以使用closable的标签️">
-			<sn-row wrap>
-				<sn-tag class="spacing"
-				text="SinleUI" 
-				type="info" 
-				level="second" 
-				padding="8px 10px"
-				closable></sn-tag>
-				<sn-tag class="spacing"
-				text="uni-app x" 
-				type="primary" 
-				level="second" padding="8px 10px"
-				closable ></sn-tag>
-				<sn-tag class="spacing"
-				text="Vue" 
-				type="success" 
-				level="second" 
-				padding="8px 10px"
-				closable></sn-tag>
-				<sn-tag class="spacing"
-				text="Web" 
-				type="warning" 
-				level="second" 
-				padding="8px 10px"
-				closable></sn-tag>
-				<sn-tag class="spacing"
-				text="UTS" 
-				type="error" 
-				level="second" 
-				padding="8px 10px"
-				closable></sn-tag>
-			</sn-row>
-		</com-card>
-		<com-card title="自定义样式"
-		note="定制专属于你的标签">
-			<sn-row>
-				<sn-tag class="spacing"
-				text="SinleUI" 
-				type="primary" 
-				level="second"
-				:customStyle="{
-					border: `1px solid ${colors.primary}`
-				}"></sn-tag>
-				<sn-tag class="spacing"
-				text="uni-app x" 
-				type="primary" 
-				level="least"
-				:customStyle="{
-					border: `0.5px solid ${colors.primary}`
-				}"></sn-tag>
-				<sn-tag class="spacing"
-				text="UTS" 
-				type="primary" 
-				level="least"
-				:customStyle="{
-					border: `1px dotted ${colors.primary}`
-				}"></sn-tag>
-			</sn-row>
-		</com-card>
+	<sn-page :title="t('snTag.title')" :show-back="true">
+		<demo-card :title="t('snTag.basicTitle')" :subtitle="t('snTag.basicSubtitle')">
+			<view class="demo-row" flatten>
+				<sn-tag :text="t('snTag.defaultTag')" custom-style="margin-right:8px;margin-bottom:8px;" />
+				<sn-tag :text="t('snTag.category')" custom-style="margin-right:8px;margin-bottom:8px;" />
+				<sn-tag text="NEW" custom-style="margin-right:8px;margin-bottom:8px;" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snTag.themeTitle')" :subtitle="t('snTag.themeSubtitle')">
+			<view class="demo-row" flatten>
+				<sn-tag text="info" type="info" custom-style="margin-right:8px;margin-bottom:8px;" />
+				<sn-tag text="primary" type="primary" custom-style="margin-right:8px;margin-bottom:8px;" />
+				<sn-tag text="success" type="success" custom-style="margin-right:8px;margin-bottom:8px;" />
+				<sn-tag text="error" type="error" custom-style="margin-right:8px;margin-bottom:8px;" />
+				<sn-tag text="warning" type="warning" custom-style="margin-right:8px;margin-bottom:8px;" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snTag.levelTitle')" :subtitle="t('snTag.levelSubtitle')">
+			<view class="demo-row" flatten>
+				<sn-tag text="first" type="primary" level="first" custom-style="margin-right:8px;margin-bottom:8px;" />
+				<sn-tag text="second" type="primary" level="second" custom-style="margin-right:8px;margin-bottom:8px;" />
+				<sn-tag text="third" type="primary" level="third" custom-style="margin-right:8px;margin-bottom:8px;" />
+				<sn-tag text="least" type="primary" level="least" custom-style="margin-right:8px;margin-bottom:8px;" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snTag.disabledTitle')" :subtitle="t('snTag.disabledSubtitle')">
+			<view class="demo-row" flatten>
+				<sn-tag :text="t('snTag.disabled')" disabled custom-style="margin-right:8px;margin-bottom:8px;" />
+				<sn-tag :text="t('snTag.disabledPrimary')" type="primary" disabled custom-style="margin-right:8px;margin-bottom:8px;" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snTag.sizeTitle')" :subtitle="t('snTag.sizeSubtitle')">
+			<view class="demo-row" flatten>
+				<sn-tag :text="t('snTag.bigRadius')" border-radius="$16" text-size="$14" custom-style="margin-right:8px;margin-bottom:8px;" />
+				<sn-tag :text="t('snTag.square')" border-radius="$2" custom-style="margin-right:8px;margin-bottom:8px;" />
+				<sn-tag :text="t('snTag.small')" text-size="$10" custom-style="margin-right:8px;margin-bottom:8px;" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snTag.customColorTitle')" :subtitle="t('snTag.customColorSubtitle')">
+			<view class="demo-row" flatten>
+				<sn-tag :text="t('snTag.orangeWhite')" bg-color="#ff6600" text-color="#fff" custom-style="margin-right:8px;margin-bottom:8px;" />
+				<sn-tag :text="t('snTag.customBorderText')" type="primary" level="least" text-color="$primary" custom-style="margin-right:8px;margin-bottom:8px;" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snTag.loadingTitle')" :subtitle="t('snTag.loadingSubtitle')">
+			<view class="demo-row" flatten>
+				<sn-tag :text="t('snTag.loading')" type="primary" loading custom-style="margin-right:8px;margin-bottom:8px;" />
+				<sn-tag :text="t('snTag.loading')" loading icon-color="$success" custom-style="margin-right:8px;margin-bottom:8px;" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snTag.closableTitle')" :subtitle="t('snTag.closableSubtitle')">
+			<view class="demo-row" flatten>
+				<sn-tag :text="t('snTag.closableTag')" closable @close="onTagClose" custom-style="margin-right:8px;margin-bottom:8px;" />
+				<sn-tag :text="t('snTag.closePrimary')" type="primary" closable @close="onTagClose" custom-style="margin-right:8px;margin-bottom:8px;" />
+				<sn-tag :text="t('snTag.closeDisabled')" closable disabled custom-style="margin-right:8px;margin-bottom:8px;" />
+			</view>
+			<sn-text font-size="$12" color="$primary" flatten>{{ t('snTag.recentClose') }}：{{ closeLog }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snTag.slotTitle')" :subtitle="t('snTag.slotSubtitle')">
+			<view class="demo-row" flatten>
+				<sn-tag type="primary" level="second" custom-style="margin-right:8px;margin-bottom:8px;">
+					<sn-text font-size="$12" color="$primary">{{ t('snTag.customContent') }}</sn-text>
+					<sn-icon name="star-fill" :size="12" :color="$snui.colors.primary" custom-style="margin-left:4px;" />
+				</sn-tag>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snTag.externalTitle')" :subtitle="t('snTag.externalSubtitle')">
+			<view class="demo-row">
+				<sn-tag :text="t('snTag.textExternalClass')" type="primary" text-class="demo-tag-text" custom-style="margin-right:8px;margin-bottom:8px;" />
+				<sn-tag :text="t('snTag.textStyle')" type="success" text-style="font-weight:bold;letter-spacing:1px;" custom-style="margin-right:8px;margin-bottom:8px;" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snTag.sceneTitle')" :subtitle="t('snTag.sceneSubtitle')">
+			<view class="scene-card" flatten>
+				<sn-text bold font-size="$14" color="$text">{{ t('snTag.orderStatus') }}</sn-text>
+				<view class="demo-row" style="margin-top:12px;margin-bottom:0;">
+					<sn-tag :text="t('snTag.paid')" type="success" custom-style="margin-right:8px;margin-bottom:8px;" />
+					<sn-tag :text="t('snTag.toShip')" type="warning" level="second" custom-style="margin-right:8px;margin-bottom:8px;" />
+					<sn-tag :text="t('snTag.shipped')" type="primary" level="second" custom-style="margin-right:8px;margin-bottom:8px;" />
+					<sn-tag :text="t('snTag.completed')" type="info" level="least" custom-style="margin-right:8px;margin-bottom:8px;" />
+				</view>
+			</view>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { $snui } from '@/uni_modules/sinle-ui'
+
+const { t } = useI18n()
+const closeLog = ref<string>(t('snTag.noEvent'))
+
+function onTagClose(): void {
+	closeLog.value = 'close: ' + t('snTag.tagRemoved')
+}
 </script>
 
 <style lang="scss">
-	.spacing {
-		margin: 0 5px 5px 0;
-	}
+.demo-row {
+	flex-direction: row;
+	align-items: center;
+	flex-wrap: wrap;
+	margin-bottom: 8px;
+}
+.scene-card {
+	padding: 14px;
+	border-radius: 10px;
+	background-color: var(--sn-front);
+}
+.demo-tag-text {
+	font-weight: bold;
+	letter-spacing: 1px;
+}
 </style>

@@ -1,0 +1,257 @@
+<template>
+	<sn-page :title="t('snNotification.title')" :show-back="true">
+
+		<demo-card :title="t('snNotification.basicTitle')" :subtitle="t('snNotification.basicSubtitle')">
+			<sn-button type="primary" :text="t('snNotification.showNotice')" custom-style="flex:1;" @click="onShowBasic" />
+		</demo-card>
+
+		<demo-card :title="t('snNotification.typeTitle')" :subtitle="t('snNotification.typeSubtitle')">
+			<view class="btn-row btn-gap" flatten>
+				<sn-button type="info" text="info" custom-style="flex:1;" @click="onShowType('info')" />
+				<sn-button type="primary" text="primary" custom-style="flex:1;margin-left:10px;" @click="onShowType('primary')" />
+			</view>
+			<view class="btn-row btn-gap" style="margin-top:10px;" flatten>
+				<sn-button type="success" text="success" custom-style="flex:1;" @click="onShowType('success')" />
+				<sn-button type="warning" text="warning" custom-style="flex:1;margin-left:10px;" @click="onShowType('warning')" />
+				<sn-button type="error" text="error" custom-style="flex:1;margin-left:10px;" @click="onShowType('error')" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snNotification.positionTitle')" :subtitle="t('snNotification.positionSubtitle')">
+			<view class="btn-row btn-gap" flatten>
+				<sn-button type="primary" :text="t('snNotification.posTop')" custom-style="flex:1;" @click="onShowPosition('top')" />
+				<sn-button type="primary" :text="t('snNotification.posBottom')" custom-style="flex:1;margin-left:10px;" @click="onShowPosition('bottom')" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snNotification.progressTitle')" :subtitle="t('snNotification.progressSubtitle')">
+			<sn-button type="primary" :text="t('snNotification.showProgressBtn')" custom-style="flex:1;" @click="onShowProgress" />
+		</demo-card>
+
+		<demo-card :title="t('snNotification.dragTitle')" :subtitle="t('snNotification.dragSubtitle')">
+			<view class="btn-row btn-gap" flatten>
+				<sn-button type="primary" :text="t('snNotification.showDraggable')" custom-style="flex:1;" @click="onShowDraggable" />
+				<sn-button type="info" :text="t('snNotification.percentThreshold')" custom-style="flex:1;margin-left:10px;" @click="onShowDraggablePercent" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snNotification.closeTitle')" :subtitle="t('snNotification.closeSubtitle')">
+			<view class="btn-row btn-gap" flatten>
+				<sn-button type="primary" :text="t('snNotification.withCloseBtn')" custom-style="flex:1;" @click="onShowClosable" />
+			</view>
+			<sn-text font-size="$12" color="$textLight" :text="t('snNotification.closeCount', { count: closeCount } as UTSJSONObject)" custom-style="margin-top:10px;" flatten />
+		</demo-card>
+
+		<demo-card :title="t('snNotification.groupTitle')" :subtitle="t('snNotification.groupSubtitle')">
+			<sn-button type="warning" :text="t('snNotification.groupingOpen')" custom-style="flex:1;" @click="onShowGroup" />
+		</demo-card>
+
+		<demo-card :title="t('snNotification.shadowTitle')" :subtitle="t('snNotification.shadowSubtitle')">
+			<view class="btn-row btn-gap" flatten>
+				<sn-button type="info" :text="t('snNotification.topShadowBtn')" custom-style="flex:1;" @click="onShowShadow('top')" />
+				<sn-button type="info" :text="t('snNotification.bottomShadowBtn')" custom-style="flex:1;margin-left:10px;" @click="onShowShadow('bottom')" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snNotification.customTitle')" :subtitle="t('snNotification.customSubtitle')">
+			<view class="btn-row btn-gap" flatten>
+				<sn-button type="info" :text="t('snNotification.customThemeBtn')" custom-style="flex:1;" @click="onShowCustom" />
+				<sn-button type="info" :text="t('snNotification.lightCardBtn')" custom-style="flex:1;margin-left:10px;" @click="onShowLight" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snNotification.actionSlotTitle')" :subtitle="t('snNotification.actionSlotSubtitle')">
+			<sn-button type="primary" :text="t('snNotification.showActionBtn')" custom-style="flex:1;" @click="onShowAction" />
+		</demo-card>
+
+		<demo-card :title="t('snNotification.createTitle')" :subtitle="t('snNotification.createSubtitle')">
+			<view class="btn-row btn-gap" flatten>
+				<sn-button type="primary" :text="t('snNotification.createNotice')" custom-style="flex:1;" @click="onCreateNotice" />
+				<sn-button type="error" :text="t('snNotification.closeLast')" custom-style="flex:1;margin-left:10px;" @click="onCloseLast" />
+			</view>
+			<sn-text font-size="$12" color="$textLight" :text="t('snNotification.createdCount', { count: createdCount } as UTSJSONObject)" custom-style="margin-top:10px;" flatten />
+		</demo-card>
+
+		<sn-notification ref="notificationRef" @close="onNotificationClose">
+			<!-- action 插槽：用于展示操作按钮，slotProps.id 为当前通知 id，复制后仅关闭该条 -->
+			<template v-slot:action="slotProps">
+				<sn-button type="primary" level="least" :text="t('snNotification.copy')" @click="onCopyAction(slotProps.id)" />
+			</template>
+		</sn-notification>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+
+import { useI18n } from 'vue-i18n'
+import type { ComponentPublicInstance } from 'vue'
+import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import type {
+	SnNotificationParams,
+	SnNotificationType,
+	SnNotificationPosition
+} from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+
+const notificationRef = ref<ComponentPublicInstance | null>(null)
+const closeCount = ref<number>(0)
+const createdCount = ref<number>(0)
+const lastNoticeId = ref<string>('')
+
+	// action 插槽：复制按钮（展示操作按钮用法），复制后仅关闭当前这条通知
+	function onCopyAction(id: string): void {
+		snu.setClipboardData('订单号 SN20260101001')
+		notificationRef.value?.$callMethod('close', id)
+	}
+
+// 显示带 action 插槽的通知（showAction: true 才显示插槽）
+function onShowAction(): void {
+	notificationRef.value?.$callMethod('show', {
+		title: t('snNotification.orderPending'),
+		content: t('snNotification.orderNoContent'),
+		type: 'warning',
+		duration: 10000,
+		showAction: true
+	} as SnNotificationParams)
+}
+
+// 创建通知：show 返回 uuid，保存用于后续关闭
+function onCreateNotice(): void {
+	const id = notificationRef.value?.$callMethod('show', {
+		title: t('snNotification.closableNotice'),
+		content: t('snNotification.clearClose'),
+		type: 'primary',
+		duration: 300000
+	} as SnNotificationParams) as string
+	lastNoticeId.value = id
+	createdCount.value = createdCount.value + 1
+}
+
+// 关闭最后创建的通知（uuid 关闭）
+function onCloseLast(): void {
+	if (lastNoticeId.value == '') {
+		snu.showToast({ text: t('snNotification.pleaseCreateFirst') })
+		return
+	}
+	notificationRef.value?.$callMethod('close', lastNoticeId.value)
+	lastNoticeId.value = ''
+}
+
+function onShowBasic(): void {
+	notificationRef.value?.$callMethod('show', {
+		title: t('snNotification.paySuccess'),
+		content: t('snNotification.shipped')
+	} as SnNotificationParams)
+}
+
+function onShowType(type: SnNotificationType): void {
+	notificationRef.value?.$callMethod('show', {
+		title: t('snNotification.typeNotice', { type: type } as UTSJSONObject),
+		content: t('snNotification.typeNoteContent', { type: type } as UTSJSONObject),
+		type: type
+	} as SnNotificationParams)
+}
+
+function onShowPosition(position: SnNotificationPosition): void {
+	notificationRef.value?.$callMethod('show', {
+		title: position == 'top' ? t('snNotification.topPosition') : t('snNotification.bottomPosition'),
+		content: position == 'top'
+			? t('snNotification.topPositionContent')
+			: t('snNotification.bottomPositionContent'),
+		position: position,
+		duration: 8000
+	} as SnNotificationParams)
+}
+
+function onShowProgress(): void {
+	notificationRef.value?.$callMethod('show', {
+		title: t('snNotification.progressNotice'),
+		content: t('snNotification.progressContent'),
+		type: 'primary',
+		showProgress: true,
+		duration: 8000
+	} as SnNotificationParams)
+}
+
+function onShowDraggable(): void {
+	notificationRef.value?.$callMethod('show', {
+		title: t('snNotification.draggableNotice'),
+		content: t('snNotification.draggableContent'),
+		duration: 8000,
+		draggable: true
+	} as SnNotificationParams)
+}
+
+function onShowDraggablePercent(): void {
+	notificationRef.value?.$callMethod('show', {
+		title: t('snNotification.percentNotice'),
+		content: t('snNotification.percentContent'),
+		duration: 0,
+		dragThreshold: '30%',
+		draggable: true
+	} as SnNotificationParams)
+}
+
+function onShowShadow(position: SnNotificationPosition): void {
+	notificationRef.value?.$callMethod('show', {
+		title: position == 'top' ? t('snNotification.topShadow') : t('snNotification.bottomShadow'),
+		content: t('snNotification.shadowContent'),
+		position: position,
+		duration: 8000
+	} as SnNotificationParams)
+}
+
+function onShowClosable(): void {
+	notificationRef.value?.$callMethod('show', {
+		title: t('snNotification.closableNotice2'),
+		content: t('snNotification.closableContent'),
+		closable: true
+	} as SnNotificationParams)
+}
+
+function onShowGroup(): void {
+	notificationRef.value?.$callMethod('show', {
+		title: t('snNotification.sameContentNotice'),
+		content: t('snNotification.sameContentContent'),
+		type: 'warning',
+		grouping: true,
+		duration: 6000
+	} as SnNotificationParams)
+}
+
+function onShowCustom(): void {
+	notificationRef.value?.$callMethod('show', {
+		title: t('snNotification.customThemeNotice'),
+		content: t('snNotification.customThemeContent'),
+		type: 'primary',
+		bgColor: '$primary',
+		titleColor: '$primaryText',
+		contentColor: '$primaryLightText',
+		iconColor: '$primaryText'
+	} as SnNotificationParams)
+}
+
+function onShowLight(): void {
+	notificationRef.value?.$callMethod('show', {
+		title: t('snNotification.lightCardNotice'),
+		content: t('snNotification.lightCardContent'),
+		type: 'info',
+		bgColor: '#fff',
+		titleColor: '#1f2937',
+		contentColor: '#4b5563',
+		borderRadius: '$16'
+	} as SnNotificationParams)
+}
+
+function onNotificationClose(): void {
+	closeCount.value = closeCount.value + 1
+}
+</script>
+
+<style lang="scss">
+.btn-row {
+	flex-direction: row;
+}
+
+</style>

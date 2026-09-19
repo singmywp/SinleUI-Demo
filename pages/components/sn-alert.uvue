@@ -1,50 +1,71 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Alert 警告信息"></sn-topbar>
-		<com-card title="基础用法"
-		note="用于向用户说明或警告信息。">
-			<sn-alert text="道可道，非常道"></sn-alert>
-			<sn-alert type="primary" text="名可名，非常名"></sn-alert>
-			<sn-alert type="success" text="无名，天地之始"></sn-alert>
-			<sn-alert type="warning" text="有名，万物之母"></sn-alert>
-			<sn-alert type="error" text="故常无欲，以观其妙，常有欲，以观其徼。"></sn-alert>
-		</com-card>
-		<com-card title="颜色效果"
-		note="内置两种颜色效果：深色和浅色。默认为浅色。">
-			<sn-alert effect="dark" text="道可道，非常道"></sn-alert>
-			<sn-alert effect="dark" type="primary" text="名可名，非常名"></sn-alert>
-			<sn-alert effect="dark" type="success" text="无名，天地之始"></sn-alert>
-			<sn-alert effect="dark" type="warning" text="有名，万物之母"></sn-alert>
-			<sn-alert effect="dark" type="error" text="故常无欲，以观其妙，常有欲，以观其徼"></sn-alert>
-		</com-card>
-		<com-card title="图标"
-		note="在警告信息旁添上图标">
-			<sn-alert icon="home-smile-fill" 
-			icon-color="#6d6d6d" 
-			text="天下皆知美之为美，斯恶已，皆知善之为善，斯不善已">
+	<sn-page :title="t('snAlert.title')" :show-back="true">
+		<demo-card :title="t('snAlert.basic')" :subtitle="t('snAlert.basicSub')">
+			<sn-alert :text="t('snAlert.infoMsg')" style="margin-bottom: 12px" />
+			<sn-alert type="success" :text="t('snAlert.successMsg')" style="margin-bottom: 12px" />
+			<sn-alert type="warning" :text="t('snAlert.warningMsg')" style="margin-bottom: 12px" />
+			<sn-alert type="error" :text="t('snAlert.errorMsg')" />
+		</demo-card>
+
+		<demo-card :title="t('snAlert.theme')" :subtitle="t('snAlert.themeSub')">
+			<sn-alert type="primary" effect="dark" :text="t('snAlert.darkPrimary')" style="margin-bottom: 12px" />
+			<sn-alert type="success" effect="dark" :text="t('snAlert.darkSuccess')" style="margin-bottom: 12px" />
+			<sn-alert type="warning" effect="dark" :text="t('snAlert.darkWarning')" style="margin-bottom: 12px" />
+			<sn-alert type="error" effect="dark" :text="t('snAlert.darkError')" />
+		</demo-card>
+
+		<demo-card :title="t('snAlert.icon')" :subtitle="t('snAlert.iconSub')">
+			<sn-alert type="success" :text="t('snAlert.smileIcon')" icon="emotion-happy-line" style="margin-bottom: 12px" />
+			<sn-alert type="warning" :show-icon="false" :text="t('snAlert.noIcon')" />
+		</demo-card>
+
+		<demo-card :title="t('snAlert.center')" :subtitle="t('snAlert.centerSub')">
+			<sn-alert type="primary" center :text="t('snAlert.centerText')" />
+		</demo-card>
+
+		<demo-card :title="t('snAlert.closable')" :subtitle="t('snAlert.closableSub')">
+			<sn-alert v-if="alert1Visible" type="warning" closable :text="t('snAlert.closableMsg')" @close="alert1Visible=false" />
+			<sn-button v-else  @click="alert1Visible=true" style="margin-bottom: 12px">{{ t('snAlert.reshow') }}</sn-button>
+			<sn-alert type="error" effect="dark" closable :text="t('snAlert.darkClosable')" />
+		</demo-card>
+
+		<demo-card :title="t('snAlert.customStyle')" :subtitle="t('snAlert.customStyleSub')">
+			<sn-alert bg-color="#c3c3c3" text-color="#000" text-size="$16" border-radius="$12"
+				:text="t('snAlert.customText')" style="margin-bottom: 12px" />
+			<sn-alert type="primary" icon="cloud-fill" icon-color="#5777ff" icon-size="$20"
+				:text="t('snAlert.iconColorText')" style="margin-bottom: 12px" />
+			<sn-alert type="warning" :text-style="{'font-weight': 'bold'}" :text="t('snAlert.boldStyleText')" />
+		</demo-card>
+
+		<demo-card :title="t('snAlert.external')" :subtitle="t('snAlert.externalSub')">
+			<sn-alert :text="t('snAlert.externalText')" text-class="demo-alert-text" icon-class="demo-alert-icon"
+				style="margin-bottom: 12px" />
+			<sn-alert type="primary" :text="t('snAlert.externalStyleText')" text-style="font-weight: bold;"
+				icon-style="color: var(--sn-primary);" />
+		</demo-card>
+
+		<demo-card :title="t('snAlert.customContent')" :subtitle="t('snAlert.customContentSub')">
+			<sn-alert type="primary">
+				<sn-text bold font-size="$14" color="$primary" flatten>{{ t('snAlert.slotTitle') }}</sn-text>
+				<sn-text font-size="$12" color="$primary" flatten>{{ t('snAlert.slotDesc') }}</sn-text>
 			</sn-alert>
-			<sn-alert icon="cloud-fill" icon-color="#5777ff" type="primary"
-				text="故有无相生，难易相成，长短相形，高下相倾，音声相和，前后相随"></sn-alert>
-			<sn-alert icon="bookmark-3-fill" icon-color="#06ad56" type="success"
-				text="是以圣人处无为之事，行不言之教，万物作焉而不辞"></sn-alert>
-			<sn-alert icon="chat-1-fill" icon-color="#f6b142" type="warning" text="生而不有，为而不恃，功成而弗居"></sn-alert>
-			<sn-alert icon="contrast-drop-line" icon-color="#fc5454" type="error" text="夫惟弗居，是以不去"></sn-alert>
-		</com-card>
-		<com-card title="自定义样式"
-		note="更多样式，随心而变">
-			<sn-alert borderRadius="$normal"
-			textColor="#000" 
-			textSize="18px"
-			bgColor="#c3c3c3"
-			:text="'\u3000天下皆知美之为美，斯恶已，皆知善之为善，斯不善已'"></sn-alert>
-		</com-card>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+const alert1Visible = ref<boolean>(true)
 </script>
 
 <style lang="scss">
+.demo-alert-text {
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+.demo-alert-icon {
+	opacity: 0.75;
+}
 </style>

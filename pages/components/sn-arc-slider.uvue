@@ -1,0 +1,120 @@
+<template>
+	<sn-page :title="t('snArcSlider.title')" :show-back="true">
+		<demo-card :title="t('snArcSlider.basic')" :subtitle="t('snArcSlider.basicSub')">
+			<view class="arc-demo" flatten>
+				<sn-arc-slider v-model="value" @change="onValueChange" />
+				<sn-text flatten bold font-size="$20" color="$primary" custom-style="margin-top:12px;">{{ value }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snArcSlider.range')" :subtitle="t('snArcSlider.rangeSub')">
+			<view class="arc-demo" flatten>
+				<sn-arc-slider v-model="temperature" :min="16" :max="30" :step="0.5" size="$180"
+					stroke-color="$warning" />
+				<sn-text flatten color="$textLight" custom-style="margin-top:12px;">{{ temperature }} °C</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snArcSlider.fullColor')" :subtitle="t('snArcSlider.fullColorSub')">
+			<view class="arc-demo" flatten>
+				<sn-arc-slider v-model="hue" v-model:color="hueColor" is-hue size="$190"
+					@color-change="onColorChange" />
+				<view class="color-result" :style="colorResultStyles" flatten></view>
+				<sn-text flatten font-size="$12" color="$textLight">{{ hueColor }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snArcSlider.showControl')" :subtitle="t('snArcSlider.showControlSub')">
+			<view class="arc-demo" flatten>
+				<sn-arc-slider v-model="noCenterValue" :show-value-text="false" size="$180" />
+				<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:10px;">{{ t('snArcSlider.noCenterText') }}</sn-text>
+			</view>
+			<view class="arc-demo arc-demo-gap" flatten>
+				<sn-arc-slider v-model="fullCircleValue" :start-angle="0" :end-angle="360" size="$190"
+					stroke-color="$primary" trail-color="rgba(59,130,246,0.16)" />
+				<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:10px;">{{ t('snArcSlider.fullCircleText') }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snArcSlider.customStyle')" :subtitle="t('snArcSlider.customStyleSub')">
+			<view class="arc-demo" flatten>
+				<sn-arc-slider v-model="customValue" :start-angle="startAngleSemi" :end-angle="0" size="$180"
+					stroke-width="$22" trail-width="$8" stroke-color="$success" dot-size="$30"
+					dot-border-width="$3" dot-border-color="$line" />
+				<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:10px;">{{ t('snArcSlider.semicircleText') }}</sn-text>
+			</view>
+			<view class="arc-demo arc-demo-gap" flatten>
+				<sn-arc-slider v-model="minimalValue" :start-angle="startAngleMinimal" :end-angle="40" size="$150"
+					stroke-width="$18" trail-width="$18" stroke-color="$warning" dot-size="$12" dot-bg-color="$front" />
+				<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:10px;">{{ t('snArcSlider.defaultStyleText') }}</sn-text>
+			</view>
+			<view class="arc-demo arc-demo-gap" flatten>
+				<sn-arc-slider v-model="darkValue" :start-angle="startAngleDark" :end-angle="150" size="$170"
+					stroke-width="$10" trail-width="$10" stroke-color="#8B5CF6" trail-color="rgba(139,92,246,0.18)"
+					dot-size="$18" dot-bg-color="#111827" dot-border-width="$3" dot-border-color="#8B5CF6" />
+				<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:10px;">{{ t('snArcSlider.darkText') }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snArcSlider.disabled')" :subtitle="t('snArcSlider.disabledSub')">
+			<view class="arc-demo" flatten>
+				<sn-arc-slider v-model="disabledValue" disabled size="$160" />
+			</view>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+const startAngleSemi = -180
+const startAngleMinimal = -220
+const startAngleDark = -150
+
+const value = ref<number>(36)
+const temperature = ref<number>(22.5)
+const hue = ref<number>(210)
+const hueColor = ref<string>('#0080FF')
+const noCenterValue = ref<number>(52)
+const fullCircleValue = ref<number>(68)
+const customValue = ref<number>(65)
+const minimalValue = ref<number>(48)
+const darkValue = ref<number>(72)
+const disabledValue = ref<number>(40)
+
+const colorResultStyles = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('backgroundColor', hueColor.value)
+	return styles
+})
+
+function onValueChange(nextValue: number): void {
+	value.value = nextValue
+}
+
+function onColorChange(color: string): void {
+	hueColor.value = color
+}
+</script>
+
+<style lang="scss">
+.arc-demo {
+	flex-direction: column;
+	align-items: center;
+}
+
+.arc-demo-gap {
+	margin-top: 18px;
+}
+
+.color-result {
+	width: 54px;
+	height: 28px;
+	border-radius: 6px;
+	margin-top: 12px;
+	margin-bottom: 6px;
+	transition-property: background-color;
+	transition-duration: var(--ani-time-normal);
+}
+</style>

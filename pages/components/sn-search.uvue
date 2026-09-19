@@ -1,87 +1,327 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Search 搜索框"></sn-topbar>
-		<com-card title="基础用法"
-		note="Search 是基于 Input 的二次封装，比 Input 更为简洁，更方便实现一个搜索框">
-			<sn-search v-model="v1"></sn-search>
-		</com-card>
-		<com-card title="不显示取消按钮"
-		note="如果你不需要右侧的取消按钮，可以关闭">
-			<sn-search v-model="v2"
-			:showCancel="false"></sn-search>
-		</com-card>
-		<com-card title="固定取消按钮"
-		note="如果你需要一直显示右侧的取消按钮，可以固定">
-			<sn-search v-model="v10" fixCancel></sn-search>
-		</com-card>
-		<com-card title="提示文本"
-		note="支持自由设置搜索框的提示文本">
-			<sn-search v-model="v3"
-			placeholder="歌曲名/歌手/专辑"></sn-search>
-		</com-card>
-		<com-card title="图标"
-		note="支持自由修改前置图标，提供支持点击反馈的后置图标">
-			<sn-search v-model="v4"
-			prefixIcon="menu-search-line"
-			suffixIcon="camera-line"
-			placeholder="搜索你想要的商品"
-			:showCancel="false"
-			@suffix-click="showModal"></sn-search>
-		</com-card>
-		<com-card title="禁用/只读/加载/清除">
-			<sn-search v-model="v5" 
-			disabled
-			:showCancel="false"></sn-search>
-			<sn-search class="m-t-10" 
-			v-model="v6" 
-			readonly
-			:showCancel="false"></sn-search>
-			<sn-search class="m-t-10" 
-			v-model="v7" 
-			loading
-			:showCancel="false"></sn-search>
-			<sn-search class="m-t-10" 
-			v-model="v8" 
-			clearable
-			:showCancel="false"></sn-search>
-		</com-card>
-		<com-card title="自定义样式">
-			<sn-search v-model="v9"
-			padding="10px 20px"
-			borderRadius="$circle"
-			bgColor="$info"
-			activeBgColor="$front"
-			activeBorderColor="$primary"
-			placeholder="请输入搜索内容"
-			:showCancel="false"></sn-search>
-		</com-card>
-		<sn-gap></sn-gap>
+	<sn-page :title="t('snSearch.title')" :show-back="true">
+		<demo-card :title="t('snSearch.demoBasicTitle')" :subtitle="t('snSearch.demoBasicSub')">
+			<sn-search v-model="keyword" @change="onChange" @confirm="onConfirm" @cancel="onCancel" />
+			<sn-text type="text-light" :font-size="13"
+				:text="t('snSearch.currentInput', { kw: keyword, count: changeCount } as UTSJSONObject)" custom-style="margin-top:12px;" flatten />
+		</demo-card>
+
+		<demo-card :title="t('snSearch.demoTypeTitle')" :subtitle="t('snSearch.demoTypeSub')">
+			<sn-search v-model="kwType" type="text" :placeholder="t('snSearch.plText')" />
+			<sn-search v-model="kwNumber" custom-style="margin-top:14px;" type="number"
+				:placeholder="t('snSearch.plNumber')" />
+			<sn-search v-model="kwPad" custom-style="margin-top:14px;" padding="14px 18px"
+				:placeholder="t('snSearch.plPadding')" />
+		</demo-card>
+
+		<demo-card :title="t('snSearch.demoClearTitle')" :subtitle="t('snSearch.demoClearSub')">
+			<sn-search v-model="kwClear" :placeholder="t('snSearch.plClearTrue')" :clearable="true" />
+			<sn-search v-model="kwNoClear" custom-style="margin-top:14px;" :placeholder="t('snSearch.plClearFalse')"
+				:clearable="false" />
+		</demo-card>
+
+		<demo-card :title="t('snSearch.demoStateTitle')" :subtitle="t('snSearch.demoStateSub')">
+			<sn-search v-model="kwState" :placeholder="t('snSearch.plDisabled')" disabled />
+			<sn-search v-model="kwState" custom-style="margin-top:14px;" :placeholder="t('snSearch.plReadonly')"
+				readonly />
+			<view class="v-gap" flatten></view>
+			<sn-search v-model="kwState" :loading="loadingState" :placeholder="t('snSearch.plLoading')" clearable />
+			<sn-button :text="t('snSearch.toggleLoading')" type="info" custom-style="margin-top:12px;margin-right:8px;"
+				@click="toggleLoading" />
+			<sn-search v-model="kwState" custom-style="margin-top:14px;" :focus="focusState" :placeholder="t('snSearch.plFocus')" />
+			<sn-button :text="t('snSearch.toggleFocus')" level="second" custom-style="margin-top:12px;" @click="toggleFocus" />
+		</demo-card>
+
+		<demo-card :title="t('snSearch.demoCancelTitle')" :subtitle="t('snSearch.demoCancelSub')">
+			<sn-search v-model="kwCancel" :placeholder="t('snSearch.plShowCancel')" :show-cancel="false" />
+			<sn-search v-model="kwCancel" custom-style="margin-top:14px;" :placeholder="t('snSearch.plFixCancel')" fix-cancel />
+			<sn-search v-model="kwCancel" custom-style="margin-top:14px;" :placeholder="t('snSearch.plCustomCancel')"
+				:cancel-text="t('snSearch.cancelText')" cancel-text-size="$16" cancel-text-color="$error" />
+		</demo-card>
+
+		<demo-card :title="t('snSearch.demoBorderTitle')" :subtitle="t('snSearch.demoBorderSub')">
+			<sn-search v-model="kwBorder" :placeholder="t('snSearch.plBorderWidth')" :border-width="2" />
+			<sn-search v-model="kwBorder" custom-style="margin-top:14px;" :placeholder="t('snSearch.plBorderColor')"
+				border-color="$error" />
+			<sn-search v-model="kwBorder" custom-style="margin-top:14px;" :placeholder="t('snSearch.plActiveBorder')"
+				active-border-color="$success" />
+			<sn-search v-model="kwBorder" custom-style="margin-top:14px;" :placeholder="t('snSearch.plShowBorder')"
+				:show-border="false" />
+			<sn-search v-model="kwBorder" custom-style="margin-top:14px;" :placeholder="t('snSearch.plShowActiveBorder')"
+				:show-active-border="false" />
+		</demo-card>
+
+		<demo-card :title="t('snSearch.demoBgTitle')" :subtitle="t('snSearch.demoBgSub')">
+			<sn-search v-model="kwBg" :placeholder="t('snSearch.plBg')" bg-color="$primaryLight" />
+			<sn-search v-model="kwBg" custom-style="margin-top:14px;" :placeholder="t('snSearch.plActiveBg')"
+				active-bg-color="$warningLight" />
+			<sn-search v-model="kwBg" custom-style="margin-top:14px;" :placeholder="t('snSearch.plRadius24')"
+				border-radius="$24" />
+			<sn-search v-model="kwBg" custom-style="margin-top:14px;" :placeholder="t('snSearch.plRadius0')"
+				:border-radius="0" />
+		</demo-card>
+
+		<demo-card :title="t('snSearch.demoTextTitle')" :subtitle="t('snSearch.demoTextSub')">
+			<sn-search v-model="kwText" :placeholder="t('snSearch.plTextColor')" text-color="$error" />
+			<sn-search v-model="kwText" custom-style="margin-top:14px;" :placeholder="t('snSearch.plTextSize')" :text-size="18" />
+			<sn-search v-model="kwText" custom-style="margin-top:14px;" :placeholder="t('snSearch.plCursor')"
+				cursor-color="$error" />
+		</demo-card>
+
+		<demo-card :title="t('snSearch.demoIconTitle')" :subtitle="t('snSearch.demoIconSub')">
+			<sn-search v-model="kwIcon" :placeholder="t('snSearch.plPriceTag')" prefix-icon="price-tag-3-line" />
+			<sn-search v-model="kwIcon" custom-style="margin-top:14px;" :placeholder="t('snSearch.plSuffixScan')"
+				suffix-icon="scan-line" @suffix-click="onSuffixClick" />
+			<sn-search v-model="kwSlot" custom-style="margin-top:14px;" :placeholder="t('snSearch.plPrefixSlot')">
+				<template #prefix>
+					<sn-icon name="emotion-laugh-line" :size="20" color="$primary" custom-style="margin-right:6px;" />
+				</template>
+			</sn-search>
+			<sn-search v-model="kwSlot2" custom-style="margin-top:14px;" :placeholder="t('snSearch.plSuffixSlot')">
+				<template #suffix>
+					<sn-tag :text="t('snSearch.hotSearch')" type="primary" level="third" />
+				</template>
+			</sn-search>
+		</demo-card>
+
+		<demo-card :title="t('snSearch.demoExtTitle')" :subtitle="t('snSearch.demoExtSub')">
+			<view style="margin-top: 12px">
+				<sn-search v-model="kwExt" input-class="demo-search-input-bold"
+					:placeholder="t('snSearch.plInputClass')" />
+			</view>
+			<view style="margin-top: 12px">
+				<sn-search v-model="kwExt" input-style="font-size: 17px; color: #f56c6c;"
+					:placeholder="t('snSearch.plInputStyle')" />
+			</view>
+			<view style="margin-top: 12px">
+				<sn-search v-model="kwExt" cancel-class="demo-search-cancel"
+					:placeholder="t('snSearch.plCancelClass')" />
+			</view>
+			<view style="margin-top: 12px">
+				<sn-search v-model="kwExt" cancel-style="color: #f56c6c;"
+					:placeholder="t('snSearch.plCancelStyle')" />
+			</view>
+			<sn-text flatten font-size="$12" color="$textLight" style="margin-top: 12px;">{{ t('snSearch.extTip') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snSearch.demoSceneTitle')" :subtitle="t('snSearch.demoSceneSub')" style="margin-bottom: 16px">
+			<sn-search v-model="searchKeyword" :placeholder="t('snSearch.plScene')" clearable />
+			<view v-if="searchKeyword == ''" class="search-scene" flatten>
+				<sn-text bold :font-size="15" :text="t('snSearch.hotTitle')" custom-style="margin-bottom:10px;" />
+				<view class="search-hot" flatten>
+					<sn-tag v-for="(item, idx) in hotList" :key="'hot' + idx" :text="item" type="info" level="third"
+						custom-style="margin-right:8px;margin-bottom:8px;" @click="tapHot(idx)" />
+				</view>
+				<view class="search-history-head" flatten>
+					<sn-text bold :font-size="15" :text="t('snSearch.historyTitle')" />
+					<sn-icon name="delete-bin-line" :size="18" color="$textLight" @click="clearHistory" />
+				</view>
+				<view v-if="historyList.length == 0" class="search-empty" flatten>
+					<sn-text type="text-light" :font-size="12" :text="t('snSearch.emptyHistory')" />
+				</view>
+				<view v-else class="search-history" flatten>
+					<sn-tag v-for="(item, idx) in historyList" :key="'his' + idx" :text="item" type="primary" level="least"
+						custom-style="margin-right:8px;margin-bottom:8px;" @click="tapHistory(idx)" />
+				</view>
+			</view>
+			<view v-else class="search-result" flatten>
+				<view v-for="(item, idx) in filteredList" :key="'res' + idx" class="search-result-item" flatten>
+					<view class="search-result-icon" flatten>
+						<sn-icon :name="item.icon" :size="20" color="$primary" />
+					</view>
+					<view class="search-result-info" flatten>
+						<sn-text :font-size="14" :text="item.name" />
+						<sn-text type="text-light" :font-size="11" :text="item.desc" custom-style="margin-top:3px;" />
+					</view>
+					<sn-text bold :font-size="14" color="$error" :text="'¥' + item.price" />
+				</view>
+				<view v-if="filteredList.length == 0" class="search-empty" flatten>
+					<sn-text type="text-light" :font-size="13" :text="t('snSearch.notFound', { kw: searchKeyword } as UTSJSONObject)" />
+				</view>
+			</view>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	const v1 = ref('')
-	const v2 = ref('')
-	const v3 = ref('')
-	const v4 = ref('')
-	const v5 = ref('此搜索框已被禁用')
-	const v6 = ref('此搜索框只读')
-	const v7 = ref('')
-	const v8 = ref('支持一键清除')
-	const v9 = ref('')
-	const v10 = ref('')
-	
-	function showModal(){
-		uni.showModal({
-			title: '提示',
-			content: '点击了拍照按钮',
-			showCancel: false
-		})
+<script lang="uts" setup>
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui'
+
+const { t } = useI18n()
+
+const keyword = ref<string>('')
+const kwType = ref<string>('')
+const kwNumber = ref<string>('')
+const kwPad = ref<string>('')
+const kwClear = ref<string>('')
+const kwNoClear = ref<string>('')
+const kwState = ref<string>('')
+const kwCancel = ref<string>('')
+const kwBorder = ref<string>('')
+const kwBg = ref<string>('')
+const kwText = ref<string>('')
+const kwIcon = ref<string>('')
+const kwSlot = ref<string>('')
+const kwSlot2 = ref<string>('')
+const kwExt = ref<string>('')
+
+const changeCount = ref<number>(0)
+const loadingState = ref<boolean>(false)
+const focusState = ref<boolean>(false)
+
+function onChange(v: string): void {
+	changeCount.value = changeCount.value + 1
+}
+
+function onConfirm(e: UniInputConfirmEvent): void {
+	snu.showToast({
+		text: t('snSearch.toastSearch', { kw: e.detail.value } as UTSJSONObject)
+	})
+}
+
+function onCancel(): void {
+	snu.showToast({
+		text: t('snSearch.toastCancel')
+	})
+}
+
+function onSuffixClick(): void {
+	snu.showToast({
+		text: t('snSearch.toastSuffix')
+	})
+}
+
+function toggleLoading(): void {
+	loadingState.value = !loadingState.value
+}
+
+function toggleFocus(): void {
+	focusState.value = !focusState.value
+}
+
+
+type Goods = {
+	name: string
+	desc: string
+	price: number
+	icon: string
+}
+
+const goodsList = computed<Goods[]>(() => [
+	{ name: t('snSearch.goodsJeansName'), desc: t('snSearch.goodsJeansDesc'), price: 129, icon: 'shopping-bag-3-line' },
+	{ name: t('snSearch.goodsDressName'), desc: t('snSearch.goodsDressDesc'), price: 199, icon: 'dress-line' },
+	{ name: t('snSearch.goodsCanvasName'), desc: t('snSearch.goodsCanvasDesc'), price: 89, icon: 'footprint-line' },
+	{ name: t('snSearch.goodsBackpackName'), desc: t('snSearch.goodsBackpackDesc'), price: 159, icon: 'backpack-line' },
+	{ name: t('snSearch.goodsEarphoneName'), desc: t('snSearch.goodsEarphoneDesc'), price: 299, icon: 'headphone-line' },
+	{ name: t('snSearch.goodsCupName'), desc: t('snSearch.goodsCupDesc'), price: 69, icon: 'cup-line' },
+	{ name: t('snSearch.goodsBandName'), desc: t('snSearch.goodsBandDesc'), price: 169, icon: 'smartwatch-line' },
+	{ name: t('snSearch.goodsSunscreenName'), desc: t('snSearch.goodsSunscreenDesc'), price: 79, icon: 'sun-line' }
+])
+
+const hotList = computed<string[]>(() => [
+	t('snSearch.hotJeans'), t('snSearch.hotDress'), t('snSearch.hotSunscreen'),
+	t('snSearch.hotEarphone'), t('snSearch.hotCup'), t('snSearch.hotBackpack')
+])
+
+const searchKeyword = ref<string>('')
+const historyList = ref<string[]>([t('snSearch.hotJeans'), t('snSearch.historyShoes')])
+
+const filteredList = computed<Goods[]>(() => {
+	const kw = searchKeyword.value
+	if (kw == '') return []
+	const result: Goods[] = []
+	const list = goodsList.value
+	for (let i = 0; i < list.length; i++) {
+		if (list[i].name.indexOf(kw) != -1 || list[i].desc.indexOf(kw) != -1) {
+			result.push(list[i])
+		}
 	}
+	return result
+})
+
+function tapHot(idx: number): void {
+	const item = hotList.value[idx]
+	addHistory(item)
+	searchKeyword.value = item
+}
+
+function tapHistory(idx: number): void {
+	searchKeyword.value = historyList.value[idx]
+}
+
+function addHistory(text: string): void {
+	const pos = historyList.value.indexOf(text)
+	if (pos >= 0) {
+		historyList.value.splice(pos, 1)
+	}
+	historyList.value.unshift(text)
+	if (historyList.value.length > 6) {
+		historyList.value.pop()
+	}
+}
+
+function clearHistory(): void {
+	historyList.value = []
+}
 </script>
 
-<style>
-		
+<style lang="scss">
+.demo-search-input-bold {
+	font-weight: bold;
+}
+.demo-search-cancel {
+	font-weight: bold;
+}
+.v-gap {
+	width: 8px;
+	height: 12px;
+}
+.search-scene {
+	margin-top: 14px;
+}
+.search-hot {
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+.search-history-head {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 18px;
+	margin-bottom: 10px;
+}
+.search-history {
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+.search-empty {
+	align-items: center;
+	padding-top: 24px;
+	padding-bottom: 24px;
+}
+.search-result {
+	margin-top: 14px;
+}
+.search-result-item {
+	flex-direction: row;
+	align-items: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.search-result-icon {
+	width: 38px;
+	height: 38px;
+	border-radius: 10px;
+	background-color: var(--sn-primary-light);
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+.search-result-info {
+	flex: 1;
+	flex-direction: column;
+	margin-left: 12px;
+	margin-right: 10px;
+}
 </style>

@@ -1,0 +1,293 @@
+<template>
+	<sn-page :title="t('snTree.title')" :show-back="true">
+		<demo-card :title="t('snTree.modeTitle')" :subtitle="t('snTree.modeSubtitle')">
+			<view class="demo-control-row" flatten>
+				<sn-text :text="t('snTree.showCheckbox')" font-size="$13" color="$text" custom-style="flex:1;" flatten />
+				<sn-switch v-model="modeCheckable" />
+			</view>
+			<sn-tree v-model="modeValue" :data="baseData" :checkable="modeCheckable"
+				:default-expanded-ids="['docs', 'project']" custom-style="margin-top:12px;" />
+			<sn-text :text="formatIds(modeValue)" font-size="$12" color="$primary" custom-style="margin-top:8px;" flatten />
+		</demo-card>
+
+		<demo-card :title="t('snTree.multiSingleTitle')" :subtitle="t('snTree.multiSingleSubtitle')">
+			<sn-text text="checkable=true · multiple=true · cascade=true" bold font-size="$13" color="$title" flatten />
+			<sn-tree v-model="multipleValue" :data="baseData" checkable cascade
+				:default-expanded-ids="['docs']" custom-style="margin-top:8px;" />
+			<sn-text :text="formatIds(multipleValue)" font-size="$12" color="$primary" flatten />
+			<sn-line custom-style="margin:14px 0;" />
+			<sn-text :text="t('snTree.multiSingleDisc')" bold font-size="$13" color="$title" flatten />
+			<sn-tree v-model="singleValue" :data="baseData" checkable cascade :multiple="false"
+				:default-expanded-ids="['docs']" custom-style="margin-top:8px;" />
+			<sn-text :text="formatIds(singleValue)" font-size="$12" color="$primary" flatten />
+			<sn-line custom-style="margin:14px 0;" />
+			<sn-text :text="t('snTree.nonCheckMultiDesc')" bold font-size="$13" color="$title" flatten />
+			<sn-tree v-model="nonCheckableMultiValue" :data="baseData" :checkable="false" :multiple="true"
+				:default-expanded-ids="['docs']" custom-style="margin-top:8px;" />
+			<sn-text :text="formatIds(nonCheckableMultiValue)" font-size="$12" color="$primary" flatten />
+			<sn-line custom-style="margin:14px 0;" />
+			<sn-text :text="t('snTree.nonCheckSingleDesc')" bold font-size="$13" color="$title" flatten />
+			<sn-tree v-model="nonCheckableSingleValue" :data="baseData" :checkable="false" :multiple="false"
+				:default-expanded-ids="['docs']" custom-style="margin-top:8px;" />
+			<sn-text :text="formatIds(nonCheckableSingleValue)" font-size="$12" color="$primary" />
+		</demo-card>
+
+		<demo-card :title="t('snTree.cascadeTitle')" :subtitle="t('snTree.cascadeSubtitle')">
+			<sn-text text="cascade=true" bold font-size="$13" color="$title" />
+			<sn-tree v-model="cascadeValue" :data="cascadeData" checkable cascade
+				:default-expanded-ids="['products', 'office']" custom-style="margin-top:8px;" />
+			<sn-text :text="formatIds(cascadeValue)" font-size="$12" color="$primary" />
+			<sn-line custom-style="margin:14px 0;" />
+			<sn-text text="cascade=false" bold font-size="$13" color="$title" />
+			<sn-tree v-model="nonCascadeValue" :data="cascadeData" checkable
+				:default-expanded-ids="['products', 'office']" custom-style="margin-top:8px;" />
+			<sn-text :text="formatIds(nonCascadeValue)" font-size="$12" color="$primary" />
+		</demo-card>
+
+		<demo-card :title="t('snTree.disableParentTitle')" :subtitle="t('snTree.disableParentSubtitle')">
+			<view class="demo-control-row">
+				<sn-text :text="t('snTree.disableParentText')" font-size="$13" color="$text" custom-style="flex:1;" />
+				<sn-switch v-model="disableParent" />
+			</view>
+			<sn-tree v-model="leafOnlyValue" :data="deepData" checkable cascade
+				:disable-parent-selection="disableParent" :default-expanded-ids="['level-1', 'level-2', 'level-3']"
+				custom-style="margin-top:12px;" />
+			<sn-text :text="formatIds(leafOnlyValue)" font-size="$12" color="$primary" />
+		</demo-card>
+
+		<demo-card :title="t('snTree.browseTitle')" :subtitle="t('snTree.browseSubtitle')">
+			<sn-text text="selectable=true" bold font-size="$13" color="$title" />
+			<sn-tree v-model="browseValue" :data="baseData" :default-expanded-ids="['docs']"
+				custom-style="margin-top:8px;" />
+			<sn-text :text="formatIds(browseValue)" font-size="$12" color="$primary" />
+			<sn-line custom-style="margin:14px 0;" />
+			<sn-text :text="t('snTree.selectableFalseDesc')" bold font-size="$13" color="$title" />
+			<sn-tree v-model="browseDisabledValue" :data="baseData" :selectable="false"
+				:default-expanded-ids="['docs']" custom-style="margin-top:8px;" />
+			<sn-text :text="formatIds(browseDisabledValue)" font-size="$12" color="$textLight" />
+		</demo-card>
+
+		<demo-card :title="t('snTree.asyncTitle')" :subtitle="t('snTree.asyncSubtitle')">
+			<sn-tree v-model="asyncValue" :data="asyncData" checkable cascade :load-data="loadAsyncChildren"
+				@load-error="onLoadError" />
+			<sn-text :text="asyncStatus" font-size="$12" color="$textLight" custom-style="margin-top:8px;" />
+		</demo-card>
+
+		<demo-card :title="t('snTree.slotTitle')" :subtitle="t('snTree.slotSubtitle')">
+			<sn-tree v-model="slotValue" :data="slotData" :default-expanded-ids="['slot-root']">
+				<template v-slot:prefix="slotProps">
+					<sn-icon name="file-list-3-line" :size="15" color="$primary" custom-style="margin-right:6px;" />
+				</template>
+				<template v-slot:suffix="slotProps">
+					<sn-text :text="slotItemState(slotProps.item)" font-size="$11" color="$textLight" />
+				</template>
+			</sn-tree>
+		</demo-card>
+
+		<demo-card :title="t('snTree.fullCustomTitle')" :subtitle="t('snTree.fullCustomSubtitle')">
+			<sn-tree v-model="customValue" :data="customData" :multiple="false"
+				:default-expanded-ids="['catalog', 'electronics']"
+				custom-class="sn-tree-custom-root"
+				custom-style="margin-top:12px;background-color:#f7f8fa;padding:8px;"
+				item-class="sn-tree-custom-item"
+				item-style="border-radius:8px;"
+				line-style="height:24px;margin-right:8px;background-color:#4f8cff;"
+				text-class="sn-tree-custom-text"
+				text-style="letter-spacing:0.5px;"
+				selected-text-class="sn-tree-custom-selected-text"
+				selected-text-style="color:#2d6cdf;font-weight:700;" />
+			<sn-text :text="formatIds(customValue)" font-size="$12" color="$primary" />
+		</demo-card>
+
+		<demo-card :title="t('snTree.disabledTitle')" :subtitle="t('snTree.disabledSubtitle')">
+			<sn-tree v-model="disabledValue" :data="disabledData" checkable cascade
+				:default-expanded-ids="['disabled-root']" />
+			<sn-text :text="formatIds(disabledValue)" font-size="$12" color="$primary" />
+		</demo-card>
+
+		<demo-card :title="t('snTree.deepTitle')" :subtitle="t('snTree.deepSubtitle')">
+			<sn-tree v-model="deepValue" :data="deepData" :default-expanded-ids="['level-1', 'level-2', 'level-3']" />
+			<sn-text :text="formatIds(deepValue)" font-size="$12" color="$primary" />
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import type {
+	SnTreeData,
+	SnTreeItem,
+	SnTreeLoadResolve,
+	SnTreeLoadReject
+} from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+const baseData: SnTreeData = [
+	{
+		id: 'docs', text: 'Parent1', children: [
+			{ id: 'functional-spec', text: 'XYZ Functional Spec' },
+			{ id: 'feature-schedule', text: 'Feature Schedule' }
+		]
+	},
+	{
+		id: 'project', text: 'Parent2', children: [
+			{
+				id: 'remodel', text: 'Home Remodel', children: [
+					{ id: 'contractor', text: 'Contractor Contact Info' },
+					{ id: 'paint', text: 'Paint Color Scheme' }
+				]
+			}
+		]
+	}
+]
+
+const cascadeData = computed<SnTreeData>(() => [
+	{
+		id: 'products', text: t('snTree.products'), children: [
+			{
+				id: 'office', text: t('snTree.office'), children: [
+					{ id: 'writer', text: t('snTree.writer') },
+					{ id: 'sheet', text: t('snTree.sheet') },
+					{ id: 'slides', text: t('snTree.slides') }
+				]
+			},
+			{ id: 'calendar', text: t('snTree.calendar') }
+		]
+	}
+])
+
+const deepData = computed<SnTreeData>(() => [
+	{
+		id: 'level-1', text: t('snTree.level1'), children: [
+			{
+				id: 'level-2', text: t('snTree.level2'), children: [
+					{
+						id: 'level-3', text: t('snTree.level3'), children: [
+							{ id: 'level-4-a', text: t('snTree.level4a') },
+							{ id: 'level-4-b', text: t('snTree.level4b') }
+						]
+					}
+				]
+			},
+			{ id: 'short-leaf', text: t('snTree.level2Leaf') }
+		]
+	}
+])
+
+const asyncData = computed<SnTreeData>(() => [
+	{ id: 'remote-docs', text: t('snTree.remoteDocs'), lazy: true },
+	{ id: 'local-readme', text: t('snTree.localReadme') }
+])
+
+const disabledData = computed<SnTreeData>(() => [
+	{
+		id: 'disabled-root', text: t('snTree.permissionDir'), children: [
+			{ id: 'available-item', text: t('snTree.availableItem') },
+			{ id: 'disabled-selected', text: t('snTree.disabledSelected'), disabled: true },
+			{ id: 'disabled-empty', text: t('snTree.disabledEmpty'), disabled: true }
+		]
+	}
+])
+
+const slotData = computed<SnTreeData>(() => [
+	{
+		id: 'slot-root', text: t('snTree.customDir'), icon: 'folder-3-line', activeIcon: 'folder-open-line', rotate: 0, children: [
+			{ id: 'slot-child-a', text: t('snTree.fileA') },
+			{ id: 'slot-child-b', text: t('snTree.fileB') }
+		]
+	}
+])
+
+const customData = computed<SnTreeData>(() => [
+	{
+		id: 'catalog', text: t('snTree.catalog'), children: [
+			{
+				id: 'electronics', text: t('snTree.electronics'), children: [
+					{ id: 'phone', text: t('snTree.phone') },
+					{ id: 'laptop', text: t('snTree.laptop') }
+				]
+			},
+			{ id: 'clothes', text: t('snTree.clothes') },
+			{ id: 'books', text: t('snTree.books') }
+		]
+	}
+])
+
+const modeCheckable = ref<boolean>(false)
+const disableParent = ref<boolean>(true)
+const modeValue = ref<string[]>([])
+const multipleValue = ref<string[]>([])
+const singleValue = ref<string[]>([])
+const nonCheckableMultiValue = ref<string[]>([])
+const nonCheckableSingleValue = ref<string[]>([])
+const cascadeValue = ref<string[]>(['writer'])
+const nonCascadeValue = ref<string[]>(['office'])
+const leafOnlyValue = ref<string[]>([])
+const browseValue = ref<string[]>([])
+const browseDisabledValue = ref<string[]>([])
+const asyncValue = ref<string[]>([])
+const disabledValue = ref<string[]>(['disabled-selected'])
+const deepValue = ref<string[]>([])
+const slotValue = ref<string[]>([])
+const customValue = ref<string[]>(['phone'])
+const asyncStatus = ref<string>(t('snTree.asyncDefault'))
+
+function formatIds(value: string[]): string {
+	return `v-model: [${value.join(', ')}]`
+}
+
+function slotItemState(item: any): string {
+	return (item as SnTreeItem).children != null ? t('snTree.directory') : t('snTree.file')
+}
+
+function loadAsyncChildren(item: SnTreeItem, resolve: SnTreeLoadResolve, reject: SnTreeLoadReject): void {
+	asyncStatus.value = t('snTree.loading', { name: item.text } as UTSJSONObject)
+	setTimeout((): void => {
+		if (item.id != 'remote-docs') {
+			reject()
+			return
+		}
+		resolve([
+			{
+				id: 'remote-guides', text: t('snTree.guide'), children: [
+					{ id: 'remote-start', text: t('snTree.quickStart') },
+					{ id: 'remote-api', text: t('snTree.apiRef') }
+				]
+			},
+			{ id: 'remote-changelog', text: t('snTree.changelog') }
+		])
+		asyncStatus.value = t('snTree.asyncDone')
+	}, 1000)
+}
+
+function onLoadError(item: SnTreeItem): void {
+	asyncStatus.value = t('snTree.loadFail', { name: item.text } as UTSJSONObject)
+}
+</script>
+
+<style lang="scss">
+.demo-control-row {
+	flex-direction: row;
+	align-items: center;
+}
+
+.sn-tree-custom-root {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #ebedf0;
+}
+
+.sn-tree-custom-item {
+	border-radius: 8px;
+}
+
+.sn-tree-custom-text {
+	font-weight: 500;
+}
+
+.sn-tree-custom-selected-text {
+	padding: 2px 6px;
+	background-color: #e8f1ff;
+	border-radius: 4px;
+}
+</style>

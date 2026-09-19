@@ -1,99 +1,90 @@
 <template>
 	<sn-page>
-		<sn-topbar title="Subsection 分段器"></sn-topbar>
-		<com-card title="基础用法"
-		note="选择合适的子界面"
-		:bgColor="bgColorC">
-			<sn-subsection v-model="v1"
-			:data="list1"></sn-subsection>
-		</com-card>
-		<com-card title="默认值"
-		note="可以提前设置分段器的选中项目"
-		:bgColor="bgColorC">
+		<sn-topbar :title="t('snSubsection.title')"></sn-topbar>
+
+		<demo-card :title="t('snSubsection.demoBasicTitle')" :subtitle="t('snSubsection.demoBasicSub')">
+			<sn-subsection v-model="v1" :data="list1"></sn-subsection>
+		</demo-card>
+
+		<demo-card :title="t('snSubsection.demoDefaultTitle')" :subtitle="t('snSubsection.demoDefaultSub')">
 			<sn-subsection v-model="v2" :data="list2"></sn-subsection>
-		</com-card>
-		<com-card title="颜色"
-		note="自定义组件各部分的颜色"
-		:bgColor="bgColorC">
-			<sn-subsection v-model="v3"
-			activeTextColor="$successDark"
-			:data="list2" ></sn-subsection>
-		</com-card>
-		<com-card title="禁用"
-		note="屏蔽手动操作️"
-		:bgColor="bgColorC">
-			<sn-subsection v-model="v4"
-			:data="list2" 
-			disabled></sn-subsection>
-		</com-card>
-		<com-card title="自定义样式"
-		note="自定义组件的各种样式"
-		:bgColor="bgColorC">
-			<sn-subsection v-model="v5" 
-			class="spacing"
-			textSize="12px"
-			borderRadius="5px" 
-			padding="2px" 
-			activeTextColor="$text"
-			:data="list3"
-			:customStyle="{width:'100px !important'}"></sn-subsection>
-			<sn-subsection v-model="v5" 
-			class="spacing"
-			:data="list3" 
-			textSize="16px"
-			padding="5px" 
-			borderRadius="$circle"
-			activeTextColor="$text"
-			:textColor="colors[`info${theme=='light'?'Dark':''}`]"
-			:customItemStyle="{
-				fontWeight:'bold'
-			}" 
-			:customStyle="{
-				margin:'10px',
-				width:'200px !important',
-				boxShadow:'2px 2px 30px -2px ' + colors.infoDark
-			}"></sn-subsection>
-			<sn-subsection v-model="v6" 
-			class="spacing"
-			activeTextColor="$primary" 
-			textColor="#b6b6b6"
-			textSize="16px" 
-			blockBgColor="transparent" 
-			borderRadius="5px" 
-			padding="5px" 
-			:data="list2" 
-			:customBlockStyle="{
-				borderRadius:'0',
-				borderBottom:'2px solid ' + colors.primary
-			}" 
-			:customItemStyle="{
-				fontWeight:'bold'
-			}"></sn-subsection>
-		</com-card>
+		</demo-card>
+
+		<demo-card :title="t('snSubsection.demoColorTitle')" :subtitle="t('snSubsection.demoColorSub')">
+			<sn-subsection v-model="v3" active-text-color="$successDark" :data="list2"></sn-subsection>
+		</demo-card>
+
+		<demo-card :title="t('snSubsection.demoDisabledTitle')" :subtitle="t('snSubsection.demoDisabledSub')">
+			<sn-subsection v-model="v4" :data="list2" disabled></sn-subsection>
+		</demo-card>
+
+		<demo-card :title="t('snSubsection.demoStyleTitle')" :subtitle="t('snSubsection.demoStyleSub')">
+			<sn-subsection v-model="v5" custom-class="spacing" text-size="12px" border-radius="5px" padding="2px"
+				active-text-color="$text" :data="list3" custom-style="width:100px !important;"></sn-subsection>
+			<sn-subsection v-model="v5" custom-class="spacing" :data="list3" text-size="16px" padding="5px"
+				border-radius="999px" active-text-color="$text" :text-color="infoTextColor"
+				item-style="font-weight:bold;"
+				custom-style="margin:10px 0; width:200px !important; box-shadow:0 4px 14px -6px var(--sn-shadow);"></sn-subsection>
+			<sn-subsection v-model="v6" custom-class="spacing" active-text-color="$primary" text-color="#b6b6b6"
+				text-size="16px" block-bg-color="transparent" border-radius="5px" padding="5px" :data="list2"
+				block-style="border-radius:0; border-bottom:2px solid var(--sn-primary);"
+				item-style="font-weight:bold;"></sn-subsection>
+		</demo-card>
+
+		<demo-card :title="t('snSubsection.demoExtTitle')" :subtitle="t('snSubsection.demoExtSub')">
+			<sn-subsection v-model="v7" :data="list2" custom-style="margin-bottom:12px;"
+				item-style="border-radius:8px;" block-style="box-shadow:0 4px 12px -6px var(--sn-shadow);"
+				text-class="demo-sub-text"></sn-subsection>
+			<sn-subsection v-model="v7" :data="list2" item-class="demo-sub-item" block-class="demo-sub-block"
+				text-style="font-weight:bold;"></sn-subsection>
+			<sn-text type="text-light" :font-size="12" :text="t('snSubsection.currentSelected', { val: v7 } as UTSJSONObject)" custom-style="margin-top:12px;" flatten />
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	
-	const v1 = ref(0)
-	const v2 = ref(2)
-	const v3 = ref(0)
-	const v4 = ref(0)
-	const v5 = ref(0)
-	const v6 = ref(0)
-	const list1 = ['优秀', '良好', '及格']
-	const list2 = ['已付款', '已发货', '已收货', '已评价']
-	const list3 = ['最新', '热门']
-	const bgColorC = computed(():string=>{
-		return colors.value[$snui.configs.app.theme=='light'?'front':'infoDark'] as string
-	})
-	const theme = computed(():string=>$snui.configs.app.theme)
+<script lang="uts" setup>
+
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+
+const { t } = useI18n()
+const { isDark } = useTheme()
+
+const v1 = ref<number>(0)
+const v2 = ref<number>(2)
+const v3 = ref<number>(0)
+const v4 = ref<number>(0)
+const v5 = ref<number>(0)
+const v6 = ref<number>(0)
+const v7 = ref<number>(1)
+
+const list1 = computed<string[]>(() => [t('snSubsection.excellent'), t('snSubsection.good'), t('snSubsection.pass')])
+const list2 = computed<string[]>(() => [t('snSubsection.paid'), t('snSubsection.shipped'), t('snSubsection.received'), t('snSubsection.reviewed')])
+const list3 = computed<string[]>(() => [t('snSubsection.newest'), t('snSubsection.hot')])
+
+
+const infoTextColor = computed<string>(() => {
+	return isDark.value ? '$info' : '$infoDark'
+})
 </script>
 
 <style lang="scss">
-	.spacing {
-		margin-bottom: 15px;
-	}
+.spacing {
+	margin-bottom: 15px;
+}
+
+.demo-sub-item {
+	border-radius: 6px;
+	background-color: rgba(127, 127, 127, 0.08);
+}
+
+.demo-sub-block {
+	box-shadow: 0 4px 12px -6px var(--sn-shadow);
+}
+
+.demo-sub-text {
+	font-weight: bold;
+	color: red !important;
+}
 </style>

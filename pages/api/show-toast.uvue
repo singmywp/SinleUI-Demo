@@ -1,0 +1,248 @@
+<template>
+	<sn-page :title="t('apiShowToast.title')" :show-back="true">
+
+		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
+			<sn-text font-size="$12" color="$primary" flatten>{{ t('apiShowToast.alert1') }}</sn-text>
+			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;" flatten>{{ t('apiShowToast.alert2') }}</sn-text>
+		</sn-alert>
+
+		<demo-card :title="t('apiShowToast.basic')" :subtitle="t('apiShowToast.basicSub')">
+			<sn-text font-size="$13" :color="descColor" custom-style="margin-bottom:12px;" flatten>{{ t('apiShowToast.basicDesc') }}</sn-text>
+			<view class="btn-row" flatten>
+				<sn-button type="primary" :text="t('apiShowToast.showToast')" custom-style="flex:1;" @click="onShowBase" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiShowToast.positionCard')" :subtitle="t('apiShowToast.positionCardSub')">
+			<view class="btn-row btn-gap" flatten>
+				<sn-button type="info" :text="t('apiShowToast.top')" custom-style="flex:1;" @click="onShowTop" />
+				<sn-button type="info" :text="t('apiShowToast.center')" custom-style="flex:1;margin-left:10px;" @click="onShowCenter" />
+				<sn-button type="info" :text="t('apiShowToast.bottom')" custom-style="flex:1;margin-left:10px;" @click="onShowBottom" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiShowToast.iconCard')" :subtitle="t('apiShowToast.iconCardSub')">
+			<view class="btn-row btn-gap" flatten>
+				<sn-button type="success" :text="t('apiShowToast.success')" custom-style="flex:1;" @click="onShowSuccess" />
+				<sn-button type="error" :text="t('apiShowToast.fail')" custom-style="flex:1;margin-left:10px;" @click="onShowError" />
+			</view>
+			<view class="btn-row btn-gap" style="margin-top:10px;" flatten>
+				<sn-button type="info" :text="t('apiShowToast.info')" custom-style="flex:1;" @click="onShowInfo" />
+				<sn-button type="warning" :text="t('apiShowToast.warning')" custom-style="flex:1;margin-left:10px;" @click="onShowWarning" />
+			</view>
+			<view class="btn-row" style="margin-top:10px;" flatten>
+				<sn-button type="primary" :text="t('apiShowToast.loading')" custom-style="flex:1;" @click="onShowLoading" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiShowToast.hideCard')" :subtitle="t('apiShowToast.hideCardSub')">
+			<view class="btn-row btn-gap" flatten>
+				<sn-button type="primary" :text="t('apiShowToast.showLong')" custom-style="flex:1;" @click="onShowLong" />
+				<sn-button type="error" :text="t('apiShowToast.hideToast')" custom-style="flex:1;margin-left:10px;" @click="onHide" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiShowToast.styleCard')" :subtitle="t('apiShowToast.styleCardSub')">
+			<view class="btn-row btn-gap" flatten>
+				<sn-button type="primary" :text="t('apiShowToast.themeColor')" custom-style="flex:1;" @click="onShowCustomColor" />
+				<sn-button type="info" :text="t('apiShowToast.lightCard')" custom-style="flex:1;margin-left:10px;" @click="onShowLightCard" />
+			</view>
+			<view class="btn-row" style="margin-top:10px;" flatten>
+				<sn-button type="warning" :text="t('apiShowToast.bigFont')" custom-style="flex:1;" @click="onShowBig" />
+				<sn-button type="info" :text="t('apiShowToast.customPadding')" custom-style="flex:1;margin-left:10px;" @click="onShowPadding" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiShowToast.passCard')" :subtitle="t('apiShowToast.passCardSub')">
+			<view class="btn-row btn-gap" flatten>
+				<sn-button type="primary" :text="t('apiShowToast.enablePass')" custom-style="flex:1;" @click="onShowPassThrough" />
+				<sn-button type="info" :text="t('apiShowToast.disablePass')" custom-style="flex:1;margin-left:10px;" @click="onShowNoPassThrough" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:10px;" flatten>{{ t('apiShowToast.passDesc') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('apiShowToast.linesCard')" :subtitle="t('apiShowToast.linesCardSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="primary" :text="t('apiShowToast.maxLines')" custom-style="flex:1;" @click="onShowMultiLine" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiShowToast.callbackCard')" :subtitle="t('apiShowToast.callbackCardSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="primary" :text="t('apiShowToast.withCallback')" custom-style="flex:1;" @click="onShowWithCallback" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:10px;" flatten>{{ t('apiShowToast.callbackLabel') }}：{{ callbackResult }}</sn-text>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu, useTheme } from '@/uni_modules/sinle-ui/index.uts'
+
+const { t } = useI18n()
+const { isDark } = useTheme()
+
+const descColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+const callbackResult = ref<string>(t('apiShowToast.emptyCallback'))
+
+function onShowBase(): void {
+	snu.showToast({
+		text: t('apiShowToast.baseText')
+	})
+}
+
+function onShowTop(): void {
+	snu.showToast({
+		text: t('apiShowToast.topText'),
+		position: 'top'
+	})
+}
+
+function onShowCenter(): void {
+	snu.showToast({
+		text: t('apiShowToast.centerText'),
+		position: 'center'
+	})
+}
+
+function onShowBottom(): void {
+	snu.showToast({
+		text: t('apiShowToast.bottomText'),
+		position: 'bottom'
+	})
+}
+
+function onShowSuccess(): void {
+	snu.showToast({
+		text: t('apiShowToast.successText'),
+		icon: 'checkbox-circle-fill',
+		iconColor: '#39c478'
+	})
+}
+
+function onShowError(): void {
+	snu.showToast({
+		text: t('apiShowToast.errorText'),
+		icon: 'close-circle-fill',
+		iconColor: '#fc5454'
+	})
+}
+
+function onShowInfo(): void {
+	snu.showToast({
+		text: t('apiShowToast.infoText'),
+		icon: 'information-fill',
+		iconColor: '#4d82ff'
+	})
+}
+
+function onShowWarning(): void {
+	snu.showToast({
+		text: t('apiShowToast.warningText'),
+		icon: 'error-warning-fill',
+		iconColor: '#f3b428'
+	})
+}
+
+function onShowLoading(): void {
+	snu.showToast({
+		text: t('apiShowToast.loadingText'),
+		loading: true,
+		duration: 3000
+	})
+}
+
+function onShowLong(): void {
+	snu.showToast({
+		text: t('apiShowToast.longText'),
+		duration: 10000
+	})
+}
+
+function onHide(): void {
+	snu.hideToast()
+}
+
+function onShowPassThrough(): void {
+	snu.showToast({
+		text: t('apiShowToast.passThroughText'),
+		passThrough: true,
+		duration: 3000
+	})
+}
+
+function onShowNoPassThrough(): void {
+	snu.showToast({
+		text: t('apiShowToast.noPassThroughText'),
+		passThrough: false,
+		duration: 3000
+	})
+}
+
+function onShowCustomColor(): void {
+	snu.showToast({
+		text: t('apiShowToast.customColorText'),
+		bgColor: '#4d82ff',
+		textColor: '#FFFFFF',
+		icon: 'information-fill',
+		iconColor: '#FFFFFF',
+		borderRadius: '16px'
+	})
+}
+
+function onShowLightCard(): void {
+	snu.showToast({
+		text: t('apiShowToast.lightCardText'),
+		bgColor: '#FFFFFF',
+		textColor: '#2B2B2B',
+		icon: 'checkbox-circle-fill',
+		iconColor: '#39c478',
+		borderRadius: '12px',
+		padding: '14px 20px'
+	})
+}
+
+function onShowBig(): void {
+	snu.showToast({
+		text: t('apiShowToast.bigFontText'),
+		textSize: '18px'
+	})
+}
+
+function onShowPadding(): void {
+	snu.showToast({
+		text: t('apiShowToast.customPaddingText'),
+		padding: '24px 32px'
+	})
+}
+
+function onShowMultiLine(): void {
+	snu.showToast({
+		text: t('apiShowToast.multiLineText'),
+		textLines: 2,
+		duration: 4000
+	})
+}
+
+function onShowWithCallback(): void {
+	snu.showToast({
+		text: t('apiShowToast.withCallbackText'),
+		success: (): void => {
+			callbackResult.value = t('apiShowToast.callbackSuccess')
+		},
+		fail: (err: UniError): void => {
+			callbackResult.value = t('apiShowToast.callbackFail') + err.errCode
+		},
+		complete: (_res: any | null): void => {
+			callbackResult.value += t('apiShowToast.callbackComplete')
+		}
+	})
+}
+</script>
+
+<style lang="scss">
+.btn-row {
+	flex-direction: row;
+}
+</style>

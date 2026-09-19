@@ -1,0 +1,161 @@
+<template>
+	<sn-page :title="t('snCalendarWeek.title')" :show-back="true">
+		<view class="calendar-week-demo-content" flatten>
+			<demo-card :title="t('snCalendarWeek.basic')" :subtitle="t('snCalendarWeek.basicSub')">
+				<sn-calendar-week v-model="baseValue" @select="onBaseSelect" @change="onBaseChange" @week-change="onWeekChange" />
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;" flatten>{{ t('snCalendarWeek.selected', { text: formatDay(baseValue) } as UTSJSONObject) }}</sn-text>
+			</demo-card>
+
+			<demo-card :title="t('snCalendarWeek.switchBtn')" :subtitle="t('snCalendarWeek.switchBtnSub')">
+				<view class="calendar-week-demo-row" flatten>
+					<sn-text :text="t('snCalendarWeek.showSwitch')" font-size="$13" color="$text" custom-style="flex:1;" flatten />
+					<sn-switch v-model="showSwitch" />
+				</view>
+				<sn-calendar-week v-model="switchValue" :show-switch="showSwitch" custom-style="margin-top:10px;" />
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;" flatten>{{ t('snCalendarWeek.selected', { text: formatDay(switchValue) } as UTSJSONObject) }}</sn-text>
+			</demo-card>
+
+			<demo-card :title="t('snCalendarWeek.weekStartTitle')" :subtitle="t('snCalendarWeek.weekStartSub')">
+				<sn-subsection v-model="weekStartIndex" :data="weekStartOptions" />
+				<sn-calendar-week v-model="weekStartValue" :week-start="weekStart" :week-titles="fullWeekTitles" custom-style="margin-top:10px;" />
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;" flatten>{{ t('snCalendarWeek.selected', { text: formatDay(weekStartValue) } as UTSJSONObject) }}</sn-text>
+			</demo-card>
+
+			<demo-card :title="t('snCalendarWeek.rangeTitle')" :subtitle="t('snCalendarWeek.rangeSub')">
+				<sn-calendar-week v-model="rangeValue" :min-date="rangeMin" :max-date="rangeMax" :disabled-dates="disabledDates" />
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;" flatten>{{ t('snCalendarWeek.rangeText', { min: formatDay(rangeMin), max: formatDay(rangeMax) } as UTSJSONObject) }}</sn-text>
+			</demo-card>
+
+			<demo-card :title="t('snCalendarWeek.markTitle')" :subtitle="t('snCalendarWeek.markSub')">
+				<sn-calendar-week v-model="markValue" :format="markFormatter" :week-titles="fullWeekTitles" />
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;" flatten>{{ t('snCalendarWeek.markText') }}</sn-text>
+			</demo-card>
+
+			<demo-card :title="t('snCalendarWeek.customStyleTitle')" :subtitle="t('snCalendarWeek.customStyleSub')">
+				<sn-calendar-week v-model="styleValue" :week-titles="fullWeekTitles"
+					custom-style="border-width:1px;border-style:solid;border-color:var(--sn-line);border-radius:12px;"
+					switch-class="calendar-week-demo-switch"
+					day-style="border-radius:999px;"
+					day-title-style="font-weight:bold;"
+					day-text-style="font-size:18px;" />
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:6px;" flatten>{{ t('snCalendarWeek.styleDesc1') }}</sn-text>
+
+				<sn-calendar-week v-model="styleSwitchValue" custom-style="margin-top:16px;"
+					switch-class="calendar-week-demo-switch-pill"
+					switch-style="padding-left:18px;padding-right:18px;padding-top:14px;padding-bottom:14px;" />
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:6px;" flatten>{{ t('snCalendarWeek.styleDesc2') }}</sn-text>
+
+				<sn-calendar-week v-model="styleWeeksValue" custom-style="margin-top:16px;" weeks-style="background-color:var(--sn-page);border-radius:10px;" />
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:6px;" flatten>{{ t('snCalendarWeek.styleDesc3') }}</sn-text>
+
+				<sn-calendar-week v-model="styleDayValue" custom-style="margin-top:16px;"
+					day-class="calendar-week-demo-day-gap"
+					day-title-style="color:var(--sn-warning);font-size:10px;" />
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:6px;" flatten>{{ t('snCalendarWeek.styleDesc4') }}</sn-text>
+
+				<sn-calendar-week v-model="styleRootValue" custom-style="margin-top:16px;" custom-class="calendar-week-demo-root" />
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:6px;" flatten>{{ t('snCalendarWeek.styleDesc5') }}</sn-text>
+
+				<sn-calendar-week v-model="styleColorValue" custom-style="margin-top:16px;background-color:var(--sn-info);border-radius:10px;"
+					switch-icon-color="$text" selected-bg-color="$success" />
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:6px;" flatten>{{ t('snCalendarWeek.styleDesc6') }}</sn-text>
+			</demo-card>
+
+			<demo-card :title="t('snCalendarWeek.eventRecord')" :subtitle="t('snCalendarWeek.eventRecordSub')">
+				<sn-text font-size="$12" color="$text" flatten>{{ eventLog }}</sn-text>
+			</demo-card>
+		</view>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { createCalendarDayContent, dayuts } from '@/uni_modules/sinle-ui/index.uts'
+import type { SnCalendarDay, SnCalendarDayFormatter, SnCalendarWeekChangeDetail, SnCalendarWeekStartDay } from '@/uni_modules/sinle-ui/index.uts'
+
+const { t } = useI18n()
+
+const baseValue = ref<number | null>(dayuts().startOf('day').valueOf())
+const switchValue = ref<number | null>(dayuts().startOf('day').valueOf())
+const weekStartValue = ref<number | null>(dayuts().startOf('day').valueOf())
+const rangeValue = ref<number | null>(dayuts().startOf('day').valueOf())
+const markValue = ref<number | null>(dayuts().startOf('day').valueOf())
+const styleValue = ref<number | null>(dayuts().startOf('day').valueOf())
+const styleSwitchValue = ref<number | null>(dayuts().startOf('day').valueOf())
+const styleWeeksValue = ref<number | null>(dayuts().startOf('day').valueOf())
+const styleDayValue = ref<number | null>(dayuts().startOf('day').valueOf())
+const styleRootValue = ref<number | null>(dayuts().startOf('day').valueOf())
+const styleColorValue = ref<number | null>(dayuts().startOf('day').valueOf())
+
+const showSwitch = ref<boolean>(true)
+const weekStartIndex = ref<number>(0)
+const weekStartOptions = computed<string[]>(() => [t('snCalendarWeek.sundayDefault'), 'monday'])
+const weekStart = computed<SnCalendarWeekStartDay>(() => weekStartIndex.value == 1 ? 'monday' : 'sunday')
+const fullWeekTitles = computed<string[]>(() => [t('snCalendarWeek.weekSun'), t('snCalendarWeek.weekMon'), t('snCalendarWeek.weekTue'), t('snCalendarWeek.weekWed'), t('snCalendarWeek.weekThu'), t('snCalendarWeek.weekFri'), t('snCalendarWeek.weekSat')])
+
+const rangeMin = ref<number>(dayuts().subtract(1, 'month').startOf('day').valueOf())
+const rangeMax = ref<number>(dayuts().add(1, 'month').startOf('day').valueOf())
+const disabledDates = ref<number[]>([
+	dayuts().add(1, 'day').startOf('day').valueOf(),
+	dayuts().add(2, 'day').startOf('day').valueOf()
+])
+
+const eventLog = ref<string>(t('snCalendarWeek.noEvent'))
+
+const markFormatter: SnCalendarDayFormatter = (day: SnCalendarDay) => {
+	if (day.date % 5 == 0) return createCalendarDayContent({ showDot: true, dotColor: '$success' })
+	if (day.weekday == 3) return createCalendarDayContent({ showDot: true, dotColor: '$error' })
+	return null
+}
+
+function formatDay(value: number | null): string {
+	if (value == null) return t('snCalendarWeek.notSelected')
+	return dayuts(value as number).format('YYYY-MM-DD')
+}
+
+function onBaseSelect(value: number): void {
+	eventLog.value = t('snCalendarWeek.selectEvent', { value: formatDay(value) } as UTSJSONObject)
+}
+
+function onBaseChange(value: number): void {
+	eventLog.value = t('snCalendarWeek.changeEvent', { value: formatDay(value) } as UTSJSONObject)
+}
+
+function onWeekChange(detail: SnCalendarWeekChangeDetail): void {
+	eventLog.value = t('snCalendarWeek.weekChangeEvent', { value: formatDay(detail.timestamp), year: `${detail.year}`, month: `${detail.month}` } as UTSJSONObject)
+}
+</script>
+
+<style lang="scss">
+.calendar-week-demo-content {
+	flex-direction: column;
+}
+
+.calendar-week-demo-row {
+	flex-direction: row;
+	align-items: center;
+}
+
+.calendar-week-demo-switch {
+	background-color: var(--sn-page);
+	border-radius: 8px;
+}
+
+.calendar-week-demo-switch-pill {
+	background-color: var(--sn-info-light);
+	border-radius: 999px;
+}
+
+.calendar-week-demo-day-gap {
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+.calendar-week-demo-root {
+	border-width: 1px;
+	border-style: dashed;
+	border-color: var(--sn-primary);
+	border-radius: 12px;
+	padding: 8px 0px;
+}
+</style>

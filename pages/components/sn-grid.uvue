@@ -1,105 +1,236 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Grid 宫格布局"></sn-topbar>
-		<sn-view :loading="loadingComponents">
-		<com-card title="基础用法"
-		note="一般用于功能展示，比如本 Demo 的首页">
+	<sn-page :title="t('snGrid.title')" :show-back="true">
+		<demo-card :title="t('snGrid.basicTitle')" :subtitle="t('snGrid.basicDesc')">
 			<sn-grid-group>
-				<sn-grid-item v-for="(_, index) in array8"
-				:key="index">
-					<sn-icon name="image-line"></sn-icon>
-					<sn-text text="标题":styles="titleStylesC"></sn-text>
+				<sn-grid-item v-for="(item, idx) in menuList" :key="'m' + idx">
+					<view class="grid-menu" flatten>
+						<view class="grid-menu-icon" flatten>
+							<sn-icon :name="item.icon" :size="26" color="$primary" />
+						</view>
+						<sn-text :font-size="13" :text="item.name" custom-style="margin-top:8px;" flatten />
+					</view>
 				</sn-grid-item>
 			</sn-grid-group>
-		</com-card>
-		<com-card title="对齐方式"
-		note="支持三种的对齐方式。">
-			<sn-grid-group align="right">
-				<sn-grid-item v-for="(_, index) in array6"
-				:key="index">
-					<sn-icon name="image-line"></sn-icon>
-					<sn-text text="标题":styles="titleStylesC"></sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snGrid.colsTitle')" :subtitle="t('snGrid.colsDesc')">
+			<sn-grid-group :col="5" gutter="12px">
+				<sn-grid-item v-for="(item, idx) in menuList" :key="'c5' + idx">
+					<view class="grid-menu" flatten>
+						<view class="grid-menu-icon" flatten>
+							<sn-icon :name="item.icon" :size="24" color="$primary" />
+						</view>
+						<sn-text :font-size="12" :text="item.name" custom-style="margin-top:6px;" flatten />
+					</view>
 				</sn-grid-item>
 			</sn-grid-group>
-		</com-card>
-		<com-card title="列数"
-		note="支持自定义列数。">
-			<sn-grid-group :col="3">
-				<sn-grid-item v-for="(_, index) in array6"
-				:key="index">
-					<sn-icon name="image-line"></sn-icon>
-					<sn-text text="标题":styles="titleStylesC"></sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snGrid.gutterTitle')" :subtitle="t('snGrid.gutterDesc')">
+			<sn-grid-group :col="3" gutter="20px">
+				<sn-grid-item v-for="(item, idx) in bgList" :key="'bg' + idx" :bg-color="item.bg">
+					<view class="grid-tile" flatten>
+						<sn-text bold :font-size="16" color="#fff" :text="t('snGrid.number', { n: idx + 1 } as UTSJSONObject)" flatten />
+					</view>
 				</sn-grid-item>
 			</sn-grid-group>
-		</com-card>
-		<com-card title="可滚动"
-		note="套一层 scroll-view 就支持滚动了哦">
-			<scroll-view direction="horizontal">
-				<sn-grid-group :col="8"
-				style="width: 200%">
-					<sn-grid-item v-for="(_, index) in array16"
-					:key="index">
-						<sn-icon name="image-line"></sn-icon>
-						<sn-text text="标题":styles="titleStylesC"></sn-text>
-					</sn-grid-item>
-				</sn-grid-group>
-			</scroll-view>
-		</com-card>
-		<com-card title="可滑动"
-		note="套一层 swiper 就支持滑动了哦">
-			<swiper>
+		</demo-card>
+
+		<demo-card :title="t('snGrid.alignTitle')" :subtitle="t('snGrid.alignDesc')">
+			<sn-text type="text-light" :font-size="13" :text="t('snGrid.leftDefault')" custom-style="margin-bottom:8px;" flatten />
+			<sn-grid-group :col="4" gutter="10px" align="left">
+				<sn-grid-item v-for="(item, idx) in menuList" :key="'al' + idx" bg-color="$primaryLight">
+					<sn-text :font-size="12" color="$primary" :text="item.name" custom-style="padding:14px 0;" flatten />
+				</sn-grid-item>
+			</sn-grid-group>
+			<sn-text type="text-light" :font-size="13" text="center" custom-style="margin-top:14px;margin-bottom:8px;" flatten />
+			<sn-grid-group :col="4" gutter="10px" align="center">
+				<sn-grid-item v-for="(item, idx) in menuList" :key="'ac' + idx" bg-color="$primaryLight">
+					<sn-text :font-size="12" color="$primary" :text="item.name" custom-style="padding:14px 0;" flatten />
+				</sn-grid-item>
+			</sn-grid-group>
+			<sn-text type="text-light" :font-size="13" text="right" custom-style="margin-top:14px;margin-bottom:8px;" flatten />
+			<sn-grid-group :col="4" gutter="10px" align="right">
+				<sn-grid-item v-for="(item, idx) in menuList" :key="'ar' + idx" bg-color="$primaryLight">
+					<sn-text :font-size="12" color="$primary" :text="item.name" custom-style="padding:14px 0;" flatten />
+				</sn-grid-item>
+			</sn-grid-group>
+		</demo-card>
+
+		<demo-card :title="t('snGrid.bgTitle')" :subtitle="t('snGrid.bgDesc')">
+			<sn-grid-group :col="2" gutter="12px">
+				<sn-grid-item v-for="(item, idx) in cardList" :key="'card' + idx" :bg-color="item.bg">
+					<view class="grid-card" flatten>
+						<sn-icon :name="item.icon" :size="28" color="#fff" />
+						<sn-text bold :font-size="15" color="#fff" :text="item.name" custom-style="margin-top:8px;" flatten />
+						<sn-text :font-size="11" color="#ffffffcc" :text="item.desc" custom-style="margin-top:4px;" />
+					</view>
+				</sn-grid-item>
+			</sn-grid-group>
+		</demo-card>
+
+		<demo-card :title="t('snGrid.nestTitle')" :subtitle="t('snGrid.nestDesc')">
+			<swiper class="grid-swiper" :indicator-dots="true"
+				indicator-style="background-color:var(--sn-line, rgba(148,163,184,0.5));"
+				indicator-active-style="background-color:var(--sn-primary, #4d82ff);">
 				<swiper-item>
 					<sn-grid-group>
-						<sn-grid-item v-for="(_, index) in array8"
-						:key="index">
-							<sn-icon name="image-line"></sn-icon>
-							<sn-text text="标题":styles="titleStylesC"></sn-text>
+						<sn-grid-item v-for="(item, idx) in menuList" :key="'sw1' + idx">
+							<view class="grid-menu" flatten>
+								<view class="grid-menu-icon" flatten>
+									<sn-icon :name="item.icon" :size="26" color="$primary" />
+								</view>
+								<sn-text :font-size="13" :text="item.name" custom-style="margin-top:8px;" />
+							</view>
 						</sn-grid-item>
 					</sn-grid-group>
 				</swiper-item>
 				<swiper-item>
 					<sn-grid-group>
-						<sn-grid-item v-for="(_, index) in array8"
-						:key="index">
-							<sn-icon name="image-line"></sn-icon>
-							<sn-text text="标题":styles="titleStylesC"></sn-text>
+						<sn-grid-item v-for="(item, idx) in menuList2" :key="'sw2' + idx">
+							<view class="grid-menu" flatten>
+								<view class="grid-menu-icon" flatten>
+									<sn-icon :name="item.icon" :size="26" color="$primary" />
+								</view>
+								<sn-text :font-size="13" :text="item.name" custom-style="margin-top:8px;" />
+							</view>
 						</sn-grid-item>
 					</sn-grid-group>
 				</swiper-item>
 			</swiper>
-		</com-card>
-		<sn-gap></sn-gap>
-		</sn-view>
+
+			<sn-text type="text-light" :font-size="13"
+				:text="t('snGrid.scrollHint')" custom-style="margin-top:14px;margin-bottom:8px;" />
+			<scroll-view direction="horizontal" class="grid-scroll" :show-scrollbar="false">
+				<sn-grid-group :col="8" gutter="10px" custom-style="width:200%;">
+					<sn-grid-item v-for="(item, idx) in scrollList" :key="'sv' + idx">
+						<view class="grid-scroll-item" flatten>
+							<sn-icon :name="item.icon" :size="22" color="$primary" />
+							<sn-text :font-size="12" color="$primary" :text="item.name" custom-style="margin-top:6px;" />
+						</view>
+					</sn-grid-item>
+				</sn-grid-group>
+			</scroll-view>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	
-	
-	const array6 = [0, 1, 2, 3, 4, 5]
-	const array8 = [0, 1, 2, 3, 4, 5, 6, 7]
-	const array16 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-	
-	const titleStylesC = computed((): Map<string, any> => {
-		let styles = new Map < string, any> ()
-		styles.set('font-size', $snui.configs.font.size(1))
-		return styles
-	})
-	
-	const loadingComponents = ref(true)
-	onMounted(()=>{
-		nextTick(()=>{
-			setTimeout(()=>{
-				loadingComponents.value = false
-			}, 500)
-		})
-	})
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+type GridItem = {
+	icon: string
+	name: string
+}
+
+const menuList = computed<GridItem[]>(() => [
+	{ icon: 'home-4-line', name: t('snGrid.menuHome') },
+	{ icon: 'apps-2-line', name: t('snGrid.menuCategory') },
+	{ icon: 'shopping-cart-line', name: t('snGrid.menuCart') },
+	{ icon: 'user-3-line', name: t('snGrid.menuMine') },
+	{ icon: 'wallet-3-line', name: t('snGrid.menuWallet') },
+	{ icon: 'coupon-3-line', name: t('snGrid.menuCoupon') },
+	{ icon: 'gift-2-line', name: t('snGrid.menuGift') },
+	{ icon: 'customer-service-2-line', name: t('snGrid.menuService') }
+])
+
+
+const menuList2 = computed<GridItem[]>(() => [
+	{ icon: 'truck-line', name: t('snGrid.menuLogistics') },
+	{ icon: 'store-3-line', name: t('snGrid.menuMall') },
+	{ icon: 'bill-line', name: t('snGrid.menuBill') },
+	{ icon: 'map-pin-line', name: t('snGrid.menuMap') },
+	{ icon: 'camera-line', name: t('snGrid.menuCamera') },
+	{ icon: 'timer-flash-line', name: t('snGrid.menuFlash') },
+	{ icon: 'calculator-line', name: t('snGrid.menuCalc') },
+	{ icon: 'settings-3-line', name: t('snGrid.menuSettings') }
+])
+
+
+const scrollList = computed<GridItem[]>(() => [
+	{ icon: 'bill-line', name: t('snGrid.menuBill') },
+	{ icon: 'truck-line', name: t('snGrid.menuLogistics') },
+	{ icon: 'store-3-line', name: t('snGrid.menuMall') },
+	{ icon: 'map-pin-line', name: t('snGrid.menuMap') },
+	{ icon: 'camera-line', name: t('snGrid.menuCamera') },
+	{ icon: 'calculator-line', name: t('snGrid.menuCalc') },
+	{ icon: 'settings-3-line', name: t('snGrid.menuSettings') },
+	{ icon: 'timer-flash-line', name: t('snGrid.menuFlash') },
+	{ icon: 'copper-diamond-line', name: t('snGrid.menuMember') },
+	{ icon: 'device-line', name: t('snGrid.menuDevice') },
+	{ icon: 'global-line', name: t('snGrid.menuGlobal') },
+	{ icon: 'handbag-line', name: t('snGrid.menuBag') },
+	{ icon: 'shield-star-line', name: t('snGrid.menuShield') },
+	{ icon: 'swap-box-line', name: t('snGrid.menuSwap') },
+	{ icon: 'rocket-2-line', name: t('snGrid.menuRocket') },
+	{ icon: 'bank-card-line', name: t('snGrid.menuFinance') }
+])
+
+const bgList = [
+	{ bg: '$primary' },
+	{ bg: '$success' },
+	{ bg: '$warning' },
+	{ bg: '$error' },
+	{ bg: '$info' },
+	{ bg: '$primaryDark' }
+]
+
+type GridCard = {
+	icon: string
+	name: string
+	desc: string
+	bg: string
+}
+
+const cardList = computed<GridCard[]>(() => [
+	{ icon: 'store-3-line', name: t('snGrid.cardBrand'), desc: t('snGrid.cardBrandDesc'), bg: '$error' },
+	{ icon: 'truck-line', name: t('snGrid.cardLogistics'), desc: t('snGrid.cardLogisticsDesc'), bg: '$primary' },
+	{ icon: 'vip-2-line', name: t('snGrid.cardMember'), desc: t('snGrid.cardMemberDesc'), bg: '$warning' },
+	{ icon: 'bank-card-line', name: t('snGrid.cardFinance'), desc: t('snGrid.cardFinanceDesc'), bg: '$success' }
+])
 </script>
 
 <style lang="scss">
-	.marginTop {
-		margin-top: 5px;
-	}
+.grid-menu {
+	align-items: center;
+	padding-top: 18px;
+	padding-bottom: 18px;
+}
+.grid-menu-icon {
+	width: 48px;
+	height: 48px;
+	border-radius: 14px;
+	background-color: var(--sn-primary-light);
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+.grid-tile {
+	width: 100%;
+	align-items: center;
+	justify-content: center;
+	padding-top: 22px;
+	padding-bottom: 22px;
+}
+.grid-card {
+	width: 100%;
+	align-items: center;
+	justify-content: center;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+.grid-swiper {
+	height: 280px;
+}
+.grid-scroll {
+	flex-direction: row;
+}
+.grid-scroll-item {
+	width: 100%;
+	align-items: center;
+	padding-top: 16px;
+	padding-bottom: 16px;
+}
 </style>

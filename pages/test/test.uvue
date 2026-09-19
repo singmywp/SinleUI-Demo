@@ -1,0 +1,110 @@
+<template>
+  <view class="page" flatten>
+    <page-head :title="data.title"></page-head>
+    <button @click="startRequestAnimationFrame">requestAnimationFrame</button>
+    <button @click="stopRequestAnimationFrame">cancelAnimationFrame</button>
+    <text class="frame-count" flatten>FPS: {{data.FPSString}}</text>
+    <text class="frame-count" flatten>FrameCount: {{data.testFrameCount}}</text>
+    <text class="tips" flatten>{{ t('testPage.tip') }}</text>
+  </view>
+</template>
+
+<script setup lang="uts">
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
+
+  type DataType = {
+    title: string;
+    taskId: number;
+    isRunning: boolean;
+    FPSString: string;
+    lastTime: number;
+    frameCount: number;
+    testFrameCount: number;
+  }
+
+  const initialData: DataType = {
+    title: 'AnimationFrame',
+    taskId: 0,
+    isRunning: false,
+    FPSString: '- / -ms',
+    lastTime: 0,
+    frameCount: 0,
+    testFrameCount: 0
+  }
+
+  const data = reactive<DataType>(initialData)
+
+  const updateFPS = (timestamp : number) => {
+    data.frameCount++
+    if (timestamp - data.lastTime >= 1000) {
+      const timeOfFrame = (1000 / data.frameCount)
+      data.FPSString = `${data.frameCount} / ${timeOfFrame.toFixed(3)}ms`
+      data.frameCount = 0
+      data.lastTime = timestamp
+    }
+  }
+
+  type RunAnimationFrameType = (timestamp : number) => void
+  let runAnimationFrame: RunAnimationFrameType = (timestamp : number) => {}
+  runAnimationFrame = (timestamp : number) => {
+    if (!data.isRunning) {
+      return
+    }
+    updateFPS(timestamp)
+    data.testFrameCount++
+    data.taskId = requestAnimationFrame(runAnimationFrame)
+  }
+
+  type StartRequestAnimationFrameType = () => void
+  let startRequestAnimationFrame: StartRequestAnimationFrameType = () => {}
+  startRequestAnimationFrame = () => {
+    if (data.isRunning) {
+      return
+    }
+    data.isRunning = true
+    data.taskId = requestAnimationFrame(runAnimationFrame)
+  }
+
+  const stopRequestAnimationFrame = () => {
+    if (data.taskId > 0) {
+      cancelAnimationFrame(data.taskId)
+    }
+    data.taskId = 0
+    data.isRunning = false
+    data.lastTime = 0
+    data.frameCount = 0
+    data.testFrameCount = 0
+    data.FPSString = '- / -ms'
+  }
+
+  onUnload(() => {
+    if (data.taskId > 0) {
+      stopRequestAnimationFrame()
+    }
+  })
+
+  defineExpose({
+    data,
+    startRequestAnimationFrame,
+    stopRequestAnimationFrame
+  })
+</script>
+
+<style>
+  .page {
+    padding: 15px;
+  }
+
+  .frame-count {
+    margin-top: 15px;
+  }
+
+  .tips {
+    font-size: 12px;
+    margin-top: 30px;
+    opacity: 0.7;
+  }
+</style>
+

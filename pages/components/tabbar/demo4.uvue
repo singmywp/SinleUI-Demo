@@ -1,0 +1,130 @@
+<template>
+	<view class="demo4-page" flatten>
+		<!-- #ifdef APP-ANDROID -->
+		<view class="demo4-tip" flatten>
+			<sn-text type="text-light" font-size="$14" flatten>{{ t('tabbarDemo4.androidTip') }}</sn-text>
+		</view>
+		<!-- #endif -->
+
+		<!-- #ifndef APP-ANDROID -->
+		
+		<scroll-view direction="vertical" class="cfg-scroll">
+			<view class="cfg-group" flatten>
+				<view class="cfg-title" flatten>
+					<sn-text flatten type="title" font-size="$15" :text="t('tabbarDemo4.title')" />
+					<sn-text flatten type="text-light" font-size="$12"
+						:text="t('tabbarDemo4.titleSub')" custom-style="margin-top:2px;" />
+				</view>
+				<view class="cfg-row" flatten>
+					<sn-text flatten type="text" font-size="$14" :text="t('tabbarDemo4.cfgDisabled')" />
+					<sn-switch v-model="disabled" />
+				</view>
+				<view class="cfg-row" flatten>
+					<sn-text flatten type="text" font-size="$14" :text="t('tabbarDemo4.cfgBg')" />
+					<sn-input v-model="bgColor" :placeholder="t('tabbarDemo4.defaultVal')" custom-style="flex:1; margin-left:12px;" />
+				</view>
+				<view class="cfg-row" flatten>
+					<sn-text flatten type="text" font-size="$14" :text="t('tabbarDemo4.cfgRadius')" />
+					<sn-input v-model="borderRadius" :placeholder="t('tabbarDemo4.defaultVal')" custom-style="flex:1; margin-left:12px;" />
+				</view>
+				<view class="cfg-row" flatten>
+					<sn-text flatten type="text" font-size="$14" :text="t('tabbarDemo4.cfgMargin')" />
+					<sn-input v-model="margin" placeholder="0px" custom-style="flex:1; margin-left:12px;" />
+				</view>
+				<view class="cfg-row" flatten>
+					<sn-text flatten type="text" font-size="$14" :text="t('tabbarDemo4.cfgPadding')" />
+					<sn-input v-model="padding" placeholder="5px" custom-style="flex:1; margin-left:12px;" />
+				</view>
+				<view class="cfg-row" flatten>
+					<sn-text flatten type="text" font-size="$14" :text="t('tabbarDemo4.cfgItemSpacing')" />
+					<sn-input v-model="itemSpacing" placeholder="0px" custom-style="flex:1; margin-left:12px;" />
+				</view>
+				<view class="cfg-row" flatten>
+					<sn-text flatten type="text" font-size="$14" :text="t('tabbarDemo4.cfgItemActiveBg')" />
+					<sn-input v-model="itemActiveBgColor" :placeholder="t('tabbarDemo4.defaultVal')" custom-style="flex:1; margin-left:12px;" />
+				</view>
+				<view class="cfg-row" flatten>
+					<sn-text flatten type="text" font-size="$14" :text="t('tabbarDemo4.cfgTextSize')" />
+					<sn-input v-model="textSize" :placeholder="t('tabbarDemo4.defaultVal')" custom-style="flex:1; margin-left:12px;" />
+				</view>
+				<view class="cfg-row" flatten>
+					<sn-text flatten type="text" font-size="$14" :text="t('tabbarDemo4.cfgIconSize')" />
+					<sn-input v-model="iconSize" :placeholder="t('tabbarDemo4.defaultVal')" custom-style="flex:1; margin-left:12px;" />
+				</view>
+			</view>
+			<sn-gap :height="tabbarHeight" />
+		</scroll-view>
+
+		
+		<sn-tabbar v-model:height="tabbarHeight" :data="data" :show-pages="false"
+			:bg-color="bgColor" :border-radius="borderRadius" :margin="margin" :padding="padding"
+			:item-spacing="itemSpacing" :item-active-bg-color="itemActiveBgColor"
+			:text-size="textSize" :icon-size="iconSize" :disabled="disabled" />
+		<!-- #endif -->
+	</view>
+</template>
+
+<script lang="uts" setup>
+
+import { useI18n } from 'vue-i18n'
+import type { SnTabbarItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+
+const tabbarHeight = ref<string>('0px')
+const disabled = ref<boolean>(false)
+const bgColor = ref<string>('')
+const borderRadius = ref<string>('')
+const margin = ref<string>('0px')
+const padding = ref<string>('5px')
+const itemSpacing = ref<string>('0px')
+const itemActiveBgColor = ref<string>('')
+const textSize = ref<string>('')
+const iconSize = ref<string>('')
+
+const data = computed<SnTabbarItem[]>(() => [
+	{ icon: 'home-5-line', text: t('tabbarDemo4.home'), activeIcon: 'home-5-fill' },
+	{ icon: 'community-line', text: t('tabbarDemo4.community'), activeIcon: 'community-fill' },
+	{ icon: 'message-3-line', text: t('tabbarDemo4.message'), activeIcon: 'message-3-fill' },
+	{ icon: 'user-3-line', text: t('tabbarDemo4.mine'), activeIcon: 'user-3-fill' }
+])
+</script>
+
+<style lang="scss">
+.demo4-page {
+	flex: 1;
+	flex-direction: column;
+}
+
+.demo4-tip {
+	flex: 1;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 24px;
+}
+
+.cfg-scroll {
+	flex: 1;
+}
+
+.cfg-group {
+	margin: 12px;
+	border-radius: 12px;
+	background-color: var(--sn-front);
+	padding: 4px 14px;
+}
+
+.cfg-title {
+	padding: 10px 0;
+}
+
+.cfg-row {
+	flex-direction: row;
+	align-items: center;
+	padding: 10px 0;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: var(--sn-line);
+}
+</style>

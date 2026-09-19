@@ -1,0 +1,224 @@
+<template>
+	<sn-page :title="t('apiShowActionsheet.title')" :show-back="true">
+
+		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
+			<sn-text font-size="$12" color="$primary" flatten>{{ t('apiShowActionsheet.alert1') }}</sn-text>
+			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;" flatten>{{ t('apiShowActionsheet.alert2') }}</sn-text>
+			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;" flatten>{{ t('apiShowActionsheet.alert3') }}</sn-text>
+		</sn-alert>
+
+		<demo-card :title="t('apiShowActionsheet.basic')" :subtitle="t('apiShowActionsheet.basicSub')">
+			<sn-text font-size="$13" :color="descColor" custom-style="margin-bottom:12px;" flatten>{{ t('apiShowActionsheet.basicDesc') }}</sn-text>
+			<view class="btn-row" flatten>
+				<sn-button type="primary" :text="t('apiShowActionsheet.showMenu')" custom-style="flex:1;" @click="onShowBasic" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiShowActionsheet.configCard')" :subtitle="t('apiShowActionsheet.configCardSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="success" :text="t('apiShowActionsheet.customItem')" custom-style="margin-right:8px;flex:1;" @click="onShowCustom" />
+				<sn-button type="error" :text="t('apiShowActionsheet.itemsOnly')" custom-style="flex:1;" @click="onShowNoCancel" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiShowActionsheet.styleCard')" :subtitle="t('apiShowActionsheet.styleCardSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="primary" :text="t('apiShowActionsheet.customTheme')" custom-style="margin-right:8px;flex:1;" @click="onShowCustomStyle" />
+				<sn-button type="info" :text="t('apiShowActionsheet.disabledMenu')" custom-style="flex:1;" @click="onShowDisabled" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('apiShowActionsheet.disabledDesc') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('apiShowActionsheet.maskCard')" :subtitle="t('apiShowActionsheet.maskCardSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="info" :text="t('apiShowActionsheet.noMaskClose')" custom-style="margin-right:8px;flex:1;" @click="onShowMaskClose" />
+				<sn-button type="info" :text="t('apiShowActionsheet.darkMask')" custom-style="flex:1;" @click="onShowDarkMask" />
+			</view>
+			<view class="btn-row" flatten>
+				<sn-button type="warning" :text="t('apiShowActionsheet.preventBack')" custom-style="flex:1;" @click="onShowPreventBack" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiShowActionsheet.callbackCard')" :subtitle="t('apiShowActionsheet.callbackCardSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="primary" :text="t('apiShowActionsheet.withCallback')" custom-style="flex:1;" @click="onShowWithCallback" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:10px;" flatten>{{ t('apiShowActionsheet.callbackLabel') }}：{{ callbackResult }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('apiShowActionsheet.sceneCard')" :subtitle="t('apiShowActionsheet.sceneCardSub')">
+			<view class="scene-box" :style="sceneBoxStyle" flatten>
+				<sn-icon flatten name="share-forward-line" :size="28" color="$primary" />
+				<sn-text bold font-size="$14" color="$title" :text="t('apiShowActionsheet.shareNote')" custom-style="margin-top:8px;" flatten />
+				<sn-text font-size="$12" color="$textLight" :text="t('apiShowActionsheet.shareDesc')" custom-style="margin-top:4px;" flatten />
+			</view>
+			<sn-button type="primary" :text="t('apiShowActionsheet.share')" custom-style="margin-top:12px;flex:1;" @click="onShowShare" />
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+
+import { useI18n } from 'vue-i18n'
+import { snu, useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import type { SnShowActionsheetConfig } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+const { isDark } = useTheme()
+
+const descColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+const callbackResult = ref<string>(t('apiShowActionsheet.emptyCallback'))
+
+function onShowBasic(): void {
+	snu.showActionsheet({
+		title: t('apiShowActionsheet.selectAction'),
+		actions: [
+			{ text: t('apiShowActionsheet.option1') },
+			{ text: t('apiShowActionsheet.option2') },
+			{ text: t('apiShowActionsheet.option3') }
+		]
+	} as SnShowActionsheetConfig)
+}
+
+function onShowCustom(): void {
+	snu.showActionsheet({
+		title: t('apiShowActionsheet.customTitle'),
+		actions: [
+			{ text: t('apiShowActionsheet.viewDetail'), color: '$primary' },
+			{ text: t('apiShowActionsheet.edit'), color: '$warning' },
+			{ text: t('apiShowActionsheet.delete'), color: '$error' },
+			{ text: t('apiShowActionsheet.disabledItem'), disabled: true }
+		]
+	} as SnShowActionsheetConfig)
+}
+
+function onShowNoCancel(): void {
+	snu.showActionsheet({
+		title: t('apiShowActionsheet.itemsOnlyTitle'),
+		actions: [
+			{ text: t('apiShowActionsheet.confirm'), color: '$success' },
+			{ text: t('apiShowActionsheet.cancel'), color: '$text' }
+		],
+		showCancel: false
+	} as SnShowActionsheetConfig)
+}
+
+function onShowCustomStyle(): void {
+	snu.showActionsheet({
+		title: t('apiShowActionsheet.customStyleTitle'),
+		actions: [
+			{ text: t('apiShowActionsheet.customBg') },
+			{ text: t('apiShowActionsheet.customRadius') }
+		],
+		wrapStyle: { paddingLeft: '16px', paddingRight: '16px' },
+		bgColor: '$primaryLight',
+		borderRadius: '$20',
+		itemPadding: '$16px $14px',
+		itemHoverStyle: { backgroundColor: 'var(--sn-primary-light-active)' }
+	} as SnShowActionsheetConfig)
+}
+
+function onShowDisabled(): void {
+	snu.showActionsheet({
+		title: t('apiShowActionsheet.disabledTitle'),
+		actions: [
+			{ text: t('apiShowActionsheet.notClickable') },
+			{ text: t('apiShowActionsheet.notClickable') }
+		],
+		disabled: true
+	} as SnShowActionsheetConfig)
+}
+
+function onShowMaskClose(): void {
+	snu.showActionsheet({
+		title: t('apiShowActionsheet.noMaskCloseTitle'),
+		actions: [
+			{ text: t('apiShowActionsheet.optionOne') }
+		],
+		maskClose: false
+	} as SnShowActionsheetConfig)
+}
+
+function onShowDarkMask(): void {
+	snu.showActionsheet({
+		title: t('apiShowActionsheet.darkMaskTitle'),
+		actions: [
+			{ text: t('apiShowActionsheet.darkMaskDesc') }
+		],
+		maskOpacity: 0.7
+	} as SnShowActionsheetConfig)
+}
+
+function onShowPreventBack(): void {
+	snu.showActionsheet({
+		title: t('apiShowActionsheet.preventBackTitle'),
+		actions: [
+			{ text: t('apiShowActionsheet.preventBackDesc') }
+		],
+		preventBack: true
+	} as SnShowActionsheetConfig)
+}
+
+function onShowWithCallback(): void {
+	snu.showActionsheet({
+		title: t('apiShowActionsheet.callbackTitle'),
+		actions: [
+			{ text: t('apiShowActionsheet.option1'), color: '$primary' },
+			{ text: t('apiShowActionsheet.option2'), color: '$warning' }
+		],
+		success: (tapIndex: number): void => {
+			callbackResult.value = t('apiShowActionsheet.callbackResource', { index: tapIndex + 1 } as UTSJSONObject)
+		},
+		fail: (error: any): void => {
+			callbackResult.value = t('apiShowActionsheet.callbackFail')
+		},
+		complete: (res: any | null): void => {
+			callbackResult.value += t('apiShowActionsheet.callbackComplete')
+		}
+	} as SnShowActionsheetConfig)
+}
+
+
+function onShowShare(): void {
+	snu.showActionsheet({
+		title: t('apiShowActionsheet.shareTo'),
+		actions: [
+			{ text: t('apiShowActionsheet.wechat'), color: '$success' },
+			{ text: t('apiShowActionsheet.moments'), color: '$success' },
+			{ text: t('apiShowActionsheet.copyLink'), color: '$primary' }
+		],
+		success: (tapIndex: number): void => {
+			const channels: string[] = [
+				t('apiShowActionsheet.wechat'),
+				t('apiShowActionsheet.moments'),
+				t('apiShowActionsheet.copyLink')
+			]
+			callbackResult.value = t('apiShowActionsheet.shareResult') + '：' + channels[tapIndex]
+		},
+		complete: (res: any | null): void => {
+			callbackResult.value += t('apiShowActionsheet.callbackComplete')
+		}
+	} as SnShowActionsheetConfig)
+}
+
+const sceneBoxStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('alignItems', 'center')
+	styles.set('justifyContent', 'center')
+	styles.set('paddingTop', '16px')
+	styles.set('paddingBottom', '16px')
+	styles.set('borderRadius', '12px')
+	styles.set('backgroundColor', 'var(--sn-primary-light)')
+	return styles
+})
+</script>
+
+<style lang="scss">
+.btn-row {
+	flex-direction: row;
+	margin-bottom: 10px;
+}
+.scene-box {
+	flex-direction: column;
+}
+</style>

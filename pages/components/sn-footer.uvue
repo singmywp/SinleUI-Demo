@@ -1,0 +1,95 @@
+<template>
+	<sn-page :title="t('snFooter.title')" :show-back="true" padding="0 16px 32px 16px">
+
+		<demo-card :title="t('snFooter.basicTitle')" :subtitle="t('snFooter.basicDesc')">
+			<sn-footer text="Copyright © 2026 SinleUI. All Rights Reserved." />
+		</demo-card>
+
+		<demo-card :title="t('snFooter.navTitle')" :subtitle="t('snFooter.navDesc')">
+			<sn-footer
+				:links="demoLinks"
+				text="Copyright © 2026 SinleUI. All Rights Reserved." />
+		</demo-card>
+
+		<demo-card :title="t('snFooter.logoTitle')" :subtitle="t('snFooter.logoDesc')">
+			<sn-footer
+				:logo="demoLogo"
+				text="Copyright © 2026 SinleUI. All Rights Reserved." />
+		</demo-card>
+
+		<demo-card :title="t('snFooter.fullTitle')" :subtitle="t('snFooter.fullDesc')">
+			<sn-footer
+				:logo="demoLogo"
+				:links="demoLinks"
+				text="Copyright © 2026 SinleUI. All Rights Reserved." />
+		</demo-card>
+
+		<demo-card :title="t('snFooter.customColorTitle')" :subtitle="t('snFooter.customColorDesc')">
+			<sn-footer
+				:logo="logoColor"
+				:links="linksColor"
+				:text="t('snFooter.customFooterText')"
+				link-color="#1989fa"
+				line-color="#dcdee0"
+				text-color="$textLight"
+				color="$primaryDark" />
+		</demo-card>
+
+		<demo-card :title="t('snFooter.clickTitle')" :subtitle="t('snFooter.clickDesc')">
+			<sn-footer
+				:logo="demoLogo"
+				:links="demoLinks"
+				text="Copyright © 2026 SinleUI. All Rights Reserved."
+				@linkclick="onLinkClick"
+				@logoclick="onLogoClick" />
+			<sn-text v-if="lastClick != ''" font-size="$12" :color="tipColor"
+				custom-style="margin-top:12px;" flatten>{{ lastClick }}</sn-text>
+		</demo-card>
+
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { $snui } from '@/uni_modules/sinle-ui/index.uts'
+import type { SnFooterLink, SnFooterLogo } from '@/uni_modules/sinle-ui/index.uts'
+
+const { t } = useI18n()
+
+const demoLinks: SnFooterLink[] = [
+	{ name: t('snFooter.agreement'), url: '/pages/components/sn-button', openType: 'navigate' },
+	{ name: t('snFooter.privacy'), url: '/pages/components/sn-icon', openType: 'navigate' },
+	{ name: t('snFooter.contact'), url: '/pages/components/sn-text', openType: 'navigate' }
+]
+
+const demoLogo: SnFooterLogo = {
+	icon: '/static/favicon.ico',
+	title: 'SinleUI',
+	url: '/pages/index/index',
+	openType: 'navigate'
+}
+
+const logoColor: SnFooterLogo = {
+	icon: 'discount-percent-fill',
+	title: t('snFooter.novaTitle')
+}
+
+const linksColor: SnFooterLink[] = [
+	{ name: t('snFooter.helpCenter'), url: '/pages/components/sn-cell', openType: 'navigate' },
+	{ name: t('snFooter.terms'), url: '/pages/components/sn-line', openType: 'navigate' }
+]
+
+const lastClick = ref<string>('')
+const tipColor = computed<string>(() => $snui.colors.textLight)
+
+function onLinkClick(link: SnFooterLink, _index: number): void {
+	lastClick.value = t('snFooter.clickedLink', { name: link.name ?? '' } as UTSJSONObject)
+}
+
+function onLogoClick(): void {
+	lastClick.value = t('snFooter.clickedLogo')
+}
+</script>
+
+<style lang="scss">
+</style>

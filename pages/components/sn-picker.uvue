@@ -1,267 +1,299 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Picker 选择器"
-		:features="[{id:'run',icon:'play-circle-fill'} as SnDataItem]"
-		@button-click="buttonClicked"></sn-topbar>
-		<com-card title="组件演示"
-		note="用于数据量较大或较复杂的数据选择。对于简单的数据选择推荐使用 sn-select 组件">
-			<sn-form v-model="configs"
-			:showBorder="false">
-				<sn-form-item label="是否禁用">
-					<sn-switch v-model="(configs['disabled'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="显示确定按钮">
-					<sn-switch v-model="(configs['showConfirm'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="显示取消按钮">
-					<sn-switch v-model="(configs['showCancel'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="显示关闭按钮">
-					<sn-switch v-model="(configs['showClose'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="点击遮罩关闭">
-					<sn-switch v-model="(configs['maskClose'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="标题文本对齐方向">
-					<sn-select v-model="(configs['titleAlign'] as number)"
-					:data="aligns"></sn-select>
-				</sn-form-item>
-				<sn-form-item label="标题">
-					<sn-input v-model="(configs['title'] as string)"
-					placeholder="默认值"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="标题颜色">
-					<sn-input v-model="(configs['titleColor'] as string)"
-					placeholder="默认值"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="标题字体大小">
-					<sn-input v-model="(configs['titleSize'] as string)"
-					placeholder="默认值"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="子项圆角大小">
-					<sn-input v-model="(configs['itemBorderRadius'] as string)"
-					placeholder="默认值"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="子项文字颜色">
-					<sn-input v-model="(configs['itemTextColor'] as string)"
-				 placeholder="默认值"></sn-input>
-				 </sn-form-item>
-				<sn-form-item label="选中项文字颜色">
-					<sn-input v-model="(configs['activeItemTextColor'] as string)"
-					placeholder="默认值"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="禁用项文字颜色">
-					<sn-input v-model="(configs['disabledItemTextColor'] as string)"
-					placeholder="默认值"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="子项文字大小">
-					<sn-input v-model="(configs['itemTextSize'] as string)"
-					placeholder="默认值"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="确定按钮文字大小">
-					<sn-input v-model="(configs['confirmTextSize'] as string)"
-					placeholder="默认值"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="取消按钮文字大小">
-					<sn-input v-model="(configs['cancelTextSize'] as string)"
-					placeholder="默认值"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="高度">
-					<sn-stepper v-model="(configs['height'] as number)"
-					:min="200"
-					:max="600"
-					:step="50"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="按钮间距">
-					<sn-stepper v-model="(configs['actionSpacing'] as number)"
-					:min="0"
-					:max="100"
-					:step="10"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="列间距">
-					<sn-stepper v-model="(configs['columnSpacing'] as number)"
-					:min="0"
-					:max="100"
-					:step="10"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="子项高度">
-					<sn-stepper v-model="(configs['itemHeight'] as number)"
-					:min="20"
-					:max="100"
-					:step="10"></sn-stepper>
-				</sn-form-item>
-			</sn-form>
-			<sn-row>
-				<sn-button type="primary"
-				text="打开" 
-				long
-				@click="open"></sn-button>
-				<sn-button class="m-l-10"
-				type="primary"
-				text="赋值(3,3)" 
-				long
-				@click="setValues"></sn-button>
-			</sn-row>
-		</com-card>
-		<sn-gap></sn-gap>
-		<sn-picker ref="pickerEle" 
-		v-model="pickerValue"
-		:data="data"
-		:disabled="configs['disabled']"
-		:title="configs['title']"
-		:showConfirm="configs['showConfirm']"
-		:showCancel="configs['showCancel']"
-		:showClose="configs['showClose']"
-		:actionSpacing="`${configs['actionSpacing']}px`"
-		:itemHeight="`${configs['itemHeight']}px`"
-		:columnSpacing="`${configs['columnSpacing']}px`"
-		:itemBorderRadius="configs['itemBorderRadius']"
-		:disabledItemTextColor="configs['disabledItemTextColor']"
-		:itemTextColor="configs['itemTextColor']"
-		:activeItemTextColor="configs['activeItemTextColor']"
-		:maskClose="configs['maskClose']"
-		:titleColor="configs['titleColor']"
-		:titleSize="configs['titleSize']"
-		:itemTextSize="configs['itemTextSize']"
-		:confirmTextSize="configs['confirmTextSize']"
-		:cancelTextSize="configs['cancelTextSize']"
-		:height="`${configs['height']}px`"
-		:titleAlign="(aligns[configs['titleAlign'] as number] as SnDataItem).id"></sn-picker>
+	<sn-page :title="t('snPicker.title')" :show-back="true">
+
+		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
+			<sn-text font-size="$12" color="$primary" flatten>{{ t('snPicker.alert') }}</sn-text>
+		</sn-alert>
+
+		<demo-card :title="t('snPicker.basicTitle')" :subtitle="t('snPicker.basicSubtitle')">
+			<view class="config-row" flatten>
+				<sn-button :text="t('snPicker.openPickerBtn')" type="primary" custom-style="flex:1;" @click="openPicker" />
+				<sn-button :text="t('snPicker.closePickerBtn')" type="info" custom-style="flex:1;margin-left:10px;" @click="closePicker" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snPicker.currentSelected', { value: pickerValueText } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snPicker.configTitle')" :subtitle="t('snPicker.configSubtitle')">
+			<view class="btn-row" flatten>
+				<sn-button type="success" :text="t('snPicker.customConfig')" custom-style="margin-right:8px;flex:1;" @click="openCustom" />
+				<sn-button type="error" :text="t('snPicker.hideHeader')" custom-style="flex:1;" @click="openNoHeader" />
+			</view>
+			<view class="btn-row" flatten>
+				<sn-button type="info" :text="t('snPicker.onlyConfirmBtn')" custom-style="margin-right:8px;flex:1;" @click="openOnlyConfirm" />
+				<sn-button type="info" :text="t('snPicker.onlyCancelBtn')" custom-style="flex:1;" @click="openOnlyCancel" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snPicker.styleTitle')" :subtitle="t('snPicker.styleSubtitle')">
+			<view class="btn-row" flatten>
+				<sn-button type="primary" :text="t('snPicker.customTheme')" custom-style="margin-right:8px;flex:1;" @click="openCustomStyle" />
+				<sn-button type="info" :text="t('snPicker.disablePicker')" custom-style="flex:1;" @click="openDisabled" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snPicker.disabledTip') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snPicker.maskTitle')" :subtitle="t('snPicker.maskSubtitle')">
+			<view class="btn-row" flatten>
+				<sn-button type="info" :text="t('snPicker.forbidMaskClose')" custom-style="margin-right:8px;flex:1;" @click="openMaskClose" />
+				<sn-button type="info" :text="t('snPicker.darkMask')" custom-style="flex:1;" @click="openDarkMask" />
+			</view>
+			<view class="btn-row" flatten>
+				<sn-button type="warning" :text="t('snPicker.preventBack')" custom-style="flex:1;" @click="openPreventBack" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snPicker.eventTitle')" :subtitle="t('snPicker.eventSubtitle')">
+			<view class="config-row" flatten>
+				<sn-text :text="t('snPicker.eventResult')" custom-style="width:80px;" flatten />
+				<sn-text bold font-size="$14" :text="eventResult" flatten />
+			</view>
+			<sn-button type="primary" :text="t('snPicker.triggerEventDemo')" custom-style="margin-top:10px;flex:1;" @click="openListen" />
+		</demo-card>
+
+		<demo-card :title="t('snPicker.sceneTitle')" :subtitle="t('snPicker.sceneSubtitle')">
+			<view class="scene-box" :style="sceneBoxStyle" flatten>
+				<sn-icon name="map-pin-line" :size="28" color="$primary" />
+				<sn-text bold font-size="$14" color="$title" :text="t('snPicker.selectCity')" custom-style="margin-top:8px;" flatten />
+				<sn-text font-size="$12" color="$textLight" :text="t('snPicker.sceneTip')" custom-style="margin-top:4px;" flatten />
+			</view>
+			<sn-button type="primary" :text="t('snPicker.selectCityBtn')" custom-style="margin-top:12px;flex:1;" @click="openScene" />
+			<sn-text v-if="sceneResult != ''" bold font-size="$13" color="$primary" :text="sceneResult"
+				custom-style="margin-top:8px;" />
+		</demo-card>
+
+		
+		<sn-picker ref="pickerRef" v-model="pickerValue" :data="pickerData" :title="pickerTitle"
+			:show-close="pickerShowClose" :show-cancel="pickerShowCancel" :show-confirm="pickerShowConfirm"
+			:mask-close="pickerMaskClose" :mask-opacity="pickerMaskOpacity" :prevent-back="pickerPreventBack"
+			:disabled="pickerDisabled" :item-text-size="pickerItemTextSize" :active-item-text-color="pickerActiveColor"
+			:item-border-radius="pickerItemRadius" :title-color="pickerTitleColor"
+			@open="onOpen" @close="onClose" @confirm="onConfirm" @cancel="onCancel" @change="onChange" />
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
+<script lang="uts" setup>
 	
-	const colors = $snui.colors
+	import { useI18n } from 'vue-i18n'
+	import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+	import type { ComponentPublicInstance } from 'vue'
+	import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+	const { isDark } = useTheme()
+	const { t } = useI18n()
+
+	const descColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+
 	
-	const pickerValue = ref([] as number[])
-	const pickerEle = ref(null as SnPickerComponentPublicInstance | null)
+	const pickerRef = ref<ComponentPublicInstance | null>(null)
+
 	
-	const configs = reactive({
-		title: '请选择',
-		disabled: false,
-		showConfirm: true,
-		showCancel: true,
-		showClose: true,
-		actionSpacing: 10,
-		columnSpacing: 10,
-		itemHeight: 50,
-		height: 350,
-		itemBorderRadius: '$normal',
-		itemTextColor: '',
-		disabledItemTextColor: '',
-		activeItemTextColor: '',
-		itemTextSize: '',
-		titleColor: '',
-		titleSize: '',
-		confirmTextSize: '',
-		cancelTextSize: '',
-		titleAlign: 1,
-		maskClose: true,
+	const pickerValue = ref<number[]>([0, 0])
+
+	const pickerValueText = computed<string>(() => {
+		return pickerValue.value.join(', ')
 	})
+
 	
-	const aligns = [{
-		id: 'left',
-		text: '左对齐'
-	}, {
-		id: 'center',
-		text: '居中',
-	}, {
-		id: 'right',
-		text: '右对齐',
-	}] as SnDataItem[]
+	const pickerTitle = ref<string>(t('snPicker.pleaseSelect'))
+	const pickerShowClose = ref<boolean>(true)
+	const pickerShowCancel = ref<boolean>(true)
+	const pickerShowConfirm = ref<boolean>(true)
+	const pickerMaskClose = ref<boolean>(true)
+	const pickerMaskOpacity = ref<number>(0.4)
+	const pickerPreventBack = ref<boolean>(false)
+	const pickerDisabled = ref<boolean>(false)
+	const pickerItemTextSize = ref<string>('')
+	const pickerActiveColor = ref<string>('')
+	const pickerItemRadius = ref<string>('')
+	const pickerTitleColor = ref<string>('')
+
 	
-	function open() {
-		pickerEle.value?.open?.()
-	}
+	const eventResult = ref<string>(t('snPicker.noEvent'))
+	const sceneResult = ref<string>('')
+
 	
-	const data = [
+	const pickerData = [
 		[
-			{
-				id: 'newyork',
-				text: '纽约',
-			},
-			{
-				id: 'london',
-				text: '伦敦',
-			},
-			{
-				id: 'tokyo',
-				text: '东京',
-				disabled: true,
-			},
-			{
-				id: 'paris',
-				text: '巴黎',
-			},
-			{
-				id: 'moscow',
-				text: '莫斯科',
-			},
-			{
-				id: 'berlin',
-				text: '柏林',
-			},
+			{ id: 'newyork', text: t('snPicker.cityNewYork') },
+			{ id: 'london', text: t('snPicker.cityLondon') },
+			{ id: 'tokyo', text: t('snPicker.cityTokyo') },
+			{ id: 'paris', text: t('snPicker.cityParis') },
+			{ id: 'moscow', text: t('snPicker.cityMoscow') },
+			{ id: 'berlin', text: t('snPicker.cityBerlin') }
 		] as SnDataItem[],
 		[
-			{
-				id: 'guangzhou',
-				text: '广州',
-			},
-			{
-				id: 'shenzhen',
-				text: '深圳',
-			},
-			{
-				id: 'beijing',
-				text: '北京',
-			},
-			{
-				id: 'shanghai',
-				text: '上海',
-			},
-			{
-				id: 'wuhan',
-				text: '武汉',
-				disabled: true
-			},
-			{
-				id: 'chengdu',
-				text: '成都',
-			},
-			{
-				id: 'hangzhou',
-				text: '杭州',
-			},
-			{
-				id: 'nanjing',
-				text: '南京',
-			},
-			{
-				id: 'suzhou',
-				text: '苏州',
-			},
-			{
-				id: 'xian',
-				text: '西安',
-			},
-			{
-				id: 'tianjin',
-				text: '天津',
-			},
+			{ id: 'guangzhou', text: t('snPicker.cityGuangzhou') },
+			{ id: 'shenzhen', text: t('snPicker.cityShenzhen') },
+			{ id: 'beijing', text: t('snPicker.cityBeijing') },
+			{ id: 'shanghai', text: t('snPicker.cityShanghai') },
+			{ id: 'wuhan', text: t('snPicker.cityWuhan'), disabled: true },
+			{ id: 'chengdu', text: t('snPicker.cityChengdu') },
+			{ id: 'hangzhou', text: t('snPicker.cityHangzhou') }
 		] as SnDataItem[]
 	]
+
 	
-	function setValues(){
-		pickerValue.value = [3, 3]
+	
+
+	function openPicker(): void {
+		resetAll()
+		pickerRef.value?.$callMethod('open')
 	}
-	
-	function buttonClicked(e: SnDataItem){
-		if (e.id == 'run') open()
+
+	function closePicker(): void {
+		pickerRef.value?.$callMethod('close')
 	}
+
+	function openCustom(): void {
+		resetAll()
+		pickerTitle.value = t('snPicker.customConfig')
+		pickerTitleColor.value = '$primary'
+		pickerItemRadius.value = '$10'
+		pickerActiveColor.value = '$primary'
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openNoHeader(): void {
+		resetAll()
+		pickerTitle.value = ''
+		pickerShowClose.value = false
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openOnlyConfirm(): void {
+		resetAll()
+		pickerShowCancel.value = false
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openOnlyCancel(): void {
+		resetAll()
+		pickerShowConfirm.value = false
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openCustomStyle(): void {
+		resetAll()
+		pickerTitle.value = t('snPicker.customStyle')
+		pickerItemTextSize.value = '$15'
+		pickerActiveColor.value = '$primary'
+		pickerItemRadius.value = '$10'
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openDisabled(): void {
+		resetAll()
+		pickerTitle.value = t('snPicker.disablePicker')
+		pickerDisabled.value = true
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openMaskClose(): void {
+		resetAll()
+		pickerTitle.value = t('snPicker.forbidMaskClose')
+		pickerMaskClose.value = false
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openDarkMask(): void {
+		resetAll()
+		pickerTitle.value = t('snPicker.darkMask')
+		pickerMaskOpacity.value = 0.7
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openPreventBack(): void {
+		resetAll()
+		pickerTitle.value = t('snPicker.preventBack')
+		pickerPreventBack.value = true
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openListen(): void {
+		resetAll()
+		eventResult.value = t('snPicker.noEvent')
+		pickerTitle.value = t('snPicker.eventDemo')
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openScene(): void {
+		resetAll()
+		sceneResult.value = ''
+		pickerTitle.value = t('snPicker.selectCity')
+		pickerRef.value?.$callMethod('open')
+	}
+
 	
+	function resetAll(): void {
+		pickerTitle.value = t('snPicker.pleaseSelect')
+		pickerShowClose.value = true
+		pickerShowCancel.value = true
+		pickerShowConfirm.value = true
+		pickerMaskClose.value = true
+		pickerMaskOpacity.value = 0.4
+		pickerPreventBack.value = false
+		pickerDisabled.value = false
+		pickerItemTextSize.value = ''
+		pickerActiveColor.value = ''
+		pickerItemRadius.value = ''
+		pickerTitleColor.value = ''
+	}
+
+	
+
+	function onOpen(): void {
+		eventResult.value = t('snPicker.eventOpen')
+	}
+
+	function onClose(): void {
+		eventResult.value = t('snPicker.eventClose')
+	}
+
+	function onConfirm(): void {
+		eventResult.value = t('snPicker.eventConfirm')
+	}
+
+	function onCancel(): void {
+		eventResult.value = t('snPicker.eventCancel')
+	}
+
+	function onChange(value: number[]): void {
+		const list = pickerData
+		let text = ''
+		if (value.length > 0 && value[0] >= 0 && value[0] < list[0].length) {
+			text += (list[0][value[0]].text ?? '')
+		}
+		if (value.length > 1 && value[1] >= 0 && value[1] < list[1].length) {
+			text += ' · ' + (list[1][value[1]].text ?? '')
+		}
+		sceneResult.value = t('snPicker.selected', { value: text } as UTSJSONObject)
+		eventResult.value = t('snPicker.eventChange', { value: value.join(', ') } as UTSJSONObject)
+	}
+
+	const sceneBoxStyle = computed((): Map<string, any> => {
+		const styles = new Map<string, any>()
+		styles.set('alignItems', 'center')
+		styles.set('justifyContent', 'center')
+		styles.set('paddingTop', '16px')
+		styles.set('paddingBottom', '16px')
+		styles.set('borderRadius', '12px')
+		styles.set('backgroundColor', 'var(--sn-primary-light)')
+		return styles
+	})
 </script>
 
 <style lang="scss">
+.config-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+.btn-row {
+	flex-direction: row;
+	margin-bottom: 10px;
+}
+.scene-box {
+	flex-direction: column;
+}
 </style>

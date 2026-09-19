@@ -1,74 +1,57 @@
 <template>
-	<sn-page :bgColor="bgColor">
-		<sn-topbar title="Page 页面"
-		:bgColor="bgColor"
-		:titleColor="frontColorC"
-		:buttonBgColor="bgColor"
-		:buttonActiveBgColor="activeBtnBgColor"
-		:customButtonIconStyle="{
-			color: frontColorC
-		}"></sn-topbar>
-		<com-card title="基础用法"
-		note="页面容器，是页面的根节点。使用页面容器可帮助您快速布局页面，无需手动管理滚动相关组件及事件。\n支持动态修改页面背景色、全局背景色。"
-		:noteColor="frontColorC"
-		:titleColor="frontColorC"
-		:bgColor="cardBgC">
-		</com-card>
-		<com-card title="修改背景色"
-		:titleColor="frontColorC"
-		:bgColor="cardBgC">
-			<sn-button text="随机背景色" 
-			long
-			:bgColor="bgColor"
-			:textColor="frontColorC"
-			:activeBgColor="activeBtnBgColor"
-			@click="randomBgColor"
-			style="margin-bottom: 10px;"></sn-button>
-			<sn-button text="还原"
-			long
-			:bgColor="bgColor"
-			:textColor="frontColorC"
-			:activeBgColor="activeBtnBgColor"
-			@click="resetBgColor"></sn-button>
-		</com-card>
+	<sn-page :title="t('snPage.title')" :show-back="true" :bg-color="currentBgColor">
+		<demo-card :title="t('snPage.bgTitle')" :subtitle="t('snPage.bgSubtitle')">
+			<sn-select v-model="colorIdx" :data="colorOptions" width="160px" selected-mode="check"
+				@change="onColorChange" />
+		</demo-card>
+
+		<demo-card :title="t('snPage.docTitle')" :subtitle="t('snPage.docSubtitle')">
+			<sn-text type="text-light" font-size="$12" style="margin-bottom: 12px" flatten>
+				{{ t('snPage.docDesc1') }}
+			</sn-text>
+			<sn-text type="text-light" font-size="$12" flatten>
+				{{ t('snPage.docDesc2') }}
+			</sn-text>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	const colorLib = $snui.libs.color
-	
-	const bgColor = ref(colors.value.page)
-	
-	const frontColorC = computed((): string =>{
-		return colorLib.tinyColor(bgColor.value).contrasting().toHexString()
-	})
-	
-	const cardBgC = computed((): string =>{
-		let v = colorLib.tinyColor(bgColor.value).isLight() ? 0 : 255
-		return `rgba(${v},${v},${v},${v==0?0.1:0.3})`
-	})
-	
-	const activeBtnBgColor = computed((): string =>{
-		if (frontColorC.value == '#ffffff'){
-			return colorLib.tinyColor(bgColor.value).lighten(5).toHexString()
-		} else{
-			return colorLib.tinyColor(bgColor.value).darken(2).toHexString()
-		}
-	})
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { $snui } from '@/uni_modules/sinle-ui/index.uts'
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
 
-	function randomBgColor(){
-		let _bg = colorLib.random()
-		bgColor.value = _bg.toHexString()
+const { t } = useI18n()
+
+const colorOptions = ref<SnDataItem[]>([])
+const colorValues = ref<string[]>([])
+const colorIdx = ref<number>(0)
+
+const currentBgColor = ref<string>('')
+
+onMounted((): void => {
+	colorOptions.value = [
+		{ id: '0', text: t('snPage.bgDefault') },
+		{ id: '1', text: t('snPage.bgMoonWhite') },
+		{ id: '2', text: t('snPage.bgSnowWhite') },
+		{ id: '3', text: t('snPage.bgSkyBlue') },
+		{ id: '4', text: t('snPage.bgMintGreen') },
+		{ id: '5', text: t('snPage.bgWarmApricot') }
+	]
+	colorValues.value = [
+		'',
+		$snui.colors.page,
+		$snui.colors.front,
+		$snui.colors.primaryLight,
+		$snui.colors.successLight,
+		$snui.colors.warningLight
+	]
+})
+
+function onColorChange(idx: number): void {
+	if (idx >= 0 && idx < colorValues.value.length) {
+		currentBgColor.value = colorValues.value[idx]
 	}
-	
-	function resetBgColor(){
-		bgColor.value = colors.value.page
-	}
-	
+}
 </script>
 
-<style>
-
-</style>

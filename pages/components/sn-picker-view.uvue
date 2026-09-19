@@ -1,179 +1,106 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Picker View 选择器容器"></sn-topbar>
-		<com-card title="基础用法"
-		note="本组件是基于官方 picker-view 的封装，扩展了禁用项功能和样式，使用更加方便快捷">
-			<sn-picker-view
-			v-model="pickerValue"
-			:data="data"
-			:disabled="configs['disabled']"
-			:itemHeight="`${configs['itemHeight']}px`"
-			:columnSpacing="`${configs['columnSpacing']}px`"
-			:itemBorderRadius="configs['itemBorderRadius']"
-			:disabledItemTextColor="configs['disabledItemTextColor']"
-			:itemTextColor="configs['itemTextColor']"
-			:activeItemTextColor="configs['activeItemTextColor']"
-			:itemTextSize="configs['itemTextSize']"
-			:height="`${configs['height']}px`">
-			</sn-picker-view>
-		</com-card>
-		<com-card title="组件配置">
-			<sn-form v-model="configs"
-			:showBorder="false">
-				<sn-form-item label="是否禁用">
-					<sn-switch v-model="(configs['disabled'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="子项圆角大小">
-					<sn-input v-model="(configs['itemBorderRadius'] as string)"
-					placeholder="默认值"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="子项文字颜色">
-					<sn-input v-model="(configs['itemTextColor'] as string)"
-				 placeholder="默认值"></sn-input>
-				 </sn-form-item>
-				<sn-form-item label="选中项文字颜色">
-					<sn-input v-model="(configs['activeItemTextColor'] as string)"
-					placeholder="默认值"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="禁用项文字颜色">
-					<sn-input v-model="(configs['disabledItemTextColor'] as string)"
-					placeholder="默认值"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="子项文字大小">
-					<sn-input v-model="(configs['itemTextSize'] as string)"
-					placeholder="默认值"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="高度">
-					<sn-stepper v-model="(configs['height'] as number)"
-					:min="200"
-					:max="600"
-					:step="50"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="列间距">
-					<sn-stepper v-model="(configs['columnSpacing'] as number)"
-					:min="0"
-					:max="100"
-					:step="10"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="子项高度">
-					<sn-stepper v-model="(configs['itemHeight'] as number)"
-					:min="20"
-					:max="100"
-					:step="10"></sn-stepper>
-				</sn-form-item>
-			</sn-form>
-			<sn-row>
-				<sn-button class="m-l-10"
-				type="primary"
-				text="赋值(3,3)" 
-				long
-				@click="setValues"></sn-button>
-			</sn-row>
-		</com-card>
-		<sn-gap></sn-gap>
+	<sn-page :title="t('snPickerView.title')" :show-back="true">
+		<sn-alert type="primary" custom-style="margin:0 16px 16px 16px;">
+			<sn-text font-size="$12" color="$primary" flatten>{{ t('snPickerView.alert') }}</sn-text>
+		</sn-alert>
+
+		<demo-card :title="t('snPickerView.basicTitle')" :subtitle="t('snPickerView.basicSubtitle')">
+			<sn-picker-view v-model="pickerValue" :data="cityData" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snPickerView.selectedValue', { value: pickerValueText } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snPickerView.disabledTitle')" :subtitle="t('snPickerView.disabledSubtitle')">
+			<sn-picker-view v-model="pickerValue2" :data="disabledData" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snPickerView.disabledWuhan') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snPickerView.customStyleTitle')" :subtitle="t('snPickerView.customStyleSubtitle')">
+			<sn-picker-view v-model="pickerValue3" :data="styleData" item-text-size="$15" active-item-text-color="$primary"
+				disabled-item-text-color="$disabledText" column-spacing="16px" item-height="44px"
+				item-border-radius="$10" item-style="border-radius: 10px;" />
+		</demo-card>
+
+		<demo-card :title="t('snPickerView.disabledAllTitle')" :subtitle="t('snPickerView.disabledAllSubtitle')">
+			<sn-picker-view v-model="pickerValue4" :data="cityData" disabled />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snPickerView.disabledNoScroll') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snPickerView.heightTitle')" :subtitle="t('snPickerView.heightSubtitle')">
+			<sn-picker-view v-model="pickerValue5" :data="cityData" height="200px" column-spacing="30px" />
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
+<script lang="uts" setup>
 	
-	const colors = $snui.colors
-	
-	const pickerValue = ref([] as number[])
-	
-	const configs = reactive({
-		disabled: false,
-		columnSpacing: 10,
-		itemHeight: 50,
-		height: 200,
-		itemBorderRadius: '$normal',
-		itemTextColor: '',
-		disabledItemTextColor: '',
-		activeItemTextColor: '',
-		itemTextSize: '',
+	import { useI18n } from 'vue-i18n'
+	import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+	import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+	const { isDark } = useTheme()
+	const { t } = useI18n()
+
+	const descColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+
+	const pickerValue = ref<number[]>([0, 0])
+	const pickerValue2 = ref<number[]>([1, 0])
+	const pickerValue3 = ref<number[]>([0, 1])
+	const pickerValue4 = ref<number[]>([2, 1])
+	const pickerValue5 = ref<number[]>([1, 1])
+
+	const pickerValueText = computed<string>(() => {
+		return pickerValue.value.join(', ')
 	})
 
 	
-	const data = [
-		[
-			{
-				id: 'newyork',
-				text: '纽约',
-			},
-			{
-				id: 'london',
-				text: '伦敦',
-			},
-			{
-				id: 'tokyo',
-				text: '东京',
-				disabled: true,
-			},
-			{
-				id: 'paris',
-				text: '巴黎',
-			},
-			{
-				id: 'moscow',
-				text: '莫斯科',
-			},
-			{
-				id: 'berlin',
-				text: '柏林',
-			},
-		] as SnDataItem[],
-		[
-			{
-				id: 'guangzhou',
-				text: '广州',
-			},
-			{
-				id: 'shenzhen',
-				text: '深圳',
-			},
-			{
-				id: 'beijing',
-				text: '北京',
-			},
-			{
-				id: 'shanghai',
-				text: '上海',
-			},
-			{
-				id: 'wuhan',
-				text: '武汉',
-				disabled: true
-			},
-			{
-				id: 'chengdu',
-				text: '成都',
-			},
-			{
-				id: 'hangzhou',
-				text: '杭州',
-			},
-			{
-				id: 'nanjing',
-				text: '南京',
-			},
-			{
-				id: 'suzhou',
-				text: '苏州',
-			},
-			{
-				id: 'xian',
-				text: '西安',
-			},
-			{
-				id: 'tianjin',
-				text: '天津',
-			},
-		] as SnDataItem[]
-	]
-	
-	function setValues(){
-		pickerValue.value = [3, 3]
-	}
+	const cityData = [
+	[
+		{ id: 'newyork', text: t('snPickerView.cityNewYork') },
+		{ id: 'london', text: t('snPickerView.cityLondon') },
+		{ id: 'tokyo', text: t('snPickerView.cityTokyo') },
+		{ id: 'paris', text: t('snPickerView.cityParis') },
+		{ id: 'moscow', text: t('snPickerView.cityMoscow') },
+		{ id: 'berlin', text: t('snPickerView.cityBerlin') }
+	] as SnDataItem[],
+	[
+		{ id: 'guangzhou', text: t('snPickerView.cityGuangzhou') },
+		{ id: 'shenzhen', text: t('snPickerView.cityShenzhen') },
+		{ id: 'beijing', text: t('snPickerView.cityBeijing') },
+		{ id: 'shanghai', text: t('snPickerView.cityShanghai') },
+		{ id: 'chengdu', text: t('snPickerView.cityChengdu') },
+		{ id: 'hangzhou', text: t('snPickerView.cityHangzhou') }
+	] as SnDataItem[]
+]
+
+const disabledData = [
+	[
+		{ id: 'a1', text: t('snPickerView.optionOne') },
+		{ id: 'a2', text: t('snPickerView.optionTwo') },
+		{ id: 'a3', text: t('snPickerView.optionThree') },
+		{ id: 'a4', text: t('snPickerView.optionFour') }
+	] as SnDataItem[],
+	[
+		{ id: 'b1', text: t('snPickerView.cityBeijing') },
+		{ id: 'b2', text: t('snPickerView.cityWuhan'), disabled: true },
+		{ id: 'b3', text: t('snPickerView.cityGuangzhou') },
+		{ id: 'b4', text: t('snPickerView.cityShenzhen') }
+	] as SnDataItem[]
+]
+
+const styleData = [
+	[
+		{ id: 's1', text: t('snPickerView.monday') },
+		{ id: 's2', text: t('snPickerView.tuesday') },
+		{ id: 's3', text: t('snPickerView.wednesday') },
+		{ id: 's4', text: t('snPickerView.thursday') },
+		{ id: 's5', text: t('snPickerView.friday') }
+	] as SnDataItem[],
+	[
+		{ id: 'm1', text: t('snPickerView.morning') },
+		{ id: 'm2', text: t('snPickerView.afternoon') },
+		{ id: 'm3', text: t('snPickerView.evening') }
+	] as SnDataItem[]
+]
 </script>
 
 <style lang="scss">

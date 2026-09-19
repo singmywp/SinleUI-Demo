@@ -1,0 +1,424 @@
+<template>
+	<sn-page :fill-content="true">
+		<sn-topbar :back-button="true" :fixed="true" :status-bar="true" />
+		<scroll-view class="login-scroll" direction="vertical" :show-scrollbar="false">
+			<view class="login-content">
+				<view class="login-logo" flatten>
+					<image class="login-logo-img" src="/static/logo.png" mode="aspectFill" />
+				</view>
+				<sn-text bold font-size="$24" color="$title" flatten
+					custom-style="text-align: center; margin-top: 16px;">{{ modeIdx == 0 ? t('tmplLogin.welcome') : t('tmplLogin.createAccount') }}</sn-text>
+				<sn-text font-size="$13" color="$textLight" flatten
+					custom-style="text-align: center; margin-top: 6px;">{{ modeIdx == 0 ? t('tmplLogin.welcomeSub') : t('tmplLogin.createSub') }}</sn-text>
+
+				<view class="login-card">
+					<sn-subsection v-model="modeIdx" :data="modeData" />
+					<view class="login-fields" flatten>
+						<sn-form ref="formRef" v-model="formData">
+							<template v-if="modeIdx == 0">
+								<sn-input-field field="account" :rule="accountRule" v-model="(formData['account'] as string)"
+									:error="getFieldError('account')" prefix-icon="user-3-line" :placeholder="t('tmplLogin.phAccount')"
+									label-justify="center" bg-color="$info" active-bg-color="$info" border-color="$line" :border-width="1"
+									:border-radius="12" clearable />
+								<sn-input-field field="password" :rule="pwdRule" v-model="(formData['password'] as string)"
+									:error="getFieldError('password')" prefix-icon="lock-2-line" password :placeholder="t('tmplLogin.phPassword')"
+									label-justify="center" bg-color="$info" active-bg-color="$info" border-color="$line" :border-width="1"
+									:border-radius="12" clearable custom-style="margin-top: 12px;" />
+								<sn-text flatten font-size="$12" color="$primary"
+									custom-style="text-align: right; margin-top: 10px;" @click="onForgot">{{ t('tmplLogin.forgot') }}</sn-text>
+							</template>
+							<template v-else>
+								<sn-input-field field="nickname" :rule="nicknameRule" v-model="(formData['nickname'] as string)"
+									:error="getFieldError('nickname')" prefix-icon="user-smile-line" :placeholder="t('tmplLogin.phNickname')"
+									label-justify="center" bg-color="$info" active-bg-color="$info" border-color="$line" :border-width="1"
+									:border-radius="12" clearable />
+								<sn-input-field field="phone" :rule="phoneRule" v-model="(formData['phone'] as string)"
+									:error="getFieldError('phone')" prefix-icon="phone-line" type="number" :placeholder="t('tmplLogin.phPhone')"
+									label-justify="center" bg-color="$info" active-bg-color="$info" border-color="$line" :border-width="1"
+									:border-radius="12" clearable custom-style="margin-top: 12px;" />
+								<sn-input-field field="smsCode" :rule="codeRule" v-model="(formData['smsCode'] as string)"
+									:error="getFieldError('smsCode')" prefix-icon="shield-user-line" :placeholder="t('tmplLogin.phCode')"
+									label-justify="center" bg-color="$info" active-bg-color="$info" border-color="$line" :border-width="1"
+									:border-radius="12" custom-style="margin-top: 12px;">
+									<template #suffix>
+										<sn-button size="small" type="primary" level="second" :text="codeBtnText"
+											:disabled="countdown > 0" custom-style="margin-left: 8px;"
+											@click="openCaptcha" />
+									</template>
+								</sn-input-field>
+								<sn-input-field field="regPassword" :rule="pwdRule" v-model="(formData['regPassword'] as string)"
+									:error="getFieldError('regPassword')" prefix-icon="lock-2-line" password :placeholder="t('tmplLogin.phRegPassword')"
+									label-justify="center" bg-color="$info" active-bg-color="$info" border-color="$line" :border-width="1"
+									:border-radius="12" clearable custom-style="margin-top: 12px;" />
+							</template>
+						</sn-form>
+					</view>
+				</view>
+
+				<view class="login-agreement" flatten>
+					<sn-agreement v-model="agreed" :text="t('tmplLogin.agreementText')" :links="agreementLinks"
+						link-color="$primary" @open-link="onOpenLink" />
+				</view>
+
+				<sn-button type="primary" :text="modeIdx == 0 ? t('tmplLogin.doLogin') : t('tmplLogin.doRegister')"
+					custom-style="width: 100%; margin-top: 16px;" @click="onSubmit" />
+
+				<view class="login-divider" flatten>
+					<view class="login-divider-line"></view>
+					<sn-text font-size="$11" color="$textLight" flatten
+						custom-style="margin: 0 12px 0 12px;">{{ t('tmplLogin.otherLogin') }}</sn-text>
+					<view class="login-divider-line"></view>
+				</view>
+
+				<view class="login-third-row" flatten>
+					<sn-button type="info" shape="circle"
+						custom-style="width: 48px; height: 48px; margin: 0 14px 0 14px;" @click="onThirdLogin(t('tmplLogin.wechat'))">
+						<template #body>
+							<sn-icon name="wechat-line" :size="24" color="#07C160" />
+						</template>
+					</sn-button>
+					<sn-button type="info" shape="circle"
+						custom-style="width: 48px; height: 48px; margin: 0 14px 0 14px;" @click="onThirdLogin('QQ')">
+						<template #body>
+							<sn-icon name="qq-line" :size="24" color="#12B7F5" />
+						</template>
+					</sn-button>
+					<sn-button type="info" shape="circle"
+						custom-style="width: 48px; height: 48px; margin: 0 14px 0 14px;" @click="onThirdLogin(t('tmplLogin.weibo'))">
+						<template #body>
+							<sn-icon name="weibo-line" :size="24" color="#E6162D" />
+						</template>
+					</sn-button>
+				</view>
+
+				<sn-text flatten font-size="$11" color="$textLight"
+					custom-style="text-align: center; margin-top: 24px;">{{ t('tmplLogin.autoCreate') }}</sn-text>
+			</view>
+		</scroll-view>
+
+		<sn-popup ref="captchaPopupRef" position="center" @clickoverlay="closeCaptchaPopup">
+			<view class="captcha-card">
+				<view class="captcha-header" flatten>
+					<sn-text bold font-size="$15" color="$title" flatten>{{ t('tmplLogin.captchaTitle') }}</sn-text>
+					<view class="captcha-close" flatten @click="closeCaptchaPopup">
+						<sn-icon name="close-line" :size="16" color="$textLight" />
+					</view>
+				</view>
+				<sn-text font-size="$12" color="$textLight" flatten>{{ t('tmplLogin.captchaDesc') }}</sn-text>
+				<view class="captcha-body" flatten>
+					<sn-slide-captcha ref="captchaRef" :hint-text="t('tmplLogin.captchaHint')" :success-text="t('tmplLogin.captchaSuccess')"
+						@success="onCaptchaSuccess" />
+				</view>
+			</view>
+		</sn-popup>
+
+		<sn-notification ref="notificationRef">
+			<template v-slot:action="slotProps">
+				<sn-button type="primary" level="least" :text="t('tmplLogin.copy')" @click="onCopyNotice(slotProps.id)" />
+			</template>
+		</sn-notification>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+	import type { ComponentPublicInstance } from 'vue'
+	import { snu } from '@/uni_modules/sinle-ui/index.uts'
+	import { useI18n } from 'vue-i18n'
+	import type {
+		SnNotificationParams,
+		SnFormItemRule,
+		SnFormItemVerifyResult,
+		SnFormValidResult
+	} from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+	type AgreementLinkDetail = {
+		text : string
+		index : number
+	}
+
+	const { t } = useI18n()
+
+	const modeData = computed<string[]>(() => [t('tmplLogin.loginTab'), t('tmplLogin.registerTab')])
+	const agreementLinks = computed<string[]>(() => [t('tmplLogin.linkUser'), t('tmplLogin.linkPrivacy')])
+
+	const modeIdx = ref<number>(0)
+	const agreed = ref<boolean>(false)
+	const countdown = ref<number>(0)
+	const sentCode = ref<string>('')
+
+	const formRef = ref<ComponentPublicInstance | null>(null)
+	const captchaPopupRef = ref<ComponentPublicInstance | null>(null)
+	const captchaRef = ref<ComponentPublicInstance | null>(null)
+	const notificationRef = ref<ComponentPublicInstance | null>(null)
+
+	const formData = ref<UTSJSONObject>({
+		account: '',
+		password: '',
+		nickname: '',
+		phone: '',
+		smsCode: '',
+		regPassword: ''
+	} as UTSJSONObject)
+
+	const formErrors = ref<SnFormItemVerifyResult[]>([])
+
+	let codeTimer = 0
+	let sendTimer = 0
+
+	const codeBtnText = computed<string>(() : string => {
+		return countdown.value > 0 ? t('tmplLogin.resendAfter', { s: countdown.value } as UTSJSONObject) : t('tmplLogin.getCode')
+	})
+
+	function getFieldError(field : string) : string {
+		const list = formErrors.value
+		for (let i = 0; i < list.length; i++) {
+			if (list[i].field == field) {
+				return list[i].message ?? ''
+			}
+		}
+		return ''
+	}
+
+	const accountRule = ref<SnFormItemRule>({
+		required: true,
+		message: t('tmplLogin.needAccount')
+	} as SnFormItemRule)
+
+	const pwdRule = ref<SnFormItemRule>({
+		required: true,
+		min: 6,
+		max: 20,
+		message: t('tmplLogin.pwdLen')
+	} as SnFormItemRule)
+
+	const nicknameRule = ref<SnFormItemRule>({
+		required: true,
+		message: t('tmplLogin.needNickname')
+	} as SnFormItemRule)
+
+	const phoneRule = ref<SnFormItemRule>({
+		type: 'phone',
+		required: true,
+		message: t('tmplLogin.colPhone')
+	} as SnFormItemRule)
+
+	const codeRule = ref<SnFormItemRule>({
+		required: true,
+		message: t('tmplLogin.needCode'),
+		valid: (value : any) : string => {
+			if (sentCode.value == '') {
+				return t('tmplLogin.getCodeFirst')
+			}
+			if (value == null || (value as string) != sentCode.value) {
+				return t('tmplLogin.codeWrong')
+			}
+			return ''
+		}
+	} as SnFormItemRule)
+
+	function genCode() : string {
+		let c = ''
+		for (let i = 0; i < 4; i++) {
+			c += Math.floor(Math.random() * 10).toString()
+		}
+		return c
+	}
+
+	function startCountdown() : void {
+		countdown.value = 60
+		codeTimer = setInterval(() : void => {
+			countdown.value--
+			if (countdown.value <= 0 && codeTimer != 0) {
+				clearInterval(codeTimer)
+				codeTimer = 0
+			}
+		}, 1000)
+	}
+
+	const phonePattern = /^1[3-9]\d{9}$/
+
+	function openCaptcha() : void {
+		if (countdown.value > 0) {
+			return
+		}
+		const phone = (formData.value['phone'] as string).trim()
+		if (phone == '') {
+			snu.showToast({ text: t('tmplLogin.needPhone') })
+			return
+		}
+		if (!phonePattern.test(phone)) {
+			snu.showToast({ text: t('tmplLogin.phoneWrong') })
+			return
+		}
+		captchaRef.value?.$callMethod('reset')
+		captchaPopupRef.value?.$callMethod('open')
+	}
+
+	function closeCaptchaPopup() : void {
+		captchaPopupRef.value?.$callMethod('close')
+	}
+
+	function onCaptchaSuccess() : void {
+		closeCaptchaPopup()
+		const code = genCode()
+		sentCode.value = code
+		startCountdown()
+		sendTimer = setTimeout(() : void => {
+			notificationRef.value?.$callMethod('show', {
+				title: t('tmplLogin.smsTitle'),
+				content: t('tmplLogin.smsContent', { code: code } as UTSJSONObject),
+				type: 'primary',
+				duration: 15000,
+				showAction: true,
+				closable: true
+			} as SnNotificationParams)
+			sendTimer = 0
+		}, 2000)
+	}
+
+	function onCopyNotice(id : string) : void {
+		snu.setClipboardData(sentCode.value)
+		notificationRef.value?.$callMethod('close', id)
+	}
+
+	function onForgot() : void {
+		snu.showToast({ text: t('tmplLogin.forgotSent') })
+	}
+
+	function onOpenLink(detail : AgreementLinkDetail) : void {
+		if (detail.index == 0) {
+			uni.navigateTo({ url: '/pages/template/agreement?type=user' })
+		} else {
+			uni.navigateTo({ url: '/pages/template/agreement?type=privacy' })
+		}
+	}
+
+	function onThirdLogin(name : string) : void {
+		if (!agreed.value) {
+			snu.showToast({ text: t('tmplLogin.needAgree') })
+			return
+		}
+		snu.showToast({ text: t('tmplLogin.thirdLogin', { name: name } as UTSJSONObject) })
+	}
+
+	function onSubmit() : void {
+		if (!agreed.value) {
+			snu.showToast({ text: t('tmplLogin.needAgree') })
+			return
+		}
+		formRef.value?.$callMethod('submit', {
+			success: () : void => {
+				formErrors.value = []
+				if (modeIdx.value == 0) {
+					snu.showToast({ text: t('tmplLogin.loginOk'), icon: 'checkbox-circle-fill' })
+				} else {
+					snu.showToast({ text: t('tmplLogin.registerOk'), icon: 'checkbox-circle-fill' })
+				}
+			},
+			fail: (results : SnFormItemVerifyResult[]) : void => {
+				formErrors.value = results
+			}
+		} as SnFormValidResult)
+	}
+
+	onUnmounted(() : void => {
+		if (codeTimer != 0) {
+			clearInterval(codeTimer)
+			codeTimer = 0
+		}
+		if (sendTimer != 0) {
+			clearTimeout(sendTimer)
+			sendTimer = 0
+		}
+	})
+</script>
+
+<style lang="scss">
+	.login-scroll {
+		flex: 1;
+		flex-direction: column;
+	}
+
+	.login-content {
+		flex-direction: column;
+		align-items: center;
+		padding: 24px 28px 40px 28px;
+	}
+
+	.login-logo {
+		width: 72px;
+		height: 72px;
+		border-radius: 20px;
+		background-color: var(--sn-front);
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+	}
+
+	.login-logo-img {
+		width: 56px;
+		height: 56px;
+	}
+
+	.login-card {
+		flex-direction: column;
+		width: 100%;
+		background-color: var(--sn-front);
+		border-radius: 20px;
+		padding: 14px;
+		margin-top: 24px;
+	}
+
+	.login-fields {
+		flex-direction: column;
+		margin-top: 14px;
+	}
+
+	.login-agreement {
+		flex-direction: row;
+		justify-content: center;
+		margin-top: 14px;
+	}
+
+	.login-divider {
+		flex-direction: row;
+		align-items: center;
+		margin-top: 28px;
+	}
+
+	.login-divider-line {
+		flex: 1;
+		height: 1px;
+		background-color: var(--sn-line);
+	}
+
+	.login-third-row {
+		flex-direction: row;
+		justify-content: center;
+		margin-top: 20px;
+	}
+
+	.captcha-card {
+		width: 300px;
+		flex-direction: column;
+		background-color: var(--sn-front);
+		border-radius: 16px;
+		padding: 16px;
+	}
+
+	.captcha-header {
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.captcha-close {
+		padding: 4px;
+	}
+
+	.captcha-body {
+		flex-direction: column;
+		margin-top: 14px;
+	}
+</style>

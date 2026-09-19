@@ -1,0 +1,118 @@
+<template>
+	<sn-page :title="t('snAlbum.title')" :show-back="true" padding="0 16px 32px 16px">
+
+		<demo-card :title="t('snAlbum.basic')" :subtitle="t('snAlbum.basicSub')">
+			<sn-album :urls="imgs9" />
+		</demo-card>
+
+		<demo-card :title="t('snAlbum.rowCount')" :subtitle="t('snAlbum.rowCountSub')">
+			<sn-album :urls="imgs8" :row-count="4" />
+		</demo-card>
+
+		<demo-card :title="t('snAlbum.maxRow')" :subtitle="t('snAlbum.maxRowSub')">
+			<sn-album :urls="imgs9" :max-row="2" />
+		</demo-card>
+
+		<demo-card :title="t('snAlbum.customStyle')" :subtitle="t('snAlbum.customStyleSub')">
+			<sn-album :urls="imgs6" :row-count="3" border-radius="16px" space="12px" />
+			<sn-text font-size="$12" :color="tipColor" custom-style="margin-top:14px;" flatten>{{ t('snAlbum.spacingTip') }}</sn-text>
+			<sn-album :urls="imgs8" :row-count="4" border-radius="$4" space="4px" custom-style="margin-top:10px;" />
+		</demo-card>
+
+		<demo-card :title="t('snAlbum.click')" :subtitle="t('snAlbum.clickSub')">
+			<sn-album :urls="imgs6" :preview="false" @click="onClick" />
+			<sn-text v-if="clickTip != ''" font-size="$12" :color="tipColor" custom-style="margin-top:12px;" flatten>{{ clickTip }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snAlbum.longPress')" :subtitle="t('snAlbum.longPressSub')">
+			<sn-album :urls="imgs4" :preview-actions="actions" />
+		</demo-card>
+
+		<demo-card :title="t('snAlbum.placeholder')" :subtitle="t('snAlbum.placeholderSub')">
+			<sn-album :urls="brokenImgs" :row-count="3" />
+		</demo-card>
+
+		<demo-card :title="t('snAlbum.travel')" :subtitle="t('snAlbum.travelSub')">
+			<sn-album :urls="imgs10" :row-count="3" :max-row="2" border-radius="12px" space="8px" />
+		</demo-card>
+
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { $snui } from '@/uni_modules/sinle-ui/index.uts'
+
+const { t } = useI18n()
+
+const imgs4: string[] = [
+	'https://picsum.photos/seed/album01/400/400',
+	'https://picsum.photos/seed/album02/400/400',
+	'https://picsum.photos/seed/album03/400/400',
+	'https://picsum.photos/seed/album04/400/400'
+]
+
+const imgs6: string[] = [
+	'https://picsum.photos/seed/album11/400/400',
+	'https://picsum.photos/seed/album12/400/400',
+	'https://picsum.photos/seed/album13/400/400',
+	'https://picsum.photos/seed/album14/400/400',
+	'https://picsum.photos/seed/album15/400/400',
+	'https://picsum.photos/seed/album16/400/400'
+]
+
+const imgs8: string[] = [
+	'https://picsum.photos/seed/album21/400/400',
+	'https://picsum.photos/seed/album22/400/400',
+	'https://picsum.photos/seed/album23/400/400',
+	'https://picsum.photos/seed/album24/400/400',
+	'https://picsum.photos/seed/album25/400/400',
+	'https://picsum.photos/seed/album26/400/400',
+	'https://picsum.photos/seed/album27/400/400',
+	'https://picsum.photos/seed/album28/400/400'
+]
+
+const imgs9: string[] = [
+	'https://picsum.photos/seed/album31/400/400',
+	'https://picsum.photos/seed/album32/400/400',
+	'https://picsum.photos/seed/album33/400/400',
+	'https://picsum.photos/seed/album34/400/400',
+	'https://picsum.photos/seed/album35/400/400',
+	'https://picsum.photos/seed/album36/400/400',
+	'https://picsum.photos/seed/album37/400/400',
+	'https://picsum.photos/seed/album38/400/400',
+	'https://picsum.photos/seed/album39/400/400'
+]
+
+const imgs10: string[] = [
+	'https://picsum.photos/seed/album41/400/400',
+	'https://picsum.photos/seed/album42/400/400',
+	'https://picsum.photos/seed/album43/400/400',
+	'https://picsum.photos/seed/album44/400/400',
+	'https://picsum.photos/seed/album45/400/400',
+	'https://picsum.photos/seed/album46/400/400',
+	'https://picsum.photos/seed/album47/400/400',
+	'https://picsum.photos/seed/album48/400/400',
+	'https://picsum.photos/seed/album49/400/400',
+	'https://picsum.photos/seed/album50/400/400'
+]
+
+const brokenImgs: string[] = [
+	'https://picsum.photos/seed/album51/400/400',
+	'https://picsum.photos/seed/album52/400/400',
+	'https://invalid.example.com/missing-photo-1.jpg',
+	'https://picsum.photos/seed/album53/400/400'
+]
+
+const actions = computed<string[]>(() => [t('snAlbum.actionSave'), t('snAlbum.actionSend')])
+
+const clickTip = ref<string>('')
+const tipColor = computed<string>(() => $snui.colors.textLight)
+
+function onClick(index: number): void {
+	clickTip.value = t('snAlbum.clicked', { index: index + 1 } as UTSJSONObject)
+}
+</script>
+
+<style lang="scss">
+</style>

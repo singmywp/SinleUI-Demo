@@ -1,78 +1,129 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Scankit Code"></sn-topbar>
-		<!-- #ifdef APP -->
-		<com-card title="基础用法"
-		note="基于 Scankit 的构建码生成功能。\n支持将一维码和二维码，支持二维码 Logo。">
-			<sn-e-scankit-code :data="qrcodeData"
-			style="width: 100px;height: 100px;"></sn-e-scankit-code>
-			<sn-input class="m-t-20"
-			v-model="qrcodeData"
-			placeholder="输入生成的数据"
-			padding="15px"
-			textSize="$4"
-			bgColor="$info"
-			activeBgColor="$info"
-			:showBorder="false"></sn-input>
-		</com-card>
-		<com-card title="格式"
-		note="支持 EAN-8、EAN-13、UPC-A、UPC-E、Codabar、Code 39、Code 93、Code 128、ITF14、QR、DataMatrix、PDF417、Aztec 共 14 种码式。">
-			<sn-e-scankit-code type="UPC_A"
-			data="123456789104"
-			style="width: 100px;height: 50px;">
-			</sn-e-scankit-code>
-			<sn-e-scankit-code type="CODE_128"
-			data="6902083922658"
-			style="width: 100px;height: 50px;">
-			</sn-e-scankit-code>
-		</com-card>
-		<com-card title="纠错等级"
-		note="可设置不同的纠错等级">
-			<sn-row>
-				<sn-col :span="3">
-					<sn-e-scankit-code data="Hello, world!"
-					qrErrorLevel="L"
-					style="width: 50px;height: 50px;"></sn-e-scankit-code>
-				</sn-col>
-				<sn-col :span="3">
-					<sn-e-scankit-code data="Hello, world!"
-					qrErrorLevel="M"
-					style="width: 50px;height: 50px;"></sn-e-scankit-code>
-				</sn-col>
-				<sn-col :span="3">
-					<sn-e-scankit-code data="Hello, world!"
-					qrErrorLevel="Q"
-					style="width: 50px;height: 50px;"></sn-e-scankit-code>
-				</sn-col>
-				<sn-col :span="3">
-					<sn-e-scankit-code data="Hello, world!"
-					qrErrorLevel="H"
-					style="width: 50px;height: 50px;"></sn-e-scankit-code>
-				</sn-col>
-			</sn-row>
-		</com-card>
-		<com-card title="自定义样式"
-		note="支持自定义样式">
-			<sn-e-scankit-code data="Hello, world!"
-			:margin="10"
-			bgColor="#f3f3f3"
-			frontColor="#0077ff"
-			style="width: 100px;height: 100px;"></sn-e-scankit-code>
-		</com-card>
-		<!-- #endif -->
-		<!-- #ifndef APP -->
-		<com-card title="请前往 App 端查看"></com-card>
-		<!-- #endif -->
+	<sn-page :title="t('snEScankitCode.title')" :show-back="true" padding="0 16px 32px 16px">
+
+		<demo-card v-if="!isApp" :title="t('snEScankitCode.appTitle')" :subtitle="t('snEScankitCode.appSubtitle')">
+		</demo-card>
+
+		<view v-if="isApp" class="code-showcase">
+			<sn-e-scankit-code :data="content" :type="codeType" :margin="1" :bg-color="bgColor"
+				:front-color="frontColor" :qr-error-level="errorLevel" :qr-logo="logoSrc"
+				:custom-style="sizeStyle"></sn-e-scankit-code>
+		</view>
+
+		<demo-card v-if="isApp" :title="t('snEScankitCode.contentTitle')" :subtitle="t('snEScankitCode.contentSubtitle')">
+			<sn-input v-model="content" :placeholder="t('snEScankitCode.contentPlaceholder')" clearable></sn-input>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snEScankitCode.contentDesc') }}</sn-text>
+		</demo-card>
+
+		<demo-card v-if="isApp" :title="t('snEScankitCode.typeTitle')" :subtitle="t('snEScankitCode.typeSubtitle')">
+			<view class="btn-row" flatten>
+				<sn-button :type="codeType == 'QRCODE' ? 'primary' : 'info'" text="QRCODE" custom-style="flex:1;" @click="onSetType('QRCODE')" />
+				<sn-button :type="codeType == 'CODE_128' ? 'primary' : 'info'" text="CODE_128" custom-style="flex:1;margin-left:10px;" @click="onSetType('CODE_128')" />
+			</view>
+			<view class="btn-row" style="margin-top:10px;" flatten>
+				<sn-button :type="codeType == 'PDF_417' ? 'primary' : 'info'" text="PDF_417" custom-style="flex:1;" @click="onSetType('PDF_417')" />
+				<sn-button :type="codeType == 'DATAMATRIX' ? 'primary' : 'info'" text="DATAMATRIX" custom-style="flex:1;margin-left:10px;" @click="onSetType('DATAMATRIX')" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snEScankitCode.multiFunctionTip') }}</sn-text>
+		</demo-card>
+
+		<demo-card v-if="isApp" :title="t('snEScankitCode.colorTitle')" :subtitle="t('snEScankitCode.colorSubtitle')">
+			<view class="btn-row" flatten>
+				<sn-button :type="isPreset('default') ? 'primary' : 'info'" :text="t('snEScankitCode.bwDefault')" custom-style="flex:1;" @click="onSetColor('#ffffff', '#000000')" />
+				<sn-button :type="isPreset('#0f2540', '#4d82ff') ? 'primary' : 'info'" :text="t('snEScankitCode.darkBlue')" custom-style="flex:1;margin-left:10px;" @click="onSetColor('#0f2540', '#4d82ff')" />
+			</view>
+			<view class="btn-row" style="margin-top:10px;" flatten>
+				<sn-button :type="isPreset('#ffffff', '#0f766e') ? 'primary' : 'info'" :text="t('snEScankitCode.whiteTeal')" custom-style="flex:1;" @click="onSetColor('#ffffff', '#0f766e')" />
+				<sn-button :type="isPreset('#fef3c7', '#92400e') ? 'primary' : 'info'" :text="t('snEScankitCode.warmYellow')" custom-style="flex:1;margin-left:10px;" @click="onSetColor('#fef3c7', '#92400e')" />
+			</view>
+		</demo-card>
+
+		<demo-card v-if="isApp" :title="t('snEScankitCode.qrLevelTitle')" :subtitle="t('snEScankitCode.qrLevelSubtitle')">
+			<view class="btn-row" flatten>
+				<sn-button v-for="(lv, i) in levels" :key="lv" :type="errorLevel == lv ? 'primary' : 'info'"
+					:text="lv" :custom-style="i == 0 ? 'flex:1;' : 'flex:1;margin-left:10px;'" @click="errorLevel = lv" />
+			</view>
+		</demo-card>
+
+		<demo-card v-if="isApp" :title="t('snEScankitCode.logoTitle')" :subtitle="t('snEScankitCode.logoSubtitle')">
+			<view class="btn-row" flatten>
+				<sn-button :type="logoSrc == '' ? 'primary' : 'info'" :text="t('snEScankitCode.noLogo')" custom-style="flex:1;" @click="logoSrc = ''" />
+				<sn-button :type="logoSrc != '' ? 'primary' : 'info'" :text="t('snEScankitCode.embeddedLogo')" custom-style="flex:1;margin-left:10px;" @click="logoSrc = '/static/logo.png'" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snEScankitCode.logoDesc') }}</sn-text>
+		</demo-card>
+
+		<demo-card v-if="isApp" :title="t('snEScankitCode.sizeTitle')" :subtitle="t('snEScankitCode.sizeSubtitle')">
+			<view class="btn-row" flatten>
+				<sn-button v-for="(s, i) in sizes" :key="s" :type="codeSize == s ? 'primary' : 'info'"
+					:text="`${s}px`" :custom-style="i == 0 ? 'flex:1;' : 'flex:1;margin-left:10px;'" @click="codeSize = s" />
+			</view>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	
-	const qrcodeData = ref('Hello, world!')
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import type { ScanType } from '@/uni_modules/sn-e-scankit'
+
+const { t } = useI18n()
+const { isDark } = useTheme()
+
+const isApp = ref<boolean>(true)
+
+const descColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+
+const content = ref<string>('https://sinleui.pages.dev')
+const codeType = ref<ScanType>('QRCODE')
+const bgColor = ref<string>('#ffffff')
+const frontColor = ref<string>('#000000')
+const errorLevel = ref<string>('M')
+const logoSrc = ref<string>('')
+const codeSize = ref<number>(200)
+const levels = ['L', 'M', 'Q', 'H']
+const sizes = [128, 200, 280]
+
+const sizeStyle = computed<string>(() => {
+	return `width:${codeSize.value}px;height:${codeSize.value}px;`
+})
+
+function onSetType(type: ScanType): void {
+	codeType.value = type
+}
+
+function onSetColor(bg: string, front: string): void {
+	bgColor.value = bg
+	frontColor.value = front
+}
+
+function isPreset(bg: string, front: string): boolean {
+	return bgColor.value == bg && frontColor.value == front
+}
+
+onMounted(() => {
+	try {
+		const sysInfo = uni.getSystemInfoSync() as UTSJSONObject
+		const platform = sysInfo['uniPlatform'] as string
+		isApp.value = platform == 'app'
+	} catch (e) {
+		isApp.value = false
+	}
+})
 </script>
 
-<style>
-		
+<style lang="scss">
+.code-showcase {
+	margin: 16px;
+	padding: 24px;
+	border-radius: 12px;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.btn-row {
+	flex-direction: row;
+	align-items: center;
+}
 </style>

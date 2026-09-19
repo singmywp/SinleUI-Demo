@@ -1,0 +1,91 @@
+<template>
+	<sn-page :fill-content="true">
+		<sn-topbar :title="t('tmplTabsSwiper.title')" :back-button="true" :fixed="true" :status-bar="true" />
+		<view class="news-body">
+			<sn-tabs v-model="tabIndex" :data="tabs" mode="push" bg-color="$front" height="44px" />
+			<swiper class="news-swiper" :current="tabIndex" @change="onSwiperChange">
+				<swiper-item v-for="(channel, ci) in channels" :key="`ch-${ci}`">
+					<view class="news-channel-box">
+						<news-channel :base="channel" />
+					</view>
+				</swiper-item>
+			</swiper>
+		</view>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import NewsChannel from './news-channel.uvue'
+import { useI18n } from 'vue-i18n'
+import type { SnTabParams } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type { NewsItem } from './news.uts'
+
+const { t } = useI18n()
+
+const tabs = computed<SnTabParams[]>(() => [
+	{ id: 'tab-focus', text: t('tmplTabsSwiper.tab1') },
+	{ id: 'tab-hot', text: t('tmplTabsSwiper.tab2') },
+	{ id: 'tab-tech', text: t('tmplTabsSwiper.tab3') },
+	{ id: 'tab-sport', text: t('tmplTabsSwiper.tab4') },
+	{ id: 'tab-finance', text: t('tmplTabsSwiper.tab5') }
+])
+
+const tabIndex = ref<number>(1)
+
+function onSwiperChange(e: UniSwiperChangeEvent): void {
+	tabIndex.value = e.detail.current
+}
+
+const channels = computed<NewsItem[][]>(() => [
+	[
+		{ id: 'f1', title: t('tmplNewsChannel.n1.title'), source: t('tmplNewsChannel.n1.source'), comments: 12, time: t('tmplNewsChannel.n1.time'), image: '/static/captcha/scenic-mountain.png' },
+		{ id: 'f2', title: t('tmplNewsChannel.n2.title'), source: 'Aiden', comments: 8, time: t('tmplNewsChannel.n2.time'), image: '' },
+		{ id: 'f3', title: t('tmplNewsChannel.n3.title'), source: t('tmplNewsChannel.n3.source'), comments: 23, time: t('tmplNewsChannel.n3.time'), image: '' },
+		{ id: 'f4', title: t('tmplNewsChannel.n4.title'), source: 'Momo', comments: 56, time: t('tmplNewsChannel.n4.time'), image: '' }
+	],
+	[
+		{ id: 'h1', title: t('tmplNewsChannel.n5.title'), source: t('tmplNewsChannel.n5.source'), comments: 342, time: t('tmplNewsChannel.n5.time'), image: '' },
+		{ id: 'h2', title: t('tmplNewsChannel.n6.title'), source: t('tmplNewsChannel.n6.source'), comments: 128, time: t('tmplNewsChannel.n6.time'), image: '/static/captcha/street-dusk.png' },
+		{ id: 'h3', title: t('tmplNewsChannel.n7.title'), source: t('tmplNewsChannel.n7.source'), comments: 89, time: t('tmplNewsChannel.n7.time'), image: '' },
+		{ id: 'h4', title: t('tmplNewsChannel.n8.title'), source: t('tmplNewsChannel.n8.source'), comments: 67, time: t('tmplNewsChannel.n8.time'), image: '' },
+		{ id: 'h5', title: t('tmplNewsChannel.n9.title'), source: t('tmplNewsChannel.n9.source'), comments: 210, time: t('tmplNewsChannel.n9.time'), image: '' }
+	],
+	[
+		{ id: 't1', title: t('tmplNewsChannel.n10.title'), source: t('tmplNewsChannel.n10.source'), comments: 96, time: t('tmplNewsChannel.n10.time'), image: '' },
+		{ id: 't2', title: t('tmplNewsChannel.n11.title'), source: t('tmplNewsChannel.n11.source'), comments: 154, time: t('tmplNewsChannel.n11.time'), image: '' },
+		{ id: 't3', title: t('tmplNewsChannel.n12.title'), source: t('tmplNewsChannel.n12.source'), comments: 45, time: t('tmplNewsChannel.n12.time'), image: '' },
+		{ id: 't4', title: t('tmplNewsChannel.n13.title'), source: t('tmplNewsChannel.n13.source'), comments: 78, time: t('tmplNewsChannel.n13.time'), image: '' }
+	],
+	[
+		{ id: 's1', title: t('tmplNewsChannel.n14.title'), source: t('tmplNewsChannel.n14.source'), comments: 187, time: t('tmplNewsChannel.n14.time'), image: '' },
+		{ id: 's2', title: t('tmplNewsChannel.n15.title'), source: t('tmplNewsChannel.n15.source'), comments: 92, time: t('tmplNewsChannel.n15.time'), image: '' },
+		{ id: 's3', title: t('tmplNewsChannel.n16.title'), source: t('tmplNewsChannel.n16.source'), comments: 34, time: t('tmplNewsChannel.n16.time'), image: '' },
+		{ id: 's4', title: t('tmplNewsChannel.n17.title'), source: t('tmplNewsChannel.n17.source'), comments: 66, time: t('tmplNewsChannel.n17.time'), image: '' }
+	],
+	[
+		{ id: 'b1', title: t('tmplNewsChannel.n18.title'), source: t('tmplNewsChannel.n18.source'), comments: 51, time: t('tmplNewsChannel.n18.time'), image: '' },
+		{ id: 'b2', title: t('tmplNewsChannel.n19.title'), source: t('tmplNewsChannel.n19.source'), comments: 233, time: t('tmplNewsChannel.n19.time'), image: '' },
+		{ id: 'b3', title: t('tmplNewsChannel.n20.title'), source: t('tmplNewsChannel.n20.source'), comments: 47, time: t('tmplNewsChannel.n20.time'), image: '' },
+		{ id: 'b4', title: t('tmplNewsChannel.n21.title'), source: t('tmplNewsChannel.n21.source'), comments: 120, time: t('tmplNewsChannel.n21.time'), image: '' }
+	]
+])
+</script>
+
+<style lang="scss">
+.news-body {
+	flex: 1;
+	flex-direction: column;
+	min-height: 0px;
+}
+
+.news-swiper {
+	flex: 1;
+	min-height: 0px;
+}
+
+.news-channel-box {
+	flex: 1;
+	flex-direction: column;
+	min-height: 0px;
+}
+</style>

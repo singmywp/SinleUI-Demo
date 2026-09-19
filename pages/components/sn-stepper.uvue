@@ -1,64 +1,114 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Stepper 步进器"></sn-topbar>
-		<com-card title="基础用法"
-		note="据我所知，它在购物页面里很常见\n长按按钮可以快速增减哦">
-			<sn-stepper v-model="v1"></sn-stepper>
-		</com-card>
-		<com-card title="最值及步长"
-		note="可以为步进器设置最小值、最大值及步长。">
-			<sn-text class="spacing" type="info" text="最大值: 38.5, 最小值:2, 步长:5.5" size="14px"></sn-text>
-			<sn-stepper v-model="v2" 
-			:max="38.5" 
-			:min="2" 
-			:step="5.5"></sn-stepper>
-		</com-card>
-		<com-card title="禁用长按"
-		note="如果你不需要长按按钮增减的功能，可以在这里禁用">
-			<sn-stepper v-model="v3"
-			:longpress="false"></sn-stepper>
-		</com-card>
-		<com-card title="禁用输入框"
-		note="如果你不需要输入框编辑的功能，可以在这里禁用">
-			<sn-stepper v-model="v4"
-			disable-input></sn-stepper>
-		</com-card>
-		<com-card title="禁用"
-		note="禁用整个组件的操作（但不会屏蔽数据上的修改）">
-			<sn-stepper v-model="v5" disabled></sn-stepper>
-		</com-card>
-		<com-card title="自定义样式"
-		note="调出你喜欢的样子">
-			<sn-stepper v-model="v6"
-			class="spacing"
-			bgColor="$primaryLight"
-			textColor="$primary"></sn-stepper>
-			<sn-stepper v-model="v6"
-			text-size="20px"
-			size="40px" 
-			input-width="100px"
-			spacing="10px"
-			borderRadius="$circle"
-			bgColor="$successLight" 
-			textColor="$success"></sn-stepper>
-		</com-card>
+	<sn-page :title="t('snStepper.title')" :show-back="true">
+		<demo-card :title="t('snStepper.demoBasicTitle')" :subtitle="t('snStepper.demoBasicSub')">
+			<view class="demo-row" flatten>
+				<sn-stepper v-model="value1" />
+				<sn-text font-size="$14" color="$textLight" custom-style="margin-left:16px;" flatten>{{ t('snStepper.currentValue', { val: value1 } as UTSJSONObject) }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snStepper.demoRangeTitle')" :subtitle="t('snStepper.demoRangeSub')">
+			<view class="demo-row" flatten>
+				<sn-stepper v-model="value2" :min="5" :max="25" :step="5" />
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;" flatten>{{ t('snStepper.stepTip1', { val: value2 } as UTSJSONObject) }}</sn-text>
+			</view>
+			<view class="demo-row" flatten>
+				<sn-stepper v-model="value3" :min="0" :max="10" :step="0.5" />
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;" flatten>{{ t('snStepper.stepTip2', { val: value3 } as UTSJSONObject) }}</sn-text>
+			</view>
+			<view class="demo-row" flatten>
+				<sn-stepper v-model="value4" :min="0" />
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;" flatten>{{ t('snStepper.stepTip3', { val: value4 } as UTSJSONObject) }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snStepper.demoSizeTitle')" :subtitle="t('snStepper.demoSizeSub')">
+			<view class="demo-row" flatten>
+				<sn-stepper v-model="value5" size="36px" input-width="64px" />
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;" flatten>{{ t('snStepper.sizeTip1') }}</sn-text>
+			</view>
+			<view class="demo-row">
+				<sn-stepper v-model="value6" size="24px" input-width="40px" :spacing="8" text-size="$16" />
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.compactTip') }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snStepper.demoColorTitle')" :subtitle="t('snStepper.demoColorSub')">
+			<view class="demo-row">
+				<sn-stepper v-model="value7" button-bg-color="$primary" input-text-color="$primary" input-bg-color="$primaryLight"
+					input-active-bg-color="$primaryLightActive" border-radius="$20" />
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.colorTip1') }}</sn-text>
+			</view>
+			<view class="demo-row">
+				<sn-stepper v-model="value8" button-bg-color="$success" input-text-color="$success" input-bg-color="$successLight"
+					input-active-bg-color="$successLightActive" />
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.colorTip2') }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snStepper.demoLongTitle')" :subtitle="t('snStepper.demoLongSub')">
+			<view class="demo-row">
+				<sn-stepper v-model="value9" :max="50" />
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.longOn') }}</sn-text>
+			</view>
+			<view class="demo-row">
+				<sn-stepper v-model="value10" :longpress="false" :max="50" />
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.longOff') }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snStepper.demoInputTitle')" :subtitle="t('snStepper.demoInputSub')">
+			<view class="demo-row">
+				<sn-stepper v-model="value11" disable-input />
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;">disable-input</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snStepper.demoDisabledTitle')" :subtitle="t('snStepper.demoDisabledSub')">
+			<view class="demo-row">
+				<sn-stepper v-model="value12" disabled />
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.disabledTip', { val: value12 } as UTSJSONObject) }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snStepper.demoEventTitle')" :subtitle="t('snStepper.demoEventSub')">
+			<view class="demo-row" style="margin-bottom: 12px">
+				<sn-stepper v-model="value13" @change="onChange" />
+			</view>
+			<sn-text font-size="$13" color="$primary">{{ t('snStepper.latestEvent', { val: changeLog } as UTSJSONObject) }}</sn-text>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	
-	const v1 = ref(0)
-	const v2 = ref(0)
-	const v3 = ref(0)
-	const v4 = ref(0)
-	const v5 = ref(5)
-	const v6 = ref(0)
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+const value1 = ref<number>(0)
+const value2 = ref<number>(5)
+const value3 = ref<number>(0)
+const value4 = ref<number>(10)
+const value5 = ref<number>(0)
+const value6 = ref<number>(0)
+const value7 = ref<number>(0)
+const value8 = ref<number>(0)
+const value9 = ref<number>(0)
+const value10 = ref<number>(0)
+const value11 = ref<number>(0)
+const value12 = ref<number>(3)
+const value13 = ref<number>(1)
+const changeLog = ref<string>(t('snStepper.changeLogInit'))
+
+function onChange(value: number): void {
+	changeLog.value = 'change: ' + value.toString()
+}
 </script>
 
 <style lang="scss">
-	.spacing {
-		margin-bottom: 5px;
-	}
+.demo-row {
+	flex-direction: row;
+	align-items: center;
+	margin-bottom: 12px;
+}
 </style>

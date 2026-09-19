@@ -1,67 +1,180 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Overlay 遮罩层"
-		:features="[{id:'run',icon:'play-circle-fill'} as SnDataItem]"
-		@button-click="buttonClicked"></sn-topbar>
-		<com-card title="组件演示"
-		note="强调特定元素，常与弹出层等组件搭配使用。通过插槽放置弹出层。">
-			<sn-form v-model="configs"
-			:showBorder="false">
-				<sn-form-item label="点击遮罩关闭">
-					<sn-switch v-model="(configs['maskClose'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="动画时长">
-					<sn-stepper v-model="(configs['aniTime'] as number)"
-					:step="100"
-					:min="100"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="遮罩透明度">
-					<sn-stepper v-model="(configs['opacity'] as number)"
-					:step="0.1"
-					:min="0"
-					:max="1"></sn-stepper>
-				</sn-form-item>
-				<sn-button text="打开" 
-				level="second" 
-				type="primary" 
-				@click="show()"
-				style="margin-top: 10px;">
-				</sn-button>
-			</sn-form>
-		</com-card>
+	<sn-page :title="t('snOverlay.title')" :show-back="true">
+
+		<demo-card :title="t('snOverlay.basicTitle')" :subtitle="t('snOverlay.basicSubtitle')">
+			<view class="config-row" flatten>
+				<sn-button :text="t('snOverlay.openOverlay')" type="primary" custom-style="flex:1;" @click="openOverlay" />
+				<sn-button :text="t('snOverlay.closeOverlay')" type="info" custom-style="flex:1;margin-left:10px;" @click="closeOverlay" />
+			</view>
+			<sn-text type="text-light" fontSize="$12" :text="t('snOverlay.tipClickMask')" custom-style="margin-top:8px;" flatten />
+		</demo-card>
+
+		<demo-card :title="t('snOverlay.propsTitle')" :subtitle="t('snOverlay.propsSubtitle')">
+			<view class="config-row" flatten>
+				<sn-text :text="t('snOverlay.clickMaskClose')" custom-style="width:140px;" flatten />
+				<sn-switch v-model="configs.maskClose" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snOverlay.opacity')" custom-style="width:140px;" flatten />
+				<sn-stepper v-model="configs.opacity" :step="0.1" :min="0" :max="1" style="flex:1;" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snOverlay.aniTime')" custom-style="width:140px;" flatten />
+				<sn-stepper v-model="configs.aniTime" :step="100" :min="0" style="flex:1;" />
+			</view>
+			<sn-text type="text-light" fontSize="$12" :text="t('snOverlay.aniTimeTip')" custom-style="margin-top:4px;" flatten />
+		</demo-card>
+
+		<demo-card :title="t('snOverlay.customStyleTitle')" :subtitle="t('snOverlay.customStyleSubtitle')">
+			<view class="config-row" flatten>
+				<sn-button :text="t('snOverlay.openCustomOverlay')" type="primary" custom-style="flex:1;" @click="openOverlayCustom" />
+			</view>
+			<view style="margin-top: 12px">
+				<sn-text type="text-light" fontSize="$12" :text="t('snOverlay.customStyleTip')" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snOverlay.eventTitle')" :subtitle="t('snOverlay.eventSubtitle')">
+			<view class="config-row">
+				<sn-text :text="t('snOverlay.openEvent')" custom-style="width:140px;" />
+				<sn-text bold fontSize="$14" :text="t('snOverlay.triggeredCount', { value: openCount } as UTSJSONObject)" />
+			</view>
+			<view class="config-row">
+				<sn-text :text="t('snOverlay.closeEvent')" custom-style="width:140px;" />
+				<sn-text bold fontSize="$14" :text="t('snOverlay.triggeredCount', { value: closeCount } as UTSJSONObject)" />
+			</view>
+			<view class="config-row">
+				<sn-text :text="t('snOverlay.clickMaskEvent')" custom-style="width:140px;" />
+				<sn-text bold fontSize="$14" :text="t('snOverlay.triggeredCount', { value: clickCount } as UTSJSONObject)" />
+			</view>
+		</demo-card>
+		<sn-overlay ref="overlayRef" :mask-close="configs.maskClose" :opacity="configs.opacity" :ani-time="configs.aniTime" @open="onOpen" @close="onClose" @click-mask="onClickMask">
+				<view class="overlay-inner" :style="innerStyle">
+					<view class="overlay-card" :style="cardStyle">
+						<view class="overlay-icon" :style="iconStyle">
+							<sn-icon name="eye-line" :size="24" color="#fff" />
+						</view>
+						<sn-text bold fontSize="$18" color="$title">{{ t('snOverlay.overlayLayer') }}</sn-text>
+						<sn-text :font-size="13" color="$textLight" :text="t('snOverlay.overlayDesc')" custom-style="text-align:center;margin-top:8px;line-height:20px;" />
+						<sn-button :text="t('snOverlay.gotIt')"  type="primary" custom-style="margin-top:16px;" @click="closeOverlay" />
+					</view>
+				</view>
+			</sn-overlay>
+			<sn-overlay ref="overlayCustomRef" :mask-close="configs.maskClose" :opacity="configs.opacity" :ani-time="configs.aniTime" custom-style="top:200px;">
+				<view class="overlay-inner" :style="innerStyle">
+					<view class="overlay-card" :style="cardStyle">
+						<view class="overlay-icon" :style="iconStyle">
+							<sn-icon name="settings-3-line" :size="24" color="#fff" />
+						</view>
+						<sn-text bold fontSize="$18" color="$title">{{ t('snOverlay.customOverlayTitle') }}</sn-text>
+						<sn-text :font-size="13" color="$textLight" :text="t('snOverlay.customOverlayDesc')" custom-style="text-align:center;margin-top:8px;line-height:20px;" />
+						<sn-button :text="t('snOverlay.gotIt')"  type="primary" custom-style="margin-top:16px;" @click="closeOverlayCustom" />
+					</view>
+				</view>
+			</sn-overlay>
 	</sn-page>
-	<sn-overlay ref="overlayEle"
-	:maskClose="configs['maskClose']"
-	:opacity="configs['opacity']" 
-	:aniTime="`${configs['aniTime']}ms`">
-	</sn-overlay>
 </template>
 
-<script setup>
-	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
-	
-	const overlayEle = ref(null as SnOverlayComponentPublicInstance | null)
-	
-	const configs = ref({
-		maskClose: true,
-		aniTime: parseInt($snui.configs.aniTime.long),
-		opacity: 0.3
-	})
-	
-	function show(){
-		overlayEle.value?.open?.()
-	}
-	
-	function buttonClicked(e: SnDataItem){
-		if (e.id == 'run') show()
-	}
+<script lang="uts" setup>
+
+import { useI18n } from 'vue-i18n'
+import type { ComponentPublicInstance } from 'vue'
+
+const { t } = useI18n()
+
+type OverlayConfigs = {
+	maskClose: boolean
+	opacity: number
+	aniTime: number
+}
+
+const overlayRef = ref<ComponentPublicInstance | null>(null)
+const overlayCustomRef = ref<ComponentPublicInstance | null>(null)
+const openCount = ref<number>(0)
+const closeCount = ref<number>(0)
+const clickCount = ref<number>(0)
+
+const configs = ref<OverlayConfigs>({
+	maskClose: true,
+	opacity: 0.4,
+	aniTime: 400
+})
+
+function openOverlay(): void {
+	overlayRef.value?.$callMethod('open')
+}
+
+function closeOverlay(): void {
+	overlayRef.value?.$callMethod('close')
+}
+
+function openOverlayCustom(): void {
+	overlayCustomRef.value?.$callMethod('open')
+}
+
+function closeOverlayCustom(): void {
+	overlayCustomRef.value?.$callMethod('close')
+}
+
+function onOpen(): void {
+	openCount.value = openCount.value + 1
+}
+
+function onClose(): void {
+	closeCount.value = closeCount.value + 1
+}
+
+function onClickMask(): void {
+	clickCount.value = clickCount.value + 1
+}
+
+const innerStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('flex', 1)
+	styles.set('justifyContent', 'center')
+	styles.set('alignItems', 'center')
+	styles.set('padding', '24px')
+	return styles
+})
+
+const cardStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', '260px')
+	styles.set('backgroundColor', 'var(--sn-front)')
+	styles.set('borderRadius', '20px')
+	styles.set('padding', '24px 20px')
+	styles.set('alignItems', 'center')
+	styles.set('flexDirection', 'column')
+	return styles
+})
+
+const iconStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', '48px')
+	styles.set('height', '48px')
+	styles.set('borderRadius', '24px')
+	styles.set('alignItems', 'center')
+	styles.set('justifyContent', 'center')
+	styles.set('backgroundColor', 'var(--sn-primary)')
+	styles.set('marginBottom', '12px')
+	return styles
+})
 </script>
 
 <style lang="scss">
-	.content {
-		margin: 0 auto;
-		padding: 20px;
-		transform: translateY(300%);
-		border-radius: 12px;
-	}
+.config-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+.overlay-inner {
+	flex-direction: column;
+}
+.overlay-card {
+	flex-direction: column;
+}
+.overlay-icon {
+	flex-direction: column;
+}
 </style>

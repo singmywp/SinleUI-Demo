@@ -1,0 +1,162 @@
+<template>
+	<sn-page :title="t('snSwitchButton.title')" :show-back="true">
+		<demo-card :title="t('snSwitchButton.demoBasicTitle')" :subtitle="t('snSwitchButton.demoBasicSub')">
+			<view class="demo-row" flatten>
+				<sn-switch-button v-model="basicValue" :text="t('snSwitchButton.basicText')" />
+			</view>
+			<sn-text flatten custom-style="margin-top:10px;" font-size="$12" color="$textLight">
+				{{ t('snSwitchButton.currentValue', { val: basicValue.toString() } as UTSJSONObject) }}
+			</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snSwitchButton.demoLevelTitle')" :subtitle="t('snSwitchButton.demoLevelSub')">
+			<view class="demo-row" flatten>
+				<sn-switch-button v-model="levelValue1" :text="t('snSwitchButton.levelThin')" />
+				<sn-switch-button v-model="levelValue2" type="info" level="least" active-type="primary"
+					active-level="least" :text="t('snSwitchButton.levelThin')" custom-style="margin-left:12px;" />
+			</view>
+			<view class="demo-row" flatten>
+				<sn-switch-button v-model="levelValue3" type="info" level="second" active-type="primary"
+					active-level="third" :text="t('snSwitchButton.levelMedium')" />
+				<sn-switch-button v-model="levelValue4" type="info" level="third" active-type="primary"
+					active-level="second" :text="t('snSwitchButton.levelMedium')" custom-style="margin-left:12px;" />
+			</view>
+			<view class="demo-row" flatten>
+				<sn-switch-button v-model="levelValue5" type="primary" level="least" active-type="primary"
+					active-level="first" :text="t('snSwitchButton.levelSolid')" />
+				<sn-switch-button v-model="levelValue6" type="primary" level="first" active-type="info"
+					active-level="second" :text="t('snSwitchButton.levelSolid')" custom-style="margin-left:12px;" />
+			</view>
+			<view class="demo-row demo-row-last" flatten>
+				<sn-switch-button v-model="levelValue7" type="success" level="second" active-type="success"
+					active-level="first" :text="t('snSwitchButton.successTag')" />
+				<sn-switch-button v-model="levelValue8" type="error" level="second" active-type="error"
+					active-level="first" :text="t('snSwitchButton.errorTag')" custom-style="margin-left:12px;" />
+				<sn-switch-button v-model="levelValue9" type="warning" level="second" active-type="warning"
+					active-level="first" :text="t('snSwitchButton.warningTag')" custom-style="margin-left:12px;" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snSwitchButton.demoTextTitle')" :subtitle="t('snSwitchButton.demoTextSub')">
+			<view class="demo-row" flatten>
+				<sn-switch-button v-model="followValue" icon="add-line" icon-position="left"
+					:text="t('snSwitchButton.follow')" :active-text="t('snSwitchButton.followed')"
+					active-type="success" active-level="second" />
+				<sn-switch-button v-model="collectValue" icon="star-line" :text="t('snSwitchButton.collect')"
+					:active-text="t('snSwitchButton.collected')" type="info" level="second" active-type="warning"
+					active-level="second" custom-style="margin-left:12px;" />
+			</view>
+			<view class="demo-row demo-row-last" flatten>
+				<sn-switch-button v-model="notifyValue" icon="notification-3-line"
+					:text="t('snSwitchButton.notify')" :active-text="t('snSwitchButton.notified')"
+					active-type="primary" active-level="second" />
+				<sn-switch-button v-model="remindValue" :text="t('snSwitchButton.on')"
+					:active-text="t('snSwitchButton.off')" active-type="error" active-level="second"
+					custom-style="margin-left:12px;" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snSwitchButton.demoColorTitle')" :subtitle="t('snSwitchButton.demoColorSub')">
+			<view class="demo-row" flatten>
+				<sn-switch-button v-model="colorValue1" :text="t('snSwitchButton.orange')" bg-color="$info"
+					text-color="$text" active-bg-color="#ff6a00" active-text-color="#ffffff" />
+				<sn-switch-button v-model="colorValue2" :text="t('snSwitchButton.purple')"
+					bg-color="rgba(124,92,255,0.15)" text-color="#7c5cff" active-bg-color="#7c5cff"
+					active-text-color="#ffffff" custom-style="margin-left:12px;" />
+			</view>
+			<view class="demo-row demo-row-last" flatten>
+				<sn-switch-button v-model="colorValue3" :text="t('snSwitchButton.mint')" bg-color="$front"
+					text-color="$success" active-bg-color="#0fc08a" active-text-color="#ffffff" />
+				<sn-switch-button v-model="colorValue4" :text="t('snSwitchButton.dark')" bg-color="$line"
+					text-color="$text" active-bg-color="#1f2937" active-text-color="#ffffff"
+					custom-style="margin-left:12px;" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snSwitchButton.demoPlainTitle')" :subtitle="t('snSwitchButton.demoPlainSub')">
+			<view class="demo-row" flatten>
+				<sn-switch-button v-model="plainValue1" plain :text="t('snSwitchButton.outline')" type="primary"
+					level="least" active-type="primary" active-level="first" />
+				<sn-switch-button v-model="plainValue2" plain dashed :text="t('snSwitchButton.outline')" type="info"
+					level="least" active-type="success" active-level="least" active-border-color="$success"
+					custom-style="margin-left:12px;" />
+			</view>
+			<view class="demo-row" flatten>
+				<sn-switch-button v-model="plainValue3" shape="circle" icon="heart-line" plain
+					active-type="error" active-level="first" />
+				<sn-switch-button v-model="plainValue4" shape="circle" icon="thumb-up-line" plain
+					active-type="primary" active-level="first" custom-style="margin-left:12px;" />
+			</view>
+			<view class="demo-row demo-row-last" flatten>
+				<sn-switch-button v-model="plainValue5" size="large" :radius="20" :text="t('snSwitchButton.round')"
+					type="primary" level="least" active-type="primary" active-level="first" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snSwitchButton.demoDisabledTitle')" :subtitle="t('snSwitchButton.demoDisabledSub')">
+			<view class="demo-row" flatten>
+				<sn-switch-button :model-value="true" disabled :text="t('snSwitchButton.selected')" />
+				<sn-switch-button :model-value="false" disabled :text="t('snSwitchButton.unselected')"
+					custom-style="margin-left:12px;" />
+			</view>
+			<view class="demo-row" flatten>
+				<sn-switch-button :model-value="true" loading :text="t('snSwitchButton.loadingSelected')" />
+				<sn-switch-button v-model="eventValue" @change="onSwitchChange"
+					:text="t('snSwitchButton.tapMe')" custom-style="margin-left:12px;" />
+			</view>
+			<sn-text flatten custom-style="margin-top:10px;" font-size="$12" color="$textLight">
+				{{ t('snSwitchButton.latestEvent', { val: changeLog } as UTSJSONObject) }}
+			</sn-text>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+const basicValue = ref<boolean>(false)
+const levelValue1 = ref<boolean>(false)
+const levelValue2 = ref<boolean>(true)
+const levelValue3 = ref<boolean>(false)
+const levelValue4 = ref<boolean>(true)
+const levelValue5 = ref<boolean>(true)
+const levelValue6 = ref<boolean>(false)
+const levelValue7 = ref<boolean>(true)
+const levelValue8 = ref<boolean>(false)
+const levelValue9 = ref<boolean>(true)
+const followValue = ref<boolean>(false)
+const collectValue = ref<boolean>(true)
+const notifyValue = ref<boolean>(true)
+const remindValue = ref<boolean>(false)
+const colorValue1 = ref<boolean>(true)
+const colorValue2 = ref<boolean>(false)
+const colorValue3 = ref<boolean>(false)
+const colorValue4 = ref<boolean>(true)
+const plainValue1 = ref<boolean>(false)
+const plainValue2 = ref<boolean>(true)
+const plainValue3 = ref<boolean>(true)
+const plainValue4 = ref<boolean>(false)
+const plainValue5 = ref<boolean>(false)
+const eventValue = ref<boolean>(false)
+const changeLog = ref<string>(t('snSwitchButton.changeLogInit'))
+
+function onSwitchChange(v: boolean): void {
+	changeLog.value = 'change: ' + v.toString()
+}
+</script>
+
+<style lang="scss">
+.demo-row {
+	flex-direction: row;
+	align-items: center;
+	flex-wrap: wrap;
+	overflow: visible;
+	margin-bottom: 12px;
+}
+
+.demo-row-last {
+	margin-bottom: 0px;
+}
+</style>

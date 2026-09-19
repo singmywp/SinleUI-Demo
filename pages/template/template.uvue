@@ -1,0 +1,320 @@
+<template>
+	<view class="tpl-page" flatten>
+		<scroll-view class="tpl-scroll" direction="vertical" :show-scrollbar="false">
+			<view class="tpl-content" flatten>
+				<view class="hero-shell" :style="heroShellStyle">
+					<view class="hero-glow-layer" :style="heroGlowLayerStyle" flatten>
+						<view class="hero-glow hero-glow-1" flatten :style="glow1Style"></view>
+						<view class="hero-glow hero-glow-2" flatten :style="glow2Style"></view>
+						<view class="hero-glow hero-glow-3" flatten :style="glow3Style"></view>
+					</view>
+					<view class="hero-card glass" :style="heroCardStyle" flatten>
+						<view class="hero-badge" :style="badgeStyle" flatten>
+							<sn-text font-size="$11" :color="accentColor" flatten>{{ t('tmplTemplate.badge') }}</sn-text>
+							</view>
+							<sn-text bold font-size="$32" :color="heroTitleColor"
+								custom-style="margin-bottom:8px;letter-spacing:-0.5px;" flatten>
+								{{ t('tmplTemplate.heroTitle') }}
+							</sn-text>
+							<sn-text font-size="$14" :color="heroSubColor" custom-style="margin-bottom:20px;line-height:20px;" flatten>
+								{{ t('tmplTemplate.heroSub') }}
+							</sn-text>
+							<view class="hero-stats" flatten>
+								<view class="hero-stat" flatten>
+									<sn-text bold font-size="$24" :color="heroAccentColor" flatten>{{ entries.length }}</sn-text>
+									<sn-text font-size="$11" :color="mutedColor" flatten>{{ t('tmplTemplate.statTemplates') }}</sn-text>
+								</view>
+								<view class="hero-stat-divider" flatten :style="dividerStyle"></view>
+								<view class="hero-stat" flatten>
+									<sn-text bold font-size="$16" :color="heroAccentColor" flatten>{{ platformName }}</sn-text>
+									<sn-text font-size="$11" :color="mutedColor" flatten>{{ t('tmplTemplate.statPlatform') }}</sn-text>
+								</view>
+							</view>
+					</view>
+				</view>
+
+				<view class="tpl-card">
+					<sn-cell v-for="(item, idx) in entries" :key="item.title" :icon="item.icon" :title="item.title"
+						:label="item.label" right-icon="arrow-right" :border="idx < entries.length - 1"
+						icon-style="color: var(--sn-primary);" @click="openTpl(item)" />
+				</view>
+
+				<sn-text flatten font-size="$11" color="$textLight"
+						custom-style="text-align: center; margin-top: 20px;">{{ t('tmplTemplate.more') }}</sn-text>
+			</view>
+		</scroll-view>
+	</view>
+</template>
+
+<script lang="uts" setup>
+import { $snui, useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+const { isDark } = useTheme()
+
+type TplEntry = {
+	icon: string
+	title: string
+	label: string
+	url: string
+}
+
+const entries = computed<TplEntry[]>(() => [
+	{
+		icon: 'settings-line',
+		title: t('tmplTemplate.e1.title'),
+		label: t('tmplTemplate.e1.label'),
+		url: '/pages/template/settings'
+	},
+	{
+		icon: 'layout-line',
+		title: 'Tabs + Swiper',
+		label: t('tmplTemplate.e2.label'),
+		url: '/pages/template/tabs-swiper'
+	},
+	{
+		icon: 'user-smile-line',
+		title: t('tmplTemplate.e3.title'),
+		label: t('tmplTemplate.e3.label'),
+		url: '/pages/template/space'
+	},
+	{
+		icon: 'chat-1-line',
+		title: t('tmplTemplate.e4.title'),
+		label: t('tmplTemplate.e4.label'),
+		url: '/pages/template/chat'
+	},
+	{
+		icon: 'account-circle-line',
+		title: t('tmplTemplate.e5.title'),
+		label: t('tmplTemplate.e5.label'),
+		url: '/pages/template/login'
+	}
+])
+
+const platformName = ref<string>('Web')
+
+onMounted((): void => {
+	try {
+		const sysInfo = uni.getSystemInfoSync() as unknown as UTSJSONObject
+		const platform = sysInfo['uniPlatform'] as string
+		if (platform == 'web') {
+			platformName.value = 'Web'
+		} else if (platform == 'app') {
+			const osName = sysInfo['osName'] as string
+			if (osName == 'android') {
+				platformName.value = 'Android'
+			} else if (osName == 'ios') {
+				platformName.value = 'iOS'
+			} else {
+				platformName.value = 'App'
+			}
+		} else if (platform == 'mp-weixin') {
+			platformName.value = 'MP'
+		} else if (platform != null) {
+			platformName.value = platform
+		}
+	} catch (e) {
+		platformName.value = 'Web'
+	}
+})
+
+function openTpl(item: TplEntry): void {
+	uni.navigateTo({ url: item.url })
+}
+
+const accentColor = computed<string>(() => $snui.colors.primary)
+const heroTitleColor = computed<string>(() => isDark.value ? '#FFFFFF' : '#0F172A')
+const heroSubColor = computed<string>(() => isDark.value ? 'rgba(255,255,255,0.6)' : 'rgba(15,23,42,0.55)')
+const heroAccentColor = computed<string>(() => isDark.value ? $snui.colors.primaryActive : $snui.colors.primary)
+const mutedColor = computed<string>(() => isDark.value ? 'rgba(255,255,255,0.5)' : 'rgba(15,23,42,0.5)')
+const dividerColor = computed<string>(() => isDark.value ? 'rgba(255,255,255,0.1)' : 'rgba(77,130,255,0.15)')
+const glassBgColor = computed<string>(() => isDark.value ? 'rgba(30,41,59,0.5)' : 'rgba(255,255,255,0.6)')
+const glassBorderColor = computed<string>(() => isDark.value ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.9)')
+const glassShadow = computed<string>(() => isDark.value
+	? '0 8px 32px rgba(0,0,0,0.4)'
+	: `0 8px 32px ${$snui.colors.primary}1f`)
+
+function factorRadius(n: number): number {
+	return Math.round(n * $snui.radiusFactor)
+}
+
+const heroShellStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('borderRadius', `${factorRadius(24)}px`)
+	styles.set('overflow', 'hidden')
+	styles.set('position', 'relative')
+	styles.set('boxShadow', glassShadow.value)
+	return styles
+})
+
+const heroGlowLayerStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('position', 'absolute')
+	styles.set('top', '0')
+	styles.set('left', '0')
+	styles.set('right', '0')
+	styles.set('bottom', '0')
+	styles.set('borderRadius', `${factorRadius(24)}px`)
+	styles.set('backgroundColor', isDark.value ? $snui.darkBgColor : $snui.lightBgColor)
+	styles.set('overflow', 'hidden')
+	return styles
+})
+
+const heroCardStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('paddingTop', '28px')
+	styles.set('paddingRight', '20px')
+	styles.set('paddingBottom', '24px')
+	styles.set('paddingLeft', '20px')
+	styles.set('backgroundColor', glassBgColor.value)
+	// #ifdef WEB
+	styles.set('backdropFilter', 'blur(20px)')
+	// #endif
+	styles.set('borderTopWidth', '1px')
+	styles.set('borderTopStyle', 'solid')
+	styles.set('borderTopColor', glassBorderColor.value)
+	styles.set('position', 'relative')
+	styles.set('zIndex', 1)
+	return styles
+})
+
+const badgeStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('position', 'absolute')
+	styles.set('top', '16px')
+	styles.set('right', '16px')
+	styles.set('paddingLeft', '10px')
+	styles.set('paddingRight', '10px')
+	styles.set('paddingTop', '4px')
+	styles.set('paddingBottom', '4px')
+	styles.set('borderRadius', `${factorRadius(10)}px`)
+	styles.set('backgroundColor', isDark.value ? 'rgba(77,130,255,0.2)' : 'rgba(77,130,255,0.1)')
+	styles.set('zIndex', 2)
+	return styles
+})
+
+const glow1Style = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', '200px')
+	styles.set('height', '200px')
+	styles.set('borderRadius', '100px')
+	styles.set('position', 'absolute')
+	styles.set('top', '-60px')
+	styles.set('right', '-40px')
+	styles.set('backgroundColor', isDark.value ? 'rgba(77,130,255,0.2)' : 'rgba(77,130,255,0.25)')
+	return styles
+})
+
+const glow2Style = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', '160px')
+	styles.set('height', '160px')
+	styles.set('borderRadius', '80px')
+	styles.set('position', 'absolute')
+	styles.set('bottom', '-50px')
+	styles.set('left', '-30px')
+	styles.set('backgroundColor', isDark.value ? 'rgba(139,92,246,0.15)' : 'rgba(139,92,246,0.2)')
+	return styles
+})
+
+const glow3Style = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', '100px')
+	styles.set('height', '100px')
+	styles.set('borderRadius', '50px')
+	styles.set('position', 'absolute')
+	styles.set('top', '60px')
+	styles.set('left', '-10px')
+	styles.set('backgroundColor', isDark.value ? 'rgba(236,72,153,0.1)' : 'rgba(236,72,153,0.12)')
+	return styles
+})
+
+const dividerStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', '1px')
+	styles.set('height', '28px')
+	styles.set('backgroundColor', dividerColor.value)
+	return styles
+})
+</script>
+
+<style lang="scss">
+.tpl-page {
+	flex: 1;
+	flex-direction: column;
+}
+
+.tpl-scroll {
+	flex: 1;
+	flex-direction: column;
+}
+
+.tpl-content {
+	flex-direction: column;
+	padding: 0 16px 32px 16px;
+}
+
+.glass {
+	flex-direction: column;
+	transition-property: background-color, border-color;
+	transition-duration: 300ms;
+}
+
+.hero-shell {
+	border-radius: 24px;
+	position: relative;
+	overflow: hidden;
+	flex-direction: column;
+	margin-top: 8px;
+}
+
+.hero-glow-layer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border-radius: 24px;
+	overflow: hidden;
+}
+
+.hero-card {
+	flex-direction: column;
+	position: relative;
+	z-index: 1;
+}
+
+.hero-glow {
+	border-radius: 100px;
+}
+
+.hero-badge {
+	border-radius: 10px;
+}
+
+.hero-stats {
+	flex-direction: row;
+	align-items: center;
+}
+
+.hero-stat {
+	flex: 1;
+	flex-direction: column;
+	align-items: center;
+}
+
+.hero-stat-divider {
+	width: 1px;
+}
+
+.tpl-card {
+	flex-direction: column;
+	background-color: var(--sn-front);
+	border-radius: 16px;
+	overflow: hidden;
+	margin-top: 12px;
+}
+</style>

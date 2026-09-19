@@ -1,0 +1,104 @@
+<template>
+	<sn-page :title="t('apiScan.title')" :show-back="true">
+
+		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;">
+			<sn-text font-size="$12" color="$primary" flatten>{{ t('apiScan.alert1') }}</sn-text>
+			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;" flatten>{{ t('apiScan.alert2') }}</sn-text>
+		</sn-alert>
+
+		<demo-card :title="t('apiScan.basic')" :subtitle="t('apiScan.basicSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="primary" :text="t('apiScan.openScan')" custom-style="flex:1;" @click="onScanAll" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiScan.type')" :subtitle="t('apiScan.typeSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="info" :text="t('apiScan.qrOnly')" custom-style="flex:1;" @click="onScanQr" />
+				<sn-button type="info" :text="t('apiScan.barcodeOnly')" custom-style="flex:1;margin-left:10px;" @click="onScanBarcode" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('apiScan.typeDesc') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('apiScan.titleTypeCard')" :subtitle="t('apiScan.titleTypeSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="info" text="titleType: 0" custom-style="flex:1;" @click="onScanTitle(0)" />
+				<sn-button type="info" text="titleType: 1" custom-style="flex:1;margin-left:10px;" @click="onScanTitle(1)" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('apiScan.titleTypeDesc') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('apiScan.permTipCard')" :subtitle="t('apiScan.permTipSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="warning" :text="t('apiScan.openWithTip')" custom-style="flex:1;" @click="onScanCustomTip" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('apiScan.permTipDesc') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('apiScan.resultCard')" :subtitle="t('apiScan.resultSub')">
+			<sn-text font-size="$13" :color="descColor" flatten>format：{{ scanFormat }}</sn-text>
+			<sn-text font-size="$13" :color="descColor" custom-style="margin-top:6px;" flatten>data：{{ scanData }}</sn-text>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { scan } from '@/uni_modules/sn-e-scankit'
+import type { ScanResult } from '@/uni_modules/sn-e-scankit'
+import { snu, useTheme } from '@/uni_modules/sinle-ui/index.uts'
+
+const { t } = useI18n()
+const { isDark } = useTheme()
+
+const descColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+const scanFormat = ref<string>('—')
+const scanData = ref<string>('—')
+
+function handleResult(res: ScanResult): void {
+	scanFormat.value = res.format
+	scanData.value = res.data
+	snu.showModal({
+		title: t('apiScan.success'),
+		content: t('apiScan.format', { format: res.format, content: res.data } as UTSJSONObject),
+		showCancel: false
+	})
+}
+
+function onScanAll(): void {
+	scan({}, (res: ScanResult): void => {
+		handleResult(res)
+	})
+}
+
+function onScanQr(): void {
+	scan({ scanTypes: ['QRCODE'] }, (res: ScanResult): void => {
+		handleResult(res)
+	})
+}
+
+function onScanBarcode(): void {
+	scan({ scanTypes: ['EAN_13', 'CODE_128'] }, (res: ScanResult): void => {
+		handleResult(res)
+	})
+}
+
+function onScanTitle(titleType: number): void {
+	scan({ titleType: titleType }, (res: ScanResult): void => {
+		handleResult(res)
+	})
+}
+
+function onScanCustomTip(): void {
+	scan({ permTip: t('apiScan.permTipText') }, (res: ScanResult): void => {
+		handleResult(res)
+	})
+}
+</script>
+
+<style lang="scss">
+.btn-row {
+	flex-direction: row;
+	align-items: center;
+}
+</style>

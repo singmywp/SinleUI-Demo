@@ -1,0 +1,136 @@
+<template>
+	<sn-page :title="t('snListView.title')" :show-back="true">
+		<demo-card :title="t('snListView.basicTitle')" :subtitle="t('snListView.basicDesc')">
+			<view class="list-box" flatten>
+				<sn-list-view ref="listRef" :list="items" refresher-enabled v-model:refresher-triggered="refresherTriggered"
+					:refresher-config="refresherConfig" loadmore v-model:loadmore-status="loadmoreStatus"
+					:loadmore-config="loadmoreConfig" backtop @refresherrefresh="onRefresh" @loadmore="onLoadmore">
+					<template v-slot:default="slotProps">
+						<view class="list-item-inner" flatten>
+							<sn-text font-size="$14" :color="itemColor" flatten>{{ slotProps.item }}</sn-text>
+							<sn-text font-size="$12" color="$textLight" flatten>{{ t('snListView.listHint') }}</sn-text>
+						</view>
+					</template>
+				</sn-list-view>
+			</view>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>
+				{{ t('snListView.totalCount', { n: items.length } as UTSJSONObject) }}
+			</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snListView.methodTitle')" :subtitle="t('snListView.methodDesc')">
+			<view class="btn-row" flatten>
+				<sn-button type="primary" custom-style="margin-right:10px;" @click="onStartRefresh">{{ t('snListView.startRefreshBtn') }}</sn-button>
+				<sn-button type="primary" level="second" @click="onStopRefresh">{{ t('snListView.stopRefreshBtn') }}</sn-button>
+			</view>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>
+					{{ t('snListView.refresherTriggered') }}{{ refresherTriggered ? 'true' : 'false' }}
+			</sn-text>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+	import { useI18n } from 'vue-i18n'
+	import { $snui } from '@/uni_modules/sinle-ui'
+	import type { ComponentPublicInstance } from 'vue'
+	import type { SnLoadmoreParams, SnRefresherParams } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+	const { t } = useI18n()
+	const listRef = ref<ComponentPublicInstance | null>(null)
+	const refresherTriggered = ref<boolean>(false)
+	const loadmoreStatus = ref<string>('loadmore')
+	const items = ref<string[]>([])
+	let refreshTimer: number | null = null
+
+	const refresherConfig = computed<SnRefresherParams>(() => ({
+		refreshText: t('snListView.refreshText'),
+		refreshingText: t('snListView.refreshingText'),
+		iconColor: '$primary',
+		textColor: '$primary'
+	}))
+
+	const loadmoreConfig = computed<SnLoadmoreParams>(() => ({
+		loadmoreText: t('snListView.loadmoreText'),
+		nomoreText: t('snListView.nomoreText'),
+		loadingText: t('snListView.loadingText')
+	}))
+
+	const itemColor = computed<string>(() => $snui.colors.text)
+
+	function initItems(): void {
+		const arr: string[] = []
+		for (let i = 1; i <= 50; i++) {
+			arr.push(t('snListView.listItem', { n: i } as UTSJSONObject))
+		}
+		items.value = arr
+	}
+
+	function onRefresh(): void {
+		if (refreshTimer != null) {
+			clearTimeout(refreshTimer)
+			refreshTimer = null
+		}
+		refreshTimer = setTimeout(() => {
+			initItems()
+			loadmoreStatus.value = 'loadmore'
+			listRef.value?.$callMethod('stopRefresh')
+			refreshTimer = null
+		}, 1500) as number
+	}
+
+	function onLoadmore(): void {
+		loadmoreStatus.value = 'loading'
+		if (refreshTimer != null) {
+			clearTimeout(refreshTimer)
+			refreshTimer = null
+		}
+		refreshTimer = setTimeout(() => {
+			const current = items.value.length
+			for (let i = 1; i <= 20; i++) {
+				items.value.push(t('snListView.listItem', { n: current + i } as UTSJSONObject))
+			}
+			if (items.value.length >= 120) {
+				loadmoreStatus.value = 'nomore'
+			} else {
+				loadmoreStatus.value = 'loadmore'
+			}
+			refreshTimer = null
+		}, 1000) as number
+	}
+
+	function onStartRefresh(): void {
+		listRef.value?.$callMethod('startRefresh')
+	}
+
+	function onStopRefresh(): void {
+		listRef.value?.$callMethod('stopRefresh')
+	}
+
+	onMounted((): void => {
+		initItems()
+	})
+
+	onUnmounted(() => {
+		if (refreshTimer != null) {
+			clearTimeout(refreshTimer)
+			refreshTimer = null
+		}
+	})
+</script>
+
+<style lang="scss">
+	.list-box {
+		height: 400px;
+	}
+	.list-item-inner {
+		padding: 16px;
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: var(--sn-line);
+		background-color: var(--sn-front);
+	}
+	.btn-row {
+		flex-direction: row;
+	}
+</style>

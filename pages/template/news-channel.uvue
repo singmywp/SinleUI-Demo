@@ -1,0 +1,174 @@
+<template>
+	<sn-list-view ref="listRef" :list="items" refresher-enabled v-model:refresher-triggered="refreshing"
+		:refresher-config="refresherConfig" loadmore v-model:loadmore-status="loadmoreStatus"
+		:loadmore-config="loadmoreConfig" custom-style="background-color: var(--sn-front);"
+		@refresherrefresh="onRefresh" @loadmore="onLoadmore">
+		<template v-slot:default="slotProps">
+			<view class="news-item">
+				<view class="news-main" flatten>
+					<sn-text flatten font-size="$15" color="$title" :lines="2"
+						custom-style="line-height: 21px;">{{ newsOf(slotProps.item).title }}</sn-text>
+					<view class="news-meta" flatten>
+						<sn-text font-size="$11" color="$textLight" flatten>{{ newsOf(slotProps.item).source }}</sn-text>
+						<sn-text font-size="$11" color="$textLight" flatten custom-style="margin-left:8px;">{{ newsOf(slotProps.item).comments }}{{ t('tmplNewsChannel.comments') }}</sn-text>
+						<sn-text font-size="$11" color="$textLight" flatten custom-style="margin-left:8px;">{{ newsOf(slotProps.item).time }}</sn-text>
+					</view>
+				</view>
+				<view v-if="newsOf(slotProps.item).image != ''" class="news-thumb" flatten>
+					<image class="news-thumb-img" :src="newsOf(slotProps.item).image" mode="aspectFill" />
+				</view>
+				<view v-else class="news-thumb" flatten>
+					<sn-icon name="image-line" :size="20" color="$textLight" />
+				</view>
+			</view>
+			<view class="news-divider"></view>
+		</template>
+	</sn-list-view>
+</template>
+
+<script lang="uts" setup>
+import type { ComponentPublicInstance } from 'vue'
+import { useI18n } from 'vue-i18n'
+import type { SnLoadmoreParams, SnRefresherParams } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type { NewsItem } from './news.uts'
+
+const { t } = useI18n()
+
+type Props = {
+	base: NewsItem[]
+}
+
+const props = withDefaults(defineProps<Props>(), {
+	base: [] as NewsItem[]
+})
+
+const listRef = ref<ComponentPublicInstance | null>(null)
+const items = ref<NewsItem[]>([])
+const refreshing = ref<boolean>(false)
+const loadmoreStatus = ref<string>('loadmore')
+
+let seed = 0
+let timer: number | null = null
+
+const refresherConfig: SnRefresherParams = {
+	refreshText: t('tmplNewsChannel.refreshText'),
+	refreshingText: t('tmplNewsChannel.refreshingText'),
+	iconColor: '$primary',
+	textColor: '$primary'
+}
+
+const loadmoreConfig: SnLoadmoreParams = {
+	loadmoreText: t('tmplNewsChannel.loadmoreText'),
+	loadingText: t('tmplNewsChannel.loadingText'),
+	nomoreText: t('tmplNewsChannel.nomoreText')
+}
+
+function newsOf(item: any): NewsItem {
+	return item as NewsItem
+}
+
+function makeItems(count: number): NewsItem[] {
+	const arr: NewsItem[] = []
+	const n = props.base.length
+	if (n == 0) {
+		return arr
+	}
+	for (let i = 0; i < count; i++) {
+		const src = props.base[(seed + i) % n]
+		arr.push({
+			id: `${src.id}-${seed + i}`,
+			title: src.title,
+			source: src.source,
+			comments: src.comments,
+			time: src.time,
+			image: src.image
+		})
+	}
+	seed += count
+	return arr
+}
+
+function onRefresh(): void {
+	if (timer != null) {
+		clearTimeout(timer)
+		timer = null
+	}
+	timer = setTimeout((): void => {
+		seed = 0
+		items.value = makeItems(15)
+		loadmoreStatus.value = 'loadmore'
+		listRef.value?.$callMethod('stopRefresh')
+		timer = null
+	}, 1200) as number
+}
+
+function onLoadmore(): void {
+	loadmoreStatus.value = 'loading'
+	if (timer != null) {
+		clearTimeout(timer)
+		timer = null
+	}
+	timer = setTimeout((): void => {
+		const page = makeItems(8)
+		for (let i = 0; i < page.length; i++) {
+			items.value.push(page[i])
+		}
+		loadmoreStatus.value = 'loadmore'
+		timer = null
+	}, 1000) as number
+}
+
+onMounted((): void => {
+	items.value = makeItems(15)
+})
+
+onUnmounted((): void => {
+	if (timer != null) {
+		clearTimeout(timer)
+		timer = null
+	}
+})
+</script>
+
+<style lang="scss">
+.news-item {
+	flex-direction: row;
+	align-items: center;
+	padding: 14px 16px;
+}
+
+.news-main {
+	flex: 1;
+	flex-direction: column;
+	margin-right: 12px;
+}
+
+.news-meta {
+	flex-direction: row;
+	align-items: center;
+	margin-top: 8px;
+}
+
+.news-thumb {
+	width: 96px;
+	height: 72px;
+	border-radius: 10px;
+	background-color: var(--sn-info);
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.news-thumb-img {
+	width: 96px;
+	height: 72px;
+}
+
+.news-divider {
+	height: 1px;
+	background-color: var(--sn-line);
+	margin-left: 16px;
+	margin-right: 16px;
+}
+</style>

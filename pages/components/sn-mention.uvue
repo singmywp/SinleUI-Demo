@@ -1,0 +1,282 @@
+<template>
+	<sn-page :title="t('snMention.title')" :show-back="true">
+		<demo-card :title="t('snMention.basicTitle')" :subtitle="t('snMention.basicDesc')">
+			<sn-mention ref="mention1Ref" v-model="value1" :placeholder="t('snMention.placeholderSelect')"
+				@mention="onMention1" @removemention="onRemove1" @change="onChange1" />
+			<sn-text type="text-light" :font-size="13"
+				:text="t('snMention.currentValue') + (value1 == '' ? t('snMention.empty') : value1)" custom-style="margin-top:12px;" flatten />
+			<sn-text type="text-light" :font-size="13"
+				:text="t('snMention.mentionCounts', { m: mentionCount1, r: removeCount1, c: changeCount1 } as UTSJSONObject)"
+				custom-style="margin-top:6px;" flatten />
+		</demo-card>
+
+		<demo-card :title="t('snMention.removeTitle')" :subtitle="t('snMention.removeDesc')">
+			<sn-mention ref="mention2Ref" v-model="value2" :before-remove="beforeRemove2"
+				:placeholder="t('snMention.placeholderRemove')" @mention="onMention2" @removemention="onRemove2" />
+			<sn-text type="text-light" :font-size="13"
+				:text="t('snMention.currentValue') + (value2 == '' ? t('snMention.empty') : value2)" custom-style="margin-top:12px;" flatten />
+			<sn-text :font-size="13" color="$primaryDark"
+				:text="t('snMention.deleteLog') + (removeLog2 == '' ? t('snMention.noneLog') : removeLog2)" custom-style="margin-top:6px;" flatten />
+		</demo-card>
+
+		<demo-card :title="t('snMention.charTitle')" :subtitle="t('snMention.charDesc')">
+			<sn-mention ref="mention3Ref" v-model="value3" mention-char="#" :placeholder="t('snMention.placeholderTopic')"
+				@mention="onMention3" />
+			<sn-text type="text-light" :font-size="13"
+				:text="t('snMention.currentValue') + (value3 == '' ? t('snMention.empty') : value3)" custom-style="margin-top:12px;" flatten />
+		</demo-card>
+
+		<demo-card :title="t('snMention.propsTitle')" :subtitle="t('snMention.propsDesc')">
+			<sn-mention v-model="value4" type="number" :placeholder="t('snMention.placeholderNum')" />
+			<sn-mention v-model="value4" clearable :placeholder="t('snMention.placeholderClear')" custom-style="margin-top:12px;" />
+			<sn-mention v-model="value4" disabled :placeholder="t('snMention.placeholderDisabled')" custom-style="margin-top:12px;" />
+			<sn-mention v-model="value4" :loading="loading4" :placeholder="t('snMention.placeholderLoading')" custom-style="margin-top:12px;" />
+			<sn-button :text="t('snMention.toggleLoading')" type="info" level="second" custom-style="margin-top:12px;margin-right:8px;"
+				@click="toggleLoading4" />
+			<sn-mention v-model="value5" password clearable :placeholder="t('snMention.placeholderPwd')"
+				custom-style="margin-top:12px;" />
+			<sn-mention v-model="value6" :maxlength="8" :placeholder="t('snMention.placeholderMax')"
+				custom-style="margin-top:12px;" />
+		</demo-card>
+
+		<demo-card :title="t('snMention.chatTitle')" :subtitle="t('snMention.chatDesc')">
+			<view v-if="chatList.length > 0" class="chat-list">
+				<view v-for="(msg, idx) in chatList" :key="'m' + idx" class="chat-item" flatten>
+					<sn-text :font-size="14" :text="msg" />
+				</view>
+			</view>
+			<sn-text v-else type="text-light" :font-size="13" :text="t('snMention.noMessage')" custom-style="margin-bottom:12px;" flatten />
+			<sn-mention ref="chatMentionRef" v-model="chatInput" :before-remove="beforeRemoveChat" confirm-type="send"
+				:placeholder="t('snMention.placeholderChat')" @mention="onChatMention" @confirm="onChatConfirm"
+				@removemention="onChatRemove" />
+		</demo-card>
+
+		<sn-drawer-list ref="drawer1Ref" height="600px" :show-scrollbar="false" :backtop="false" :list="drawer1Items">
+			<template v-slot:default="slotProps">
+				<view v-if="mentionKind(slotProps.item) == 'header'">
+					<sn-text bold :font-size="16" color="$title" :text="mentionLabel(slotProps.item)" custom-style="padding:4px 4px 12px 4px;" />
+				</view>
+				<sn-cell v-else :title="mentionLabel(slotProps.item)" :icon="'user-line'" :clickable="true" :border="false"
+					:custom-style="drawerCellStyle" :bg-color="drawerCellBg" @click="selectFriend1(mentionIndex(slotProps.item))" />
+			</template>
+		</sn-drawer-list>
+
+		<sn-drawer-list ref="drawer2Ref" height="600px" :show-scrollbar="false" :backtop="false" :list="drawer2Items">
+			<template v-slot:default="slotProps">
+				<view v-if="mentionKind(slotProps.item) == 'header'">
+					<sn-text bold :font-size="16" color="$title" :text="mentionLabel(slotProps.item)" custom-style="padding:4px 4px 12px 4px;" />
+				</view>
+				<sn-cell v-else :title="mentionLabel(slotProps.item)" :icon="'user-line'" :clickable="true" :border="false"
+					:custom-style="drawerCellStyle" :bg-color="drawerCellBg" @click="selectFriend2(mentionIndex(slotProps.item))" />
+			</template>
+		</sn-drawer-list>
+
+		<sn-drawer-list ref="drawer3Ref" height="360px" :show-scrollbar="false" :backtop="false" :list="drawer3Items">
+			<template v-slot:default="slotProps">
+				<view v-if="mentionKind(slotProps.item) == 'header'">
+					<sn-text bold :font-size="16" color="$title" :text="mentionLabel(slotProps.item)" custom-style="padding:4px 4px 12px 4px;" />
+				</view>
+				<sn-cell v-else :title="mentionLabel(slotProps.item)" :icon="'hashtag'" :clickable="true" :border="false"
+					:custom-style="drawerCellStyle" :bg-color="drawerCellBg" @click="selectTopic3(mentionIndex(slotProps.item))" />
+			</template>
+		</sn-drawer-list>
+
+		<sn-drawer-list ref="chatDrawerRef" height="600px" :show-scrollbar="false" :backtop="false" :list="chatDrawerItems">
+			<template v-slot:default="slotProps">
+				<view v-if="mentionKind(slotProps.item) == 'header'">
+					<sn-text bold :font-size="16" color="$title" :text="mentionLabel(slotProps.item)" custom-style="padding:4px 4px 12px 4px;" />
+				</view>
+				<sn-cell v-else :title="mentionLabel(slotProps.item)" :icon="'user-line'" :clickable="true" :border="false"
+					:custom-style="drawerCellStyle" :bg-color="drawerCellBg" @click="insertChatFriend(mentionIndex(slotProps.item))" />
+			</template>
+		</sn-drawer-list>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui'
+
+const { t } = useI18n()
+const drawerCellStyle = 'border-radius:12px;margin-bottom:8px;'
+const drawerCellBg = 'var(--sn-info-light)'
+
+const friends: string[] = [
+	'半窗烟雨', '晚风啊～', '阳光如期而至', '水边花外雨冥冥', '一舸书斋',
+	'一便士的月亮', '佳木秀而繁阴', '南柯无梦', '山尺手作', '自成星光',
+	'雲陽', '蓤芷', '.YULONDA', '秋悠焉姬', '风多多',
+	'玛卡巴卡', '小松松', '又甜柚', '圆嘴小猫', '黑猫揣手手等小鱼干',
+	'小喵喵喵喵...', '爱吃猕猴桃', '蛋挞芯', 'sd_Lize', '圈圈啊乐乐啊',
+	'甜甜小食记', '阿秋秋糖', '茜茜家零食分装', '软软', '绵阳阳', '香软SniffRose'
+]
+
+const topics: string[] = ['设计', '开发', '公告', '闲聊']
+
+type MentionEntry = {
+	type: number
+	kind: string
+	label: string
+	index: number
+}
+
+function mentionEntries(header: string, labels: string[]): MentionEntry[] {
+	const arr: MentionEntry[] = []
+	arr.push({ type: 1, kind: 'header', label: header, index: -1 })
+	for (let i = 0; i < labels.length; i++) {
+		arr.push({ type: 0, kind: 'item', label: labels[i], index: i })
+	}
+	return arr
+}
+
+const drawer1Items = computed<MentionEntry[]>(() => mentionEntries(t('snMention.headerSelectFriend'), friends))
+const drawer2Items = computed<MentionEntry[]>(() => mentionEntries(t('snMention.headerSelectFriend'), friends))
+const drawer3Items = computed<MentionEntry[]>(() => mentionEntries(t('snMention.headerSelectTopic'), topics))
+const chatDrawerItems = computed<MentionEntry[]>(() => mentionEntries(t('snMention.headerSelectFriend'), friends))
+
+function mentionKind(item: any): string {
+	return (item as MentionEntry).kind
+}
+function mentionLabel(item: any): string {
+	return (item as MentionEntry).label
+}
+function mentionIndex(item: any): number {
+	return (item as MentionEntry).index
+}
+
+function findFriend(name: string): number {
+	for (let i = 0; i < friends.length; i++) {
+		if (friends[i] == name) {
+			return i
+		}
+	}
+	return -1
+}
+
+const mention1Ref = ref<ComponentPublicInstance | null>(null)
+const drawer1Ref = ref<ComponentPublicInstance | null>(null)
+const value1 = ref<string>('')
+const mentionCount1 = ref<number>(0)
+const removeCount1 = ref<number>(0)
+const changeCount1 = ref<number>(0)
+
+function onMention1(): void {
+	mentionCount1.value = mentionCount1.value + 1
+	uni.hideKeyboard()
+	drawer1Ref.value?.$callMethod('open')
+}
+
+function onRemove1(tag: string): void {
+	removeCount1.value = removeCount1.value + 1
+	snu.showToast({
+		text: t('snMention.removedTag', { tag: tag } as UTSJSONObject)
+	})
+}
+
+function onChange1(v: string): void {
+	changeCount1.value = changeCount1.value + 1
+}
+
+function selectFriend1(idx: number): void {
+	drawer1Ref.value?.$callMethod('close')
+	mention1Ref.value?.$callMethod('insertMention', friends[idx])
+}
+
+const mention2Ref = ref<ComponentPublicInstance | null>(null)
+const drawer2Ref = ref<ComponentPublicInstance | null>(null)
+const value2 = ref<string>('')
+const removeLog2 = ref<string>('')
+
+function onMention2(): void {
+	uni.hideKeyboard()
+	drawer2Ref.value?.$callMethod('open')
+}
+
+function beforeRemove2(tag: string): boolean {
+	if (findFriend(tag) >= 0) {
+		removeLog2.value = t('snMention.allowRemove', { tag: tag } as UTSJSONObject)
+		return true
+	}
+	removeLog2.value = t('snMention.blockRemove', { tag: tag } as UTSJSONObject)
+	return false
+}
+
+function onRemove2(tag: string): void {
+	removeLog2.value = t('snMention.removedWhole', { tag: tag } as UTSJSONObject)
+}
+
+function selectFriend2(idx: number): void {
+	removeLog2.value = t('snMention.inserted', { tag: friends[idx] } as UTSJSONObject)
+	drawer2Ref.value?.$callMethod('close')
+	mention2Ref.value?.$callMethod('insertMention', friends[idx])
+}
+
+const mention3Ref = ref<ComponentPublicInstance | null>(null)
+const drawer3Ref = ref<ComponentPublicInstance | null>(null)
+const value3 = ref<string>('')
+
+function onMention3(): void {
+	uni.hideKeyboard()
+	drawer3Ref.value?.$callMethod('open')
+}
+
+function selectTopic3(idx: number): void {
+	drawer3Ref.value?.$callMethod('close')
+	mention3Ref.value?.$callMethod('insertMention', topics[idx])
+}
+
+const value4 = ref<string>('')
+const loading4 = ref<boolean>(false)
+
+function toggleLoading4(): void {
+	loading4.value = !loading4.value
+}
+
+const value5 = ref<string>('')
+const value6 = ref<string>('')
+
+const chatMentionRef = ref<ComponentPublicInstance | null>(null)
+const chatDrawerRef = ref<ComponentPublicInstance | null>(null)
+const chatList = ref<string[]>([])
+const chatInput = ref<string>('')
+
+function beforeRemoveChat(tag: string): boolean {
+	return findFriend(tag) >= 0
+}
+
+function onChatMention(): void {
+	uni.hideKeyboard()
+	chatDrawerRef.value?.$callMethod('open')
+}
+
+function onChatRemove(tag: string): void {
+	snu.showToast({
+		text: t('snMention.removedMention', { tag: tag } as UTSJSONObject)
+	})
+}
+
+function insertChatFriend(idx: number): void {
+	chatDrawerRef.value?.$callMethod('close')
+	chatMentionRef.value?.$callMethod('insertMention', friends[idx])
+}
+
+function onChatConfirm(e: UniInputConfirmEvent): void {
+	const val = chatInput.value
+	if (val != '') {
+		chatList.value.push(val)
+		chatInput.value = ''
+	}
+}
+</script>
+
+<style lang="scss">
+.chat-list {
+	margin-bottom: 12px;
+}
+.chat-item {
+	flex-direction: row;
+	padding: 8px 12px;
+	border-radius: 8px;
+	background-color: var(--sn-info-light);
+	margin-bottom: 8px;
+}
+</style>

@@ -1,0 +1,240 @@
+<template>
+	<sn-page :title="t('snInputField.title')" :show-back="true">
+
+		<demo-card :title="t('snInputField.basicTitle')" :subtitle="t('snInputField.basicDesc')">
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snInputField.currentValue') }}{{ value1 }}</sn-text>
+		</demo-card>
+		<sn-input-field v-model="value1" :placeholder="t('snInputField.placeholderInput')" />
+
+		<demo-card class="mt-10" :title="t('snInputField.requiredTitle')" :subtitle="t('snInputField.requiredDesc')">
+		</demo-card>
+		<sn-input-field v-model="valueRequired" :label="t('snInputField.labelUserAccount')" required :placeholder="t('snInputField.placeholderAccount')" clearable />
+		<sn-input-field v-model="valueRequired2" :label="t('snInputField.labelPhone')" required type="number" :placeholder="t('snInputField.placeholderPhone')"
+						:maxlength="11" />
+
+		<demo-card class="mt-10" :title="t('snInputField.verticalTitle')" :subtitle="t('snInputField.verticalDesc')">
+		</demo-card>
+		<sn-input-field v-model="valueV1" direction="vertical" :label="t('snInputField.labelGoods')" :placeholder="t('snInputField.placeholderGoods')"
+			clearable />
+		<sn-input-field v-model="valueV2" direction="vertical" :label="t('snInputField.labelRemark')" type="textarea" :placeholder="t('snInputField.placeholderTextarea')" />
+
+		<demo-card class="mt-10" :title="t('snInputField.labelStyleTitle')" :subtitle="t('snInputField.labelStyleDesc')">
+		</demo-card>
+		<sn-input-field v-model="valueLS1" :label="t('snInputField.labelRight')" label-align="right" label-width="80px"
+			placeholder="label-align=right" />
+		<sn-input-field v-model="valueLS2" :label="t('snInputField.labelBig')" label-size="$18" label-color="$primaryDark"
+			placeholder="label-size & label-color" />
+		<sn-input-field v-model="valueLS3" :label="t('snInputField.labelLong')" label-width="140px" placeholder="label-width=140px" />
+
+		<demo-card class="mt-10" :title="t('snInputField.labelJustifyTitle')" :subtitle="t('snInputField.labelJustifyDesc')">
+		</demo-card>
+		<sn-input-field v-model="valueJ1" :label="t('snInputField.labelTop')" label-justify="top" label-width="90px"
+			input-style="padding:22px 13px;" placeholder="label-justify=top" />
+		<sn-input-field v-model="valueJ2" :label="t('snInputField.labelMiddle')" label-justify="center" label-width="90px"
+			input-style="padding:22px 13px;" placeholder="label-justify=center" />
+		<sn-input-field v-model="valueJ3" :label="t('snInputField.labelBottom')" label-justify="bottom" label-align="right"
+			label-width="90px" input-style="padding:22px 13px;" placeholder="label-justify=bottom" />
+
+		<demo-card class="mt-10" :title="t('snInputField.errorTitle')" :subtitle="t('snInputField.errorDesc')">
+		</demo-card>
+		<sn-input-field v-model="valueErr1" :label="t('snInputField.labelUsername')" :error="errorUser" required clearable
+			:placeholder="t('snInputField.placeholderError')" @input="onUserInput" />
+		<sn-input-field v-model="valueErr2" direction="vertical" :label="t('snInputField.labelPwd')" required password
+			:error="errorPwd" :placeholder="t('snInputField.placeholderFail')" />
+
+		<demo-card class="mt-10" :title="t('snInputField.affixTitle')" :subtitle="t('snInputField.affixDesc')">
+		</demo-card>
+		<sn-input-field v-model="valuePre1" :label="t('snInputField.labelSearch')" prefix-icon="search-line" :placeholder="t('snInputField.placeholderSearch')"
+			clearable />
+		<sn-input-field v-model="valuePre2" :label="t('snInputField.labelAccount')" prefix-icon="user-line" suffix-icon="check-line"
+			:placeholder="t('snInputField.placeholderUser')" />
+		<sn-input-field v-model="valuePre3" :label="t('snInputField.labelCustom')">
+			<template #suffix>
+				<sn-tag text="VIP" type="warning" level="least" />
+			</template>
+		</sn-input-field>
+
+		<demo-card class="mt-10" :title="t('snInputField.pwdTitle')" :subtitle="t('snInputField.pwdDesc')">
+		</demo-card>
+		<sn-input-field v-model="valuePwd" :label="t('snInputField.labelPwd')" password :placeholder="t('snInputField.placeholderPwd')" clearable />
+		<sn-input-field v-model="valueCmt" :label="t('snInputField.labelMessage')" :placeholder="t('snInputField.placeholderClear')" clearable />
+
+		<demo-card class="mt-10" :title="t('snInputField.stateTitle')" :subtitle="t('snInputField.stateDesc')">
+		</demo-card>
+		<sn-input-field v-model="valueLoad" :label="t('snInputField.labelLoading')" loading :placeholder="t('snInputField.placeholderValidating')" />
+		<sn-input-field v-model="valueDis" :label="t('snInputField.labelDisabled')" disabled :placeholder="t('snInputField.placeholderDisabled')" />
+		<sn-input-field v-model="valueRo" :label="t('snInputField.labelReadonly')" readonly :placeholder="t('snInputField.placeholderReadonly')" />
+
+		<demo-card class="mt-10" :title="t('snInputField.eventsTitle')" :subtitle="t('snInputField.eventsDesc')">
+			<sn-text font-size="$12" :color="eventColor">{{ eventLog }}</sn-text>
+		</demo-card>
+		<sn-input-field v-model="valueEvent" :label="t('snInputField.labelEvent')" :placeholder="t('snInputField.placeholderEvent')" clearable
+			@input="onInput" @focus="onFocus" @blur="onBlur" @confirm="onConfirm" />
+		<demo-card class="mt-10" :title="t('snInputField.externalTitle')" :subtitle="t('snInputField.externalDesc')">
+		</demo-card>
+		<sn-input-field v-model="valueExt1" :label="t('snInputField.labelStyle')" custom-class="demo-inputfield-bold"
+			:placeholder="t('snInputField.placeholderCustomClass')" />
+		<sn-input-field v-model="valueExt2" :label="t('snInputField.labelRed')" label-class="demo-inputfield-label"
+			label-color="$error" :placeholder="t('snInputField.placeholderLabelRed')" />
+		<sn-input-field v-model="valueExt3" :error="valueExt3 ? '' : t('snInputField.errFill')" :label="t('snInputField.labelErrorStyle')"
+			error-class="demo-inputfield-error" :placeholder="t('snInputField.placeholderErrorNode')" />
+
+		<demo-card class="mt-10" :title="t('snInputField.formTitle')" :subtitle="t('snInputField.formDesc')">
+		<sn-form ref="formRef" v-model="formData">
+			<sn-input-field field="username" :rule="userRule" :label="t('snInputField.labelUsername')" :error="getFieldError('username')"
+				:placeholder="t('snInputField.placeholderUserNameRule')" clearable />
+			<sn-input-field field="phone" :rule="phoneRule" :label="t('snInputField.labelPhone')" :error="getFieldError('phone')"
+				:placeholder="t('snInputField.placeholderPhone')" type="number" :maxlength="11" clearable custom-style="margin-top:16px;" />
+		</sn-form>
+		<sn-button :text="t('snInputField.submit')" type="primary" custom-style="margin-top:16px;" @click="onFormSubmit" />
+		</demo-card>
+
+		<demo-card class="mt-10" :title="t('snInputField.sceneTitle')" :subtitle="t('snInputField.sceneDesc')">
+		</demo-card>
+		<sn-view border-radius="10px" margin="20px">
+			<sn-input-field v-model="loginUser" :label="t('snInputField.labelAccount')" label-width="50px" :placeholder="t('snInputField.placeholderAccount')" required prefix-icon="user-fill"
+						clearable custom-style="margin-bottom:12px;" />
+					<sn-input-field v-model="loginPwd" :label="t('snInputField.labelPwd')" :placeholder="t('snInputField.placeholderPwd')" prefix-icon="lock-password-fill" label-width="50px" required password clearable
+						:error="loginError" @input="onLoginInput" />
+					<sn-button :text="t('snInputField.login')" type="primary" custom-style="margin-top:10px;" @click="onLogin" />
+		</sn-view>
+		<sn-gap></sn-gap>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { $snui, snu } from '@/uni_modules/sinle-ui'
+import type { ComponentPublicInstance } from 'vue'
+import type { SnFormItemRule, SnFormItemVerifyResult, SnFormValidResult } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+const value1 = ref<string>('')
+const valueRequired = ref<string>('')
+const valueRequired2 = ref<string>('')
+const valueV1 = ref<string>('')
+const valueV2 = ref<string>('')
+const valueLS1 = ref<string>('')
+const valueLS2 = ref<string>('')
+const valueLS3 = ref<string>('')
+const valueJ1 = ref<string>('')
+const valueJ2 = ref<string>('')
+const valueJ3 = ref<string>('')
+const valueErr1 = ref<string>('')
+const valueErr2 = ref<string>('')
+const valuePre1 = ref<string>('')
+const valuePre2 = ref<string>('')
+const valuePre3 = ref<string>('')
+const valuePwd = ref<string>('')
+const valueCmt = ref<string>('')
+const valueLoad = ref<string>('')
+const valueDis = ref<string>(t('snInputField.disabledContent'))
+const valueRo = ref<string>(t('snInputField.readonlyContent'))
+const valueEvent = ref<string>('')
+const valueExt1 = ref<string>('')
+const valueExt2 = ref<string>('')
+const valueExt3 = ref<string>('')
+const loginUser = ref<string>('')
+const loginPwd = ref<string>('')
+const loginError = ref<string>('')
+
+const errorUser = ref<string>(t('snInputField.errUserLength'))
+const errorPwd = ref<string>(t('snInputField.errPwdLen'))
+
+const eventLog = ref<string>(t('snInputField.noneEvent'))
+const eventColor = ref<string>($snui.colors.textLight)
+
+function setLog(text: string, color: string = $snui.colors.primary): void {
+	eventLog.value = text
+	eventColor.value = color
+}
+
+function onUserInput(e: UniInputEvent): void {
+	if (e.detail.value.length < 3) {
+		errorUser.value = t('snInputField.errUserLength')
+	} else {
+		errorUser.value = ''
+	}
+}
+
+function onInput(e: UniInputEvent): void {
+	setLog('input: ' + e.detail.value)
+}
+
+function onFocus(e: UniInputFocusEvent): void {
+	setLog('focus: ' + e.detail.value, $snui.colors.success)
+}
+
+function onBlur(e: UniInputBlurEvent): void {
+	setLog('blur: ' + e.detail.value, $snui.colors.textLight)
+}
+
+function onConfirm(e: UniInputConfirmEvent): void {
+	setLog('confirm: ' + e.detail.value, $snui.colors.error)
+}
+
+function onLoginInput(): void {
+	if (loginError.value != '') {
+		loginError.value = ''
+	}
+}
+
+function onLogin(): void {
+	if (loginUser.value == '' || loginPwd.value == '') {
+		loginError.value = t('snInputField.errEmpty')
+		return
+	}
+	if (loginPwd.value.length < 6) {
+		loginError.value = t('snInputField.errPwdMin6')
+		return
+	}
+	loginError.value = ''
+	snu.showToast({ text: t('snInputField.loginSuccess'), icon: 'checkbox-circle-fill' })
+}
+
+const formData = ref<UTSJSONObject>({
+	username: '',
+	phone: ''
+} as UTSJSONObject)
+const failResults = ref<SnFormItemVerifyResult[]>([])
+const formRef = ref<ComponentPublicInstance | null>(null)
+
+function getFieldError(field: string): string {
+	const list = failResults.value
+	for (let i = 0; i < list.length; i++) {
+		if (list[i].field == field) {
+			return list[i].message ?? ''
+		}
+	}
+	return ''
+}
+
+const userRule = ref<SnFormItemRule>({
+	pattern: /^[a-zA-Z0-9_]{4,16}$/,
+	message: t('snInputField.errUserRuleMessage')
+} as SnFormItemRule)
+
+const phoneRule = ref<SnFormItemRule>({
+	type: 'phone',
+	required: true,
+	message: t('snInputField.errPhoneRuleMessage')
+} as SnFormItemRule)
+
+function onFormSubmit(): void {
+	formRef.value?.$callMethod('submit', {
+		success: () => {
+			failResults.value = []
+			snu.showToast({ text: t('snInputField.submitSuccess'), icon: 'checkbox-circle-fill' })
+		},
+		fail: (results: SnFormItemVerifyResult[]) => {
+			failResults.value = results
+		}
+	} as SnFormValidResult)
+}
+</script>
+
+<style lang="scss">
+.mt-10 {
+	margin-top: 10px;
+}
+</style>

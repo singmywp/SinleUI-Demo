@@ -1,60 +1,155 @@
 <template>
-	<sn-page>
-		<sn-topbar title="More 查看更多"></sn-topbar>
-		<com-card title="基础用法"
-		note="内容太长可以先收起一部分">
-			<sn-more>
-				<sn-text size="$3"
-				:text="`\u3000\u3000`+longText3"></sn-text>
+	<sn-page :title="t('snMore.title')" :show-back="true">
+		<demo-card :title="t('snMore.basicTitle')" :subtitle="t('snMore.basicSubtitle')">
+			<sn-more :min-height="80" @fold="onFold" @unfold="onUnfold">
+				<sn-text font-size="$14" color="$text" custom-style="line-height:22px;" flatten>{{ longText1 }}</sn-text>
 			</sn-more>
-		</com-card>
-		<com-card title="自定义文字">
-			<sn-more unfoldText="开"
-			foldText="关">
-				<sn-text :text="article5"
-				size="$3"></sn-text>
+			<sn-text font-size="$12" color="$primary" flatten>{{ t('snMore.recentEvent', { value: eventLog } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snMore.heightTitle')" :subtitle="t('snMore.heightSubtitle')">
+			<sn-more :min-height="120">
+				<sn-text font-size="$14" color="$text" custom-style="line-height:22px;" flatten>{{ longText2 }}</sn-text>
 			</sn-more>
-		</com-card>
-		<com-card title="自定义展示高度"
-		note="低于展示高度则全部显示，高于则隐藏">
-		</com-card>
-		<com-card>
-			<sn-more minHeight="250px">
-				<sn-text text="这是一小段文本，不会被折叠"
-				size="$3"></sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snMore.customTextTitle')" :subtitle="t('snMore.customTextSubtitle')">
+			<sn-more :min-height="80" :unfold-text="t('snMore.unfoldText')" :fold-text="t('snMore.foldText')">
+				<sn-text font-size="$14" color="$text" custom-style="line-height:22px;" flatten>{{ longText3 }}</sn-text>
 			</sn-more>
-		</com-card>
-		<com-card>
-			<sn-more minHeight="250px"> 
-				<sn-text size="$3"
-				:text="`\u3000\u3000`+longText4"></sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snMore.iconTitle')" :subtitle="t('snMore.iconSubtitle')">
+			<sn-more :min-height="80" icon="add-line">
+				<sn-text font-size="$14" color="$text" custom-style="line-height:22px;" flatten>{{ longText4 }}</sn-text>
 			</sn-more>
-		</com-card>
-		<com-card title="动画时长"
-		note="如果你在意性能的话，可以关闭动画">
-			<sn-more aniTime="0ms">
-				<sn-text size="$3"
-				:text="article3"></sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snMore.colorTitle')" :subtitle="t('snMore.colorSubtitle')">
+			<sn-more :min-height="80" text-color="$primary" bg-color="$primaryLight" contentStyle="border-radius: 16px;" wrapStyle="padding: 20px;">
+				<sn-text font-size="$14" color="$primaryDark" custom-style="line-height:22px;text-align: center;" flatten>{{ article1 }}</sn-text>
 			</sn-more>
-		</com-card>
-		<com-card title="禁用">
-			<sn-more unfoldText="开通大会员畅享百万好文"
-			icon="vip-crown-line"
-			disabled>
-				<sn-text size="$3"
-				:text="article1"></sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snMore.aniTimeTitle')" :subtitle="t('snMore.aniTimeSubtitle')">
+			<sn-text font-size="$12" color="$textLight" flatten>{{ t('snMore.slowExpand') }}</sn-text>
+			<sn-more :min-height="80" :ani-time="10000">
+				<sn-text font-size="$14" color="$text" custom-style="line-height:22px;" flatten>{{ article2 }}</sn-text>
 			</sn-more>
-		</com-card>
-		<sn-gap></sn-gap>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:12px;" flatten>{{ t('snMore.noAni') }}</sn-text>
+			<sn-more :min-height="80" :ani-time="0">
+				<sn-text font-size="$14" color="$text" custom-style="line-height:22px;" flatten>{{ article2 }}</sn-text>
+			</sn-more>
+		</demo-card>
+
+		<demo-card :title="t('snMore.disabledTitle')" :subtitle="t('snMore.disabledSubtitle')">
+			<sn-more :min-height="80" disabled>
+				<sn-text font-size="$14" color="$text" custom-style="line-height:22px;">{{ article3 }}</sn-text>
+			</sn-more>
+		</demo-card>
+
+		<demo-card :title="t('snMore.shortTitle')" :subtitle="t('snMore.shortSubtitle')">
+			<sn-more :min-height="80">
+				<sn-text font-size="$14" color="$text">{{ t('snMore.shortText') }}</sn-text>
+			</sn-more>
+		</demo-card>
+
+		<demo-card :title="t('snMore.externalTitle')" :subtitle="t('snMore.externalSubtitle')">
+			<view style="margin-top: 12px">
+				<sn-text font-size="$12" color="$textLight" flatten>{{ t('snMore.contentClassNote') }}</sn-text>
+			</view>
+			<view style="margin-top: 12px">
+				<sn-more :min-height="80" content-class="demo-more-content-class">
+					<sn-text font-size="$14" color="$text" custom-style="line-height:22px;">{{ article2 }}</sn-text>
+				</sn-more>
+			</view>
+			<view style="margin-top: 12px">
+				<sn-text font-size="$12" color="$textLight" flatten>{{ t('snMore.contentStyleNote') }}</sn-text>
+			</view>
+			<view style="margin-top: 12px">
+				<sn-more :min-height="80" content-style="border-radius: 16px;">
+					<sn-text font-size="$14" color="$text" custom-style="line-height:22px;">{{ article2 }}</sn-text>
+				</sn-more>
+			</view>
+			<view style="margin-top: 12px">
+				<sn-text font-size="$12" color="$textLight" flatten>{{ t('snMore.wrapClassNote') }}</sn-text>
+			</view>
+			<view style="margin-top: 12px">
+				<sn-more :min-height="80" wrap-class="demo-more-wrap-class">
+					<sn-text font-size="$14" color="$text" custom-style="line-height:22px;">{{ article2 }}</sn-text>
+				</sn-more>
+			</view>
+			<view style="margin-top: 12px">
+				<sn-text font-size="$12" color="$textLight" flatten>{{ t('snMore.wrapStyleNote') }}</sn-text>
+			</view>
+			<view style="margin-top: 12px">
+				<sn-more :min-height="80" wrap-style="padding: 12px;">
+					<sn-text font-size="$14" color="$text" custom-style="line-height:22px;">{{ article2 }}</sn-text>
+				</sn-more>
+			</view>
+			<view style="margin-top: 12px">
+				<sn-text font-size="$12" color="$textLight" flatten>{{ t('snMore.foldTextClassNote') }}</sn-text>
+			</view>
+			<view style="margin-top: 12px">
+				<sn-more :min-height="80" fold-text-class="demo-more-foldtext-class">
+					<sn-text font-size="$14" color="$text" custom-style="line-height:22px;">{{ article2 }}</sn-text>
+				</sn-more>
+			</view>
+			<view style="margin-top: 12px">
+				<sn-text font-size="$12" color="$textLight" flatten>{{ t('snMore.foldTextStyleNote') }}</sn-text>
+			</view>
+			<view style="margin-top: 12px">
+				<sn-more :min-height="80" fold-text-style="font-weight: bold;">
+					<sn-text font-size="$14" color="$text" custom-style="line-height:22px;">{{ article2 }}</sn-text>
+				</sn-more>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snMore.sceneTitle')" :subtitle="t('snMore.sceneSubtitle')">
+			<view class="scene-card" flatten>
+				<sn-text bold font-size="$14" color="$text">{{ t('snMore.productDetail') }}</sn-text>
+				<sn-more :min-height="70" custom-style="margin-top:10px;">
+					<sn-text font-size="$13" color="$textLight" custom-style="line-height:20px;">{{ article5 }}</sn-text>
+				</sn-more>
+			</view>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	import { longText3,longText4, article1,article3,article5 } from '@/source/longtext.uts'
-	const colors = $snui.colors
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { longText1, longText2, longText3, longText4, article1, article2, article3, article5 } from '@/source/longtext.uts'
+import { $snui } from '@/uni_modules/sinle-ui'
+
+const { t } = useI18n()
+
+const eventLog = ref<string>(t('snMore.noEvent'))
+
+function onFold(): void {
+	eventLog.value = t('snMore.foldEvent')
+}
+
+function onUnfold(): void {
+	eventLog.value = t('snMore.unfoldEvent')
+}
 </script>
 
-<style>
-		
+<style lang="scss">
+.demo-more-content-class {
+	border-radius: 16px;
+	padding: 8px;
+}
+.demo-more-wrap-class {
+	padding: 12px;
+	background-color: var(--sn-info-light);
+}
+.demo-more-foldtext-class {
+	font-weight: bold;
+	letter-spacing: 2px;
+}
+.scene-card {
+	padding: 14px;
+	border-radius: 10px;
+	background-color: var(--sn-front);
+}
 </style>

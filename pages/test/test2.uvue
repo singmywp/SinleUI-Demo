@@ -1,0 +1,505 @@
+<template>
+	<view class="test2-page" flatten>
+		<view class="page-header" flatten>
+			<text class="page-title" flatten>{{ t('testPage2.title') }}</text>
+			<text class="page-desc" flatten>{{ t('testPage2.desc') }}</text>
+		</view>
+
+		<view class="cat-grid" flatten>
+			<view v-for="(cat, ci) in categories" :key="'c'+ci" class="cat-card-wrap" flatten>
+				<view class="cat-card" :style="getCatCardStyle(ci)"
+					@touchstart="onCatTouchStart(ci)"
+					@touchend="onCatTouchEnd" @touchcancel="onCatTouchEnd" @click="openCat(ci)">
+					<view class="cat-card-top" flatten>
+						<view class="cat-icon-wrap" flatten :style="getCatIconWrapStyle(cat)">
+							<text class="cat-icon-emoji" flatten>{{ cat.icon }}</text>
+						</view>
+					</view>
+					<text class="card-title" flatten>{{ cat.name }}</text>
+					<text class="card-desc" flatten>{{ cat.desc }}</text>
+					<view class="cat-count-badge" :style="getCatCountStyle(cat)" flatten>
+						<text class="cat-count-txt" :style="{ color: cat.color }" flatten>{{ cat.items.length }}</text>
+					</view>
+				</view>
+			</view>
+		</view>
+
+		<view class="footer-tip" flatten>
+			<text class="footer-tip-txt" flatten>{{ t('testPage2.footerTip') }}</text>
+		</view>
+
+		<page-container
+			:show="catPopupShow"
+			position="center"
+			:overlay="true"
+			:duration="300"
+			:z-index="1000"
+			custom-style="width: auto; height: auto; background-color: transparent; border-radius: 24px; left: 50%; top: 50%; position: fixed; transform: translate(-50%, -50%);"
+			@clickoverlay="closeCatPopup">
+			<view class="cat-popup-shell" flatten>
+				<view class="cat-popup" flatten>
+					<view class="popup-header" flatten>
+						<view class="popup-title-row" flatten>
+							<view v-if="activeCat  >= 0" class="popup-icon-wrap" flatten :style="getPopupIconWrapStyle()">
+								<text class="popup-icon-emoji" flatten>{{ categories[activeCat].icon }}</text>
+							</view>
+							<text v-if="activeCat  >= 0" class="popup-title" flatten>{{ categories[activeCat].name }}</text>
+						</view>
+						<view class="popup-close" @click="closeCatPopup">
+							<text class="close-x" flatten>✕</text>
+						</view>
+					</view>
+					<scroll-view direction="vertical" class="popup-scroll">
+						<view v-if="activeCat  >= 0 && categories[activeCat].items.length > 0" class="popup-items" flatten>
+							<view v-for="(item, ii) in categories[activeCat].items" :key="'i'+ii"
+								class="popup-item" flatten :style="getPopupItemStyle(ii, categories[activeCat].items.length)">
+								<view class="poet-avatar" flatten :style="{ backgroundColor: categories[activeCat].color + '22' }">
+									<text class="poet-avatar-txt" flatten :style="{ color: categories[activeCat].color }">{{ item.name.substring(0, 1) }}</text>
+								</view>
+								<view class="poet-info" flatten>
+									<text class="poet-name" flatten>{{ item.name }}</text>
+									<text class="poet-desc" flatten>{{ item.desc }}</text>
+								</view>
+							</view>
+						</view>
+						<view v-else class="popup-empty" flatten>
+							<text class="empty-icon" flatten>🍂</text>
+							<text class="empty-text" flatten>{{ t('testPage2.empty') }}</text>
+						</view>
+					</scroll-view>
+				</view>
+			</view>
+		</page-container>
+	</view>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+const pressedCat = ref<number>(-1)
+const catPopupShow = ref<boolean>(false)
+const activeCat = ref<number>(-1)
+
+type PoetItem = {
+	name: string
+	desc: string
+}
+
+type CategoryItem = {
+	name: string
+	desc: string
+	icon: string
+	color: string
+	lightColor: string
+	items: PoetItem[]
+}
+
+const categories = computed<CategoryItem[]>(() => {
+	return [
+		{
+			name: t('testPage2.cat1.name'), desc: t('testPage2.cat1.desc'), icon: '🏔️',
+			color: '#10B981', lightColor: 'rgba(16,185,129,0.12)',
+			items: [
+				{ name: t('testPage2.cat1.p1.name'), desc: t('testPage2.cat1.p1.desc') },
+				{ name: t('testPage2.cat1.p2.name'), desc: t('testPage2.cat1.p2.desc') },
+				{ name: t('testPage2.cat1.p3.name'), desc: t('testPage2.cat1.p3.desc') },
+				{ name: t('testPage2.cat1.p4.name'), desc: t('testPage2.cat1.p4.desc') }
+			]
+		},
+		{
+			name: t('testPage2.cat2.name'), desc: t('testPage2.cat2.desc'), icon: '🛡️',
+			color: '#EF4444', lightColor: 'rgba(239,68,68,0.12)',
+			items: [
+				{ name: t('testPage2.cat2.p1.name'), desc: t('testPage2.cat2.p1.desc') },
+				{ name: t('testPage2.cat2.p2.name'), desc: t('testPage2.cat2.p2.desc') },
+				{ name: t('testPage2.cat2.p3.name'), desc: t('testPage2.cat2.p3.desc') },
+				{ name: t('testPage2.cat2.p4.name'), desc: t('testPage2.cat2.p4.desc') }
+			]
+		},
+		{
+			name: t('testPage2.cat3.name'), desc: t('testPage2.cat3.desc'), icon: '🌙',
+			color: '#6366F1', lightColor: 'rgba(99,102,241,0.12)',
+			items: [
+				{ name: t('testPage2.cat3.p1.name'), desc: t('testPage2.cat3.p1.desc') },
+				{ name: t('testPage2.cat3.p2.name'), desc: t('testPage2.cat3.p2.desc') },
+				{ name: t('testPage2.cat3.p3.name'), desc: t('testPage2.cat3.p3.desc') }
+			]
+		},
+		{
+			name: t('testPage2.cat4.name'), desc: t('testPage2.cat4.desc'), icon: '🏮',
+			color: '#F59E0B', lightColor: 'rgba(245,158,11,0.12)',
+			items: [
+				{ name: t('testPage2.cat4.p1.name'), desc: t('testPage2.cat4.p1.desc') },
+				{ name: t('testPage2.cat4.p2.name'), desc: t('testPage2.cat4.p2.desc') },
+				{ name: t('testPage2.cat4.p3.name'), desc: t('testPage2.cat4.p3.desc') }
+			]
+		},
+		{
+			name: t('testPage2.cat5.name'), desc: t('testPage2.cat5.desc'), icon: '🌊',
+			color: '#06B6D4', lightColor: 'rgba(6,182,212,0.12)',
+			items: [
+				{ name: t('testPage2.cat5.p1.name'), desc: t('testPage2.cat5.p1.desc') },
+				{ name: t('testPage2.cat5.p2.name'), desc: t('testPage2.cat5.p2.desc') },
+				{ name: t('testPage2.cat5.p3.name'), desc: t('testPage2.cat5.p3.desc') },
+				{ name: t('testPage2.cat5.p4.name'), desc: t('testPage2.cat5.p4.desc') }
+			]
+		},
+		{
+			name: t('testPage2.cat6.name'), desc: t('testPage2.cat6.desc'), icon: '🌸',
+			color: '#EC4899', lightColor: 'rgba(236,72,153,0.12)',
+			items: [
+				{ name: t('testPage2.cat6.p1.name'), desc: t('testPage2.cat6.p1.desc') },
+				{ name: t('testPage2.cat6.p2.name'), desc: t('testPage2.cat6.p2.desc') },
+				{ name: t('testPage2.cat6.p3.name'), desc: t('testPage2.cat6.p3.desc') },
+				{ name: t('testPage2.cat6.p4.name'), desc: t('testPage2.cat6.p4.desc') }
+			]
+		},
+		{
+			name: t('testPage2.cat7.name'), desc: t('testPage2.cat7.desc'), icon: '🌺',
+			color: '#8B5CF6', lightColor: 'rgba(139,92,246,0.12)',
+			items: [
+				{ name: t('testPage2.cat7.p1.name'), desc: t('testPage2.cat7.p1.desc') },
+				{ name: t('testPage2.cat7.p2.name'), desc: t('testPage2.cat7.p2.desc') },
+				{ name: t('testPage2.cat7.p3.name'), desc: t('testPage2.cat7.p3.desc') }
+			]
+		},
+		{
+			name: t('testPage2.cat8.name'), desc: t('testPage2.cat8.desc'), icon: '✍️',
+			color: '#14B8A6', lightColor: 'rgba(20,184,166,0.12)',
+			items: [
+				{ name: t('testPage2.cat8.p1.name'), desc: t('testPage2.cat8.p1.desc') },
+				{ name: t('testPage2.cat8.p2.name'), desc: t('testPage2.cat8.p2.desc') },
+				{ name: t('testPage2.cat8.p3.name'), desc: t('testPage2.cat8.p3.desc') }
+			]
+		}
+	]
+})
+
+function onCatTouchStart(idx: number): void {
+	pressedCat.value = idx
+}
+
+function onCatTouchEnd(): void {
+	pressedCat.value = -1
+}
+
+function openCat(idx: number): void {
+	activeCat.value = idx
+	catPopupShow.value = true
+}
+
+function closeCatPopup(): void {
+	catPopupShow.value = false
+}
+
+const glassShadow = '0 8px 32px rgba(99,102,241,0.12)'
+
+function getCatCardStyle(idx: number): Map<string, any> {
+	const styles = new Map<string, any>()
+	styles.set('borderRadius', '20px')
+	styles.set('backgroundColor', 'rgba(255,255,255,0.6)')
+	styles.set('backdropFilter', 'blur(20px)')
+	styles.set('borderWidth', '1px')
+	styles.set('borderStyle', 'solid')
+	styles.set('borderColor', 'rgba(255,255,255,0.9)')
+	styles.set('boxShadow', pressedCat.value == idx ? 'none' : glassShadow)
+	styles.set('overflow', 'hidden')
+	styles.set('position', 'relative')
+	styles.set('transform', pressedCat.value == idx ? 'scale(0.97)' : 'scale(1)')
+	styles.set('transitionProperty', 'transform, box-shadow, background-color')
+	styles.set('transitionDuration', '150ms')
+	return styles
+}
+
+function getCatIconWrapStyle(cat: CategoryItem): Map<string, any> {
+	const styles = new Map<string, any>()
+	styles.set('width', '40px')
+	styles.set('height', '40px')
+	styles.set('borderRadius', '12px')
+	styles.set('alignItems', 'center')
+	styles.set('justifyContent', 'center')
+	styles.set('marginBottom', '10px')
+	styles.set('backgroundColor', cat.lightColor)
+	return styles
+}
+
+function getCatCountStyle(cat: CategoryItem): Map<string, any> {
+	const styles = new Map<string, any>()
+	styles.set('position', 'absolute')
+	styles.set('top', '12px')
+	styles.set('right', '12px')
+	styles.set('paddingLeft', '7px')
+	styles.set('paddingRight', '7px')
+	styles.set('paddingTop', '2px')
+	styles.set('paddingBottom', '2px')
+	styles.set('borderRadius', '8px')
+	styles.set('backgroundColor', cat.lightColor)
+	if (cat.items.length == 0) {
+		styles.set('opacity', '0.5')
+	}
+	return styles
+}
+
+function getPopupIconWrapStyle(): Map<string, any> {
+	const styles = new Map<string, any>()
+	styles.set('width', '36px')
+	styles.set('height', '36px')
+	styles.set('borderRadius', '10px')
+	styles.set('alignItems', 'center')
+	styles.set('justifyContent', 'center')
+	styles.set('marginRight', '10px')
+	if (activeCat.value >= 0) {
+		styles.set('backgroundColor', categories.value[activeCat.value].lightColor)
+	}
+	return styles
+}
+
+function getPopupItemStyle(idx: number, total: number): Map<string, any> {
+	const styles = new Map<string, any>()
+	styles.set('flexDirection', 'row')
+	styles.set('alignItems', 'center')
+	styles.set('paddingTop', '12px')
+	styles.set('paddingBottom', '12px')
+	styles.set('paddingLeft', '12px')
+	styles.set('paddingRight', '12px')
+	styles.set('borderRadius', '10px')
+	if (idx < total - 1) {
+		styles.set('borderBottomWidth', '1px')
+		styles.set('borderBottomStyle', 'solid')
+		styles.set('borderBottomColor', 'rgba(15,23,42,0.06)')
+	}
+	return styles
+}
+</script>
+
+<style lang="scss">
+.test2-page {
+	flex: 1;
+	flex-direction: column;
+	background-color: #F5F7FA;
+	padding: 60px 16px 40px 16px;
+}
+
+.page-header {
+	flex-direction: column;
+	margin-bottom: 20px;
+	padding-left: 4px;
+}
+
+.page-title {
+	font-size: 24px;
+	font-weight: bold;
+	color: #1A1A1A;
+	margin-bottom: 8px;
+}
+
+.page-desc {
+	font-size: 13px;
+	color: #666666;
+}
+
+.cat-grid {
+	flex-direction: row;
+	flex-wrap: wrap;
+	margin: 0 -6px;
+}
+
+.cat-card-wrap {
+	width: 50%;
+	padding: 0 6px;
+	margin-bottom: 12px;
+}
+
+.cat-card {
+	padding: 14px;
+	border-radius: 20px;
+	flex-direction: column;
+	position: relative;
+}
+
+.cat-card-top {
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+.cat-icon-wrap {
+	border-radius: 12px;
+	align-items: center;
+	justify-content: center;
+}
+
+.cat-icon-emoji {
+	font-size: 20px;
+}
+
+.card-title {
+	font-size: 14px;
+	font-weight: bold;
+	color: #1E293B;
+	margin-bottom: 4px;
+}
+
+.card-desc {
+	font-size: 11px;
+	color: #94A3B8;
+}
+
+.cat-count-badge {
+	border-radius: 8px;
+}
+
+.cat-count-txt {
+	font-size: 10px;
+	font-weight: bold;
+}
+
+.footer-tip {
+	flex-direction: row;
+	justify-content: center;
+	padding: 16px 0 12px 0;
+}
+
+.footer-tip-txt {
+	font-size: 11px;
+	color: #94A3B8;
+}
+
+.cat-popup-shell {
+	width: 320px;
+	border-radius: 24px;
+	overflow: hidden;
+	position: relative;
+	flex-direction: column;
+}
+
+.cat-popup {
+	padding: 16px;
+	background-color: rgba(255,255,255,0.85);
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: rgba(255,255,255,0.9);
+	flex-direction: column;
+	max-height: 440px;
+	position: relative;
+	z-index: 1;
+}
+
+.popup-header {
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: 14px;
+	position: relative;
+	z-index: 1;
+}
+
+.popup-title-row {
+	flex-direction: row;
+	align-items: center;
+}
+
+.popup-icon-wrap {
+	border-radius: 10px;
+	align-items: center;
+	justify-content: center;
+}
+
+.popup-icon-emoji {
+	font-size: 18px;
+}
+
+.popup-title {
+	font-size: 16px;
+	font-weight: bold;
+	color: #1E293B;
+}
+
+.popup-close {
+	width: 32px;
+	height: 32px;
+	border-radius: 16px;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(15,23,42,0.05);
+}
+
+.close-x {
+	font-size: 14px;
+	color: #64748B;
+}
+
+.popup-scroll {
+	flex: 1;
+	flex-direction: column;
+	position: relative;
+	z-index: 1;
+	border-radius: 14px;
+	overflow: hidden;
+	background-color: rgba(255,255,255,0.7);
+	/* #ifdef WEB */
+	
+	max-height: 356px;
+	/* #endif */
+}
+
+.popup-items {
+	flex-direction: column;
+	padding: 4px 0;
+}
+
+.popup-item {
+	flex-direction: row;
+	align-items: center;
+}
+
+.poet-avatar {
+	width: 36px;
+	height: 36px;
+	border-radius: 10px;
+	align-items: center;
+	justify-content: center;
+	margin-right: 12px;
+}
+
+.poet-avatar-txt {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.poet-info {
+	flex: 1;
+	flex-direction: column;
+}
+
+.poet-name {
+	font-size: 15px;
+	font-weight: 500;
+	color: #1E293B;
+	margin-bottom: 2px;
+}
+
+.poet-desc {
+	font-size: 12px;
+	color: #94A3B8;
+}
+
+.popup-empty {
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 40px 0;
+}
+
+.empty-icon {
+	font-size: 40px;
+	margin-bottom: 8px;
+}
+
+.empty-text {
+	font-size: 14px;
+	color: #94A3B8;
+}
+</style>

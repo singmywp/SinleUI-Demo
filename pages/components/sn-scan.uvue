@@ -1,147 +1,192 @@
 <template>
 	<sn-page>
-		<sn-topbar title="Scan 扫码"
-		:features="[{id:'run',icon:'play-circle-fill'} as SnDataItem]"
-		@button-click="buttonClicked"></sn-topbar>
-		<sn-alert type="primary"
-		:text="'\u3000注意，本插件分为两部分：\n\u3000• sn-scan-provider\n\u3000\u3000这是组件的核心部分，负责摄像头预览、扫码解析等基础工作，并向外部提供接口。\n\u3000• sn-scan\n\u3000\u3000这是组件的界面部分，主要负责在界面中处理用户操作并调用相应的API。应当将该组件放置在独立的页面中，template 下只放这一个组件，并设置其flex: 1。如果您有自定义界面的需求，可参考此组件源码实现，重写UI。'"></sn-alert>
-		<sn-alert type="error"
-		:text="'\u3000\u3000本插件核心 sn-scan-provider 属于扩展组件，需要您另外在插件市场下载。\n\u3000\u3000sn-scan 则属于 SinleUI 基础组件的一部分，无需您额外下载。'"></sn-alert>
-		<com-card title="组件演示">
-			<sn-text class="introduction" :text="'\u3000\u3000一款基于 Google MLKit 的 UTS扫码插件。'"></sn-text>
-			<sn-form v-model="configs"
-			:showBorder="false">
-				<sn-form-item label="扫码类型">
+		<sn-topbar :title="t('snScan.title')"
+			:features="[{id:'run',icon:'play-circle-fill'} as SnDataItem]"
+			@featureclick="buttonClicked"></sn-topbar>
+		<sn-alert type="primary" icon="none"
+			:text="t('snScan.alert')" style="margin: 0 16px 16px 16px"></sn-alert>
+		<demo-card :title="t('snScan.demoTitle')">
+			<sn-text font-size="$13" color="$textLight"
+				:text="t('snScan.intro')" flatten></sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;"
+				:text="t('snScan.tipRs')" flatten></sn-text>
+			<sn-form v-model="configs">
+				<sn-form-field :label="t('snScan.scanType')">
 					<sn-select v-model="(configs['scanType'] as number)"
-					width="150px"
-					:data="scanTypes"></sn-select>
-				</sn-form-item>
-				<sn-form-item label="自定义提示声">
+						width="150px"
+						:data="scanTypes"></sn-select>
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.dingFile')">
 					<sn-select v-model="(configs['dingFileSrc'] as number)"
-					width="150px"
-					:data="dingFiles"></sn-select>
-				</sn-form-item>
-				<sn-form-item label="只扫一次">
+						width="150px"
+						:data="dingFiles"></sn-select>
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.scanOnlyOnce')">
 					<sn-switch v-model="(configs['scanOnlyOnce'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="连续扫描">
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.continuous')">
 					<sn-switch v-model="(configs['continuous'] as boolean)"
-					:disabled="(configs['scanOnlyOnce'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="显示动画">
+						:disabled="(configs['scanOnlyOnce'] as boolean)"></sn-switch>
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.showAni')">
 					<sn-switch v-model="(configs['showAni'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="显示手电筒">
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.torch')">
 					<sn-switch v-model="(configs['showTorch'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="显示相册选择">
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.album')">
 					<sn-switch v-model="(configs['showAlbum'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="显示返回按钮">
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.backBtn')">
 					<sn-switch v-model="(configs['showBackButton'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="启用手势缩放">
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.zoom')">
 					<sn-switch v-model="(configs['enableZoom'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="启用成功提示声">
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.enableDing')">
 					<sn-switch v-model="(configs['enableDing'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="界面标题">
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.uiTitle')">
 					<sn-input v-model="(configs['title'] as string)"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="初始焦距">
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.tipText')">
+					<sn-input v-model="(configs['tip'] as string)"></sn-input>
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.titleSize')">
+					<sn-input v-model="(configs['titleSize'] as string)" :placeholder="t('snScan.plSize18')"></sn-input>
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.tipSize')">
+					<sn-input v-model="(configs['tipSize'] as string)" :placeholder="t('snScan.plSize14')"></sn-input>
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.titleColor')">
+					<sn-input v-model="(configs['titleColor'] as string)" :placeholder="t('snScan.plColor')"></sn-input>
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.tipColor')">
+					<sn-input v-model="(configs['tipColor'] as string)" :placeholder="t('snScan.plFollow')"></sn-input>
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.titleStyle')">
+					<sn-input v-model="(configs['customTitleStyle'] as string)" :placeholder="t('snScan.plFontWeight')"></sn-input>
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.tipStyle')">
+					<sn-input v-model="(configs['customTipStyle'] as string)" :placeholder="t('snScan.plLetterSpacing')"></sn-input>
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.initZoom')">
 					<sn-stepper v-model="(configs['initZoomScale'] as number)"
-					:min="0"
-					:max="1"
-					:step="0.1
-					"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="连续扫描间隔(ms)">
+						:min="0"
+						:max="1"
+						:step="0.1"></sn-stepper>
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.recognizeInterval')">
+					<sn-stepper v-model="(configs['recognizeInterval'] as number)"
+						:min="0"
+						:max="2000"
+						:step="100"></sn-stepper>
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.continuousSleep')">
 					<sn-stepper v-model="(configs['continuousSleep'] as number)"
-					:min="100"
-					:step="100"></sn-stepper>
-				</sn-form-item>
+						:min="100"
+						:step="100"></sn-stepper>
+				</sn-form-field>
 			</sn-form>
-			<sn-button class="m-t-10"
-			text="扫码" 
-			level="second" 
-			type="primary"
-			@click="scan()"></sn-button>
-		</com-card>
+			<sn-button custom-style="margin-top:10px;"
+				:text="t('snScan.scanBtn')"
+				level="second"
+				type="primary"
+				@click="scan()"></sn-button>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	// #ifdef WEB
-	// @ts-nocheck
-	// #endif
-	import { $snui, SnScanParams, SnDataItem } from '@/uni_modules/sinle-ui'
-	
-	const configs = reactive({
+<script lang="uts" setup>
+	import { snu, store } from '@/uni_modules/sinle-ui'
+	import { useI18n } from 'vue-i18n'
+	import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+	const { t } = useI18n()
+
+	const configs = ref<UTSJSONObject>({
 		enableDing: true,
 		showTorch: true,
 		showAlbum: true,
 		showBackButton: true,
 		showAni: true,
 		enableZoom: true,
-		title: '扫一扫',
+		title: t('snScan.configsTitle'),
+			tip: '',
+			titleSize: '',
+			tipSize: '',
+			titleColor: '#ffffff',
+		tipColor: '',
+		customTitleStyle: '',
+		customTipStyle: '',
 		initZoomScale: 0,
+		recognizeInterval: 0,
 		continuousSleep: 100,
 		scanOnlyOnce: false,
 		continuous: false,
 		scanType: 0,
 		dingFileSrc: 0
-	} as UTSJSONObject)
-	const scanTypes = [
-		{ id: 'all', text: '全部' },
-	    { id: 'barcode', text: '仅条码' },
-	    { id: 'qrcode', text: '仅二维码' }
-	] as SnDataItem[]
-	const dingFiles = [
-	    { id: 'default', text: '默认' },
-	    { id: 'scannedSuccessF', text: '女声:扫码成功' },
-	    { id: 'scannedSuccessM', text: '男声:扫码成功' },
-	    { id: 'jump', text: '(轻快)嘟' },
-	    { id: 'processing', text: '(长)biubiubiu~' }
-	] as SnDataItem[]
-	
-	watch(configs, (v : UTSJSONObject) => {
+	})
+
+	const scanTypes = computed<SnDataItem[]>(() => [
+		{ id: 'all', text: t('snScan.typeAll') },
+		{ id: 'barcode', text: t('snScan.typeBarcode') },
+		{ id: 'qrcode', text: t('snScan.typeQrcode') }
+	])
+
+	const dingFiles = computed<SnDataItem[]>(() => [
+		{ id: 'default', text: t('snScan.dingDefault') },
+		{ id: 'scannedSuccessF', text: t('snScan.dingFemale') },
+		{ id: 'scannedSuccessM', text: t('snScan.dingMale') },
+		{ id: 'jump', text: t('snScan.dingJump') },
+		{ id: 'processing', text: t('snScan.dingProcessing') }
+	])
+
+	watch(configs, (v: UTSJSONObject) => {
 		if (v['scanOnlyOnce'] == true) {
-			configs['continuous'] = false
+			configs.value['continuous'] = false
 		}
 	})
-	
+
 	function scan() {
-		let sys = uni.getSystemInfoSync()
+		const sys = uni.getSystemInfoSync()
 		if (sys.uniPlatform != 'app' || sys.osName != 'android') {
-			$snui.utils.showSysToast({
-				title: '扫码组件暂时只支持 Android 平台'
+			snu.showSysToast({
+				title: t('snScan.onlyAndroid')
 			})
 			return
 		}
-		let data = {
-			enableDing: configs['enableDing'] as boolean,
-			dingFileSrc: configs['dingFileSrc'] != 0 ? `static/media/${dingFiles[configs['dingFileSrc'] as number]['id']}.mp3`: '',
-			scanType: scanTypes[configs['scanType'] as number]['id'] as string,
-			scanOnlyOnce: configs['scanOnlyOnce'] as boolean,
-			continuous: configs['continuous'] as boolean,
-			title: configs['title'] as string,
-			showTorch: configs['showTorch'] as boolean,
-			showAlbum: configs['showAlbum'] as boolean,
-			showBackButton: configs['showBackButton'] as boolean,
-			showAni: configs['showAni'] as boolean,
-			enableZoom: configs['enableZoom'] as boolean,
-			initZoomScale: configs['initZoomScale'] as number,
-			continuousSleep: configs['continuousSleep'] as number
-		} as SnScanParams
-		$snui.store.set('demo-scan-params',data)
+		const data: UTSJSONObject = {
+			enableDing: configs.value['enableDing'] as boolean,
+			dingFileSrc: configs.value['dingFileSrc'] != 0 ? `static/media/${(dingFiles.value[configs.value['dingFileSrc'] as number]['id'] as string)}.mp3` : '',
+			scanType: scanTypes.value[configs.value['scanType'] as number]['id'] as string,
+			scanOnlyOnce: configs.value['scanOnlyOnce'] as boolean,
+			continuous: configs.value['continuous'] as boolean,
+			title: configs.value['title'] as string,
+			tip: configs.value['tip'] as string,
+			titleSize: configs.value['titleSize'] as string,
+			tipSize: configs.value['tipSize'] as string,
+			titleColor: configs.value['titleColor'] as string.ColorString,
+			tipColor: configs.value['tipColor'] as string.ColorString,
+			customTitleStyle: configs.value['customTitleStyle'] as string,
+			customTipStyle: configs.value['customTipStyle'] as string,
+			showTorch: configs.value['showTorch'] as boolean,
+			showAlbum: configs.value['showAlbum'] as boolean,
+			showBackButton: configs.value['showBackButton'] as boolean,
+			showAni: configs.value['showAni'] as boolean,
+			enableZoom: configs.value['enableZoom'] as boolean,
+			initZoomScale: configs.value['initZoomScale'] as number,
+			recognizeInterval: configs.value['recognizeInterval'] as number,
+			continuousSleep: configs.value['continuousSleep'] as number
+		}
+		store.set('demo-scan-params', data)
 		uni.navigateTo({
-			url: `/pages/components/sn-scan__view`
+			url: '/pages/components/sn-scan__view'
 		})
 	}
-	
-	function buttonClicked(e: SnDataItem){
-		if (e.id == 'run') scan()
+
+	function buttonClicked(item: SnDataItem, index: number) {
+		if (item.id == 'run') scan()
 	}
 </script>
 

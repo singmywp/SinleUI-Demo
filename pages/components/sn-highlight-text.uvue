@@ -1,0 +1,69 @@
+<template>
+	<sn-page :title="t('snHighlightText.title')" :show-back="true">
+		<demo-card :title="t('snHighlightText.singleTitle')" :subtitle="t('snHighlightText.singleDesc')">
+			<sn-highlight-text :text="t('snHighlightText.text1')" keywords="uni-app x" />
+		</demo-card>
+
+		<demo-card :title="t('snHighlightText.multiTitle')" :subtitle="t('snHighlightText.multiDesc')">
+			<sn-highlight-text :text="t('snHighlightText.text2')" :keywords="keywords"
+				highlight-style="color:#07C160;font-weight:600;" />
+		</demo-card>
+
+		<demo-card :title="t('snHighlightText.regexTitle')" :subtitle="t('snHighlightText.regexDesc')">
+			<sn-highlight-text :text="t('snHighlightText.text3')" :keywords="orderPattern" />
+		</demo-card>
+
+		<demo-card :title="t('snHighlightText.clickTitle')" :subtitle="t('snHighlightText.clickDesc')">
+			<sn-highlight-text :text="t('snHighlightText.text4')" :keywords="eventKeywords"
+				@highlight-click="onHighlightClick" />
+			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:10px;">{{ eventText }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snHighlightText.searchTitle')" :subtitle="t('snHighlightText.searchDesc')">
+			<sn-search v-model="searchKeyword" :placeholder="t('snHighlightText.searchPlaceholder')" clearable />
+			<view class="search-demo-body" flatten>
+				<sn-highlight-text :text="searchDemoText" :keywords="searchKeyword" 
+					highlight-style="color:#2563EB;background-color:rgba(37,99,235,0.12);" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snHighlightText.lineTitle')" :subtitle="t('snHighlightText.lineDesc')">
+			<sn-highlight-text :text="longText" :keywords="lineKeyword" :lines="2" selectable />
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+type HighlightClickDetail = {
+	text: string
+	index: number
+	start: number
+	end: number
+}
+
+const keywords = computed<string[]>(() => [t('snHighlightText.keyword1'), t('snHighlightText.keyword2'), t('snHighlightText.keyword3')])
+const lineKeyword = computed<string>(() => t('snHighlightText.lineKeyword'))
+const eventKeywords: string[] = ['primary', 'success']
+const orderPattern = new RegExp('SN-[0-9]+', 'g')
+const longText = computed<string>(() => t('snHighlightText.text5'))
+const searchDemoText = computed<string>(() => t('snHighlightText.text6'))
+const eventText = ref<string>(t('snHighlightText.eventNone'))
+const searchKeyword = ref<string>('uni-app x')
+
+function onHighlightClick(detail: HighlightClickDetail): void {
+	eventText.value = t('snHighlightText.eventInfo', { text: detail.text, index: detail.index + 1, start: detail.start, end: detail.end } as UTSJSONObject)
+}
+</script>
+
+<style lang="scss">
+.search-demo-body {
+	margin-top: 14px;
+	padding: 14px;
+	border-radius: 12px;
+	background-color: rgba(37, 99, 235, 0.06);
+	flex-direction: column;
+}
+</style>

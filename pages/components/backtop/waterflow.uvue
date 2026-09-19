@@ -1,0 +1,135 @@
+<template>
+	<sn-page :title="t('backtopWaterflow.title')" :show-back="true" fill-content>
+		<sn-waterflow ref="flowRef" :list="items" :cross-axis-count="2" cross-axis-gap="10" main-axis-gap="12"
+			refresher-enabled :refresher-config="refresherConfig"
+			loadmore :loadmore-config="loadmoreConfig" v-model:loadmore-status="loadmoreStatus"
+			backtop :backtop-top="200" :backtop-right="16" :backtop-bottom="80"
+			@refresh="onRefresh" @loadmore="onLoadmore">
+			<template v-slot:default="slotProps">
+				<view class="wf-card" :style="cardStyle(slotProps.item)" flatten>
+					<sn-text font-size="$14" color="#FFFFFF" bold flatten>{{ wfTitle(slotProps.item) }}</sn-text>
+					<sn-text font-size="$11" color="rgba(255,255,255,0.8)" custom-style="margin-top:4px;" flatten>{{ t('backtopWaterflow.tip') }}</sn-text>
+				</view>
+			</template>
+		</sn-waterflow>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+	import { useI18n } from 'vue-i18n'
+	import { $snui } from '@/uni_modules/sinle-ui'
+	import type { ComponentPublicInstance } from 'vue'
+	import type { SnLoadmoreParams, SnRefresherParams } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+	const { t } = useI18n()
+
+	type FlowItem = {
+		id: string
+		title: string
+		height: number
+	}
+
+	const flowRef = ref<ComponentPublicInstance | null>(null)
+	const items = ref<FlowItem[]>([])
+	const loadmoreStatus = ref<string>('loadmore')
+	let refreshTimer: number | null = null
+
+	const seq = [140, 220, 180, 260, 160, 240, 200, 120, 250, 170, 210, 230, 150, 190, 270, 130]
+
+	const refresherConfig = computed<SnRefresherParams>(() => {
+		return {
+			refreshText: t('backtopWaterflow.refreshText'),
+			refreshingText: t('backtopWaterflow.refreshingText'),
+			iconColor: '$primary',
+			textColor: '$primary'
+		}
+	})
+
+	const loadmoreConfig = computed<SnLoadmoreParams>(() => {
+		return {
+			loadmoreText: t('backtopWaterflow.loadmoreText'),
+			nomoreText: t('backtopWaterflow.nomoreText'),
+			loadingText: t('backtopWaterflow.loadingText')
+		}
+	})
+
+	function genItems(start: number, count: number): FlowItem[] {
+		const arr: FlowItem[] = []
+		for (let i = 0; i < count; i++) {
+			const idx = start + i
+			arr.push({
+				id: `f${idx}`,
+				title: t('backtopWaterflow.item', { index: idx + 1 } as UTSJSONObject),
+				height: seq[idx % seq.length]
+			})
+		}
+		return arr
+	}
+
+	function wfTitle(item: any): string {
+		return (item as FlowItem).title
+	}
+
+	function cardStyle(item: any): Map<string, any> {
+		const it = item as FlowItem
+		const styles = new Map<string, any>()
+		styles.set('height', `${it.height}px`)
+		styles.set('borderRadius', `${Math.round(12 * $snui.radiusFactor)}px`)
+		styles.set('backgroundColor', 'var(--sn-primary)')
+		styles.set('alignItems', 'center')
+		styles.set('justifyContent', 'center')
+		styles.set('padding', '12px')
+		styles.set('flexDirection', 'column')
+		return styles
+	}
+
+	function onRefresh(): void {
+		if (refreshTimer != null) {
+			clearTimeout(refreshTimer)
+			refreshTimer = null
+		}
+		refreshTimer = setTimeout(() => {
+			items.value = genItems(0, 24)
+			loadmoreStatus.value = 'loadmore'
+			flowRef.value?.$callMethod('stopRefresh')
+			refreshTimer = null
+		}, 1200) as number
+	}
+
+	function onLoadmore(): void {
+		if (refreshTimer != null) {
+			clearTimeout(refreshTimer)
+			refreshTimer = null
+		}
+		refreshTimer = setTimeout(() => {
+			const current = items.value.length
+			const more = genItems(current, 8)
+			for (let i = 0; i < more.length; i++) {
+				items.value.push(more[i])
+			}
+			if (items.value.length >= 80) {
+				loadmoreStatus.value = 'nomore'
+			} else {
+				loadmoreStatus.value = 'loadmore'
+			}
+			refreshTimer = null
+		}, 1000) as number
+	}
+
+	onMounted((): void => {
+		items.value = genItems(0, 24)
+	})
+
+	onUnmounted(() => {
+		if (refreshTimer != null) {
+			clearTimeout(refreshTimer)
+			refreshTimer = null
+		}
+	})
+</script>
+
+<style lang="scss">
+	.wf-card {
+		flex-direction: column;
+	}
+</style>

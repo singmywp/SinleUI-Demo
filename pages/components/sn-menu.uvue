@@ -1,0 +1,204 @@
+<template>
+	<sn-page :title="t('snMenu.title')" :show-back="true">
+		<demo-card :title="t('snMenu.alignTitle')" :subtitle="t('snMenu.alignDesc')">
+			<view class="menu-demo-row" flatten>
+				<sn-button id="m-btn-left" type="primary" level="second" size="normal" @click="mLeft=true">{{ t('snMenu.alignLeft') }}</sn-button>
+				<view class="h-gap" flatten></view>
+				<sn-button id="m-btn-center" type="primary" level="second" size="normal" @click="mCenter=true">{{ t('snMenu.alignCenter') }}</sn-button>
+				<view class="h-gap" flatten></view>
+				<sn-button id="m-btn-right" type="primary" level="second" size="normal" @click="mRight=true">{{ t('snMenu.alignRight') }}</sn-button>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snMenu.iconTitle')" :subtitle="t('snMenu.iconDesc')">
+			<sn-button id="m-btn-icon" type="primary" size="normal" @click="mIcon=true">{{ t('snMenu.openIconMenu') }}</sn-button>
+		</demo-card>
+
+		<demo-card :title="t('snMenu.noArrowTitle')" :subtitle="t('snMenu.noArrowDesc')">
+			<sn-button id="m-btn-noarrow" type="primary" size="normal" @click="mNoArrow=true">{{ t('snMenu.noArrowMenu') }}</sn-button>
+		</demo-card>
+
+		<demo-card :title="t('snMenu.widthTitle')" :subtitle="t('snMenu.widthDesc')">
+			<view class="menu-demo-row" flatten>
+				<sn-button id="m-btn-w220" type="primary" size="normal" @click="mW220=true">{{ t('snMenu.width220') }}</sn-button>
+				<view class="h-gap" flatten></view>
+				<sn-button id="m-btn-w120" type="primary" level="second" size="normal" @click="mW120=true">{{ t('snMenu.width120') }}</sn-button>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snMenu.overlayTitle')" :subtitle="t('snMenu.overlayDesc')">
+			<view class="menu-demo-row" flatten>
+				<sn-button id="m-btn-nomask" type="primary" size="normal" @click="mNoMask=true">{{ t('snMenu.noMask') }}</sn-button>
+				<view class="h-gap" flatten></view>
+				<sn-button id="m-btn-darkmask" type="primary" level="second" size="normal" @click="mDarkMask=true">{{ t('snMenu.darkMask') }}</sn-button>
+				<view class="h-gap" flatten></view>
+				<sn-button id="m-btn-redmask" type="error" size="normal" @click="mRedMask=true">{{ t('snMenu.redMask') }}</sn-button>
+				<view class="h-gap" flatten></view>
+				<sn-button id="m-btn-noclosemask" type="primary" level="second" size="normal" @click="mNoCloseMask=true">{{ t('snMenu.maskNoClose') }}</sn-button>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snMenu.styleTitle')" :subtitle="t('snMenu.styleDesc')">
+			<view class="menu-demo-row" flatten>
+				<sn-button id="m-btn-custommenu" type="primary" size="normal" @click="mCustomMenu=true">{{ t('snMenu.customMenu') }}</sn-button>
+				<view class="h-gap" flatten></view>
+				<sn-button id="m-btn-customcell" type="primary" level="second" size="normal" @click="mCustomCell=true">{{ t('snMenu.customCell') }}</sn-button>
+				<view class="h-gap" flatten></view>
+				<sn-button id="m-btn-noborder" type="primary" level="second" size="normal" @click="mNoBorder=true">{{ t('snMenu.noBorder') }}</sn-button>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snMenu.disabledTitle')" :subtitle="t('snMenu.disabledDesc')">
+			<sn-button id="m-btn-disabled" type="primary" size="normal" @click="mDisabled=true">{{ t('snMenu.open') }}</sn-button>
+		</demo-card>
+
+		<demo-card :title="t('snMenu.externalTitle')" :subtitle="t('snMenu.externalDesc')">
+			<view class="menu-demo-row" flatten>
+				<sn-button id="m-btn-class" type="primary" size="normal" @click="mClass=true">{{ t('snMenu.externalClassMenu') }}</sn-button>
+				<view class="h-gap" flatten></view>
+				<sn-button id="m-btn-overlay-class" type="primary" level="second" size="normal" @click="mOverlayClass=true">{{ t('snMenu.overlayClass') }}</sn-button>
+				<view class="h-gap" flatten></view>
+				<sn-button id="m-btn-overlay-style" type="primary" level="second" size="normal" @click="mOverlayStyle=true">{{ t('snMenu.overlayStyle') }}</sn-button>
+			</view>
+			<sn-text flatten type="text-light" font-size="$12" style="margin-top: 8px;">{{ t('snMenu.overlayClassHint') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snMenu.aniTitle')" :subtitle="t('snMenu.aniDesc')">
+			<view class="menu-demo-row" flatten>
+				<sn-button id="m-btn-fast" type="primary" size="normal" @click="mFast=true">{{ t('snMenu.fast') }}</sn-button>
+				<view class="h-gap" flatten></view>
+				<sn-button id="m-btn-slow" type="primary" level="second" size="normal" @click="mSlow=true">{{ t('snMenu.slow') }}</sn-button>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snMenu.smartTitle')" :subtitle="t('snMenu.smartDesc')" style="margin-bottom: 16px">
+			<sn-button id="m-btn-bottom" type="primary" size="normal" @click="mBottom=true">{{ t('snMenu.bottomBtn') }}</sn-button>
+			<sn-text type="text-light" font-size="$12" :text="t('snMenu.smartHint')" custom-style="margin-top:8px;" flatten />
+		</demo-card>
+
+		<sn-text v-if="lastSelect != ''" type="primary" bold custom-style="margin-left:16px;margin-right:16px;" flatten>{{ t('snMenu.selectResult') }}{{ lastSelect }}</sn-text>
+		<sn-text v-if="eventLog != ''" type="text-light" font-size="$12" custom-style="margin-left:16px;margin-right:16px;" flatten>{{ eventLog }}</sn-text>
+
+		<sn-menu :show="mLeft" target="#m-btn-left" align="left" :items="basicItems" @update:show="mLeft=$event" @select="onSelect" />
+		<sn-menu :show="mCenter" target="#m-btn-center" align="center" :items="basicItems" @update:show="mCenter=$event" @select="onSelect" />
+		<sn-menu :show="mRight" target="#m-btn-right" align="right" :items="basicItems" @update:show="mRight=$event" @select="onSelect" />
+		<sn-menu :show="mIcon" target="#m-btn-icon" align="left" :items="iconItems" :width="180" @update:show="mIcon=$event" @select="onSelect" />
+		<sn-menu :show="mNoArrow" target="#m-btn-noarrow" :show-arrow="false" :items="basicItems" @update:show="mNoArrow=$event" @select="onSelect" />
+		<sn-menu :show="mW220" target="#m-btn-w220" :width="220" :items="basicItems" @update:show="mW220=$event" @select="onSelect" />
+		<sn-menu :show="mW120" target="#m-btn-w120" :width="120" :items="shortItems" @update:show="mW120=$event" @select="onSelect" />
+		<sn-menu :show="mNoMask" target="#m-btn-nomask" :overlay="false" :items="basicItems" @update:show="mNoMask=$event" @select="onSelect" />
+		<sn-menu :show="mDarkMask" target="#m-btn-darkmask" :overlay-opacity="0.5" :items="basicItems" @update:show="mDarkMask=$event" @select="onSelect" />
+		<sn-menu :show="mRedMask" target="#m-btn-redmask" :overlay-opacity="0.3" :overlay-style="redOverlayStyle" :items="basicItems" @update:show="mRedMask=$event" @select="onSelect" />
+		<sn-menu :show="mNoCloseMask" target="#m-btn-noclosemask" :close-on-click-overlay="false" :items="basicItems" @update:show="mNoCloseMask=$event" @clickoverlay="onMaskClick" @select="onSelect" />
+		<sn-menu :show="mCustomMenu" target="#m-btn-custommenu" :menu-style="customMenuStyle" :items="iconItems" @update:show="mCustomMenu=$event" @select="onSelect" />
+		<sn-menu :show="mCustomCell" target="#m-btn-customcell" :item-style="customCellStyle" :items="basicItems" @update:show="mCustomCell=$event" @select="onSelect" />
+		<sn-menu :show="mNoBorder" target="#m-btn-noborder" :item-border="false" :items="iconItems" :width="180" @update:show="mNoBorder=$event" @select="onSelect" />
+		<sn-menu :show="mDisabled" target="#m-btn-disabled" :items="disabledItems" :width="200" @update:show="mDisabled=$event" @select="onSelect" />
+		<sn-menu :show="mFast" target="#m-btn-fast" :ani-time="100" :items="basicItems" @update:show="mFast=$event" @beforeenter="onEvt('beforeenter')" @afterenter="onEvt('afterenter')" @beforeleave="onEvt('beforeleave')" @afterleave="onEvt('afterleave')" @select="onSelect" />
+		<sn-menu :show="mSlow" target="#m-btn-slow" :ani-time="600" :items="basicItems" @update:show="mSlow=$event" @select="onSelect" />
+		<sn-menu :show="mBottom" target="#m-btn-bottom" align="center" :items="basicItems" @update:show="mBottom=$event" @select="onSelect" />
+		<sn-menu :show="mClass" target="#m-btn-class" align="left" :items="iconItems" menu-class="demo-menu-radius" @update:show="mClass=$event" @select="onSelect" />
+		<sn-menu :show="mOverlayClass" target="#m-btn-overlay-class" align="left" :items="basicItems" overlay-class="demo-menu-overlay" @update:show="mOverlayClass=$event" @select="onSelect" />
+		<sn-menu :show="mOverlayStyle" target="#m-btn-overlay-style" align="left" :items="basicItems" overlay-style="background-color: rgba(0, 128, 0, 0.35);" @update:show="mOverlayStyle=$event" @select="onSelect" />
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+type MenuItem = {
+	text?: string
+	icon?: string
+	value?: string
+	disabled?: boolean
+}
+
+const mLeft = ref<boolean>(false)
+const mCenter = ref<boolean>(false)
+const mRight = ref<boolean>(false)
+const mIcon = ref<boolean>(false)
+const mNoArrow = ref<boolean>(false)
+const mW220 = ref<boolean>(false)
+const mW120 = ref<boolean>(false)
+const mNoMask = ref<boolean>(false)
+const mDarkMask = ref<boolean>(false)
+const mRedMask = ref<boolean>(false)
+const mNoCloseMask = ref<boolean>(false)
+const mCustomMenu = ref<boolean>(false)
+const mCustomCell = ref<boolean>(false)
+const mNoBorder = ref<boolean>(false)
+const mDisabled = ref<boolean>(false)
+const mFast = ref<boolean>(false)
+const mSlow = ref<boolean>(false)
+const mBottom = ref<boolean>(false)
+const mClass = ref<boolean>(false)
+const mOverlayClass = ref<boolean>(false)
+const mOverlayStyle = ref<boolean>(false)
+
+const lastSelect = ref<string>('')
+const eventLog = ref<string>('')
+
+const basicItems = computed<MenuItem[]>(() => [
+	{ text: t('snMenu.menu1') },
+	{ text: t('snMenu.menu2') },
+	{ text: t('snMenu.close') }
+])
+
+const shortItems = computed<MenuItem[]>(() => [
+	{ text: t('snMenu.optionA') },
+	{ text: t('snMenu.optionB') }
+])
+
+const iconItems = computed<MenuItem[]>(() => [
+	{ text: t('snMenu.edit'), icon: 'edit-line' },
+	{ text: t('snMenu.share'), icon: 'share-line' },
+	{ text: t('snMenu.favorite'), icon: 'star-line' },
+	{ text: t('snMenu.delete'), icon: 'delete-bin-line' }
+])
+
+const disabledItems = computed<MenuItem[]>(() => [
+	{ text: t('snMenu.normal'), icon: 'check-line' },
+	{ text: t('snMenu.disabled'), disabled: true },
+	{ text: t('snMenu.withValue'), value: 'New', icon: 'notification-3-line' }
+])
+
+const customMenuStyle = `border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);`
+
+const customCellStyle = `padding-left: 28px; padding-right: 28px;`
+
+const redOverlayStyle = `background-color: rgba(255, 0, 0, 0.3);`
+
+function onSelect(index: number, item: MenuItem): void {
+	if (item.text != null) {
+		lastSelect.value = `${item.text!} (index: ${index})`
+	}
+}
+
+function onMaskClick(): void {
+	eventLog.value = t('snMenu.maskClicked')
+}
+
+function onEvt(name: string): void {
+	eventLog.value = t('snMenu.eventPrefix') + name
+}
+</script>
+
+<style lang="scss">
+.menu-demo-row {
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+}
+.h-gap {
+	width: 8px;
+	height: 8px;
+}
+.demo-menu-radius {
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+	border: 1px solid var(--sn-primary);
+}
+.demo-menu-overlay {
+	background-color: rgba(255, 0, 0, 0.3);
+}
+</style>

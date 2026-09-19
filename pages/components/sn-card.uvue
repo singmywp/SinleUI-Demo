@@ -1,139 +1,191 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Card 卡片"></sn-topbar>
-		<com-card title="基础用法"
-		note="卡片的基础用法">
-			<sn-card title="卡片">
-				<sn-text text="卡片内容"></sn-text>
+	<sn-page :title="t('snCard.title')" :show-back="true">
+		<demo-card :title="t('snCard.basic')" :subtitle="t('snCard.basicSub')">
+			<sn-card :title="t('snCard.cardTitleDemo')">
+				<sn-text font-size="$13" color="$text" flatten>{{ t('snCard.cardContent') }}</sn-text>
 			</sn-card>
-		</com-card>
-		<com-card title="边距"
-		note="随意调整外边距和内边距">
-			<sn-card title="卡片"
-			margin="20px"
-			padding="20px">
-				<sn-text text="卡片内容"></sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snCard.section')" :subtitle="t('snCard.sectionSub')">
+			<sn-card :title="t('snCard.sectionTitle')" section style="margin-bottom: 10px">
+				<sn-text font-size="$13" color="$text" flatten>{{ t('snCard.sectionDesc') }}</sn-text>
 			</sn-card>
-		</com-card>
-		<com-card title="边框"
-		note="也可以没有边界感的 (bush">
-			<sn-card title="卡片" border="none">
-				<sn-text text="卡片内容"></sn-text>
+			<sn-card :title="t('snCard.customSectionColor')" section section-color="$success">
+				<sn-text font-size="$13" color="$text" flatten>{{ t('snCard.customSectionDesc') }}</sn-text>
 			</sn-card>
-		</com-card>
-		<com-card title="头像"
-		note="来人，上图！">
-			<sn-card title="李白"
-			:avatarConfig="({
-				src: 'https://t12.baidu.com/it/u=533746497,229309018&fm=30&app=106&f=JPEG?w=640&h=960&s=9A34C305C453C7C41818E1C9030060B3',
-				imageMode: 'aspectFill'
-			} as SnAvatarParams)">
-				<sn-text :text="`\u3000\u3000李白，字太白，号青莲居士。唐朝伟大的浪漫主义诗人。\n\u3000\u3000为人爽朗大方，乐于交友，爱好饮酒作诗，名列“酒中八仙” 。后世誉为“诗仙”，与诗圣杜甫并称“李杜”。`"></sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snCard.avatarConfig')" :subtitle="t('snCard.avatarConfigSub')">
+			<sn-card :title="t('snCard.userInfo')" :avatar-config="iconAvatarConfig" style="margin-bottom: 10px">
+				<sn-text font-size="$13" color="$text" flatten>{{ t('snCard.iconAvatarDesc') }}</sn-text>
 			</sn-card>
-		</com-card>
-		<com-card title="圆角"
-		note="自定义圆角边框，显示更出彩">
-			<sn-card title="卡片" 
-			borderRadius="100px"
-			padding="10px 30px">
-				<sn-text text="卡片内容"></sn-text>
+			<sn-card :title="t('snCard.teamSpace')" :avatar-config="textAvatarConfig" style="margin-bottom: 10px">
+				<sn-text font-size="$13" color="$text" flatten>{{ t('snCard.textAvatarDesc') }}</sn-text>
 			</sn-card>
-		</com-card>
-		<com-card title="无标题"
-		note="没有标题，适用于不会总结的懒人，比如我">
+			<sn-card :title="t('snCard.customAvatarSlot')" section>
+				<template #avatar>
+					<sn-avatar text="UI" size="40px" shape="circle" bg-color="$primaryLight" text-color="$primary" />
+				</template>
+				<sn-text font-size="$13" color="$text">{{ t('snCard.avatarSlotDesc') }}</sn-text>
+			</sn-card>
+		</demo-card>
+
+		<demo-card :title="t('snCard.titleSlot')" :subtitle="t('snCard.titleSlotSub')">
 			<sn-card>
-				<sn-text text="卡片内容">
-				</sn-text>
-			</sn-card>
-		</com-card>
-		<com-card title="章节标符"
-		note="也许是锦上添花吧">
-			<sn-card title="SinleUI" 
-			sectionColor="#5777ff"
-			section>
-			<sn-text :text="'\u3000\u3000一个简洁、轻巧的现代移动应用UI框架。'"></sn-text>
-			</sn-card>
-		</com-card>
-		<com-card title="自定义样式"
-		note="当你想要插入一段信息而担忧影响总体观感时，不妨试试自定义样式">
-			<sn-card title="艾伦·图灵" 
-			:bgColor="theme=='light'?'#f9f9fa':'#2b2b2b'" 
-			border="none" 
-			borderRadius="10px"
-			padding="20px 20px 10px 20px">
-				<sn-text class="paragraph" 
-				selectable
-				:text="'\u3000\u3000艾伦·图灵于1912年6月23日出生于英国伦敦，是英国著名的数学家、逻辑学家，被称为计算机科学之父、人工智能之父。\n\u3000\u3000图灵的贡献举世瞩目。他是一位极富创造力的科学家，对计算机事业的发展做出了重要的贡献。然而，他因同性恋倾向而被审判并定以严重猥亵的罪名，遭到的迫害使得他的职业生涯尽毁。1954年，他吃下含有氰化物的苹果中毒身亡，年仅42岁。\n\u3000\u3000随着时间的推移，人们开始重新认图灵和他所经历的不公平对待。\n\u3000\u30002009年，时任首相戈登·布朗代表英国政府作出正式道歉。2013年，英国女王伊丽莎白二世向图灵追加了“皇家赦免令”'"></sn-text>
-			</sn-card>
-		</com-card>
-		<com-card title="插槽"
-		note="插槽分为 avatar, header-extra, default, footer, action">
-			<sn-card title="SinleUI" 
-			titleFont="alipuhuiheavy" 
-			bgColor="$front">
-				<template v-slot:avatar>
-					<sn-avatar src="/static/logo-trans.png"></sn-avatar>
+				<template #title>
+					<view class="demo-title-row" flatten>
+						<sn-icon name="vip-2-line" :size="16" color="$primary" />
+						<sn-text bold font-size="$15" color="$title" custom-style="margin-left:6px;">{{ t('snCard.vipCenter') }}</sn-text>
+					</view>
 				</template>
-				<template v-slot:header-extra>
-					<sn-row>
-						<sn-button round 
-						@click="fav=!fav">
-							<sn-icon name="star-fill"
-							 size="20px"
-							:color="fav?colors.warning:colors.infoDark"></sn-icon>
-						</sn-button>
-						<sn-button class="m-l-5"
-						round 
-						@click="like=!like">
-							<sn-icon name="heart-3-fill" 
-							size="20px"
-							:color="like?colors.error:colors.infoDark"></sn-icon>
-						</sn-button>
-					</sn-row>
+				<template #header-extra>
+					<sn-badge text="HOT" type="error" :size="10" />
 				</template>
-				<sn-text :text="'\u3000\u3000一个简洁、轻巧的现代移动应用UI框架。'"></sn-text>
-				<template v-slot:footer>
-					<sn-text type="primary"
-					text="By: Aaron Lan" 
-					align="right"></sn-text>
-				</template>
-				<template v-slot:action>
-					<sn-row justify="right">
-						<sn-button text="分享"
-						type="primary" 
-						level="second">
-						</sn-button>
-						<sn-button class="m-l-5"
-						text="支持" 
-						type="primary" 
-						level="second">
-						</sn-button>
-					</sn-row>
+				<sn-text font-size="$13" color="$text">{{ t('snCard.titleExtraDesc') }}</sn-text>
+			</sn-card>
+		</demo-card>
+
+		<demo-card :title="t('snCard.longTitle')" :subtitle="t('snCard.longTitleSub')">
+			<sn-card :title="t('snCard.longTitle1')" :title-lines="1" style="margin-bottom: 10px">
+				<sn-text font-size="$13" color="$text">{{ t('snCard.linesDesc1') }}</sn-text>
+			</sn-card>
+			<sn-card :title="t('snCard.longTitle2')" :title-lines="2">
+				<sn-text font-size="$13" color="$text">{{ t('snCard.linesDesc2') }}</sn-text>
+			</sn-card>
+		</demo-card>
+
+		<demo-card :title="t('snCard.customStyle')" :subtitle="t('snCard.customStyleSub')">
+			<sn-card :title="t('snCard.roundedCard')" border-radius="$20" box-shadow="0 8px 24px rgba(77,130,255,0.15)" style="margin-bottom: 10px">
+				<sn-text font-size="$13" color="$text">{{ t('snCard.roundedDesc') }}</sn-text>
+			</sn-card>
+			<sn-card :title="t('snCard.noBorderCard')" border="none" bg-color="$primaryLight" style="margin-bottom: 10px">
+				<sn-text font-size="$13" color="$text">{{ t('snCard.noBorderDesc') }}</sn-text>
+			</sn-card>
+			<sn-card :title="t('snCard.customPadding')" padding="$20">
+				<sn-text font-size="$13" color="$text">{{ t('snCard.paddingDesc') }}</sn-text>
+			</sn-card>
+		</demo-card>
+
+		<demo-card :title="t('snCard.footer')" :subtitle="t('snCard.footerSub')">
+			<sn-card :title="t('snCard.todayNews')">
+				<sn-text font-size="$13" color="$text">{{ t('snCard.newsDesc') }}</sn-text>
+				<template #footer>
+					<sn-text font-size="$11" color="$textLight">{{ t('snCard.newsFooter') }}</sn-text>
 				</template>
 			</sn-card>
-		</com-card>
+		</demo-card>
+
+		<demo-card :title="t('snCard.action')" :subtitle="t('snCard.actionSub')">
+			<sn-card :title="t('snCard.goodsCard')">
+				<view class="demo-goods-row" flatten>
+					<sn-avatar text="M" size="56px" border-radius="$12" bg-color="$info" text-color="$infoText" />
+					<view class="demo-col" flatten>
+						<sn-text bold font-size="$14" color="$title">{{ t('snCard.goodsName') }}</sn-text>
+						<sn-text font-size="$12" color="$primary">{{ t('snCard.goodsPrice') }}</sn-text>
+					</view>
+				</view>
+				<template #action>
+					<sn-button  level="second" custom-style="margin-right:10px;">{{ t('snCard.addCart') }}</sn-button>
+					<sn-button @click="onBuy">{{ t('snCard.buyNow') }}</sn-button>
+				</template>
+			</sn-card>
+		</demo-card>
+
+		<demo-card :title="t('snCard.externalStyle')" :subtitle="t('snCard.externalStyleSub')">
+			<sn-card :title="t('snCard.externalClassDemo')" header-class="demo-card-header" style="margin-bottom: 12px">
+				<sn-text font-size="$13" color="$text">{{ t('snCard.externalClassDesc') }}</sn-text>
+				<template #footer>
+					<sn-text font-size="$11" color="$textLight">{{ t('snCard.footerClassText') }}</sn-text>
+				</template>
+				<template #action>
+					<sn-button size="small" level="second" action-class="demo-card-action">{{ t('snCard.actionClass') }}</sn-button>
+				</template>
+			</sn-card>
+			<sn-card :title="t('snCard.customStyleDemo')"
+				header-style="border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:var(--sn-primary);padding-bottom:8px;"
+				footer-style="border-top-width:1px;border-top-style:dashed;border-top-color:var(--sn-line);padding-top:8px;"
+				action-style="background-color:var(--sn-primary-light);border-radius:8px;padding:6px;">
+				<sn-text font-size="$13" color="$text">{{ t('snCard.customStyleDesc') }}</sn-text>
+				<template #footer>
+					<sn-text font-size="$11" color="$textLight">{{ t('snCard.footerStyleText') }}</sn-text>
+				</template>
+				<template #action>
+					<sn-button size="small" level="second">{{ t('snCard.actionStyle') }}</sn-button>
+				</template>
+			</sn-card>
+			<sn-card :title="t('snCard.titleExternalClass')" title-class="demo-card-title">
+				<sn-text font-size="$13" color="$text">{{ t('snCard.titleClassDesc') }}</sn-text>
+			</sn-card>
+			<sn-card :title="t('snCard.titleExternalStyle')" title-style="color: var(--sn-primary);">
+				<sn-text font-size="$13" color="$text">{{ t('snCard.titleStyleDesc') }}</sn-text>
+			</sn-card>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui, SnAvatarParams } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	const fav = ref(false)
-	const like = ref(false)
-	const theme = computed(():string=>$snui.configs.app.theme)
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui'
+import type { SnAvatarConfig } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+
+const iconAvatarConfig = {
+	mode: 'icon',
+	icon: 'user-3-line',
+	size: '40px',
+	bgColor: '$primaryLight',
+	iconColor: '$primary'
+} as SnAvatarConfig
+
+const textAvatarConfig = {
+	mode: 'text',
+	text: 'UI',
+	size: '40px',
+	shape: 'circle',
+	bgColor: '$info',
+	textColor: '$infoText'
+} as SnAvatarConfig
+
+function onBuy(): void {
+	snu.showToast({ text: t('snCard.buySuccess') })
+}
 </script>
 
 <style lang="scss">
-	.black {
-		color: #000;
-		transition: color .2s;
-	}
-
-	.fav-active {
-		color: #f3d00a;
-	}
-
-	.like-active {
-		color: #ff8069;
-	}
+.demo-title-row {
+	flex-direction: row;
+	align-items: center;
+}
+.demo-goods-row {
+	flex-direction: row;
+	align-items: center;
+}
+.demo-col {
+	flex: 1;
+	flex-direction: column;
+	margin-left: 12px;
+}
+.demo-card-header {
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: var(--sn-line);
+	padding-bottom: 8px;
+}
+.demo-card-title {
+	letter-spacing: 1px;
+}
+.demo-card-footer {
+	border-top-width: 1px;
+	border-top-style: dashed;
+	border-top-color: var(--sn-line);
+	padding-top: 8px;
+}
+.demo-card-action {
+	border-width: 1px;
+	border-style: dashed;
+	border-color: var(--sn-primary-light);
+	border-radius: 8px;
+	padding: 4px;
+}
 </style>

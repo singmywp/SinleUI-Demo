@@ -1,0 +1,114 @@
+<template>
+<sn-page :title="t('snCalendarPunch.title')" :show-back="true">
+		<view class="calendar-punch-demo-content" flatten>
+			<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
+				<sn-text font-size="$12" color="$primary" flatten>{{ t('snCalendarPunch.alertText') }}</sn-text>
+			</sn-alert>
+
+			<demo-card :title="t('snCalendarPunch.basic')" :subtitle="t('snCalendarPunch.basicSub')">
+				<sn-calendar-punch v-model="punchValue" :signed-dates="signedDates" :can-supplement="canSupplement"
+					custom-style="border-width:1px;border-style:solid;border-color:var(--sn-line);border-radius:8px;"
+					@select="onPunchSelect" @panel-change="onPanelChange" />
+			</demo-card>
+
+			<demo-card :title="t('snCalendarPunch.punchData')" :subtitle="t('snCalendarPunch.punchDataSub')">
+				<sn-text font-size="$12" color="$text" flatten>{{ signedText }}</sn-text>
+				<view class="calendar-punch-demo-actions">
+					<sn-button :text="t('snCalendarPunch.resetData')" type="info" level="second" custom-style="flex:1;margin-right:8px;" @click="resetSignedDates" />
+					<sn-button :text="t('snCalendarPunch.clearData')" type="error" level="second" custom-style="flex:1;" @click="clearSignedDates" />
+				</view>
+			</demo-card>
+
+			<demo-card :title="t('snCalendarPunch.options')" :subtitle="t('snCalendarPunch.optionsSub')">
+				<view class="calendar-punch-demo-row">
+					<sn-text :text="t('snCalendarPunch.supportSupplement')" font-size="$13" color="$text" custom-style="flex:1;" flatten />
+					<sn-switch v-model="canSupplement" />
+				</view>
+			</demo-card>
+
+			<demo-card :title="t('snCalendarPunch.eventRecord')" :subtitle="t('snCalendarPunch.eventRecordSub')">
+				<sn-text font-size="$12" color="$text" flatten>{{ eventResult }}</sn-text>
+			</demo-card>
+		</view>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { dayuts, snu } from '@/uni_modules/sinle-ui/index.uts'
+import type { SnCalendarPunchDay, SnCalendarPanelChangeDetail, SnCalendarValue } from '@/uni_modules/sinle-ui/index.uts'
+
+const { t } = useI18n()
+
+function makeSignedDates(): string[] {
+	const prefix = dayuts().format('YYYY-MM')
+	return [`${prefix}-06`, `${prefix}-09`]
+}
+
+const signedDates = ref<string[]>(makeSignedDates())
+const punchValue = ref<SnCalendarValue>(dayuts(`${dayuts().format('YYYY-MM')}-03`).startOf('day').valueOf())
+const canSupplement = ref<boolean>(true)
+const eventResult = ref<string>(t('snCalendarPunch.noEvent'))
+
+const signedText = computed<string>((): string => {
+	if (signedDates.value.length == 0) return t('snCalendarPunch.noPunch')
+	return signedDates.value.join(t('snCalendarPunch.separator'))
+})
+
+function describePunchDay(day: SnCalendarPunchDay): string {
+	let status = t('snCalendarPunch.notSigned')
+	if (day.signed) status = t('snCalendarPunch.signed')
+	else if (day.supplementable) status = t('snCalendarPunch.supplementable')
+	const todayTag = day.today ? t('snCalendarPunch.todayTag') : ''
+	return t('snCalendarPunch.dayDesc', { date: day.fullDate, status: status, today: todayTag } as UTSJSONObject)
+}
+
+function resetSignedDates(): void {
+	signedDates.value = makeSignedDates()
+	eventResult.value = t('snCalendarPunch.resetDone')
+}
+
+function clearSignedDates(): void {
+	signedDates.value = []
+	eventResult.value = t('snCalendarPunch.clearDone')
+}
+
+function onPunchSelect(day: SnCalendarPunchDay): void {
+	if (day.timestamp > dayuts().startOf('day').valueOf()) return
+	if (day.signed) {
+		eventResult.value = t('snCalendarPunch.selectEvent', { text: describePunchDay(day) } as UTSJSONObject)
+		return
+	}
+	const action = day.today ? t('snCalendarPunch.signIn') : t('snCalendarPunch.makeUp')
+	snu.showModal({
+		title: action,
+		content: t('snCalendarPunch.confirmSign', { action: action, date: day.fullDate } as UTSJSONObject),
+		success: (confirm, cancel) => {
+			if (!confirm) return
+			if (!signedDates.value.includes(day.fullDate)) signedDates.value.push(day.fullDate)
+			eventResult.value = t('snCalendarPunch.signedSuccess', { date: day.fullDate, action: action } as UTSJSONObject)
+		}
+	})
+}
+
+function onPanelChange(detail: SnCalendarPanelChangeDetail): void {
+	eventResult.value = t('snCalendarPunch.panelChangeEvent', { year: `${detail.year}`, month: `${detail.month}` } as UTSJSONObject)
+}
+</script>
+
+<style lang="scss">
+.calendar-punch-demo-content {
+	flex-direction: column;
+}
+
+.calendar-punch-demo-actions {
+	flex-direction: row;
+	align-items: center;
+	margin-top: 10px;
+}
+
+.calendar-punch-demo-row {
+	flex-direction: row;
+	align-items: center;
+}
+</style>

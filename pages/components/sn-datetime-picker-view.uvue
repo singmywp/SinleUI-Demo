@@ -1,0 +1,73 @@
+<template>
+	<sn-page :title="t('snDatetimePickerView.title')" :show-back="true">
+
+		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
+			<sn-text font-size="$12" color="$primary" flatten>{{ t('snDatetimePickerView.note') }}</sn-text>
+		</sn-alert>
+
+		<demo-card :title="t('snDatetimePickerView.basicTitle')" :subtitle="t('snDatetimePickerView.basicDesc')">
+			<sn-datetime-picker-view v-model="dateValue" mode="年月日" @change="onChange" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snDatetimePickerView.current', { v: valueText, c: changeResult } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snDatetimePickerView.datetimeTitle')" :subtitle="t('snDatetimePickerView.datetimeDesc')">
+			<sn-datetime-picker-view v-model="datetimeValue" mode="年月日时分秒" height="220px" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snDatetimePickerView.current', { v: datetimeValue, c: '' } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snDatetimePickerView.timeTitle')" :subtitle="t('snDatetimePickerView.timeDesc')">
+			<sn-datetime-picker-view v-model="timeValue" mode="时分秒" format="HH:mm:ss" height="220px"
+				:min-hour="9" :max-hour="22" :min-minute="0" :max-minute="59" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snDatetimePickerView.timeRange', { v: timeValue } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snDatetimePickerView.rangeTitle')" :subtitle="t('snDatetimePickerView.rangeDesc')">
+			<sn-datetime-picker-view v-model="rangeValue" mode="年月日" format="YYYY年MM月DD日"
+				start="2020-05-10" end="2030-11-20" height="220px" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snDatetimePickerView.current', { v: rangeValue, c: '' } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snDatetimePickerView.perfTitle')" :subtitle="t('snDatetimePickerView.perfDesc')">
+			<sn-datetime-picker-view v-model="bigValue" mode="年月日时分秒" format="YYYY-MM-DD HH:mm:ss"
+				start="1950-01-01 00:00:00" end="2050-12-31 23:59:59" height="220px" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snDatetimePickerView.current', { v: bigValue, c: '' } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snDatetimePickerView.customStyleTitle')" :subtitle="t('snDatetimePickerView.customStyleDesc')">
+			<sn-datetime-picker-view v-model="styleValue" mode="年月日" height="220px" item-text-size="$15"
+				active-item-text-color="$primary" item-border-radius="$10" column-spacing="16px" />
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+	
+	import { useI18n } from 'vue-i18n'
+	import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+	import type { SnDatetimePickerValue } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+	const { t } = useI18n()
+
+	const { isDark } = useTheme()
+
+	const descColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+
+	const dateValue = ref<SnDatetimePickerValue>('2026-08-18')
+	const datetimeValue = ref<SnDatetimePickerValue>('2026-08-18 12:30:00')
+	const timeValue = ref<SnDatetimePickerValue>('12:30:00')
+	const rangeValue = ref<SnDatetimePickerValue>('2025-06-15')
+	const bigValue = ref<SnDatetimePickerValue>('2000-01-01 08:00:00')
+	const styleValue = ref<SnDatetimePickerValue>('2026-08-18')
+
+	const valueText = computed<string>(() => {
+		return dateValue.value.toString()
+	})
+
+	const changeResult = ref<string>(t('snDatetimePickerView.noChange'))
+	function onChange(v: SnDatetimePickerValue): void {
+		changeResult.value = v.toString()
+	}
+</script>
+
+<style lang="scss">
+</style>

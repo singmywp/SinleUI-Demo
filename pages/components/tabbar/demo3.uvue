@@ -1,68 +1,73 @@
 <template>
-	<sn-page padding="0"
-	:scroll-on="false">
-		<sn-tabbar :data="data"
-		padding="5px"
-		textSize="$3"
-		iconSize="$6"
-		textColor="$textLight"
-		iconColor="$error"
-		activeTextColor="$title">
-			<template #1>
-				<sub1></sub1>
-			</template>
-			<template #2>
-				<sub2></sub2>
-			</template>
-			<template #3>
-				
-			</template>
-			<template #4>
-				<sub3></sub3>
-			</template>
-			<template #5>
-				<sub4></sub4>
-			</template>
-		</sn-tabbar>
+	<sn-page>
+		<sub1 v-if="tabIndex == 1" />
+		<sub2 v-else-if="tabIndex == 2" />
+		<view v-else-if="tabIndex == 3" class="action-page" flatten>
+			<sn-topbar :title="t('tabbarDemo3.publish')" :back-button="false" :fixed="false" />
+			<view class="action-empty" flatten>
+				<sn-empty mode="default" :text="t('tabbarDemo3.interceptorTip')" />
+			</view>
+		</view>
+		<sub3 v-else-if="tabIndex == 4" />
+		<sub4 v-else />
+		<sn-tabbar :data="data" :index="tabIndex" padding="5px" text-size="$16" icon-size="$30"
+			text-color="$textLight" icon-color="$error" active-text-color="$title" @change="onTabChange" />
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui, SnTabbarItem } from '@/uni_modules/sinle-ui'
-	import Sub1 from './sub1.uvue'
-	import Sub2 from './sub2.uvue'
-	import Sub3 from './sub3.uvue'
-	import Sub4 from './sub4.uvue'
-	
-	const colors = $snui.colors
-	
-	const data = [
-		{
-			text: '首页',
-		},
-		{
-			text: '社区',
-		},
-		{
-			icon: 'add-circle-fill',
-			interceptor: (): boolean => {
-				uni.showModal({
-					title: '发布作品',
-					editable: true
-				})
-				return false
-			}
-		},
-		{
-			text: '消息',
-		},
-		{
-			text: '我的',
+<script lang="uts" setup>
+
+import { useI18n } from 'vue-i18n'
+import Sub1 from './sub1.uvue'
+import Sub2 from './sub2.uvue'
+import Sub3 from './sub3.uvue'
+import Sub4 from './sub4.uvue'
+import type { SnTabbarItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import { snu } from '@/uni_modules/sinle-ui'
+
+const { t } = useI18n()
+
+const tabIndex = ref<number>(1)
+
+const data = computed<SnTabbarItem[]>(() => [
+	{
+		text: t('tabbarDemo3.home'),
+	},
+	{
+		text: t('tabbarDemo3.community'),
+	},
+	{
+		icon: 'add-circle-fill',
+		interceptor: (): boolean => {
+			snu.showModal({
+				title: t('tabbarDemo3.publish')
+			})
+			return false
 		}
-	] as SnTabbarItem[]
-	
-	
+	},
+	{
+		text: t('tabbarDemo3.message'),
+	},
+	{
+		text: t('tabbarDemo3.mine'),
+	}
+])
+
+function onTabChange(index: number): void {
+	tabIndex.value = index
+}
 </script>
 
 <style lang="scss">
+.action-page {
+	flex: 1;
+	flex-direction: column;
+	height: 100%;
+}
+
+.action-empty {
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+}
 </style>

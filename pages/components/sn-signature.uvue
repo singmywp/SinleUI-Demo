@@ -1,71 +1,197 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Signature 签名"></sn-topbar>
-		<com-card title="基础用法"
-		note="基于 canvas 的签名板，适配各端，内置一套精美模版，提供 20+ 属性，支持插槽定制操作栏，任意搭配">
-		</com-card>
-		<sn-signature ref="signEle"></sn-signature>
-		<com-card title="导出图片"
-		note="支持导出为 base64 图片，App 端还可利用 view 进行组件截图生成 png 图片">
-			<sn-button text="导出为 base64"
-			@click="getImage"></sn-button>
-			<!--#ifdef APP-->
-			<sn-button class="m-t-10"
-			text="保存 png 图片至相册"
-			@click="takeSnapshot"></sn-button>
-			<!--#endif-->
-		</com-card>
-		<com-card>
-			<sn-image ref="imageEle" 
-			class="m-t-10" 
-			enablePreview
-			:src="base64"></sn-image>
-		</com-card>
-		<sn-gap></sn-gap>
+	<sn-page :show-back="true">
+		<sn-topbar :title="t('snSignature.title')"></sn-topbar>
+
+		<demo-card :title="t('snSignature.demoBasicTitle')" :subtitle="t('snSignature.demoBasicSub')">
+			<sn-signature ref="sigRef" :max-history="20" @exported="onExported" @change="onChange" />
+			<sn-text type="text-light" font-size="$12" :text="t('snSignature.settingsTip')"
+				custom-style="margin-top:8px;line-height:18px;" flatten />
+			<view v-if="exportPath != ''" class="sig-export" :style="sigExportStyle" flatten>
+				<sn-text font-size="$13" color="$title" flatten>{{ t('snSignature.exportResult') }}</sn-text>
+				<image :src="exportPath" :style="sigExportImageStyle" mode="aspectFit" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snSignature.demoMethodTitle')" :subtitle="t('snSignature.demoMethodSub')">
+			<view class="sig-actions" :style="sigActionsStyle" flatten>
+				<sn-button :text="t('snSignature.undo')" size="normal" custom-style="flex:1;margin-right:8px;" @click="doUndo" />
+				<sn-button :text="t('snSignature.redo')" size="normal" type="info" custom-style="flex:1;margin-right:8px;" @click="doRedo" />
+				<sn-button :text="t('snSignature.clear')" size="normal" type="warning" plain custom-style="flex:1;margin-right:8px;" @click="doClear" />
+				<sn-button :text="t('snSignature.export')" size="normal" type="primary" plain custom-style="flex:1;" @click="doExport" />
+			</view>
+			<sn-text type="text-light" font-size="$12" flatten>{{ t('snSignature.changeCountTip', { count: changeCount } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snSignature.demoBrushTitle')" :subtitle="t('snSignature.demoBrushSub')">
+			<view class="sig-brush-bar" :style="sigBrushBarStyle" flatten>
+				<sn-button v-for="(b, i) in brushOptions" :key="'br' + i" :text="b.label" size="normal"
+					:type="brush == b.value ? 'primary' : 'info'" :level="brush == b.value ? 'first' : 'second'"
+					:custom-style="sigBrushBtnStyle(i)" @click="onPickBrush(b.value)" />
+			</view>
+			<view class="sig-opt-row" :style="sigOptRowStyle" flatten>
+				<sn-text font-size="$14" color="$title" :text="t('snSignature.currentBrush')" flatten />
+				<sn-tag :text="brushLabel" type="primary" level="second" custom-style="margin-left:8px;" />
+			</view>
+			<view class="sig-opt-row" :style="sigOptRowStyle" flatten>
+				<sn-text font-size="$14" color="$title" :text="t('snSignature.showBrushSettings')" flatten />
+				<sn-switch :model-value="showSettings" active-bg-color="$primary" @change="onToggleSettings" />
+			</view>
+			<sn-signature height="220" :brush="brush" :show-brush-settings="showSettings" custom-style="margin-top:4px;" />
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
+<script lang="uts" setup>
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import type { ComponentPublicInstance } from 'vue'
+import type { SnSignatureBrush } from '@/uni_modules/sinle-ui/index.uts'
 
-	const colors = $snui.colors
-	const snu = $snui.utils
-	
-	const base64 = ref('')
-	const imageEle = ref(null as SnImageComponentPublicInstance | null)
-	
-	const signEle = ref(null as SnSignatureComponentPublicInstance | null)
-	
-	function getImage() {
-		base64.value = signEle.value?.getBase64?.() ?? ''
+const { t } = useI18n()
+
+const sigRef = ref<ComponentPublicInstance | null>(null)
+const exportPath = ref<string>('')
+const changeCount = ref<number>(0)
+
+type BrushOption = {
+	value: SnSignatureBrush
+	label: string
+}
+
+const brushOptions = computed<BrushOption[]>(() => [
+	{ value: 'default', label: t('snSignature.brDefault') },
+	{ value: 'pen', label: t('snSignature.brPen') },
+	{ value: 'gel', label: t('snSignature.brGel') },
+	{ value: 'pencil', label: t('snSignature.brPencil') },
+	{ value: 'brush', label: t('snSignature.brBrush') },
+	{ value: 'marker', label: t('snSignature.brMarker') },
+	{ value: 'crayon', label: t('snSignature.brCrayon') },
+	{ value: 'fur', label: t('snSignature.brFur') },
+	{ value: 'ink', label: t('snSignature.brInk') },
+	{ value: 'longfur', label: t('snSignature.brLongfur') },
+	{ value: 'ribbon', label: t('snSignature.brRibbon') },
+	{ value: 'shaded', label: t('snSignature.brShaded') },
+	{ value: 'sketchy', label: t('snSignature.brSketchy') },
+	{ value: 'spray', label: t('snSignature.brSpray') },
+	{ value: 'squares', label: t('snSignature.brSquares') },
+	{ value: 'circle', label: t('snSignature.brCircle') },
+	{ value: 'web', label: t('snSignature.brWeb') }
+])
+
+const brush = ref<SnSignatureBrush>('default')
+const showSettings = ref<boolean>(true)
+
+const brushLabel = computed<string>(() => {
+	const list = brushOptions.value
+	for (let i = 0; i < list.length; i++) {
+		if (list[i].value == brush.value) {
+			return list[i].label
+		}
 	}
-	
-	
-	// #ifdef APP
-	
-	function takeSnapshot(){
-		if (imageEle.value == null) return
-		getImage()
-		snu.throttle(()=>{
-			imageEle.value!.$el!.takeSnapshot({
-				success: (res) =>{
-					uni.saveImageToPhotosAlbum({
-						filePath: res.tempFilePath,
-						success: (_) =>{
-							snu.showSysToast({
-								title: '保存成功'
-							})
-						},
-					})
-				}
-			})
-		}, 500, 'takeSnapshot')
-		
-		
-	}
-	// #endif
+	return t('snSignature.brDefault')
+})
+
+function onPickBrush(v: SnSignatureBrush): void {
+	brush.value = v
+}
+
+function onToggleSettings(v: boolean): void {
+	showSettings.value = v
+}
+
+function sigBrushBtnStyle(i: number): string {
+	const base = 'flex:0 0 auto;'
+	return base + 'margin-right:8px;margin-bottom:8px;'
+}
+
+function onChange(): void {
+	changeCount.value = changeCount.value + 1
+}
+
+type ExportResult = {
+	dataUrl: string
+	width: number
+	height: number
+}
+
+function onExported(data: ExportResult): void {
+	exportPath.value = data.dataUrl
+}
+
+function doUndo(): void {
+	sigRef.value?.$callMethod('undo')
+}
+
+function doRedo(): void {
+	sigRef.value?.$callMethod('redo')
+}
+
+function doClear(): void {
+	sigRef.value?.$callMethod('clear')
+}
+
+function doExport(): void {
+	sigRef.value?.$callMethod('exportImage')
+}
+
+const sigExportStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('flexDirection', 'column')
+	styles.set('marginTop', '12px')
+	return styles
+})
+
+const sigExportImageStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', '100%')
+	styles.set('height', '140px')
+	styles.set('borderRadius', '10px')
+	styles.set('marginTop', '8px')
+	return styles
+})
+
+const sigActionsStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('flexDirection', 'row')
+	styles.set('alignItems', 'center')
+	return styles
+})
+
+const sigBrushBarStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('flexDirection', 'row')
+	styles.set('flexWrap', 'wrap')
+	styles.set('alignItems', 'center')
+	return styles
+})
+
+const sigOptRowStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('flexDirection', 'row')
+	styles.set('alignItems', 'center')
+	styles.set('justifyContent', 'space-between')
+	styles.set('marginTop', '12px')
+	return styles
+})
 </script>
 
-<style>
-
+<style lang="scss">
+.sig-export {
+	flex-direction: column;
+	margin-top: 12px;
+}
+.sig-actions {
+	flex-direction: row;
+	align-items: center;
+}
+.sig-brush-bar {
+	flex-direction: row;
+	align-items: center;
+}
+.sig-opt-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 12px;
+}
 </style>

@@ -1,74 +1,113 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Label Checkbox 标签多选"></sn-topbar>
-		<com-card title="基础用法"
-		note="与 Checkbox 不同的是， 该组件只需提供数据，使用更简单">
-		</com-card>
-		<com-card padding="0">
-			<sn-label-checkbox v-model="r1"
-			:data="d1">
-			</sn-label-checkbox>
-		</com-card>
-		<com-card title="图标位置"
-		note="支持左侧和右侧图标">
-		</com-card>
-		<com-card padding="0">
-			<sn-label-checkbox v-model="r1"
-			iconPosition="right"
-			:data="d1">
-			</sn-label-checkbox>
-		</com-card>
-		<com-card title="自定义样式">
-		</com-card>
-		<com-card padding="0">
-			<sn-label-checkbox v-model="r1"
-			icon="plane-fill"
-			iconPosition="right"
-			iconColor="$successDark"
-			activeTextColor="$successDark"
-			textSize="$3"
-			itemPadding="10px 15px"
-			activeItemBgColor="$front"
-			disabledItemBgColor="$transparent"
-			:data="d1">
-			</sn-label-checkbox>
-		</com-card>
-		<sn-gap></sn-gap>
+	<sn-page :title="t('snLabelCheckbox.title')" :show-back="true">
+		<demo-card :title="t('snLabelCheckbox.basicTitle')" :subtitle="t('snLabelCheckbox.basicDesc')">
+			<sn-label-checkbox v-model="check1" :data="hobbyData" />
+			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLabelCheckbox.currentSelected') }}{{ check1Text }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snLabelCheckbox.defaultTitle')" :subtitle="t('snLabelCheckbox.defaultDesc')">
+			<sn-label-checkbox v-model="check2" :data="hobbyData" />
+			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLabelCheckbox.initialSelected') }}{{ check2Text }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snLabelCheckbox.disabledTitle')" :subtitle="t('snLabelCheckbox.disabledDesc')">
+			<sn-text flatten font-size="$12" color="$textLight">{{ t('snLabelCheckbox.disabledAll') }}</sn-text>
+			<sn-label-checkbox v-model="check3" :data="hobbyData" disabled />
+			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:10px;">{{ t('snLabelCheckbox.disabledSingle') }}</sn-text>
+			<sn-label-checkbox v-model="check4" :data="disabledData" />
+		</demo-card>
+
+		<demo-card :title="t('snLabelCheckbox.iconPosTitle')" :subtitle="t('snLabelCheckbox.iconPosDesc')">
+			<sn-text flatten font-size="$12" color="$textLight">{{ t('snLabelCheckbox.iconRight') }}</sn-text>
+			<sn-label-checkbox v-model="check5" :data="hobbyData" icon-position="right" />
+			<sn-label-checkbox v-model="check6" :data="hobbyData" custom-style="margin-top:10px;" />
+		</demo-card>
+
+		<demo-card :title="t('snLabelCheckbox.iconTitle')" :subtitle="t('snLabelCheckbox.iconDesc')">
+			<sn-label-checkbox v-model="check7" :data="hobbyData" icon="heart-fill" icon-size="18" />
+		</demo-card>
+
+		<demo-card :title="t('snLabelCheckbox.colorTitle')" :subtitle="t('snLabelCheckbox.colorDesc')">
+			<sn-label-checkbox v-model="check8" :data="hobbyData" item-bg-color="$successLight"
+				active-item-bg-color="$success" text-color="$successDark" active-text-color="$successText"
+				icon-color="$successText" />
+		</demo-card>
+
+		<demo-card :title="t('snLabelCheckbox.sizeTitle')" :subtitle="t('snLabelCheckbox.sizeDesc')">
+			<sn-text flatten font-size="$12" color="$textLight">{{ t('snLabelCheckbox.largeLabel') }}</sn-text>
+			<sn-label-checkbox v-model="check9" :data="hobbyData" item-padding="16px 28px" text-size="$16"
+				icon-size="20" />
+			<sn-label-checkbox v-model="check10" :data="hobbyData" item-padding="8px 12px" text-size="$12"
+				custom-style="margin-top:10px;" />
+		</demo-card>
+
+		<demo-card :title="t('snLabelCheckbox.eventsTitle')" :subtitle="t('snLabelCheckbox.eventsDesc')">
+			<sn-label-checkbox v-model="check11" :data="hobbyData" @change="onChange" />
+			<sn-text flatten font-size="$13" color="$primary" custom-style="margin-top:10px;">{{ t('snLabelCheckbox.recentEvent') }}{{ changeLog }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snLabelCheckbox.sceneTitle')" :subtitle="t('snLabelCheckbox.sceneDesc')">
+			<view class="scene-card" flatten>
+				<sn-text flatten bold font-size="$14" color="$text">{{ t('snLabelCheckbox.selectCategory') }}</sn-text>
+				<sn-label-checkbox v-model="filter" :data="filterData" custom-style="margin-top:10px;" />
+				<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLabelCheckbox.selectedCount', { n: filter.length } as UTSJSONObject) }}{{ filterText }}</sn-text>
+			</view>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	const snu = $snui.utils
-	
-	const r1 = ref([0])
-	
-	const d1 = [
-		{
-			text: '纽约',
-			id: 'newyork',
-		},
-		{
-			text: '伦敦',
-			id: 'london',
-		},
-		{
-			text: '东京',
-			id: 'tokyo',
-			disabled: true,
-		},
-		{
-			text: '悉尼',
-			id: 'sydney',
-		},
-		{
-			text: '巴黎',
-			id: 'paris',
-		},
-	] as Array<SnDataItem>
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+const hobbyData = computed<SnDataItem[]>(() => [
+	{ id: 'code', text: t('snLabelCheckbox.hobbyProgramming') },
+	{ id: 'design', text: t('snLabelCheckbox.hobbyDesign') },
+	{ id: 'music', text: t('snLabelCheckbox.hobbyMusic') },
+	{ id: 'photo', text: t('snLabelCheckbox.hobbyPhoto') }
+])
+
+const disabledData = computed<SnDataItem[]>(() => [
+	{ id: 'a', text: t('snLabelCheckbox.available') },
+	{ id: 'b', text: t('snLabelCheckbox.disabledUnchecked'), disabled: true },
+	{ id: 'c', text: t('snLabelCheckbox.disabledChecked'), disabled: true }
+])
+
+const filterData = computed<SnDataItem[]>(() => [
+	{ id: 'phone', text: t('snLabelCheckbox.filterPhone') },
+	{ id: 'home', text: t('snLabelCheckbox.filterHome') },
+	{ id: 'fashion', text: t('snLabelCheckbox.filterFashion') },
+	{ id: 'food', text: t('snLabelCheckbox.filterFood') }
+])
+
+const check1 = ref<number[]>([])
+const check2 = ref<number[]>([0, 2])
+const check3 = ref<number[]>([])
+const check4 = ref<number[]>([2])
+const check5 = ref<number[]>([])
+const check6 = ref<number[]>([])
+const check7 = ref<number[]>([])
+const check8 = ref<number[]>([])
+const check9 = ref<number[]>([])
+const check10 = ref<number[]>([])
+const check11 = ref<number[]>([])
+const filter = ref<number[]>([])
+const changeLog = ref<string>(t('snLabelCheckbox.noneEvent'))
+
+const check1Text = computed<string>(() => '[' + check1.value.join(', ') + ']')
+const check2Text = computed<string>(() => '[' + check2.value.join(', ') + ']')
+const filterText = computed<string>(() => '[' + filter.value.join(', ') + ']')
+
+function onChange(value: number[]): void {
+	changeLog.value = 'change: [' + value.join(', ') + ']'
+}
 </script>
 
-<style>
-		
+<style lang="scss">
+.scene-card {
+	padding: 14px;
+	border-radius: 10px;
+	background-color: var(--sn-front);
+}
 </style>

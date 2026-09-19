@@ -1,0 +1,189 @@
+<template>
+	<sn-page :show-back="true">
+		<sn-topbar :title="t('snGesture.title')" :show-back="true"></sn-topbar>
+
+		<sn-alert type="primary" :text="t('snGesture.alert')" icon="notification-fill"
+			custom-style="margin-left:16px;margin-right:16px;"></sn-alert>
+
+		<demo-card :title="t('snGesture.viewTitle')">
+			<sn-view custom-class="gesture-block" padding="10px" border-radius="$16" bg-color="$info"
+				@click="onViewClick" @dbclick="onViewDbclick" @longpress="onViewLongpress"
+				@touchstart="onViewTouchStart" @touchmove="onViewTouchMove" @touchend="onViewTouchEnd"
+				@touchcancel="onViewTouchCancel">
+				<sn-text :text="viewEventText" font-size="$12" color="$infoText" custom-style="word-break:break-all;" flatten></sn-text>
+				<sn-text :text="viewTouchText" font-size="$12" color="$infoText" custom-style="word-break:break-all;margin-top:4px;" flatten></sn-text>
+			</sn-view>
+			<sn-button type="primary" level="second" :text="t('snGesture.viewInstances')" @click="goToViewInstances"
+				custom-style="margin-top:12px;"></sn-button>
+		</demo-card>
+
+		<demo-card :title="t('snGesture.nativeTitle')">
+			<sn-gesture
+				custom-style="width:100%;min-height:200px;background-color:rgba(96,125,139,0.12);border-radius:16px;"
+				@click="onNativeClick" @dbclick="onNativeDbclick" @longpress="onNativeLongpress"
+				@touchstart="onNativeTouchStart" @touchmove="onNativeTouchMove" @touchend="onNativeTouchEnd"
+				@touchcancel="onNativeTouchCancel" @scale="onNativeScale" @fling="onNativeFling">
+				<view class="gesture-block-contain" flatten>
+					<sn-text :text="nativeTouchText" font-size="$12" color="$text" custom-style="word-break:break-all;" flatten></sn-text>
+					<sn-text :text="nativeEventText" font-size="$12" color="$text" custom-style="word-break:break-all;margin-top:4px;" flatten></sn-text>
+					<sn-text :text="nativeScaleText" font-size="$12" color="$warning" custom-style="word-break:break-all;margin-top:4px;" flatten></sn-text>
+					<sn-text :text="nativeFlingText" font-size="$12" color="$success" custom-style="word-break:break-all;margin-top:4px;" flatten></sn-text>
+				</view>
+			</sn-gesture>
+		</demo-card>
+
+		<sn-button type="primary" :text="t('snGesture.instances')" @click="goToInstances" custom-style="margin:0 16px;"></sn-button>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import type { SnPointerEvent, SnTouchEvent, SnScaleEvent, SnFlingEvent } from '@/uni_modules/sinle-ui'
+
+const { t } = useI18n()
+
+const viewEventText = ref<string>(t('snGesture.hintTap'))
+const viewTouchText = ref<string>('')
+const nativeEventText = ref<string>('')
+const nativeTouchText = ref<string>('')
+const nativeScaleText = ref<string>('')
+const nativeFlingText = ref<string>('')
+
+function goToInstances(): void {
+	uni.navigateTo({
+		url: '/pages/components/sn-gesture-instances'
+	})
+}
+
+function goToViewInstances(): void {
+	uni.navigateTo({
+		url: '/pages/components/sn-view-instances'
+	})
+}
+
+function pointerEventToObj(type: string, e: SnPointerEvent): UTSJSONObject {
+	const obj = new UTSJSONObject()
+	obj['type'] = type
+	obj['x'] = e.x
+	obj['y'] = e.y
+	return obj
+}
+
+function touchEventToObj(type: string, e: SnTouchEvent): UTSJSONObject {
+	const obj = new UTSJSONObject()
+	obj['type'] = type
+	const touches: UTSJSONObject[] = []
+	for (let i = 0; i < e.touches.length; i++) {
+		const t = e.touches[i]
+		const item = new UTSJSONObject()
+		item['x'] = t.x
+		item['y'] = t.y
+		item['diffX'] = t.diffX
+		item['diffY'] = t.diffY
+		item['direction'] = t.direction
+		item['id'] = t.id
+		touches.push(item)
+	}
+	obj['touches'] = touches
+	return obj
+}
+
+function onViewClick(e: SnPointerEvent): void {
+	viewEventText.value = JSON.stringify(pointerEventToObj('click', e))
+}
+
+function onViewDbclick(e: SnPointerEvent): void {
+	viewEventText.value = JSON.stringify(pointerEventToObj('dbclick', e))
+}
+
+function onViewLongpress(e: SnTouchEvent): void {
+	viewEventText.value = JSON.stringify(touchEventToObj('longpress', e))
+}
+
+function onViewTouchStart(e: SnTouchEvent): void {
+	e.event.preventDefault()
+	viewTouchText.value = JSON.stringify(touchEventToObj('touchstart', e))
+}
+
+function onViewTouchMove(e: SnTouchEvent): void {
+	e.event.preventDefault()
+	viewTouchText.value = JSON.stringify(touchEventToObj('touchmove', e))
+}
+
+function onViewTouchEnd(e: SnTouchEvent): void {
+	e.event.preventDefault()
+	viewTouchText.value = JSON.stringify(touchEventToObj('touchend', e))
+}
+
+function onViewTouchCancel(e: SnTouchEvent): void {
+	e.event.preventDefault()
+	viewTouchText.value = JSON.stringify(touchEventToObj('touchcancel', e))
+}
+
+function scaleEventToObj(type: string, e: SnScaleEvent): UTSJSONObject {
+	const obj = new UTSJSONObject()
+	obj['type'] = type
+	obj['zoom'] = e.zoom
+	return obj
+}
+
+function flingEventToObj(type: string, e: SnFlingEvent): UTSJSONObject {
+	const obj = new UTSJSONObject()
+	obj['type'] = type
+	obj['beginX'] = e.beginX
+	obj['beginY'] = e.beginY
+	obj['endX'] = e.endX
+	obj['endY'] = e.endY
+	obj['vX'] = e.vX
+	obj['vY'] = e.vY
+	return obj
+}
+
+function onNativeClick(e: SnPointerEvent): void {
+	nativeEventText.value = JSON.stringify(pointerEventToObj('click', e))
+}
+
+function onNativeDbclick(e: SnPointerEvent): void {
+	nativeEventText.value = JSON.stringify(pointerEventToObj('dbclick', e))
+}
+
+function onNativeLongpress(e: SnTouchEvent): void {
+	nativeEventText.value = JSON.stringify(touchEventToObj('longpress', e))
+}
+
+function onNativeTouchStart(e: SnTouchEvent): void {
+	nativeTouchText.value = JSON.stringify(touchEventToObj('touchstart', e))
+}
+
+function onNativeTouchMove(e: SnTouchEvent): void {
+	nativeTouchText.value = JSON.stringify(touchEventToObj('touchmove', e))
+}
+
+function onNativeTouchEnd(e: SnTouchEvent): void {
+	nativeTouchText.value = JSON.stringify(touchEventToObj('touchend', e))
+}
+
+function onNativeTouchCancel(e: SnTouchEvent): void {
+	nativeTouchText.value = JSON.stringify(touchEventToObj('touchcancel', e))
+}
+
+function onNativeScale(e: SnScaleEvent): void {
+	nativeScaleText.value = JSON.stringify(scaleEventToObj('scale', e))
+}
+
+function onNativeFling(e: SnFlingEvent): void {
+	nativeFlingText.value = JSON.stringify(flingEventToObj('fling', e))
+}
+</script>
+
+<style lang="scss">
+.gesture-block {
+	width: 100%;
+	min-height: 200px;
+}
+
+.gesture-block-contain {
+	padding: 10px;
+	flex-direction: column;
+}
+</style>

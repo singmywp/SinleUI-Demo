@@ -1,63 +1,82 @@
 <template>
-	<!-- #ifdef APP-->
-	<sn-scan 
-	ref="scanEle"
-	:enableDing="data['enableDing']"
-	:showTorch="data['showTorch']"
-	:dingFileSrc="data['dingFileSrc']"
-	:scanType="data['scanType']"
-	:continuous="data['continuous']"
-	:scanOnlyOnce="data['scanOnlyOnce']"
-	:title="data['title']"
-	:initZoomScale="data['initZoomScale']"
-	:continuousSleep="data['continuousSleep']"
-	:showAlbum="data['showAlbum']"
-	:showBackButton="data['showBackButton']"
-	:showAni="data['showAni']"
-	:enableZoom="data['enableZoom']"
-	@goin="goin"></sn-scan>
-	<!--#endif-->
+	<!-- #ifdef APP-ANDROID -->
+	<sn-scan ref="scanEle"
+		:enable-ding="(data['enableDing'] as boolean)"
+		:show-torch="(data['showTorch'] as boolean)"
+		:ding-file-src="(data['dingFileSrc'] as string)"
+		:scan-type="(data['scanType'] as string)"
+		:continuous="(data['continuous'] as boolean)"
+		:scan-only-once="(data['scanOnlyOnce'] as boolean)"
+		:title="(data['title'] as string)"
+		:title-size="(data['titleSize'] as string)"
+		:title-color="(data['titleColor'] as string)"
+		:tip="(data['tip'] as string)"
+		:tip-size="(data['tipSize'] as string)"
+		:tip-color="(data['tipColor'] as string)"
+		:custom-title-style="(data['customTitleStyle'] as string)"
+		:custom-tip-style="(data['customTipStyle'] as string)"
+		:init-zoom-scale="(data['initZoomScale'] as number)"
+		:recognize-interval="(data['recognizeInterval'] as number)"
+		:continuous-sleep="(data['continuousSleep'] as number)"
+		:show-album="(data['showAlbum'] as boolean)"
+		:show-back-button="(data['showBackButton'] as boolean)"
+		:show-ani="(data['showAni'] as boolean)"
+		:enable-zoom="(data['enableZoom'] as boolean)"
+		@goin="goin"></sn-scan>
+	<!-- #endif -->
 </template>
 
-<script setup>
-	import { $snui, SnScanParams } from '@/uni_modules/sinle-ui'
-	const data = ref({
+<script lang="uts" setup>
+	import { snu, store } from '@/uni_modules/sinle-ui'
+	import { useI18n } from 'vue-i18n'
+	import type { ComponentPublicInstance } from 'vue'
+
+	const { t } = useI18n()
+
+	const data = ref<UTSJSONObject>({
 		enableDing: true,
 		showTorch: true,
 		dingFileSrc: '',
 		scanType: 'all',
 		continuous: false,
 		scanOnlyOnce: false,
-		title: '扫一扫',
+		title: t('snScanView.scanTitle'),
+		tip: '',
+		titleSize: '',
+		titleColor: '#ffffff',
+		tipSize: '',
+		tipColor: '',
+		customTitleStyle: '',
+		customTipStyle: '',
 		initZoomScale: 0,
+		recognizeInterval: 0,
 		continuousSleep: 100,
 		showAlbum: true,
 		showBackButton: true,
 		showAni: true,
 		enableZoom: true
-	} as SnScanParams)
-	
-	const scanEle = ref(null as SnScanComponentPublicInstance | null)
-	
-	onLoad((_)=>{
-		let _data = $snui.store.get('demo-scan-params')
+	})
+
+	const scanEle = ref<ComponentPublicInstance | null>(null)
+
+	onLoad(() => {
+		const _data = store.get('demo-scan-params')
 		if (_data != null) {
-			data.value = _data as SnScanParams
+			data.value = _data as UTSJSONObject
 		}
 	})
-	
+
 	function goin(d: string) {
-		uni.showModal({
-			title: '扫描结果',
+		snu.showModal({
+			title: t('snScanView.resultTitle'),
 			content: d,
 			showCancel: false,
-			complete:()=>{
-				scanEle.value!.rescan()
+			complete: () => {
+				scanEle.value?.$callMethod('rescan')
 			}
 		})
 	}
 </script>
 
 <style lang="scss">
-
 </style>

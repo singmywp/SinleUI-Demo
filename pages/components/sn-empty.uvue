@@ -1,69 +1,116 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Empty 缺省页"></sn-topbar>
-		<com-card title="组件演示">
-			<sn-form v-model="configs"
-			:showBorder="false">
-				<sn-form-item label="缺省页模式">
-					<sn-select v-model="(configs['mode'] as number)"
-					 :data="data"
-					 width="150px"></sn-select>
-				</sn-form-item>
-				<sn-form-item label="是否显示插槽">
-					<sn-switch v-model="(configs['showSlot'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="主题色">
-					<sn-input v-model="(configs['themeColor'] as string)"></sn-input>
-				</sn-form-item>
-			</sn-form>
-			<sn-empty :mode="data[(configs['mode'] as number)]['id']" 
-			:text="contents[data[(configs['mode'] as number)]['id'] as string]"
-			:themeColor="(configs['themeColor'] as string)">
+	<sn-page :title="t('snEmpty.title')" :show-back="true">
+		<demo-card :title="t('snEmpty.demoTitle')">
+			<sn-form-field :label="t('snEmpty.emptyMode')" :custom-style="rowLineStyle">
+				<sn-select v-model="modeIndex" :data="modeOptions" custom-style="flex:1;" />
+			</sn-form-field>
+			<sn-form-field :label="t('snEmpty.showSlot')" :custom-style="rowLineStyle">
+				<sn-switch v-model="showSlot" />
+			</sn-form-field>
+			<sn-form-field :label="t('snEmpty.themeColor')" :custom-style="rowLastStyle">
+				<sn-input v-model="themeColor" custom-style="flex:1;" />
+			</sn-form-field>
+			<sn-empty :mode="getModeId()" :text="getContent(getModeId())" :theme-color="themeColor"
+				custom-style="margin-top:16px;">
 				<template #action>
-					<sn-button v-if="(configs['showSlot'] as boolean)" 
-					text="返回" 
-					style="width: 100px;margin: 30px auto;"></sn-button>
+					<sn-button v-if="showSlot" :text="t('snEmpty.back')" custom-style="width:100px;margin:30px auto;" />
 				</template>
 			</sn-empty>
-		</com-card>
+		</demo-card>
+
+		<demo-card :title="t('snEmpty.externalTitle')" :subtitle="t('snEmpty.externalDesc')">
+			<sn-empty mode="data" :text="t('snEmpty.externalClassText')" text-class="demo-empty-text" style="margin-bottom: 12px" />
+			<sn-empty mode="search" :text="t('snEmpty.externalStyleText')" text-style="font-weight: bold;" />
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	
-	const configs = ref({
-		mode: 0,
-		showSlot: false,
-		themeColor: colors.value.primary
-	})
-	
-	const contents = ref({ 
-		'schedule': '近来无事' ,
-		'card': '家徒四壁',
-		'favor': '还没发现喜欢的东西',
-		'coupon': '优惠券……用光了',
-		'data': '啊哦，数据丢失了',
-		'location': '迷路的游人',
-		'fail': '加载失败，再试试看',
-		'folder': '空空如也',
-		'page1': '页面君被外星人抓走啦',
-		'page2': '你似乎来到了一片荒野',
-		'loading': '拼命加载中……',
-		'message': '远方无人来信',
-		'star': '没有感兴趣的内容啊',
-		'permission': '闲杂人等无权访问',
-		'record': '无影无痕',
-		'search': '没有找到有用的信息',
-		'server': '服务器崩溃惹',
-		'shopping': '你的购物车空空如也',
-		'network': '断……断网了……',
-		'slow': '网络不给力'
-	})
+<script lang="uts" setup>
 
-	const data = [{ id: 'schedule', text: '日程' }, {id:'card', text:'卡包'}, {id:'favor', text:'收藏'}, {id:'coupon', text:'优惠券'}, {id:'data', text:'数据'}, {id:'location', text:'位置'}, {id:'fail', text:'载入失败'}, {id:'folder', text:'文件夹'}, {id:'page1', text:'页面丢失1'},{id:'page2', text:'页面丢失2'}, {id:'loading', text:'加载中'},{id:'message', text:'消息'},{id:'star', text:'喜爱'},{id:'permission', text:'权限'},{id:'record', text:'记录'},{id:'search', text:'搜索'},{id:'server', text:'服务器'},{id:'shopping', text:'购物车'},{id:'network', text:'无网络'},{id:'slow', text:'网速缓慢'}] as SnDataItem[]
+import { useI18n } from 'vue-i18n'
+
+
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+
+const modeOptions: SnDataItem[] = [
+	{ id: 'schedule', text: t('snEmpty.modeSchedule') },
+	{ id: 'card', text: t('snEmpty.modeCard') },
+	{ id: 'favor', text: t('snEmpty.modeFavor') },
+	{ id: 'coupon', text: t('snEmpty.modeCoupon') },
+	{ id: 'data', text: t('snEmpty.modeData') },
+	{ id: 'location', text: t('snEmpty.modeLocation') },
+	{ id: 'fail', text: t('snEmpty.modeFail') },
+	{ id: 'folder', text: t('snEmpty.modeFolder') },
+	{ id: 'page1', text: t('snEmpty.modePage1') },
+	{ id: 'page2', text: t('snEmpty.modePage2') },
+	{ id: 'loading', text: t('snEmpty.modeLoading') },
+	{ id: 'message', text: t('snEmpty.modeMessage') },
+	{ id: 'star', text: t('snEmpty.modeStar') },
+	{ id: 'permission', text: t('snEmpty.modePermission') },
+	{ id: 'record', text: t('snEmpty.modeRecord') },
+	{ id: 'search', text: t('snEmpty.modeSearch') },
+	{ id: 'server', text: t('snEmpty.modeServer') },
+	{ id: 'shopping', text: t('snEmpty.modeShopping') },
+	{ id: 'network', text: t('snEmpty.modeNetwork') },
+	{ id: 'slow', text: t('snEmpty.modeSlow') }
+]
+
+const contents: Map<string, string> = new Map([
+	['schedule', t('snEmpty.contentSchedule')],
+	['card', t('snEmpty.contentCard')],
+	['favor', t('snEmpty.contentFavor')],
+	['coupon', t('snEmpty.contentCoupon')],
+	['data', t('snEmpty.contentData')],
+	['location', t('snEmpty.contentLocation')],
+	['fail', t('snEmpty.contentFail')],
+	['folder', t('snEmpty.contentFolder')],
+	['page1', t('snEmpty.contentPage1')],
+	['page2', t('snEmpty.contentPage2')],
+	['loading', t('snEmpty.contentLoading')],
+	['message', t('snEmpty.contentMessage')],
+	['star', t('snEmpty.contentStar')],
+	['permission', t('snEmpty.contentPermission')],
+	['record', t('snEmpty.contentRecord')],
+	['search', t('snEmpty.contentSearch')],
+	['server', t('snEmpty.contentServer')],
+	['shopping', t('snEmpty.contentShopping')],
+	['network', t('snEmpty.contentNetwork')],
+	['slow', t('snEmpty.contentSlow')]
+])
+
+const modeIndex = ref<number>(0)
+const showSlot = ref<boolean>(false)
+const themeColor = ref<string>('$primary')
+
+
+const rowLineStyle = 'padding-top:10px;padding-bottom:10px;border-bottom-width:0.5px;border-bottom-style:solid;border-bottom-color:rgba(127,127,127,0.15);'
+const rowLastStyle = 'padding-top:10px;padding-bottom:10px;'
+
+
+function getModeId(): string {
+	const list = modeOptions
+	const idx = modeIndex.value
+	if (idx >= 0 && idx < list.length) {
+		const item = list[idx]
+		if (item.id != null && item.id != '') {
+			return item.id!
+		}
+	}
+	return 'data'
+}
+
+
+function getContent(id: string): string {
+	const v = contents.get(id)
+	return v != null ? v : ''
+}
 </script>
 
 <style lang="scss">
+.demo-empty-text {
+	font-weight: bold;
+	letter-spacing: 1px;
+}
 </style>

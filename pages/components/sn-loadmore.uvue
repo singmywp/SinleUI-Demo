@@ -1,59 +1,95 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Loadmore 加载更多"></sn-topbar>
-		<com-card title="基础用法"
-		note="一般用于标识页面底部加载数据时的状态">
-			<sn-loadmore class="spacing" status="loadmore"></sn-loadmore>
-			<sn-loadmore class="spacing" status="nomore"></sn-loadmore>
-			<sn-loadmore class="spacing" status="loading"></sn-loadmore>
-		</com-card>
-		<com-card title="事件"
-		note="提供loadmore事件，当组件被点击且status为 loadmore 时触发此事件">
-			<sn-loadmore :status="status1" @loadmore="loadmore"></sn-loadmore>
-		</com-card>
-		<com-card title="自定义提示语"
-		note="自由定制提示语">
-			<sn-loadmore class="spacing" status="loadmore" loadmoreText="点我继续搜索"></sn-loadmore>
-			<sn-loadmore class="spacing" status="nomore" nomoreText="额……没有了"></sn-loadmore>
-			<sn-loadmore class="spacing" status="loading" loadingText="努力加载吖"></sn-loadmore>
-		</com-card>
-		<com-card title="自定义样式"
-		note="我就是我，不一样的烟火~">
-			<sn-loadmore dashed 
-			lineHeight="2px" 
-			status="status2"  
-			line-color="$successLight"
-			textColor="$success"
-			icon-color="$success" 
-			@loadmore="loadmore2"></sn-loadmore>
-		</com-card>
+	<sn-page :title="t('snLoadmore.title')" :show-back="true">
+		<demo-card :title="t('snLoadmore.basicTitle')" :subtitle="t('snLoadmore.basicDesc')">
+			<sn-loadmore @loadmore="onLoadmore" />
+			<sn-text font-size="$12" color="$primary" flatten>{{ t('snLoadmore.recentEvent') }}{{ eventLog }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snLoadmore.loadingTitle')" :subtitle="t('snLoadmore.loadingDesc')">
+			<sn-loadmore status="loading" />
+		</demo-card>
+
+		<demo-card :title="t('snLoadmore.nomoreTitle')" :subtitle="t('snLoadmore.nomoreDesc')">
+			<sn-loadmore status="nomore" />
+		</demo-card>
+
+		<demo-card :title="t('snLoadmore.customTitle')" :subtitle="t('snLoadmore.customDesc')">
+			<sn-loadmore status="loadmore" :loadmore-text="t('snLoadmore.customLoadmore')" />
+			<sn-loadmore status="loading" :loading-text="t('snLoadmore.customLoading')" custom-style="margin-top:12px;" />
+			<sn-loadmore status="nomore" :nomore-text="t('snLoadmore.customNomore')" custom-style="margin-top:12px;" />
+		</demo-card>
+
+		<demo-card :title="t('snLoadmore.dashedTitle')" :subtitle="t('snLoadmore.dashedDesc')">
+			<sn-loadmore status="nomore" dashed />
+		</demo-card>
+
+		<demo-card :title="t('snLoadmore.colorTitle')" :subtitle="t('snLoadmore.colorDesc')">
+			<sn-loadmore status="loading" icon-color="$success" text-color="$success" line-color="$successLight" />
+			<sn-loadmore status="loadmore" text-color="$primary" line-color="$primaryLight" custom-style="margin-top:12px;" />
+		</demo-card>
+
+		<demo-card :title="t('snLoadmore.loadingCustomTitle')" :subtitle="t('snLoadmore.loadingCustomDesc')">
+			<sn-loadmore status="loading" loading-class="demo-loading" loading-style="width: 20px;height:20px" />
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snLoadmore.loadingClassHint') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snLoadmore.disabledTitle')" :subtitle="t('snLoadmore.disabledDesc')">
+			<sn-loadmore disabled @loadmore="onLoadmore" />
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snLoadmore.disabledHint') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snLoadmore.simulateTitle')" :subtitle="t('snLoadmore.simulateDesc')">
+			<view class="scene-card" flatten>
+				<sn-text bold font-size="$14" color="$text" flatten>{{ t('snLoadmore.listBottom') }}</sn-text>
+				<sn-loadmore :status="loadStatus" custom-style="margin-top:10px;" @loadmore="onSimulateLoad" />
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:4px;" flatten>{{ t('snLoadmore.currentStatus', { status: loadStatus } as UTSJSONObject) }}</sn-text>
+			</view>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { $snui } from '@/uni_modules/sinle-ui'
 
-	const status1 = ref('loadmore')
-	const status2 = ref('loadmore')
-	
-	function loadmore() {
-		status1.value = 'loading'
-		setTimeout(() => {
-			status1.value = 'nomore'
-		}, 3000)
+const { t } = useI18n()
+const eventLog = ref<string>(t('snLoadmore.noneEvent'))
+const loadStatus = ref<string>('loadmore')
+let simulateTimer: number | null = null
+
+function onLoadmore(): void {
+	eventLog.value = t('snLoadmore.loadmoreClicked')
+}
+
+
+function onSimulateLoad(): void {
+	if (loadStatus.value == 'loading') return
+	loadStatus.value = 'loading'
+	if (simulateTimer != null) {
+		clearTimeout(simulateTimer)
 	}
-	
-	function loadmore2() {
-		status2.value = 'loading'
-		setTimeout(() => {
-			status2.value = 'nomore'
-		}, 3000)
+	simulateTimer = setTimeout(() => {
+		loadStatus.value = 'nomore'
+		simulateTimer = null
+	}, 1500) as number
+}
+
+onUnmounted(() => {
+	if (simulateTimer != null) {
+		clearTimeout(simulateTimer)
+		simulateTimer = null
 	}
+})
+
 </script>
 
 <style lang="scss">
-	.spacing {
-		margin-bottom: 10px;
-	}
+.scene-card {
+	padding: 14px;
+	border-radius: 10px;
+	background-color: var(--sn-front);
+}
+.demo-loading {
+	margin-right: 10px;
+}
 </style>

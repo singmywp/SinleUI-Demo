@@ -1,52 +1,73 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Line 线条"></sn-topbar>
-		<com-card title="基础用法"
-		note="普普通通的分割线，用于切割内容">
-			<sn-text class="introduction" :text="'\u3000\u3000段落1'"></sn-text>
-			<sn-line></sn-line>
-			<sn-text class="introduction" :text="'\u3000\u3000段落2'"></sn-text>
-		</com-card>
-		<com-card title="插入文字"
-		note="放点有趣的东西，比如旁白君">
-			<sn-text class="introduction" :text="'\u3000\u3000段落1'"></sn-text>
-			<sn-line text="这是一条分割线"></sn-line>
-			<sn-text class="introduction" :text="'\u3000\u3000段落2'"></sn-text>
-		</com-card>
-		<com-card title="以点代字"
-		note="装饰美观，强制设置title为•">
-			<sn-text class="introduction" :text="'\u3000\u3000段落1'"></sn-text>
-			<sn-line text="这是一条分割线" dot></sn-line>
-			<sn-text class="introduction" :text="'\u3000\u3000段落2'"></sn-text>
-		</com-card>
-		<com-card title="虚线"
-		note="总有时候会用到">
-			<sn-text class="introduction" :text="'\u3000\u3000段落1'"></sn-text>
-			<sn-line dashed></sn-line>
-			<sn-text class="introduction" :text="'\u3000\u3000段落2'"></sn-text>
-		</com-card>
-		<com-card title="自定义样式"
-		note="对于热衷于突显自己特色的开发者来说是个好东西">
-			<view class="align-items-center">
-				<sn-line line-color="#000" 
-				height="5px" 
-				width="70%" 
-				border-radius="100px">
-				</sn-line>
-				<sn-line line-color="#f03c46" 
-				height="6px">
-				</sn-line>
-				<sn-line dashed 
-				line-color="#ffd800" 
-				height="2px">
-				</sn-line>
+	<sn-page :title="t('snLine.title')" :show-back="true">
+		<demo-card :title="t('snLine.basicTitle')" :subtitle="t('snLine.basicDesc')">
+			<view class="demo-box" flatten>
+				<sn-text flatten>{{ t('snLine.regionA') }}</sn-text>
 			</view>
-		</com-card>
+			<sn-line margin="16" />
+			<view class="demo-box" flatten>
+				<sn-text flatten>{{ t('snLine.regionB') }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snLine.colorTitle')" :subtitle="t('snLine.colorDesc')">
+			<sn-line color="var(--sn-primary)" margin="12" />
+			<sn-line color="var(--sn-success)" margin="12" />
+			<sn-line color="var(--sn-error)" margin="12" />
+			<sn-line color="var(--sn-warning)" margin="12" />
+		</demo-card>
+
+		<demo-card :title="t('snLine.dashedTitle')" :subtitle="t('snLine.dashedDesc')">
+			<sn-line :dashed="true" margin="16" />
+		</demo-card>
+
+		<demo-card :title="t('snLine.textTitle')" :subtitle="t('snLine.textDesc')">
+			<sn-line :text="t('snLine.lineText')" margin="24" />
+			<sn-line :text="t('snLine.lineText2')" color="var(--sn-primary)" margin="24" />
+			<sn-line :dot="true" margin="24" />
+		</demo-card>
+		<demo-card :title="t('snLine.dotTitle')" :subtitle="t('snLine.dotDesc')">
+			<sn-line dot margin="24" />
+		</demo-card>
+
+		<demo-card :title="t('snLine.verticalTitle')" :subtitle="t('snLine.verticalDesc')">
+			<view class="h-row" flatten>
+				<sn-text flatten>{{ t('snLine.text') }}</sn-text>
+				<sn-line direction="vertical" :length="20" margin="12" />
+				<sn-text flatten>{{ t('snLine.text') }}</sn-text>
+				<sn-line direction="vertical" :length="20" margin="12" />
+				<sn-text flatten>{{ t('snLine.text') }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snLine.verticalDashedTitle')" :subtitle="t('snLine.verticalDashedDesc')">
+			<view class="h-row" flatten>
+				<sn-text flatten>A</sn-text>
+				<sn-line direction="vertical" :length="20" :dashed="true" margin="12" color="var(--sn-primary)" />
+				<sn-text flatten>B</sn-text>
+				<sn-line direction="vertical" :length="20" :dashed="true" margin="12" color="var(--sn-success)" />
+				<sn-text flatten>C</sn-text>
+			</view>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 </script>
 
 <style lang="scss">
+.demo-box {
+	padding: 20px 0;
+	align-items: center;
+	justify-content: center;
+}
+.h-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	padding: 20px 0;
+}
 </style>

@@ -1,148 +1,261 @@
 <template>
 	<sn-page>
-		<sn-topbar title="Drawer 抽屉"
-		:features="[{id:'run',icon:'play-circle-fill'} as SnDataItem]"
-		@button-click="buttonClicked"></sn-topbar>
-		<com-card title="组件演示"
-		note="通常用于半屏窗口的场景。\n请注意区分 Popup 和 Drawer。Popup 只控制动画和显隐逻辑，UI 需要自己写。而 Drawer 则是在 Popup 的基础上加了一层 UI 模板。\n请注意区分 Drawer 和 Float Board。Drawer 是弹出层，需要调用方法才能显示；而 Float Board 则始终显示，且可以通过用户手势操作完全显露。（可以把 Drawer 理解为关闭的抽屉，FloatBoard 则是半开的抽屉）">
-			<sn-form v-model="configs"
-			:showBorder="false">
-				<sn-form-item label="遮罩关闭">
-					<sn-switch v-model="(configs['maskClose'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="滑动手势关闭">
-					<sn-switch v-model="(configs['slideClose'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="阻止返回事件">
-					<sn-switch v-model="(configs['preventBack'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="显示指示条">
-					<sn-switch v-model="(configs['showLine'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="位置">
-					<sn-select 
-					v-model="(configs['position'] as number)"
-					width="200px"
-					:data="positions">
-					</sn-select>
-				</sn-form-item>
-				<sn-form-item label="动画时长">
-					<sn-stepper v-model="(configs['aniTime'] as number)"
-					:step="100"
-					:min="100"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="遮罩透明度">
-					<sn-stepper v-model="(configs['maskOpacity'] as number)"
-					:step="0.1"
-					:min="0"
-					:max="1"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="宽度(仅left/right)">
-					<sn-stepper v-model="(configs['width'] as number)"
-					:step="20"
-					:min="0"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="高度(仅top/bottom)">
-					<sn-stepper v-model="(configs['height'] as number)"
-					:step="20"
-					:min="0"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="滑动关闭阈值（宽度）">
-					<sn-stepper v-model="(configs['slideWidth'] as number)"
-					:step="20"
-					:min="0"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="滑动关闭阈值（高度）">
-					<sn-stepper v-model="(configs['slideHeight'] as number)"
-					:step="20"
-					:min="0"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="背景颜色">
-					<sn-input v-model="(configs['bgColor'] as string)"
-					placeholder="默认值"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="指示条颜色">
-					<sn-input v-model="(configs['lineColor'] as string)"
-					placeholder="默认值"></sn-input>
-				</sn-form-item>
-				<sn-button text="打开" 
-				level="second" 
-				type="primary" 
-				@click="show()"
-				style="margin-top: 10px;">
-				</sn-button>
-			</sn-form>
-		</com-card>
-		<sn-gap></sn-gap>
+		<sn-topbar :title="t('snDrawer.title')"></sn-topbar>
+
+		<demo-card :title="t('snDrawer.basicTitle')" :subtitle="t('snDrawer.basicDesc')">
+			<sn-button :text="t('snDrawer.openBottom')" type="primary" custom-style="flex:1;" @click="openDrawer" />
+			<sn-text type="text-light" fontSize="$12" :text="t('snDrawer.maskTip')" custom-style="margin-top:8px;" flatten />
+		</demo-card>
+
+		<demo-card :title="t('snDrawer.dirTitle')" :subtitle="t('snDrawer.dirDesc')">
+			<view class="anim-row" flatten>
+				<sn-button :text="t('snDrawer.dirTop')"  type="info" custom-style="flex:1;margin-right:8px;" @click="openTopDrawer" />
+				<sn-button :text="t('snDrawer.dirBottom')"  type="primary" custom-style="flex:1;margin-left:8px;" @click="openDrawer" />
+			</view>
+			<view class="anim-row" flatten>
+				<sn-button :text="t('snDrawer.dirLeft')"  type="success" custom-style="flex:1;margin-right:8px;" @click="openLeftDrawer" />
+				<sn-button :text="t('snDrawer.dirRight')"  type="warning" custom-style="flex:1;margin-left:8px;" @click="openRightDrawer" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snDrawer.sizeTitle')" :subtitle="t('snDrawer.sizeDesc')">
+			<view class="config-row" flatten>
+				<sn-text :text="t('snDrawer.panelHeight')" custom-style="width:130px;" flatten />
+				<sn-stepper v-model="configs.height" :step="40" :min="120" style="flex:1;" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snDrawer.panelWidth')" custom-style="width:130px;" flatten />
+				<sn-stepper v-model="configs.width" :step="40" :min="120" style="flex:1;" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snDrawer.slideHeightLabel')" custom-style="width:130px;" flatten />
+				<sn-stepper v-model="configs.slideHeight" :step="20" :min="0" style="flex:1;" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text flatten :text="t('snDrawer.slideWidthLabel')" custom-style="width:130px;" />
+				<sn-stepper v-model="configs.slideWidth" :step="20" :min="0" style="flex:1;" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snDrawer.colorTitle')" :subtitle="t('snDrawer.colorDesc')">
+			<view flatten class="config-row">
+				<sn-text flatten :text="t('snDrawer.bgColorLabel')" custom-style="width:130px;" />
+				<sn-input v-model="configs.bgColor" :placeholder="t('snDrawer.defaultFront')" style="flex:1;" />
+			</view>
+			<view flatten class="config-row">
+				<sn-text flatten :text="t('snDrawer.lineColorLabel')" custom-style="width:130px;" />
+				<sn-input v-model="configs.lineColor" :placeholder="t('snDrawer.defaultLineText')" style="flex:1;" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snDrawer.behaviorTitle')" :subtitle="t('snDrawer.behaviorDesc')">
+			<view flatten class="config-row">
+				<sn-text flatten :text="t('snDrawer.slideCloseLabel')" custom-style="width:130px;" />
+				<sn-switch v-model="configs.slideClose" />
+			</view>
+			<view flatten class="config-row">
+				<sn-text flatten :text="t('snDrawer.maskCloseLabel')" custom-style="width:130px;" />
+				<sn-switch v-model="configs.maskClose" />
+			</view>
+			<view flatten class="config-row">
+				<sn-text flatten :text="t('snDrawer.preventBackLabel')" custom-style="width:130px;" />
+				<sn-switch v-model="configs.preventBack" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snDrawer.eventTitle')" :subtitle="t('snDrawer.eventDesc')">
+			<view flatten class="config-row">
+				<sn-text flatten :text="t('snDrawer.afterEnterLabel')" custom-style="width:140px;" />
+				<sn-text flatten bold fontSize="$14" :text="t('snDrawer.evAfterEnter', { c: enterCount } as UTSJSONObject)" />
+			</view>
+			<view flatten class="config-row">
+				<sn-text flatten :text="t('snDrawer.afterLeaveLabel')" custom-style="width:140px;" />
+				<sn-text flatten bold fontSize="$14" :text="t('snDrawer.evAfterLeave', { c: leaveCount } as UTSJSONObject)" />
+			</view>
+			<view flatten class="config-row">
+				<sn-text flatten :text="t('snDrawer.overlayLabel')" custom-style="width:140px;" />
+				<sn-text flatten bold fontSize="$14" :text="t('snDrawer.evOverlay', { c: overlayCount } as UTSJSONObject)" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snDrawer.sceneTitle')" :subtitle="t('snDrawer.sceneDesc')">
+			<sn-button :text="t('snDrawer.viewCart')" type="success" custom-style="flex:1;" @click="openCartDrawer" />
+		</demo-card>
+
+		<sn-drawer ref="drawerRef" position="bottom" :slide-close="configs.slideClose"
+				:mask-close="configs.maskClose" :prevent-back="configs.preventBack"
+				:height="`${configs.height}px`" :slide-height="`${configs.slideHeight}px`"
+				:bg-color="configs.bgColor" :line-color="configs.lineColor"
+				@afterenter="onAfterEnter" @afterleave="onAfterLeave" @clickoverlay="onOverlay">
+			<view class="drawer-body">
+				<sn-text flatten bold fontSize="$16" color="$title" :text="t('snDrawer.bottomDrawer')" />
+				<sn-text flatten fontSize="$13" color="$textLight" :text="t('snDrawer.bottomTip')" custom-style="margin-top:8px;" />
+				<sn-button :text="t('snDrawer.close')"  type="primary" custom-style="margin-top:16px;" @click="closeDrawer" />
+			</view>
+		</sn-drawer>
+
+		<sn-drawer ref="topDrawerRef" position="top" height="220px">
+			<view class="drawer-body">
+				<sn-text flatten bold fontSize="$16" color="$title" :text="t('snDrawer.topDrawer')" />
+				<sn-text flatten fontSize="$13" color="$textLight" :text="t('snDrawer.topTip')" custom-style="margin-top:8px;" />
+				<sn-button :text="t('snDrawer.close')"  type="primary" custom-style="margin-top:16px;" @click="closeTopDrawer" />
+			</view>
+		</sn-drawer>
+
+		<sn-drawer ref="leftDrawerRef" position="left" :width="`${configs.width}px`"
+				:slide-width="`${configs.slideWidth}px`" :bg-color="configs.bgColor" :line-color="configs.lineColor">
+			<view class="drawer-body">
+				<sn-text flatten bold fontSize="$16" color="$title" :text="t('snDrawer.leftDrawer')" />
+				<sn-text flatten fontSize="$13" color="$textLight" :text="t('snDrawer.leftTip')" custom-style="margin-top:8px;" />
+				<sn-button :text="t('snDrawer.close')"  type="primary" custom-style="margin-top:16px;" @click="closeLeftDrawer" />
+			</view>
+		</sn-drawer>
+
+		<sn-drawer ref="rightDrawerRef" position="right" :width="`${configs.width}px`"
+				:slide-width="`${configs.slideWidth}px`" :bg-color="configs.bgColor" :line-color="configs.lineColor">
+			<view class="drawer-body">
+				<sn-text flatten bold fontSize="$16" color="$title" :text="t('snDrawer.rightDrawer')" />
+				<sn-text flatten fontSize="$13" color="$textLight" :text="t('snDrawer.rightTip')" custom-style="margin-top:8px;" />
+				<sn-button :text="t('snDrawer.close')"  type="primary" custom-style="margin-top:16px;" @click="closeRightDrawer" />
+			</view>
+		</sn-drawer>
+
+		<sn-drawer ref="cartDrawerRef" position="bottom" height="360px" @clickoverlay="onOverlay">
+			<view class="drawer-body">
+				<sn-text flatten bold fontSize="$16" color="$title" :text="t('snDrawer.cartTitle')" />
+				<view class="cart-item" v-for="(g, i) in cartGoods" :key="i" flatten>
+					<sn-text flatten fontSize="$14" color="$text" :text="g.name" custom-style="flex:1;" />
+					<sn-text flatten fontSize="$14" color="$error" :text="g.price" />
+				</view>
+				<sn-button :text="t('snDrawer.checkout')" type="primary" custom-style="margin-top:12px;" @click="closeCartDrawer" />
+			</view>
+		</sn-drawer>
 	</sn-page>
-	<sn-drawer ref="drawerEle"
-	:position="positions[configs['position'] as number ?? 0]['id'] ?? ''"
-	:bgColor="`${configs['bgColor']}`"
-	:lineColor="`${configs['lineColor']}`"
-	:height="`${configs['height']}px`"
-	:width="`${configs['width']}px`"
-	:slideHeight="`${configs['slideHeight']}px`"
-	:slideWidth="`${configs['slideWidth']}px`"
-	:aniTime="`${configs['aniTime']}ms`"
-	:maskOpacity="configs['maskOpacity']"
-	:maskClose="configs['maskClose']"
-	:slideClose="configs['slideClose']"
-	:showLine="configs['showLine']"
-	:preventBack="configs['preventBack']">
-	</sn-drawer>
 </template>
 
-<script setup>
-	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
-	const snu = $snui.utils
-	
-	const drawerEle = ref(null as SnDrawerComponentPublicInstance | null)
-	
-	const configs = ref({
-		maskClose: true,
-		preventBack: false,
-		showLine: true,
-		slideClose: true,
-		bgColor: '',
-		lineColor: '',
-		position: 0,
-		height: 300,
-		width: 300,
-		slideHeight: 100,
-		slideWidth: 100,
-		aniTime: parseInt($snui.configs.aniTime.long),
-		maskOpacity: 0.3
-	})
-	
-	const positions = [
-		{
-			id: 'bottom',
-			text: '底部',
-		},
-		{
-			id: 'top',
-			text: '顶部',
-		},
-		{
-			id: 'left',
-			text: '左侧',
-		},
-		{
-			id: 'right',
-			text: '右侧',
-		}
-	] as SnDataItem[]
+<script lang="uts" setup>
 
-	function show() {
-		snu.throttle(()=>{
-			drawerEle.value?.open?.()
-		}, 50)
-	}
-	
-	function buttonClicked(e: SnDataItem){
-		if (e.id == 'run') show()
-	}
+import { useI18n } from 'vue-i18n'
+import type { ComponentPublicInstance } from 'vue'
+
+const { t } = useI18n()
+
+type CartGoods = {
+	name: string
+	price: string
+}
+
+type Configs = {
+	height: number
+	width: number
+	slideHeight: number
+	slideWidth: number
+	bgColor: string
+	lineColor: string
+	slideClose: boolean
+	maskClose: boolean
+	preventBack: boolean
+}
+
+const drawerRef = ref<ComponentPublicInstance | null>(null)
+const topDrawerRef = ref<ComponentPublicInstance | null>(null)
+const leftDrawerRef = ref<ComponentPublicInstance | null>(null)
+const rightDrawerRef = ref<ComponentPublicInstance | null>(null)
+const cartDrawerRef = ref<ComponentPublicInstance | null>(null)
+const enterCount = ref<number>(0)
+const leaveCount = ref<number>(0)
+const overlayCount = ref<number>(0)
+
+const configs = ref<Configs>({
+	height: 320,
+	width: 260,
+	slideHeight: 100,
+	slideWidth: 100,
+	bgColor: '$front',
+	lineColor: '',
+	slideClose: true,
+	maskClose: true,
+	preventBack: false
+})
+
+const cartGoods: CartGoods[] = [
+	{ name: t('snDrawer.cart1Name'), price: '¥399' },
+	{ name: t('snDrawer.cart2Name'), price: '¥129' }
+]
+
+function openDrawer(): void {
+	drawerRef.value?.$callMethod('open')
+}
+
+function closeDrawer(): void {
+	drawerRef.value?.$callMethod('close')
+}
+
+function openTopDrawer(): void {
+	topDrawerRef.value?.$callMethod('open')
+}
+
+function closeTopDrawer(): void {
+	topDrawerRef.value?.$callMethod('close')
+}
+
+function openLeftDrawer(): void {
+	leftDrawerRef.value?.$callMethod('open')
+}
+
+function closeLeftDrawer(): void {
+	leftDrawerRef.value?.$callMethod('close')
+}
+
+function openRightDrawer(): void {
+	rightDrawerRef.value?.$callMethod('open')
+}
+
+function closeRightDrawer(): void {
+	rightDrawerRef.value?.$callMethod('close')
+}
+
+function openCartDrawer(): void {
+	cartDrawerRef.value?.$callMethod('open')
+}
+
+function closeCartDrawer(): void {
+	cartDrawerRef.value?.$callMethod('close')
+}
+
+function onAfterEnter(): void {
+	enterCount.value = enterCount.value + 1
+}
+
+function onAfterLeave(): void {
+	leaveCount.value = leaveCount.value + 1
+}
+
+function onOverlay(): void {
+	overlayCount.value = overlayCount.value + 1
+}
 </script>
 
 <style lang="scss">
+.anim-row {
+	flex-direction: row;
+	margin-bottom: 10px;
+}
+.config-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+.drawer-body {
+	flex-direction: column;
+}
+.cart-item {
+	flex-direction: row;
+	align-items: center;
+	padding: 12px 0;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: var(--sn-line);
+}
 </style>

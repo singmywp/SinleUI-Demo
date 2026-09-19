@@ -1,0 +1,110 @@
+<template>
+	<sn-page :title="t('snEllipsis.title')" :show-back="true" padding="0 16px 32px 16px">
+		<demo-card :title="t('snEllipsis.basicTitle')" :subtitle="t('snEllipsis.basicDesc')">
+			<sn-ellipsis :content="singleText" />
+		</demo-card>
+
+		<demo-card :title="t('snEllipsis.multiTitle')" :subtitle="t('snEllipsis.multiDesc')">
+			<sn-ellipsis :content="longText" :rows="2" />
+			<sn-text flatten font-size="$13" color="$textLight" custom-style="margin-top:10px;">rows=3</sn-text>
+			<sn-ellipsis :content="longText" :rows="3" custom-style="margin-top:6px;" />
+		</demo-card>
+
+		<demo-card :title="t('snEllipsis.dotsTitle')" :subtitle="t('snEllipsis.dotsDesc')">
+			<sn-ellipsis :content="singleText" dots="···" />
+			<sn-ellipsis :content="singleText" dots="……" custom-style="margin-top:6px;" />
+		</demo-card>
+
+		<demo-card :title="t('snEllipsis.posTitle')" :subtitle="t('snEllipsis.posDesc')">
+			<sn-text flatten font-size="$13" color="$textLight">end</sn-text>
+			<sn-ellipsis :content="positionText" :rows="2" custom-style="margin-top:6px;" />
+			<sn-text flatten font-size="$13" color="$textLight" custom-style="margin-top:10px;">start</sn-text>
+			<sn-ellipsis :content="positionText" :rows="2" position="start" custom-style="margin-top:6px;" />
+			<sn-text flatten font-size="$13" color="$textLight" custom-style="margin-top:10px;">middle</sn-text>
+			<sn-ellipsis :content="positionText" :rows="2" position="middle" custom-style="margin-top:6px;" />
+		</demo-card>
+
+		<demo-card :title="t('snEllipsis.expandTitle')" :subtitle="t('snEllipsis.expandDesc')">
+			<sn-ellipsis :content="longText" :rows="2" :expand-text="t('snEllipsis.expand')" :collapse-text="t('snEllipsis.collapse')"
+				@expand="onExpand" @collapse="onCollapse" />
+			<sn-text flatten font-size="$13" color="$textLight" custom-style="margin-top:10px;">{{ stateText }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snEllipsis.customTitle')" :subtitle="t('snEllipsis.customDesc')">
+			<sn-ellipsis :content="longText" :rows="2" :expand-text="t('snEllipsis.expandFull')" :collapse-text="t('snEllipsis.collapse')"
+				font-size="$15" line-height="1.8" color="$primary" action-color="#FF5500" />
+		</demo-card>
+
+		<demo-card :title="t('snEllipsis.slotTitle')" :subtitle="t('snEllipsis.slotDesc')">
+			<sn-ellipsis :content="longText" :rows="2">
+				<template #expand>
+					<sn-icon name="arrow-down-s-line" :size="14" />
+					<sn-text flatten font-size="$13" color="$primary" custom-style="margin-left:2px;">{{ t('snEllipsis.viewAll') }}</sn-text>
+				</template>
+				<template #collapse>
+					<sn-icon name="arrow-up-s-line" :size="14" />
+					<sn-text flatten font-size="$13" color="$primary" custom-style="margin-left:2px;">{{ t('snEllipsis.collapse') }}</sn-text>
+				</template>
+			</sn-ellipsis>
+		</demo-card>
+
+		<demo-card :title="t('snEllipsis.goodsTitle2')" :subtitle="t('snEllipsis.goodsDesc2')">
+			<view class="goods-card">
+				<view class="goods-head">
+					<sn-text bold font-size="$15" color="$title">{{ t('snEllipsis.goodsName') }}</sn-text>
+					<sn-text flatten font-size="$12" color="$warning" custom-style="margin-top:2px;">{{ t('snEllipsis.discount') }}</sn-text>
+				</view>
+				<sn-ellipsis :rows="2" :expand-text="t('snEllipsis.expandFull')" :collapse-text="t('snEllipsis.collapseDesc')"
+					action-color="#2563EB" custom-style="margin-top:8px;">
+					<text class="goods-desc">{{ t('snEllipsis.goodsDesc') }}</text>
+				</sn-ellipsis>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snEllipsis.hiddenTitle')" :subtitle="t('snEllipsis.hiddenDesc')">
+			<sn-ellipsis :content="longText" :rows="2" :expand-text="t('snEllipsis.expandFull')" :collapse-text="t('snEllipsis.collapse')" :show-collapse="false" />
+			<sn-text flatten font-size="$13" color="$textLight" custom-style="margin-top:10px;">{{ t('snEllipsis.expandTips') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snEllipsis.disabledTitle')" :subtitle="t('snEllipsis.disabledDesc')">
+			<sn-ellipsis :content="longText" :rows="2" :expand-text="t('snEllipsis.expand')" :collapse-text="t('snEllipsis.collapse')" disabled />
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+const singleText = t('snEllipsis.singleText')
+const longText = t('snEllipsis.longText')
+const positionText = t('snEllipsis.positionText')
+
+const stateText = ref<string>(t('snEllipsis.stateInit'))
+
+function onExpand(): void {
+	stateText.value = t('snEllipsis.evExpand')
+}
+
+function onCollapse(): void {
+	stateText.value = t('snEllipsis.evCollapse')
+}
+</script>
+
+<style lang="scss">
+.goods-card {
+	padding: 14px;
+	border-radius: 12px;
+	background-color: rgba(37, 99, 235, 0.06);
+	flex-direction: column;
+}
+.goods-head {
+	flex-direction: column;
+}
+.goods-desc {
+	font-size: 14px;
+	line-height: 22px;
+	color: #475569;
+}
+</style>

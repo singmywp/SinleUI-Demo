@@ -1,109 +1,187 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Countdown 倒计时"></sn-topbar>
-		<com-card title="基础用法"
-		note="顾名思义，就是一个倒计时。\n推荐使用插槽布局为主，样式更好调。">
-			<sn-countdown :time="5 * 60 * 1000"></sn-countdown>
-		</com-card>
-		<com-card title="自定义样式"
-		note="可以自由设置文本的颜色和大小等样式">
-			<sn-countdown textSize="$3"
-			textColor="$successDark"
-			:time="5 * 60 * 1000"
-			:customStyle="{fontFamily:'alipuhuiheavy'}"></sn-countdown>
-		</com-card>
-		<com-card title="格式化"
-		note="倒计时内置文字支持时间格式化（参照Day.js）。">
-			<sn-countdown format="DD 天 HH 小时 mm 分钟 ss 秒"
-			:time="5 * 60 * 1000"></sn-countdown>
-		</com-card>
-		<com-card title="毫秒精度"
-		note="虽然使用一般模式也支持获取毫秒，但误差极大，不如此模式精确。">
-			<sn-countdown format="mm:ss.SSS"
-			millisecond
-			:time="5 * 60 * 1000"></sn-countdown>
-		</com-card>
-		<com-card title="插槽"
-		note="推荐使用插槽模式，自由度更高。">
-			<sn-countdown millisecond
-			:time="5 * 60 * 1000"
-			@change="onChange">
-			<sn-row>
-				<sn-tag class="spacing" type="primary" :text="`${timedata.h}`"></sn-tag>
-				<sn-text class="spacing" text="时" font="alipuhuiheavy"></sn-text>
-				<sn-tag class="spacing" type="primary" :text="`${timedata.m}`"></sn-tag>
-				<sn-text class="spacing" text="分" font="alipuhuiheavy"></sn-text>
-				<sn-tag class="spacing" type="primary" :text="`${timedata.s}`"></sn-tag>
-				<sn-text class="spacing" text="秒" font="alipuhuiheavy"></sn-text>
-			</sn-row>
-			</sn-countdown>
-		</com-card>
-		<com-card title="自由控制"
-		note="提供 API 以自由控制倒计时的状态。">
-			<view class="align-items-center">
-				<sn-countdown ref="countdownEle"
-				format="mm:ss.SS"
-				millisecond
-				:time="5 * 60 * 1000"></sn-countdown>
-				<sn-row align="center">
-					<sn-button round-size="50px" round
-					@click="reset">
-						<sn-icon name="refresh-line"></sn-icon>
-					</sn-button>
-					<sn-button class="m-l-10"
-					type="primary"
-					level="second"
-					round-size="60px"
-					round
-					@click="playOrPause">
-						<sn-icon color="$primary"
-						:name="`${running?'pause':'play'}-fill`" ></sn-icon>
-					</sn-button>
-					<sn-button class="m-l-10"
-					round-size="50px" round
-					@click="stop">
-						<sn-icon name="stop-circle-fill"></sn-icon>
-					</sn-button>
-				</sn-row>
+	<sn-page :title="t('snCountdown.title')" :show-back="true">
+		<demo-card :title="t('snCountdown.basicTitle')" :subtitle="t('snCountdown.basicDesc')">
+			<sn-countdown ref="cd1" :time="3600000" format="HH:mm:ss" @change="onChange1" @finish="onFinish1" />
+			<sn-text type="text-light" :font-size="13" :text="card1Text" custom-style="margin-top:8px;" flatten />
+		</demo-card>
+
+		<demo-card :title="t('snCountdown.msTitle')" :subtitle="t('snCountdown.msDesc')">
+			<sn-countdown :time="90000" format="mm:ss.SS" :millisecond="true" text-color="$error" text-size="$20" custom-style="margin-bottom:8px;" />
+			<sn-countdown :time="10000" format="ss.S" :millisecond="true" text-color="$warning" text-size="$18" />
+		</demo-card>
+
+		<demo-card :title="t('snCountdown.formatTitle')" :subtitle="t('snCountdown.formatDesc')">
+			<sn-countdown :time="197500000" format="DD天HH时mm分ss秒" text-color="$primary" custom-style="margin-bottom:8px;" />
+			<sn-countdown :time="150000" format="mm:ss" text-size="$22" text-color="$success" />
+		</demo-card>
+
+		<demo-card :title="t('snCountdown.apiTitle')" :subtitle="t('snCountdown.apiDesc')">
+			<sn-countdown ref="cdCtl" :time="60000" format="mm:ss" :autoplay="false" text-size="$22" text-color="$primaryDark" />
+			<view class="cd-ctl-row" flatten>
+				<sn-button :text="t('snCountdown.start')"  type="primary" custom-style="margin-right:8px;" @click="startCd" />
+				<sn-button :text="t('snCountdown.pause')"  type="info" custom-style="margin-right:8px;" @click="pauseCd" />
+				<sn-button :text="t('snCountdown.reset')"  type="warning" custom-style="margin-right:8px;" @click="resetCd" />
+				<sn-button :text="t('snCountdown.stop')"  type="error" @click="stopCd" />
 			</view>
-		</com-card>
+		</demo-card>
+
+		<demo-card :title="t('snCountdown.seckillTitle')" :subtitle="t('snCountdown.seckillDesc')">
+			<view class="cd-seckill" flatten>
+				<view class="cd-seckill-head" flatten>
+					<sn-text bold :font-size="16" color="#fff" :text="t('snCountdown.seckill')" flatten />
+					<sn-countdown ref="cdKill" :time="7200000" format="HH:mm:ss" text-color="#fff" text-size="$16" @finish="onKillFinish" />
+				</view>
+				<view class="cd-seckill-body" flatten>
+					<view class="cd-seckill-icon" flatten>
+						<sn-icon name="flashlight-line" :size="30" color="$error" />
+					</view>
+					<view class="cd-seckill-info" flatten>
+						<sn-text bold :font-size="15" :text="t('snCountdown.earphones')" flatten />
+						<sn-text type="text-light" :font-size="11" :text="t('snCountdown.price')" custom-style="margin-top:4px;" flatten />
+					</view>
+					<sn-button :text="killBtnText"  :type="isKilling ? 'error' : 'info'" :disabled="!isKilling" @click="onBuy" />
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snCountdown.slotTitle')" :subtitle="t('snCountdown.slotDesc')">
+			<sn-countdown :time="3661000" format="HH:mm:ss" @change="onSegChange"
+				custom-style="justify-content:center;padding-top:16px;padding-bottom:16px;">
+				<view class="cd-seg-cell" flatten>
+					<sn-text bold :font-size="24" color="#fff" :text="segArr[0]" flatten />
+				</view>
+				<sn-text bold :font-size="18" color="$textLight" :text="t('snCountdown.hour')" custom-style="margin-left:5px;margin-right:5px;" flatten />
+				<view class="cd-seg-cell cd-seg-cell-accent" flatten>
+					<sn-text bold :font-size="24" color="#fff" :text="segArr[1]" flatten />
+				</view>
+				<sn-text bold :font-size="18" color="$textLight" :text="t('snCountdown.minute')" custom-style="margin-left:5px;margin-right:5px;" flatten />
+				<view class="cd-seg-cell" flatten>
+					<sn-text bold :font-size="24" color="#fff" :text="segArr[2]" flatten />
+				</view>
+				<sn-text bold :font-size="18" color="$textLight" :text="t('snCountdown.second')" custom-style="margin-left:5px;" flatten />
+			</sn-countdown>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui, SnTime } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	const running = ref(true)
-	const timedata = ref({d:0,h:0,m:0,s:0,ms:0} as SnTime)
-	const countdownEle = ref(null as SnCountdownComponentPublicInstance | null)
-	
-	function onChange(data: SnTime){
-		timedata.value = data
-	}
-	
-	function playOrPause(){
-		running.value = !running.value
-		if (running.value) {
-			countdownEle.value!.start()
-		} else {
-			countdownEle.value!.pause()
-		}
-		
-	}
-	
-	function stop(){
-		running.value = false
-		countdownEle.value!.stop()
-	}
-	
-	function reset(){
-		running.value = true
-		countdownEle.value!.reset()
-	}
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui'
+ import type { SnTime } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type { ComponentPublicInstance } from 'vue'
+
+const { t } = useI18n()
+
+
+
+const cd1 = ref<UniElement | null>(null)
+const cdCtl = ref<ComponentPublicInstance | null>(null)
+const cdKill = ref<UniElement | null>(null)
+
+const changeCount1 = ref<number>(0)
+const finishCount1 = ref<number>(0)
+
+const segArr = ref<string[]>(['01', '01', '01'])
+const isKilling = ref<boolean>(true)
+const killBtnText = ref<string>(t('snCountdown.killBtn'))
+
+const card1Text = computed<string>(() => t('snCountdown.changeCounts', { c1: changeCount1.value, c2: finishCount1.value } as UTSJSONObject))
+
+function onChange1(v: SnTime): void {
+	changeCount1.value = changeCount1.value + 1
+}
+
+function onFinish1(): void {
+	finishCount1.value = finishCount1.value + 1
+}
+
+function onKillFinish(): void {
+	isKilling.value = false
+	killBtnText.value = t('snCountdown.killEnded')
+}
+
+function onBuy(): void {
+	snu.showToast({
+		text: t('snCountdown.orderSuccess'),
+		icon: 'none'
+	})
+}
+
+function onSegChange(v: SnTime): void {
+	segArr.value = [pad2(v.h), pad2(v.m), pad2(v.s)]
+}
+
+function pad2(n: number): string {
+	const s = n.toString()
+	return s.length < 2 ? '0' + s : s
+}
+
+function startCd(): void {
+	cdCtl.value?.$callMethod('start')
+}
+
+function pauseCd(): void {
+	cdCtl.value?.$callMethod('pause')
+}
+
+function resetCd(): void {
+	cdCtl.value?.$callMethod('reset')
+}
+
+function stopCd(): void {
+	cdCtl.value?.$callMethod('stop')
+}
 </script>
 
 <style lang="scss">
-	.spacing {
-		margin-right: 5px;
-	}
+.cd-ctl-row {
+	flex-direction: row;
+	align-items: center;
+	margin-top: 12px;
+}
+.cd-seckill {
+	border-radius: 12px;
+	overflow: hidden;
+	background-color: var(--sn-primary);
+}
+.cd-seckill-head {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px 14px;
+	background-color: var(--sn-primary-dark);
+}
+.cd-seckill-body {
+	flex-direction: row;
+	align-items: center;
+	padding: 14px;
+	background-color: var(--sn-front);
+}
+.cd-seckill-icon {
+	width: 48px;
+	height: 48px;
+	border-radius: 12px;
+	background-color: var(--sn-error-light);
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+.cd-seckill-info {
+	flex: 1;
+	flex-direction: column;
+	margin-left: 12px;
+	margin-right: 8px;
+}
+.cd-seg-cell {
+	width: 46px;
+	height: 46px;
+	border-radius: 10px;
+	background-color: var(--sn-primary-dark);
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+.cd-seg-cell-accent {
+	background-color: var(--sn-primary);
+}
 </style>

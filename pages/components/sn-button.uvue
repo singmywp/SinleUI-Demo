@@ -1,191 +1,213 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Button 按钮"></sn-topbar>
-		<com-card title="基础用法" note="普普通通的按钮，内置了一套样式，自由可调。">
-			<sn-row wrap>
-				<sn-button class="button" text="Info"></sn-button>
-				<sn-button class="button" text="Primary" type="primary"></sn-button>
-				<sn-button class="button" text="Warning" type="warning"></sn-button>
-				<sn-button class="button" text="Success" type="success"></sn-button>
-				<sn-button class="button" text="Error" type="error"></sn-button>
-			</sn-row>
-		</com-card>
-		<com-card title="二级按钮" note="第二级的按钮，用于次要操作">
-			<sn-row wrap>
-				<sn-button class="button" level="second" text="Info"></sn-button>
-				<sn-button class="button" level="second" text="Primary" type="primary"></sn-button>
-				<sn-button class="button" level="second" text="Warning" type="warning"></sn-button>
-				<sn-button class="button" level="second" text="Success" type="success"></sn-button>
-				<sn-button class="button" level="second" text="Error" type="error"></sn-button>
-			</sn-row>
-		</com-card>
-		<com-card title="三级按钮" note="第三级的按钮，用于不是太重要的操作">
-			<sn-row wrap>
-				<sn-button class="button" level="third" text="Info"></sn-button>
-				<sn-button class="button" level="third" text="Primary" type="primary"></sn-button>
-				<sn-button class="button" level="third" text="Warning" type="warning"></sn-button>
-				<sn-button class="button" level="third" text="Success" type="success"></sn-button>
-				<sn-button class="button" level="third" text="Error" type="error"></sn-button>
-			</sn-row>
-		</com-card>
-		<com-card title="最低级按钮" note="最低级的按钮，或许也能用来美化界面">
-			<sn-row wrap>
-				<sn-button class="button" level="least" text="Info"></sn-button>
-				<sn-button class="button" level="least" text="Primary" type="primary"></sn-button>
-				<sn-button class="button" level="least" text="Warning" type="warning"></sn-button>
-				<sn-button class="button" level="least" text="Success" type="success"></sn-button>
-				<sn-button class="button" level="least" text="Error" type="error"></sn-button>
-				<sn-button class="button" level="least" round roundSize="35px">
-					<sn-icon name="home-5-line"></sn-icon>
-				</sn-button>
-				<sn-button class="button" level="least" round roundSize="35px">
-					<sn-icon name="bookmark-2-line"></sn-icon>
-				</sn-button>
-			</sn-row>
-		</com-card>
-		<com-card title="虚线按钮" note="看腻了传统的按钮边框？试试虚线边框">
-			<sn-row wrap>
-				<sn-button class="button" dashed text="Info"></sn-button>
-				<sn-button class="button" dashed text="Primary" type="primary"></sn-button>
-				<sn-button class="button" dashed text="Warning" type="warning"></sn-button>
-				<sn-button class="button" dashed text="Success" type="success"></sn-button>
-				<sn-button class="button" dashed text="Error" type="error"></sn-button>
-				<sn-button class="button" dashed round type="success">
-					<sn-icon name="headphone-line" color="#35b571"></sn-icon>
-				</sn-button>
-			</sn-row>
-		</com-card>
-		<com-card title="加载动效" note="加载中的按钮，使用户更有耐心去等待">
-			<view style="align-items: flex-start">
-				<sn-button class="button" level="second" text="Info" :loading="loading" @click="loadData()"></sn-button>
-				<sn-button class="button" level="second" text="Primary" type="primary" :loading="loading"
-					@click="loadData()"></sn-button>
-				<sn-button class="button" level="second" text="Warning" type="warning" :loading="loading"
-					@click="loadData()"></sn-button>
-				<sn-button class="button" level="second" text="Success" type="success" :loading="loading"
-					@click="loadData()"></sn-button>
-				<sn-button class="button" level="second" text="Error" type="error" :loading="loading"
-					@click="loadData()"></sn-button>
-				<sn-button class="button" round-size="45px" round type="info" :loading="loading" @click="loadData()">
-					<sn-icon name="heart-2-fill"></sn-icon>
-				</sn-button>
+	<sn-page :title="t('snButton.title')" :show-back="true">
+		<demo-card :title="t('snButton.basic')" :subtitle="t('snButton.basicSub')">
+			<view class="btn-line" flatten>
+				<sn-button type="info" text="Info"></sn-button>
+				<sn-button type="primary" style="margin-left: 10px">Primary</sn-button>
+				<sn-button type="warning" style="margin-left: 10px">Warning</sn-button>
 			</view>
-		</com-card>
-		<com-card title="禁用按钮" note="无关人员止步，前方机密要地">
+			<view class="btn-line-second" flatten>
+				<sn-button type="success">Success</sn-button>
+				<sn-button type="error" style="margin-left: 10px">Error</sn-button>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snButton.second')" :subtitle="t('snButton.secondSub')">
+			<view class="btn-line" flatten>
+				<sn-button type="info" level="second">Info</sn-button>
+				<sn-button type="primary" level="second" style="margin-left: 10px">Primary</sn-button>
+				<sn-button type="warning" level="second" style="margin-left: 10px">Warning</sn-button>
+			</view>
+			<view class="btn-line-second" flatten>
+				<sn-button type="success" level="second">Success</sn-button>
+				<sn-button type="error" level="second" style="margin-left: 10px">Error</sn-button>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snButton.third')" :subtitle="t('snButton.thirdSub')">
+			<view class="btn-line" flatten>
+				<sn-button type="info" level="third">Info</sn-button>
+				<sn-button type="primary" level="third" style="margin-left: 10px">Primary</sn-button>
+				<sn-button type="warning" level="third" style="margin-left: 10px">Warning</sn-button>
+			</view>
+			<view class="btn-line-second" flatten>
+				<sn-button type="success" level="third">Success</sn-button>
+				<sn-button type="error" level="third" style="margin-left: 10px">Error</sn-button>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snButton.least')" :subtitle="t('snButton.leastSub')">
+			<view class="btn-line" flatten>
+				<sn-button type="info" level="least">Info</sn-button>
+				<sn-button type="primary" level="least" style="margin-left: 10px">Primary</sn-button>
+				<sn-button type="warning" level="least" style="margin-left: 10px">Warning</sn-button>
+				<sn-button type="success" level="least" style="margin-left: 10px">Success</sn-button>
+				<sn-button type="error" level="least" style="margin-left: 10px">Error</sn-button>
+				<sn-button type="info" shape="circle" icon="home-line" style="margin-left: 10px" />
+				<sn-button type="info" shape="circle" icon="bookmark-line" style="margin-left: 10px" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snButton.dashed')" :subtitle="t('snButton.dashedSub')">
+			<view class="btn-line" flatten>
+				<sn-button type="info" :plain="true" :dashed="true">Info</sn-button>
+				<sn-button type="primary" :plain="true" :dashed="true" style="margin-left: 10px">Primary</sn-button>
+				<sn-button type="warning" :plain="true" :dashed="true" style="margin-left: 10px">Warning</sn-button>
+			</view>
+			<view class="btn-line-second" flatten>
+				<sn-button type="success" :plain="true" :dashed="true">Success</sn-button>
+				<sn-button type="error" :plain="true" :dashed="true" style="margin-left: 10px">Error</sn-button>
+				<sn-button type="success" shape="circle" icon="headphone-line" :plain="true" :dashed="true" style="margin-left: 10px" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snButton.icon')" :subtitle="t('snButton.iconSub')">
+			<view class="btn-line" flatten>
+				<sn-button type="primary" icon="home-line" icon-position="left">{{ t('snButton.home') }}</sn-button>
+				<sn-button type="success" icon="check-line" icon-position="left" style="margin-left: 10px">{{ t('snButton.confirm') }}</sn-button>
+				<sn-button type="warning" icon="arrow-right-s-line" icon-position="right" style="margin-left: 10px">{{ t('snButton.nextStep') }}</sn-button>
+			</view>
+			<view class="btn-line-second" flatten>
+				<sn-button type="info" shape="circle" icon="home-line" />
+				<sn-button type="primary" shape="circle" icon="search-line" style="margin-left: 10px" />
+				<sn-button type="success" shape="circle" icon="check-line" style="margin-left: 10px" />
+				<sn-button type="warning" shape="circle" icon="star-line" style="margin-left: 10px" />
+				<sn-button type="error" shape="circle" icon="close-line" style="margin-left: 10px" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snButton.size')" :subtitle="t('snButton.sizeSub')">
+			<view class="btn-line" flatten>
+				<sn-button type="primary" size="small">Small</sn-button>
+				<sn-button type="primary" size="normal" style="margin-left: 10px">Normal</sn-button>
+				<sn-button type="primary" size="large" style="margin-left: 10px">Large</sn-button>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snButton.radius')" :subtitle="t('snButton.radiusSub')">
+			<view class="btn-line" flatten>
+				<sn-button type="primary" :radius="0">{{ t('snButton.rightAngle') }}</sn-button>
+				<sn-button type="primary" :radius="4" style="margin-left: 10px">{{ t('snButton.smallRadius') }}</sn-button>
+				<sn-button type="primary" :radius="20" style="margin-left: 10px">{{ t('snButton.largeRadius') }}</sn-button>
+			</view>
+			<view class="btn-line-second" flatten>
+				<sn-button type="primary" radius="100000px">{{ t('snButton.fullRadius') }}</sn-button>
+			</view>
+		</demo-card>
+
+		<demo-card>
+			<template #title>
+				<sn-text type="title" font-size="$18" bold flatten>{{ t('snButton.loading') }}</sn-text>
+			</template>
+			<template #subtitle>
+				<sn-text type="text-light" font-size="$12">{{ t('snButton.loadingSub') }}</sn-text>
+			</template>
+			<view class="btn-line" flatten>
+				<sn-button type="primary" :loading="loadingOn">{{ t('snButton.loadingOn') }}</sn-button>
+				<sn-button type="success" :loading="loadingOn" icon="check-line" style="margin-left: 10px">{{ t('snButton.submit') }}</sn-button>
+				<sn-button type="info" shape="circle" icon="search-line" :loading="loadingOn" style="margin-left: 10px" />
+			</view>
 			<sn-card>
-				<sn-row align="center" justify="space-between">
-					<sn-text text="是否禁用" :size="`${$snui.utils.getPx($snui.configs.font.size(3))+1}px`"></sn-text>
-					<sn-switch v-model="disabled"></sn-switch>
-				</sn-row>
+				<view class="switch-row" flatten>
+					<sn-text flatten type="text" font-size="$14">{{ t('snButton.isLoading') }}</sn-text>
+					<sn-switch v-model="loadingOn" />
+				</view>
 			</sn-card>
-			<sn-row wrap>
-				<sn-button class="button" level="second" text="获取机密数据" :loading="loading2" :disabled="disabled"
-					@click="loadData2()">
-				</sn-button>
-			</sn-row>
-		</com-card>
-		<com-card title="自定义样式" note="多姿多彩，追求独特">
-			<sn-line></sn-line>
-			<sn-row>
-				<sn-button class="button" round>
-					<sn-icon name="headphone-fill" size="20px"></sn-icon>
-				</sn-button>
-				<sn-button class="button" type="primary" round>
-					<sn-icon name="home-smile-fill" color="#fff" size="20px"></sn-icon>
-				</sn-button>
-				<sn-button class="button" level="second" type="error" round>
-					<sn-icon name="heart-fill" color="#fc5454" size="20px"></sn-icon>
-				</sn-button>
-				<sn-button class="button" level="third" type="warning" round>
-					<sn-icon name="star-fill" color="#f6b142" size="20px"></sn-icon>
-				</sn-button>
-			</sn-row>
-			<sn-line></sn-line>
-			<sn-row>
-				<sn-button class="button" round-size="50px" round>
-					<sn-icon name="skip-left-fill"></sn-icon>
-				</sn-button>
-				<sn-button class="button" round-size="60px" round @click="paused=!paused">
-					<sn-icon :name="paused?'pause-fill':'play-fill'"></sn-icon>
-				</sn-button>
-				<sn-button class="button" round-size="50px" round>
-					<sn-icon name="skip-right-fill"></sn-icon>
-				</sn-button>
-			</sn-row>
-			<sn-line></sn-line>
-			<sn-row align="center" merge>
-				<sn-button text="Left" border-radius="100px 0 0 100px" :bounces="false">
-				</sn-button>
-				<sn-button text="Center" border-radius="0" :bounces="false"
-					style="border-left: 1px solid #ededed;border-right: 1px solid #ededed;">
-				</sn-button>
-				<sn-button :bounces="false" border-radius="0 100px 100px 0" text="Right"></sn-button>
-			</sn-row>
-			<sn-line></sn-line>
-			<sn-row justify="space-around">
-				<view style="align-items: flex-start;">
-					<sn-button class="w-100" type="primary" level="second" text="运动" border-radius="20px 20px 0 0"
-						:bounces="false">
-					</sn-button>
-					<sn-button class="w-100" type="success" level="second" border-radius="0" text="睡眠" :bounces="false">
-					</sn-button>
-					<sn-button class="w-100" type="warning" level="second" border-radius="0" text="学习" :bounces="false">
-					</sn-button>
-					<sn-button class="w-100" type="error" level="second" border-radius="0 0 20px 20px" text="工作"
-						:bounces="false">
-					</sn-button>
+		</demo-card>
+
+		<demo-card>
+			<template #title>
+				<sn-text type="title" font-size="$18" bold>{{ t('snButton.disabled') }}</sn-text>
+			</template>
+			<template #subtitle>
+				<sn-text type="text-light" font-size="$12">{{ t('snButton.disabledSub') }}</sn-text>
+			</template>
+			<view class="btn-line" flatten>
+				<sn-button type="primary" :disabled="disabledOn">{{ t('snButton.disabledBtn') }}</sn-button>
+				<sn-button type="primary" level="second" :disabled="disabledOn" style="margin-left: 10px">{{ t('snButton.disabledSecond') }}</sn-button>
+				<sn-button type="primary" shape="circle" icon="home-line" :disabled="disabledOn" style="margin-left: 10px" />
+			</view>
+			<sn-card>
+				<view class="switch-row" flatten>
+					<sn-text type="text" flatten font-size="$14">{{ t('snButton.isDisabled') }}</sn-text>
+					<sn-switch v-model="disabledOn" />
 				</view>
-				<view style="align-items: flex-start;">
-					<sn-button bgColor="#ceddf0" activeBgColor="#becddd" text="莫兰迪蓝" textColor="#2b2b2b"></sn-button>
-					<sn-button class="m-t-5" bgColor="#bfd2bd" activeBgColor="#aebfac" text="莫兰迪绿"
-						textColor="#2b2b2b"></sn-button>
-					<sn-button class="m-t-5" bgColor="#e6dec0" activeBgColor="#c8c1a7" text="莫兰迪棕"
-						textColor="#2b2b2b"></sn-button>
-					<sn-button class="m-t-5" bgColor="#e3e4df" activeBgColor="#cfd0cc" text="莫兰迪灰"
-						textColor="#2b2b2b"></sn-button>
-				</view>
-			</sn-row>
-		</com-card>
-		<com-card title="竖向排列&长按钮" 
-		note="像列表一样的长按钮组，你喜欢吗">
-			<sn-button long text="Info"></sn-button>
-			<sn-button class="m-t-5" long text="Primary" type="primary" level="second"></sn-button>
-			<sn-button class="m-t-5" long text="Success" type="success" level="second"></sn-button>
-			<sn-button class="m-t-5" long text="Warning" type="warning" level="second"></sn-button>
-			<sn-button class="m-t-5" long text="Error" type="error" level="second"></sn-button>
-		</com-card>
-		<sn-gap></sn-gap>
+			</sn-card>
+		</demo-card>
+		<demo-card>
+			<template #title>
+				<sn-text type="title" font-size="$18" bold>{{ t('snButton.hover') }}</sn-text>
+			</template>
+			<template #subtitle>
+				<sn-text type="text-light" font-size="$12">{{ t('snButton.hoverSub') }}</sn-text>
+			</template>
+			<view class="btn-line" flatten>
+				<sn-button type="primary" hover-style="background: var(--sn-primary-dark);">{{ t('snButton.pressDeeper') }}</sn-button>
+				<sn-button type="primary" hover-style="transform: scale(0.94);" style="margin-left: 10px">{{ t('snButton.scaleFb') }}</sn-button>
+				<sn-button type="info" hover-style="background: var(--sn-error);" style="margin-left: 10px">{{ t('snButton.pressRed') }}</sn-button>
+			</view>
+			<view class="btn-line-second" flatten>
+				<sn-button type="success" hover-style="background: var(--sn-success-dark);" :hover-start-time="200">{{ t('snButton.delay200') }}</sn-button>
+				<sn-button type="warning" hover-style="background: var(--sn-warning-dark);" :hover-stay-time="600" style="margin-left: 10px">{{ t('snButton.hold600') }}</sn-button>
+				<sn-button type="error" hover-style="background: var(--sn-error-dark);" :hover-trans-time="400" style="margin-left: 10px">{{ t('snButton.trans400') }}</sn-button>
+			</view>
+		</demo-card>
+
+		<demo-card>
+			<template #title>
+				<sn-text type="title" font-size="$18" bold>{{ t('snButton.external') }}</sn-text>
+			</template>
+			<template #subtitle>
+				<sn-text type="text-light" font-size="$12">{{ t('snButton.externalSub') }}</sn-text>
+			</template>
+			<view class="btn-line" flatten>
+				<sn-button type="primary" icon="search-line" icon-class="demo-icon-scale">icon-class</sn-button>
+				<sn-button type="primary" icon="search-line" icon-style="transform: scale(1.4);" style="margin-left: 10px">icon-style</sn-button>
+			</view>
+			<view class="btn-line-second" flatten>
+				<sn-button type="primary" text-class="demo-text-underline">text-class</sn-button>
+				<sn-button type="primary" text-style="letter-spacing: 4px; font-style: italic;" style="margin-left: 10px">text-style</sn-button>
+			</view>
+			<view class="btn-line-second" flatten>
+				<sn-button type="primary" :loading="true" loading-class="demo-loading-color" style="width: 120px">loading-class</sn-button>
+				<sn-button type="primary" :loading="true" loading-style="width: 26px; height: 26px; border-color: var(--sn-primary-text);" style="margin-left: 10px; width: 120px">loading-style</sn-button>
+			</view>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
 
-	const paused = ref(false)
-	const loading = ref(false)
-	const loading2 = ref(false)
-	const disabled = ref(false)
-
-	function loadData() {
-		loading.value = true
-		setTimeout(() => {
-			loading.value = false
-		}, 2000)
-	}
-
-	function loadData2() {
-		if (!disabled.value) {
-			loading2.value = true
-			setTimeout(() => {
-				loading2.value = false
-			}, 2000)
-		}
-	}
+const { t } = useI18n()
+const loadingOn = ref<boolean>(false)
+const disabledOn = ref<boolean>(false)
 </script>
 
 <style lang="scss">
-	.button {
-		margin: 0px 5px 5px 0;
-	}
+.btn-line {
+	flex-direction: row;
+	align-items: center;
+}
+.btn-line-second {
+	flex-direction: row;
+	align-items: center;
+	margin-top: 10px;
+}
+.switch-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+.demo-icon-scale {
+	transform: scale(1.4);
+}
+.demo-text-underline {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: var(--sn-primary-text);
+}
+.demo-loading-color {
+	border-color: var(--sn-primary-text);
+}
 </style>

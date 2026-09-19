@@ -1,0 +1,150 @@
+<template>
+	<sn-page :title="t('snWatermark.title')" :show-back="true">
+
+		
+		<demo-card :title="t('snWatermark.basicTitle')" :subtitle="t('snWatermark.basicSubtitle')">
+			<sn-watermark content="SinleUI" custom-style="border-radius:16px;">
+				<view class="wm-card" :style="cardStyle" flatten>
+					<sn-text bold font-size="$16" color="$title" flatten>{{ t('snWatermark.contentExample') }}</sn-text>
+					<sn-text font-size="$13" color="$text" custom-style="margin-top:6px;line-height:20px;" flatten>{{ t('snWatermark.watermarkDesc') }}</sn-text>
+					<sn-button :text="t('snWatermark.clickableBtn')" type="primary" custom-style="margin-top:14px;" @click="onCardClick" />
+				</view>
+			</sn-watermark>
+		</demo-card>
+
+		
+		<demo-card :title="t('snWatermark.pageTitle')" :subtitle="t('snWatermark.pageSubtitle')">
+			<sn-button :text="t('snWatermark.gotoFullPage')" type="primary" @click="goFullWatermark" />
+		</demo-card>
+
+		
+		<demo-card :title="t('snWatermark.multiTitle')" :subtitle="t('snWatermark.multiSubtitle')">
+			<sn-watermark :content="t('snWatermark.confidential')" color="rgba(239, 68, 68)" :font-size="16" :rotate="0"
+				custom-style="border-radius:16px;">
+				<view class="wm-card" :style="cardStyle" flatten>
+					<sn-text bold font-size="$16" color="$title" flatten>{{ t('snWatermark.internalData') }}</sn-text>
+					<sn-text font-size="$13" color="$text" custom-style="margin-top:6px;line-height:20px;" flatten>{{ t('snWatermark.multilineDesc') }}</sn-text>
+				</view>
+			</sn-watermark>
+		</demo-card>
+
+		
+		<demo-card :title="t('snWatermark.configTitle')" :subtitle="t('snWatermark.configSubtitle')">
+			<view class="config-row" flatten>
+				<sn-text :text="t('snWatermark.fontSizeLabel')" custom-style="width:140px;" flatten />
+				<sn-stepper v-model="configs.fontSize" :min="10" :max="28" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snWatermark.rowGapLabel')" custom-style="width:140px;" flatten />
+				<sn-stepper v-model="configs.rowGap" :min="40" :max="200" :step="10" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snWatermark.colGapLabel')" custom-style="width:140px;" flatten />
+				<sn-stepper v-model="configs.colGap" :min="40" :max="240" :step="10" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snWatermark.rotateLabel')" custom-style="width:140px;" flatten />
+				<sn-stepper v-model="configs.rotate" :min="rotateMin" :max="90" :step="5" />
+			</view>
+			<view class="config-row">
+				<sn-text :text="t('snWatermark.opacityLabel')" custom-style="width:140px;" />
+				<sn-stepper v-model="configs.opacity" :min="0" :max="1" :step="0.05" />
+			</view>
+			<sn-watermark :content="configs.content" :font-size="configs.fontSize" :row-gap="configs.rowGap"
+				:col-gap="configs.colGap" :rotate="configs.rotate" :opacity="configs.opacity"
+				custom-style="border-radius:16px;margin-top:8px;">
+				<view class="wm-card" :style="cardStyle">
+					<sn-text bold font-size="$15" color="$title" flatten>{{ t('snWatermark.dynamicWatermark') }}</sn-text>
+					<sn-text font-size="$12" color="$textLight" custom-style="margin-top:4px;" flatten>{{ t('snWatermark.previewHint') }}</sn-text>
+				</view>
+			</sn-watermark>
+		</demo-card>
+
+		
+		<demo-card :title="t('snWatermark.externalTitle')" :subtitle="t('snWatermark.externalSubtitle')">
+			<sn-watermark :content="t('snWatermark.externalContent')" custom-class="wm-custom-root" content-class="wm-custom-content"
+				layer-class="wm-custom-layer" text-class="wm-custom-text" custom-style="border-radius:16px;">
+				<view class="wm-card" :style="cardStyle">
+					<sn-text bold font-size="$16" color="$title" flatten>{{ t('snWatermark.externalNodeLabel') }}</sn-text>
+					<sn-text font-size="$13" color="$text" custom-style="margin-top:6px;line-height:20px;" flatten>{{ t('snWatermark.externalDesc') }}</sn-text>
+				</view>
+			</sn-watermark>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui'
+
+const { t } = useI18n()
+const rotateMin = -90
+
+type WatermarkConfigs = {
+	content: string
+	fontSize: number
+	rowGap: number
+	colGap: number
+	rotate: number
+	opacity: number
+}
+
+const configs = ref<WatermarkConfigs>({
+	content: 'SinleUI 2.0',
+	fontSize: 14,
+	rowGap: 80,
+	colGap: 100,
+	rotate: -30,
+	opacity: 0.16
+})
+
+function onCardClick(): void {
+	snu.showToast({
+		text: t('snWatermark.buttonClicked')
+	})
+}
+
+function goFullWatermark(): void {
+	uni.navigateTo({
+		url: '/pages/components/watermark/full'
+	})
+}
+
+const cardStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('backgroundColor', 'var(--sn-front)')
+	styles.set('borderRadius', '16px')
+	styles.set('padding', '20px 16px')
+	styles.set('alignItems', 'flex-start')
+	return styles
+})
+</script>
+
+<style lang="scss">
+.config-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+.wm-card {
+	flex-direction: column;
+}
+
+
+.wm-custom-root {
+	border-width: 1px;
+	border-style: solid;
+	border-color: var(--sn-line);
+}
+.wm-custom-content {
+	background-color: var(--sn-info-light);
+}
+.wm-custom-layer {
+	padding: 8px;
+}
+.wm-custom-text {
+	font-weight: bold;
+	font-family: monospace;
+}
+</style>

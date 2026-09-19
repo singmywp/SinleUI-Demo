@@ -1,47 +1,70 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Notice Bar 通知栏" />
-		<com-card title="基础用法"
-		note="一般用于滚动公告等多种场景。\n注意和 Alert 组件区别。Notice Bar 单行、可多条、可滚动；Alert 可多行，多主题，固定不滚动。">
-			<sn-notice-bar :texts="ins" />
-		</com-card>
-		<com-card title="可关闭">
-			<sn-notice-bar closable
-			:texts="ins" />
-		</com-card>
-		<com-card title="无图标">
-			<sn-notice-bar icon=" "
-			:texts="ins" />
-		</com-card>
-		<com-card title="自定义滚动速度">
-			<sn-notice-bar :speed="200"
-			:texts="ins" />
-		</com-card>
-		<com-card title="步进滚动">
-			<sn-notice-bar mode="swiper"
-			:texts="poem" />
-			<sn-notice-bar vertical
-			:texts="poem" />
-		</com-card>
-		<com-card title="自定义样式">
-			<sn-notice-bar :texts="ins"
-			 bgColor="$primary"
-			 textColor="$primaryText" />
-			 <sn-notice-bar vertical
-			  :texts="poem"
-			  bgColor="$errorLight"
-			  textColor="$errorLightText" />
-		</com-card>
+	<sn-page :title="t('snNoticeBar.title')" :show-back="true">
+		<demo-card :title="t('snNoticeBar.basicTitle')" :subtitle="t('snNoticeBar.basicSubtitle')">
+			<sn-notice-bar :texts="basicTexts" />
+		</demo-card>
+
+		<demo-card :title="t('snNoticeBar.speedTitle')" :subtitle="t('snNoticeBar.speedSubtitle')">
+			<sn-notice-bar :texts="fastTexts" :speed="100" />
+			<view style="margin-top:10px;" flatten>
+				<sn-notice-bar :texts="slowTexts" speed="20" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snNoticeBar.swiperTitle')" :subtitle="t('snNoticeBar.swiperSubtitle')">
+			<sn-notice-bar mode="swiper" :texts="swiperTexts" />
+			<view style="margin-top:10px;" flatten>
+				<sn-notice-bar mode="swiper" vertical :texts="verticalTexts" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snNoticeBar.customStyleTitle')" :subtitle="t('snNoticeBar.customStyleSubtitle')">
+			<sn-notice-bar :texts="customTexts" icon="notification-3-line"
+				custom-style="background-color: var(--sn-info-light); border-radius: 12px;"
+				text-style="color: var(--sn-info-dark); font-size: 13px;" icon-style="color: var(--sn-info);" />
+		</demo-card>
+
+		<demo-card :title="t('snNoticeBar.externalTitle')" :subtitle="t('snNoticeBar.externalSubtitle')">
+			<sn-notice-bar :texts="externalTexts" text-class="demo-nb-text" icon-class="demo-nb-icon" />
+		</demo-card>
+
+		<demo-card :title="t('snNoticeBar.closeTitle')" :subtitle="t('snNoticeBar.closeSubtitle')">
+			<sn-notice-bar :texts="closeTexts" closable @close="onClose" />
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snNoticeBar.closeEventCount', { count: closeCount } as UTSJSONObject) }}</sn-text>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	const poem = ['朝辞白帝彩云间','千里江陵一日还。','两岸猿声啼不住','轻舟已过万重山。']
-	const ins = ['SinleUI ，一个简洁、轻巧的现代移动应用UI框架。']
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+const basicTexts = computed<string[]>(() => [t('snNoticeBar.upgradeNotice')])
+const fastTexts = computed<string[]>(() => [t('snNoticeBar.fastScroll'), t('snNoticeBar.anyNumberText')])
+const slowTexts = computed<string[]>(() => [t('snNoticeBar.slowScroll'), t('snNoticeBar.enterFromRight')])
+const swiperTexts = computed<string[]>(() => [t('snNoticeBar.memberDiscount'), t('snNoticeBar.pointsGift'), t('snNoticeBar.inviteBonus')])
+const verticalTexts = computed<string[]>(() => [
+	t('snNoticeBar.vertical1'), t('snNoticeBar.vertical2'), t('snNoticeBar.vertical3'),
+	t('snNoticeBar.vertical4'), t('snNoticeBar.vertical5')
+])
+const customTexts = computed<string[]>(() => [t('snNoticeBar.customBg'), t('snNoticeBar.secondLine')])
+const externalTexts = computed<string[]>(() => [t('snNoticeBar.externalText'), t('snNoticeBar.secondNotice')])
+const closeTexts = computed<string[]>(() => [t('snNoticeBar.clickToClose'), t('snNoticeBar.closeRemoved')])
+
+const closeCount = ref<number>(0)
+
+function onClose(): void {
+	closeCount.value++
+}
 </script>
 
-<style>
-		
+<style lang="scss">
+.demo-nb-text {
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+.demo-nb-icon {
+	margin-left: 4px;
+}
 </style>

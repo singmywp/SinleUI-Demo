@@ -1,70 +1,144 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Loading Page 加载页"></sn-topbar>
-		<sn-gap></sn-gap>
-		<com-card title="组件演示">
-			<sn-text class="introduction" :text="'\u3000\u3000在页面信息尚未完全加载时使用，避免出现视觉空白'"></sn-text>
-			<sn-form v-model="configs"
-			:showBorder="false">
-				<sn-form-item label="自定义图片代替加载">
-					<sn-switch v-model="(configs['image'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="提示文本">
-					<sn-input v-model="(configs['text'] as string)"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="文本颜色">
-					<sn-input v-model="(configs['textColor'] as string)"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="文本大小">
-					<sn-input v-model="(configs['textSize'] as string)"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="图标颜色">
-					<sn-input v-model="(configs['iconColor'] as string)"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="图标大小">
-					<sn-input v-model="(configs['iconSize'] as string)"></sn-input>
-				</sn-form-item>
-			</sn-form>
-			<sn-button text="打开" level="second" type="primary" @click="showLoadingPage()"
-				style="margin-top: 10px;"></sn-button>
-		</com-card>
-		<sn-gap></sn-gap>
+	<sn-page :title="t('snLoadingPage.title')" :show-back="true">
+		<demo-card :title="t('snLoadingPage.basicTitle')" :subtitle="t('snLoadingPage.basicDesc')">
+			<sn-button type="primary" size="normal" @click="openBasic">{{ t('snLoadingPage.openLoading') }}</sn-button>
+		</demo-card>
+
+		<demo-card :title="t('snLoadingPage.customTextTitle')" :subtitle="t('snLoadingPage.customTextDesc')">
+			<sn-button type="primary" size="normal" @click="openCustomText">{{ t('snLoadingPage.openLoading') }}</sn-button>
+		</demo-card>
+
+		<demo-card :title="t('snLoadingPage.iconModeTitle')" :subtitle="t('snLoadingPage.iconModeDesc')">
+			<sn-button type="primary" size="normal" @click="openIconMode">{{ t('snLoadingPage.openLoading') }}</sn-button>
+		</demo-card>
+
+		<demo-card :title="t('snLoadingPage.imageTitle')" :subtitle="t('snLoadingPage.imageDesc')">
+			<view class="demo-row" flatten>
+				<sn-button type="primary" size="normal" @click="openImage">{{ t('snLoadingPage.openImageLoading') }}</sn-button>
+			</view>
+			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLoadingPage.imageHint') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snLoadingPage.bgTitle')" :subtitle="t('snLoadingPage.bgDesc')">
+			<view class="demo-row" flatten>
+				<sn-button type="primary" level="second" size="normal" @click="openCustomBg">{{ t('snLoadingPage.darkBg') }}</sn-button>
+				<view class="h-gap" flatten></view>
+				<sn-button type="primary" level="second" size="normal" @click="openNoAni">{{ t('snLoadingPage.noAni') }}</sn-button>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snLoadingPage.sceneTitle')" :subtitle="t('snLoadingPage.sceneDesc')">
+			<view class="scene-card" flatten>
+				<sn-text flatten font-size="$13" color="$text">{{ t('snLoadingPage.dataLoading') }}</sn-text>
+				<sn-button type="primary" size="normal" custom-style="margin-top:10px;" @click="openScene">{{ t('snLoadingPage.startLoading') }}</sn-button>
+				<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ sceneLog }}</sn-text>
+			</view>
+		</demo-card>
+
+		<sn-loading-page :show="showBasic" />
+
+		<sn-loading-page :show="showCustomText" :text="t('snLoadingPage.loadingPleaseWait')" text-size="16px" />
+
+		<sn-loading-page :show="showIconMode" mode="icon" icon-color="$primary" />
+
+		<sn-loading-page :show="showImage" img-src="/static/logo-trans.png" text="SinleUI"
+			text-style="margin-top:10px;font-weight:bold;" img-style="width:80px;height:80px;" />
+
+		<sn-loading-page :show="showCustomBg" bg-color="$primaryDark" text-color="$primaryText" icon-color="$primaryText"
+			:text="t('snLoadingPage.nightLoading')" />
+
+		<sn-loading-page :show="showNoAni" ani-time="0" />
+
+		<sn-loading-page :show="showScene" :text="t('snLoadingPage.pageLoading')" icon-color="$primary" />
 	</sn-page>
-	<sn-loading-page :show="show"
-	:imgSrc="isImageMode?'/static/logo-trans.png':''" 
-	:text="isImageMode?'SinleUI':configs['text']"
-	:textColor="isImageMode?colors.dark:configs['textColor']" 
-	:iconColor="isImageMode?colors.dark:configs['iconColor']" 
-	:textSize="isImageMode?'20px':configs['textSize']"
-	:iconSize="isImageMode?'':configs['iconSize']"
-	:customTextStyle="isImageMode?{marginTop:'10px',fontFamily:'alipuhuiheavy'}:{marginTop:'15px'}"></sn-loading-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
 
-	const show = ref(false)
-	
-	const configs = ref({
-		text: '加载中',
-		textColor: '',
-		iconColor: '',
-		textSize: $snui.configs.font.size(4) as string,
-		iconSize: '40px',
-		image: false
-	})
-	
-	const isImageMode = computed(():boolean=>configs.value['image'] as boolean)
-	
+const { t } = useI18n()
+const showBasic = ref<boolean>(false)
+const showCustomText = ref<boolean>(false)
+const showIconMode = ref<boolean>(false)
+const showImage = ref<boolean>(false)
+const showCustomBg = ref<boolean>(false)
+const showNoAni = ref<boolean>(false)
+const showScene = ref<boolean>(false)
 
-	function showLoadingPage() {
-		show.value = true
-		setTimeout(() => {
-			show.value = false
-		}, 2000)
+const sceneLog = ref<string>(t('snLoadingPage.sceneHint'))
+let closeTimer: number | null = null
+
+
+function openAndClose(target: Ref<boolean>): void {
+	target.value = true
+	if (closeTimer != null) {
+		clearTimeout(closeTimer)
 	}
+	closeTimer = setTimeout((): void => {
+		target.value = false
+		closeTimer = null
+	}, 2000)
+}
+
+function openBasic(): void {
+	openAndClose(showBasic)
+}
+
+function openCustomText(): void {
+	openAndClose(showCustomText)
+}
+
+function openIconMode(): void {
+	openAndClose(showIconMode)
+}
+
+function openImage(): void {
+	openAndClose(showImage)
+}
+
+function openCustomBg(): void {
+	openAndClose(showCustomBg)
+}
+
+function openNoAni(): void {
+	openAndClose(showNoAni)
+}
+
+
+function openScene(): void {
+	sceneLog.value = t('snLoadingPage.pageLoadingMid')
+	showScene.value = true
+	if (closeTimer != null) {
+		clearTimeout(closeTimer)
+	}
+	closeTimer = setTimeout((): void => {
+		showScene.value = false
+		sceneLog.value = t('snLoadingPage.loadComplete')
+		closeTimer = null
+	}, 2000)
+}
+
+onUnmounted((): void => {
+	if (closeTimer != null) {
+		clearTimeout(closeTimer)
+		closeTimer = null
+	}
+})
 </script>
 
 <style lang="scss">
+.demo-row {
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+}
+.h-gap {
+	width: 8px;
+	height: 8px;
+}
+.scene-card {
+	padding: 14px;
+	border-radius: 10px;
+	background-color: var(--sn-front);
+}
 </style>

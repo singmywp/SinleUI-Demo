@@ -1,68 +1,181 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Link 超链接"></sn-topbar>
-		<com-card title="基础用法"
-		note="链接直达">
-			<sn-link class="spacing"
-			text="uni-app x 官网" 
-			href="https://doc.dcloud.net.cn/uni-app-x/"></sn-link>
-			<sn-link class="spacing"
-			text="拨号给 中国联通"
-			href="tel:10010"></sn-link>
-			<sn-link class="spacing"
-			text="打开QQ" 
-			href="mqq://"></sn-link>
-		</com-card>
-		<com-card title="下划线"
-		note="通常超链接都是这样的经典样式">
-			<sn-link text="百度首页" 
-			href="https://www.baidu.com/"
-			underline></sn-link>
-		</com-card>
-		<com-card title="前后图标"
-		note="大厂的链接都是这样的">
-			<sn-link class="spacing"
-			text="Ant Design"
-			href="https://ant-design.antgroup.com/index-cn/"	
-			prefixIcon="link"></sn-link>
-			<sn-link class="spacing"
-			text="TDesign" 
-			href="https://tdesign.tencent.com/"
-			suffixIcon="external-link-line"></sn-link>
-		</com-card>
-		<com-card title="自定义颜色"
-		note="也许你需要将链接隐藏在彩色的文字中">
-			<sn-link text="uni-app x 官网" 
-			href="https://doc.dcloud.net.cn/uni-app-x/"
-			color="$successDark"></sn-link>
-		</com-card>
-		<com-card title="尺寸"
-		note="选择合适的大小也是一门技术活️">
-			<sn-link class="spacing"
-			text="Dcloud 插件市场" 
-			href="https://ext.dcloud.net.cn/" 
-			size="14px"></sn-link>
-			<sn-link class="spacing"
-			text="问答社区" 
-			href="https://ask.dcloud.net.cn/explore/" 
-			size="18px"></sn-link>
-		</com-card>
-		<com-card title="本地"
-		note="使用本地内置Webview打开（仅对Web URL生效）">
-			<sn-link text="必应" 
-			local
-			href="https://cn.bing.com/"></sn-link>
-		</com-card>
+	<sn-page :title="t('snLink.title')" :show-back="true">
+		<demo-card :title="t('snLink.basicTitle')" :subtitle="t('snLink.basicDesc')">
+			<view class="demo-row" flatten>
+				<view class="demo-item" flatten>
+					<sn-link href="https://sinleui.pages.dev">{{ t('snLink.officialLink') }}</sn-link>
+				</view>
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.docLink')" href="https://doc.dcloud.net.cn/uni-app-x/" />
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snLink.iconTitle')" :subtitle="t('snLink.iconDesc')">
+			<view class="demo-row" flatten>
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.visitOfficial')" href="https://sinleui.pages.dev" suffix-icon="external-link-line" />
+				</view>
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.openDoc')" href="https://doc.dcloud.net.cn/uni-app-x/" prefix-icon="global-line" />
+				</view>
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.download')" href="https://github.com/singmywp/singmywp.github.io" prefix-icon="link"
+						suffix-icon="arrow-right-s-line" />
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snLink.colorTitle')" :subtitle="t('snLink.colorDesc')">
+			<view class="demo-row" flatten>
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.themeLink')" href="https://sinleui.pages.dev" color="$primary" />
+				</view>
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.systemLink')" href="https://sinleui.pages.dev" color="#007AFF" />
+				</view>
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.largeLink')" href="https://sinleui.pages.dev" size="$16" />
+				</view>
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.smallLink')" href="https://sinleui.pages.dev" size="12" color="$success" />
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snLink.underlineTitle')" :subtitle="t('snLink.underlineDesc')">
+			<view class="demo-row" flatten>
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.linkUnderline')" href="https://sinleui.pages.dev" underline />
+				</view>
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.iconUnderline')" href="https://sinleui.pages.dev" underline
+						suffix-icon="external-link-line" />
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snLink.hoverTitle')" :subtitle="t('snLink.hoverDesc')">
+			<view class="demo-row" flatten>
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.hoverTheme')" href="https://sinleui.pages.dev"
+						hover-bg-color="$primaryLight" hover-text-color="$primaryLightText" />
+				</view>
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.hoverWarning')" href="https://sinleui.pages.dev"
+						hover-bg-color="$warningLight" hover-text-color="$warningLightText" />
+				</view>
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.hoverSuccess')" href="https://sinleui.pages.dev"
+						hover-bg-color="$successLight" hover-text-color="$successLightText" />
+				</view>
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.hoverError')" href="https://sinleui.pages.dev"
+						hover-bg-color="$errorLight" hover-text-color="$errorLightText" />
+				</view>
+			</view>
+			<view class="demo-row" style="margin-bottom: 12px" flatten>
+				<view class="demo-item">
+					<sn-link :text="t('snLink.hoverIcon')" href="https://sinleui.pages.dev"
+						suffix-icon="external-link-line" hover-bg-color="$primaryLight"
+						hover-text-color="$primaryLightText" />
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snLink.slotTitle')" :subtitle="t('snLink.slotDesc')">
+			<view class="demo-row">
+				<view class="demo-item" flatten>
+					<sn-link href="https://sinleui.pages.dev">
+						<template #prefix>
+							<sn-icon name="heart-3-line" :size="16" color="$error" />
+						</template>
+						{{ t('snLink.prefixSlot') }}
+					</sn-link>
+				</view>
+				<view class="demo-item" flatten>
+					<sn-link href="https://sinleui.pages.dev">
+						<template #default>{{ t('snLink.customSlot') }}</template>
+						<template #suffix>
+							<sn-icon name="share-forward-line" :size="16" color="$primary" />
+						</template>
+					</sn-link>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snLink.openTitle')" :subtitle="t('snLink.openDesc')">
+			<view class="demo-row">
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.openExternal')" href="https://sinleui.pages.dev" />
+				</view>
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.openLocal')" href="https://sinleui.pages.dev" local />
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snLink.externalTitle')" :subtitle="t('snLink.externalDesc')">
+			<view class="demo-row">
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.textClass')" href="https://sinleui.pages.dev" text-class="demo-link-text" />
+				</view>
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.textStyle')" href="https://sinleui.pages.dev" text-style="color: #f56c6c;" />
+				</view>
+			</view>
+			<view class="demo-row" style="margin-top: 12px">
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.iconClass')" href="https://sinleui.pages.dev" suffix-icon="external-link-line" icon-class="demo-link-icon" />
+				</view>
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.iconStyle')" href="https://sinleui.pages.dev" suffix-icon="external-link-line" icon-style="color: #f56c6c;" />
+				</view>
+			</view>
+			<sn-text flatten type="text-light" font-size="$12" style="margin-top: 12px;">{{ t('snLink.extClassHint') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snLink.errorTitle')" :subtitle="t('snLink.errorDesc')">
+			<view class="demo-row" style="margin-bottom: 12px">
+				<view class="demo-item" flatten>
+					<sn-link :text="t('snLink.emptyLink')" href="" @error="onError" />
+				</view>
+			</view>
+			<sn-text font-size="$13" color="$error">{{ t('snLink.recentEvent') }}{{ lastEvent }}</sn-text>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+const lastEvent = ref<string>(t('snLink.noneEvent'))
+
+function onError(message: string): void {
+	lastEvent.value = 'error: ' + message
+}
 </script>
 
 <style lang="scss">
-	.spacing {
-		margin-bottom: 10px;
-	}
+.demo-row {
+	flex-direction: row;
+	align-items: center;
+	flex-wrap: wrap;
+	overflow: visible;
+}
+.demo-item {
+	flex-direction: row;
+	align-items: center;
+	margin-right: 20px;
+	margin-bottom: 12px;
+}
+
+.demo-link-text {
+	font-weight: bold;
+}
+
+.demo-link-icon {
+	opacity: 0.5;
+}
 </style>

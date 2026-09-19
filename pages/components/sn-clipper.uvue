@@ -1,0 +1,138 @@
+<template>
+	<sn-page>
+		<sn-topbar :title="t('snClipper.title')"></sn-topbar>
+
+		<demo-card :title="t('snClipper.basicTitle')" :subtitle="t('snClipper.basicDesc')">
+			<sn-clipper ref="clipperRef" image-url="/static/captcha/scenic-mountain.png" border-color="#FFD633" @confirm="onConfirm"
+				@change="onChange"></sn-clipper>
+			<view v-if="resultUrl != ''" class="clipper-result" :style="resultWrapStyles" flatten>
+				<sn-text :text="t('snClipper.result')" font-size="$13" color="$title" flatten></sn-text>
+				<image :src="resultUrl" mode="aspectFit" :style="resultImageStyles"></image>
+				<sn-text :text="resultInfo" font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten></sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snClipper.fullscreenTitle')" :subtitle="t('snClipper.fullscreenDesc')">
+			<sn-button :text="t('snClipper.openFullscreen')" type="primary" level="second" custom-style="width:100%;" @click="openFullscreenDemo"></sn-button>
+		</demo-card>
+
+		<demo-card :title="t('snClipper.methodsTitle')" :subtitle="t('snClipper.methodsDesc')">
+			<view class="clipper-actions" :style="actionRowStyles" flatten>
+				<sn-button :text="t('snClipper.rotateCCW')" type="info" level="third" custom-style="flex:1;margin-right:8px;" @click="rotateCounterclockwise"></sn-button>
+				<sn-button :text="t('snClipper.rotateCW')" type="info" level="third" custom-style="flex:1;margin-right:8px;" @click="rotateClockwise"></sn-button>
+				<sn-button :text="t('snClipper.export')" type="primary" level="least" custom-style="flex:1;" @click="exportImage"></sn-button>
+			</view>
+			<view class="clipper-actions" :style="actionRowSecondStyles" flatten>
+				<sn-button :text="t('snClipper.flipH')" type="info" level="third" custom-style="flex:1;margin-right:8px;" @click="flipHorizontal"></sn-button>
+				<sn-button :text="t('snClipper.flipV')" type="info" level="third" custom-style="flex:1;margin-right:8px;" @click="flipVertical"></sn-button>
+				<sn-button :text="t('snClipper.restore')" type="warning" level="least" custom-style="flex:1;" @click="restore"></sn-button>
+			</view>	
+			<sn-text :text="changeText" font-size="$12" color="$textLight" custom-style="margin-top:10px;" flatten></sn-text>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import type { ComponentPublicInstance } from 'vue'
+
+const { t } = useI18n()
+
+type ConfirmDetail = {
+	dataUrl: string
+	width: number
+	height: number
+	ratio: number
+	rotation: number
+	flipX: number
+	flipY: number
+}
+
+const clipperRef = ref<ComponentPublicInstance | null>(null)
+const resultUrl = ref<string>('')
+const resultInfo = ref<string>('')
+const changeCount = ref<number>(0)
+const changeText = computed<string>(() => t('snClipper.changeEnabled', { count: changeCount.value } as UTSJSONObject))
+
+function onConfirm(detail: ConfirmDetail): void {
+	resultUrl.value = detail.dataUrl
+	resultInfo.value = t('snClipper.resultInfo', { width: detail.width, height: detail.height, ratio: Math.round(detail.ratio * 100) / 100, rotation: detail.rotation } as UTSJSONObject)
+}
+
+function onChange(_detail: UTSJSONObject): void {
+	changeCount.value = changeCount.value + 1
+}
+
+function openFullscreenDemo(): void {
+	uni.navigateTo({
+		url: '/pages/components/sn-clipper-fullscreen'
+	})
+}
+
+function rotateCounterclockwise(): void {
+	clipperRef.value?.$callMethod('rotateCounterclockwise')
+}
+
+function rotateClockwise(): void {
+	clipperRef.value?.$callMethod('rotateClockwise')
+}
+
+function flipHorizontal(): void {
+	clipperRef.value?.$callMethod('flipHorizontal')
+}
+
+function flipVertical(): void {
+	clipperRef.value?.$callMethod('flipVertical')
+}
+
+function restore(): void {
+	clipperRef.value?.$callMethod('restore')
+}
+
+function exportImage(): void {
+	clipperRef.value?.$callMethod('crop')
+}
+
+const resultWrapStyles = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('flexDirection', 'column')
+	styles.set('marginTop', '14px')
+	return styles
+})
+
+const resultImageStyles = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', '100%')
+	styles.set('height', '180px')
+	styles.set('marginTop', '8px')
+	styles.set('borderRadius', '12px')
+	styles.set('backgroundColor', 'var(--sn-page)')
+	return styles
+})
+
+const actionRowStyles = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('flexDirection', 'row')
+	styles.set('alignItems', 'center')
+	return styles
+})
+
+const actionRowSecondStyles = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('flexDirection', 'row')
+	styles.set('alignItems', 'center')
+	styles.set('marginTop', '8px')
+	return styles
+})
+</script>
+
+<style lang="scss">
+.clipper-result {
+	flex-direction: column;
+}
+
+.clipper-actions {
+	flex-direction: row;
+	align-items: center;
+}
+</style>

@@ -1,0 +1,247 @@
+<template>
+	<sn-page :show-back="true" fill-content>
+		<sn-topbar :title="t('snViewInstances.topbarTitle')" :show-back="true"></sn-topbar>
+		<sn-alert type="primary" :text="t('snViewInstances.alert')" icon="notification-fill"
+			custom-style="margin-left:16px;margin-right:16px;"></sn-alert>
+		<view ref="areaEle" class="instance-area" flatten>
+			<sn-view custom-class="instance-view" hover-class="none"
+				@touchstart="onTouchStart" @touchmove="onTouchMove" @touchend="onTouchEnd" @touchcancel="onTouchCancel">
+				<view ref="targetEle" class="instance-block" flatten></view>
+			</sn-view>
+		</view>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import type { SnTouch, SnTouchEvent } from '@/uni_modules/sinle-ui'
+
+const { t } = useI18n()
+const targetEle = ref<UniElement | null>(null)
+const areaEle = ref<UniElement | null>(null)
+
+const HALF_BLOCK = 50
+const FLING_THRESHOLD = 250
+const DECEL = 1200
+const RESTITUTION = 0.6
+
+let translateX = 0
+let translateY = 0
+let rotate = 0
+let scale = 1
+let areaWidth = 0
+let areaHeight = 0
+let velocityX = 0
+let velocityY = 0
+let lastDistance: number | null = null
+let lastAngle: number | null = null
+let lastMoveTime = 0
+let animating = false
+let lastFrameTime = 0
+let animTaskId = 0
+
+function maxOffsetX(): number {
+	return Math.max(0, areaWidth / 2 - HALF_BLOCK * scale)
+}
+
+function maxOffsetY(): number {
+	return Math.max(0, areaHeight / 2 - HALF_BLOCK * scale)
+}
+
+function update(): void {
+	const target = targetEle.value
+	if (target == null) return
+	target.style.setProperty('transform', `translateX(${translateX}px) translateY(${translateY}px) rotate(${rotate}deg) scale(${scale})`)
+}
+
+function measureArea(): void {
+	const area = areaEle.value
+	if (area == null) return
+	const rect = area.getBoundingClientRect()
+	areaWidth = rect.width
+	areaHeight = rect.height
+}
+
+function clampDrag(): void {
+	const maxX = maxOffsetX()
+	const maxY = maxOffsetY()
+	translateX = Math.max(-maxX, Math.min(maxX, translateX))
+	translateY = Math.max(-maxY, Math.min(maxY, translateY))
+}
+
+function reflectOnBoundary(): void {
+	const maxX = maxOffsetX()
+	const maxY = maxOffsetY()
+	if (translateX > maxX) {
+		translateX = maxX
+		velocityX = -velocityX * RESTITUTION
+	}
+	if (translateX < -maxX) {
+		translateX = -maxX
+		velocityX = -velocityX * RESTITUTION
+	}
+	if (translateY > maxY) {
+		translateY = maxY
+		velocityY = -velocityY * RESTITUTION
+	}
+	if (translateY < -maxY) {
+		translateY = -maxY
+		velocityY = -velocityY * RESTITUTION
+	}
+}
+
+function distance(first: SnTouch, second: SnTouch): number {
+	const x = second.x - first.x
+	const y = second.y - first.y
+	return Math.sqrt(x * x + y * y)
+}
+
+function angle(first: SnTouch, second: SnTouch): number {
+	return Math.atan2(second.y - first.y, second.x - first.x) * 180 / Math.PI
+}
+
+function stopAnim(): void {
+	animating = false
+	if (animTaskId > 0) {
+		cancelAnimationFrame(animTaskId)
+		animTaskId = 0
+	}
+}
+
+function onFrame(_timestamp: number): void {
+	if (!animating) return
+	const now = Date.now()
+	let deltaTime = (now - lastFrameTime) / 1000
+	if (deltaTime > 0.05) deltaTime = 0.05
+	lastFrameTime = now
+	const speed = Math.sqrt(velocityX * velocityX + velocityY * velocityY)
+	if (speed > 0) {
+		const reduce = DECEL * deltaTime
+		if (reduce >= speed) {
+			velocityX = 0
+			velocityY = 0
+		} else {
+			velocityX -= velocityX / speed * reduce
+			velocityY -= velocityY / speed * reduce
+		}
+	}
+	translateX += velocityX * deltaTime
+	translateY += velocityY * deltaTime
+	reflectOnBoundary()
+	update()
+	if (velocityX == 0 && velocityY == 0) {
+		stopAnim()
+		return
+	}
+	animTaskId = requestAnimationFrame(onFrame)
+}
+
+function startAnim(): void {
+	const speed = Math.sqrt(velocityX * velocityX + velocityY * velocityY)
+	if (speed < FLING_THRESHOLD) return
+	stopAnim()
+	animating = true
+	lastFrameTime = Date.now()
+	animTaskId = requestAnimationFrame(onFrame)
+}
+
+function onTouchStart(event: SnTouchEvent): void {
+	event.event.preventDefault()
+	stopAnim()
+	measureArea()
+	velocityX = 0
+	velocityY = 0
+	lastMoveTime = Date.now()
+	if (event.touches.length >= 2) {
+		lastDistance = distance(event.touches[0], event.touches[1])
+		lastAngle = angle(event.touches[0], event.touches[1])
+	} else {
+		lastDistance = null
+		lastAngle = null
+	}
+}
+
+function onTouchMove(event: SnTouchEvent): void {
+	event.event.preventDefault()
+	const touches = event.touches
+	const now = Date.now()
+	if (touches.length >= 2) {
+		const nextDistance = distance(touches[0], touches[1])
+		const nextAngle = angle(touches[0], touches[1])
+		const previousDistance = lastDistance
+		const previousAngle = lastAngle
+		if (previousDistance != null && previousDistance > 0) {
+			scale = Math.max(0.2, Math.min(5, scale * nextDistance / previousDistance))
+		}
+		if (previousAngle != null) {
+			let delta = nextAngle - previousAngle
+			if (delta > 180) delta -= 360
+			if (delta < -180) delta += 360
+			rotate += delta
+		}
+		lastDistance = nextDistance
+		lastAngle = nextAngle
+		velocityX = 0
+		velocityY = 0
+		clampDrag()
+	} else if (touches.length > 0) {
+		lastDistance = null
+		lastAngle = null
+		const touch = touches[0]
+		translateX += touch.diffX
+		translateY += touch.diffY
+		const elapsed = now - lastMoveTime
+		if (elapsed > 0) {
+			velocityX = touch.diffX * 1000 / elapsed
+			velocityY = touch.diffY * 1000 / elapsed
+		}
+		clampDrag()
+	}
+	lastMoveTime = now
+	update()
+}
+
+function onTouchEnd(event: SnTouchEvent): void {
+	event.event.preventDefault()
+	lastDistance = null
+	lastAngle = null
+	startAnim()
+}
+
+function onTouchCancel(event: SnTouchEvent): void {
+	event.event.preventDefault()
+	lastDistance = null
+	lastAngle = null
+	velocityX = 0
+	velocityY = 0
+}
+
+onReady(() => {
+	measureArea()
+})
+
+onUnload(() => {
+	stopAnim()
+})
+</script>
+
+<style lang="scss">
+.instance-area {
+	flex: 1;
+	flex-direction: column;
+}
+
+.instance-view {
+	flex: 1;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.instance-block {
+	width: 100px;
+	height: 100px;
+	border-radius: 20px;
+	background-color: var(--sn-primary);
+}
+</style>

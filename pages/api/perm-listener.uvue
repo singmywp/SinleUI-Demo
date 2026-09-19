@@ -1,0 +1,186 @@
+<template>
+	<sn-page :title="t('apiPermListener.title')" :show-back="true" padding="0 16px 32px 16px">
+		<demo-card v-if="!isApp" :title="t('apiPermListener.appOnly')" :subtitle="t('apiPermListener.appOnlySub')">
+		</demo-card>
+
+		<demo-card :title="t('apiPermListener.basic')" :subtitle="t('apiPermListener.basicSub')">
+		</demo-card>
+
+		<demo-card v-if="isApp" :title="t('apiPermListener.modeSwitch')" :subtitle="t('apiPermListener.modeSwitchSub')">
+			<sn-subsection v-model="modeIndex" :data="modeOptions" @change="onModeChange"></sn-subsection>
+		</demo-card>
+
+		<demo-card v-if="isApp" :title="t('apiPermListener.request')" :subtitle="t('apiPermListener.requestSub')">
+			<sn-button type="primary" size="normal" :text="t('apiPermListener.requestCamera')"
+				@click="requestPerm(['android.permission.CAMERA'])"></sn-button>
+			<sn-button level="second" size="normal" custom-style="margin-top: 12px;" :text="t('apiPermListener.requestCalendar')"
+				@click="requestPerm(['android.permission.READ_CALENDAR'])"></sn-button>
+			<sn-button level="second" size="normal" custom-style="margin-top: 12px;" :text="t('apiPermListener.requestPhone')"
+				@click="requestPerm(['android.permission.CALL_PHONE'])"></sn-button>
+			<sn-button level="second" size="normal" custom-style="margin-top: 12px;" :text="t('apiPermListener.requestLocation')"
+				@click="requestPerm(['android.permission.ACCESS_FINE_LOCATION'])"></sn-button>
+			<sn-button level="second" size="normal" custom-style="margin-top: 12px;" :text="t('apiPermListener.requestMedia')"
+				@click="requestAlbum()"></sn-button>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+		import { computed } from 'vue'
+		import { useI18n } from 'vue-i18n'
+		import { snu } from '@/uni_modules/sinle-ui'
+		import type { SnPermTipConfig } from '@/uni_modules/sinle-ui'
+
+		const { t } = useI18n()
+
+		const isApp = ref<boolean>(true)
+	const modeIndex = ref<number>(0)
+	const modeOptions = computed<string[]>(() => [t('apiPermListener.simple'), t('apiPermListener.html')])
+	let appliedModeIndex = 0
+
+	const iconCamera = 'M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4zM9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z'
+	const iconImage = 'M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z'
+	const iconVideo = 'M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z'
+	const iconAudio = 'M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z'
+	const iconLocation = 'M12 2C8.13 2 5 5.13 5 8.95c0 4.95 7 13.05 7 13.05s7-8.1 7-13.05C19 5.13 15.87 2 12 2zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z'
+	const iconPhone = 'M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z'
+	const iconCalendar = 'M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z'
+
+	onMounted(() => {
+		try {
+			const sysInfo = uni.getSystemInfoSync() as UTSJSONObject
+			const platform = sysInfo['uniPlatform'] as string
+			isApp.value = platform == 'app'
+		} catch (e) {
+			isApp.value = false
+		}
+	})
+
+	onLoad(() => {
+		snu.setPermTipsStyle({
+			position: 'top',
+			radius: '$12',
+			padding: '$16px $20px',
+			margin: '$12px',
+			spacing: '$10',
+			aniTime: '$250'
+		})
+		applyTips()
+		snu.registerPermListener({
+			onComplete: (res: UTSJSONObject): void => {
+				const denied: string[] = []
+				res.forEach((v: any | null, k: string): void => {
+					if (`${v}` == 'denied') {
+						denied.push(k)
+					}
+				})
+				if (denied.length > 0) {
+					snu.showToast({ text: t('apiPermListener.denyToast'), icon: 'warning' })
+				}
+			}
+		})
+	})
+
+	onUnload(() => {
+		snu.unregisterPermListener(null)
+	})
+
+	function applyTips(): void {
+		if (modeIndex.value == 1) {
+			snu.setPermTips(buildHtmlTips())
+		} else {
+			snu.setPermTips(buildSimpleTips())
+		}
+	}
+
+	function onModeChange(index: number): void {
+		if (index == appliedModeIndex) {
+			return
+		}
+		appliedModeIndex = index
+		applyTips()
+		snu.showToast({ text: index == 1 ? t('apiPermListener.switchHtml') : t('apiPermListener.switchSimple'), icon: 'info' })
+	}
+
+	function buildSimpleTips(): Map<string, SnPermTipConfig> {
+		const tips = new Map<string, SnPermTipConfig>()
+		tips.set('android.permission.CAMERA', {
+			title: t('apiPermListener.permTitleCamera'),
+			content: t('apiPermListener.permContentCamera'),
+			icon: iconCamera
+		})
+		tips.set('android.permission.READ_CALENDAR', {
+			title: t('apiPermListener.permTitleCalendar'),
+			content: t('apiPermListener.permContentCalendar'),
+			icon: iconCalendar
+		})
+		tips.set('android.permission.CALL_PHONE', {
+			title: t('apiPermListener.permTitlePhone'),
+			content: t('apiPermListener.permContentPhone'),
+			icon: iconPhone
+		})
+		tips.set('android.permission.ACCESS_FINE_LOCATION', {
+			title: t('apiPermListener.permTitleLocation'),
+			content: t('apiPermListener.permContentLocation'),
+			icon: iconLocation
+		})
+		tips.set('android.permission.READ_MEDIA_IMAGES', {
+			title: t('apiPermListener.permTitleImage'),
+			content: t('apiPermListener.permContentImage'),
+			icon: iconImage
+		})
+		tips.set('android.permission.READ_MEDIA_VIDEO', {
+			title: t('apiPermListener.permTitleVideo'),
+			content: t('apiPermListener.permContentVideo'),
+			icon: iconVideo
+		})
+		tips.set('android.permission.READ_MEDIA_AUDIO', {
+			title: t('apiPermListener.permTitleAudio'),
+			content: t('apiPermListener.permContentAudio'),
+			icon: iconAudio
+		})
+		return tips
+	}
+
+	function buildHtmlTips(): Map<string, SnPermTipConfig> {
+		const tips = new Map<string, SnPermTipConfig>()
+		tips.set('android.permission.CAMERA', {
+			html: `<h4>${t('apiPermListener.permTitleCamera')}</h4><font color="#999999" size="2">${t('apiPermListener.permContentCamera')}</font>`
+		})
+		tips.set('android.permission.READ_CALENDAR', {
+			html: `<h4>${t('apiPermListener.permTitleCalendar')}</h4><font color="#999999" size="2">${t('apiPermListener.permContentCalendar')}<br><b>${t('apiPermListener.bold')}</b> / <i>${t('apiPermListener.italic')}</i> / <u>${t('apiPermListener.underline')}</u></font>`
+		})
+		tips.set('android.permission.CALL_PHONE', {
+			html: `<h4>${t('apiPermListener.permTitlePhone')}</h4><font color="#999999" size="2">${t('apiPermListener.permContentPhone')}</font>`
+		})
+		tips.set('android.permission.ACCESS_FINE_LOCATION', {
+			html: `<h4>${t('apiPermListener.permTitleLocation')}</h4><font color="#999999" size="2">${t('apiPermListener.permContentLocation')}</font>`
+		})
+		tips.set('android.permission.READ_MEDIA_IMAGES', {
+			html: `<h4>${t('apiPermListener.permTitleImage')}</h4><font color="#999999" size="2">${t('apiPermListener.permContentImage')}</font>`
+		})
+		tips.set('android.permission.READ_MEDIA_VIDEO', {
+			html: `<h4>${t('apiPermListener.permTitleVideo')}</h4><font color="#999999" size="2">${t('apiPermListener.permContentVideo')}</font>`
+		})
+		tips.set('android.permission.READ_MEDIA_AUDIO', {
+			html: `<h4>${t('apiPermListener.permTitleAudio')}</h4><font color="#999999" size="2">${t('apiPermListener.permContentAudio')}</font>`
+		})
+		return tips
+	}
+
+	function requestPerm(perms: string[]): void {
+		snu.requestSystemPermission({
+			permissions: perms
+		})
+	}
+
+	function requestAlbum(): void {
+		snu.requestMediaPermission({
+			types: ['image', 'audio', 'video']
+		})
+	}
+</script>
+
+<style lang="scss">
+
+</style>

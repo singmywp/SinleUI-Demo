@@ -1,0 +1,242 @@
+<template>
+<sn-page :title="t('snCalendarView.title')" :show-back="true">
+		<view class="calendar-view-demo-content" flatten>
+			<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
+				<sn-text font-size="$12" color="$primary" flatten>{{ t('snCalendarView.alertText1') }}</sn-text>
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:6px;" flatten>{{ t('snCalendarView.alertText2') }}</sn-text>
+			</sn-alert>
+
+			<demo-card :title="t('snCalendarView.modeModel')" :subtitle="t('snCalendarView.modeModelSub')">
+				<sn-subsection v-model="modeIndex" :data="modeOptions" @change="onModeChange" />
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;" flatten>{{ t('snCalendarView.modelLbl', { text: formatValue(calendarValue) } as UTSJSONObject) }}</sn-text>
+			</demo-card>
+
+			<demo-card :title="t('snCalendarView.renderRange')" :subtitle="t('snCalendarView.renderRangeSub')">
+				<sn-subsection v-model="rangeIndex" :data="rangeOptions" @change="onRangeChange" />
+				<sn-button :text="t('snCalendarView.jump2032')" type="primary" custom-style="margin-top:10px;" @click="scrollToTarget" />
+			</demo-card>
+			<demo-card :title="t('snCalendarView.showMode')" :subtitle="t('snCalendarView.showModeSub')">
+				<sn-subsection v-model="switchIndex" :data="switchOptions" custom-style="margin-top:10px;" @change="onSwitchChange" />
+			</demo-card>
+			
+
+			<demo-card :title="t('snCalendarView.canvasPaint')" :subtitle="t('snCalendarView.canvasPaintSub')">
+				<view class="calendar-view-control-row" flatten>
+					<sn-text :text="t('snCalendarView.enablePaint')" font-size="$13" color="$text" custom-style="flex:1;" flatten />
+					<sn-switch v-model="customRender" />
+				</view>
+				<view class="calendar-view-control-row calendar-view-control-row-space" flatten>
+					<sn-text :text="t('snCalendarView.showWatermark')" font-size="$13" color="$text" custom-style="flex:1;" flatten />
+					<sn-switch v-model="showWatermark" />
+				</view>
+			</demo-card>
+
+			
+
+			<demo-card :title="t('snCalendarView.currentCalendar')" :subtitle="calendarSubtitle">
+				<sn-calendar-view ref="calendarViewEle" v-model="calendarValue" :type="calendarType"
+					:min-date="minDate" :max-date="maxDate" :switch-mode="switchMode" height="420px"
+					:title-picker="true" :show-watermark="showWatermark" :full-fill-dates="customRender" :format="calendarFormatter" watermark-font-size="$108" day-font-size="$13"
+					prefix-text-color="$warning" suffix-text-color="$lineText"
+					allow-cancel custom-class="calendar-view-custom-root" header-class="calendar-view-custom-header"
+					custom-style="border-width:1px;border-style:solid;border-color:var(--sn-line);border-radius:8px;"
+					@select="onSelect" @change="onChange" @panel-change="onPanelChange" />
+			</demo-card>
+			
+			<demo-card :title="t('snCalendarView.eventRecord')" :subtitle="t('snCalendarView.eventRecordSub')">
+				<sn-text font-size="$12" color="$text" flatten>{{ eventResult }}</sn-text>
+			</demo-card>
+		</view>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { createCalendarDayContent, dayuts } from '@/uni_modules/sinle-ui/index.uts'
+import type { ComponentPublicInstance } from 'vue'
+import type { SnCalendarDay, SnCalendarDayFormatter, SnCalendarDayPaintInput, SnCalendarPanelChangeDetail, SnCalendarSwitchMode, SnCalendarType, SnCalendarValue } from '@/uni_modules/sinle-ui/index.uts'
+
+const { t } = useI18n()
+
+// single: number | null；range: [] 或 [start, end]，单点范围也写成 [same, same]；multiple: number[]
+const calendarViewEle = ref<ComponentPublicInstance | null>(null)
+const calendarValue = ref<SnCalendarValue>(dayuts('2026-08-18').startOf('day').valueOf())
+const calendarType = ref<SnCalendarType>('single')
+const switchMode = ref<SnCalendarSwitchMode>('year-month')
+const modeIndex = ref<number>(0)
+const rangeIndex = ref<number>(0)
+const switchIndex = ref<number>(1)
+const minDate = ref<number | null>(dayuts('2020-01-01').startOf('day').valueOf())
+const maxDate = ref<number | null>(dayuts('2035-12-31').startOf('day').valueOf())
+const customRender = ref<boolean>(false)
+const showWatermark = ref<boolean>(true)
+const eventResult = ref<string>(t('snCalendarView.noEvent'))
+const modeOptions = ['single', 'range', 'multiple'] as string[]
+const rangeOptions = computed<string[]>(() => [t('snCalendarView.defaultRange'), '2000-2040'])
+const switchOptions = ['month', 'year-month'] as string[]
+
+type DemoScheduleItem = {
+	year: number
+	month: number
+	date: number
+	prefix: string
+	suffix: string
+	paint: SnCalendarDayPaintInput
+}
+
+const today = dayuts()
+const currentYear = today.year()
+const currentMonth = today.month() + 1
+
+const demoSchedules = computed<DemoScheduleItem[]>(() => [
+	{ year: currentYear, month: currentMonth, date: 5, prefix: t('snCalendarView.festival'), suffix: t('snCalendarView.rest'), paint: { textColor: '$error', backgroundColor: '$errorLight', borderColor: '$error', borderWidth: 2, fontWeight: '700', showDot: true, dotColor: '$error', dotPosition: 'right' } },
+	{ year: currentYear, month: currentMonth, date: 12, prefix: t('snCalendarView.meeting'), suffix: '09:30', paint: { textColor: '$primary', backgroundColor: '$primaryLight', borderColor: '$primary', borderWidth: 2, fontWeight: '700', fontSize: '$16', showDot: true, dotColor: '$info', dotPosition: 'left' } },
+	{ year: currentYear, month: currentMonth, date: 18, prefix: t('snCalendarView.trip'), suffix: t('snCalendarView.twoDays'), paint: { textColor: '$warning', backgroundColor: '$warningLight', borderColor: '$warning', borderWidth: 2, fontWeight: '700', showDot: true, dotColor: '$warning', dotPosition: 'right' } },
+	{ year: currentYear, month: currentMonth, date: 26, prefix: t('snCalendarView.payday'), suffix: t('snCalendarView.todo'), paint: { textColor: '$success', backgroundColor: '$successLight', borderColor: '$success', borderWidth: 2, fontWeight: '700', showDot: true, dotColor: '$success', dotPosition: 'left' } }
+])
+
+function findSchedule(day: SnCalendarDay): DemoScheduleItem | null {
+	for (let index = 0; index < demoSchedules.value.length; index++) {
+		const item = demoSchedules.value[index]
+		if (item.year == day.year && item.month == day.month && item.date == day.date) return item
+	}
+	return null
+}
+
+const demoFormatter: SnCalendarDayFormatter = (day: SnCalendarDay) => {
+	const schedule = findSchedule(day)
+	if (schedule != null) {
+		return createCalendarDayContent({ prefix: schedule.prefix, suffix: schedule.suffix, paint: schedule.paint })
+	}
+	if (day.today) return createCalendarDayContent({ prefix: t('snCalendarView.today'), suffix: t('snCalendarView.todayShort'), showDot: true, dotPosition: 'right', paint: { borderColor: '$primary', borderWidth: 2, fontWeight: '700' } })
+	if (day.date == 1) return createCalendarDayContent({ prefix: t('snCalendarView.monthStart'), showDot: true, paint: { fontWeight: '700' } })
+	if (day.weekday == 0 || day.weekday == 6) return createCalendarDayContent({ suffix: t('snCalendarView.rest'), showDot: true, dotPosition: 'top', paint: { suffixColor: '$warning' } })
+	if (!day.currentMonth) return null
+	return createCalendarDayContent({ showDot: true })
+}
+
+const calendarFormatter = computed<SnCalendarDayFormatter | null>(() => customRender.value ? demoFormatter : null)
+const calendarSubtitle = computed<string>(() => `${calendarType.value} · ${switchMode.value} · ${t('snCalendarView.subtitleRange', { min: dayuts(minDate.value as number).format('YYYY-MM-DD'), max: dayuts(maxDate.value as number).format('YYYY-MM-DD') } as UTSJSONObject)}`)
+
+function formatValue(value: SnCalendarValue): string {
+	if (value == null) return 'null'
+	if (typeof value == 'number') return dayuts(value as number).format('YYYY-MM-DD')
+	const values = value as number[]
+	const result: string[] = []
+	for (let index = 0; index < values.length; index++) result.push(dayuts(values[index]).format('YYYY-MM-DD'))
+	return `[${result.join(', ')}]`
+}
+
+function setDefaultBoundaries(): void {
+	minDate.value = dayuts('2020-01-01').startOf('day').valueOf()
+	maxDate.value = dayuts('2035-12-31').startOf('day').valueOf()
+}
+
+function setSingle(): void {
+	setDefaultBoundaries()
+	calendarType.value = 'single'
+	calendarValue.value = dayuts('2026-08-18').startOf('day').valueOf()
+	modeIndex.value = 0
+}
+
+function setRange(): void {
+	setDefaultBoundaries()
+	calendarType.value = 'range'
+	calendarValue.value = [dayuts('2026-08-10').startOf('day').valueOf(), dayuts('2026-08-16').startOf('day').valueOf()]
+	modeIndex.value = 1
+}
+
+function setMultiple(): void {
+	setDefaultBoundaries()
+	calendarType.value = 'multiple'
+	calendarValue.value = [dayuts('2026-08-08').startOf('day').valueOf(), dayuts('2026-08-18').startOf('day').valueOf()]
+	modeIndex.value = 2
+}
+
+function setLongRange(): void {
+	minDate.value = dayuts('2000-01-01').startOf('day').valueOf()
+	maxDate.value = dayuts('2040-12-31').startOf('day').valueOf()
+	rangeIndex.value = 1
+}
+
+function setMonth(): void {
+	switchMode.value = 'month'
+	switchIndex.value = 0
+}
+
+function setYearMonth(): void {
+	switchMode.value = 'year-month'
+	switchIndex.value = 1
+}
+
+function onModeChange(index: number): void {
+	if (index == 0) setSingle()
+	if (index == 1) setRange()
+	if (index == 2) setMultiple()
+}
+
+function onRangeChange(index: number): void {
+	if (index == 0) {
+		setDefaultBoundaries()
+		rangeIndex.value = 0
+	} else {
+		setLongRange()
+	}
+}
+
+function onSwitchChange(index: number): void {
+	if (index == 0) setMonth()
+	if (index == 1) setYearMonth()
+}
+
+function scrollToTarget(): void {
+	minDate.value = dayuts('2000-01-01').startOf('day').valueOf()
+	maxDate.value = dayuts('2040-12-31').startOf('day').valueOf()
+		switchMode.value = 'year-month'
+	nextTick((): void => {
+		calendarViewEle.value?.$callMethod('scrollToDate', dayuts('2032-06-15').startOf('day').valueOf())
+	})
+}
+
+function onSelect(value: SnCalendarValue): void {
+	eventResult.value = t('snCalendarView.selectEvent', { value: formatValue(value) } as UTSJSONObject)
+}
+
+function onChange(value: SnCalendarValue): void {
+	eventResult.value = t('snCalendarView.changeEvent', { value: formatValue(value) } as UTSJSONObject)
+}
+
+function onPanelChange(detail: SnCalendarPanelChangeDetail): void {
+	eventResult.value = t('snCalendarView.panelChangeEvent', { year: `${detail.year}`, month: `${detail.month}` } as UTSJSONObject)
+}
+</script>
+
+<style lang="scss">
+.calendar-view-demo-content {
+	flex-direction: column;
+}
+
+.calendar-view-button-row {
+	flex-direction: row;
+	align-items: center;
+}
+
+.calendar-view-control-row {
+	flex-direction: row;
+	align-items: center;
+}
+
+.calendar-view-control-row-space {
+	margin-top: 10px;
+}
+
+.calendar-view-custom-root {
+	flex-direction: column;
+}
+
+.calendar-view-custom-header {
+	flex-direction: row;
+	background-color: var(--sn-info-light);
+}
+
+</style>

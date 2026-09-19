@@ -1,0 +1,299 @@
+<template>
+	<sn-page :title="t('snCalendar.title')" :show-back="true">
+		<view class="calendar-demo-content" flatten>
+			<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
+				<sn-text font-size="$12" color="$primary" flatten>{{ t('snCalendar.alertText1') }}</sn-text>
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:6px;" flatten>{{ t('snCalendar.alertText2') }}</sn-text>
+			</sn-alert>
+
+			<demo-card :title="t('snCalendar.selector')" :subtitle="t('snCalendar.selectorSub')">
+				<view class="calendar-button-row" flatten>
+					<sn-button :text="t('snCalendar.singleConfirm')" type="primary" custom-style="flex:1;margin-right:8px;" @click="openSingle" />
+					<sn-button :text="t('snCalendar.rangeDraft')" type="warning" custom-style="flex:1;margin-right:8px;" @click="openRange" />
+					<sn-button :text="t('snCalendar.multipleInstant')" type="success" custom-style="flex:1;" @click="openMultiple" />
+				</view>
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;" flatten>{{ t('snCalendar.modelLbl', { text: formatValue(calendarValue) } as UTSJSONObject) }}</sn-text>
+			</demo-card>
+
+			<demo-card :title="t('snCalendar.boundary')" :subtitle="t('snCalendar.boundarySub')">
+				<view class="calendar-button-row" flatten>
+					<sn-button :text="t('snCalendar.days7')" type="warning" custom-style="flex:1;margin-right:8px;" @click="openBoundary" />
+					<sn-button :text="t('snCalendar.readonly')" type="info" custom-style="flex:1;margin-right:8px;" @click="openReadonly" />
+					<sn-button :text="t('snCalendar.allowCancel')" type="primary" custom-style="flex:1;" @click="openAllowCancel" />
+				</view>
+			</demo-card>
+
+			<demo-card :title="t('snCalendar.panelSwitch')" :subtitle="t('snCalendar.panelSwitchSub')">
+				<view class="calendar-button-row" flatten>
+					<sn-button :text="t('snCalendar.monthSwitch')" type="primary" custom-style="flex:1;margin-right:8px;" @click="openSwitchMonth" />
+					<sn-button :text="t('snCalendar.yearMonth')" type="success" custom-style="flex:1;" @click="openSwitchYearMonth" />
+				</view>
+				<sn-button :text="t('snCalendar.openScroll')" type="primary" custom-style="margin-top:10px;" @click="openAndScroll" />
+			</demo-card>
+
+			<demo-card :title="t('snCalendar.renderStyle')" :subtitle="t('snCalendar.renderStyleSub')">
+				<sn-button :text="t('snCalendar.openVisualDemo')" type="primary" @click="openVisual" />
+			</demo-card>
+
+			<demo-card :title="t('snCalendar.eventRecord')" :subtitle="t('snCalendar.eventRecordSub')">
+				<sn-text font-size="$12" color="$text" flatten>{{ eventResult }}</sn-text>
+			</demo-card>
+		</view>
+
+		<sn-calendar ref="calendarEle" v-model="calendarValue" :type="calendarType" :title="calendarTitle"
+			:min-date="minDate" :max-date="maxDate" :max-range="maxRange" :readonly="readonly"
+			:allow-cancel="allowCancel" :switch-mode="switchMode" :show-confirm="showConfirm"
+			:show-mark="showMark" title-picker :full-fill-dates="fullFillDates" :format="calendarFormatter"
+			watermark-color="$textLight" watermark-font-size="$108" prefix-text-color="$warning"
+			suffix-text-color="$lineText" today-border-color="$primary"
+			custom-class="calendar-popup-root" header-class="calendar-popup-header"
+			@select="onSelect" @change="onChange" @confirm="onConfirm" @cancel="onCancel"
+			@panel-change="onPanelChange" @open="onOpen" @close="onClose" />
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { createCalendarDayContent, dayuts } from '@/uni_modules/sinle-ui/index.uts'
+import type { ComponentPublicInstance } from 'vue'
+import type { SnCalendarDay, SnCalendarDayFormatter, SnCalendarDayPaintInput, SnCalendarPanelChangeDetail, SnCalendarSwitchMode, SnCalendarType, SnCalendarValue } from '@/uni_modules/sinle-ui/index.uts'
+
+const { t } = useI18n()
+
+// single: number | null；range: [] 或 [start, end]，单点范围也写成 [same, same]；multiple: number[]
+const calendarEle = ref<ComponentPublicInstance | null>(null)
+const calendarValue = ref<SnCalendarValue>(dayuts('2026-08-18').startOf('day').valueOf())
+const calendarType = ref<SnCalendarType>('single')
+const calendarTitle = ref<string>(t('snCalendar.chooseDate'))
+const minDate = ref<number | null>(dayuts('2025-01-01').startOf('day').valueOf())
+const maxDate = ref<number | null>(dayuts('2030-12-31').startOf('day').valueOf())
+const maxRange = ref<number>(0)
+const readonly = ref<boolean>(false)
+const allowCancel = ref<boolean>(false)
+const switchMode = ref<SnCalendarSwitchMode>('year-month')
+const showConfirm = ref<boolean>(true)
+const showMark = ref<boolean>(false)
+const fullFillDates = ref<boolean>(false)
+const showFormatter = ref<boolean>(false)
+const eventResult = ref<string>(t('snCalendar.noEvent'))
+
+type DemoScheduleItem = {
+	year: number
+	month: number
+	date: number
+	prefix: string
+	suffix: string
+	paint: SnCalendarDayPaintInput
+}
+
+const today = dayuts()
+const currentYear = today.year()
+const currentMonth = today.month() + 1
+
+const demoSchedules = computed<DemoScheduleItem[]>(() => [
+	{ year: currentYear, month: currentMonth, date: 5, prefix: t('snCalendar.festival'), suffix: t('snCalendar.rest'), paint: { textColor: '$error', backgroundColor: '$errorLight', borderColor: '$error', borderWidth: 2, fontWeight: '700' } },
+	{ year: currentYear, month: currentMonth, date: 12, prefix: t('snCalendar.meeting'), suffix: '09:30', paint: { textColor: '$primary', backgroundColor: '$primaryLight', borderColor: '$primary', borderWidth: 2, fontWeight: '700', fontSize: '$16' } },
+	{ year: currentYear, month: currentMonth, date: 18, prefix: t('snCalendar.trip'), suffix: t('snCalendar.twoDays'), paint: { textColor: '$warning', backgroundColor: '$warningLight', borderColor: '$warning', borderWidth: 2, fontWeight: '700' } },
+	{ year: currentYear, month: currentMonth, date: 26, prefix: t('snCalendar.payday'), suffix: t('snCalendar.todo'), paint: { textColor: '$success', backgroundColor: '$successLight', borderColor: '$success', borderWidth: 2, fontWeight: '700' } }
+])
+
+function findSchedule(day: SnCalendarDay): DemoScheduleItem | null {
+	for (let index = 0; index < demoSchedules.value.length; index++) {
+		const item = demoSchedules.value[index]
+		if (item.year == day.year && item.month == day.month && item.date == day.date) return item
+	}
+	return null
+}
+
+const demoFormatter: SnCalendarDayFormatter = (day: SnCalendarDay) => {
+	const schedule = findSchedule(day)
+	if (schedule != null) {
+		return createCalendarDayContent({ prefix: schedule.prefix, suffix: schedule.suffix, paint: schedule.paint })
+	}
+	if (day.today) {
+		return createCalendarDayContent({ prefix: t('snCalendar.today'), suffix: t('snCalendar.arrange'), paint: { borderColor: '$primary', borderWidth: 2, fontWeight: '700' } })
+	}
+	if (day.weekday == 0 || day.weekday == 6) {
+		return createCalendarDayContent({ suffix: t('snCalendar.rest'), paint: { suffixColor: '$warning' } })
+	}
+	return null
+}
+
+const calendarFormatter = computed<SnCalendarDayFormatter | null>(() => showFormatter.value ? demoFormatter : null)
+
+function formatValue(value: SnCalendarValue): string {
+	if (value == null) return 'null'
+	if (typeof value == 'number') return dayuts(value as number).format('YYYY-MM-DD')
+	const values = value as number[]
+	const result: string[] = []
+	for (let index = 0; index < values.length; index++) result.push(dayuts(values[index]).format('YYYY-MM-DD'))
+	return `[${result.join(', ')}]`
+}
+
+function resetConfig(): void {
+	calendarType.value = 'single'
+	calendarTitle.value = t('snCalendar.chooseDate')
+	minDate.value = dayuts('2025-01-01').startOf('day').valueOf()
+	maxDate.value = dayuts('2030-12-31').startOf('day').valueOf()
+	maxRange.value = 0
+	readonly.value = false
+	allowCancel.value = false
+	switchMode.value = 'year-month'
+	showConfirm.value = true
+	showMark.value = false
+	fullFillDates.value = false
+	showFormatter.value = false
+}
+
+function openConfigured(): void {
+	eventResult.value = t('snCalendar.readyOpen')
+	nextTick((): void => {
+		calendarEle.value?.$callMethod('open')
+	})
+}
+
+function openSingle(): void {
+	resetConfig()
+	calendarValue.value = dayuts('2026-08-18').startOf('day').valueOf()
+	calendarTitle.value = t('snCalendar.singleTitle')
+	openConfigured()
+}
+
+function openRange(): void {
+	resetConfig()
+	calendarType.value = 'range'
+	calendarValue.value = [dayuts('2026-08-10').startOf('day').valueOf(), dayuts('2026-08-14').startOf('day').valueOf()]
+	calendarTitle.value = t('snCalendar.rangeTitle')
+	openConfigured()
+}
+
+function openMultiple(): void {
+	resetConfig()
+	calendarType.value = 'multiple'
+	calendarValue.value = [dayuts('2026-08-08').startOf('day').valueOf()]
+	calendarTitle.value = t('snCalendar.multipleTitle')
+	showConfirm.value = false
+	allowCancel.value = true
+	openConfigured()
+}
+
+function openBoundary(): void {
+	resetConfig()
+	calendarType.value = 'range'
+	calendarValue.value = [] as number[]
+	calendarTitle.value = t('snCalendar.boundaryTitle')
+	minDate.value = dayuts('2026-08-01').startOf('day').valueOf()
+	maxDate.value = dayuts('2026-11-30').startOf('day').valueOf()
+	maxRange.value = 7
+	switchMode.value = 'year-month'
+	openConfigured()
+}
+
+function openReadonly(): void {
+	resetConfig()
+	calendarValue.value = dayuts('2026-08-18').startOf('day').valueOf()
+	calendarTitle.value = t('snCalendar.readonlyTitle')
+	readonly.value = true
+	openConfigured()
+}
+
+function openAllowCancel(): void {
+	resetConfig()
+	calendarValue.value = dayuts('2026-08-18').startOf('day').valueOf()
+	calendarTitle.value = t('snCalendar.allowCancelTitle')
+	allowCancel.value = true
+	openConfigured()
+}
+
+function openSwitchMonth(): void {
+	resetConfig()
+	switchMode.value = 'month'
+	calendarTitle.value = t('snCalendar.monthSwitchTitle')
+	openConfigured()
+}
+
+function openSwitchYearMonth(): void {
+	resetConfig()
+	switchMode.value = 'year-month'
+	calendarTitle.value = t('snCalendar.yearMonthTitle')
+	openConfigured()
+}
+
+function openAndScroll(): void {
+	resetConfig()
+	calendarTitle.value = t('snCalendar.scrollTitle')
+	openConfigured()
+	calendarEle.value?.$callMethod('scrollToDate', dayuts('2028-05-20').startOf('day').valueOf())
+}
+
+function openVisual(): void {
+	resetConfig()
+	calendarType.value = 'range'
+	calendarValue.value = [dayuts('2026-08-16').startOf('day').valueOf(), dayuts('2026-08-22').startOf('day').valueOf()]
+	calendarTitle.value = t('snCalendar.visualTitle')
+	switchMode.value = 'year-month'
+	showMark.value = true
+	fullFillDates.value = true
+	showFormatter.value = true
+	openConfigured()
+}
+
+function recordEvent(text: string): void {
+	if (eventResult.value == t('snCalendar.readyOpen') || eventResult.value == t('snCalendar.noEvent')) {
+		eventResult.value = text
+		return
+	}
+	eventResult.value = `${eventResult.value} → ${text}`
+}
+
+function onSelect(value: SnCalendarValue): void {
+	recordEvent(t('snCalendar.selectEvent', { value: formatValue(value) } as UTSJSONObject))
+}
+
+function onChange(value: SnCalendarValue): void {
+	recordEvent(t('snCalendar.changeEvent', { value: formatValue(value) } as UTSJSONObject))
+}
+
+function onConfirm(value: SnCalendarValue): void {
+	recordEvent(t('snCalendar.confirmEvent', { value: formatValue(value) } as UTSJSONObject))
+}
+
+function onCancel(): void {
+		recordEvent(t('snCalendar.cancelEvent', { value: formatValue(calendarValue.value) } as UTSJSONObject))
+}
+
+function onPanelChange(detail: SnCalendarPanelChangeDetail): void {
+	recordEvent(t('snCalendar.panelChangeEvent', { year: `${detail.year}`, month: `${detail.month}` } as UTSJSONObject))
+}
+
+function onOpen(): void {
+	recordEvent(t('snCalendar.openEvent'))
+}
+
+function onClose(): void {
+	recordEvent(t('snCalendar.closeEvent', { value: formatValue(calendarValue.value) } as UTSJSONObject))
+}
+</script>
+
+<style lang="scss">
+.calendar-demo-content {
+	flex-direction: column;
+}
+
+.calendar-button-row {
+	flex-direction: row;
+	align-items: center;
+}
+
+.calendar-popup-root {
+	flex-direction: column;
+}
+
+.calendar-popup-header {
+	flex-direction: row;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: var(--sn-line);
+}
+
+</style>

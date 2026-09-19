@@ -1,0 +1,379 @@
+<template>
+	<sn-page :title="t('apiShowModal.title')" :show-back="true">
+
+		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
+			<sn-text font-size="$12" color="$primary" flatten>{{ t('apiShowModal.alert1') }}</sn-text>
+			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;" flatten>{{ t('apiShowModal.alert2') }}</sn-text>
+			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;" flatten>{{ t('apiShowModal.alert3') }}</sn-text>
+			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;" flatten>{{ t('apiShowModal.alert4') }}</sn-text>
+		</sn-alert>
+
+		<demo-card :title="t('apiShowModal.basic')" :subtitle="t('apiShowModal.basicSub')">
+			<sn-text font-size="$13" :color="descColor" custom-style="margin-bottom:12px;" flatten>{{ t('apiShowModal.basicDesc') }}</sn-text>
+			<view class="btn-row" flatten>
+				<sn-button type="primary" :text="t('apiShowModal.showModal')" custom-style="flex:1;" @click="onShowBasic" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiShowModal.posCard')" :subtitle="t('apiShowModal.posCardSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="info" :text="t('apiShowModal.center')" custom-style="margin-right:8px;flex:1;" @click="onShowPos('center')" />
+				<sn-button type="info" :text="t('apiShowModal.top')" custom-style="margin-right:8px;flex:1;" @click="onShowPos('top')" />
+				<sn-button type="info" :text="t('apiShowModal.bottom')" custom-style="flex:1;" @click="onShowPos('bottom')" />
+			</view>
+			<view class="btn-row" flatten>
+				<sn-button type="info" :text="t('apiShowModal.left')" custom-style="margin-right:8px;flex:1;" @click="onShowPos('left')" />
+				<sn-button type="info" :text="t('apiShowModal.right')" custom-style="flex:1;" @click="onShowPos('right')" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiShowModal.btnCard')" :subtitle="t('apiShowModal.btnCardSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="success" :text="t('apiShowModal.onlyConfirm')" custom-style="margin-right:8px;flex:1;" @click="onShowOnlyConfirm" />
+				<sn-button type="error" :text="t('apiShowModal.onlyCancel')" custom-style="flex:1;" @click="onShowOnlyCancel" />
+			</view>
+			<view class="btn-row" flatten>
+				<sn-button type="warning" :text="t('apiShowModal.customBtnText')" custom-style="margin-right:8px;flex:1;" @click="onShowCustomText" />
+				<sn-button type="primary" :text="t('apiShowModal.floatBtn')" custom-style="flex:1;" @click="onShowFloat" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiShowModal.styleCard')" :subtitle="t('apiShowModal.styleCardSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="primary" :text="t('apiShowModal.customTheme')" custom-style="margin-right:8px;flex:1;" @click="onShowCustomStyle" />
+				<sn-button type="info" :text="t('apiShowModal.disableBtn')" custom-style="flex:1;" @click="onShowDisabled" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('apiShowModal.disabledDesc') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('apiShowModal.maskCard')" :subtitle="t('apiShowModal.maskCardSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="info" :text="t('apiShowModal.clickMaskClose')" custom-style="margin-right:8px;flex:1;" @click="onShowMaskClose" />
+				<sn-button type="info" :text="t('apiShowModal.darkMask')" custom-style="flex:1;" @click="onShowDarkMask" />
+			</view>
+			<view class="btn-row" flatten>
+				<sn-button type="warning" :text="t('apiShowModal.preventBackClose')" custom-style="flex:1;" @click="onShowPreventBack" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiShowModal.callbackCard')" :subtitle="t('apiShowModal.callbackCardSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="primary" :text="t('apiShowModal.withCallback')" custom-style="flex:1;" @click="onShowWithCallback" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:10px;" flatten>{{ t('apiShowModal.callbackLabel') }}：{{ callbackResult }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('apiShowModal.animCard')" :subtitle="t('apiShowModal.animCardSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="primary" :text="t('apiShowModal.bounceEnter')" custom-style="margin-right:8px;flex:1;" @click="onShowBounce" />
+				<sn-button type="info" :text="t('apiShowModal.flipEnter')" custom-style="flex:1;" @click="onShowFlip" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('apiShowModal.animDesc') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('apiShowModal.longCard')" :subtitle="t('apiShowModal.longCardSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="primary" :text="t('apiShowModal.outline')" custom-style="margin-right:8px;flex:1;" @click="onShowLongText1" />
+				<sn-button type="info" :text="t('apiShowModal.freeTravel')" custom-style="flex:1;" @click="onShowLongText4" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('apiShowModal.longDesc') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('apiShowModal.sceneCard')" :subtitle="t('apiShowModal.sceneCardSub')">
+			<view class="scene-box" :style="sceneBoxStyle" flatten>
+				<sn-icon flatten name="delete-bin-line" :size="28" color="$error" />
+				<sn-text flatten bold font-size="$14" color="$title" :text="t('apiShowModal.deleteNote')" custom-style="margin-top:8px;" />
+				<sn-text flatten font-size="$12" color="$textLight" :text="t('apiShowModal.deleteWarn')" custom-style="margin-top:4px;" />
+			</view>
+			<sn-button type="error" :text="t('apiShowModal.deleteBtn')" custom-style="margin-top:12px;flex:1;" @click="onShowDelete" />
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+
+import { useI18n } from 'vue-i18n'
+import { snu, useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import { longText1, longText4 } from '@/source/longtext.uts'
+import type { SnShowModalConfig } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+const { isDark } = useTheme()
+
+const descColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+const callbackResult = ref<string>(t('apiShowModal.emptyCallback'))
+
+function onShowBasic(): void {
+	snu.showModal({
+		title: t('apiShowModal.basicTitle'),
+		content: t('apiShowModal.basicContent')
+	})
+}
+
+function onShowPos(position: string): void {
+	
+	let pos: 'center' | 'top' | 'bottom' | 'left' | 'right' = 'center'
+	if (position == 'top') {
+		pos = 'top'
+	} else if (position == 'bottom') {
+		pos = 'bottom'
+	} else if (position == 'left') {
+		pos = 'left'
+	} else if (position == 'right') {
+		pos = 'right'
+	}
+	snu.showModal({
+		title: t('apiShowModal.posTitle'),
+		content: t('apiShowModal.posContent', { position: position } as UTSJSONObject),
+		position: pos
+	})
+}
+
+function onShowOnlyConfirm(): void {
+	snu.showModal({
+		title: t('apiShowModal.onlyConfirmTitle'),
+		content: t('apiShowModal.onlyConfirmContent'),
+		showCancel: false
+	})
+}
+
+function onShowOnlyCancel(): void {
+	snu.showModal({
+		title: t('apiShowModal.onlyCancelTitle'),
+		content: t('apiShowModal.onlyCancelContent'),
+		showConfirm: false
+	})
+}
+
+function onShowCustomText(): void {
+	snu.showModal({
+		title: t('apiShowModal.customTextTitle'),
+		content: t('apiShowModal.customTextContent'),
+		confirmText: t('apiShowModal.agree'),
+		cancelText: t('apiShowModal.lookAgain'),
+		confirmTextColor: '$success',
+		cancelTextColor: '$warning'
+	})
+}
+
+function onShowCustomStyle(): void {
+	snu.showModal({
+		title: t('apiShowModal.customStyleTitle'),
+		content: t('apiShowModal.customStyleContent'),
+		bgColor: '$primaryLight',
+		titleColor: '$primaryDark',
+		contentColor: '$text',
+		borderRadius: '$20',
+		buttonBorder: '1px dashed $primary',
+		confirmTextColor: '$primaryDark'
+	})
+}
+
+function onShowFloat(): void {
+	snu.showModal({
+		title: t('apiShowModal.floatTitle'),
+		content: t('apiShowModal.floatContent'),
+		buttonType: 'float'
+	})
+}
+
+function onShowDisabled(): void {
+	snu.showModal({
+		title: t('apiShowModal.disabledTitle'),
+		content: t('apiShowModal.disabledContent'),
+		disabled: true
+	})
+}
+
+function onShowMaskClose(): void {
+	snu.showModal({
+		title: t('apiShowModal.maskCloseTitle'),
+		content: t('apiShowModal.maskCloseContent'),
+		maskClose: true
+	})
+}
+
+function onShowDarkMask(): void {
+	snu.showModal({
+		title: t('apiShowModal.darkMaskTitle'),
+		content: t('apiShowModal.darkMaskContent'),
+		maskOpacity: 0.7
+	})
+}
+
+function onShowPreventBack(): void {
+	snu.showModal({
+		title: t('apiShowModal.preventTitle'),
+		content: t('apiShowModal.preventContent'),
+		preventBack: true
+	})
+}
+
+function onShowWithCallback(): void {
+	snu.showModal({
+		title: t('apiShowModal.callbackTitle'),
+		content: t('apiShowModal.callbackContent'),
+		success: (confirm: boolean, cancel: boolean): void => {
+			if (confirm) {
+				callbackResult.value = t('apiShowModal.callbackConfirm')
+			} else if (cancel) {
+				callbackResult.value = t('apiShowModal.callbackCancel')
+			} else {
+				callbackResult.value = t('apiShowModal.callbackOverlay')
+			}
+		},
+		complete: (res: any | null): void => {
+			callbackResult.value += t('apiShowModal.callbackComplete')
+		}
+	} as SnShowModalConfig)
+}
+
+function onShowLongText1(): void {
+	snu.showModal({
+		title: t('apiShowModal.outlineTitle'),
+		content: longText1
+	})
+}
+
+function onShowLongText4(): void {
+	snu.showModal({
+		title: t('apiShowModal.freeTitle'),
+		content: longText4
+	})
+}
+
+
+
+
+const bounceOpenAnim = (mask: UniElement | null, content: UniElement | null, duration: number): void => {
+	if (mask != null) {
+		mask.animate(
+			[{ opacity: '0' } as UniAnimationKeyframe, { opacity: '1' } as UniAnimationKeyframe],
+			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+		)
+	}
+	if (content != null) {
+		content.animate(
+			[
+				{ transform: 'scale(0.6)' } as UniAnimationKeyframe,
+				{ transform: 'scale(1.08)' } as UniAnimationKeyframe,
+				{ transform: 'scale(1)' } as UniAnimationKeyframe
+			],
+			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+		)
+	}
+}
+
+
+const bounceCloseAnim = (mask: UniElement | null, content: UniElement | null, duration: number): void => {
+	if (mask != null) {
+		mask.animate(
+			[{ opacity: '1' } as UniAnimationKeyframe, { opacity: '0' } as UniAnimationKeyframe],
+			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+		)
+	}
+	if (content != null) {
+		content.animate(
+			[
+				{ transform: 'scale(1)' } as UniAnimationKeyframe,
+				{ transform: 'scale(1.05)' } as UniAnimationKeyframe,
+				{ transform: 'scale(0.4)' } as UniAnimationKeyframe
+			],
+			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+		)
+	}
+}
+
+
+const flipOpenAnim = (mask: UniElement | null, content: UniElement | null, duration: number): void => {
+	if (mask != null) {
+		mask.animate(
+			[{ opacity: '0' } as UniAnimationKeyframe, { opacity: '1' } as UniAnimationKeyframe],
+			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+		)
+	}
+	if (content != null) {
+		content.animate(
+			[
+				{ transform: 'rotateX(80deg)' } as UniAnimationKeyframe,
+				{ transform: 'rotateX(0deg)' } as UniAnimationKeyframe
+			],
+			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+		)
+	}
+}
+
+
+const flipCloseAnim = (mask: UniElement | null, content: UniElement | null, duration: number): void => {
+	if (mask != null) {
+		mask.animate(
+			[{ opacity: '1' } as UniAnimationKeyframe, { opacity: '0' } as UniAnimationKeyframe],
+			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+		)
+	}
+	if (content != null) {
+		content.animate(
+			[
+				{ transform: 'rotateX(0deg)' } as UniAnimationKeyframe,
+				{ transform: 'rotateX(-80deg)' } as UniAnimationKeyframe
+			],
+			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+		)
+	}
+}
+
+function onShowBounce(): void {
+	snu.showModal({
+		title: t('apiShowModal.bounceTitle'),
+		content: t('apiShowModal.bounceContent'),
+		openAnimation: bounceOpenAnim,
+		closeAnimation: bounceCloseAnim
+	} as SnShowModalConfig)
+}
+
+function onShowFlip(): void {
+	snu.showModal({
+		title: t('apiShowModal.flipTitle'),
+		content: t('apiShowModal.flipContent'),
+		openAnimation: flipOpenAnim,
+		closeAnimation: flipCloseAnim
+	} as SnShowModalConfig)
+}
+
+
+function onShowDelete(): void {
+	snu.showModal({
+		title: t('apiShowModal.deleteTitle'),
+		content: t('apiShowModal.deleteContent'),
+		confirmText: t('apiShowModal.deleteConfirm'),
+		confirmTextColor: '$error',
+		maskClose: false,
+		success: (confirm: boolean, cancel: boolean): void => {
+			if (confirm) {
+				callbackResult.value = t('apiShowModal.deleted')
+			}
+		}
+	} as SnShowModalConfig)
+}
+
+const sceneBoxStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('alignItems', 'center')
+	styles.set('justifyContent', 'center')
+	styles.set('paddingTop', '16px')
+	styles.set('paddingBottom', '16px')
+	styles.set('borderRadius', '12px')
+	styles.set('backgroundColor', 'var(--sn-error-light)')
+	return styles
+})
+</script>
+
+<style lang="scss">
+.btn-row {
+	flex-direction: row;
+	margin-bottom: 10px;
+}
+.scene-box {
+	flex-direction: column;
+}
+</style>

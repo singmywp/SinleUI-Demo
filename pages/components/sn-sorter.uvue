@@ -1,0 +1,68 @@
+<template>
+	<sn-page :title="t('snSorter.title')" :show-back="true">
+		<demo-card :title="t('snSorter.demoBasicTitle')" :subtitle="t('snSorter.demoBasicSub')">
+			<sn-sorter v-model="basicValue" :label="t('snSorter.labelDate')" @change="onBasicChange" />
+			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:10px;">{{ basicText }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snSorter.demoResetTitle')" :subtitle="t('snSorter.demoResetSub')">
+			<sn-sorter v-model="resetValue" :label="t('snSorter.labelPrice')" allow-reset />
+			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:10px;">{{ resetText }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snSorter.demoDescTitle')" :subtitle="t('snSorter.demoDescSub')">
+			<sn-sorter v-model="descValue" :label="t('snSorter.labelSales')" allow-reset desc-first />
+		</demo-card>
+
+		<demo-card :title="t('snSorter.demoStyleTitle')" :subtitle="t('snSorter.demoStyleSub')">
+			<sn-sorter v-model="customValue" :label="t('snSorter.labelScore')" active-color="$success" inactive-color="$lineText"
+				arrow-size="$14" label-style="font-weight:600;color:var(--sn-title);" />
+		</demo-card>
+
+		<demo-card :title="t('snSorter.demoSlotTitle')" :subtitle="t('snSorter.demoSlotSub')">
+			<sn-sorter v-model="slotValue" allow-reset>
+				<view class="slot-label" flatten>
+					<sn-icon name="filter-3-line" :size="16" color="$primary" />
+					<sn-text flatten color="$primary" custom-style="margin-left:6px;">{{ t('snSorter.filterResult') }}</sn-text>
+				</view>
+			</sn-sorter>
+		</demo-card>
+
+		<demo-card :title="t('snSorter.demoDisabledTitle')" :subtitle="t('snSorter.demoDisabledSub')">
+			<sn-sorter v-model="disabledValue" :label="t('snSorter.labelStock')" disabled />
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+const basicValue = ref<number>(0)
+const resetValue = ref<number>(0)
+const descValue = ref<number>(0)
+const customValue = ref<number>(1)
+const slotValue = ref<number>(0)
+const disabledValue = ref<number>(-1)
+const basicText = ref<string>(t('snSorter.stateNone'))
+
+const resetText = computed<string>(() => getStateText(resetValue.value))
+
+function getStateText(value: number): string {
+	if (value == 1) return t('snSorter.stateAsc')
+	if (value == -1) return t('snSorter.stateDesc')
+	return t('snSorter.stateNone')
+}
+
+function onBasicChange(value: number): void {
+	basicText.value = getStateText(value)
+}
+</script>
+
+<style lang="scss">
+.slot-label {
+	flex-direction: row;
+	align-items: center;
+}
+</style>

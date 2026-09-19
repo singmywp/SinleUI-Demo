@@ -1,123 +1,386 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Badge 徽标"></sn-topbar>
-		<sn-alert type="warning"
-		icon="error-warning-fill"
-		text="Badge 组件的父节点需要设置 overflow: visible;"></sn-alert>
-		<com-card title="基础用法"
-		note="页面里最令强迫症患者讨厌的东西，但确实有用。">
-			<sn-row class="ov">
-				<sn-badge class="spacing" :value="6">
-					<sn-avatar mode="text" text="徽"></sn-avatar>
+	<sn-page :title="t('snBadge.title')" :show-back="true">
+		<demo-card :title="t('snBadge.basic')" :subtitle="t('snBadge.basicSub')">
+			<view class="demo-row" flatten>
+				<view class="demo-item" flatten>
+					<sn-badge :value="5">
+						<sn-icon name="notification-3-line" :size="26" />
+					</sn-badge>
+				</view>
+				<view class="demo-item" flatten>
+					<sn-badge :value="99" type="primary">
+						<sn-icon name="mail-line" :size="26" />
+					</sn-badge>
+				</view>
+				<view class="demo-item" flatten>
+					<sn-badge :value="2" type="success">
+						<sn-icon name="chat-3-line" :size="26" />
+					</sn-badge>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snBadge.color')" :subtitle="t('snBadge.colorSub')">
+			<view class="demo-row" flatten>
+				<view class="demo-item" flatten>
+					<sn-badge :value="1" type="primary">
+						<sn-icon name="shopping-cart-line" :size="24" />
+					</sn-badge>
+				</view>
+				<view class="demo-item" flatten>
+					<sn-badge :value="2" type="info">
+						<sn-icon name="heart-3-line" :size="24" />
+					</sn-badge>
+				</view>
+				<view class="demo-item" flatten>
+					<sn-badge :value="3" type="success">
+						<sn-icon name="fire-line" :size="24" />
+					</sn-badge>
+				</view>
+				<view class="demo-item" flatten>
+					<sn-badge :value="4" type="warning">
+						<sn-icon name="bell-line" :size="24" />
+					</sn-badge>
+				</view>
+				<view class="demo-item" flatten>
+					<sn-badge :value="5" type="error">
+						<sn-icon name="notification-3-line" :size="24" />
+					</sn-badge>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snBadge.max')" :subtitle="t('snBadge.maxSub')">
+			<view class="demo-row">
+				<view class="demo-item">
+					<sn-badge :value="100" :max="99">
+						<sn-icon name="mail-line" :size="24" />
+					</sn-badge>
+					<sn-text flatten text-class="demo-label" font-size="$12" color="$textLight">max=99</sn-text>
+				</view>
+				<view class="demo-item">
+					<sn-badge :value="1000" :max="unlimitedMax">
+						<sn-icon name="mail-line" :size="24" />
+					</sn-badge>
+					<sn-text flatten text-class="demo-label" font-size="$12" color="$textLight">max=-1</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snBadge.textMode')" :subtitle="t('snBadge.textModeSub')">
+			<view class="demo-row">
+				<view class="demo-item">
+					<sn-badge mode="text" text="NEW" type="primary">
+						<sn-icon name="sparkling-2-line" :size="24" />
+					</sn-badge>
+				</view>
+				<view class="demo-item">
+					<sn-badge mode="text" text="HOT" type="warning">
+						<sn-icon name="fire-line" :size="24" />
+					</sn-badge>
+				</view>
+				<view class="demo-item">
+					<sn-badge mode="text" text="VIP" type="success">
+						<sn-icon name="star-smile-line" :size="24" />
+					</sn-badge>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snBadge.dotMode')" :subtitle="t('snBadge.dotModeSub')">
+			<view class="demo-row">
+				<view class="demo-item">
+					<sn-badge mode="dot">
+						<sn-icon name="notification-3-line" :size="26" />
+					</sn-badge>
+				</view>
+				<view class="demo-item">
+					<sn-badge mode="dot" type="primary">
+						<sn-icon name="mail-line" :size="26" />
+					</sn-badge>
+				</view>
+				<view class="demo-item">
+					<sn-badge mode="dot" type="success">
+						<sn-icon name="chat-3-line" :size="26" />
+					</sn-badge>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snBadge.zero')" :subtitle="t('snBadge.zeroSub')">
+			<view class="demo-row">
+				<view class="demo-item">
+					<sn-badge :value="0">
+						<sn-icon name="mail-line" :size="26" />
+					</sn-badge>
+					<sn-text flatten text-class="demo-label" font-size="$12" color="$textLight">{{ t('snBadge.defaultHidden') }}</sn-text>
+				</view>
+				<view class="demo-item">
+					<sn-badge :value="0" show-zero>
+						<sn-icon name="mail-line" :size="26" />
+					</sn-badge>
+					<sn-text flatten text-class="demo-label" font-size="$12" color="$textLight">show-zero</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snBadge.dynamic')" :subtitle="t('snBadge.dynamicSub')">
+			<view class="demo-row">
+				<view class="demo-item">
+					<sn-badge :value="count">
+						<sn-icon name="shopping-cart-line" :size="26" />
+					</sn-badge>
+				</view>
+				<view class="demo-item">
+					<sn-button @click="sub">-1</sn-button>
+				</view>
+				<view class="demo-item">
+					<sn-button @click="add">+1</sn-button>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snBadge.customColor')" :subtitle="t('snBadge.customColorSub')">
+			<view class="demo-row">
+				<view class="demo-item">
+					<sn-badge :value="6" bg-color="$primary">
+						<sn-icon name="star-smile-line" :size="24" />
+					</sn-badge>
+				</view>
+				<view class="demo-item">
+					<sn-badge :value="6" bg-color="$successLight" text-color="$successDark">
+						<sn-icon name="heart-3-line" :size="24" />
+					</sn-badge>
+				</view>
+				<view class="demo-item">
+					<sn-badge :value="6" bg-color="#ff6600">
+						<sn-icon name="bell-line" :size="24" />
+					</sn-badge>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snBadge.customSize')" :subtitle="t('snBadge.customSizeSub')">
+			<view class="demo-row">
+				<view class="demo-item">
+					<sn-badge :value="6" size="$16">
+						<sn-icon name="bell-line" :size="26" />
+					</sn-badge>
+				</view>
+				<view class="demo-item">
+					<sn-badge :value="6" size="10">
+						<sn-icon name="bell-line" :size="26" />
+					</sn-badge>
+				</view>
+				<view class="demo-item">
+					<sn-badge mode="dot" size="$14">
+						<sn-icon name="bell-line" :size="26" />
+					</sn-badge>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snBadge.offset')" :subtitle="t('snBadge.offsetSub')">
+			<view class="demo-row">
+				<view class="demo-item">
+					<sn-badge :value="6" offset="translate(-10px, 6px)">
+						<sn-icon name="chat-3-line" :size="26" />
+					</sn-badge>
+					<sn-text flatten text-class="demo-label" font-size="$12" color="$textLight">{{ t('snBadge.leftDown') }}</sn-text>
+				</view>
+				<view class="demo-item">
+					<sn-badge :value="6" offset="translate(8px, 0px)">
+						<sn-icon name="chat-3-line" :size="26" />
+					</sn-badge>
+					<sn-text flatten text-class="demo-label" font-size="$12" color="$textLight">{{ t('snBadge.right') }}</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snBadge.showHide')" :subtitle="t('snBadge.showHideSub')">
+			<view class="demo-row">
+				<view class="demo-item">
+					<sn-badge always-wrap :show="badgeVisible" :value="6">
+						<sn-icon name="notification-3-line" :size="26" />
+					</sn-badge>
+				</view>
+				<view class="demo-item">
+					<sn-button @click="toggleShow">{{ badgeVisible ? t('snBadge.hideBadge') : t('snBadge.showBadge') }}</sn-button>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snBadge.customContent')" :subtitle="t('snBadge.customContentSub')">
+			<view class="demo-row">
+				<view class="demo-item">
+					<sn-badge :value="0">
+						<template #value>
+							<sn-icon name="emotion-happy-line" :size="12" color="#FFFFFF" />
+						</template>
+						<sn-icon name="notification-3-line" :size="26" />
+					</sn-badge>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snBadge.smileSlot') }}</sn-text>
+				</view>
+				<view class="demo-item">
+					<sn-badge :value="0" mode="text" text="99+" type="primary">
+						<sn-icon name="mail-line" :size="26" />
+					</sn-badge>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">99+</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snBadge.standalone')" :subtitle="t('snBadge.standaloneSub')">
+			<view class="demo-row">
+				<view class="demo-item">
+					<sn-badge :value="8" />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snBadge.number') }}</sn-text>
+				</view>
+				<view class="demo-item">
+					<sn-badge mode="text" text="NEW" type="primary" />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snBadge.textLabel') }}</sn-text>
+				</view>
+				<view class="demo-item">
+					<sn-badge mode="dot" type="success" />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snBadge.dotLabel') }}</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snBadge.externalStyle')" :subtitle="t('snBadge.externalStyleSub')">
+			<view class="demo-row">
+				<view class="demo-item">
+					<sn-badge badge-class="demo-badge-shadow" :value="7">
+						<sn-icon name="bell-line" :size="24" />
+					</sn-badge>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">badge-class</sn-text>
+				</view>
+				<view class="demo-item">
+					<sn-badge :value="7" custom-style="border-width:2px;border-style:solid;border-color:#FFFFFF;">
+						<sn-icon name="bell-line" :size="24" />
+					</sn-badge>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">custom-style</sn-text>
+				</view>
+				<view class="demo-item">
+					<sn-badge mode="dot" dot-style="width:12px;height:12px;border-radius:6px;">
+						<sn-icon name="bell-line" :size="24" />
+					</sn-badge>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">dot-style</sn-text>
+				</view>
+				<view class="demo-item">
+					<sn-badge mode="text" text="NEW" type="primary" text-class="demo-badge-text" />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">text-class</sn-text>
+				</view>
+				<view class="demo-item">
+					<sn-badge mode="text" text="HOT" type="warning" text-style="font-weight:bold;letter-spacing:2px;" />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">text-style</sn-text>
+				</view>
+				<view class="demo-item">
+					<sn-badge contain-class="demo-badge-contain" :value="5">
+						<sn-icon name="bell-line" :size="24" />
+					</sn-badge>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">contain-class</sn-text>
+				</view>
+				<view class="demo-item">
+					<sn-badge :value="5" contain-style="border-width:2px;border-style:dashed;border-color:#ff6600;border-radius:16px;">
+						<sn-icon name="bell-line" :size="24" />
+					</sn-badge>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">contain-style</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snBadge.scene')" :subtitle="t('snBadge.sceneSub')">
+			<view class="demo-cell">
+				<sn-text font-size="$14">{{ t('snBadge.inSiteMsg') }}</sn-text>
+				<sn-badge :value="8" />
+			</view>
+			<view class="demo-cell">
+				<sn-text font-size="$14">{{ t('snBadge.sysNotice') }}</sn-text>
+				<sn-badge mode="dot" type="primary" />
+			</view>
+			<view class="demo-cell demo-cell-last" style="margin-bottom: 12px">
+				<sn-text font-size="$14">{{ t('snBadge.todo') }}</sn-text>
+				<sn-badge mode="text" :text="t('snBadge.pending')" type="warning" />
+			</view>
+			<view class="demo-row">
+				<sn-badge :value="3" type="error">
+					<sn-button icon="shopping-cart-line" :text="t('snBadge.cart')" />
 				</sn-badge>
-				<sn-badge class="spacing" :value="13">
-					<sn-avatar mode="text" text="标"></sn-avatar>
-				</sn-badge>
-				<sn-badge class="spacing" :value="2">
-					<sn-button text="Badge"></sn-button>
-				</sn-badge>
-				<sn-badge class="spacing" mode="text" text="爆">
-					<sn-avatar mode="text" text="新"></sn-avatar>
-				</sn-badge>
-				<sn-badge class="spacing" mode="text" text="VIP" bgColor="#f5a854" :size="`${$snui.utils.getPx($snui.configs.font.size(1))-2}px`">
-					<sn-avatar mode="text" text="视频"></sn-avatar>
-				</sn-badge>
-			</sn-row>
-		</com-card>
-		<com-card title="最大值"
-		note="设置数据上限，超出则显示最大值">
-			<sn-row class="ov">
-				<sn-badge class="spacing" :value="valueC" :max="maxC">
-					<sn-avatar mode="text" text="张三"></sn-avatar>
-				</sn-badge>
-				<sn-badge class="spacing" :value="valueC" :max="maxC">
-					<sn-button text="立即更新" type="primary" level="second"></sn-button>
-				</sn-badge>
-			</sn-row>
-			<sn-card>
-				<sn-input v-model="value" 
-				type="number"
-				placeholder="设置数据值"
-				style="margin-bottom: 10px;"></sn-input>
-				<sn-input v-model="max" 
-				type="number" 
-				placeholder="设置最大值"></sn-input>
-			</sn-card>
-		</com-card>
-		<com-card title="圆点"
-		note="用于重要程度较低的消息，或者不便统计数字的场合，如更新提示，至少让人一看就懂">
-			<sn-row class="ov">
-				<sn-badge class="spacing" mode="dot">
-					<sn-avatar mode="text" text="张三"></sn-avatar>
-				</sn-badge>
-				<sn-badge class="spacing" mode="dot">
-					<sn-button text="立即更新" type="primary" level="second"></sn-button>
-				</sn-badge>
-			</sn-row>
-		</com-card>
-		<com-card title="位置偏移"
-		note="重新调整 badge 的位置，使其适合各种各样的组件">
-			<sn-row class="ov">
-				<sn-badge class="spacing" :value="10" offset="translate(-8px, 12px)">
-					<sn-avatar mode="text" text="张三"></sn-avatar>
-				</sn-badge>
-				<sn-badge class="spacing" mode="dot" offset="translate(-3px, 16px)" size="8px">
-					<sn-button text="立即更新" type="primary" level="second"></sn-button>
-				</sn-badge>
-			</sn-row>
-		</com-card>
-		<com-card title="尺寸"
-		note="badge 类型不为 dot 时可以设置字体大小，badge 类型为 dot 时可以设置 dot 大小">
-			<sn-row class="ov">
-				<sn-badge class="spacing" :value="10" size="16px">
-					<sn-avatar mode="text" text="张三"></sn-avatar>
-				</sn-badge>
-				<sn-badge class="spacing" :value="10" size="10px">
-					<sn-avatar mode="text" text="李四"></sn-avatar>
-				</sn-badge>
-				<sn-badge class="spacing" mode="dot" size="8px">
-					<sn-avatar mode="text" text="王五"></sn-avatar>
-				</sn-badge>
-			</sn-row>
-		</com-card>
-		<com-card title="自定义颜色"
-		note="多姿多彩">
-			<sn-row class="ov">
-				<sn-badge class="spacing" :value="13" bgColor="#83b59a">
-					<sn-avatar mode="text" text="张三"></sn-avatar>
-				</sn-badge>
-				<sn-badge class="spacing" :value="5" bgColor="#f6b142" textColor="#000">
-					<sn-avatar mode="text" text="李四"></sn-avatar>
-				</sn-badge>
-			</sn-row>
-		</com-card>
+			</view>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
 
-	const max = ref('99')
-	const value = ref('100')
+const { t } = useI18n()
+const unlimitedMax = -1
+const count = ref<number>(5)
+const badgeVisible = ref<boolean>(true)
 
-	const maxC = computed(() : number => {
-		let p = parseInt(max.value)
-		return Math.max(isNaN(p) ? 0 : p, 0)
-	})
+function add(): void {
+	count.value = count.value + 1
+}
 
-	const valueC = computed(() : number => {
-		let p = parseInt(value.value)
-		return Math.max(isNaN(p) ? 0 : p, 0)
-	})
+function sub(): void {
+	count.value = count.value - 1
+}
+
+function toggleShow(): void {
+	badgeVisible.value = !badgeVisible.value
+}
 </script>
 
 <style lang="scss">
-	.ov {
-		overflow: visible;
-	}
+.demo-row {
+	flex-direction: row;
+	align-items: center;
+	flex-wrap: wrap;
 	
-	.spacing {
-		margin-right: 10px;
-	}
+	overflow: visible;
+	padding: 15px;
+}
+.demo-item {
+	flex-direction: column;
+	align-items: center;
+	margin-right: 20px;
+	margin-bottom: 12px;
+	overflow: visible;
+}
+.demo-label {
+	margin-top: 6px;
+}
+.demo-badge-shadow {
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+.demo-badge-text {
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+.demo-badge-contain {
+	border-width: 1px;
+	border-style: solid;
+	border-color: var(--sn-line);
+	border-radius: 14px;
+}
+.demo-cell {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding-top: 12px;
+	padding-bottom: 12px;
+	padding-left: 12px;
+	padding-right: 12px;
+	border-radius: 8px;
+	background-color: var(--sn-front);
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: var(--sn-line);
+	overflow: visible;
+}
+.demo-cell-last {
+	border-bottom-width: 0px;
+}
 </style>

@@ -1,0 +1,243 @@
+<template>
+	<sn-page :title="t('snTextareaField.title')" :show-back="true">
+
+		<demo-card :title="t('snTextareaField.basicTitle')" :subtitle="t('snTextareaField.basicSubtitle')">
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snTextareaField.currentValue') }}：{{ value1 }}</sn-text>
+		</demo-card>
+		<sn-textarea-field v-model="value1" :label="t('snTextareaField.labelText')" :placeholder="t('snTextareaField.placeholder')"  />
+
+		<demo-card class="mt-10" :title="t('snTextareaField.maxlengthTitle')" :subtitle="t('snTextareaField.maxlengthSubtitle')">
+		</demo-card>
+		<sn-textarea-field v-model="value2" :maxlength="50" :label="t('snTextareaField.comment')" :placeholder="t('snTextareaField.max50')" />
+		<sn-textarea-field v-model="value3" :maxlength="200" direction="horizontal" :label="t('snTextareaField.tucao')" height="80px"
+			:placeholder="t('snTextareaField.shortText')" />
+
+		<demo-card class="mt-10" :title="t('snTextareaField.directionTitle')" :subtitle="t('snTextareaField.directionSubtitle')">
+		</demo-card>
+		<sn-textarea-field v-model="valueH1" direction="horizontal" :label="t('snTextareaField.title2')" height="60px"
+			:placeholder="t('snTextareaField.horizontalMode')" />
+		<sn-textarea-field v-model="valueV1" direction="vertical" :label="t('snTextareaField.comment')" height="100px"
+			:placeholder="t('snTextareaField.verticalMode')" />
+
+		<demo-card class="mt-10" :title="t('snTextareaField.requiredTitle')" :subtitle="t('snTextareaField.requiredSubtitle')">
+		</demo-card>
+		<sn-textarea-field v-model="valueReq1" :label="t('snTextareaField.productDesc')" required height="100px"
+			:placeholder="t('snTextareaField.fillProductDesc')" />
+		<sn-textarea-field v-model="valueReq2" direction="horizontal" :label="t('snTextareaField.remark')" required :maxlength="100"
+			:placeholder="t('snTextareaField.fillRemark')" />
+
+		<demo-card class="mt-10" :title="t('snTextareaField.errorTitle')" :subtitle="t('snTextareaField.errorSubtitle')">
+		</demo-card>
+		<sn-textarea-field v-model="valueErr1" :error="errorEmpty" required height="80px"
+			:label="t('snTextareaField.feedback')" :placeholder="t('snTextareaField.fillFeedback')" @input="onErrInput" />
+		<sn-textarea-field v-model="valueErr2" direction="horizontal" :error="errorLen" required
+			:maxlength="20" :label="t('snTextareaField.intro')" :placeholder="t('snTextareaField.max20')" @input="onErrInput2" />
+		<sn-textarea-field v-model="valueErr3" :label="t('snTextareaField.customError')" height="80px" :placeholder="t('snTextareaField.errorSlotReplace')">
+			<template #error>
+				<view class="demo-custom-error" flatten>
+					<sn-icon name="error-warning-line" :size="14" color="#f56c6c" />
+					<sn-text font-size="$12" color="$error" custom-style="margin-left:4px;" flatten>
+						{{ t('snTextareaField.checkInput') }}
+					</sn-text>
+				</view>
+			</template>
+		</sn-textarea-field>
+
+		<demo-card class="mt-10" :title="t('snTextareaField.autoTitle')" :subtitle="t('snTextareaField.autoSubtitle')">
+		</demo-card>
+		<sn-textarea-field v-model="valueAuto" :label="t('snTextareaField.dynamicHeight')" auto-height :placeholder="t('snTextareaField.autoExpand')" />
+
+		<demo-card class="mt-10" :title="t('snTextareaField.labelStyleTitle')" :subtitle="t('snTextareaField.labelStyleSubtitle')">
+		</demo-card>
+		<sn-textarea-field v-model="valueLS1" direction="horizontal" :label="t('snTextareaField.rightLabel')" label-align="right"
+			label-width="80px" height="60px" :placeholder="t('snTextareaField.alignRight')" />
+		<sn-textarea-field v-model="valueLS2" direction="horizontal" :label="t('snTextareaField.bigLabel')" label-size="$18"
+			label-color="$primaryDark" label-width="100px" height="60px" :placeholder="t('snTextareaField.labelSizeColor')" />
+
+		<demo-card class="mt-10" :title="t('snTextareaField.justifyTitle')" :subtitle="t('snTextareaField.justifySubtitle')">
+		</demo-card>
+		<sn-textarea-field v-model="valueJ1" direction="horizontal" :label="t('snTextareaField.topLeft')" label-justify="top"
+			label-width="90px" height="80px" :placeholder="t('snTextareaField.justifyTop')" />
+		<sn-textarea-field v-model="valueJ2" direction="horizontal" :label="t('snTextareaField.vertCenter')" label-justify="center"
+			label-width="90px" height="80px" :placeholder="t('snTextareaField.justifyCenter')" />
+		<sn-textarea-field v-model="valueJ3" direction="horizontal" :label="t('snTextareaField.bottomRight')" label-justify="bottom"
+			label-align="right" label-width="90px" height="80px" :placeholder="t('snTextareaField.justifyBottom')" />
+
+		<demo-card class="mt-10" :title="t('snTextareaField.statusTitle')" :subtitle="t('snTextareaField.statusSubtitle')">
+		</demo-card>
+		<sn-textarea-field v-model="valueDis" :label="t('snTextareaField.disabledLabel')" disabled :placeholder="t('snTextareaField.disabledPh')" />
+		<sn-textarea-field v-model="valueRo" :label="t('snTextareaField.readonlyLabel')" readonly :placeholder="t('snTextareaField.readonlyPh')" />
+		<sn-textarea-field v-model="valueLoad" :label="t('snTextareaField.loadingLabel')" loading :placeholder="t('snTextareaField.submitting')" />
+
+		<demo-card class="mt-10" :title="t('snTextareaField.eventTitle')" :subtitle="t('snTextareaField.eventSubtitle')">
+		</demo-card>
+		<sn-textarea-field v-model="valueEvent" :label="t('snTextareaField.eventLabel')" height="100px" :placeholder="t('snTextareaField.inputHint')" @input="onInput"
+			@focus="onFocus" @blur="onBlur" @linechange="onLinechange" />
+		<sn-text font-size="$12" :color="eventColor">{{ eventLog }}</sn-text>
+
+		<demo-card class="mt-10" :title="t('snTextareaField.externalTitle')" :subtitle="t('snTextareaField.externalSubtitle')">
+		</demo-card>
+		<sn-textarea-field v-model="valueExt1" :label="t('snTextareaField.boldLabel')" input-style="font-weight: bold;"
+			:placeholder="t('snTextareaField.inputStyleBold')" />
+		<sn-textarea-field v-model="valueExt2" :label="t('snTextareaField.redLabel')" label-color="$error"
+			label-style="font-weight:600;" :placeholder="t('snTextareaField.labelRedBold')" />
+		<sn-textarea-field v-model="valueExt3" :maxlength="30" :error="valueExt3 ? '' : t('snTextareaField.fillRequired')" :label="t('snTextareaField.errorStyleLabel')"
+			error-style="font-weight:bold;" :placeholder="t('snTextareaField.errorBold')" />
+
+		<demo-card class="mt-10" :title="t('snTextareaField.formTitle')" :subtitle="t('snTextareaField.formSubtitle')">
+			<sn-form ref="formRef" v-model="formData">
+				<sn-textarea-field field="remark" :rule="remarkRule" :label="t('snTextareaField.remark')" :error="getFieldError('remark')"
+					:maxlength="100" :placeholder="t('snTextareaField.remarkMax100')" />
+				<sn-textarea-field field="intro" :rule="introRule" :label="t('snTextareaField.intro')" :error="getFieldError('intro')"
+					direction="horizontal" height="80px" :placeholder="t('snTextareaField.introRequired')" custom-style="margin-top:16px;" />
+			</sn-form>
+			<sn-button :text="t('snTextareaField.submit')" type="primary" custom-style="margin-top:16px;" @click="onFormSubmit" />
+		</demo-card>
+
+		<demo-card class="mt-10" :title="t('snTextareaField.sceneTitle')" :subtitle="t('snTextareaField.sceneSubtitle')">
+		</demo-card>
+		<sn-view border-radius="10px" margin="20px">
+			<sn-textarea-field v-model="comment" :label="t('snTextareaField.productReview')" required auto-height :maxlength="200"
+				:placeholder="t('snTextareaField.reviewPlaceholder')" :error="commentError" custom-style="margin-bottom:12px;"
+				@input="onCommentInput" />
+			<sn-button :text="t('snTextareaField.submitReview')" type="primary" custom-style="margin-top:10px;" @click="onSubmit" />
+		</sn-view>
+		<sn-gap></sn-gap>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { $snui, snu } from '@/uni_modules/sinle-ui'
+import type { ComponentPublicInstance } from 'vue'
+import type { SnFormItemRule, SnFormItemVerifyResult, SnFormValidResult } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+const value1 = ref<string>('')
+const value2 = ref<string>('')
+const value3 = ref<string>('')
+const valueH1 = ref<string>('')
+const valueV1 = ref<string>('')
+const valueReq1 = ref<string>('')
+const valueReq2 = ref<string>('')
+const valueErr1 = ref<string>('')
+const valueErr2 = ref<string>('')
+const valueErr3 = ref<string>('')
+const valueAuto = ref<string>('')
+const valueLS1 = ref<string>('')
+const valueLS2 = ref<string>('')
+const valueJ1 = ref<string>('')
+const valueJ2 = ref<string>('')
+const valueJ3 = ref<string>('')
+const valueDis = ref<string>(t('snTextareaField.disabledUneditable'))
+const valueRo = ref<string>(t('snTextareaField.readonlyUneditable'))
+const valueLoad = ref<string>('')
+const valueEvent = ref<string>('')
+const valueExt1 = ref<string>('')
+const valueExt2 = ref<string>('')
+const valueExt3 = ref<string>('')
+const comment = ref<string>('')
+
+const errorEmpty = ref<string>(t('snTextareaField.requiredEmpty'))
+const errorLen = ref<string>(t('snTextareaField.over20'))
+
+const commentError = ref<string>('')
+
+const eventLog = ref<string>(t('snTextareaField.noEvent'))
+const eventColor = ref<string>($snui.colors.textLight)
+
+function setLog(text: string, color: string = $snui.colors.primary): void {
+	eventLog.value = text
+	eventColor.value = color
+}
+
+function onErrInput(e: UniInputEvent): void {
+	errorEmpty.value = e.detail.value == '' ? t('snTextareaField.requiredEmpty') : ''
+}
+
+function onErrInput2(e: UniInputEvent): void {
+	errorLen.value = snu.len(e.detail.value) > 20 ? t('snTextareaField.over20') : ''
+}
+
+function onInput(e: UniInputEvent): void {
+	setLog('input: ' + e.detail.value)
+}
+
+function onFocus(e: UniTextareaFocusEvent): void {
+	setLog('focus: ' + e.detail.value, $snui.colors.success)
+}
+
+function onBlur(e: UniTextareaBlurEvent): void {
+	setLog('blur: ' + e.detail.value, $snui.colors.textLight)
+}
+
+function onLinechange(e: UniTextareaLineChangeEvent): void {
+	setLog(`linechange: ${t('snTextareaField.lineCount', { count: e.detail.lineCount } as UTSJSONObject)}`, $snui.colors.warning)
+}
+
+function onCommentInput(): void {
+	if (commentError.value != '') {
+		commentError.value = ''
+	}
+}
+
+function onSubmit(): void {
+	if (comment.value == '') {
+		commentError.value = t('snTextareaField.enterReview')
+		return
+	}
+	commentError.value = ''
+	snu.showToast({ text: t('snTextareaField.reviewSubmitted'), icon: 'checkbox-circle-fill' })
+}
+
+const formData = ref<UTSJSONObject>({
+	remark: '',
+	intro: ''
+} as UTSJSONObject)
+const failResults = ref<SnFormItemVerifyResult[]>([])
+const formRef = ref<ComponentPublicInstance | null>(null)
+
+function getFieldError(field: string): string {
+	const list = failResults.value
+	for (let i = 0; i < list.length; i++) {
+		if (list[i].field == field) {
+			return list[i].message ?? ''
+		}
+	}
+	return ''
+}
+
+const remarkRule = ref<SnFormItemRule>({
+	max: 100,
+	message: t('snTextareaField.remarkMax100')
+} as SnFormItemRule)
+
+const introRule = ref<SnFormItemRule>({
+	required: true,
+	min: 2,
+	message: t('snTextareaField.introRuleMsg')
+} as SnFormItemRule)
+
+function onFormSubmit(): void {
+	formRef.value?.$callMethod('submit', {
+		success: () => {
+			failResults.value = []
+			snu.showToast({ text: t('snTextareaField.submitSuccess'), icon: 'checkbox-circle-fill' })
+		},
+		fail: (results: SnFormItemVerifyResult[]) => {
+			failResults.value = results
+		}
+	} as SnFormValidResult)
+}
+</script>
+
+<style lang="scss">
+.mt-10 {
+	margin-top: 10px;
+}
+.demo-custom-error {
+	flex-direction: row;
+	align-items: center;
+	margin-top: 4px;
+}
+</style>

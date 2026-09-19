@@ -1,151 +1,276 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Actionsheet 操作菜单"
-		:features="[{id:'run',icon:'play-circle-fill'} as SnDataItem]"
-		@button-click="buttonClicked"></sn-topbar>
-		<com-card title="组件演示"
-		note="从底部弹出一个操作菜单，供用户选择。\n本组件类似于 uni.showActionSheet API，不同的是样式更倾向于 iOS 而非微信，且样式配置更加自由">
-			<sn-form v-model="configs"
-			:showBorder="false">
-				<sn-form-item label="禁用">
-					<sn-switch v-model="(configs['disabled'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="遮罩关闭">
-					<sn-switch v-model="(configs['maskClose'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="阻止返回事件">
-					<sn-switch v-model="(configs['preventBack'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="动画时长">
-					<sn-stepper v-model="(configs['aniTime'] as number)"
-					:step="100"
-					:min="100"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="遮罩透明度">
-					<sn-stepper v-model="(configs['maskOpacity'] as number)"
-					:step="0.1"
-					:min="0"
-					:max="1"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="是否显示取消按钮">
-					<sn-switch v-model="(configs['showCancel'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="标题">
-					<sn-input v-model="(configs['title'] as string)"
-					placeholder="默认值"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="圆角大小">
-					<sn-input v-model="(configs['borderRadius'] as string)"
-					placeholder="默认值"></sn-input>
-				</sn-form-item>
-				<sn-row>
-					<sn-button text="默认"
-					level="second" 
-					type="primary" 
-					long
-					@click="show(1)"
-					style="margin-top: 10px;">
-					</sn-button>
-					<sn-button class="m-l-10"
-					text="自定义样式"
-					level="second" 
-					type="primary" 
-					long
-					@click="show(2)"
-					style="margin-top: 10px;">
-					</sn-button>
-				</sn-row>
-			</sn-form>
-		</com-card>
+	<sn-page :title="t('snActionsheet.title')" :show-back="true">
+
+		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
+			<sn-text font-size="$12" color="$primary" flatten>{{ t('snActionsheet.alert1') }}</sn-text>
+			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;" flatten>{{ t('snActionsheet.alert2') }}</sn-text>
+			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;" flatten>{{ t('snActionsheet.alert3') }}</sn-text>
+		</sn-alert>
+
+		<demo-card :title="t('snActionsheet.basic')" :subtitle="t('snActionsheet.basicSub')">
+			<view class="config-row" flatten>
+				<sn-button :text="t('snActionsheet.openSheet')" type="primary" custom-style="flex:1;" @click="openBasic" />
+				<sn-button :text="t('snActionsheet.closeSheet')" type="info" custom-style="flex:1;margin-left:10px;" @click="closeSheet" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snActionsheet.basicDesc') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snActionsheet.config')" :subtitle="t('snActionsheet.configSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="success" :text="t('snActionsheet.customItems')" custom-style="margin-right:8px;flex:1;" @click="openCustom" />
+				<sn-button type="error" :text="t('snActionsheet.onlyItems')" custom-style="flex:1;" @click="openNoCancel" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snActionsheet.style')" :subtitle="t('snActionsheet.styleSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="primary" :text="t('snActionsheet.customTheme')" custom-style="margin-right:8px;flex:1;" @click="openCustomStyle" />
+				<sn-button type="info" :text="t('snActionsheet.disableSheet')" custom-style="flex:1;" @click="openDisabled" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snActionsheet.disableDesc') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snActionsheet.mask')" :subtitle="t('snActionsheet.maskSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="info" :text="t('snActionsheet.maskClose')" custom-style="margin-right:8px;flex:1;" @click="openMaskClose" />
+				<sn-button type="info" :text="t('snActionsheet.darkMask')" custom-style="flex:1;" @click="openDarkMask" />
+			</view>
+			<view class="btn-row" flatten>
+				<sn-button type="warning" :text="t('snActionsheet.preventBack')" custom-style="flex:1;" @click="openPreventBack" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snActionsheet.event')" :subtitle="t('snActionsheet.eventSub')">
+			<view class="config-row" flatten>
+				<sn-text :text="t('snActionsheet.eventResultLabel')" custom-style="width:80px;" flatten />
+				<sn-text bold font-size="$14" :text="eventResult" flatten />
+			</view>
+			<sn-button type="primary" :text="t('snActionsheet.fireEvent')" custom-style="margin-top:10px;flex:1;" @click="openListen" />
+		</demo-card>
+
+		<demo-card :title="t('snActionsheet.scene')" :subtitle="t('snActionsheet.sceneSub')">
+			<view class="scene-box" :style="sceneBoxStyle" flatten>
+				<sn-icon name="share-forward-line" :size="28" color="$primary" />
+				<sn-text bold font-size="$14" color="$title" :text="t('snActionsheet.shareNote')" custom-style="margin-top:8px;" />
+				<sn-text font-size="$12" color="$textLight" :text="t('snActionsheet.shareDesc')" custom-style="margin-top:4px;" />
+			</view>
+			<sn-button type="primary" :text="t('snActionsheet.share')" custom-style="margin-top:12px;flex:1;" @click="openShare" />
+		</demo-card>
+
+		
+		<sn-actionsheet ref="sheetRef" :title="sheetTitle" :actions="sheetActions" :show-cancel="sheetShowCancel"
+			:bg-color="sheetBgColor" :item-style="sheetItemStyle" :item-hover-style="sheetItemHoverStyle"
+			:wrap-style="sheetWrapStyle" :panel-style="sheetPanelStyle"
+			:disabled="sheetDisabled"
+			:mask-close="sheetMaskClose" :mask-opacity="sheetMaskOpacity" :prevent-back="sheetPreventBack"
+			@click-item="onClickItem" @clickoverlay="onOverlay" @cancel="onCancel" />
 	</sn-page>
-	<sn-actionsheet ref="actionsheetEle"
-	:title="configs['title']"
-	:showCancel="configs['showCancel']"
-	:disabled="configs['disabled']"
-	:maskClose="configs['maskClose']"
-	:preventBack="configs['preventBack']"
-	:aniTime="`${configs['aniTime']}ms`"
-	:maskOpacity="configs['maskOpacity']"
-	:borderRadius="configs['borderRadius']"
-	:actions="actions"
-	@clickItem="clickItem"></sn-actionsheet>
-	<sn-toast ref="toastEle"></sn-toast>
 </template>
 
-<script setup>
-	import { $snui, SnActionsheetItem, SnDataItem, SnToastParams } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	const snu = $snui.utils
-	const actionsheetEle = ref(null as SnActionsheetComponentPublicInstance | null)
-	const toastEle = ref(null as SnToastComponentPublicInstance | null)
-	
-	const configs = ref({
-		title: '这是标题',
-		maskClose: true,
-		disabled: false,
-		preventBack: false,
-		aniTime: parseInt($snui.configs.aniTime.long),
-		maskOpacity: 0.3,
-		showCancel: true,
-		borderRadius: '',
-	})
-	
-	const actions = ref([] as SnActionsheetItem[])
-	
-	const actions1 = [
-		{
-			text: '选项1',
-		},
-		{
-			text: '选项2'
-		},
-		{
-			text: '选项3',
-		}
-	] as SnActionsheetItem[]
-	
-	const actions2 = [
-		{
-			text: '选项1',
-		},
-		{
-			text: '选项2',
-			color: colors.value.errorDark
-		},
-		{
-			text: '选项3',
-			disabled: true
-		},
-		{
-			text: '选项4',
-		}
-	] as SnActionsheetItem[]
-	
-	function show(type: number) {
-		if (type == 1) {
-			actions.value = actions1
-		} else if (type == 2) {
-			actions.value = actions2
-		}
-		snu.throttle(()=>{
-			actionsheetEle.value?.open?.()
-		}, 50)
-	}
-	
-	function buttonClicked(e: SnDataItem){
-		if (e.id == 'run') show(1)
-	}
-	
-	function clickItem(e: SnActionsheetItem){
-		toastEle.value?.configShow?.({
-			text: `点击了${e.text}`,
-			duration: 2000,
-			borderRadius: '10000px',
-			padding: '12px 20px'
-		} as SnToastParams)
-	}
+<script lang="uts" setup>
+
+import { useI18n } from 'vue-i18n'
+import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import type { ComponentPublicInstance } from 'vue'
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+const { isDark } = useTheme()
+
+const descColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+
+
+const sheetRef = ref<ComponentPublicInstance | null>(null)
+
+
+const sheetTitle = ref<string>('')
+const sheetActions = ref<SnDataItem[]>([])
+const sheetShowCancel = ref<boolean>(true)
+const sheetBgColor = ref<string>('')
+const sheetItemStyle = ref<string>('')
+const sheetItemHoverStyle = ref<string>('background-color: var(--sn-info);')
+const sheetWrapStyle = ref<string>('')
+const sheetPanelStyle = ref<string>('')
+const sheetDisabled = ref<boolean>(false)
+const sheetMaskClose = ref<boolean>(true)
+const sheetMaskOpacity = ref<number>(0.4)
+const sheetPreventBack = ref<boolean>(false)
+
+
+const eventResult = ref<string>(t('snActionsheet.noEvent'))
+
+
+
+
+function openBasic(): void {
+	resetAll()
+	sheetTitle.value = t('snActionsheet.chooseOperation')
+	sheetActions.value = [
+		{ text: t('snActionsheet.option1') },
+		{ text: t('snActionsheet.option2') },
+		{ text: t('snActionsheet.option3') }
+	]
+	sheetRef.value?.$callMethod('open')
+}
+
+function closeSheet(): void {
+	sheetRef.value?.$callMethod('close')
+}
+
+function openCustom(): void {
+	resetAll()
+	sheetTitle.value = t('snActionsheet.customTitle')
+	sheetActions.value = [
+		{ text: t('snActionsheet.viewDetail'), color: '$primary' },
+		{ text: t('snActionsheet.edit'), color: '$warning' },
+		{ text: t('snActionsheet.delete'), color: '$error' },
+		{ text: t('snActionsheet.disabledItem'), disabled: true }
+	]
+	sheetRef.value?.$callMethod('open')
+}
+
+function openNoCancel(): void {
+	resetAll()
+	sheetTitle.value = t('snActionsheet.onlyItemTitle')
+	sheetActions.value = [
+		{ text: t('snActionsheet.confirm'), color: '$success' },
+		{ text: t('snActionsheet.save'), color: '$text' }
+	]
+	sheetShowCancel.value = false
+	sheetRef.value?.$callMethod('open')
+}
+
+function openCustomStyle(): void {
+	resetAll()
+	sheetTitle.value = t('snActionsheet.customStyleTitle')
+	sheetActions.value = [
+		{ text: t('snActionsheet.customBgItem') },
+		{ text: t('snActionsheet.morePadding') }
+	]
+	sheetBgColor.value = '$primaryLight'
+	sheetItemStyle.value = 'padding: 16px 14px;'
+	sheetItemHoverStyle.value = 'background-color: var(--sn-primary-light-active);'
+	sheetWrapStyle.value = 'padding-left: 16px; padding-right: 16px;'
+	sheetRef.value?.$callMethod('open')
+}
+
+function openDisabled(): void {
+	resetAll()
+	sheetTitle.value = t('snActionsheet.disabledTitle')
+	sheetActions.value = [
+		{ text: t('snActionsheet.notClickable') },
+		{ text: t('snActionsheet.notClickable') }
+	]
+	sheetDisabled.value = true
+	sheetRef.value?.$callMethod('open')
+}
+
+function openMaskClose(): void {
+	resetAll()
+	sheetTitle.value = t('snActionsheet.maskCloseTitle')
+	sheetActions.value = [
+		{ text: t('snActionsheet.optionOne') }
+	]
+	sheetMaskClose.value = false
+	sheetRef.value?.$callMethod('open')
+}
+
+function openDarkMask(): void {
+	resetAll()
+	sheetTitle.value = t('snActionsheet.darkMaskTitle')
+	sheetActions.value = [
+		{ text: t('snActionsheet.darkMaskItem') }
+	]
+	sheetMaskOpacity.value = 0.7
+	sheetRef.value?.$callMethod('open')
+}
+
+function openPreventBack(): void {
+	resetAll()
+	sheetTitle.value = t('snActionsheet.preventBackTitle')
+	sheetActions.value = [
+		{ text: t('snActionsheet.preventBackItem') }
+	]
+	sheetPreventBack.value = true
+	sheetRef.value?.$callMethod('open')
+}
+
+function openListen(): void {
+	resetAll()
+	eventResult.value = t('snActionsheet.noEvent')
+	sheetTitle.value = t('snActionsheet.eventTitle')
+	sheetActions.value = [
+		{ text: t('snActionsheet.option1'), color: '$primary' },
+		{ text: t('snActionsheet.option2'), color: '$warning' }
+	]
+	sheetRef.value?.$callMethod('open')
+}
+
+function openShare(): void {
+	resetAll()
+	sheetTitle.value = t('snActionsheet.shareTitle')
+	sheetActions.value = [
+		{ text: t('snActionsheet.wechat'), color: '$success' },
+		{ text: t('snActionsheet.moments'), color: '$success' },
+		{ text: t('snActionsheet.copyLink'), color: '$primary' }
+	]
+	sheetRef.value?.$callMethod('open')
+}
+
+
+function resetAll(): void {
+	sheetTitle.value = ''
+	sheetActions.value = []
+	sheetShowCancel.value = true
+	sheetBgColor.value = '$front'
+	sheetItemStyle.value = ''
+	sheetItemHoverStyle.value = 'background-color: var(--sn-info);'
+	sheetWrapStyle.value = ''
+	sheetPanelStyle.value = ''
+	sheetDisabled.value = false
+	sheetMaskClose.value = true
+	sheetMaskOpacity.value = 0.4
+	sheetPreventBack.value = false
+}
+
+
+
+function onClickItem(item: SnDataItem): void {
+	eventResult.value = t('snActionsheet.clickedItem', { text: item.text ?? '' } as UTSJSONObject)
+}
+
+function onOverlay(): void {
+	eventResult.value = t('snActionsheet.eventOverlay')
+}
+
+function onCancel(): void {
+	eventResult.value = t('snActionsheet.eventCancel')
+}
+
+const sceneBoxStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('alignItems', 'center')
+	styles.set('justifyContent', 'center')
+	styles.set('paddingTop', '16px')
+	styles.set('paddingBottom', '16px')
+	styles.set('borderRadius', '12px')
+	styles.set('backgroundColor', 'var(--sn-primary-light)')
+	return styles
+})
 </script>
 
-<style>
-
+<style lang="scss">
+.config-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+.btn-row {
+	flex-direction: row;
+	margin-bottom: 10px;
+}
+.scene-box {
+	flex-direction: column;
+}
 </style>

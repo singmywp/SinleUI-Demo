@@ -1,0 +1,988 @@
+<template>
+	<view class="comps-page" flatten>
+		<scroll-view direction="vertical" class="comps-scroll" :show-scrollbar="false">
+			<view class="home-content" flatten>
+				<view class="hero-shell" :style="heroShellStyle" >
+					<view class="hero-glow-layer" :style="heroGlowLayerStyle" flatten>
+						<view class="hero-glow hero-glow-1" flatten :style="glow1Style"></view>
+						<view class="hero-glow hero-glow-2" flatten :style="glow2Style"></view>
+						<view class="hero-glow hero-glow-3" flatten :style="glow3Style"></view>
+					</view>
+					<view class="hero-card glass" :style="heroCardStyle" flatten>
+						<view class="hero-badge" :style="badgeStyle" flatten>
+							<sn-text font-size="$11" :color="accentColor" flatten>v2.0 Beta</sn-text>
+						</view>
+						<sn-text bold font-size="$32" :color="heroTitleColor"
+							custom-style="margin-bottom:8px;letter-spacing:-0.5px;" flatten>
+							SinleUI
+						</sn-text>
+						<sn-text font-size="$14" :color="heroSubColor" custom-style="margin-bottom:20px;line-height:20px;" flatten>
+							{{ t('comps.heroSub') }}
+						</sn-text>
+						<view class="hero-stats" flatten>
+							<view class="hero-stat" flatten>
+								<sn-text bold font-size="$24" :color="heroAccentColor" flatten>{{ compCount }}</sn-text>
+								<sn-text font-size="$11" :color="mutedColor">{{ t('comps.statComponents') }}</sn-text>
+							</view>
+							<view class="hero-stat-divider" flatten :style="dividerStyle"></view>
+							<view class="hero-stat" flatten>
+								<sn-text bold font-size="$24" :color="heroAccentColor">{{ apiCount }}</sn-text>
+								<sn-text font-size="$11" :color="mutedColor">{{ t('comps.statApi') }}</sn-text>
+							</view>
+							<view class="hero-stat-divider" flatten :style="dividerStyle"></view>
+							<view class="hero-stat" flatten>
+								<sn-text bold font-size="$16" :color="heroAccentColor">{{ platformName }}</sn-text>
+								<sn-text font-size="$11" :color="mutedColor">{{ t('comps.statPlatform') }}</sn-text>
+							</view>
+						</view>
+					</view>
+				</view>
+
+				<sn-text bold font-size="$17" :color="sectionTitleColor"
+					custom-style="margin-top:20px;margin-bottom:12px;margin-left:4px;">{{ t('comps.sectionDesign') }}</sn-text>
+
+				<view class="design-row">
+					<view v-for="(d, di) in designEntries" :key="'d' + di" class="design-card glass" :style="getDesignCardStyle(d)"
+						@touchstart="onDesignTouchStart(di)"
+						@touchend="onDesignTouchEnd" @touchcancel="onDesignTouchEnd" @click="openDesign(d)">
+						<view class="design-icon-wrap" flatten :style="getDesignIconWrapStyle(d)">
+							<sn-icon :name="d.icon" :size="20" :color="d.color" />
+						</view>
+						<view class="design-body" flatten>
+							<sn-text bold font-size="$14" :color="cardTitleColor">{{ t(d.name) }}</sn-text>
+								<sn-text font-size="$11" :color="mutedColor" custom-style="margin-top:3px;">{{ t(d.desc) }}</sn-text>
+						</view>
+						<sn-icon name="arrow-right-s-line" :size="18" :color="mutedColor" />
+					</view>
+				</view>
+
+				<sn-text bold font-size="$17" :color="sectionTitleColor"
+					custom-style="margin-top:20px;margin-bottom:12px;margin-left:4px;">{{ t('comps.sectionCategories') }}</sn-text>
+
+				<view class="cat-grid">
+					<view v-for="(cat, ci) in categories" :key="'c'+ci" class="cat-card glass" :style="getCatCardStyle(cat, ci)"
+						:class="{ 'cat-card-active': pressedCat == ci }" @touchstart="onCatTouchStart(ci)"
+						@touchend="onCatTouchEnd" @touchcancel="onCatTouchEnd" @click="openCat(ci)">
+						<view class="cat-card-top" flatten>
+							<view class="cat-icon-wrap" flatten :style="getCatIconWrapStyle(cat)">
+								<sn-icon :name="cat.icon" :size="20" :color="cat.color" />
+							</view>
+						</view>
+						<sn-text bold font-size="$14" :color="cardTitleColor"
+							custom-style="margin-bottom:4px;">{{ t(cat.name) }}</sn-text>
+						<sn-text font-size="$11" :color="mutedColor">{{ t(cat.desc) }}</sn-text>
+						<view class="cat-count-badge" :style="getCatCountStyle(cat)" flatten>
+							<sn-text flatten font-size="$10" :color="cat.color">{{ cat.items.length }}</sn-text>
+						</view>
+					</view>
+				</view>
+
+			</view>
+		</scroll-view>
+
+		<sn-popup ref="popupRef" position="center" ani-time="$normal" @clickoverlay="closeCatPopup">
+			<view class="cat-popup-shell" :style="popupShellStyle">
+				<view class="cat-popup-glow" :style="popupGlowLayerStyle">
+					<view class="popup-glow-orb" flatten :style="popupGlowOrbStyle"></view>
+				</view>
+				<view class="cat-popup" :style="popupStyle">
+					<view class="popup-header">
+						<view class="popup-title-row" flatten>
+							<view v-if="activeCat >= 0" class="popup-icon-wrap" flatten :style="getPopupIconWrapStyle()">
+								<sn-icon :name="categories[activeCat].icon" :size="18" :color="categories[activeCat].color" />
+							</view>
+							<sn-text v-if="activeCat >= 0" bold font-size="$16" :color="cardTitleColor">
+									{{ t(categories[activeCat].name) }}
+								</sn-text>
+						</view>
+						<view class="popup-close" :style="popupCloseStyle" @click="closeCatPopup">
+							<sn-icon name="close-line" :size="16" :color="mutedColor" />
+						</view>
+					</view>
+					<scroll-view direction="vertical" class="popup-scroll" :show-scrollbar="false" :style="popupScrollStyle" >
+					<view v-if="activeCat >= 0 && categories[activeCat].items.length > 0" class="popup-items" flatten>
+							<view v-for="(item, ii) in categories[activeCat].items" :key="'i'+ii"
+								class="popup-item" :style="getPopupItemStyle(ii, categories[activeCat].items.length)"
+								@click="navTo(item.url)">
+								<sn-icon :name="item.icon" :size="18" :color="accentColor" flatten />
+								<sn-text font-size="$14" :color="itemColor" custom-style="margin-left:12px;flex:1;" flatten>{{ itemLabel(item) }}</sn-text>
+								<sn-icon name="arrow-right-s-line" :size="16" :color="mutedColor" flatten />
+							</view>
+						</view>
+						<view v-else class="popup-empty" flatten>
+							<sn-icon name="inbox-line" :size="40" :color="mutedColor" />
+							<sn-text font-size="$13" :color="mutedColor" custom-style="margin-top:12px;">{{ t('comps.empty') }}</sn-text>
+						</view>
+					</scroll-view>
+				</view>
+			</view>
+		</sn-popup>
+	</view>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { $snui, snu, useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import type { ComponentPublicInstance } from 'vue'
+
+type Props = {
+}
+
+const props = withDefaults(defineProps<Props>(), {})
+
+const { t, locale: appLocale } = useI18n()
+const { isDark } = useTheme()
+
+type CompItem = {
+	name: string
+	url: string
+	icon: string
+}
+
+type CategoryItem = {
+	name: string
+	desc: string
+	icon: string
+	color: string
+	lightColor: string
+	items: CompItem[]
+}
+
+type DesignEntry = {
+	name: string
+	desc: string
+	icon: string
+	color: string
+	lightColor: string
+	url: string
+}
+
+const designEntries: DesignEntry[] = [
+	{
+		name: 'comps.design.color', desc: 'comps.design.colorDesc', icon: 'palette-line',
+		color: '#4d82ff', lightColor: 'rgba(77,130,255,0.12)',
+		url: '/pages/design/color'
+	}
+]
+
+const categories: CategoryItem[] = [
+	{
+		name: 'comps.cat.base', desc: 'comps.cat.baseDesc', icon: 'shapes-line',
+		color: '#4d82ff', lightColor: 'rgba(77,130,255,0.12)',
+		items: [
+			{ name: 'comps.item.button', url: '/pages/components/sn-button', icon: 'rectangle-line' },
+			{ name: 'comps.item.icon', url: '/pages/components/sn-icon', icon: 'emotion-line' },
+			{ name: 'comps.item.image', url: '/pages/components/sn-image', icon: 'image-line' },
+			{ name: 'comps.item.text', url: '/pages/components/sn-text', icon: 'font-size' },
+			{ name: 'comps.item.link', url: '/pages/components/sn-link', icon: 'link' },
+			{ name: 'comps.item.view', url: '/pages/components/sn-view', icon: 'layout-4-line' }
+		]
+	},
+	{
+		name: 'comps.cat.form', desc: 'comps.cat.formDesc', icon: 'file-list-3-line',
+		color: '#06B6D4', lightColor: 'rgba(6,182,212,0.12)',
+		items: [
+			{ name: 'comps.item.rate', url: '/pages/components/sn-rate', icon: 'star-line' },
+			{ name: 'comps.item.slider', url: '/pages/components/sn-slider', icon: 'equalizer-2-line' },
+			{ name: 'comps.item.arcSlider', url: '/pages/components/sn-arc-slider', icon: 'dashboard-3-line' },
+			{ name: 'comps.item.switch', url: '/pages/components/sn-switch', icon: 'toggle-line' },
+			{ name: 'comps.item.switchButton', url: '/pages/components/sn-switch-button', icon: 'exchange-2-line' },
+			{ name: 'comps.item.stepper', url: '/pages/components/sn-stepper', icon: 'sort-number-asc' },
+			{ name: 'comps.item.input', url: '/pages/components/sn-input', icon: 't-box-line' },
+			{ name: 'comps.item.mention', url: '/pages/components/sn-mention', icon: 'at-line' },
+			{ name: 'comps.item.inputField', url: '/pages/components/sn-input-field', icon: 'input-method-line' },
+			{ name: 'comps.item.codeInput', url: '/pages/components/sn-code-input', icon: 'keyboard-box-line' },
+			{ name: 'comps.item.slideCaptcha', url: '/pages/components/sn-slide-captcha', icon: 'shield-check-line' },
+			{ name: 'comps.item.textarea', url: '/pages/components/sn-textarea', icon: 'edit-box-line' },
+			{ name: 'comps.item.textareaField', url: '/pages/components/sn-textarea-field', icon: 'file-edit-line' },
+			{ name: 'comps.item.formField', url: '/pages/components/sn-form-field', icon: 'file-list-3-line' },
+			{ name: 'comps.item.keyboard', url: '/pages/components/sn-keyboard', icon: 'keyboard-line' },
+			{ name: 'comps.item.radio', url: '/pages/components/sn-radio', icon: 'radio-button-fill' },
+			{ name: 'comps.item.agreement', url: '/pages/components/sn-agreement', icon: 'file-text-line' },
+			{ name: 'comps.item.checkbox', url: '/pages/components/sn-checkbox', icon: 'checkbox-circle-line' },
+			{ name: 'comps.item.tree', url: '/pages/components/sn-tree', icon: 'node-tree' },
+			{ name: 'comps.item.labelRadio', url: '/pages/components/sn-label-radio', icon: 'price-tag-3-line' },
+			{ name: 'comps.item.labelCheckbox', url: '/pages/components/sn-label-checkbox', icon: 'price-tag-3-line' },
+			{ name: 'comps.item.select', url: '/pages/components/sn-select', icon: 'dropdown-list' },
+			{ name: 'comps.item.cascader', url: '/pages/components/sn-cascader', icon: 'node-tree' },
+			{ name: 'comps.item.picker', url: '/pages/components/sn-picker', icon: 'download-2-line' },
+			{ name: 'comps.item.pickerView', url: '/pages/components/sn-picker-view', icon: 'expand-left-right-line' },
+			{ name: 'comps.item.datetimePicker', url: '/pages/components/sn-datetime-picker', icon: 'calendar-2-line' },
+			{ name: 'comps.item.datetimePickerView', url: '/pages/components/sn-datetime-picker-view', icon: 'calendar-check-line' },
+			{ name: 'comps.item.calendar', url: '/pages/components/sn-calendar', icon: 'calendar-2-line' },
+			{ name: 'comps.item.calendarView', url: '/pages/components/sn-calendar-view', icon: 'calendar-check-line' },
+			{ name: 'comps.item.calendarWeek', url: '/pages/components/sn-calendar-week', icon: 'calendar-2-line' },
+			{ name: 'comps.item.regionPicker', url: '/pages/components/sn-region-picker', icon: 'map-pin-2-line' },
+			{ name: 'comps.item.regionPickerView', url: '/pages/components/sn-region-picker-view', icon: 'map-pin-line' },
+			{ name: 'comps.item.colorPicker', url: '/pages/components/sn-color-picker', icon: 'palette-line' },
+			{ name: 'comps.item.colorPickerView', url: '/pages/components/sn-color-picker-view', icon: 'contrast-2-line' },
+			{ name: 'comps.item.form', url: '/pages/components/sn-form', icon: 'file-list-3-line' },
+			{ name: 'comps.item.uploadMedia', url: '/pages/components/sn-upload-media', icon: 'upload-2-line' }
+		]
+	},
+	{
+		name: 'comps.cat.display', desc: 'comps.cat.displayDesc', icon: 'gallery-line',
+		color: '#10B981', lightColor: 'rgba(16,185,129,0.12)',
+		items: [
+			{ name: 'comps.item.cell', url: '/pages/components/sn-cell', icon: 'list-indefinite' },
+			{ name: 'comps.item.album', url: '/pages/components/sn-album', icon: 'gallery-line' },
+			{ name: 'comps.item.line', url: '/pages/components/sn-line', icon: 'separator' },
+			{ name: 'comps.item.arcProgress', url: '/pages/components/sn-arc-progress', icon: 'dashboard-line' },
+			{ name: 'comps.item.badge', url: '/pages/components/sn-badge', icon: 'notification-badge-line' },
+			{ name: 'comps.item.avatar', url: '/pages/components/sn-avatar', icon: 'user-line' },
+			{ name: 'comps.item.avatarGroup', url: '/pages/components/sn-avatar-group', icon: 'group-line' },
+			{ name: 'comps.item.card', url: '/pages/components/sn-card', icon: 'file-copy-line' },
+			{ name: 'comps.item.postCard', url: '/pages/components/sn-post-card', icon: 'chat-smile-2-line' },
+			{ name: 'comps.item.skeleton', url: '/pages/components/sn-skeleton', icon: 'bar-chart-horizontal-fill' },
+			{ name: 'comps.item.tag', url: '/pages/components/sn-tag', icon: 'price-tag-3-line' },
+			{ name: 'comps.item.more', url: '/pages/components/sn-more', icon: 'more-2-line' },
+			{ name: 'comps.item.loading', url: '/pages/components/sn-loading', icon: 'loader-4-line' },
+			{ name: 'comps.item.progress', url: '/pages/components/sn-progress', icon: 'progress-5-line' },
+			{ name: 'comps.item.dateformat', url: '/pages/components/sn-dateformat', icon: 'calendar-event-line' },
+			{ name: 'comps.item.empty', url: '/pages/components/sn-empty', icon: 'inbox-line' },
+			{ name: 'comps.item.highlightText', url: '/pages/components/sn-highlight-text', icon: 'mark-pen-line' },
+			{ name: 'comps.item.ellipsis', url: '/pages/components/sn-ellipsis', icon: 'expand-up-down-line' },
+			{ name: 'comps.item.watermark', url: '/pages/components/sn-watermark', icon: 'shield-check-line' },
+			{ name: 'comps.item.alert', url: '/pages/components/sn-alert', icon: 'information-line' },
+			{ name: 'comps.item.amount', url: '/pages/components/sn-amount', icon: 'money-cny-circle-line' },
+			{ name: 'comps.item.noticeBar', url: '/pages/components/sn-notice-bar', icon: 'megaphone-line' },
+			{ name: 'comps.item.table', url: '/pages/components/sn-table', icon: 'table-line' }
+		]
+	},
+	{
+		name: 'comps.cat.feedback', desc: 'comps.cat.feedbackDesc', icon: 'feedback-line',
+		color: '#F59E0B', lightColor: 'rgba(245,158,11,0.11)',
+		items: [
+			{ name: 'comps.item.result', url: '/pages/components/sn-result', icon: 'checkbox-circle-line' },
+			{ name: 'comps.item.popup', url: '/pages/components/sn-popup', icon: 'window-line' },
+			{ name: 'comps.item.modal', url: '/pages/components/sn-modal', icon: 'window-2-line' },
+			{ name: 'comps.item.overlay', url: '/pages/components/sn-overlay', icon: 'contrast-drop-line' },
+			{ name: 'comps.item.toast', url: '/pages/components/sn-toast', icon: 'chat-smile-line' },
+			{ name: 'comps.item.message', url: '/pages/components/sn-message', icon: 'chat-1-line' },
+			{ name: 'comps.item.notification', url: '/pages/components/sn-notification', icon: 'notification-3-line' },
+			{ name: 'comps.item.tooltip', url: '/pages/components/sn-tooltip', icon: 'question-line' },
+			{ name: 'comps.item.loadingPage', url: '/pages/components/sn-loading-page', icon: 'refresh-line' },
+			{ name: 'comps.item.drawer', url: '/pages/components/sn-drawer', icon: 'app-store-line' },
+			{ name: 'comps.item.drawerList', url: '/pages/components/sn-drawer-list', icon: 'file-list-2-line' },
+			{ name: 'comps.item.actionsheet', url: '/pages/components/sn-actionsheet', icon: 'apps-line' },
+			{ name: 'comps.item.popover', url: '/pages/components/sn-popover', icon: 'focus-2-line' },
+		]
+	},
+	{
+		name: 'comps.cat.layout', desc: 'comps.cat.layoutDesc', icon: 'layout-4-line',
+		color: '#EF4444', lightColor: 'rgba(239,68,68,0.12)',
+		items: [
+			{ name: 'comps.item.page', url: '/pages/components/sn-page', icon: 'file-text-line' },
+			{ name: 'comps.item.scrollView', url: '/pages/components/sn-scroll-view', icon: 'scroll-to-bottom-line' },
+			{ name: 'comps.item.listView', url: '/pages/components/sn-list-view', icon: 'file-list-2-line' },
+			{ name: 'comps.item.refresher', url: '/pages/components/sn-refresher', icon: 'refresh-line' },
+			{ name: 'comps.item.backtop', url: '/pages/components/sn-backtop', icon: 'skip-up-line' },
+			{ name: 'comps.item.grid', url: '/pages/components/sn-grid', icon: 'layout-grid-line' },
+			{ name: 'comps.item.drag', url: '/pages/components/sn-drag', icon: 'drag-move-2-line' },
+			{ name: 'comps.item.gap', url: '/pages/components/sn-gap', icon: 'space' },
+			{ name: 'comps.item.keyboardTop', url: '/pages/components/sn-keyboard-top', icon: 'input-method-line' },
+			{ name: 'comps.item.floatBoard', url: '/pages/components/sn-float-board', icon: 'archive-drawer-line' },
+			{ name: 'comps.item.floatButton', url: '/pages/components/sn-float-button', icon: 'chat-new-line' },
+			{ name: 'comps.item.swipeAction', url: '/pages/components/sn-swipe-action', icon: 'arrow-left-right-line' },
+			{ name: 'comps.item.loadmore', url: '/pages/components/sn-loadmore', icon: 'loader-3-line' },
+			{ name: 'comps.item.pagination', url: '/pages/components/sn-pagination', icon: 'pages-line' },
+			{ name: 'comps.item.waterflow', url: '/pages/components/sn-waterflow', icon: 'water-flash-line' },
+			{ name: 'comps.item.footer', url: '/pages/components/sn-footer', icon: 'copyright-line' }
+		]
+	},
+	{
+		name: 'comps.cat.nav', desc: 'comps.cat.navDesc', icon: 'compass-discover-line',
+		color: '#8B5CF6', lightColor: 'rgba(139,92,246,0.12)',
+		items: [
+			{ name: 'comps.item.topbar', url: '/pages/components/sn-topbar', icon: 'compass-discover-line' },
+			{ name: 'comps.item.tabbar', url: '/pages/components/sn-tabbar', icon: 'layout-bottom-line' },
+			{ name: 'comps.item.sidebar', url: '/pages/components/sn-sidebar', icon: 'layout-left-line' },
+			{ name: 'comps.item.tabs', url: '/pages/components/sn-tabs', icon: 'dashboard-2-line' },
+			{ name: 'comps.item.subsection', url: '/pages/components/sn-subsection', icon: 'equalizer-line' },
+			{ name: 'comps.item.steps', url: '/pages/components/sn-steps', icon: 'route-line' },
+			{ name: 'comps.item.menu', url: '/pages/components/sn-menu', icon: 'menu-2-line' },
+			{ name: 'comps.item.search', url: '/pages/components/sn-search', icon: 'search-line' }
+		]
+	},
+	{
+		name: 'comps.cat.function', desc: 'comps.cat.functionDesc', icon: 'instance-line',
+		color: '#EC4899', lightColor: 'rgba(236,72,153,0.12)',
+		items: [
+			{ name: 'comps.item.collapse', url: '/pages/components/sn-collapse', icon: 'menu-fold-line' },
+			{ name: 'comps.item.sorter', url: '/pages/components/sn-sorter', icon: 'sort-desc' },
+			{ name: 'comps.item.timer', url: '/pages/components/sn-timer', icon: 'timer-line' },
+			{ name: 'comps.item.countdown', url: '/pages/components/sn-countdown', icon: 'hourglass-line' },
+			{ name: 'comps.item.countto', url: '/pages/components/sn-countto', icon: 'line-chart-line' },
+			{ name: 'comps.item.fullscreen', url: '/pages/components/sn-fullscreen', icon: 'fullscreen-line' },
+			{ name: 'comps.item.clipper', url: '/pages/components/sn-clipper', icon: 'crop-line' },
+			{ name: 'comps.item.signature', url: '/pages/components/sn-signature', icon: 'ball-pen-line' },
+			{ name: 'comps.item.calendarPunch', url: '/pages/components/sn-calendar-punch', icon: 'calendar-check-line' },
+		]
+	},
+	{
+		name: 'comps.cat.extended', desc: 'comps.cat.extendedDesc', icon: 'plug-line',
+		color: '#14B8A6', lightColor: 'rgba(20,184,166,0.12)',
+		items: [
+			{ name: 'comps.item.barcode', url: '/pages/components/sn-barcode', icon: 'barcode-line' },
+			{ name: 'comps.item.qrcode', url: '/pages/components/sn-qrcode', icon: 'qr-code-line' },
+			{ name: 'comps.item.scan', url: '/pages/components/sn-scan', icon: 'qr-scan-line' },
+			{ name: 'comps.item.scankitCode', url: '/pages/components/sn-e-scankit-code', icon: 'qr-scan-2-line' },
+			{ name: 'comps.item.blurview', url: '/pages/components/sn-e-blurview', icon: 'contrast-2-line' },
+			{ name: 'comps.item.gesture', url: '/pages/components/sn-gesture', icon: 'drag-move-line' },
+			{ name: 'comps.item.markdown', url: '/pages/components/sn-e-markdown', icon: 'markdown-line' }
+		]
+	}
+]
+
+const pressedCat = ref<number>(-1)
+const pressedDesign = ref<number>(-1)
+const popupRef = ref<ComponentPublicInstance | null>(null)
+const activeCat = ref<number>(-1)
+const compCount = ref<number>(0)
+
+function compEnName(url: string): string {
+	const segs = url.split('/')
+	let body = segs[segs.length - 1]
+	if (body.startsWith('sn-e-')) {
+		body = body.substring(5)
+	} else if (body.startsWith('sn-')) {
+		body = body.substring(3)
+	}
+	const camel = snu.kebabCaseToCamelCase(body)
+	return camel.charAt(0).toUpperCase() + camel.slice(1)
+}
+
+function itemLabel(item: CompItem): string {
+	const localName = t(item.name)
+	if (appLocale.value == 'en') {
+		return localName
+	}
+	const enName = compEnName(item.url)
+	if (enName == localName) {
+		return localName
+	}
+	return `${enName} ${localName}`
+}
+
+function compareName(a: string, b: string): number {
+	const al = a.toLowerCase()
+	const bl = b.toLowerCase()
+	const len = Math.min(al.length, bl.length)
+	for (let i = 0; i < len; i++) {
+		const ca = al.charCodeAt(i)
+		const cb = bl.charCodeAt(i)
+		if (ca != cb) {
+			return ca - cb
+		}
+	}
+	return al.length - bl.length
+}
+
+function sortItems(items: CompItem[]): void {
+	for (let i = 0; i < items.length; i++) {
+		for (let j = i + 1; j < items.length; j++) {
+			if (compareName(compEnName(items[j].url), compEnName(items[i].url)) < 0) {
+				const tmp = items[i]
+				items[i] = items[j]
+				items[j] = tmp
+			}
+		}
+	}
+}
+
+for (let i = 0; i < categories.length; i++) {
+	sortItems(categories[i].items)
+}
+
+const apiCount = 109
+
+function countComps(): number {
+	let total = 0
+	for (let i = 0; i < categories.length; i++) {
+		const items = categories[i].items
+		for (let j = 0; j < items.length; j++) {
+			if (!items[j].url.startsWith('/pages/api')) {
+				total++
+			}
+		}
+	}
+	return total
+}
+compCount.value = countComps()
+
+const platformName = ref<string>('Web')
+
+onMounted((): void => {
+	try {
+		const sysInfo = uni.getSystemInfoSync() as unknown as UTSJSONObject
+		const platform = sysInfo['uniPlatform'] as string
+		if (platform == 'web') {
+			platformName.value = 'Web'
+		} else if (platform == 'app') {
+			const osName = sysInfo['osName'] as string
+			if (osName == 'android') {
+				platformName.value = 'Android'
+			} else if (osName == 'ios') {
+				platformName.value = 'iOS'
+			} else {
+				platformName.value = 'App'
+			}
+		} else if (platform == 'mp-weixin') {
+			platformName.value = 'MP'
+		} else if (platform != null) {
+			platformName.value = platform
+		}
+	} catch (e) {
+		platformName.value = 'Web'
+	}
+})
+
+const sectionTitleColor = computed<string>(() => isDark.value ? '#F1F5F9' : '#0F172A')
+const cardTitleColor = computed<string>(() => isDark.value ? '#E2E8F0' : '#1E293B')
+const mutedColor = computed<string>(() => isDark.value ? 'rgba(255,255,255,0.5)' : 'rgba(15,23,42,0.5)')
+const itemColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+const accentColor = computed<string>(() => $snui.colors.primary)
+const heroTitleColor = computed<string>(() => isDark.value ? '#FFFFFF' : '#0F172A')
+const heroSubColor = computed<string>(() => isDark.value ? 'rgba(255,255,255,0.6)' : 'rgba(15,23,42,0.55)')
+const heroAccentColor = computed<string>(() => isDark.value ? $snui.colors.primaryActive : $snui.colors.primary)
+const dividerColor = computed<string>(() => isDark.value ? 'rgba(255,255,255,0.1)' : 'rgba(77,130,255,0.15)')
+const glassBgColor = computed<string>(() => isDark.value ? 'rgba(30,41,59,0.5)' : 'rgba(255,255,255,0.6)')
+const glassBorderColor = computed<string>(() => isDark.value ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.9)')
+const glassShadow = computed<string>(() => isDark.value
+	? '0 8px 32px rgba(0,0,0,0.4)'
+	: `0 8px 32px ${$snui.colors.primary}1f`)
+const itemsBorderColor = computed<string>(() => isDark.value ? 'rgba(255,255,255,0.08)' : 'rgba(15,23,42,0.06)')
+const popupScrollBg = computed<string>(() => isDark.value ? 'rgba(15,23,42,0.4)' : 'rgba(255,255,255,0.7)')
+
+function navTo(url: string): void {
+	uni.navigateTo({
+		url: url
+	})
+}
+
+function onCatTouchStart(idx: number): void {
+	pressedCat.value = idx
+}
+
+function onCatTouchEnd(): void {
+	pressedCat.value = -1
+}
+
+function closeCatPopup(): void {
+	popupRef.value?.$callMethod('close')
+}
+
+function openCat(idx: number): void {
+	activeCat.value = idx
+	popupRef.value?.$callMethod('open')
+}
+
+function onDesignTouchStart(idx: number): void {
+	pressedDesign.value = idx
+}
+
+function onDesignTouchEnd(): void {
+	pressedDesign.value = -1
+}
+
+function openDesign(d: DesignEntry): void {
+	uni.navigateTo({
+		url: d.url
+	})
+}
+
+function factorRadius(n: number): number {
+	return Math.round(n * $snui.radiusFactor)
+}
+
+const heroShellStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('borderRadius', `${factorRadius(24)}px`)
+	styles.set('overflow', 'hidden')
+	styles.set('position', 'relative')
+	styles.set('boxShadow', glassShadow.value)
+	return styles
+})
+
+const heroGlowLayerStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('position', 'absolute')
+	styles.set('top', '0')
+	styles.set('left', '0')
+	styles.set('right', '0')
+	styles.set('bottom', '0')
+	styles.set('borderRadius', `${factorRadius(24)}px`)
+	styles.set('backgroundColor', isDark.value ? $snui.darkBgColor : $snui.lightBgColor)
+	styles.set('overflow', 'hidden')
+	return styles
+})
+
+const heroCardStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('paddingTop', '28px')
+	styles.set('paddingRight', '20px')
+	styles.set('paddingBottom', '24px')
+	styles.set('paddingLeft', '20px')
+	styles.set('backgroundColor', glassBgColor.value)
+	// #ifdef WEB
+	styles.set('backdropFilter', 'blur(20px)')
+	// #endif
+	styles.set('borderTopWidth', '1px')
+	styles.set('borderTopStyle', 'solid')
+	styles.set('borderTopColor', glassBorderColor.value)
+	styles.set('position', 'relative')
+	styles.set('zIndex', 1)
+	return styles
+})
+
+const badgeStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('position', 'absolute')
+	styles.set('top', '16px')
+	styles.set('right', '16px')
+	styles.set('paddingLeft', '10px')
+	styles.set('paddingRight', '10px')
+	styles.set('paddingTop', '4px')
+	styles.set('paddingBottom', '4px')
+	styles.set('borderRadius', `${factorRadius(10)}px`)
+	styles.set('backgroundColor', isDark.value ? 'rgba(77,130,255,0.2)' : 'rgba(77,130,255,0.1)')
+	styles.set('zIndex', 2)
+	return styles
+})
+
+const glow1Style = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', '200px')
+	styles.set('height', '200px')
+	styles.set('borderRadius', '100px')
+	styles.set('position', 'absolute')
+	styles.set('top', '-60px')
+	styles.set('right', '-40px')
+	styles.set('backgroundColor', isDark.value ? 'rgba(77,130,255,0.2)' : 'rgba(77,130,255,0.25)')
+	return styles
+})
+
+const glow2Style = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', '160px')
+	styles.set('height', '160px')
+	styles.set('borderRadius', '80px')
+	styles.set('position', 'absolute')
+	styles.set('bottom', '-50px')
+	styles.set('left', '-30px')
+	styles.set('backgroundColor', isDark.value ? 'rgba(139,92,246,0.15)' : 'rgba(139,92,246,0.2)')
+	return styles
+})
+
+const glow3Style = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', '100px')
+	styles.set('height', '100px')
+	styles.set('borderRadius', '50px')
+	styles.set('position', 'absolute')
+	styles.set('top', '60px')
+	styles.set('left', '-10px')
+	styles.set('backgroundColor', isDark.value ? 'rgba(236,72,153,0.1)' : 'rgba(236,72,153,0.12)')
+	return styles
+})
+
+const dividerStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', '1px')
+	styles.set('height', '28px')
+	styles.set('backgroundColor', dividerColor.value)
+	return styles
+})
+
+function getCatCardStyle(_cat: CategoryItem, idx: number): Map<string, any> {
+	const styles = new Map<string, any>()
+	styles.set('width', '48%')
+	styles.set('marginBottom', '12px')
+	styles.set('borderRadius', `${factorRadius(20)}px`)
+	styles.set('backgroundColor', glassBgColor.value)
+	// #ifdef WEB
+	styles.set('backdropFilter', 'blur(20px)')
+	// #endif
+	styles.set('borderWidth', '1px')
+	styles.set('borderStyle', 'solid')
+	styles.set('borderColor', glassBorderColor.value)
+	
+	styles.set('overflow', 'hidden')
+	styles.set('position', 'relative')
+	styles.set('transform', pressedCat.value == idx ? 'scale(0.97)' : 'scale(1)')
+	styles.set('transitionProperty', 'transform, box-shadow, background-color')
+	styles.set('transitionDuration', '150ms')
+	return styles
+}
+
+function getCatIconWrapStyle(cat: CategoryItem): Map<string, any> {
+	const styles = new Map<string, any>()
+	styles.set('width', '40px')
+	styles.set('height', '40px')
+	styles.set('borderRadius', `${factorRadius(12)}px`)
+	styles.set('alignItems', 'center')
+	styles.set('justifyContent', 'center')
+	styles.set('marginBottom', '10px')
+	styles.set('backgroundColor', cat.lightColor)
+	return styles
+}
+
+function getDesignCardStyle(d: DesignEntry): Map<string, any> {
+	const styles = new Map<string, any>()
+	styles.set('width', '100%')
+	styles.set('marginBottom', '4px')
+	styles.set('flexDirection', 'row')
+	styles.set('alignItems', 'center')
+	styles.set('paddingTop', '14px')
+	styles.set('paddingRight', '16px')
+	styles.set('paddingBottom', '14px')
+	styles.set('paddingLeft', '16px')
+	styles.set('borderRadius', `${factorRadius(20)}px`)
+	styles.set('backgroundColor', glassBgColor.value)
+	// #ifdef WEB
+	styles.set('backdropFilter', 'blur(20px)')
+	// #endif
+	styles.set('borderWidth', '1px')
+	styles.set('borderStyle', 'solid')
+	styles.set('borderColor', glassBorderColor.value)
+	styles.set('transform', pressedDesign.value == 0 ? 'scale(0.98)' : 'scale(1)')
+	styles.set('transitionProperty', 'transform, box-shadow, background-color')
+	styles.set('transitionDuration', '150ms')
+	return styles
+}
+
+function getDesignIconWrapStyle(d: DesignEntry): Map<string, any> {
+	const styles = new Map<string, any>()
+	styles.set('width', '44px')
+	styles.set('height', '44px')
+	styles.set('borderRadius', `${factorRadius(12)}px`)
+	styles.set('alignItems', 'center')
+	styles.set('justifyContent', 'center')
+	styles.set('marginRight', '12px')
+	styles.set('backgroundColor', d.lightColor)
+	return styles
+}
+
+function getCatCountStyle(cat: CategoryItem): Map<string, any> {
+	const styles = new Map<string, any>()
+	styles.set('position', 'absolute')
+	styles.set('top', '12px')
+	styles.set('right', '12px')
+	styles.set('paddingLeft', '7px')
+	styles.set('paddingRight', '7px')
+	styles.set('paddingTop', '2px')
+	styles.set('paddingBottom', '2px')
+	styles.set('borderRadius', `${factorRadius(8)}px`)
+	styles.set('backgroundColor', cat.lightColor)
+	if (cat.items.length == 0) {
+		styles.set('opacity', '0.5')
+	}
+	return styles
+}
+
+const popupShellStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', '320px')
+	styles.set('borderRadius', `${factorRadius(24)}px`)
+	styles.set('overflow', 'hidden')
+	styles.set('position', 'relative')
+	styles.set('flexDirection', 'column')
+	return styles
+})
+
+const popupGlowLayerStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('position', 'absolute')
+	styles.set('top', '0')
+	styles.set('left', '0')
+	styles.set('right', '0')
+	styles.set('bottom', '0')
+	styles.set('borderRadius', `${factorRadius(24)}px`)
+	styles.set('backgroundColor', isDark.value ? $snui.darkBgColor : $snui.lightBgColor)
+	styles.set('overflow', 'hidden')
+	return styles
+})
+
+const popupGlowOrbStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', '200px')
+	styles.set('height', '200px')
+	styles.set('borderRadius', '100px')
+	styles.set('position', 'absolute')
+	styles.set('top', '-80px')
+	styles.set('right', '-60px')
+	let color = 'rgba(77,130,255,0.15)'
+	if (activeCat.value >= 0) {
+		color = categories[activeCat.value].color + '22'
+	}
+	styles.set('backgroundColor', color)
+	return styles
+})
+
+const popupStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('paddingTop', '16px')
+	styles.set('paddingLeft', '16px')
+	styles.set('paddingRight', '16px')
+	styles.set('paddingBottom', '16px')
+	styles.set('backgroundColor', glassBgColor.value)
+	styles.set('backdropFilter', 'blur(20px)')
+	styles.set('borderTopWidth', '1px')
+	styles.set('borderTopStyle', 'solid')
+	styles.set('borderTopColor', glassBorderColor.value)
+	styles.set('flexDirection', 'column')
+	styles.set('maxHeight', '440px')
+	styles.set('position', 'relative')
+	styles.set('zIndex', 1)
+	return styles
+})
+
+const popupCloseStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', '32px')
+	styles.set('height', '32px')
+	styles.set('borderRadius', `${factorRadius(16)}px`)
+	styles.set('alignItems', 'center')
+	styles.set('justifyContent', 'center')
+	styles.set('backgroundColor', isDark.value ? 'rgba(255,255,255,0.08)' : 'rgba(15,23,42,0.05)')
+	return styles
+})
+
+function getPopupIconWrapStyle(): Map<string, any> {
+	const styles = new Map<string, any>()
+	styles.set('width', '36px')
+	styles.set('height', '36px')
+	styles.set('borderRadius', `${factorRadius(10)}px`)
+	styles.set('alignItems', 'center')
+	styles.set('justifyContent', 'center')
+	styles.set('marginRight', '10px')
+	if (activeCat.value >= 0) {
+		styles.set('backgroundColor', categories[activeCat.value].lightColor)
+	}
+	return styles
+}
+
+function getPopupItemStyle(idx: number, total: number): Map<string, any> {
+	const styles = new Map<string, any>()
+	styles.set('flexDirection', 'row')
+	styles.set('alignItems', 'center')
+	styles.set('paddingTop', '14px')
+	styles.set('paddingBottom', '14px')
+	styles.set('paddingLeft', '12px')
+	styles.set('paddingRight', '12px')
+	styles.set('borderRadius', `${factorRadius(10)}px`)
+	if (idx < total - 1) {
+		styles.set('borderBottomWidth', '1px')
+		styles.set('borderBottomStyle', 'solid')
+		styles.set('borderBottomColor', itemsBorderColor.value)
+	}
+	return styles
+}
+
+const popupScrollStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('backgroundColor', popupScrollBg.value)
+	styles.set('borderRadius', `${factorRadius(14)}px`)
+	// #ifdef WEB
+	styles.set('maxHeight', '356px')
+	// #endif
+	return styles
+})
+
+</script>
+
+<style lang="scss">
+.comps-page {
+	flex: 1;
+	min-height: 0px;
+	flex-direction: column;
+}
+
+.comps-scroll {
+	flex: 1;
+	min-height: 0px;
+	flex-direction: column;
+}
+
+.home-content {
+	flex-direction: column;
+	padding: 0 16px 32px 16px;
+}
+
+.glass {
+	flex-direction: column;
+	transition-property: background-color, border-color;
+	transition-duration: 300ms;
+}
+
+.hero-shell {
+	border-radius: 24px;
+	position: relative;
+	overflow: hidden;
+	flex-direction: column;
+}
+
+.hero-glow-layer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border-radius: 24px;
+	overflow: hidden;
+}
+
+.hero-card {
+	flex-direction: column;
+	position: relative;
+	z-index: 1;
+}
+
+.hero-glow {
+	border-radius: 100px;
+}
+
+.hero-badge {
+	border-radius: 10px;
+}
+
+.hero-stats {
+	flex-direction: row;
+	align-items: center;
+}
+
+.hero-stat {
+	flex: 1;
+	flex-direction: column;
+	align-items: center;
+}
+
+.hero-stat-divider {
+	width: 1px;
+}
+
+.cat-grid {
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.design-row {
+	flex-direction: column;
+	margin: 0 0 4px 0;
+}
+
+.design-card {
+	flex-direction: row;
+	align-items: center;
+	position: relative;
+	border-radius: 20px;
+}
+
+.design-body {
+	flex: 1;
+	flex-direction: column;
+}
+
+.cat-card {
+	padding: 14px;
+	border-radius: 20px;
+	flex-direction: column;
+	position: relative;
+}
+
+.cat-card-top {
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+.cat-icon-wrap {
+	border-radius: 12px;
+	align-items: center;
+	justify-content: center;
+}
+
+.cat-count-badge {
+	border-radius: 8px;
+}
+
+.cat-popup-shell {
+	border-radius: 24px;
+	position: relative;
+	overflow: hidden;
+	flex-direction: column;
+}
+
+.cat-popup-glow {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border-radius: 24px;
+	overflow: hidden;
+}
+
+.popup-glow-orb {
+	border-radius: 100px;
+}
+
+.cat-popup {
+	flex-direction: column;
+	position: relative;
+	z-index: 1;
+}
+
+.popup-header {
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: 14px;
+	position: relative;
+	z-index: 1;
+}
+
+.popup-title-row {
+	flex-direction: row;
+	align-items: center;
+}
+
+.popup-icon-wrap {
+	border-radius: 10px;
+	align-items: center;
+	justify-content: center;
+}
+
+.popup-close {
+	border-radius: 16px;
+	align-items: center;
+	justify-content: center;
+}
+
+.popup-scroll {
+	flex: 1;
+	flex-direction: column;
+	position: relative;
+	z-index: 1;
+	border-radius: 14px;
+	overflow: hidden;
+}
+
+.popup-items {
+	flex-direction: column;
+}
+
+.popup-item {
+	flex-direction: row;
+	align-items: center;
+}
+
+.popup-empty {
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 48px 0;
+}
+
+</style>

@@ -1,121 +1,137 @@
 <template>
 	<sn-page>
-		<sn-topbar title="Float Board 浮动面板"></sn-topbar>
-		<com-card title="组件演示"
-		note="通常用于半屏窗口的场景。\n请注意区分 Drawer 和 Float Board。Drawer 是弹出层，需要调用方法才能显示；而 Float Board 则始终显示，且可以通过用户手势操作完全显露。（可以把 Drawer 理解为关闭的抽屉，FloatBoard 则是半开的抽屉）">
-			<sn-form v-model="configs"
-			:showBorder="false">
-				<sn-form-item label="显示指示条">
-					<sn-switch v-model="(configs['showLine'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="位置">
-					<sn-select 
-					v-model="(configs['position'] as number)"
-					width="200px"
-					:data="positions">
-					</sn-select>
-				</sn-form-item>
-				<sn-form-item label="动画时长">
-					<sn-stepper v-model="(configs['aniTime'] as number)"
-					:step="100"
-					:min="100"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="展开宽度(仅left/right)">
-					<sn-stepper v-model="(configs['maxWidth'] as number)"
-					:step="20"
-					:min="0"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="展开高度(仅top/bottom)">
-					<sn-stepper v-model="(configs['maxHeight'] as number)"
-					:step="20"
-					:min="0"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="折叠宽度(仅left/right)">
-					<sn-stepper v-model="(configs['minWidth'] as number)"
-					:step="20"
-					:min="0"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="折叠高度(仅top/bottom)">
-					<sn-stepper v-model="(configs['minHeight'] as number)"
-					:step="20"
-					:min="0"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="滑动折叠阈值（宽度）">
-					<sn-stepper v-model="(configs['slideWidth'] as number)"
-					:step="20"
-					:min="0"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="滑动折叠阈值（高度）">
-					<sn-stepper v-model="(configs['slideHeight'] as number)"
-					:step="20"
-					:min="0"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="背景颜色">
-					<sn-input v-model="(configs['bgColor'] as string)"
-					placeholder="默认值"></sn-input>
-				</sn-form-item>
-				<sn-form-item label="指示条颜色">
-					<sn-input v-model="(configs['lineColor'] as string)"
-					placeholder="默认值"></sn-input>
-				</sn-form-item>
-			</sn-form>
-		</com-card>
-		<sn-gap :height="`${configs['maxHeight'] as number + 20}px`"></sn-gap>
+		<sn-topbar :title="t('snFloatBoard.title')"></sn-topbar>
+
+		<demo-card :title="t('snFloatBoard.demoTitle')" :subtitle="t('snFloatBoard.demoDesc')">
+			<view class="config-row" flatten>
+				<sn-text :text="t('snFloatBoard.showLine')" custom-style="width:130px;" flatten />
+				<sn-switch v-model="configs.showLine" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snFloatBoard.positionLabel')" custom-style="width:130px;" flatten />
+				<sn-radio-group v-model="configs.position" tag-type="primary" tag-level="least">
+					<sn-radio-tag v-for="(p, i) in positions" :key="'pos' + i" :text="p.text" />
+				</sn-radio-group>
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snFloatBoard.aniTime')" custom-style="width:130px;" flatten />
+				<sn-stepper v-model="configs.aniTime" :step="100" :min="100" style="flex: 1;" />
+			</view>
+			<sn-text type="text-light" :font-size="12" :text="t('snFloatBoard.dragTip')" custom-style="margin-top:4px;" flatten />
+		</demo-card>
+
+		<demo-card :title="t('snFloatBoard.sizeTitle')" :subtitle="t('snFloatBoard.sizeDesc')">
+			<view class="config-row" flatten>
+				<sn-text :text="t('snFloatBoard.expandWidth')" custom-style="width:130px;" flatten />
+				<sn-stepper v-model="configs.maxWidth" :step="20" :min="0" style="flex: 1;" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text flatten :text="t('snFloatBoard.expandHeight')" custom-style="width:130px;" />
+				<sn-stepper v-model="configs.maxHeight" :step="20" :min="0" style="flex: 1;" />
+			</view>
+			<view flatten class="config-row">
+				<sn-text flatten :text="t('snFloatBoard.foldWidth')" custom-style="width:130px;" />
+				<sn-stepper v-model="configs.minWidth" :step="20" :min="0" style="flex: 1;" />
+			</view>
+			<view flatten class="config-row">
+				<sn-text flatten :text="t('snFloatBoard.foldHeight')" custom-style="width:130px;" />
+				<sn-stepper v-model="configs.minHeight" :step="20" :min="0" style="flex: 1;" />
+			</view>
+			<view flatten class="config-row">
+				<sn-text flatten :text="t('snFloatBoard.slideW')" custom-style="width:130px;" />
+				<sn-stepper v-model="configs.slideWidth" :step="20" :min="0" style="flex: 1;" />
+			</view>
+			<view flatten class="config-row">
+				<sn-text flatten :text="t('snFloatBoard.slideH')" custom-style="width:130px;" />
+				<sn-stepper v-model="configs.slideHeight" :step="20" :min="0" style="flex: 1;" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snFloatBoard.colorTitle')" :subtitle="t('snFloatBoard.colorDesc')">
+			<view flatten class="config-row">
+				<sn-text flatten :text="t('snFloatBoard.bgColorLabel')" custom-style="width:130px;" />
+				<sn-input v-model="configs.bgColor" :placeholder="t('snFloatBoard.defaultVal')" style="flex: 1;" />
+			</view>
+			<view flatten class="config-row">
+				<sn-text flatten :text="t('snFloatBoard.lineColorLabel')" custom-style="width:130px;" />
+				<sn-input v-model="configs.lineColor" :placeholder="t('snFloatBoard.defaultVal')" style="flex: 1;" />
+			</view>
+		</demo-card>
+
+		<sn-gap :height="`${configs.maxHeight + 20}px`"></sn-gap>
 	</sn-page>
-	<sn-float-board :bgColor="`${configs['bgColor']}`"
-	:position="positions[configs['position'] as number ?? 0]['id'] ?? ''"
-	:lineColor="`${configs['lineColor']}`"
-	:maxHeight="`${configs['maxHeight']}px`"
-	:maxWidth="`${configs['maxWidth']}px`"
-	:minHeight="`${configs['minHeight']}px`"
-	:minWidth="`${configs['minWidth']}px`"
-	:slideHeight="`${configs['slideHeight']}px`"
-	:slideWidth="`${configs['slideWidth']}px`"
-	:aniTime="`${configs['aniTime']}ms`"
-	:showLine="configs['showLine']">
+
+	<sn-float-board :bg-color="configs.bgColor"
+		:position="positions[configs.position].id"
+		:line-color="configs.lineColor"
+		:max-height="`${configs.maxHeight}px`"
+		:max-width="`${configs.maxWidth}px`"
+		:min-height="`${configs.minHeight}px`"
+		:min-width="`${configs.minWidth}px`"
+		:slide-height="`${configs.slideHeight}px`"
+		:slide-width="`${configs.slideWidth}px`"
+		:ani-time="`${configs.aniTime}ms`"
+		:show-line="configs.showLine">
+		<sn-view padding="25px 15px 10px 15px" style="flex: 1;" bg-color="$front" border-radius="$16">
+			<sn-text flatten :text="t('snFloatBoard.bodyTitle')" :font-size="16" bold />
+			<sn-text flatten type="text-light" :font-size="12" :text="t('snFloatBoard.floatTip')" custom-style="margin-top:8px;" />
+		</sn-view>
 	</sn-float-board>
 </template>
 
-<script setup>
-	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
-	const snu = $snui.utils
-	const colors = $snui.colors
-	
-	const drawerEle = ref(null as SnDrawerComponentPublicInstance | null)
-	
-	const configs = ref({
-		showLine: true,
-		bgColor: '',
-		lineColor: '',
-		position: 0,
-		maxHeight: 500,
-		maxWidth: 300,
-		minHeight: 50,
-		minWidth: 50,
-		slideHeight: 100,
-		slideWidth: 100,
-		aniTime: parseInt($snui.configs.aniTime.long)
-	})
-	
-	const positions = [
-		{
-			id: 'bottom',
-			text: '底部',
-		},
-		{
-			id: 'top',
-			text: '顶部',
-		},
-		{
-			id: 'left',
-			text: '左侧',
-		},
-		{
-			id: 'right',
-			text: '右侧',
-		}
-	] as SnDataItem[]
+<script lang="uts" setup>
+
+import { useI18n } from 'vue-i18n'
+import { $snui } from '@/uni_modules/sinle-ui/index.uts'
+
+const { t } = useI18n()
+
+type PositionItem = {
+	id: string
+	text: string
+}
+
+type Configs = {
+	showLine: boolean
+	bgColor: string
+	lineColor: string
+	position: number
+	maxHeight: number
+	maxWidth: number
+	minHeight: number
+	minWidth: number
+	slideHeight: number
+	slideWidth: number
+	aniTime: number
+}
+
+const configs = ref<Configs>({
+	showLine: true,
+	bgColor: '',
+	lineColor: '',
+	position: 0,
+	maxHeight: 500,
+	maxWidth: 300,
+	minHeight: 50,
+	minWidth: 50,
+	slideHeight: 100,
+	slideWidth: 100,
+	aniTime: $snui.aniTimeLong
+})
+
+const positions: PositionItem[] = [
+	{ id: 'bottom', text: t('snFloatBoard.dirBottom') },
+	{ id: 'top', text: t('snFloatBoard.dirTop') },
+	{ id: 'left', text: t('snFloatBoard.dirLeft') },
+	{ id: 'right', text: t('snFloatBoard.dirRight') }
+]
 </script>
 
 <style lang="scss">
+.config-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
 </style>

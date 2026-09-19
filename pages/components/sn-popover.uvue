@@ -1,0 +1,399 @@
+<template>
+	<sn-page :title="t('snPopover.title')" :show-back="true">
+		<demo-card :title="t('snPopover.longpressTitle')" :subtitle="t('snPopover.longpressSubtitle')">
+			<sn-view class="gesture-pad" bg-color="$infoDark" border-radius="$16" flex="1" custom-style="height: 220px;"
+				@touchstart="onPadTouchStart" @longpress="onPadLongpress">
+				<sn-text font-size="$14" bold color="$infoText" custom-style="margin: 16px;" flatten>{{ t('snPopover.longPressArea') }}</sn-text>
+			</sn-view>
+		</demo-card>
+
+		<demo-card :title="t('snPopover.edgeTitle')" :subtitle="t('snPopover.edgeSubtitle')">
+			<sn-view class="gesture-pad" bg-color="$primaryLight" border-radius="$16" flex="1" custom-style="height: 200px;"
+				@touchstart="onEdgeTouchStart" @longpress="onEdgeLongpress">
+				<sn-text font-size="$14" bold color="$primaryLightText" custom-style="margin: 16px;" flatten>{{ t('snPopover.longPressEdge') }}</sn-text>
+			</sn-view>
+		</demo-card>
+
+		<demo-card :title="t('snPopover.methodTitle')" :subtitle="t('snPopover.methodSubtitle')">
+			<view class="pop-demo-row" flatten>
+				<sn-button type="primary" level="first" size="normal" @click="openCenter">{{ t('snPopover.openCenter') }}</sn-button>
+				<view class="h-gap" flatten></view>
+				<sn-button type="primary" level="second" size="normal" @click="openWithOverlay">{{ t('snPopover.openWithOverlay') }}</sn-button>
+				<view class="h-gap" flatten></view>
+				<sn-button type="primary" level="second" size="normal" @click="openWithOffset">{{ t('snPopover.openWithOffset') }}</sn-button>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snPopover.animTitle')" :subtitle="t('snPopover.animSubtitle')">
+			<view class="ani-grid" flatten>
+				<sn-button v-for="(item, idx) in animList" :key="idx"
+					:type="item.value == currentAnim ? 'primary' : 'info'"
+					:level="item.value == currentAnim ? 'first' : 'second'"
+					size="normal"
+					custom-style="margin: 4px;"
+					@click="currentAnim = item.value">
+					{{ item.label }}
+				</sn-button>
+			</view>
+			<view class="pop-demo-row" flatten>
+				<sn-button type="primary" level="first" size="normal" @click="openAnimPopover">{{ t('snPopover.useCurrentAnim') }}</sn-button>
+				<view class="h-gap" flatten></view>
+				<sn-stepper v-model="aniTimeVal" :min="0" :step="50" custom-style="flex:1;min-width:0;" />
+			</view>
+			<sn-text type="text-light" font-size="$12" custom-style="margin-top: 8px;" flatten>{{ t('snPopover.animTip') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snPopover.animFuncTitle')" :subtitle="t('snPopover.animFuncSubtitle')">
+			<view class="pop-demo-row" flatten>
+				<sn-button type="warning" level="first" size="normal" @click="openFlipPopover">{{ t('snPopover.flipIn') }}</sn-button>
+				<view class="h-gap" flatten></view>
+				<sn-button type="success" level="first" size="normal" @click="openShakePopover">{{ t('snPopover.shakeIn') }}</sn-button>
+			</view>
+			<sn-text type="text-light" font-size="$12" custom-style="margin-top: 8px;" flatten>{{ t('snPopover.animFuncTip') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snPopover.styleTitle')" :subtitle="t('snPopover.styleSubtitle')">
+			<sn-view class="gesture-pad" bg-color="$warningLight" border-radius="$16" flex="1" custom-style="height: 160px;"
+				@touchstart="onStyleTouchStart" @longpress="onStyleLongpress">
+				<sn-text font-size="$14" bold color="$warningLightText" custom-style="margin: 16px;" flatten>{{ t('snPopover.styleLongPress') }}</sn-text>
+			</sn-view>
+		</demo-card>
+
+		<sn-text v-if="lastEvent != ''" type="text-light" font-size="$12" custom-style="margin-left:16px;margin-right:16px;" flatten>{{ lastEvent }}</sn-text>
+
+		<sn-popover ref="popoverRef" :z-index="1000" close-on-click-overlay @clickoverlay="onOverlayClick"
+			@update:show="onUpdateShow" @afterenter="onEvt('afterenter')" @afterleave="onEvt('afterleave')">
+			<view class="pop-card">
+				<sn-cell :title="t('snPopover.copy')" icon="file-copy-line" clickable hover-style="background-color: var(--sn-line);"
+					@click="onItem(t('snPopover.copy'), popoverRef)" />
+				<sn-cell :title="t('snPopover.paste')" icon="clipboard-line" clickable hover-style="background-color: var(--sn-line);"
+					@click="onItem(t('snPopover.paste'), popoverRef)" />
+				<sn-cell :title="t('snPopover.rename')" icon="edit-line" clickable hover-style="background-color: var(--sn-line);"
+					@click="onItem(t('snPopover.rename'), popoverRef)" />
+				<sn-cell :title="t('snPopover.delete')" icon="delete-bin-line" :border="false" clickable hover-style="background-color: var(--sn-line);"
+					@click="onItem(t('snPopover.delete'), popoverRef)" />
+			</view>
+		</sn-popover>
+
+		<sn-popover ref="edgeRef" :z-index="1000" close-on-click-overlay>
+			<view class="pop-card pop-edge">
+				<sn-text font-size="$14" bold custom-style="padding: 14px; color: var(--sn-primary);" flatten>{{ t('snPopover.edgeLongPressTitle') }}</sn-text>
+				<sn-text font-size="$12" type="text-light" custom-style="padding: 0 14px 14px;" flatten>{{ t('snPopover.edgeContent') }}</sn-text>
+			</view>
+		</sn-popover>
+
+		<sn-popover ref="styleRef" :z-index="1000" :overlay="false" close-on-click-overlay
+			content-style="padding: 4px;" :offset-x="12" :offset-y="12">
+			<view class="pop-card">
+				<sn-tag :text="t('snPopover.commonOps')" type="primary" level="second" />
+				<sn-cell :title="t('snPopover.favorite')" icon="star-line" clickable hover-style="background-color: var(--sn-line);"
+					custom-style="margin-top: 6px;" @click="onItem(t('snPopover.favorite'), styleRef)" />
+				<sn-cell :title="t('snPopover.share')" icon="share-line" clickable hover-style="background-color: var(--sn-line);"
+					custom-style="margin-top: 4px;" @click="onItem(t('snPopover.share'), styleRef)" />
+			</view>
+		</sn-popover>
+
+		<sn-popover ref="overlayRef" :z-index="1000" :overlay="true" :overlay-opacity="0.4" close-on-click-overlay
+			@clickoverlay="onOverlayClick">
+			<view class="pop-card pop-overlay">
+				<sn-text font-size="$14" bold custom-style="padding: 14px; color: var(--sn-primary);" flatten>{{ t('snPopover.overlayLayer') }}</sn-text>
+				<sn-text font-size="$12" type="text-light" custom-style="padding: 0 14px 14px;" flatten>{{ t('snPopover.overlayClose') }}</sn-text>
+			</view>
+		</sn-popover>
+
+		<sn-popover ref="animRef" :z-index="1000" close-on-click-overlay
+			:animation="currentAnim" :ani-time="aniTimeVal">
+			<view class="pop-card pop-anim">
+				<sn-text font-size="$14" bold custom-style="padding: 14px; color: var(--sn-primary);" :text="t('snPopover.animType', { value: currentAnim } as UTSJSONObject)" flatten />
+				<sn-text font-size="$12" type="text-light" custom-style="padding: 0 14px 14px;" flatten>{{ t('snPopover.animDuration', { value: aniTimeVal } as UTSJSONObject) }} ms</sn-text>
+			</view>
+		</sn-popover>
+
+		<sn-popover ref="flipRef" :z-index="1000" :ani-time="450" close-on-click-overlay
+			:open-animation="flipOpenAnim" :close-animation="flipCloseAnim">
+			<view class="pop-card pop-flip">
+				<sn-text font-size="$14" bold custom-style="padding: 14px; color: var(--sn-warning);" flatten>{{ t('snPopover.flipTitle') }}</sn-text>
+				<sn-text font-size="$12" type="text-light" custom-style="padding: 0 14px 14px;" flatten>{{ t('snPopover.flipContent') }}</sn-text>
+			</view>
+		</sn-popover>
+
+		<sn-popover ref="shakeRef" :z-index="1000" :ani-time="450" close-on-click-overlay
+			:open-animation="shakeOpenAnim" :close-animation="shakeCloseAnim">
+			<view class="pop-card pop-shake">
+				<sn-text font-size="$14" bold custom-style="padding: 14px; color: var(--sn-success);" flatten>{{ t('snPopover.shakeTitle') }}</sn-text>
+				<sn-text font-size="$12" type="text-light" custom-style="padding: 0 14px 14px;" flatten>{{ t('snPopover.shakeContent') }}</sn-text>
+			</view>
+		</sn-popover>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import type { ComponentPublicInstance } from 'vue'
+import type { SnTouchEvent } from '@/uni_modules/sinle-ui'
+
+const { t } = useI18n()
+
+type PopoverInstance = ComponentPublicInstance
+
+const popoverRef = ref<PopoverInstance | null>(null)
+const edgeRef = ref<PopoverInstance | null>(null)
+const styleRef = ref<PopoverInstance | null>(null)
+const overlayRef = ref<PopoverInstance | null>(null)
+const animRef = ref<PopoverInstance | null>(null)
+const flipRef = ref<PopoverInstance | null>(null)
+const shakeRef = ref<PopoverInstance | null>(null)
+
+const lastEvent = ref<string>('')
+const padPoint = ref<number[]>([0, 0])
+const edgePoint = ref<number[]>([0, 0])
+const stylePoint = ref<number[]>([0, 0])
+const animOpenPoint = ref<number[]>([0, 0])
+const flipOpenPoint = ref<number[]>([0, 0])
+const shakeOpenPoint = ref<number[]>([0, 0])
+
+type AnimOption = { label: string; value: string }
+const animList = computed<AnimOption[]>(() => [
+	{ label: t('snPopover.animFade'), value: 'fade' },
+	{ label: t('snPopover.animScale'), value: 'scale' },
+	{ label: t('snPopover.animSlideUp'), value: 'slide-up' },
+	{ label: t('snPopover.animSlideDown'), value: 'slide-down' },
+	{ label: t('snPopover.animSlideLeft'), value: 'slide-left' },
+	{ label: t('snPopover.animSlideRight'), value: 'slide-right' },
+	{ label: t('snPopover.animZoom'), value: 'zoom' },
+	{ label: t('snPopover.animBounce'), value: 'bounce' }
+])
+const currentAnim = ref<string>('scale')
+const aniTimeVal = ref<number>(260)
+
+function touchPoint(e: SnTouchEvent, fallback: Ref<number[]>): number[] {
+	if (e.touches.length > 0) {
+		const t = e.touches[0]
+		fallback.value = [t.x, t.y]
+	}
+	return fallback.value
+}
+
+function onPadTouchStart(e: SnTouchEvent): void {
+	touchPoint(e, padPoint)
+}
+
+function onPadLongpress(e: SnTouchEvent): void {
+	const p = touchPoint(e, padPoint)
+	openAt(popoverRef.value, p[0], p[1])
+}
+
+function onEdgeTouchStart(e: SnTouchEvent): void {
+	touchPoint(e, edgePoint)
+}
+
+function onEdgeLongpress(e: SnTouchEvent): void {
+	const p = touchPoint(e, edgePoint)
+	openAt(edgeRef.value, p[0], p[1])
+}
+
+function onStyleTouchStart(e: SnTouchEvent): void {
+	touchPoint(e, stylePoint)
+}
+
+function onStyleLongpress(e: SnTouchEvent): void {
+	const p = touchPoint(e, stylePoint)
+	openAt(styleRef.value, p[0], p[1])
+}
+
+function openAt(instance: PopoverInstance | null, x: number, y: number): void {
+	if (instance != null) {
+		instance.$callMethod('open', x, y)
+	}
+}
+
+function openCenter(): void {
+	const info = uni.getWindowInfo()
+	openAt(popoverRef.value, Math.round(info.windowWidth / 2), Math.round(info.windowHeight / 2))
+}
+
+function openWithOverlay(): void {
+	const info = uni.getWindowInfo()
+	if (overlayRef.value != null) {
+		overlayRef.value.$callMethod('open', Math.round(info.windowWidth / 2), Math.round(info.windowHeight / 3))
+	}
+}
+
+function openWithOffset(): void {
+	const info = uni.getWindowInfo()
+	if (popoverRef.value != null) {
+		popoverRef.value.$callMethod('open', Math.round(info.windowWidth / 4), Math.round(info.windowHeight / 3))
+	}
+}
+
+function openAnimPopover(): void {
+	const info = uni.getWindowInfo()
+	const p = [Math.round(info.windowWidth / 2), Math.round(info.windowHeight / 2)]
+	animOpenPoint.value = p
+	openAt(animRef.value, p[0], p[1])
+}
+
+function openFlipPopover(): void {
+	const info = uni.getWindowInfo()
+	const p = [Math.round(info.windowWidth / 2), Math.round(info.windowHeight / 2.3)]
+	flipOpenPoint.value = p
+	openAt(flipRef.value, p[0], p[1])
+}
+
+function openShakePopover(): void {
+	const info = uni.getWindowInfo()
+	const p = [Math.round(info.windowWidth / 2), Math.round(info.windowHeight / 2.3)]
+	shakeOpenPoint.value = p
+	openAt(shakeRef.value, p[0], p[1])
+}
+
+function onItem(name: string, instance: PopoverInstance | null): void {
+	if (instance != null) {
+		instance.$callMethod('close')
+	}
+	lastEvent.value = t('snPopover.selected', { name: name } as UTSJSONObject)
+}
+
+function onOverlayClick(): void {
+	lastEvent.value = t('snPopover.maskClicked')
+}
+
+function onUpdateShow(v: boolean): void {
+	if (!v) {
+		lastEvent.value = t('snPopover.closed')
+	}
+}
+
+function onEvt(name: string): void {
+	lastEvent.value = t('snPopover.event', { name: name } as UTSJSONObject)
+}
+
+const flipOpenAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {
+	if (overlay != null) {
+		overlay.animate(
+			[{ opacity: '0' } as UniAnimationKeyframe, { opacity: '1' } as UniAnimationKeyframe],
+			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+		)
+	}
+	if (content != null) {
+		content.animate(
+			[
+				{ transform: 'perspective(400px) rotateX(80deg)', opacity: '0' } as UniAnimationKeyframe,
+				{ transform: 'perspective(400px) rotateX(0deg)', opacity: '1' } as UniAnimationKeyframe
+			],
+			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+		)
+	}
+}
+
+const flipCloseAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {
+	if (overlay != null) {
+		overlay.animate(
+			[{ opacity: '1' } as UniAnimationKeyframe, { opacity: '0' } as UniAnimationKeyframe],
+			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+		)
+	}
+	if (content != null) {
+		content.animate(
+			[
+				{ transform: 'perspective(400px) rotateX(0deg)', opacity: '1' } as UniAnimationKeyframe,
+				{ transform: 'perspective(400px) rotateX(-80deg)', opacity: '0' } as UniAnimationKeyframe
+			],
+			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+		)
+	}
+}
+
+const shakeOpenAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {
+	if (overlay != null) {
+		overlay.animate(
+			[{ opacity: '0' } as UniAnimationKeyframe, { opacity: '1' } as UniAnimationKeyframe],
+			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+		)
+	}
+	if (content != null) {
+		content.animate(
+			[
+				{ transform: 'translateX(-10px) scale(0.9)', opacity: '0' } as UniAnimationKeyframe,
+				{ transform: 'translateX(8px) scale(0.96)', opacity: '1' } as UniAnimationKeyframe,
+				{ transform: 'translateX(-6px) scale(0.99)', opacity: '1' } as UniAnimationKeyframe,
+				{ transform: 'translateX(4px) scale(1)', opacity: '1' } as UniAnimationKeyframe,
+				{ transform: 'translateX(0) scale(1)', opacity: '1' } as UniAnimationKeyframe
+			],
+			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+		)
+	}
+}
+
+const shakeCloseAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {
+	if (overlay != null) {
+		overlay.animate(
+			[{ opacity: '1' } as UniAnimationKeyframe, { opacity: '0' } as UniAnimationKeyframe],
+			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+		)
+	}
+	if (content != null) {
+		content.animate(
+			[
+				{ transform: 'translateX(0) scale(1)', opacity: '1' } as UniAnimationKeyframe,
+				{ transform: 'translateX(-6px) scale(0.97)', opacity: '1' } as UniAnimationKeyframe,
+				{ transform: 'translateX(4px) scale(0.92)', opacity: '0' } as UniAnimationKeyframe
+			],
+			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+		)
+	}
+}
+</script>
+
+<style lang="scss">
+.gesture-pad {
+	width: 100%;
+	padding: 16px;
+}
+.pop-demo-row {
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+}
+.ani-grid {
+	flex-direction: row;
+	flex-wrap: wrap;
+	margin-bottom: 12px;
+}
+.h-gap {
+	width: 8px;
+	height: 8px;
+}
+.pop-card {
+	flex-direction: column;
+	width: 180px;
+	overflow: hidden;
+	background-color: var(--sn-front);
+	border: 1px solid var(--sn-line);
+	border-radius: 12px;
+	box-shadow: 0 1px 4px -2px var(--sn-shadow);
+	margin: 10px;
+}
+.pop-edge {
+	width: 200px;
+	padding: 4px;
+}
+.pop-overlay {
+	width: 200px;
+	padding: 4px;
+}
+.pop-anim {
+	width: 220px;
+	padding: 4px;
+}
+.pop-flip {
+	width: 240px;
+	padding: 4px;
+	border-color: var(--sn-warning);
+}
+.pop-shake {
+	width: 240px;
+	padding: 4px;
+	border-color: var(--sn-success);
+}
+</style>

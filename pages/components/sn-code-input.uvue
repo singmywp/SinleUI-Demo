@@ -1,0 +1,233 @@
+<template>
+	<sn-page :title="t('snCodeInput.title')" :show-back="true">
+	<demo-card :title="t('snCodeInput.basicTitle')" :subtitle="t('snCodeInput.basicDesc')">
+		<sn-code-input v-model="v1" @change="onChange1" @finish="onFinish1" />
+		<sn-text type="text-light" :font-size="13" :text="card1Text" custom-style="margin-top:10px;" flatten />
+	</demo-card>
+
+	<demo-card :title="t('snCodeInput.lineTitle')" :subtitle="t('snCodeInput.lineDesc')">
+		<sn-code-input v-model="v2" mode="line" :length="6" />
+		<sn-text type="text-light" :font-size="13" :text="currentValueText(v2)" custom-style="margin-top:10px;" flatten />
+	</demo-card>
+
+	<demo-card :title="t('snCodeInput.numberTitle')" :subtitle="t('snCodeInput.numberDesc')">
+		<sn-code-input v-model="v3" :length="4" format="number" @finish="onFinish3" />
+		<sn-text type="text-light" :font-size="13" :text="currentValueText(v3)" custom-style="margin-top:10px;" flatten />
+	</demo-card>
+
+	<demo-card :title="t('snCodeInput.letterTitle')" :subtitle="t('snCodeInput.letterDesc')">
+		<sn-code-input v-model="v4" :length="4" format="letter" />
+		<sn-text type="text-light" :font-size="13" :text="currentValueText(v4)" custom-style="margin-top:10px;" flatten />
+	</demo-card>
+
+	<demo-card :title="t('snCodeInput.maskTitle')" :subtitle="t('snCodeInput.maskDesc')">
+		<sn-code-input v-model="v5" :length="6" format="number" :mask="true" />
+		<sn-text type="text-light" :font-size="13" :text="realValueText(v5)" custom-style="margin-top:10px;" flatten />
+	</demo-card>
+
+	<demo-card :title="t('snCodeInput.pasteTitle')" :subtitle="t('snCodeInput.pasteDesc')">
+		<sn-code-input ref="ciCtl" v-model="v6" :length="6" format="number" />
+		<view class="ci-ctl-row" flatten>
+			<sn-button :text="t('snCodeInput.focus')" type="primary" custom-style="margin-right:8px;" @click="focusCi" />
+			<sn-button :text="t('snCodeInput.clear')" type="info" custom-style="margin-right:8px;" @click="clearCi" />
+			<sn-button :text="t('snCodeInput.fill')" type="warning" @click="fillCi" />
+		</view>
+	</demo-card>
+
+	<demo-card :title="t('snCodeInput.realTitle')" :subtitle="t('snCodeInput.realDesc')">
+		<view class="ci-login-card" flatten>
+			<view class="ci-login-phone" flatten>
+				<sn-icon name="smartphone-line" :size="18" color="$primary" />
+				<sn-text :font-size="14" text="+86 138 **** 8000" custom-style="margin-left:8px;flex:1;" flatten />
+				<sn-button :text="sendText" :type="!sending ? 'primary' : 'info'" :disabled="sending" @click="onSendCode" />
+			</view>
+			<sn-code-input v-model="v7" :length="6" format="number" @finish="onOtpFinish" custom-style="margin-top:16px;" />
+			<sn-text :font-size="13" :color="otpOk ? '$success' : '$textLight'" :text="otpTip" custom-style="margin-top:10px;" flatten />
+		</view>
+	</demo-card>
+
+	<!-- 验证码通知（3 秒后弹出，不带关闭按钮，仅复制按钮） -->
+	<sn-notification ref="ntfRef">
+		<template v-slot:action>
+			<sn-button type="primary" level="least" :text="t('snCodeInput.copy')" @click="onCopyCode" />
+		</template>
+	</sn-notification>
+</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import type { ComponentPublicInstance } from 'vue'
+import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import type { SnNotificationParams } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+
+const v1 = ref<string>('')
+const v2 = ref<string>('')
+const v3 = ref<string>('')
+const v4 = ref<string>('')
+const v5 = ref<string>('')
+const v6 = ref<string>('')
+const v7 = ref<string>('')
+
+const changeCount1 = ref<number>(0)
+const finishCount1 = ref<number>(0)
+const finishCount3 = ref<number>(0)
+
+const ciCtl = ref<ComponentPublicInstance | null>(null)
+
+const sendText = ref<string>(t('snCodeInput.getCode'))
+const sending = ref<boolean>(false)
+let countdownTimer: number | null = null
+let remain = 0
+const otpTip = ref<string>(t('snCodeInput.otpTipInit'))
+const otpOk = ref<boolean>(false)
+
+function currentValueText(v: string): string {
+	return t('snCodeInput.current') + '：' + (v == '' ? t('snCodeInput.empty') : v)
+}
+
+function realValueText(v: string): string {
+	return t('snCodeInput.realValue') + '：' + (v == '' ? t('snCodeInput.empty') : v)
+}
+
+const card1Text = computed<string>(() => t('snCodeInput.current') + '：' + (v1.value == '' ? t('snCodeInput.empty') : v1.value) + ' · change ' + changeCount1.value + ' ' + t('snCodeInput.times') + ' · finish ' + finishCount1.value + ' ' + t('snCodeInput.times'))
+
+function onChange1(v: string): void {
+	changeCount1.value = changeCount1.value + 1
+}
+
+function onFinish1(v: string): void {
+	finishCount1.value = finishCount1.value + 1
+}
+
+function onFinish3(v: string): void {
+	finishCount3.value = finishCount3.value + 1
+}
+
+function focusCi(): void {
+	ciCtl.value?.$callMethod('focus')
+}
+
+function clearCi(): void {
+	ciCtl.value?.$callMethod('clear')
+}
+
+function fillCi(): void {
+	v6.value = '123456'
+	ciCtl.value?.$callMethod('focus')
+}
+
+let tickSend: () => void = () => {
+}
+
+tickSend = () => {
+	remain = remain - 1
+	if (remain <= 0) {
+		sending.value = false
+		sendText.value = t('snCodeInput.getCode')
+		countdownTimer = null
+		return
+	}
+	sendText.value = t('snCodeInput.resend', { s: remain } as UTSJSONObject)
+	countdownTimer = setTimeout(tickSend, 1000)
+}
+
+// 验证码通知 ref（供 onSendCode 3 秒后弹出）
+const ntfRef = ref<ComponentPublicInstance | null>(null)
+// 最近一次验证码（供复制按钮使用）
+let lastCode = ''
+
+// 生成随机 6 位数字验证码
+function genCode(): string {
+	let code = ''
+	for (let i = 0; i < 6; i++) {
+		code += Math.floor(Math.random() * 10).toString()
+	}
+	return code
+}
+
+let ntfTimer: number | null = null
+
+function onSendCode(): void {
+	sending.value = true
+	remain = 60
+	sendText.value = t('snCodeInput.resend', { s: remain } as UTSJSONObject)
+	countdownTimer = setTimeout(tickSend, 1000)
+	// "验证码已发送" toast
+	snu.showToast({
+		text: t('snCodeInput.sendDone')
+	})
+	// 生成随机 6 位验证码，3 秒后弹出通知（带复制按钮）
+	lastCode = genCode()
+	if (ntfTimer != null) {
+		clearTimeout(ntfTimer)
+		ntfTimer = null
+	}
+	ntfTimer = setTimeout(() => {
+		ntfTimer = null
+		ntfRef.value?.$callMethod('show', {
+			title: t('snCodeInput.codeTitle'),
+			content: t('snCodeInput.codeContent', { code: lastCode } as UTSJSONObject),
+			type: 'primary',
+			duration: 10000,
+			// 不带关闭按钮，仅通过复制按钮关闭
+			closable: false,
+			showAction: true
+		} as SnNotificationParams)
+	}, 3000)
+}
+
+function onOtpFinish(v: string): void {
+	if (v == '123456') {
+		otpOk.value = true
+		otpTip.value = t('snCodeInput.otpOk')
+		snu.showToast({
+			text: t('snCodeInput.loginOk'),
+			icon: 'checkbox-circle-fill'
+		})
+	} else {
+		otpOk.value = false
+		otpTip.value = t('snCodeInput.otpFail')
+	}
+}
+
+// 复制按钮：复制验证码并关闭该通知
+function onCopyCode(): void {
+	if (lastCode == '') {
+		return
+	}
+	snu.setClipboardData(lastCode)
+	snu.showToast({ text: t('snCodeInput.copied') })
+	ntfRef.value?.$callMethod('close')
+}
+
+onUnmounted(() => {
+	if (countdownTimer != null) {
+		clearTimeout(countdownTimer)
+		countdownTimer = null
+	}
+	if (ntfTimer != null) {
+		clearTimeout(ntfTimer)
+		ntfTimer = null
+	}
+})
+</script>
+
+<style lang="scss">
+.ci-ctl-row {
+	flex-direction: row;
+	align-items: center;
+	margin-top: 12px;
+}
+.ci-login-card {
+	padding: 16px;
+	border-radius: 14px;
+	background-color: var(--sn-front);
+}
+.ci-login-phone {
+	flex-direction: row;
+	align-items: center;
+}
+</style>

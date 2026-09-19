@@ -1,0 +1,166 @@
+<template>
+	<sn-page :title="t('snFullscreen.title')" :show-back="true">
+
+		
+		<demo-card :title="t('snFullscreen.basicTitle')" :subtitle="t('snFullscreen.basicDesc')">
+			<sn-fullscreen layer-style="width:100px;height:40px;" :click-close="true">
+				<view class="fs-mini" :style="miniStyle" flatten>
+					<sn-text font-size="$13" color="$primaryText" flatten>{{ t('snFullscreen.clickFullscreen') }}</sn-text>
+				</view>
+			</sn-fullscreen>
+			<sn-text type="text-light" font-size="$12" :text="t('snFullscreen.basicHint')" custom-style="margin-top:8px;line-height:18px;" flatten />
+		</demo-card>
+
+		
+		<demo-card :title="t('snFullscreen.closeBtnTitle')" :subtitle="t('snFullscreen.closeBtnDesc')">
+			<sn-fullscreen ref="fsRef2" :trigger-click="false">
+				<view class="fs-player" :style="playerStyle" flatten>
+					<view class="fs-player-icon" :style="playerIconStyle" flatten>
+						<sn-icon name="play-circle-line" :size="40" color="#fff" />
+					</view>
+					<sn-text bold font-size="$18" color="$title" custom-style="margin-top:12px;" flatten>{{ t('snFullscreen.simulatePlayer') }}</sn-text>
+					<sn-text font-size="$13" color="$textLight" custom-style="margin-top:4px;line-height:20px;text-align:center;" flatten>{{ t('snFullscreen.playerHint') }}</sn-text>
+					<view class="fs-player-close" :style="playerCloseStyle" @click="closeFs2">
+						<sn-icon name="close-line" :size="18" color="#fff" />
+					</view>
+				</view>
+			</sn-fullscreen>
+			<sn-button :text="t('snFullscreen.expand')" type="primary" custom-style="margin-top:12px;" @click="openFs2" />
+		</demo-card>
+
+		
+		<demo-card :title="t('snFullscreen.configTitle')" :subtitle="t('snFullscreen.configDesc')">
+			<view class="config-row" flatten>
+				<sn-text :text="t('snFullscreen.aniTimeLabel')" custom-style="width:140px;" flatten />
+				<sn-stepper v-model="configs.aniTime" :min="0" :max="1000" :step="50" />
+			</view>
+			<sn-fullscreen :ani-time="configs.aniTime" layer-style="width:200px;height:48px;" :click-close="true">
+				<view class="fs-mini" :style="[miniStyle, miniStyle3]" flatten>
+					<sn-text font-size="$13" color="$title" flatten>{{ t('snFullscreen.aniTimeAdjust') }}</sn-text>
+				</view>
+			</sn-fullscreen>
+		</demo-card>
+
+		
+		<demo-card :title="t('snFullscreen.externalTitle')" :subtitle="t('snFullscreen.externalDesc')">
+			<sn-fullscreen layer-class="fs-custom-layer" layer-style="width:200px;height:48px;" :click-close="true">
+				<view class="fs-mini" :style="[miniStyle, miniStyle4]" flatten>
+					<sn-text font-size="$13" color="$warningDark" flatten>{{ t('snFullscreen.externalClass') }}</sn-text>
+				</view>
+			</sn-fullscreen>
+			<sn-text type="text-light" font-size="$12" :text="t('snFullscreen.externalHint')" custom-style="margin-top:8px;" flatten />
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import type { ComponentPublicInstance } from 'vue'
+
+const { t } = useI18n()
+
+const fsRef2 = ref<ComponentPublicInstance | null>(null)
+
+function openFs2(): void {
+	fsRef2.value?.$callMethod('open')
+}
+
+function closeFs2(): void {
+	fsRef2.value?.$callMethod('close')
+}
+
+type FullscreenConfigs = {
+	aniTime: number
+}
+
+const configs = ref<FullscreenConfigs>({
+	aniTime: 400
+})
+
+
+const miniStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', '100%')
+	styles.set('height', '100%')
+	styles.set('backgroundColor', 'var(--sn-primary)')
+	styles.set('borderRadius', '8px')
+	styles.set('alignItems', 'center')
+	styles.set('justifyContent', 'center')
+	styles.set('flexDirection', 'column')
+	return styles
+})
+
+const miniStyle3 = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('backgroundColor', 'var(--sn-success)')
+	return styles
+})
+
+const miniStyle4 = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('backgroundColor', 'var(--sn-warning-light)')
+	return styles
+})
+
+const playerStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('backgroundColor', 'var(--sn-front)')
+	styles.set('borderRadius', '16px')
+	styles.set('padding', '40px 20px')
+	styles.set('alignItems', 'center')
+	styles.set('justifyContent', 'center')
+	styles.set('flexDirection', 'column')
+	styles.set('width', '100%')
+	styles.set('height', '100%')
+	return styles
+})
+
+const playerIconStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', '72px')
+	styles.set('height', '72px')
+	styles.set('borderRadius', '36px')
+	styles.set('alignItems', 'center')
+	styles.set('justifyContent', 'center')
+	styles.set('backgroundColor', 'var(--sn-primary)')
+	return styles
+})
+
+const playerCloseStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('position', 'absolute')
+	styles.set('right', '16px')
+	styles.set('top', '16px')
+	styles.set('width', '36px')
+	styles.set('height', '36px')
+	styles.set('borderRadius', '18px')
+	styles.set('alignItems', 'center')
+	styles.set('justifyContent', 'center')
+	styles.set('backgroundColor', 'rgba(0, 0, 0, 0.4)')
+	return styles
+})
+</script>
+
+<style lang="scss">
+.config-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+.fs-mini {
+	flex-direction: column;
+}
+.fs-player {
+	flex-direction: column;
+	position: relative;
+}
+
+
+.fs-custom-layer {
+	border-radius: 12px;
+	border-width: 2px;
+	border-style: solid;
+	border-color: var(--sn-warning);
+}
+</style>

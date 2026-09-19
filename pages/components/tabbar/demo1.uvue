@@ -1,58 +1,50 @@
 <template>
-	<sn-page padding="0"
-	:scroll-on="false">
-		<sn-tabbar :data="data">
-			<template #1>
-				<sub1></sub1>
-			</template>
-			<template #2>
-				<sub2></sub2>
-			</template>
-			<template #3>
-				<sub3></sub3>
-			</template>
-			<template #4>
-				<sub4></sub4>
-			</template>
-		</sn-tabbar>
+	<sn-page>
+		<sub1 v-if="tabIndex == 1" />
+		<sub2 v-else-if="tabIndex == 2" />
+		<sub3 v-else-if="tabIndex == 3" />
+		<sub4 v-else />
+		<sn-tabbar :data="data" :index="tabIndex" @change="onTabChange" />
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui, SnTabbarItem } from '@/uni_modules/sinle-ui'
-	import Sub1 from './sub1.uvue'
-	import Sub2 from './sub2.uvue'
-	import Sub3 from './sub3.uvue'
-	import Sub4 from './sub4.uvue'
-	
-	const colors = $snui.colors
-	
-	
-	const data = [
-		{
-			icon: 'home-5-line',
-			text: '首页',
-			activeIcon: 'home-5-fill'
-		},
-		{
-			icon: 'community-line',
-			text: '社区',
-			activeIcon: 'community-fill',
-		},
-		{
-			icon: 'message-3-line',
-			text: '消息',
-			activeIcon: 'message-3-fill',
-		},
-		{
-			icon: 'user-3-line',
-			text: '我的',
-			activeIcon: 'user-3-fill',
-		}
-	] as SnTabbarItem[]
-	
-	
-</script>
+<script lang="uts" setup>
 
-<style lang="scss">
-</style>
+import { useI18n } from 'vue-i18n'
+import Sub1 from './sub1.uvue'
+import Sub2 from './sub2.uvue'
+import Sub3 from './sub3.uvue'
+import Sub4 from './sub4.uvue'
+import type { SnTabbarItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+
+const tabIndex = ref<number>(1)
+
+const data = computed<SnTabbarItem[]>(() => [
+	{
+		icon: 'home-5-line',
+		text: t('tabbarDemo1.home'),
+		activeIcon: 'home-5-fill'
+	},
+	{
+		icon: 'community-line',
+		text: t('tabbarDemo1.community'),
+		activeIcon: 'community-fill',
+	},
+	{
+		icon: 'message-3-line',
+		text: t('tabbarDemo1.message'),
+		activeIcon: 'message-3-fill',
+	},
+	{
+		icon: 'user-3-line',
+		text: t('tabbarDemo1.mine'),
+		activeIcon: 'user-3-fill',
+	}
+])
+
+function onTabChange(index: number): void {
+	tabIndex.value = index
+}
+</script>

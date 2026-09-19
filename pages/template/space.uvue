@@ -1,0 +1,397 @@
+<template>
+	<sn-page :title="t('tmplSpace.title')" :show-back="true" :fill-content="true">
+		<list-view class="zone-list">
+			<list-item :type="100" :key="'cover'">
+				<view class="zone-cover-card">
+					<image class="zone-cover-img" src="/static/captcha/scenic-mountain.png" mode="aspectFill" />
+					<view class="zone-profile">
+						<sn-avatar mode="text" :text="t('tmplSpace.a1')" :size="58" :text-size="22" bg-color="$primary"
+							text-color="#FFFFFF" shape="circle" />
+						<view class="zone-profile-info" flatten>
+							<sn-text bold font-size="$17" color="$title" flatten>{{ t('tmplSpace.name1') }}</sn-text>
+							<sn-text font-size="$12" color="$textLight" flatten custom-style="margin-top:3px;">{{ t('tmplSpace.signature') }}</sn-text>
+						</view>
+						<sn-switch-button v-model="followed" type="info" level="second" active-type="primary"
+							active-level="first" :text="t('tmplSpace.follow')" :active-text="t('tmplSpace.followed')"
+							:radius="16" @change="onFollowChange" />
+					</view>
+					<view class="zone-stats">
+						<view class="zone-stat" flatten>
+							<sn-text bold font-size="$16" color="$title" flatten>128</sn-text>
+							<sn-text font-size="$11" color="$textLight" flatten>{{ t('tmplSpace.statPosts') }}</sn-text>
+						</view>
+						<view class="zone-stat-divider"></view>
+						<view class="zone-stat" flatten>
+							<sn-text bold font-size="$16" color="$title" flatten>3.2w</sn-text>
+							<sn-text font-size="$11" color="$textLight" flatten>{{ t('tmplSpace.statVisitors') }}</sn-text>
+						</view>
+						<view class="zone-stat-divider"></view>
+						<view class="zone-stat" flatten>
+							<sn-text bold font-size="$16" color="$title" flatten>96</sn-text>
+							<sn-text font-size="$11" color="$textLight" flatten>{{ t('tmplSpace.statComments') }}</sn-text>
+						</view>
+					</view>
+				</view>
+			</list-item>
+
+			<list-item v-for="post in posts" :key="post.id" :type="post.images.length">
+				<sn-post-card :avatar-config="post.avatar" :actions="post.actions" :comments="post.comments"
+					:show-more="post.showMore" @action-click="onActionClick(post.name, $event)"
+					@comment-click="onCommentClick" @comment-user-click="onCommentUserClick" @more-click="onMoreComments"
+					custom-style="margin-left: 12px; margin-right: 12px; margin-bottom: 12px;">
+					<template #info>
+						<sn-text bold font-size="$14" color="$title" flatten>{{ post.name }}</sn-text>
+						<view class="zone-post-sub">
+							<sn-dateformat :date="post.datetime" format="MM-DD HH:mm" text-size="$11" text-color="$textLight" />
+							<sn-text font-size="$11" color="$textLight" flatten custom-style="margin-left: 4px;">· {{ post.device }}</sn-text>
+						</view>
+					</template>
+					<template #header-action>
+						<view class="zone-post-more" @click="onMoreClick">
+							<sn-icon name="more-line" :size="18" color="$textLight" />
+						</view>
+					</template>
+					<sn-text font-size="$14" color="$text" flatten custom-style="line-height: 22px;">{{ post.content }}</sn-text>
+
+					<view v-if="post.images.length == 1" class="zone-img-single" flatten
+						:style="post.images[0].image == '' ? imgBlockStyle(post.images[0]) : ''">
+						<image v-if="post.images[0].image != ''" class="zone-img-single-img" :src="post.images[0].image" mode="aspectFill" />
+						<sn-icon v-else name="image-line" :size="22" color="#FFFFFF" />
+					</view>
+					<view v-else-if="post.images.length > 1" class="zone-img-grid">
+						<view v-for="(img, ii) in post.images" :key="`${post.id}-${ii}`" class="zone-img-cell"
+							:style="img.image == '' ? imgBlockStyle(img) : ''" flatten>
+							<image v-if="img.image != ''" class="zone-img-cell-img" :src="img.image" mode="aspectFill" />
+							<sn-icon v-else name="image-line" :size="18" color="#FFFFFF" />
+						</view>
+					</view>
+				</sn-post-card>
+			</list-item>
+
+			<list-item :type="200" :key="'foot'">
+				<view class="zone-foot" flatten>
+						<sn-text font-size="$11" color="$textLight" flatten>{{ t('tmplSpace.footerTip') }}</sn-text>
+					</view>
+			</list-item>
+		</list-view>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import { useI18n } from 'vue-i18n'
+import type { SnAvatarConfig, SnPostCardAction, SnPostCardComment, SnShowActionsheetConfig } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+
+type ZoneImage = {
+	color: string
+	image: string
+}
+
+type ZonePost = {
+	id: number
+	name: string
+	avatar: SnAvatarConfig
+	datetime: number
+	device: string
+	content: string
+	images: ZoneImage[]
+	actions: SnPostCardAction[]
+	comments: SnPostCardComment[]
+	showMore: boolean
+}
+
+function imgBlockStyle(img: ZoneImage): string {
+	return `background-color: ${img.color};`
+}
+
+function makeAvatar(text: string, color: string): SnAvatarConfig {
+	return { mode: 'text', text: text, size: 40, shape: 'circle', bgColor: color, textColor: '#FFFFFF' }
+}
+
+function makeComment(user: string, content: string, replyTo: string = ''): SnPostCardComment {
+	return { user: user, content: content, replyTo: replyTo }
+}
+
+function makeActions(likes: number, liked: boolean, comments: number, shares: number): SnPostCardAction[] {
+	return [
+		{ id: 'like', icon: liked ? 'heart-3-fill' : 'heart-3-line', text: `${likes}`, isActive: liked, activeIconColor: '$error', activeTextColor: '$error' },
+		{ id: 'comment', icon: 'chat-1-line', text: `${comments}` },
+		{ id: 'share', icon: 'share-forward-line', text: `${shares}` }
+	]
+}
+
+const now = Date.now()
+
+function buildPosts(): ZonePost[] {
+	return [
+		{
+			id: 1,
+			name: t('tmplSpace.name1'),
+			avatar: makeAvatar(t('tmplSpace.a1'), '$primary'),
+			datetime: now - 10 * 60 * 1000,
+			device: 'iPhone 15',
+			content: t('tmplSpace.p1.content'),
+			images: [{ color: '', image: '/static/captcha/scenic-mountain.png' }],
+			actions: makeActions(86, false, 32, 6),
+			comments: [
+				makeComment(t('tmplSpace.name2'), t('tmplSpace.p1.c1.content')),
+				makeComment('Momo', t('tmplSpace.p1.c2.content'), t('tmplSpace.name2')),
+				makeComment('Aiden', t('tmplSpace.p1.c3.content'))
+			],
+			showMore: false
+		},
+		{
+			id: 2,
+			name: t('tmplSpace.name2'),
+			avatar: makeAvatar(t('tmplSpace.a2'), '$success'),
+			datetime: now - 60 * 60 * 1000,
+			device: 'Android',
+			content: t('tmplSpace.p2.content'),
+			images: [
+				{ color: '#F59E0B', image: '' },
+				{ color: '#10B981', image: '' },
+				{ color: '#6366F1', image: '' }
+			],
+			actions: makeActions(54, true, 18, 2),
+			comments: [
+				makeComment(t('tmplSpace.name1'), t('tmplSpace.p2.c1.content')),
+				makeComment(t('tmplSpace.name3'), t('tmplSpace.p2.c2.content')),
+				makeComment('Momo', t('tmplSpace.p2.c3.content'))
+			],
+			showMore: false
+		},
+		{
+			id: 3,
+			name: 'Aiden',
+			avatar: makeAvatar('A', '$warning'),
+			datetime: now - 3 * 60 * 60 * 1000,
+			device: 'iPad',
+			content: t('tmplSpace.p3.content'),
+			images: [{ color: '', image: '/static/captcha/street-dusk.png' }],
+			actions: makeActions(132, false, 45, 12),
+			comments: [
+				makeComment('Momo', t('tmplSpace.p3.c1.content')),
+				makeComment(t('tmplSpace.name2'), t('tmplSpace.p3.c2.content')),
+				makeComment(t('tmplSpace.name1'), t('tmplSpace.p3.c3.content'))
+			],
+			showMore: false
+		},
+		{
+			id: 4,
+			name: 'Momo',
+			avatar: makeAvatar('M', '$error'),
+			datetime: now - 26 * 60 * 60 * 1000,
+			device: 'Web',
+			content: t('tmplSpace.p4.content'),
+			images: [
+				{ color: '#8B5CF6', image: '' },
+				{ color: '#EC4899', image: '' },
+				{ color: '#14B8A6', image: '' },
+				{ color: '#F97316', image: '' }
+			],
+			actions: makeActions(77, false, 26, 3),
+			comments: [
+				makeComment(t('tmplSpace.name4'), t('tmplSpace.p4.c1.content')),
+				makeComment(t('tmplSpace.name2'), t('tmplSpace.p4.c2.content')),
+				makeComment('Aiden', t('tmplSpace.p4.c3.content'))
+			],
+			showMore: false
+		},
+		{
+			id: 5,
+			name: t('tmplSpace.name3'),
+			avatar: makeAvatar(t('tmplSpace.a3'), '$primaryDark'),
+			datetime: now - 32 * 60 * 60 * 1000,
+			device: 'Android',
+			content: t('tmplSpace.p5.content'),
+			images: [
+				{ color: '#3B82F6', image: '' },
+				{ color: '#22C55E', image: '' },
+				{ color: '#EAB308', image: '' },
+				{ color: '#EF4444', image: '' },
+				{ color: '#A855F7', image: '' },
+				{ color: '#06B6D4', image: '' },
+				{ color: '#F472B6', image: '' },
+				{ color: '#84CC16', image: '' },
+				{ color: '#FB923C', image: '' }
+			],
+			actions: makeActions(216, false, 88, 21),
+			comments: [
+				makeComment(t('tmplSpace.name1'), t('tmplSpace.p5.c1.content')),
+				makeComment(t('tmplSpace.name4'), t('tmplSpace.p5.c2.content')),
+				makeComment('Momo', t('tmplSpace.p5.c3.content'))
+			],
+			showMore: true
+		},
+		{
+			id: 6,
+			name: t('tmplSpace.name4'),
+			avatar: makeAvatar(t('tmplSpace.a4'), '$info'),
+			datetime: now - 56 * 60 * 60 * 1000,
+			device: 'iPhone 13',
+			content: t('tmplSpace.p6.content'),
+			images: [],
+			actions: makeActions(39, false, 14, 8),
+			comments: [
+				makeComment(t('tmplSpace.name1'), t('tmplSpace.p6.c1.content')),
+				makeComment(t('tmplSpace.name2'), t('tmplSpace.p6.c2.content')),
+				makeComment(t('tmplSpace.name3'), t('tmplSpace.p6.c3.content'))
+			],
+			showMore: false
+		}
+	]
+}
+
+const posts = ref<ZonePost[]>(buildPosts())
+const followed = ref<boolean>(false)
+
+function onFollowChange(value: boolean): void {
+	snu.showToast({ text: value ? t('tmplSpace.followedTip') : t('tmplSpace.unfollowedTip') })
+}
+
+function onActionClick(name: string, action: SnPostCardAction): void {
+	if (action.id == 'like') {
+		const isActive = !(action.isActive ?? false)
+		action.isActive = isActive
+		action.icon = isActive ? 'heart-3-fill' : 'heart-3-line'
+		action.text = `${parseInt(action.text ?? '0') + (isActive ? 1 : -1)}`
+		return
+	}
+	if (action.id == 'comment') {
+		snu.showToast({ text: t('tmplSpace.commentAction', { name: name } as UTSJSONObject) })
+		return
+	}
+	snu.showToast({ text: t('tmplSpace.shareAction', { name: name } as UTSJSONObject) })
+}
+
+function onMoreClick(): void {
+	snu.showActionsheet({
+		title: t('tmplSpace.menuTitle'),
+		actions: [
+			{ text: t('tmplSpace.menuCollect') },
+			{ text: t('tmplSpace.menuBlock') },
+			{ text: t('tmplSpace.menuReport'), color: '$error' }
+		]
+	} as SnShowActionsheetConfig)
+}
+
+function onCommentClick(comment: SnPostCardComment, index: number): void {
+	snu.showToast({ text: t('tmplSpace.commentClicked', { content: comment.content ?? '' } as UTSJSONObject) })
+}
+
+function onCommentUserClick(comment: SnPostCardComment, name: string): void {
+	snu.showToast({ text: t('tmplSpace.userClicked', { name: name } as UTSJSONObject) })
+}
+
+function onMoreComments(): void {
+	snu.showToast({ text: t('tmplSpace.moreComments') })
+}
+</script>
+
+<style lang="scss">
+.zone-list {
+	flex: 1;
+	flex-direction: column;
+}
+
+.zone-cover-card {
+	flex-direction: column;
+	background-color: var(--sn-front);
+	border-radius: 16px;
+	margin: 12px 12px 12px 12px;
+	overflow: hidden;
+}
+
+.zone-cover-img {
+	width: 100%;
+	height: 120px;
+}
+
+.zone-profile {
+	flex-direction: row;
+	align-items: center;
+	padding: 12px 16px 4px 16px;
+}
+
+.zone-profile-info {
+	flex: 1;
+	flex-direction: column;
+	margin-left: 12px;
+}
+
+.zone-stats {
+	flex-direction: row;
+	align-items: center;
+	padding: 12px 16px 16px 16px;
+}
+
+.zone-stat {
+	flex: 1;
+	flex-direction: column;
+	align-items: center;
+}
+
+.zone-stat-divider {
+	width: 1px;
+	height: 24px;
+	background-color: var(--sn-line);
+}
+
+.zone-post-sub {
+	flex-direction: row;
+	align-items: center;
+	margin-top: 2px;
+}
+
+.zone-post-more {
+	padding: 4px 4px 4px 12px;
+}
+
+.zone-img-single {
+	width: 200px;
+	height: 140px;
+	border-radius: 12px;
+	margin-top: 10px;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.zone-img-single-img {
+	width: 200px;
+	height: 140px;
+}
+
+.zone-img-grid {
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin-top: 10px;
+}
+
+.zone-img-cell {
+	width: 31%;
+	height: 104px;
+	border-radius: 10px;
+	margin-bottom: 6px;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.zone-img-cell-img {
+	width: 100%;
+	height: 104px;
+}
+
+.zone-foot {
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	padding: 4px 0 32px 0;
+}
+</style>

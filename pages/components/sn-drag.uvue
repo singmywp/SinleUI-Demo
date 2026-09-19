@@ -1,0 +1,212 @@
+<template>
+	<sn-page :title="t('snDrag.title')" :show-back="true">
+		<demo-card :title="t('snDrag.singleTitle')" :subtitle="t('snDrag.singleDesc')">
+			<sn-drag v-model="columnList" @change="onColumnChange">
+				<sn-drag-item v-for="(item, index) in columnList" :key="item.id" :index="index"
+					custom-style="padding:6px 0;">
+					<view class="column-item" flatten>
+						<view class="column-icon" flatten>
+							<sn-icon :name="item.icon" :size="22" color="$primary" />
+						</view>
+						<view class="column-content" flatten>
+							<sn-text bold :font-size="14" :text="item.name" flatten />
+							<sn-text :font-size="12" type="text-light" :text="item.desc" custom-style="margin-top:3px;" flatten />
+						</view>
+						<sn-icon name="drag-move-2-line" :size="20" color="$info" />
+					</view>
+				</sn-drag-item>
+			</sn-drag>
+		</demo-card>
+
+		<demo-card :title="t('snDrag.gridTitle')" :subtitle="t('snDrag.gridDesc')">
+			<sn-drag v-model="gridList" mode="grid" :column="3" deletable @delete="onGridDelete">
+				<sn-drag-item v-for="(item, index) in gridList" :key="item.id" :index="index"
+					custom-style="padding:6px;">
+					<view class="grid-item" flatten>
+						<view class="grid-icon" :style="getGridIconStyle(index)" flatten>
+							<sn-icon :name="item.icon" :size="25" color="#ffffff" />
+						</view>
+						<sn-text bold :font-size="13" :text="item.name" custom-style="margin-top:8px;" flatten />
+					</view>
+				</sn-drag-item>
+			</sn-drag>
+			<sn-button v-if="gridList.length < initialGridList.length" :text="t('snDrag.restoreGrid')" icon="restart-line"
+				custom-style="margin-top:12px;" @click="resetGrid" />
+		</demo-card>
+
+		<demo-card :title="t('snDrag.handleTitle')" :subtitle="t('snDrag.handleDesc')">
+			<sn-drag v-model="handleList">
+				<sn-drag-item v-for="(item, index) in handleList" :key="item.id" :index="index"
+					custom-style="padding:6px 0;" handle-style="right:12px;top:50%;transform:translateY(-50%);">
+					<view class="handle-item" flatten>
+						<sn-switch v-model="item.enabled" />
+						<view class="handle-content" flatten>
+							<sn-text bold :font-size="14" :text="item.name" />
+							<sn-text :font-size="12" type="text-light" :text="t('snDrag.handleTip')" custom-style="margin-top:3px;" />
+						</view>
+					</view>
+					<template #handle>
+						<view class="drag-handle">
+							<sn-icon name="menu-line" :size="22" color="$lineText" />
+						</view>
+					</template>
+				</sn-drag-item>
+			</sn-drag>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+type DragDemoItem = {
+	id: number
+	name: string
+	desc: string
+	icon: string
+	enabled: boolean
+}
+
+const columnList = ref<DragDemoItem[]>([
+	{ id: 1, name: t('snDrag.col1Name'), desc: t('snDrag.col1Desc'), icon: 'shield-user-line', enabled: true },
+	{ id: 2, name: t('snDrag.col2Name'), desc: t('snDrag.col2Desc'), icon: 'notification-3-line', enabled: true },
+	{ id: 3, name: t('snDrag.col3Name'), desc: t('snDrag.col3Desc'), icon: 'lock-2-line', enabled: false },
+	{ id: 4, name: t('snDrag.col4Name'), desc: t('snDrag.col4Desc'), icon: 'settings-3-line', enabled: true }
+])
+
+const initialGridList: DragDemoItem[] = [
+	{ id: 11, name: t('snDrag.grid1Name'), desc: '', icon: 'camera-line', enabled: true },
+	{ id: 12, name: t('snDrag.grid2Name'), desc: '', icon: 'map-pin-line', enabled: true },
+	{ id: 13, name: t('snDrag.grid3Name'), desc: '', icon: 'calendar-2-line', enabled: true },
+	{ id: 14, name: t('snDrag.grid4Name'), desc: '', icon: 'folder-3-line', enabled: true },
+	{ id: 15, name: t('snDrag.grid5Name'), desc: '', icon: 'wallet-3-line', enabled: true },
+	{ id: 16, name: t('snDrag.grid6Name'), desc: '', icon: 'store-3-line', enabled: true }
+]
+
+const gridList = ref<DragDemoItem[]>(initialGridList.slice())
+
+const handleList = ref<DragDemoItem[]>([
+	{ id: 21, name: t('snDrag.h1Name'), desc: '', icon: '', enabled: true },
+	{ id: 22, name: t('snDrag.h2Name'), desc: '', icon: '', enabled: false },
+	{ id: 23, name: t('snDrag.h3Name'), desc: '', icon: '', enabled: true }
+])
+
+const gridColors: string[] = ['#4d82ff', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4']
+
+function onColumnChange(value: any[]): void {
+	columnList.value = value as DragDemoItem[]
+}
+
+function onGridDelete(_index: number): void {
+	gridList.value = gridList.value.slice()
+}
+
+function resetGrid(): void {
+	gridList.value = initialGridList.slice()
+}
+
+function getGridIconStyle(index: number): Map<string, any> {
+	const styles = new Map<string, any>()
+	styles.set('backgroundColor', gridColors[index % gridColors.length])
+	return styles
+}
+</script>
+
+<style lang="scss">
+.column-item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	padding: 12px;
+	border-radius: 8px;
+	background-color: var(--sn-front);
+	border-width: 1px;
+	border-style: solid;
+	border-color: var(--sn-line);
+	transition-property: all;
+	transition-duration: var(--ani-time-normal);
+}
+.column-icon {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	border-radius: 8px;
+	background-color: var(--sn-primary-light);
+	transition-property: all;
+	transition-duration: var(--ani-time-normal);
+}
+.column-content {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	margin-left: 12px;
+	transition-property: all;
+	transition-duration: var(--ani-time-normal);
+}
+.grid-item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 112px;
+	border-radius: 8px;
+	background-color: var(--sn-front);
+	border-width: 1px;
+	border-style: solid;
+	border-color: var(--sn-line);
+	transition-property: all;
+	transition-duration: var(--ani-time-normal);
+}
+.grid-icon {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	border-radius: 8px;
+	transition-property: all;
+	transition-duration: var(--ani-time-normal);
+}
+.handle-item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	padding: 12px 52px 12px 12px;
+	border-radius: 8px;
+	background-color: var(--sn-front);
+	border-width: 1px;
+	border-style: solid;
+	border-color: var(--sn-line);
+	transition-property: all;
+	transition-duration: var(--ani-time-normal);
+}
+.handle-content {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	margin-left: 12px;
+	transition-property: all;
+	transition-duration: var(--ani-time-normal);
+}
+.drag-handle {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 8px;
+	background-color: var(--sn-info);
+	transition-property: all;
+	transition-duration: var(--ani-time-normal);
+}
+</style>

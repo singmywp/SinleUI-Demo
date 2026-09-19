@@ -1,82 +1,107 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Label Radio 标签单选"></sn-topbar>
-		<com-card title="基础用法"
-		note="与 Radio 不同的是， 该组件只需提供数据，使用更简单">
-		</com-card>
-		<com-card padding="0">
-			<sn-label-radio v-model="r1"
-			:data="d1">
-			</sn-label-radio>
-		</com-card>
-		<com-card title="图标位置"
-		note="支持左侧和右侧图标">
-		</com-card>
-		<com-card padding="0">
-			<sn-label-radio v-model="r1"
-			iconPosition="right"
-			:data="d1">
-			</sn-label-radio>
-		</com-card>
-		<com-card title="自定义样式">
-		</com-card>
-		<com-card padding="0">
-			<sn-label-radio v-model="r1"
-			icon="user-smile-fill"
-			iconPosition="right"
-			iconColor="$successDark"
-			activeTextColor="$successDark"
-			textSize="$3"
-			itemPadding="10px 15px"
-			activeItemBgColor="$front"
-			disabledItemBgColor="$transparent"
-			:data="d1">
-			</sn-label-radio>
-		</com-card>
-		<sn-gap></sn-gap>
+	<sn-page :title="t('snLabelRadio.title')" :show-back="true">
+		<demo-card :title="t('snLabelRadio.basicTitle')" :subtitle="t('snLabelRadio.basicDesc')">
+			<sn-label-radio v-model="radio1" :data="basicData" />
+			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLabelRadio.currentSelected') }}{{ radio1 }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snLabelRadio.defaultTitle')" :subtitle="t('snLabelRadio.defaultDesc')">
+			<sn-label-radio v-model="radio2" :data="basicData" />
+			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLabelRadio.initialSelected') }}{{ radio2 }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snLabelRadio.disabledTitle')" :subtitle="t('snLabelRadio.disabledDesc')">
+			<sn-text flatten font-size="$12" color="$textLight">{{ t('snLabelRadio.disabledAll') }}</sn-text>
+			<sn-label-radio v-model="radio3" :data="basicData" disabled />
+			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:10px;">{{ t('snLabelRadio.disabledSingle') }}</sn-text>
+			<sn-label-radio v-model="radio4" :data="disabledData" />
+		</demo-card>
+
+		<demo-card :title="t('snLabelRadio.iconPosTitle')" :subtitle="t('snLabelRadio.iconPosDesc')">
+			<sn-text flatten font-size="$12" color="$textLight">{{ t('snLabelRadio.iconRight') }}</sn-text>
+			<sn-label-radio v-model="radio5" :data="basicData" icon-position="right" />
+			<sn-label-radio v-model="radio6" :data="basicData" custom-style="margin-top:10px;" />
+		</demo-card>
+
+		<demo-card :title="t('snLabelRadio.iconTitle')" :subtitle="t('snLabelRadio.iconDesc')">
+			<sn-label-radio v-model="radio7" :data="basicData" icon="star-fill" icon-size="18" />
+		</demo-card>
+
+		<demo-card :title="t('snLabelRadio.colorTitle')" :subtitle="t('snLabelRadio.colorDesc')">
+			<sn-label-radio v-model="radio8" :data="basicData" item-bg-color="$primaryLight"
+				active-item-bg-color="$primary" text-color="$primaryDark" active-text-color="$primaryText"
+				icon-color="$primaryText" />
+		</demo-card>
+
+		<demo-card :title="t('snLabelRadio.sizeTitle')" :subtitle="t('snLabelRadio.sizeDesc')">
+			<sn-text flatten font-size="$12" color="$textLight">{{ t('snLabelRadio.largeLabel') }}</sn-text>
+			<sn-label-radio v-model="radio9" :data="basicData" item-padding="16px 28px" text-size="$16"
+				icon-size="20" />
+			<sn-label-radio v-model="radio10" :data="basicData" item-padding="8px 12px" text-size="$12"
+				custom-style="margin-top:10px;" />
+		</demo-card>
+
+		<demo-card :title="t('snLabelRadio.eventsTitle')" :subtitle="t('snLabelRadio.eventsDesc')">
+			<sn-label-radio v-model="radio11" :data="basicData" @change="onChange" />
+			<sn-text flatten font-size="$13" color="$primary" custom-style="margin-top:10px;">{{ t('snLabelRadio.recentEvent') }}{{ changeLog }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snLabelRadio.sceneTitle')" :subtitle="t('snLabelRadio.sceneDesc')">
+			<view class="scene-card" flatten>
+				<sn-text flatten bold font-size="$14" color="$text">{{ t('snLabelRadio.selectDelivery') }}</sn-text>
+				<sn-label-radio v-model="delivery" :data="deliveryData" custom-style="margin-top:10px;" />
+				<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLabelRadio.currentIndex') }}{{ delivery }}</sn-text>
+			</view>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	const snu = $snui.utils
-	
-	const r1 = ref(0)
-	
-	const d1 = [
-		{
-			text: '华为',
-			id: 'huawei',
-		},
-		{
-			text: '小米',
-			id: 'xiaomi',
-		},
-		{
-			text: '苹果',
-			id: 'apple',
-		},
-		{
-			text: '三星',
-			id: 'samsung',
-			disabled: true
-		},
-		{
-			text: 'OPPO',
-			id: 'oppo',
-		},
-		{
-			text: 'VIVO',
-			id: 'vivo',
-		},
-		{
-			text: '魅族',
-			id: 'meizu',
-		},
-	] as SnDataItem[]
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+const basicData = computed<SnDataItem[]>(() => [
+	{ id: 'a', text: t('snLabelRadio.option1') },
+	{ id: 'b', text: t('snLabelRadio.option2') },
+	{ id: 'c', text: t('snLabelRadio.option3') }
+])
+
+const disabledData = computed<SnDataItem[]>(() => [
+	{ id: 'a', text: t('snLabelRadio.available') },
+	{ id: 'b', text: t('snLabelRadio.disabledUnchecked'), disabled: true },
+	{ id: 'c', text: t('snLabelRadio.disabledChecked'), disabled: true }
+])
+
+const deliveryData = computed<SnDataItem[]>(() => [
+	{ id: 'normal', text: t('snLabelRadio.normalExpress') },
+	{ id: 'nextday', text: t('snLabelRadio.nextDay') },
+	{ id: 'same', text: t('snLabelRadio.express') }
+])
+
+const radio1 = ref<number>(0)
+const radio2 = ref<number>(1)
+const radio3 = ref<number>(0)
+const radio4 = ref<number>(2)
+const radio5 = ref<number>(0)
+const radio6 = ref<number>(0)
+const radio7 = ref<number>(0)
+const radio8 = ref<number>(0)
+const radio9 = ref<number>(0)
+const radio10 = ref<number>(0)
+const radio11 = ref<number>(0)
+const delivery = ref<number>(0)
+const changeLog = ref<string>(t('snLabelRadio.noneEvent'))
+
+function onChange(value: number): void {
+	changeLog.value = 'change: ' + value.toString()
+}
 </script>
 
-<style>
-		
+<style lang="scss">
+.scene-card {
+	padding: 14px;
+	border-radius: 10px;
+	background-color: var(--sn-front);
+}
 </style>

@@ -1,79 +1,93 @@
 <template>
-	<sn-page>
-		<sn-topbar title="我的"
-		:backButton="false"></sn-topbar>
-		<com-card>
-			<sn-row>
-				<sn-avatar
-				src="http://img.wxcha.com/m00/bb/18/bc2167461f0ba311a992f3f00a45c58d.jpg"
-				style="margin-right: 10px;"></sn-avatar>
-				<sn-text text="Toxic"
-				font="alipuhuiheavy"
-				size="$4">
-				</sn-text>
-			</sn-row>
-		</com-card>
-		<com-card>
-			<sn-grid-group>
-				<sn-grid-item v-for="(item, index) in (features as feature[])">
-					<view class="p-10 align-items-center flex-1">
-						<sn-icon :name="item.icon"></sn-icon>
-						<sn-text :text="item.text"
-						align="center"></sn-text>
-					</view>
-				</sn-grid-item>
-			</sn-grid-group>
-		</com-card>
-	</sn-page>
+	<view class="sub-page" flatten>
+		<sn-topbar :title="t('tabbarSub4.title')" :back-button="false" :fixed="false" />
+		<scroll-view direction="vertical" class="sub-scroll">
+			<demo-card>
+				<view class="user-row" flatten>
+					<sn-avatar src="http://img.wxcha.com/m00/bb/18/bc2167461f0ba311a992f3f00a45c58d.jpg"
+						custom-style="margin-right:10px;" />
+					<sn-text text="Toxic" font-size="$20" flatten />
+				</view>
+			</demo-card>
+			<demo-card>
+				<sn-grid-group>
+					<sn-grid-item v-for="(item, index) in features" :key="index">
+						<view class="grid-item" flatten>
+							<sn-icon :name="item.icon" />
+							<sn-text :text="t(item.text)" custom-style="text-align:center;" flatten />
+						</view>
+					</sn-grid-item>
+				</sn-grid-group>
+			</demo-card>
+		</scroll-view>
+	</view>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	const snu = $snui.utils
-	
-	type feature = {
-		icon: string,
-		text: string,
-	}
-	
-	const features = [
-		{
-			icon: 'star-line',
-			text: '收藏',
-		},
-		{
-			icon: 'download-cloud-line',
-			text: '下载',
-		},
-		{
-			icon: 'history-line',
-			text: '历史',
-		},
-		{
-			icon: 'user-follow-fill',
-			text: '关注',
-		},
-		{
-			icon: 'article-line',
-			text: '文章'
-		},
-		{
-			icon: 'money-cny-circle-line',
-			text: '收益'
-		},
-		{
-			icon: 'share-circle-line',
-			text: '推荐',
-		},
-		{
-			icon: 'question-line',
-			text: '帮助',
-		}
-	] as feature[]
+<script lang="uts" setup>
 
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+type feature = {
+	icon: string
+	text: string
+}
+
+const features: feature[] = [
+	{
+		icon: 'star-line',
+		text: 'tabbarSub4.featureFav',
+	},
+	{
+		icon: 'download-cloud-line',
+		text: 'tabbarSub4.featureDownload',
+	},
+	{
+		icon: 'history-line',
+		text: 'tabbarSub4.featureHistory',
+	},
+	{
+		icon: 'user-follow-fill',
+		text: 'tabbarSub4.featureFollow',
+	},
+	{
+		icon: 'article-line',
+		text: 'tabbarSub4.featureArticle'
+	},
+	{
+		icon: 'money-cny-circle-line',
+		text: 'tabbarSub4.featureIncome'
+	},
+	{
+		icon: 'share-circle-line',
+		text: 'tabbarSub4.featureRecommend',
+	},
+	{
+		icon: 'question-line',
+		text: 'tabbarSub4.featureHelp',
+	}
+] as feature[]
 </script>
 
-<style>
-		
+<style lang="scss">
+.sub-page {
+	height: 100%;
+}
+
+.sub-scroll {
+	flex: 1;
+}
+
+.user-row {
+	flex-direction: row;
+	align-items: center;
+}
+
+.grid-item {
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+	padding: 10px;
+}
 </style>

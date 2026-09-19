@@ -1,0 +1,192 @@
+<template>
+	<sn-page :title="t('snArcProgress.title')" :show-back="true">
+		<demo-card :title="t('snArcProgress.basic')" :subtitle="t('snArcProgress.basicSub')">
+			<view class="arc-demo" flatten>
+				<sn-arc-progress v-model="value" />
+				<view class="button-row" flatten>
+					<sn-button :text="t('snArcProgress.add20')" @click="changeValue(20)" />
+					<sn-button :text="t('snArcProgress.reduce20')" level="second" custom-style="margin-left:12px;" @click="changeValue(minusTwenty)" />
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snArcProgress.dynamic')" :subtitle="t('snArcProgress.dynamicSub')">
+			<view class="arc-demo" flatten>
+				<sn-arc-progress v-model="dynamicValue" size="$190" ani-time="$800" stroke-color="$success" />
+				<sn-text flatten font-size="$13" color="$textLight" custom-style="margin-top:12px;">{{ t('snArcProgress.autoProgress', { value: dynamicValue } as UTSJSONObject) }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snArcProgress.download')" :subtitle="t('snArcProgress.downloadSub')">
+			<view class="arc-demo" flatten>
+				<sn-arc-progress v-model="downloadPercent" size="$210" ani-time="$280" stroke-width="$16"
+					trail-width="$16" stroke-color="$success">
+					<template v-slot:value="scope">
+						<view class="download-center" flatten>
+							<sn-text flatten :text="`${scope.percent}%`" font-size="$21" color="$success" bold />
+							<sn-text flatten :text="`${downloadLoadedText} / 50 MB`" font-size="$12" color="$textLight"
+								custom-style="margin-top:4px;" />
+							<sn-text flatten :text="downloadSpeedText" font-size="$12" color="$textLight"
+								custom-style="margin-top:2px;" />
+						</view>
+					</template>
+				</sn-arc-progress>
+				<sn-text flatten font-size="$13" color="$textLight" custom-style="margin-top:12px;">{{ downloadText }}</sn-text>
+				<view class="button-row" flatten>
+					<sn-button :text="t('snArcProgress.startDownload')" :disabled="downloading" @click="onStartDownload" />
+					<sn-button :text="t('snArcProgress.pause')" level="second" :disabled="!downloading" custom-style="margin-left:12px;"
+						@click="onPauseDownload" />
+					<sn-button :text="t('snArcProgress.reset')" level="least" custom-style="margin-left:12px;" @click="onResetDownload" />
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snArcProgress.range')" :subtitle="t('snArcProgress.rangeSub')">
+			<view class="arc-demo" flatten>
+				<sn-arc-progress v-model="temperature" :min="16" :max="30" :start-angle="startAngleSemi" :end-angle="0"
+					size="$190" stroke-color="$warning">
+					<template v-slot:value="scope">
+						<sn-text flatten :text="`${scope.value} °C`" font-size="$18" color="$warning" bold />
+					</template>
+				</sn-arc-progress>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snArcProgress.fullCircle')" :subtitle="t('snArcProgress.fullCircleSub')">
+			<view class="arc-demo" flatten>
+				<sn-arc-progress v-model="circleValue" :start-angle="0" :end-angle="360" size="$180"
+					stroke-width="$14" trail-width="$14" stroke-color="$primary" trail-color="rgba(59,130,246,0.16)" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snArcProgress.showControl')" :subtitle="t('snArcProgress.showControlSub')">
+			<view class="arc-demo" flatten>
+				<sn-arc-progress v-model="plainValue" :show-value-text="false" size="$160" stroke-color="$error" />
+			</view>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+const minusTwenty = -20
+const startAngleSemi = -180
+
+const value = ref<number>(36)
+const dynamicValue = ref<number>(8)
+const temperature = ref<number>(23)
+const circleValue = ref<number>(72)
+const plainValue = ref<number>(48)
+const downloadPercent = ref<number>(0)
+const downloadLoaded = ref<number>(0)
+const downloadText = ref<string>(t('snArcProgress.readyDownload'))
+const downloading = ref<boolean>(false)
+
+let dynamicTimer = -1
+let downloadTimer = -1
+let downloadSpeed = 3.6
+
+const downloadLoadedText = computed<string>(() => downloadLoaded.value.toFixed(1))
+const downloadSpeedText = computed<string>(() => `${downloadSpeed.toFixed(1)} MB/s`)
+
+function changeValue(offset: number): void {
+	value.value = Math.min(100, Math.max(0, value.value + offset))
+}
+
+function onStartDownload(): void {
+	if (downloading.value) {
+		return
+	}
+	if (downloadLoaded.value >= 50) {
+		downloadLoaded.value = 0
+		downloadPercent.value = 0
+	}
+	downloading.value = true
+	downloadText.value = t('snArcProgress.downloading')
+	if (downloadTimer != -1) {
+		clearInterval(downloadTimer)
+		downloadTimer = -1
+	}
+	downloadTimer = setInterval((): void => {
+		if (!downloading.value) {
+			return
+		}
+		const delta = Math.random() * 1.2 - 0.6
+		downloadSpeed = Math.min(10, Math.max(1.3, downloadSpeed + delta))
+		const nextLoaded = Math.min(50, downloadLoaded.value + downloadSpeed * 0.1)
+		downloadLoaded.value = nextLoaded
+		downloadPercent.value = Math.round(nextLoaded / 50 * 100)
+		downloadText.value = t('snArcProgress.downloaded', { loaded: nextLoaded.toFixed(1), speed: downloadSpeed.toFixed(1) } as UTSJSONObject)
+		if (nextLoaded >= 50) {
+			downloading.value = false
+			clearInterval(downloadTimer)
+			downloadTimer = -1
+			downloadText.value = t('snArcProgress.downloadDone')
+		}
+	}, 100)
+}
+
+function onPauseDownload(): void {
+	if (!downloading.value) {
+		return
+	}
+	downloading.value = false
+	if (downloadTimer != -1) {
+		clearInterval(downloadTimer)
+		downloadTimer = -1
+	}
+	downloadText.value = t('snArcProgress.paused', { loaded: downloadLoaded.value.toFixed(1) } as UTSJSONObject)
+}
+
+function onResetDownload(): void {
+	if (downloadTimer != -1) {
+		clearInterval(downloadTimer)
+		downloadTimer = -1
+	}
+	downloading.value = false
+	downloadLoaded.value = 0
+	downloadPercent.value = 0
+	downloadSpeed = 3.6
+	downloadText.value = t('snArcProgress.readyDownload')
+}
+
+onMounted(() => {
+	dynamicTimer = setInterval((): void => {
+		const next = dynamicValue.value + 17
+		dynamicValue.value = next > 100 ? 8 : next
+	}, 1100)
+})
+
+onUnmounted(() => {
+	if (dynamicTimer != -1) {
+		clearInterval(dynamicTimer)
+		dynamicTimer = -1
+	}
+	if (downloadTimer != -1) {
+		clearInterval(downloadTimer)
+		downloadTimer = -1
+	}
+})
+</script>
+
+<style lang="scss">
+.arc-demo {
+	flex-direction: column;
+	align-items: center;
+}
+
+.button-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	margin-top: 16px;
+}
+
+.download-center {
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+</style>

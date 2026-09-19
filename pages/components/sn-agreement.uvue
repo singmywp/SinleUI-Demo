@@ -1,0 +1,94 @@
+<template>
+	<sn-page>
+		<sn-topbar :title="t('snAgreement.title')"></sn-topbar>
+
+		<demo-card :title="t('snAgreement.basic')" :subtitle="t('snAgreement.basicSub')">
+			<sn-agreement v-model="agreed" :text="t('snAgreement.basicText')" :links="linkTexts"
+				@change="onChange" @open-link="onOpenLink" />
+			<view class="config-row" flatten>
+				<sn-text :text="t('snAgreement.checkState')" custom-style="width:110px;" flatten />
+				<sn-text bold :text="agreed ? t('snAgreement.agreed') : t('snAgreement.disagreed')" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snAgreement.changeCount')" custom-style="width:110px;" flatten />
+				<sn-text bold :text="`${changeCount}`" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snAgreement.lastLink')" custom-style="width:110px;" flatten />
+				<sn-text bold :text="lastLink" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snAgreement.initDisabled')" :subtitle="t('snAgreement.initDisabledSub')">
+			<sn-agreement v-model="agreedInit" :text="t('snAgreement.basicText')" :links="linkTexts"
+				@open-link="onOpenLink" />
+			<sn-agreement v-model="agreedDisabled" disabled :text="t('snAgreement.basicText')" :links="linkTexts"
+				custom-style="margin-top:12px;" @open-link="onOpenLink" />
+			<view class="config-row" flatten>
+				<sn-text :text="t('snAgreement.initState')" custom-style="width:110px;" flatten />
+				<sn-text bold :text="agreedInit ? t('snAgreement.agreed') : t('snAgreement.disagreed')" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snAgreement.customStyle')" :subtitle="t('snAgreement.customStyleSub')">
+			<sn-agreement v-model="agreedStyle" :text="t('snAgreement.styleText')"
+				:links="[t('snAgreement.memberAgreement'), t('snAgreement.personalInfoPolicy'), t('snAgreement.disclaimer')]" link-color="$error" font-size="$14"
+				box-size="20px" @open-link="onOpenLink" />
+		</demo-card>
+
+		<demo-card :title="t('snAgreement.scene')" :subtitle="t('snAgreement.sceneSub')">
+			<sn-input v-model="phone" :placeholder="t('snAgreement.phonePlaceholder')" type="number" maxlength="11"
+				custom-style="margin-bottom:10px;" />
+			<sn-agreement v-model="agreedLogin" :text="t('snAgreement.loginText')" :links="linkTexts"
+				@open-link="onOpenLink" />
+			<sn-button :text="t('snAgreement.login')" type="primary" custom-style="margin-top:14px;" @click="onLogin" />
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui'
+
+const { t } = useI18n()
+
+type AgreementLinkDetail = {
+	text: string
+	index: number
+}
+
+const agreed = ref<boolean>(false)
+const agreedInit = ref<boolean>(true)
+const agreedDisabled = ref<boolean>(false)
+const agreedStyle = ref<boolean>(false)
+const agreedLogin = ref<boolean>(false)
+const changeCount = ref<number>(0)
+const lastLink = ref<string>(t('snAgreement.noLink'))
+const phone = ref<string>('')
+
+const linkTexts = computed<string[]>(() => [t('snAgreement.userAgreement'), t('snAgreement.privacyPolicy')])
+
+function onChange(value: boolean): void {
+	changeCount.value++
+}
+
+function onOpenLink(detail: AgreementLinkDetail): void {
+	lastLink.value = t('snAgreement.linkDetail', { text: detail.text, index: detail.index + 1 } as UTSJSONObject)
+}
+
+function onLogin(): void {
+	if (!agreedLogin.value) {
+		snu.showToast({ text: t('snAgreement.promptAgree'), icon: 'none' })
+		return
+	}
+	snu.showToast({ text: t('snAgreement.loginSuccess'), icon: 'success' })
+}
+</script>
+
+<style lang="scss">
+.config-row {
+	flex-direction: row;
+	align-items: center;
+	margin-top: 10px;
+}
+</style>

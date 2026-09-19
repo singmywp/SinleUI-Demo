@@ -1,188 +1,246 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Radio 单选"></sn-topbar>
-		<sn-view :loading="loadingComponents">
-		<com-card title="基础用法"
-		note="普普通通的单选组件，用于数据选择\n（注意：一组sn-radio、sn-radio-tag必须放在sn-radio-group里）">
-			<sn-radio-group v-model="v1">
-				<sn-radio text="确定"></sn-radio>
-				<sn-radio text="取消"></sn-radio>
+	<sn-page :title="t('snRadio.title')" :show-back="true">
+		<demo-card :title="t('snRadio.basicTitle')" :subtitle="t('snRadio.basicSubtitle')">
+			<sn-radio-group v-model="radio1">
+				<sn-radio :text="t('snRadio.confirmRadio')" />
+				<sn-radio :text="t('snRadio.cancelRadio')" />
+				<sn-radio :text="t('snRadio.laterRadio')" />
 			</sn-radio-group>
-		</com-card>
-		<com-card title="类型"
-		note="自定义单选组显示的样式（支持两种组件：sn-radio 和 sn-radio-tag）">
-			<sn-radio-group class="spacing" v-model="v2">
-				<sn-radio text="东方"></sn-radio>
-				<sn-radio text="西方"></sn-radio>
+			<sn-text flatten font-size="$12" color="$textLight">{{ t('snRadio.currentSelected', { value: radio1.toString() } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snRadio.defaultSelectedTitle')" :subtitle="t('snRadio.defaultSelectedSubtitle')">
+			<sn-radio-group v-model="radio2">
+				<sn-radio :text="t('snRadio.option1')" />
+				<sn-radio :text="t('snRadio.option2')" />
+				<sn-radio :text="t('snRadio.option3')" />
 			</sn-radio-group>
-			<sn-radio-group class="spacing" v-model="v2">
-				<sn-radio-tag text="东方"></sn-radio-tag>
-				<sn-radio-tag text="西方"></sn-radio-tag>
+			<sn-text flatten font-size="$12" color="$textLight">{{ t('snRadio.defaultSelectedTip', { value: radio2.toString() } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snRadio.verticalTitle')" :subtitle="t('snRadio.verticalSubtitle')">
+			<sn-radio-group v-model="radio3" vertical>
+				<sn-radio :text="t('snRadio.vertical1')" />
+				<sn-radio :text="t('snRadio.vertical2')" />
+				<sn-radio :text="t('snRadio.vertical3')" />
 			</sn-radio-group>
-		</com-card>
-		<com-card title="圆角 【Tag 特色】"
-		note="tag 单选组件可设置统一的圆角。">
-			<sn-radio-group v-model="v3" tagBorderRadius="100px">
-				<sn-radio-tag text="男"></sn-radio-tag>
-				<sn-radio-tag text="女"></sn-radio-tag>
-				<sn-radio-tag text="未知"></sn-radio-tag>
+		</demo-card>
+
+		<demo-card :title="t('snRadio.disabledTitle')" :subtitle="t('snRadio.disabledSubtitle')">
+			<sn-radio-group v-model="radio4">
+				<sn-radio :text="t('snRadio.usable')" />
+				<sn-radio :text="t('snRadio.disabledUnselected')" disabled />
+				<sn-radio :text="t('snRadio.disabledSelected')" disabled />
 			</sn-radio-group>
-		</com-card>
-		<com-card title="方向"
-		note="单选组可以设置排列的方向（竖向和横向），适用于多种场景">
-			<sn-radio-group v-model="v4" 
-			vertical 
-			spacing="20px">
-				<sn-radio text="中文"></sn-radio>
-				<sn-radio text="英文"></sn-radio>
-				<sn-radio text="法文"></sn-radio>
+		</demo-card>
+
+		<demo-card :title="t('snRadio.colorTitle')" :subtitle="t('snRadio.colorSubtitle')">
+			<sn-radio-group v-model="radio5" radio-active-border-color="$success"
+				radio-active-bg-color="$successLight" radio-border-color="$line" radio-bg-color="$front"
+				radio-text-color="$text" disabled-radio-active-border-color="$disabledDark">
+				<sn-radio :text="t('snRadio.wechatPay')" />
+				<sn-radio :text="t('snRadio.alipay')" />
 			</sn-radio-group>
-			<sn-radio-group v-model="v4" 
-			vertical  
-			spacing="10px"
-			tagPadding="8px 0">
-				<sn-radio-tag text="中文"></sn-radio-tag>
-				<sn-radio-tag text="英文"></sn-radio-tag>
-				<sn-radio-tag text="法文"></sn-radio-tag>
+			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:4px;">{{ t('snRadio.successGreenTip') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snRadio.tagTitle')" :subtitle="t('snRadio.tagSubtitle')">
+			<sn-radio-group v-model="radio6">
+				<sn-radio-tag :text="t('snRadio.free')" />
+				<sn-radio-tag :text="t('snRadio.advanced')" />
+				<sn-radio-tag :text="t('snRadio.pro')" />
 			</sn-radio-group>
-		</com-card>
-		<com-card title="默认值"
-		note="单选组可以设置默认的选项，更懂用户的选择">
-			<sn-radio-group v-model="v5" spacing="30px">
-				<sn-radio text="篮球"></sn-radio>
-				<sn-radio text="足球"></sn-radio>
-				<sn-radio text="网球"></sn-radio>
+		</demo-card>
+
+		<demo-card :title="t('snRadio.tagThemeTitle')" :subtitle="t('snRadio.tagThemeSubtitle')">
+			<sn-text flatten font-size="$12" color="$textLight">{{ t('snRadio.groupSuccessTheme') }}</sn-text>
+			<sn-radio-group v-model="radio7" tag-type="success">
+				<sn-radio-tag :text="t('snRadio.basic')" />
+				<sn-radio-tag :text="t('snRadio.senior')" />
 			</sn-radio-group>
-			<sn-radio-group v-model="v5" type="tag" spacing="30px">
-				<sn-radio-tag text="篮球"></sn-radio-tag>
-				<sn-radio-tag text="足球"></sn-radio-tag>
-				<sn-radio-tag text="网球"></sn-radio-tag>
+			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:12px;">{{ t('snRadio.singleOverride') }}</sn-text>
+			<sn-radio-group v-model="radio8">
+				<sn-radio-tag text="primary" />
+				<sn-radio-tag text="info" />
+				<sn-radio-tag text="warning" type="warning" />
 			</sn-radio-group>
-		</com-card>
-		<com-card title="颜色"
-		note="单选可以设置一个统一的颜色">
-			<sn-radio-group v-model="v6"
-			spacing="30px" 
-			radioBorderColor="$dark" 
-			radioActiveColor="$dark"
-			radioActiveBorderColor="$dark">
-				<sn-radio text="篮球"></sn-radio>
-				<sn-radio text="足球"></sn-radio>
-				<sn-radio text="网球"></sn-radio>
+		</demo-card>
+
+		<demo-card :title="t('snRadio.tagLevelTitle')" :subtitle="t('snRadio.tagLevelSubtitle')">
+			<sn-radio-group v-model="radio9">
+				<sn-radio-tag level="first" text="first" />
+				<sn-radio-tag level="second" text="second" />
+				<sn-radio-tag level="third" text="third" />
+				<sn-radio-tag level="least" text="least" />
 			</sn-radio-group>
-			<sn-radio-group v-model="v6"
-			spacing="30px" 
-			tagActiveBorderColor="$dark" 
-			tagActiveTextColor="$front" 
-			tagTextColor="$infoDark" 
-			tagActiveBgColor="$dark">
-				<sn-radio-tag text="篮球"></sn-radio-tag>
-				<sn-radio-tag text="足球"></sn-radio-tag>
-				<sn-radio-tag text="网球"></sn-radio-tag>
+			<view class="tag-level-gap" flatten />
+			<sn-radio-group v-model="radio16" tag-type="success">
+				<sn-radio-tag type="success" level="first" text="first" />
+				<sn-radio-tag type="success" level="second" text="second" />
+				<sn-radio-tag type="success" level="third" text="third" />
+				<sn-radio-tag type="success" level="least" text="least" />
 			</sn-radio-group>
-		</com-card>
-		<com-card title="禁用"
-		note="为单个单选设置禁用状态\n注意：只是禁用手动点击，不会屏蔽数据的修改">
-			<sn-radio-group v-model="v7"
-			spacing="30px" 
-			radioActiveColor="#b8ccc0">
-				<sn-radio text="UTS"></sn-radio>
-				<sn-radio text="TS"></sn-radio>
-				<sn-radio text="JS" disabled></sn-radio>
+			<view class="tag-level-gap" flatten />
+			<sn-radio-group v-model="radio18" tag-type="warning">
+				<sn-radio-tag type="warning" level="first" text="first" />
+				<sn-radio-tag type="warning" level="second" text="second" />
+				<sn-radio-tag type="warning" level="third" text="third" />
+				<sn-radio-tag type="warning" level="least" text="least" />
 			</sn-radio-group>
-			<sn-radio-group v-model="v8"
-			spacing="30px" 
-			radioActiveColor="#b8ccc0">
-				<sn-radio disabled text="百年难遇"></sn-radio>
-				<sn-radio text="普通"></sn-radio>
-				<sn-radio text="珍贵"></sn-radio>
+			<view class="tag-level-gap" flatten />
+			<sn-radio-group v-model="radio19" tag-type="error">
+				<sn-radio-tag type="error" level="first" text="first" />
+				<sn-radio-tag type="error" level="second" text="second" />
+				<sn-radio-tag type="error" level="third" text="third" />
+				<sn-radio-tag type="error" level="least" text="least" />
 			</sn-radio-group>
-			<sn-radio-group v-model="v7">
-				<sn-radio-tag text="UTS"></sn-radio-tag>
-				<sn-radio-tag text="TS"></sn-radio-tag>
-				<sn-radio-tag text="JS" disabled></sn-radio-tag>
+			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:4px;">{{ t('snRadio.levelColorTip') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snRadio.tagDisabledTitle')" :subtitle="t('snRadio.tagDisabledSubtitle')">
+			<sn-radio-group v-model="radio10">
+				<sn-radio-tag :text="t('snRadio.usableTag')" />
+				<sn-radio-tag :text="t('snRadio.disabledUnselected')" disabled />
+				<sn-radio-tag :text="t('snRadio.disabledSelected')" disabled />
 			</sn-radio-group>
-			<sn-radio-group v-model="v8">
-				<sn-radio-tag disabled text="百年难遇"></sn-radio-tag>
-				<sn-radio-tag text="普通"></sn-radio-tag>
-				<sn-radio-tag text="珍贵"></sn-radio-tag>
+		</demo-card>
+
+		<demo-card :title="t('snRadio.tagColorTitle')" :subtitle="t('snRadio.tagColorSubtitle')">
+			<sn-radio-group v-model="radio11" tag-active-bg-color="$primary" tag-active-text-color="$primaryText"
+				tag-bg-color="$primaryLight" tag-text-color="$primaryDark" tag-border-radius="$20">
+				<sn-radio-tag :text="t('snRadio.monthly')" />
+				<sn-radio-tag :text="t('snRadio.yearly')" />
 			</sn-radio-group>
-		</com-card>
-		<com-card title="手动修改"
-		note="手动修改radio的值，适用于自动化等场景">
-			<sn-row class="m-b-10">
-				<sn-button text="选中UTS" 
-				@click="v9=0"></sn-button>
-				<sn-button class="m-l-5"
-				text="选中TS" 
-				@click="v9=1"></sn-button>
-				<sn-button class="m-l-5"
-				text="选中JS" 
-				@click="v9=2"></sn-button>
-			</sn-row>
-			<sn-radio-group v-model="v9" spacing="30px">
-				<sn-radio text="UTS"></sn-radio>
-				<sn-radio text="TS"></sn-radio>
-				<sn-radio text="JS" disabled></sn-radio>
+		</demo-card>
+
+		<demo-card :title="t('snRadio.sizeTitle')" :subtitle="t('snRadio.sizeSubtitle')">
+			<sn-radio-group v-model="radio12" radio-size="24px" radio-text-size="$15" radio-border-width="3px">
+				<sn-radio :text="t('snRadio.bigRadio')" />
+				<sn-radio :text="t('snRadio.followText')" />
 			</sn-radio-group>
-			<sn-radio-group v-model="v9" type="tag">
-				<sn-radio-tag text="UTS"></sn-radio-tag>
-				<sn-radio-tag text="TS"></sn-radio-tag>
-				<sn-radio-tag text="JS" disabled></sn-radio-tag>
+			<sn-radio-group v-model="radio13" tag-text-size="$14" tag-border-radius="$4" tag-padding="8px 14px"
+				custom-style="margin-top:12px;">
+				<sn-radio-tag :text="t('snRadio.bigTag')" />
+				<sn-radio-tag :text="t('snRadio.squareRadius')" />
 			</sn-radio-group>
-		</com-card>
-		<com-card title="自定义样式"
-		note="通过丰富的组件属性，你可以自由地控制组件每个部分的样式，实现一些很酷的东西，比如下面这个高仿某大厂软件界面">
-			<sn-radio-group v-model="v10"
-			spacing="10px" 
-			tagActiveTextColor="#f55009"
-			tagBorderColor="$infoLight" 
-			tagBgColor="$infoLight" 
-			tagActiveBorderColor="$infoLight"
-			tagActiveBgColor="$infoLight" 
-			tagBorderRadius="100px" 
-			tagPadding="4px 8px" 
-			tagTextSize="12px"
-			:tagTextColor="theme=='light'?'#d6d6db':'#8e8f91'" 
-			:customContainStyle="{marginBottom:'10px'}">
-				<sn-radio-tag text="近朱者赤，近你者甜"></sn-radio-tag>
-				<sn-radio-tag text="风止于秋水，我止于你"></sn-radio-tag>
-				<sn-radio-tag text="眼里都是你，亿万星辰犹不及"></sn-radio-tag>
+		</demo-card>
+
+		<demo-card :title="t('snRadio.mixTitle')" :subtitle="t('snRadio.mixSubtitle')">
+			<sn-radio-group v-model="radio14">
+				<sn-radio :text="t('snRadio.radioOption')" />
+				<sn-radio-tag :text="t('snRadio.tagOption')" />
+				<sn-radio :text="t('snRadio.radioOption2')" />
 			</sn-radio-group>
-		</com-card>
-		</sn-view>
+		</demo-card>
+
+		<demo-card :title="t('snRadio.eventTitle')" :subtitle="t('snRadio.eventSubtitle')">
+			<sn-radio-group v-model="radio15" @change="onChange">
+				<sn-radio :text="t('snRadio.optA')" />
+				<sn-radio :text="t('snRadio.optB')" />
+				<sn-radio :text="t('snRadio.optC')" />
+			</sn-radio-group>
+			<sn-text flatten font-size="$13" color="$primary" custom-style="margin-top:12px;">{{ t('snRadio.recentEvent', { value: changeLog } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snRadio.externalTitle')" :subtitle="t('snRadio.externalSubtitle')">
+			<sn-radio-group v-model="radio20">
+				<sn-radio :text="t('snRadio.sphereExternal')" />
+				<sn-radio :text="t('snRadio.sphereCustom')" custom-style="transform: scale(1.2);" />
+				<sn-radio :text="t('snRadio.textExternal')" text-class="demo-text-strong" />
+				<sn-radio :text="t('snRadio.textCustom')" text-style="font-weight:bold;color:#ff6600;" />
+			</sn-radio-group>
+			<view style="margin-top: 12px;" flatten>
+				<sn-text flatten font-size="$12" color="$textLight">{{ t('snRadio.groupClassTip') }}</sn-text>
+				<sn-radio-group v-model="radio22" radio-class="demo-radio-big" text-class="demo-text-strong">
+					<sn-radio :text="t('snRadio.confirmRadio')" />
+					<sn-radio :text="t('snRadio.cancelRadio')" />
+				</sn-radio-group>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snRadio.tagExternalTitle')" :subtitle="t('snRadio.tagExternalSubtitle')">
+			<sn-radio-group v-model="radio21">
+				<sn-radio-tag :text="t('snRadio.tagTextExternal')" text-class="demo-tag-text-strong" />
+				<sn-radio-tag :text="t('snRadio.tagTextCustom')" text-style="font-weight:bold;letter-spacing:1px;" />
+			</sn-radio-group>
+			<view style="margin-top: 12px;" flatten>
+				<sn-text flatten font-size="$12" color="$textLight">{{ t('snRadio.tagClassTip') }}</sn-text>
+				<sn-radio-group v-model="radio23" tag-class="demo-tag-scale">
+					<sn-radio-tag :text="t('snRadio.free')" />
+					<sn-radio-tag :text="t('snRadio.advanced')" />
+				</sn-radio-group>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snRadio.sceneTitle')" :subtitle="t('snRadio.sceneSubtitle')">
+			<view class="scene-card" flatten>
+				<sn-text flatten bold font-size="$14" color="$text">{{ t('snRadio.selectDelivery') }}</sn-text>
+				<sn-radio-group v-model="delivery" custom-style="margin-top:12px;">
+					<sn-radio :text="t('snRadio.regularExpress')" />
+					<sn-radio :text="t('snRadio.nextDay')" />
+					<sn-radio-tag :text="t('snRadio.expressQuick')" />
+				</sn-radio-group>
+				<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snRadio.deliveryIndex', { value: delivery.toString() } as UTSJSONObject) }}</sn-text>
+			</view>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	
-	const v1 = ref(0)
-	const v2 = ref(0)
-	const v3 = ref(0)
-	const v4 = ref(0)
-	const v5 = ref(1)
-	const v6 = ref(0)
-	const v7 = ref(0)
-	const v8 = ref(0)
-	const v9 = ref(0)
-	const v10 = ref(0)
-	const loadingComponents = ref(true)
-	
-	const theme = computed(():string=>$snui.configs.app.theme)
-	
-	onMounted(()=>{
-		nextTick(()=>{
-			setTimeout(()=>{
-				loadingComponents.value = false
-			}, 500)
-		})
-	})
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { $snui } from '@/uni_modules/sinle-ui'
+
+const { t } = useI18n()
+
+const radio1 = ref<number>(0)
+const radio2 = ref<number>(1)
+const radio3 = ref<number>(0)
+const radio4 = ref<number>(2)
+const radio5 = ref<number>(0)
+const radio6 = ref<number>(0)
+const radio7 = ref<number>(0)
+const radio8 = ref<number>(0)
+const radio9 = ref<number>(0)
+const radio10 = ref<number>(0)
+const radio11 = ref<number>(0)
+const radio12 = ref<number>(0)
+const radio13 = ref<number>(0)
+const radio14 = ref<number>(0)
+const radio15 = ref<number>(0)
+const radio16 = ref<number>(0)
+const radio18 = ref<number>(0)
+const radio19 = ref<number>(0)
+const radio20 = ref<number>(0)
+const radio21 = ref<number>(0)
+const radio22 = ref<number>(0)
+const radio23 = ref<number>(0)
+const delivery = ref<number>(0)
+const changeLog = ref<string>(t('snRadio.noEvent'))
+
+function onChange(value: number): void {
+	changeLog.value = t('snRadio.change', { value: value.toString() } as UTSJSONObject)
+}
 </script>
 
 <style lang="scss">
-	.spacing {
-		margin: 0 5px 5px 0;
-	}
+.tag-level-gap {
+	height: 10px;
+}
+.scene-card {
+	padding: 14px;
+	border-radius: 10px;
+	background-color: var(--sn-front);
+}
+.demo-radio-big {
+	transform: scale(1.2);
+}
+.demo-text-strong {
+	font-weight: bold;
+}
+.demo-tag-text-strong {
+	font-weight: bold;
+}
+.demo-tag-scale {
+	transform: scale(1.08);
+}
 </style>

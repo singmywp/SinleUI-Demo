@@ -1,0 +1,102 @@
+<template>
+	<sn-page :title="t('snSlideCaptcha.title')" :show-back="true">
+		<demo-card :title="t('snSlideCaptcha.demoBasicTitle')" :subtitle="t('snSlideCaptcha.demoBasicSub')">
+			<sn-slide-captcha @success="onEvent(t('snSlideCaptcha.basicSuccess'))" @fail="onEvent(t('snSlideCaptcha.basicFail'))" />
+		</demo-card>
+
+		<demo-card :title="t('snSlideCaptcha.demoPuzzleTitle')" :subtitle="t('snSlideCaptcha.demoPuzzleSub')">
+			<sn-slide-captcha mode="puzzle" src="/static/captcha/scenic-mountain.png" @success="onEvent(t('snSlideCaptcha.puzzleSuccess'))"
+				@fail="onEvent(t('snSlideCaptcha.puzzleFail'))" />
+			<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlideCaptcha.refreshTip') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snSlideCaptcha.demoStyleTitle')" :subtitle="t('snSlideCaptcha.demoStyleSub')">
+			<sn-slide-captcha active-color="$successLight" target-color="$warning" :thumb-size="48" :tolerance="4"
+				@success="onEvent(t('snSlideCaptcha.customSuccess'))" @fail="onEvent(t('snSlideCaptcha.customFail'))" />
+			<view class="demo-gap" flatten></view>
+			<sn-slide-captcha :target="60" active-color="$primary" target-color="$primary" :thumb-size="44"
+				@success="onEvent(t('snSlideCaptcha.fixedSuccess'))" @fail="onEvent(t('snSlideCaptcha.fixedFail'))" />
+			<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlideCaptcha.targetTip') }}</sn-text>
+			<view class="demo-gap" flatten></view>
+			<sn-slide-captcha mode="puzzle" src="/static/captcha/street-dusk.png" :height="160" :thumb-size="36"
+				@success="onEvent(t('snSlideCaptcha.customPuzzleSuccess'))" @fail="onEvent(t('snSlideCaptcha.customPuzzleFail'))" />
+		</demo-card>
+
+		<demo-card :title="t('snSlideCaptcha.demoEventTitle')" :subtitle="t('snSlideCaptcha.demoEventSub')">
+			<sn-slide-captcha ref="ctrlRef" @success="onEvent(t('snSlideCaptcha.eventSuccess'))" @fail="onEvent(t('snSlideCaptcha.eventFail'))" />
+			<view class="demo-actions" flatten>
+				<sn-button @click="onResetClick">{{ t('snSlideCaptcha.resetVerify') }}</sn-button>
+			</view>
+			<sn-text flatten text-class="demo-log" font-size="$12" :color="primaryColor">{{ eventLog }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snSlideCaptcha.demoSceneTitle')" :subtitle="t('snSlideCaptcha.demoSceneSub')">
+			<view class="demo-scene" :style="sceneStyles" flatten>
+				<view class="demo-scene-row" flatten>
+					<sn-icon name="lock-2-line" :size="18" color="$primary" />
+					<sn-text flatten font-size="$14" color="$text" custom-style="margin-left:6px;">{{ t('snSlideCaptcha.securityVerify') }}</sn-text>
+				</view>
+				<sn-slide-captcha :hint-text="t('snSlideCaptcha.hintText')" :success-text="t('snSlideCaptcha.successText')" :fail-text="t('snSlideCaptcha.failText')"
+					@success="onEvent(t('snSlideCaptcha.sceneSuccess'))" @fail="onEvent(t('snSlideCaptcha.sceneFail'))" />
+			</view>
+			<view class="demo-gap" flatten></view>
+			<sn-slide-captcha disabled @success="onEvent(t('snSlideCaptcha.disabledEvent'))" @fail="onEvent(t('snSlideCaptcha.disabledEvent'))" />
+			<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlideCaptcha.disabledTip') }}</sn-text>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { $snui } from '@/uni_modules/sinle-ui/index.uts'
+import type { ComponentPublicInstance } from 'vue'
+
+const { t } = useI18n()
+
+const ctrlRef = ref<ComponentPublicInstance | null>(null)
+const eventLog = ref<string>(t('snSlideCaptcha.initialLog'))
+
+const primaryColor = computed<string>(() => $snui.colors.primary)
+
+const sceneStyles = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('flexDirection', 'column')
+	styles.set('padding', '14px')
+	styles.set('borderRadius', `${Math.round(12 * $snui.radiusFactor)}px`)
+	styles.set('backgroundColor', $snui.colors.infoLight)
+	return styles
+})
+
+function onEvent(name: string): void {
+	eventLog.value = t('snSlideCaptcha.latestEvent', { name: name } as UTSJSONObject)
+}
+
+function onResetClick(): void {
+	ctrlRef.value?.$callMethod('reset')
+}
+</script>
+
+<style lang="scss">
+.demo-tip {
+	margin-top: 8px;
+}
+.demo-gap {
+	height: 14px;
+}
+.demo-actions {
+	flex-direction: row;
+	margin-top: 12px;
+}
+.demo-log {
+	margin-top: 10px;
+}
+.demo-scene {
+	flex-direction: column;
+}
+.demo-scene-row {
+	flex-direction: row;
+	align-items: center;
+	margin-bottom: 12px;
+}
+</style>

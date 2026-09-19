@@ -1,108 +1,104 @@
 <template>
-	<sn-page padding="0">
-		<sn-topbar title="Sidebar 侧边栏"></sn-topbar>
-		<com-card title="基础用法"
-		note="适用于商城选购等场景的侧边导航栏，支持锚点切换，样式随心调"
-		style="margin: 10px 10px;width: auto;">
-		</com-card>
-		<view class="h-200">
-			<sn-sidebar v-model="value"
-			:data="data">
-				<sn-view bgColor="$front"
-				padding="20px"
-				style="flex: 1;">
-					<sn-text text="这是页面内容"></sn-text>
+	<sn-page>
+		<sn-topbar :title="t('snSidebar.title')"></sn-topbar>
+		<demo-card :title="t('snSidebar.demoBasicTitle')" :subtitle="t('snSidebar.demoBasicSub')"
+			custom-style="margin:10px 10px 0 10px;">
+		</demo-card>
+
+		<demo-card :title="t('snSidebar.demoExtTitle')" :subtitle="t('snSidebar.demoExtSub')"
+			style="margin:10px 10px 0 10px;">
+			<view style="height: 220px; margin-top: 12px;" flatten>
+				<sn-sidebar v-model="extValue" :data="data" bar-class="demo-sidebar-bar"
+					bar-style="background-color: var(--sn-info-light);" item-class="demo-sidebar-item"
+					item-style="border-radius: 4px;" content-class="demo-sidebar-content"
+					content-style="border-width:1px;border-style:solid;border-color:var(--sn-primary);">
+					<sn-view bg-color="$front" padding="20px" style="flex: 1;">
+						<sn-text :text="t('snSidebar.currentSelected', { text: (data[extValue].text ?? '') } as UTSJSONObject)" flatten />
+						<sn-text flatten type="text-light" :font-size="12" :text="t('snSidebar.extTip')" custom-style="margin-top:8px;" />
+					</sn-view>
+				</sn-sidebar>
+			</view>
+		</demo-card>
+		<view style="height: 220px; margin: 10px;" flatten>
+			<sn-sidebar v-model="value" :data="data">
+				<sn-view bg-color="$front" padding="20px" style="flex: 1;">
+					<sn-text :text="t('snSidebar.currentSelected', { text: (data[value].text ?? '') } as UTSJSONObject)" flatten />
+					<sn-text type="text-light" :font-size="12" :text="t('snSidebar.contentTip')" custom-style="margin-top:8px;" flatten />
 				</sn-view>
 			</sn-sidebar>
 		</view>
-		<com-card title="演示"
-		style="margin: 10px 10px;width: auto;">
+		<demo-card :title="t('snSidebar.demoDemoTitle')" custom-style="margin:10px;">
 			<sn-grid-group :col="3">
-				<sn-grid-item
-				@click="gotoDemo(1)">
-					<sn-button class="m-b-10"
-					type="primary" round>
+				<sn-grid-item @click="gotoDemo(1)">
+					<sn-button custom-class="m-b-10" type="primary" shape="circle">
 						<sn-icon name="emotion-happy-fill" color="#fff"></sn-icon>
 					</sn-button>
-					<sn-text text="示例1"></sn-text>
+					<sn-text :text="t('snSidebar.demo1')" flatten></sn-text>
 				</sn-grid-item>
-				<sn-grid-item
-				@click="gotoDemo(2)">
-					<sn-button class="m-b-10"
-					type="error" round>
+				<sn-grid-item @click="gotoDemo(2)">
+					<sn-button custom-class="m-b-10" type="error" shape="circle">
 						<sn-icon name="meteor-fill" color="#fff"></sn-icon>
 					</sn-button>
-					<sn-text text="示例2"></sn-text>
+					<sn-text :text="t('snSidebar.demo2')" flatten></sn-text>
 				</sn-grid-item>
-				<sn-grid-item
-				@click="gotoDemo(3)">
-					<sn-button class="m-b-10"
-					type="success" round>
+				<sn-grid-item @click="gotoDemo(3)">
+					<sn-button custom-class="m-b-10" type="success" shape="circle">
 						<sn-icon name="skull-fill" color="#fff"></sn-icon>
 					</sn-button>
-					<sn-text text="示例3"></sn-text>
+					<sn-text :text="t('snSidebar.demo3')" flatten></sn-text>
 				</sn-grid-item>
 			</sn-grid-group>
-		</com-card>
+		</demo-card>
 	</sn-page>
 </template>
 
 <script setup>
-	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	const snu = $snui.utils
-	const value = ref(0)
-	
-	function gotoDemo(index: number){
-		uni.navigateTo({
-			url: `/pages/components/sidebar/demo${index}`
-		})
-	}
-	
-	const data = [
-		{
-			id: 'henan',
-			text: '河南省',
-		},
-		{
-			id: 'shandong',
-			text: '山东省',
-		},
-		{
-			id: 'hebei',
-			text: '河北省',
-		},
-		{
-			id: 'shanxi',
-			text: '山西省',
-		},
-		{
-			id: 'beijing',
-			text: '北京市',
-		},
-		{
-			id: 'tianjin',
-			text: '天津市',
-		},
-		{
-			id: 'heilongjiang',
-			text: '黑龙江',
-		},
-		{
-			id: 'jiangsu',
-			text: '江苏省',
-		},
-		{
-			id: 'zhejiang',
-			text: '浙江省',
-		},
-		{
-			id: 'anhui',
-			text: '安徽省',
-		},
-	] as SnDataItem[]
+
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+
+const value = ref<number>(0)
+const extValue = ref<number>(0)
+
+function gotoDemo(index: number): void {
+	uni.navigateTo({
+		url: `/pages/components/sidebar/demo${index}`
+	})
+}
+
+const data = computed<SnDataItem[]>(() => [
+	{ id: 'henan', text: t('snSidebar.henan') },
+	{ id: 'shandong', text: t('snSidebar.shandong') },
+	{ id: 'hebei', text: t('snSidebar.hebei') },
+	{ id: 'shanxi', text: t('snSidebar.shanxi') },
+	{ id: 'beijing', text: t('snSidebar.beijing') },
+	{ id: 'tianjin', text: t('snSidebar.tianjin') },
+	{ id: 'heilongjiang', text: t('snSidebar.heilongjiang') },
+	{ id: 'jiangsu', text: t('snSidebar.jiangsu') },
+	{ id: 'zhejiang', text: t('snSidebar.zhejiang') },
+	{ id: 'anhui', text: t('snSidebar.anhui') }
+])
 </script>
 
-<style>
-		
+<style lang="scss">
+.m-b-10 {
+	margin-bottom: 10px;
+}
+
+.demo-sidebar-bar {
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: var(--sn-line);
+}
+
+.demo-sidebar-item {
+	margin-bottom: 4px;
+}
+
+.demo-sidebar-content {
+	border-radius: 8px;
+}
 </style>

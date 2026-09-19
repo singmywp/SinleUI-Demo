@@ -1,116 +1,57 @@
 <template>
-	<sn-page padding="0px">
+	<sn-page>
 		<sn-topbar title="Sidebar Demo1"></sn-topbar>
-		<sn-sidebar v-model="cur"
-		activeItemTextColor="$successDark"
-		lineColor="$successDark" 
-		anchor
-		:data="data">
-			<sn-view bgColor="$front">
-			<com-card id="henan" title="河南·伏牛">
-				<sn-image width="100%"
-				src="https://img1.baidu.com/it/u=2201316699,3848878078&fm=253&fmt=auto?w=1200&h=800">
-				</sn-image>
-			</com-card>
-			<com-card id="shandong" title="山东·梁山">
-				<sn-image width="100%"
-				src="https://img2.baidu.com/it/u=1178621539,338771537&fm=253&fmt=auto?w=1388&h=800">
-				</sn-image>
-			</com-card>
-			<com-card id="hebei" title="河北·白石">
-				<sn-image width="100%"
-				src="https://img0.baidu.com/it/u=1337447792,1962086067&fm=253&fmt=auto&app=138&f=JPEG?w=752&h=500">
-				</sn-image>
-			</com-card>
-			<com-card id="shanxi" title="山西·太行">
-				<sn-image width="100%"
-				src="https://img0.baidu.com/it/u=3652152861,409364232&fm=253&fmt=auto&app=120&f=JPEG?w=640&h=427">
-				</sn-image>
-			</com-card>
-			<com-card id="beijing" title="北京·长城">
-				<sn-image width="100%"
-				src="https://img1.baidu.com/it/u=2778032778,295808776&fm=253&fmt=auto?w=889&h=500">
-				</sn-image>
-			</com-card>
-			<com-card id="tianjin" title="天津·八仙">
-				<sn-image width="100%"
-				src="https://t11.baidu.com/it/u=840011361,219845198&fm=30&app=106&f=JPEG?w=640&h=363&s=FC2A26D0884AEAC430B088000300F0DB">
-				</sn-image>
-			</com-card>
-			<com-card id="heilongjiang" title="黑龙江·千岛">
-				<sn-image width="100%"
-				src="https://n.sinaimg.cn/sinakd20201009ac/247/w1108h739/20201009/9fd5-kaaxtfp0628715.jpg">
-				</sn-image>
-			</com-card>
-			<com-card id="jiangsu" title="江苏·太湖">
-				<sn-image width="100%"
-				src="https://img0.baidu.com/it/u=1798165564,1402485003&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500">
-				</sn-image>
-			</com-card>
-			<com-card id="zhejiang" title="浙江·西湖">
-				<sn-image width="100%"
-				src="https://img1.baidu.com/it/u=1136469713,3553909501&fm=253&fmt=auto&app=138&f=JPEG?w=1200&h=800">
-				</sn-image>
-			</com-card>
-			<com-card id="anhui" title="安徽·黄山">
-				<sn-image width="100%"
-				src="https://img1.baidu.com/it/u=1555032670,336470511&fm=253&fmt=auto&app=138&f=JPEG?w=846&h=500">
-				</sn-image>
-			</com-card>
+		<sn-sidebar v-model="cur" active-item-text-color="$successDark" line-color="$successDark" anchor :data="data">
+			<sn-view bg-color="$front" padding="10px">
+				<view v-for="(item, i) in data" :key="'sec' + i" :id="item.id" flatten>
+					<demo-card :title="cardTitles[i]">
+						<image :src="cardImages[i]" mode="widthFix" style="width: 100%; border-radius: 12px;"></image>
+					</demo-card>
+				</view>
 			</sn-view>
 		</sn-sidebar>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
-	
-	const colors = $snui.colors
-	
-	const cur = ref(0)
-	
-	const data = [
-		{
-			id: 'henan',
-			text: '河南省',
-		},
-		{
-			id: 'shandong',
-			text: '山东省',
-		},
-		{
-			id: 'hebei',
-			text: '河北省',
-		},
-		{
-			id: 'shanxi',
-			text: '山西省',
-		},
-		{
-			id: 'beijing',
-			text: '北京市',
-		},
-		{
-			id: 'tianjin',
-			text: '天津市',
-		},
-		{
-			id: 'heilongjiang',
-			text: '黑龙江',
-		},
-		{
-			id: 'jiangsu',
-			text: '江苏省',
-		},
-		{
-			id: 'zhejiang',
-			text: '浙江省',
-		},
-		{
-			id: 'anhui',
-			text: '安徽省',
-		},
-	] as SnDataItem[]
+<script lang="uts" setup>
+
+import { useI18n } from 'vue-i18n'
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+
+const cur = ref<number>(0)
+
+const data = computed<SnDataItem[]>(() => [
+	{ id: 'henan', text: t('sidebarDemo1.prov1') },
+	{ id: 'shandong', text: t('sidebarDemo1.prov2') },
+	{ id: 'hebei', text: t('sidebarDemo1.prov3') },
+	{ id: 'shanxi', text: t('sidebarDemo1.prov4') },
+	{ id: 'beijing', text: t('sidebarDemo1.prov5') },
+	{ id: 'tianjin', text: t('sidebarDemo1.prov6') },
+	{ id: 'heilongjiang', text: t('sidebarDemo1.prov7') },
+	{ id: 'jiangsu', text: t('sidebarDemo1.prov8') },
+	{ id: 'zhejiang', text: t('sidebarDemo1.prov9') },
+	{ id: 'anhui', text: t('sidebarDemo1.prov10') }
+])
+
+const cardTitles = computed<string[]>(() => [
+	t('sidebarDemo1.card1'), t('sidebarDemo1.card2'), t('sidebarDemo1.card3'), t('sidebarDemo1.card4'), t('sidebarDemo1.card5'),
+	t('sidebarDemo1.card6'), t('sidebarDemo1.card7'), t('sidebarDemo1.card8'), t('sidebarDemo1.card9'), t('sidebarDemo1.card10')
+])
+
+const cardImages: string[] = [
+	'https://img1.baidu.com/it/u=2201316699,3848878078&fm=253&fmt=auto?w=1200&h=800',
+	'https://img2.baidu.com/it/u=1178621539,338771537&fm=253&fmt=auto?w=1388&h=800',
+	'https://img0.baidu.com/it/u=1337447792,1962086067&fm=253&fmt=auto&app=138&f=JPEG?w=752&h=500',
+	'https://img0.baidu.com/it/u=3652152861,409364232&fm=253&fmt=auto&app=120&f=JPEG?w=640&h=427',
+	'https://img1.baidu.com/it/u=2778032778,295808776&fm=253&fmt=auto?w=889&h=500',
+	'https://t11.baidu.com/it/u=840011361,219845198&fm=30&app=106&f=JPEG?w=640&h=363&s=FC2A26D0884AEAC430B088000300F0DB',
+	'https://n.sinaimg.cn/sinakd20201009ac/247/w1108h739/20201009/9fd5-kaaxtfp0628715.jpg',
+	'https://img0.baidu.com/it/u=1798165564,1402485003&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500',
+	'https://img1.baidu.com/it/u=1136469713,3553909501&fm=253&fmt=auto&app=138&f=JPEG?w=1200&h=800',
+	'https://img1.baidu.com/it/u=1555032670,336470511&fm=253&fmt=auto&app=138&f=JPEG?w=846&h=500'
+]
 </script>
 
 <style lang="scss">

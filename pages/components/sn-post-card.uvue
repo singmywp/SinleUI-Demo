@@ -1,0 +1,237 @@
+<template>
+	<sn-page :title="t('snPostCard.title')" :show-back="true">
+		<demo-card :title="t('snPostCard.basicTitle')" :subtitle="t('snPostCard.basicSubtitle')" />
+		<sn-post-card :avatar-config="avatarConfig" :nickname="t('snPostCard.nicknameLin')" :datetime="demoTime"
+			:actions="actions" @action-click="onActionClick"
+			@avatar-click="onPartClick(t('snPostCard.partAvatar'))" @nickname-click="onPartClick(t('snPostCard.partNickname'))" @content-click="onPartClick(t('snPostCard.partContent'))"
+			custom-style="margin-left: 16px; margin-right: 16px; margin-bottom: 16px;">
+			<template #header-action>
+				<view class="demo-header-action" @click="onMore">
+					<sn-icon name="more-line" :size="18" color="$textLight" />
+				</view>
+			</template>
+			<sn-text font-size="$14" color="$text" flatten custom-style="line-height: 22px;">{{ t('snPostCard.content1') }}</sn-text>
+		</sn-post-card>
+
+		<demo-card :title="t('snPostCard.activateTitle')" :subtitle="t('snPostCard.activateSubtitle')" />
+		<sn-post-card :avatar-config="avatarConfig2" :nickname="t('snPostCard.nicknameSu')" :datetime="demoTime2"
+			:actions="stateActions" @action-click="onStateActionClick"
+			custom-style="margin-left: 16px; margin-right: 16px; margin-bottom: 16px;">
+			<sn-text font-size="$14" color="$text" flatten custom-style="line-height: 22px;">{{ t('snPostCard.content2') }}</sn-text>
+		</sn-post-card>
+
+		<demo-card :title="t('snPostCard.slotTitle')" :subtitle="t('snPostCard.slotSubtitle')" />
+		<sn-post-card custom-style="margin-left: 16px; margin-right: 16px; margin-bottom: 16px;"
+			action-style="padding-top: 10px; padding-bottom: 10px;">
+			<template #avatar>
+				<sn-avatar text="A" :size="40" shape="circle" bg-color="$warning" text-color="#FFFFFF" />
+			</template>
+			<template #info>
+				<sn-text bold font-size="$14" color="$title" flatten>Aiden</sn-text>
+				<view class="demo-info-sub">
+					<sn-dateformat :date="demoTime3" text-size="$11" text-color="$textLight" />
+					<sn-text font-size="$11" color="$textLight" flatten custom-style="margin-left: 4px;">· iPad</sn-text>
+				</view>
+			</template>
+			<template #header-action>
+				<view class="demo-header-action" @click="onMore">
+					<sn-icon name="more-line" :size="18" color="$textLight" />
+				</view>
+			</template>
+			<sn-text font-size="$14" color="$text" flatten custom-style="line-height: 22px;">{{ t('snPostCard.content3') }}</sn-text>
+			<template #action>
+				<sn-button level="second" custom-style="flex: 1; margin-right: 8px;" @click="onPartClick(t('snPostCard.comment'))">{{ t('snPostCard.comment') }}</sn-button>
+				<sn-button level="second" custom-style="flex: 1;" @click="onPartClick(t('snPostCard.forward'))">{{ t('snPostCard.forward') }}</sn-button>
+			</template>
+		</sn-post-card>
+
+		<demo-card :title="t('snPostCard.commentTitle')" :subtitle="t('snPostCard.commentSubtitle')" />
+		<sn-post-card :avatar-config="avatarConfig" :nickname="t('snPostCard.nicknameLin')" :datetime="demoTime"
+			:actions="actions" @action-click="onActionClick"
+			:comments="comments" :show-more="true"
+			@comment-user-click="onCommentUserClick" @comment-click="onCommentClick" @more-click="onCommentMoreClick"
+			custom-style="margin-left: 16px; margin-right: 16px; margin-bottom: 16px;">
+			<sn-text font-size="$14" color="$text" flatten custom-style="line-height: 22px;">{{ t('snPostCard.content4') }}</sn-text>
+		</sn-post-card>
+
+		<demo-card :title="t('snPostCard.commentSlotTitle')" :subtitle="t('snPostCard.commentSlotSubtitle')" />
+		<sn-post-card :avatar-config="avatarConfig2" :nickname="t('snPostCard.nicknameSu')" :datetime="demoTime2"
+			custom-style="margin-left: 16px; margin-right: 16px; margin-bottom: 16px;">
+			<sn-text font-size="$14" color="$text" flatten custom-style="line-height: 22px;">{{ t('snPostCard.content5') }}</sn-text>
+			<template #comment>
+				<view v-for="(c, i) in customComments" :key="i" class="demo-comment-line" @click="onCommentClick(c, i)">
+					<text class="demo-comment-user" @click="onCommentUserClick(c, c.user ?? '')">{{ c.user ?? '' }}</text>
+					<text class="demo-comment-content">{{ getCustomCommentText(c) }}</text>
+				</view>
+				<text class="demo-comment-more" @click="onCommentMoreClick">{{ t('snPostCard.expandMore') }}</text>
+			</template>
+		</sn-post-card>
+
+		<demo-card :title="t('snPostCard.customStyleTitle')" :subtitle="t('snPostCard.customStyleSubtitle')" />
+		<sn-post-card :avatar-config="avatarConfig3" nickname="Momo" :datetime="demoTime4"
+			bg-color="$primaryLight" nickname-color="$primary" datetime-color="$primary"
+			action-color="$primary" action-size="$13" action-icon-size="$20"
+			:actions="plainActions" @action-click="onStyleActionClick"
+			custom-style="margin-left: 16px; margin-right: 16px; margin-bottom: 16px;">
+			<sn-text font-size="$14" color="$text" flatten custom-style="line-height: 22px;">{{ t('snPostCard.content6') }}</sn-text>
+		</sn-post-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import type { SnAvatarConfig, SnPostCardAction, SnPostCardComment, SnShowActionsheetConfig } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+
+const avatarConfig: SnAvatarConfig = {
+	mode: 'text',
+	text: t('snPostCard.avatarLin'),
+	size: '40px',
+	shape: 'circle',
+	bgColor: '$primary',
+	textColor: '#FFFFFF'
+}
+
+const avatarConfig2: SnAvatarConfig = {
+	mode: 'text',
+	text: t('snPostCard.avatarSu'),
+	size: '40px',
+	shape: 'circle',
+	bgColor: '$success',
+	textColor: '#FFFFFF'
+}
+
+const avatarConfig3: SnAvatarConfig = {
+	mode: 'text',
+	text: 'M',
+	size: '40px',
+	shape: 'circle',
+	bgColor: '$error',
+	textColor: '#FFFFFF'
+}
+
+const demoTime = Date.now() - 10 * 60 * 1000
+const demoTime2 = Date.now() - 60 * 60 * 1000
+const demoTime3 = Date.now() - 3 * 60 * 60 * 1000
+const demoTime4 = Date.now() - 26 * 60 * 60 * 1000
+
+const actions = ref<SnPostCardAction[]>([
+	{ id: 'like', icon: 'heart-3-line', text: '86', activeIconColor: '$error', activeTextColor: '$error' },
+	{ id: 'comment', icon: 'chat-1-line', text: '32' },
+	{ id: 'share', icon: 'share-forward-line', text: '6' }
+])
+
+const stateActions = ref<SnPostCardAction[]>([
+	{ id: 'like', icon: 'thumb-up-line', text: '128', activeIconColor: '$primary', activeTextColor: '$primary' },
+	{ id: 'fav', icon: 'star-fill', text: '21', isActive: true, activeIconColor: '$warning', activeTextColor: '$warning' },
+	{ id: 'report', icon: 'error-warning-line', text: '', disabled: true }
+])
+
+const plainActions: SnPostCardAction[] = [
+	{ id: 'like', icon: 'heart-3-line', text: '77' },
+	{ id: 'comment', icon: 'chat-1-line', text: '26' }
+]
+
+const comments: SnPostCardComment[] = [
+	{ id: 'c1', user: t('snPostCard.userLing'), content: t('snPostCard.commentC1') },
+	{ id: 'c2', user: t('snPostCard.userCat'), content: t('snPostCard.meow'), replyTo: t('snPostCard.userLing') },
+	{ id: 'c3', user: t('snPostCard.userPeach'), content: t('snPostCard.haha'), replyTo: t('snPostCard.userLing') },
+	{ id: 'c4', user: t('snPostCard.userZong'), content: t('snPostCard.meowShort'), replyTo: t('snPostCard.userLing') }
+]
+
+const customComments: SnPostCardComment[] = [
+	{ id: 'd1', user: t('snPostCard.userCat'), content: t('snPostCard.meow') },
+	{ id: 'd2', user: t('snPostCard.userPeach'), content: t('snPostCard.haha'), replyTo: t('snPostCard.userCat') }
+]
+
+function onPartClick(name: string): void {
+	snu.showToast({ text: t('snPostCard.clicked', { name: name } as UTSJSONObject) })
+}
+
+function onMore(): void {
+	snu.showActionsheet({
+		title: t('snPostCard.actionsTitle'),
+		actions: [
+			{ text: t('snPostCard.favPost') },
+			{ text: t('snPostCard.blockUser') },
+			{ text: t('snPostCard.report'), color: '$error' }
+		]
+	} as SnShowActionsheetConfig)
+}
+
+function onActionClick(action: SnPostCardAction, index: number): void {
+	if (action.id == 'like') {
+		const isActive = !(action.isActive ?? false)
+		action.isActive = isActive
+		action.icon = isActive ? 'heart-3-fill' : 'heart-3-line'
+		action.text = `${parseInt(action.text ?? '0') + (isActive ? 1 : -1)}`
+	}
+	snu.showToast({ text: t('snPostCard.clickedItem', { value: action.text ?? '' } as UTSJSONObject) })
+}
+
+function onStateActionClick(action: SnPostCardAction, index: number): void {
+	const isActive = !(action.isActive ?? false)
+	action.isActive = isActive
+	if (action.id == 'like') {
+		action.icon = isActive ? 'thumb-up-fill' : 'thumb-up-line'
+	}
+	action.text = `${parseInt(action.text ?? '0') + (isActive ? 1 : -1)}`
+}
+
+function onStyleActionClick(action: SnPostCardAction, index: number): void {
+	snu.showToast({ text: t('snPostCard.clickedItem', { value: action.text ?? '' } as UTSJSONObject) })
+}
+
+function onCommentUserClick(comment: SnPostCardComment, name: string): void {
+	snu.showToast({ text: t('snPostCard.clickedUser', { name: name } as UTSJSONObject) })
+}
+
+function onCommentClick(comment: SnPostCardComment, index: number): void {
+	snu.showToast({ text: t('snPostCard.clickedComment', { content: comment.content ?? '' } as UTSJSONObject) })
+}
+
+function onCommentMoreClick(): void {
+	snu.showToast({ text: t('snPostCard.clickedMoreComment') })
+}
+
+function getCustomCommentText(comment: SnPostCardComment): string {
+	if (comment.replyTo != null && comment.replyTo != '') {
+		return t('snPostCard.replyFormat', { name: comment.replyTo!, content: comment.content ?? '' } as UTSJSONObject)
+	}
+	return t('snPostCard.commentFormat', { content: comment.content ?? '' } as UTSJSONObject)
+}
+</script>
+
+<style lang="scss">
+.demo-header-action {
+	padding: 4px 4px 4px 12px;
+}
+.demo-info-sub {
+	flex-direction: row;
+	align-items: center;
+	margin-top: 2px;
+}
+.demo-comment-line {
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	margin-top: 4px;
+}
+.demo-comment-user {
+	font-size: 14px;
+	line-height: 21px;
+	color: var(--sn-primary);
+}
+.demo-comment-content {
+	font-size: 14px;
+	line-height: 21px;
+	color: var(--sn-text);
+}
+.demo-comment-more {
+	font-size: 14px;
+	color: var(--sn-primary);
+	margin-top: 6px;
+}
+</style>

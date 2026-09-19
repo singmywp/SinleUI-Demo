@@ -1,0 +1,214 @@
+<template>
+	<sn-page :title="t('snDatetimePicker.title')" :show-back="true">
+
+		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
+			<sn-text font-size="$12" color="$primary" flatten>{{ t('snDatetimePicker.note') }}</sn-text>
+		</sn-alert>
+
+		<demo-card :title="t('snDatetimePicker.basicTitle')" :subtitle="t('snDatetimePicker.basicDesc')">
+			<view class="config-row" flatten>
+				<sn-button :text="t('snDatetimePicker.open')" type="primary" custom-style="flex:1;" @click="openPicker" />
+				<sn-button :text="t('snDatetimePicker.close')" type="info" custom-style="flex:1;margin-left:10px;" @click="closePicker" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snDatetimePicker.current', { v: pickerValue } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snDatetimePicker.modeTitle')" :subtitle="t('snDatetimePicker.modeDesc')">
+			<view class="btn-row" flatten>
+				<sn-button type="success" :text="t('snDatetimePicker.dateOnly')" custom-style="margin-right:8px;flex:1;" @click="openDate" />
+				<sn-button type="info" :text="t('snDatetimePicker.timeOnly')" custom-style="flex:1;" @click="openTime" />
+			</view>
+			<view class="btn-row" flatten>
+				<sn-button type="info" :text="t('snDatetimePicker.yearMonth')" custom-style="margin-right:8px;flex:1;" @click="openYearMonth" />
+				<sn-button type="primary" :text="t('snDatetimePicker.dateTime')" custom-style="flex:1;" @click="openFull" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snDatetimePicker.rangeTitle')" :subtitle="t('snDatetimePicker.rangeDesc')">
+			<view class="btn-row" flatten>
+				<sn-button type="warning" :text="t('snDatetimePicker.limitRangeBtn')" custom-style="margin-right:8px;flex:1;" @click="openRange" />
+				<sn-button type="info" :text="t('snDatetimePicker.customFormatBtn')" custom-style="flex:1;" @click="openFormat" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snDatetimePicker.rangeFormat') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snDatetimePicker.configTitle')" :subtitle="t('snDatetimePicker.configDesc')">
+			<view class="btn-row" flatten>
+				<sn-button type="success" :text="t('snDatetimePicker.customTheme')" custom-style="margin-right:8px;flex:1;" @click="openCustomStyle" />
+				<sn-button type="info" :text="t('snDatetimePicker.onlyConfirm')" custom-style="flex:1;" @click="openOnlyConfirm" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snDatetimePicker.eventTitle')" :subtitle="t('snDatetimePicker.eventDesc')">
+			<view class="config-row" flatten>
+				<sn-text :text="t('snDatetimePicker.eventResult')" custom-style="width:80px;" flatten />
+				<sn-text bold font-size="$14" :text="eventResult" flatten />
+			</view>
+			<sn-button type="primary" :text="t('snDatetimePicker.triggerEvent')" custom-style="margin-top:10px;flex:1;" @click="openListen" />
+		</demo-card>
+
+		
+		<sn-datetime-picker ref="pickerRef" v-model="pickerValue" :mode="pickerMode" :format="pickerFormat"
+			:start="pickerStart" :end="pickerEnd" :title="pickerTitle" :title-color="pickerTitleColor"
+			:show-close="pickerShowClose" :show-cancel="pickerShowCancel" :show-confirm="pickerShowConfirm"
+			:active-item-text-color="pickerActiveColor" @open="onOpen" @close="onClose" @confirm="onConfirm"
+			@cancel="onCancel" @change="onChange" />
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+	
+	import { useI18n } from 'vue-i18n'
+	import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+	import type { ComponentPublicInstance } from 'vue'
+	import type { SnDatetimePickerValue } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+	const { t } = useI18n()
+
+	const { isDark } = useTheme()
+
+	const descColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+
+	const pickerRef = ref<ComponentPublicInstance | null>(null)
+
+	const pickerValue = ref<SnDatetimePickerValue>('2026-08-18 10:30:00')
+	const pickerMode = ref<number | string>(7)
+	const pickerFormat = ref<string>('YYYY-MM-DD HH:mm:ss')
+	const pickerStart = ref<SnDatetimePickerValue | null>(null)
+	const pickerEnd = ref<SnDatetimePickerValue | null>(null)
+	const pickerTitle = ref<string>(t('snDatetimePicker.pickerTitleDefault'))
+	const pickerTitleColor = ref<string>('')
+	const pickerShowClose = ref<boolean>(true)
+	const pickerShowCancel = ref<boolean>(true)
+	const pickerShowConfirm = ref<boolean>(true)
+	const pickerActiveColor = ref<string>('')
+
+	const eventResult = ref<string>(t('snDatetimePicker.noEvent'))
+
+	
+	function resetAll(): void {
+		pickerMode.value = 7
+		pickerFormat.value = 'YYYY-MM-DD HH:mm:ss'
+		pickerStart.value = null
+		pickerEnd.value = null
+		pickerTitle.value = t('snDatetimePicker.pickerTitleDefault')
+		pickerTitleColor.value = ''
+		pickerShowClose.value = true
+		pickerShowCancel.value = true
+		pickerShowConfirm.value = true
+		pickerActiveColor.value = ''
+	}
+
+	function openPicker(): void {
+		resetAll()
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function closePicker(): void {
+		pickerRef.value?.$callMethod('close')
+	}
+
+	function openDate(): void {
+		resetAll()
+		pickerMode.value = 7
+		pickerFormat.value = 'YYYY-MM-DD'
+		pickerTitle.value = t('snDatetimePicker.pickerTitleDate')
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openTime(): void {
+		resetAll()
+		pickerMode.value = 56 
+		pickerFormat.value = 'HH:mm:ss'
+		pickerTitle.value = t('snDatetimePicker.pickerTitleTime')
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openYearMonth(): void {
+		resetAll()
+		pickerMode.value = 3 
+		pickerFormat.value = 'YYYY年MM月'
+		pickerTitle.value = t('snDatetimePicker.pickerTitleYearMonth')
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openFull(): void {
+		resetAll()
+		pickerMode.value = 63 
+		pickerFormat.value = 'YYYY-MM-DD HH:mm:ss'
+		pickerTitle.value = t('snDatetimePicker.pickerTitleDefault')
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openRange(): void {
+		resetAll()
+		pickerMode.value = 7
+		pickerFormat.value = 'YYYY-MM-DD'
+		pickerStart.value = '2020-05-10'
+		pickerEnd.value = '2030-11-20'
+		pickerTitle.value = t('snDatetimePicker.pickerTitleRange')
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openFormat(): void {
+		resetAll()
+		pickerMode.value = 7
+		pickerFormat.value = 'YYYY年MM月DD日'
+		pickerTitle.value = t('snDatetimePicker.pickerTitleFormat')
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openCustomStyle(): void {
+		resetAll()
+		pickerTitle.value = t('snDatetimePicker.pickerTitleCustom')
+		pickerTitleColor.value = '$primary'
+		pickerActiveColor.value = '$primary'
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openOnlyConfirm(): void {
+		resetAll()
+		pickerShowCancel.value = false
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openListen(): void {
+		resetAll()
+		eventResult.value = t('snDatetimePicker.noEvent')
+		pickerTitle.value = t('snDatetimePicker.pickerTitleListen')
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function onOpen(): void {
+		eventResult.value = t('snDatetimePicker.evOpen')
+	}
+
+	function onClose(): void {
+		eventResult.value = t('snDatetimePicker.evClose')
+	}
+
+	function onConfirm(): void {
+		eventResult.value = t('snDatetimePicker.evConfirm')
+	}
+
+	function onCancel(): void {
+		eventResult.value = t('snDatetimePicker.evCancel')
+	}
+
+	function onChange(v: SnDatetimePickerValue): void {
+		eventResult.value = t('snDatetimePicker.evChange', { v: v.toString() } as UTSJSONObject)
+	}
+</script>
+
+<style lang="scss">
+.config-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+.btn-row {
+	flex-direction: row;
+	margin-bottom: 10px;
+}
+</style>

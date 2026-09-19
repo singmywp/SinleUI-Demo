@@ -1,0 +1,217 @@
+<template>
+	<sn-page :title="t('snPagination.title')" :show-back="true">
+		<demo-card :title="t('snPagination.basicTitle')" :subtitle="t('snPagination.basicSubtitle')">
+			<view class="demo-block" flatten>
+				<sn-pagination v-model:page="page1" :page-count="5" />
+				<sn-text font-size="$13" color="$textLight" custom-style="margin-top:10px;" flatten>{{ t('snPagination.currentPage', { page: page1.toString(), total: '5' } as UTSJSONObject) }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snPagination.ellipsisTitle')" :subtitle="t('snPagination.ellipsisSubtitle')">
+			<view class="demo-block" flatten>
+				<sn-text font-size="$13" color="$textLight" custom-style="margin-bottom:8px;" flatten>{{ t('snPagination.nearStart') }}</sn-text>
+				<sn-pagination v-model:page="pageNearStart" :page-count="100" />
+			</view>
+			<view class="demo-block" flatten>
+				<sn-text font-size="$13" color="$textLight" custom-style="margin-bottom:8px;" flatten>{{ t('snPagination.midArea') }}</sn-text>
+				<sn-pagination v-model:page="pageMid" :page-count="100" />
+			</view>
+			<view class="demo-block" flatten>
+				<sn-text font-size="$13" color="$textLight" custom-style="margin-bottom:8px;" flatten>{{ t('snPagination.nearEnd') }}</sn-text>
+				<sn-pagination v-model:page="pageNearEnd" :page-count="100" />
+			</view>
+			<view class="demo-block" flatten>
+						<sn-text font-size="$13" color="$textLight" custom-style="margin-bottom:8px;" flatten>{{ t('snPagination.midMoreBtns') }}</sn-text>
+						<sn-pagination v-model:page="pageMid" :page-count="100" size="$30" :page-slot="7" />
+					</view>
+		</demo-card>
+
+		<demo-card :title="t('snPagination.pageSlotTitle')" :subtitle="t('snPagination.pageSlotSubtitle')">
+			<view class="demo-block">
+				<sn-pagination v-model:page="pageSlot5" :page-count="30" :page-slot="5"  />
+			</view>
+			<view class="demo-block">
+				<sn-pagination v-model:page="pageSlot7" :page-count="30" :page-slot="7"  />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snPagination.itemCountTitle')" :subtitle="t('snPagination.itemCountSubtitle')">
+			<view class="demo-block">
+				<sn-pagination v-model:page="pageAuto" :item-count="253" :page-size="10"  />
+				<sn-text font-size="$13" color="$textLight" custom-style="margin-top:10px;">{{ t('snPagination.itemCountAuto', { page: autoPageCount.toString() } as UTSJSONObject) }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snPagination.sizeTitle')" :subtitle="t('snPagination.sizeSubtitle')">
+			<view class="demo-block">
+				<sn-pagination v-model:page="pageSmall" :page-count="5" size="$28" />
+			</view>
+			<view class="demo-block">
+				<sn-pagination v-model:page="pageMedium" :page-count="5" />
+			</view>
+			<view class="demo-block">
+				<sn-pagination v-model:page="pageLarge" :page-count="3" size="$48" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snPagination.textStyleTitle')" :subtitle="t('snPagination.textStyleSubtitle')">
+			<view class="demo-block">
+				<sn-pagination v-model:page="pageTextStyle" :page-count="100"
+					button-text-style="font-size:16px;font-weight:bold;line-height: 1;" />
+			</view>
+			<view class="demo-block">
+				<sn-pagination v-model:page="pageTextClass" :page-count="10"
+					button-text-class="demo-page-text" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snPagination.btnTypeTitle')" :subtitle="t('snPagination.btnTypeSubtitle')">
+			<view class="demo-block">
+				<sn-pagination v-model:page="pageBtnStyle" :page-count="10"
+					button-type="info" button-level="least" :gap="12" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snPagination.quickJumpTitle')" :subtitle="t('snPagination.quickJumpSubtitle')">
+			<view class="demo-block">
+				<sn-pagination v-model:page="pageJump" :page-count="100" :page-slot="5" size="$28"
+					show-quick-jumper>
+					<template #goto>{{ t('snPagination.goTo') }}</template>
+				</sn-pagination>
+				<sn-text font-size="$13" color="$textLight" custom-style="margin-top:10px;">{{ t('snPagination.currentOnly', { page: pageJump.toString() } as UTSJSONObject) }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snPagination.slotTitle')" :subtitle="t('snPagination.slotSubtitle')">
+			<view class="demo-block">
+				<sn-pagination v-model:page="pageSlotUse" :page-count="3" size="$35">
+					<template #prefix>
+						<sn-text font-size="$13" color="$textLight">{{ t('snPagination.totalRecords') }}</sn-text>
+					</template>
+					<template #suffix>
+						<sn-text font-size="$13" color="$textLight">{{ t('snPagination.pageSuffix') }}</sn-text>
+					</template>
+				</sn-pagination>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snPagination.disabledTitle')" :subtitle="t('snPagination.disabledSubtitle')">
+			<view class="demo-block">
+				<sn-pagination v-model:page="pageDisabled" :page-count="5" disabled />
+			</view>
+			<view class="demo-block">
+				<sn-pagination v-model:page="pageDisabled2" :page-count="5" size="$28" show-quick-jumper disabled />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snPagination.businessTitle')" :subtitle="t('snPagination.businessSubtitle')">
+			<view class="demo-list">
+				<view v-for="(item, index) in visibleItems" :key="index" class="demo-list-item">
+					<sn-text font-size="$14" color="$text">{{ item }}</sn-text>
+				</view>
+			</view>
+			<sn-pagination v-model:page="pageList" :item-count="26" :page-size="5" custom-style="margin-top:14px;" />
+		</demo-card>
+
+		<demo-card :title="t('snPagination.hideNavTitle')" :subtitle="t('snPagination.hideNavSubtitle')">
+			<view class="demo-block">
+				<sn-pagination v-model:page="pageNoNav" :page-count="100" :show-prev-next="false" />
+			</view>
+			<view class="demo-block">
+				<sn-pagination v-model:page="pageNoNav2" :page-count="30" :page-slot="7" size="$28"
+					:show-prev-next="false" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snPagination.simpleTitle')" :subtitle="t('snPagination.simpleSubtitle')">
+			<view class="demo-block">
+				<sn-pagination v-model:page="pageSimple" :page-count="100" simple />
+			</view>
+			<view class="demo-block">
+				<sn-pagination v-model:page="pageSimple2" :page-count="100" simple show-quick-jumper />
+			</view>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+function buildItems(): string[] {
+	const list: string[] = []
+	for (let i = 1; i <= 26; i++) {
+		list.push(t('snPagination.newsItem', { index: i } as UTSJSONObject))
+	}
+	return list
+}
+
+	const allItems = ref<string[]>(buildItems())
+	const pageSizeNum = 5
+
+	const page1 = ref<number>(1)
+	const pageNearStart = ref<number>(3)
+	const pageMid = ref<number>(8)
+	const pageNearEnd = ref<number>(97)
+	const pageSlot5 = ref<number>(15)
+	const pageSlot7 = ref<number>(12)
+	const pageAuto = ref<number>(1)
+	const pageSmall = ref<number>(3)
+	const pageMedium = ref<number>(3)
+	const pageLarge = ref<number>(3)
+	const pageJump = ref<number>(50)
+	const pageTextStyle = ref<number>(8)
+	const pageTextClass = ref<number>(3)
+	const pageBtnStyle = ref<number>(5)
+	const pageSlotUse = ref<number>(2)
+	const pageDisabled = ref<number>(3)
+	const pageDisabled2 = ref<number>(5)
+	const pageList = ref<number>(1)
+	const pageSimple = ref<number>(3)
+	const pageSimple2 = ref<number>(8)
+	const pageNoNav = ref<number>(50)
+	const pageNoNav2 = ref<number>(12)
+
+	const autoPageCount = computed<number>(() => Math.ceil(253 / 10))
+
+	const visibleItems = computed<string[]>(() => {
+		const start = (pageList.value - 1) * pageSizeNum
+		const end = Math.min(start + pageSizeNum, allItems.value.length)
+		const list: string[] = []
+		for (let i = start; i < end; i++) {
+			list.push(allItems.value[i])
+		}
+		return list
+	})
+</script>
+
+<style lang="scss">
+	.demo-block {
+		flex-direction: column;
+		margin-bottom: 14px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.demo-list {
+		flex-direction: column;
+		overflow: hidden;
+	}
+
+	.demo-list-item {
+		padding: 12px 14px;
+		border-radius: 10px;
+		background-color: var(--sn-front);
+		border-width: 1px;
+		border-style: solid;
+		border-color: var(--sn-line);
+		margin-bottom: 8px;
+	}
+
+	.demo-page-text {
+		color: var(--sn-success) !important;
+		font-weight: 600;
+		line-height: 1;
+	}
+</style>

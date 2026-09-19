@@ -1,685 +1,970 @@
 {
-  "pages": [
-    {
-      "path": "pages/index/index",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-alert",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-avatar",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-backtop",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-badge",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-button",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-checkbox",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-col",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-card",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-countto",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-collapse",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-countdown",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-empty",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-gap",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-grid",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-icon",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-icon__all",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-image",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-input",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-line",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-link",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-list",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-loading",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-loading-page",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-loadmore",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-modal",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-overlay",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-page",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-popup",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-radio",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-rate",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-result",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-row",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-scan",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-scan__view",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-select",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-stepper",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-subsection",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-switch",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-tabs",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-tag",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-text",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-textarea",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-timer",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-tooltip",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-topbar",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-transition",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/components/sn-view",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/libs/sn-color",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/libs/sn-gesture",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/libs/sn-utils",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/libs/sn-date",
-      "style": {
-        "navigationBarTitleText": ""
-      }
-    },
-    {
-      "path": "pages/components/sn-toast",
-      "style": {
-        "navigationBarTitleText": ""
-      }
-    },
-    {
-      "path": "pages/components/sn-form",
-      "style": {
-        "navigationBarTitleText": ""
-      }
-    },
-    {
-      "path": "pages/libs/sn-store",
-      "style": {
-        "navigationBarTitleText": ""
-      }
-    },
-    {
-      "path": "pages/libs/sn-store-sub",
-      "style": {
-        "navigationBarTitleText": ""
-      }
-    },
-    {
-      "path": "pages/components/sn-slider",
-      "style": {
-        "navigationBarTitleText": ""
-      }
-    },
-    {
-      "path": "pages/components/sn-drawer",
-      "style": {
-        "navigationBarTitleText": ""
-      }
-    },
-    {
-      "path": "pages/components/sn-float-board",
-      "style": {
-        "navigationBarTitleText": ""
-      }
-    },
-    {
-      "path": "pages/components/sn-float-button",
-      "style": {
-        "navigationBarTitleText": ""
-      }
-    },
-    {
-      "path": "pages/components/sn-notice-bar",
-      "style": {
-        "navigationBarTitleText": ""
-      }
-    },
-    {
-      "path": "pages/components/sn-longlist",
-      "style": {
-        "navigationBarTitleText": ""
-      }
-    },
-    {
-      "path": "pages/other/webview",
-      "style": {
-        "navigationBarTitleText": ""
-      }
-    },
-    {
-      "path": "pages/components/sn-skeleton",
-      "style": {
-        "navigationBarTitleText": ""
-      }
-    },
-    {
-      "path": "pages/components/sn-refresher",
-      "style": {
-        "navigationBarTitleText": ""
-      }
-    },
-    {
-      "path": "pages/components/sn-markdown",
-      "style": {
-        "navigationBarTitleText": ""
-      }
-    },
-    {
-      "path": "pages/other/temp",
-      "style": {
-        "navigationBarTitleText": ""
-      }
-    },
-    {
-      "path": "pages/other/about",
-      "style": {
-        "navigationBarTitleText": ""
-      }
-    },
-    {
-    	"path" : "pages/components/sn-progress",
-    	"style" : 
-    	{
-    		"navigationStyle": "custom"
-    	}
-    },
-    {
-    	"path" : "pages/components/sn-more",
-    	"style" : 
-    	{
-    		"navigationStyle": "custom"
-    	}
-    },
-    {
-    	"path" : "pages/components/sn-search",
-    	"style" : 
-    	{
-    		"navigationStyle": "custom"
-    	}
-    },
-    {
-    	"path" : "pages/other/ui",
-    	"style" : 
-    	{
-    		"navigationStyle": "custom"
-    	}
-    },
-    {
-    	"path" : "pages/components/sn-e-barcode",
-    	"style" : 
-    	{
-    		"navigationStyle": "custom"
-    	}
-    },
-    {
-    	"path" : "pages/components/sn-e-qrcode",
-    	"style" : 
-    	{
-    		"navigationStyle": "custom"
-    	}
-    },
-    {
-    	"path" : "pages/components/sn-signature",
-    	"style" : 
-    	{
-    		"navigationStyle": "custom"
-    	}
-    },
-    {
-    	"path" : "pages/components/sn-e-svg",
-    	"style" : 
-    	{
-    		"navigationStyle": "custom"
-    	}
-    },
-    {
-    	"path" : "pages/components/sn-upload-media",
-    	"style" : 
-    	{
-    		"navigationStyle": "custom"
-    	}
-    },
-	{
-		"path": "pages/components/sn-menu-item",
-		"style": {
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/components/sn-tabbar",
-		"style" : 
+	"pages": [{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "SinleUI 2.0"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/components/tabbar/demo1",
-		"style" : 
+			"path": "pages/components/sn-page",
+			"style": {
+				"navigationBarTitleText": "Page 页面"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/components/tabbar/demo2",
-		"style" : 
+			"path": "pages/components/sn-pagination",
+			"style": {
+				"navigationBarTitleText": "Pagination 分页器"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/components/tabbar/demo3",
-		"style" : 
+			"path": "pages/components/sn-text",
+			"style": {
+				"navigationBarTitleText": "Text 文本"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/components/sn-waterfall",
-		"style" : 
+			"path": "pages/components/sn-dateformat",
+			"style": {
+				"navigationBarTitleText": "Dateformat 日期格式"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/components/sn-picker",
-		"style" : 
+			"path": "pages/components/sn-highlight-text",
+			"style": {
+				"navigationBarTitleText": "HighlightText 高亮文本"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/components/sn-picker-view",
-		"style" : 
+			"path": "pages/components/sn-ellipsis",
+			"style": {
+				"navigationBarTitleText": "Ellipsis 文本省略"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/components/sn-sidebar",
-		"style" : 
+			"path": "pages/components/sn-arc-slider",
+			"style": {
+				"navigationBarTitleText": "ArcSlider 环形滑块"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/components/sidebar/demo1",
-		"style" : 
+			"path": "pages/components/sn-arc-progress",
+			"style": {
+				"navigationBarTitleText": "ArcProgress 环形进度"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/components/sidebar/demo2",
-		"style" : 
+			"path": "pages/components/sn-sorter",
+			"style": {
+				"navigationBarTitleText": "Sorter 排序"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/components/sidebar/demo3",
-		"style" : 
+			"path": "pages/components/sn-button",
+			"style": {
+				"navigationBarTitleText": "Button 按钮"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/components/sn-label-radio",
-		"style" :
+			"path": "pages/components/sn-icon",
+			"style": {
+				"navigationBarTitleText": "Icon 图标"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/components/sn-label-checkbox",
-		"style" : 
+			"path": "pages/components/sn-image",
+			"style": {
+				"navigationBarTitleText": "Image 图片"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/components/sn-dateformat",
-		"style" : 
+			"path": "pages/components/sn-album",
+			"style": {
+				"navigationBarTitleText": "Album 相册"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/libs/sn-scan",
-		"style" : 
+			"path": "pages/components/sn-line",
+			"style": {
+				"navigationBarTitleText": "Line 分割线"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/libs/scankit",
-		"style" : 
+			"path": "pages/components/sn-cell",
+			"style": {
+				"navigationBarTitleText": "Cell 单元格"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/components/sn-e-blurview",
-		"style" : 
+			"path": "pages/components/sn-menu",
+			"style": {
+				"navigationBarTitleText": "Menu 菜单"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/components/sn-e-scankit-code",
-		"style" : 
+			"path": "pages/components/sn-popover",
+			"style": {
+				"navigationBarTitleText": "Popover 定位弹出层"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/components/sn-actionsheet",
-		"style" : 
+			"path": "pages/components/sn-topbar",
+			"style": {
+				"navigationBarTitleText": "Topbar 导航栏"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/components/sn-avatar-group",
-		"style" : 
+			"path": "pages/components/sn-upload-media",
+			"style": {
+				"navigationBarTitleText": "UploadMedia 媒体上传"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/other/aboutApp",
-		"style" : 
+			"path": "pages/components/sn-footer",
+			"style": {
+				"navigationBarTitleText": "Footer 页脚"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "uni_modules/sinle-ui/pages/utils/previewImage",
-		"style" : 
+			"path": "pages/components/sn-table",
+			"style": {
+				"navigationBarTitleText": "Table 表格"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "uni_modules/sinle-ui/pages/popups/showActionsheet",
-		"style" : 
+			"path": "pages/components/sn-alert",
+			"style": {
+				"navigationBarTitleText": "Alert 警告"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/other/tmp1",
-		"style" : 
+			"path": "pages/components/sn-amount",
+			"style": {
+				"navigationBarTitleText": "Amount 金额"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "uni_modules/sinle-ui/pages/popups/showToast",
-		"style" : 
+			"path": "pages/components/sn-avatar",
+			"style": {
+				"navigationBarTitleText": "Avatar 头像"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "uni_modules/sinle-ui/pages/popups/showModal",
-		"style" : 
+			"path": "pages/components/sn-avatar-group",
+			"style": {
+				"navigationBarTitleText": "AvatarGroup 头像组"
+			}
+		},
 		{
-			"navigationStyle": "custom"
-		}
-	},
-	{
-		"path" : "pages/templates/swiper-tabs",
-		"style" : 
+			"path": "pages/components/sn-badge",
+			"style": {
+				"navigationBarTitleText": "Badge 徽标"
+			}
+		},
 		{
-			"navigationBarTitleText" : ""
-		}
-	},
-	{
-		"path" : "pages/components/sn-perm-listener",
-		"style" : 
+			"path": "pages/components/sn-link",
+			"style": {
+				"navigationBarTitleText": "Link 链接"
+			}
+		},
 		{
-			"navigationBarTitleText" : ""
+			"path": "pages/components/sn-rate",
+			"style": {
+				"navigationBarTitleText": "Rate 评分"
+			}
+		},
+		{
+			"path": "pages/components/sn-slider",
+			"style": {
+				"navigationBarTitleText": "Slider 滑动选择"
+			}
+		},
+		{
+			"path": "pages/components/sn-switch",
+			"style": {
+				"navigationBarTitleText": "Switch 开关"
+			}
+		},
+		{
+			"path": "pages/components/sn-switch-button",
+			"style": {
+				"navigationBarTitleText": "SwitchButton 切换按钮"
+			}
+		},
+		{
+			"path": "pages/components/sn-view",
+			"style": {
+				"navigationBarTitleText": "View 视图容器"
+			}
+		},
+		{
+			"path": "pages/components/sn-stepper",
+			"style": {
+				"navigationBarTitleText": "Stepper 步进器"
+			}
+		},
+		{
+			"path": "pages/components/sn-subsection",
+			"style": {
+				"navigationBarTitleText": "Subsection 分段器"
+			}
+		},
+		{
+			"path": "pages/components/sn-steps",
+			"style": {
+				"navigationBarTitleText": "Steps 步骤条"
+			}
+		},
+		{
+			"path": "pages/components/sn-input",
+			"style": {
+				"navigationBarTitleText": "Input 输入框"
+			}
+		},
+		{
+			"path": "pages/components/sn-mention",
+			"style": {
+				"navigationBarTitleText": "Mention 提及输入框"
+			}
+		},
+		{
+			"path": "pages/components/sn-input-field",
+			"style": {
+				"navigationBarTitleText": "InputField 标签输入框"
+			}
+		},
+		{
+			"path": "pages/components/sn-code-input",
+			"style": {
+				"navigationBarTitleText": "CodeInput 验证码"
+			}
+		},
+		{
+			"path": "pages/components/sn-textarea",
+			"style": {
+				"navigationBarTitleText": "Textarea 文本域"
+			}
+		},
+		{
+			"path": "pages/components/sn-textarea-field",
+			"style": {
+				"navigationBarTitleText": "TextareaField 标签文本域"
+			}
+		},
+		{
+			"path": "pages/components/sn-form-field",
+			"style": {
+				"navigationBarTitleText": "FormField 表单项"
+			}
+		},
+		{
+			"path": "pages/components/sn-keyboard",
+			"style": {
+				"navigationBarTitleText": "Keyboard 自定义键盘"
+			}
+		},
+		{
+			"path": "pages/components/sn-radio",
+			"style": {
+				"navigationBarTitleText": "Radio 单选"
+			}
+		},
+		{
+			"path": "pages/components/sn-agreement",
+			"style": {
+				"navigationBarTitleText": "Agreement 协议"
+			}
+		},
+		{
+			"path": "pages/components/sn-checkbox",
+			"style": {
+				"navigationBarTitleText": "Checkbox 复选"
+			}
+		},
+		{
+			"path": "pages/components/sn-tree",
+			"style": {
+				"navigationBarTitleText": "Tree 树形选择"
+			}
+		},
+		{
+			"path": "pages/components/sn-label-radio",
+			"style": {
+				"navigationBarTitleText": "LabelRadio 标签单选"
+			}
+		},
+		{
+			"path": "pages/components/sn-label-checkbox",
+			"style": {
+				"navigationBarTitleText": "LabelCheckbox 标签多选"
+			}
+		},
+		{
+			"path": "pages/components/sn-tag",
+			"style": {
+				"navigationBarTitleText": "Tag 标签"
+			}
+		},
+		{
+			"path": "pages/components/sn-more",
+			"style": {
+				"navigationBarTitleText": "More 查看更多"
+			}
+		},
+		{
+			"path": "pages/components/sn-notice-bar",
+			"style": {
+				"navigationBarTitleText": "NoticeBar 通知栏"
+			}
+		},
+		{
+			"path": "pages/components/sn-loadmore",
+			"style": {
+				"navigationBarTitleText": "Loadmore 加载更多"
+			}
+		},
+		{
+			"path": "pages/components/sn-refresher",
+			"style": {
+				"navigationBarTitleText": "Refresher 下拉刷新"
+			}
+		},
+		{
+			"path": "pages/components/sn-scroll-view",
+			"style": {
+				"navigationBarTitleText": "ScrollView 滚动视图"
+			}
+		},
+		{
+			"path": "pages/components/sn-list-view",
+			"style": {
+				"navigationBarTitleText": "ListView 长列表"
+			}
+		},
+		{
+			"path": "pages/components/sn-backtop",
+			"style": {
+				"navigationBarTitleText": "Backtop 回到顶部"
+			}
+		},
+		{
+			"path": "pages/components/backtop/scroll",
+			"style": {
+				"navigationBarTitleText": "ScrollView 回顶"
+			}
+		},
+		{
+			"path": "pages/components/backtop/list",
+			"style": {
+				"navigationBarTitleText": "ListView 回顶"
+			}
+		},
+		{
+			"path": "pages/components/backtop/waterflow",
+			"style": {
+				"navigationBarTitleText": "Waterflow 回顶"
+			}
+		},
+		{
+			"path": "pages/components/sn-loading",
+			"style": {
+				"navigationBarTitleText": "Loading 加载"
+			}
+		},
+		{
+			"path": "pages/components/sn-loading-page",
+			"style": {
+				"navigationBarTitleText": "LoadingPage 加载页"
+			}
+		},
+		{
+			"path": "pages/api/perm-listener",
+			"style": {
+				"navigationBarTitleText": "PermListener 权限监听"
+			}
+		},
+		{
+			"path": "pages/components/sn-tooltip",
+			"style": {
+				"navigationBarTitleText": "Tooltip 提示框"
+			}
+		},
+		{
+			"path": "pages/components/sn-tabbar",
+			"style": {
+				"navigationBarTitleText": "Tabbar 底部导航栏"
+			}
+		},
+		{
+			"path": "pages/components/tabbar/demo1",
+			"style": {
+				"navigationBarTitleText": "Tabbar Demo 1 · 基础用法"
+			}
+		},
+		{
+			"path": "pages/components/tabbar/demo2",
+			"style": {
+				"navigationBarTitleText": "Tabbar Demo 2 · 自定义样式"
+			}
+		},
+		{
+			"path": "pages/components/tabbar/demo3",
+			"style": {
+				"navigationBarTitleText": "Tabbar Demo 3 · 发布按钮"
+			}
+		},
+		{
+			"path": "pages/components/tabbar/demo4",
+			"style": {
+				"navigationBarTitleText": "Tabbar Demo 4 · 自由配置"
+			}
+		},
+		{
+			"path": "pages/components/sn-card",
+			"style": {
+				"navigationBarTitleText": "Card 卡片"
+			}
+		},
+		{
+			"path": "pages/components/sn-post-card",
+			"style": {
+				"navigationBarTitleText": "PostCard 动态卡片"
+			}
+		},
+		{
+			"path": "pages/components/sn-skeleton",
+			"style": {
+				"navigationBarTitleText": "Skeleton 骨架屏"
+			}
+		},
+		{
+			"path": "pages/components/sn-empty",
+			"style": {
+				"navigationBarTitleText": "Empty 缺省页"
+			}
+		},
+		{
+			"path": "pages/components/sn-form",
+			"style": {
+				"navigationBarTitleText": "Form 表单"
+			}
+		},
+		{
+			"path": "pages/components/sn-gap",
+			"style": {
+				"navigationBarTitleText": "Gap 占位间隔"
+			}
+		},
+		{
+			"path": "pages/components/sn-keyboard-top",
+			"style": {
+				"navigationBarTitleText": "KeyboardTop 键盘上方区域"
+			}
+		},
+		{
+			"path": "pages/components/sn-float-board",
+			"style": {
+				"navigationBarTitleText": "FloatBoard 浮动面板"
+			}
+		},
+		{
+			"path": "pages/components/sn-float-button",
+			"style": {
+				"navigationBarTitleText": "FloatButton 浮动按钮"
+			}
+		},
+		{
+			"path": "pages/components/sn-sidebar",
+			"style": {
+				"navigationBarTitleText": "Sidebar 侧边栏"
+			}
+		},
+		{
+			"path": "pages/components/sidebar/demo1",
+			"style": {
+				"navigationBarTitleText": "Sidebar Demo1"
+			}
+		},
+		{
+			"path": "pages/components/sidebar/demo2",
+			"style": {
+				"navigationBarTitleText": "Sidebar Demo2"
+			}
+		},
+		{
+			"path": "pages/components/sidebar/demo3",
+			"style": {
+				"navigationBarTitleText": "Sidebar Demo3"
+			}
+		},
+		{
+			"path": "pages/components/sn-result",
+			"style": {
+				"navigationBarTitleText": "Result 结果页"
+			}
+		},
+		{
+			"path": "pages/components/sn-progress",
+			"style": {
+				"navigationBarTitleText": "Progress 进度条"
+			}
+		},
+		{
+			"path": "pages/components/sn-popup",
+			"style": {
+				"navigationBarTitleText": "Popup 弹出层"
+			}
+		},
+		{
+			"path": "pages/components/sn-modal",
+			"style": {
+				"navigationBarTitleText": "Modal 模态框"
+			}
+		},
+		{
+			"path": "pages/components/sn-toast",
+			"style": {
+				"navigationBarTitleText": "Toast 轻提示"
+			}
+		},
+		{
+			"path": "pages/components/sn-overlay",
+			"style": {
+				"navigationBarTitleText": "Overlay 遮罩层"
+			}
+		},
+		{
+			"path": "pages/components/sn-select",
+			"style": {
+				"navigationBarTitleText": "Select 选择框"
+			}
+		},
+		{
+			"path": "pages/components/sn-drawer",
+			"style": {
+				"navigationBarTitleText": "Drawer 抽屉"
+			}
+		},
+		{
+			"path": "pages/components/sn-drawer-list",
+			"style": {
+				"navigationBarTitleText": "DrawerList 抽屉长列表"
+			}
+		},
+		{
+			"path": "pages/components/sn-message",
+			"style": {
+				"navigationBarTitleText": "Message 消息条"
+			}
+		},
+		{
+			"path": "pages/components/sn-notification",
+			"style": {
+				"navigationBarTitleText": "Notification 通知"
+			}
+		},
+		{
+			"path": "pages/components/sn-actionsheet",
+			"style": {
+				"navigationBarTitleText": "Actionsheet 操作菜单"
+			}
+		},
+		{
+			"path": "pages/components/sn-picker-view",
+			"style": {
+				"navigationBarTitleText": "PickerView 选择器容器"
+			}
+		},
+		{
+			"path": "pages/components/sn-picker",
+			"style": {
+				"navigationBarTitleText": "Picker 选择器"
+			}
+		},
+		{
+			"path": "pages/components/sn-datetime-picker-view",
+			"style": {
+				"navigationBarTitleText": "DateTimePickerView 日期时间容器"
+			}
+		},
+		{
+			"path": "pages/components/sn-datetime-picker",
+			"style": {
+				"navigationBarTitleText": "DateTimePicker 日期时间选择器"
+			}
+		},
+		{
+			"path": "pages/components/sn-calendar",
+			"style": {
+				"navigationBarTitleText": "Calendar 日历选择器"
+			}
+		},
+		{
+			"path": "pages/components/sn-calendar-view",
+			"style": {
+				"navigationBarTitleText": "CalendarView 日历容器"
+			}
+		},
+		{
+			"path": "pages/components/sn-calendar-week",
+			"style": {
+				"navigationBarTitleText": "CalendarWeek 周日历"
+			}
+		},
+		{
+			"path": "pages/components/sn-calendar-punch",
+			"style": {
+				"navigationBarTitleText": "CalendarPunch 签到日历"
+			}
+		},
+		{
+			"path": "pages/components/sn-region-picker-view",
+			"style": {
+				"navigationBarTitleText": "RegionPickerView 地区容器"
+			}
+		},
+		{
+			"path": "pages/components/sn-region-picker",
+			"style": {
+				"navigationBarTitleText": "RegionPicker 地区选择器"
+			}
+		},
+		{
+			"path": "pages/components/sn-cascader",
+			"style": {
+				"navigationBarTitleText": "Cascader 级联器"
+			}
+		},
+		{
+			"path": "pages/components/sn-color-picker",
+			"style": {
+				"navigationBarTitleText": "ColorPicker 颜色选择器"
+			}
+		},
+		{
+			"path": "pages/components/sn-color-picker-view",
+			"style": {
+				"navigationBarTitleText": "ColorPickerView 颜色选择容器"
+			}
+		},
+		{
+			"path": "pages/components/sn-clipper",
+			"style": {
+				"navigationBarTitleText": "Clipper 图片裁剪"
+			}
+		},
+		{
+			"path": "pages/components/sn-clipper-fullscreen",
+			"style": {
+				"navigationBarTitleText": "Clipper 全屏裁剪"
+			}
+		},
+		{
+			"path": "pages/components/sn-search",
+			"style": {
+				"navigationBarTitleText": "Search 搜索框"
+			}
+		},
+		{
+			"path": "pages/components/sn-grid",
+			"style": {
+				"navigationBarTitleText": "Grid 宫格"
+			}
+		},
+		{
+			"path": "pages/components/sn-drag",
+			"style": {
+				"navigationBarTitleText": "Drag 拖拽排序"
+			}
+		},
+		{
+			"path": "pages/components/sn-collapse",
+			"style": {
+				"navigationBarTitleText": "Collapse 折叠面板"
+			}
+		},
+		{
+			"path": "pages/components/sn-tabs",
+			"style": {
+				"navigationBarTitleText": "Tabs 标签页"
+			}
+		},
+		{
+			"path": "pages/components/sn-timer",
+			"style": {
+				"navigationBarTitleText": "Timer 计时器"
+			}
+		},
+		{
+			"path": "pages/components/sn-countdown",
+			"style": {
+				"navigationBarTitleText": "Countdown 倒计时"
+			}
+		},
+		{
+			"path": "pages/components/sn-countto",
+			"style": {
+				"navigationBarTitleText": "Countto 数字滚动"
+			}
+		},
+		{
+			"path": "pages/components/sn-waterflow",
+			"style": {
+				"navigationBarTitleText": "Waterflow 瀑布流"
+			}
+		},
+		{
+			"path": "pages/components/sn-watermark",
+			"style": {
+				"navigationBarTitleText": "Watermark 水印"
+			}
+		},
+		{
+			"path": "pages/components/sn-fullscreen",
+			"style": {
+				"navigationBarTitleText": "Fullscreen 动态全屏"
+			}
+		},
+		{
+			"path": "pages/components/sn-swipe-action",
+			"style": {
+				"navigationBarTitleText": "SwipeAction 滑动操作"
+			}
+		},
+		{
+			"path": "pages/components/sn-slide-captcha",
+			"style": {
+				"navigationBarTitleText": "SlideCaptcha 滑块验证"
+			}
+		},
+		{
+			"path": "pages/components/waterflow/infinite",
+			"style": {
+				"navigationBarTitleText": "无限加载"
+			}
+		},
+		{
+			"path": "pages/components/watermark/full",
+			"style": {
+				"navigationBarTitleText": "整页水印"
+			}
+		},
+		{
+			"path": "pages/api/utils",
+			"style": {
+				"navigationBarTitleText": "Utils 工具库"
+			}
+		},
+		{
+			"path": "pages/api/show-toast",
+			"style": {
+				"navigationBarTitleText": "Toast 全局轻提示"
+			}
+		},
+		{
+			"path": "pages/api/show-modal",
+			"style": {
+				"navigationBarTitleText": "Modal 全局模态框"
+			}
+		},
+		{
+			"path": "pages/components/sn-barcode",
+			"style": {
+				"navigationBarTitleText": "Barcode 条形码"
+			}
+		},
+		{
+			"path": "pages/api/show-actionsheet",
+			"style": {
+				"navigationBarTitleText": "Actionsheet 全局操作菜单"
+			}
+		},
+		{
+			"path": "pages/api/scan",
+			"style": {
+				"navigationBarTitleText": "Scan 一键扫码"
+			}
+		},
+		{
+			"path": "pages/components/sn-qrcode",
+			"style": {
+				"navigationBarTitleText": "QRCode 二维码"
+			}
+		},
+		{
+			"path": "pages/components/sn-e-blurview",
+			"style": {
+				"navigationBarTitleText": "Blurview 高斯模糊"
+			}
+		},
+		{
+			"path": "pages/components/sn-gesture",
+			"style": {
+				"navigationBarTitleText": "Gesture 手势库"
+			}
+		},
+		{
+			"path": "pages/components/sn-gesture-instances",
+			"style": {
+				"navigationBarTitleText": "手势库实例"
+			}
+		},
+		{
+			"path": "pages/components/sn-view-instances",
+			"style": {
+				"navigationBarTitleText": "View 手势实例"
+			}
+		},
+		{
+			"path": "pages/components/sn-e-markdown",
+			"style": {
+				"navigationBarTitleText": "Markdown 富文本"
+			}
+		},
+		{
+			"path": "pages/components/sn-signature",
+			"style": {
+				"navigationBarTitleText": "Signature 签名"
+			}
+		},
+		{
+			"path": "pages/components/sn-scan",
+			"style": {
+				"navigationBarTitleText": "Scan 扫码"
+			}
+		},
+		{
+			"path": "pages/components/sn-e-scankit-code",
+			"style": {
+				"navigationBarTitleText": "ScankitCode 码图"
+			}
+		},
+		{
+			"path": "pages/components/sn-scan__view",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/api/show-loading",
+			"style": {
+				"navigationBarTitleText": "Loading 全局加载中"
+			}
+		},
+		{
+			"path": "pages/template/settings",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
+		},
+		{
+			"path": "pages/template/tabs-swiper",
+			"style": {
+				"navigationBarTitleText": "资讯"
+			}
+		},
+		{
+			"path": "pages/template/space",
+			"style": {
+				"navigationBarTitleText": "QQ空间"
+			}
+		},
+		{
+			"path": "pages/template/chat",
+			"style": {
+				"navigationBarTitleText": "聊天"
+			}
+		},
+		{
+			"path": "pages/template/login",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/template/agreement",
+			"style": {
+				"navigationBarTitleText": "协议详情"
+			}
+		},
+		{
+			"path": "uni_modules/sinle-ui/pages/popups/showModal",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "uni_modules/sinle-ui/pages/popups/showActionsheet",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "uni_modules/sinle-ui/pages/popups/showLoading",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/api/color",
+			"style": {
+				"navigationBarTitleText": "Color 颜色库"
+			}
+		},
+		{
+			"path": "pages/design/color",
+			"style": {
+				"navigationBarTitleText": "颜色设计"
+			}
+		},
+		{
+			"path": "pages/test/test",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/test/test2",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/other/about",
+			"style": {
+				"navigationBarTitleText": "关于本框架"
+			}
+		},
+		{
+			"path": "pages/other/about-app",
+			"style": {
+				"navigationBarTitleText": "关于本应用"
+			}
+		},
+		{
+			"path": "pages/other/ui",
+			"style": {
+				"navigationBarTitleText": "UI框架推荐"
+			}
+		},
+		{
+			"path": "pages/other/webview",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/other/settings",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
 		}
-	}
-  ],
-  "globalStyle": {
-    "navigationStyle": "custom",
-	"navigationBarTextStyle": "@navigationBarTextStyle",
-    "backgroundColor": "@backgroundColor",
-    "backgroundColorContent": "@backgroundColorContent",
-    "pageOrientation": "auto"
-  },
-  "uniIdRouter": {}
+	],
+	"globalStyle": {
+		"navigationStyle": "custom",
+		"navigationBarTitleText": "SinleUI",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {}
 }

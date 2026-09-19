@@ -1,56 +1,151 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Rate 评分"></sn-topbar>
-		<com-card title="基础用法"
-		note="普普通通的评分组件">
-			<sn-rate v-model="v1"></sn-rate>
-		</com-card>
-		<com-card title="颜色"
-		note="平凡普通的星星，也会绽放绚丽的色彩">
-			<sn-rate v-model="v2" 
-			activeColor="$dark" 
-			inactiveColor="#c3c3c3"></sn-rate>
-		</com-card>
-		<com-card title="图标"
-		note="除了星星之外，你还可以设置其他的图标，比如，一颗怦动鲜活的爱心。">
-			<sn-rate v-model="v3" icon="heart-fill" active-icon="heart-fill" active-color="#f05811"></sn-rate>
-		</com-card>
-		<com-card title="允许半选"
-		note="有时，你可能需要更精细的分值️">
-			<sn-rate v-model="v4" allow-half></sn-rate>
-		</com-card>
-		<com-card title="可清空"
-		note="设置后，点击当前的位置会清空值">
-			<sn-rate v-model="v5" clearable></sn-rate>
-		</com-card>
-		<com-card title="只读"
-		note="没什么可说的。">
-			<sn-rate v-model="vreadonly" allow-half readonly></sn-rate>
-		</com-card>
-		<com-card title="数量"
-		note="自定义评分值的范围">
-			<sn-rate ref="rateEle" v-model="v6" :count="8"></sn-rate>
-		</com-card>
-		<sn-gap></sn-gap>
+	<sn-page :title="t('snRate.title')" :show-back="true">
+		<demo-card :title="t('snRate.basicTitle')" :subtitle="t('snRate.basicSubtitle')">
+			<view class="demo-row" flatten>
+				<view class="demo-item" flatten>
+					<sn-rate v-model="rateValue" />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snRate.currentValue', { value: rateValue } as UTSJSONObject) }}</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snRate.readonlyTitle')" :subtitle="t('snRate.readonlySubtitle')">
+			<view class="demo-row" flatten>
+				<view class="demo-item" flatten>
+					<sn-rate :model-value="0" readonly />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>0</sn-text>
+				</view>
+				<view class="demo-item" flatten>
+					<sn-rate :model-value="3" readonly />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>3</sn-text>
+				</view>
+				<view class="demo-item" flatten>
+					<sn-rate :model-value="4.5" readonly />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>4.5</sn-text>
+				</view>
+				<view class="demo-item" flatten>
+					<sn-rate :model-value="5" readonly />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>5</sn-text>
+				</view>
+				<view class="demo-item" flatten>
+					<sn-rate :model-value="100" readonly />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snRate.overLimit') }}</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snRate.halfTitle')" :subtitle="t('snRate.halfSubtitle')">
+			<view class="demo-row" flatten>
+				<view class="demo-item" flatten>
+					<sn-rate v-model="halfValue" allow-half />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snRate.currentValue', { value: halfValue } as UTSJSONObject) }}</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snRate.clearTitle')" :subtitle="t('snRate.clearSubtitle')">
+			<view class="demo-row">
+				<view class="demo-item" flatten>
+					<sn-rate v-model="clearValue" clearable />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snRate.clearTip') }}</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snRate.countTitle')" :subtitle="t('snRate.countSubtitle')">
+			<view class="demo-row">
+				<view class="demo-item" flatten>
+					<sn-rate v-model="countValue" :count="10" />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snRate.tenStars', { value: countValue } as UTSJSONObject) }}</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snRate.colorTitle')" :subtitle="t('snRate.colorSubtitle')">
+			<view class="demo-row">
+				<view class="demo-item" flatten>
+					<sn-rate :model-value="4" active-color="$primary" />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snRate.themeColor') }}</sn-text>
+				</view>
+				<view class="demo-item" flatten>
+					<sn-rate :model-value="4" active-color="#ff6600" inactive-color="$line" />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snRate.orangeColor') }}</sn-text>
+				</view>
+				<view class="demo-item" flatten>
+					<sn-rate :model-value="4" active-color="$success" inactive-color="$disabled" />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snRate.successColor') }}</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snRate.iconTitle')" :subtitle="t('snRate.iconSubtitle')">
+			<view class="demo-row">
+				<view class="demo-item" flatten>
+					<sn-rate v-model="heartValue" icon="heart-3-fill" active-color="$error" />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snRate.heart', { value: heartValue } as UTSJSONObject) }}</sn-text>
+				</view>
+				<view class="demo-item" flatten>
+					<sn-rate :model-value="3.5" allow-half icon="star-line" active-icon="star-fill"
+						half-icon="star-half-fill" />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snRate.hollowToSolid') }}</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snRate.sizeTitle')" :subtitle="t('snRate.sizeSubtitle')">
+			<view class="demo-row">
+				<view class="demo-item" flatten>
+					<sn-rate :model-value="3" icon-size="$24" />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>icon-size=$24</sn-text>
+				</view>
+				<view class="demo-item" flatten>
+					<sn-rate :model-value="3" icon-size="14" spacing="10px" />
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snRate.smallStarWide') }}</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snRate.eventTitle')" :subtitle="t('snRate.eventSubtitle')">
+			<view class="demo-row" style="margin-bottom: 12px">
+				<view class="demo-item" flatten>
+					<sn-rate v-model="rateEventValue" @change="onRateChange" />
+				</view>
+			</view>
+			<sn-text font-size="$13" color="$primary">{{ t('snRate.recentEvent', { value: changeLog } as UTSJSONObject) }}</sn-text>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	
-	const v1 = ref(3)
-	const v2 = ref(2)
-	const v3 = ref(5)
-	const v4 = ref(2.5)
-	const v5 = ref(0)
-	const v6 = ref(0)
-	const rateEle = ref(null as SnRateComponentPublicInstance | null)
-	
-	const vreadonly = ref(4.5)
-	
-	
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+const rateValue = ref<number>(3)
+const rateEventValue = ref<number>(4)
+const halfValue = ref<number>(3.5)
+const clearValue = ref<number>(3)
+const countValue = ref<number>(6)
+const heartValue = ref<number>(2)
+const changeLog = ref<string>(t('snRate.noEvent'))
+
+function onRateChange(v: number): void {
+	changeLog.value = t('snRate.change', { value: v } as UTSJSONObject)
+}
 </script>
 
 <style lang="scss">
+.demo-row {
+	flex-direction: row;
+	align-items: center;
+	flex-wrap: wrap;
+	overflow: visible;
+}
+.demo-item {
+	flex-direction: column;
+	align-items: center;
+	margin-right: 20px;
+	margin-bottom: 12px;
+}
+.demo-label {
+	margin-top: 6px;
+}
 </style>

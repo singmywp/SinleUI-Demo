@@ -1,0 +1,180 @@
+<template>
+	<sn-page :title="t('snScrollView.title')" :show-back="true">
+		<demo-card :title="t('snScrollView.demoBasicTitle')" :subtitle="t('snScrollView.demoBasicSub')">
+			<view class="scroll-box" flatten>
+				<sn-scroll-view ref="scrollRef" refresher-enabled v-model:refresher-triggered="refresherTriggered"
+					:refresher-config="refresherConfig" loadmore v-model:loadmore-status="loadmoreStatus"
+					:loadmore-config="loadmoreConfig" backtop @refresherrefresh="onRefresh" @loadmore="onLoadmore">
+					<view v-for="(item, index) in items" :key="item" class="scroll-item" flatten>
+						<sn-text font-size="$14" :color="itemColor" flatten>{{ item }}</sn-text>
+					</view>
+				</sn-scroll-view>
+			</view>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>
+				{{ t('snScrollView.tipCount', { count: items.length } as UTSJSONObject) }}
+			</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snScrollView.demoMethodTitle')" :subtitle="t('snScrollView.demoMethodSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="primary" custom-style="margin-right:10px;" @click="onStartRefresh">{{ t('snScrollView.startRefresh') }}</sn-button>
+				<sn-button type="primary" level="second" @click="onStopRefresh">{{ t('snScrollView.stopRefresh') }}</sn-button>
+			</view>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>
+				{{ t('snScrollView.tipTriggered', { val: (refresherTriggered ? 'true' : 'false') } as UTSJSONObject) }}
+			</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snScrollView.demoHorizTitle')" :subtitle="t('snScrollView.demoHorizSub')">
+			<view class="scroll-box-horizontal" flatten>
+				<sn-scroll-view direction="horizontal" :refresher-enabled="false" :loadmore="false">
+					<view class="h-row" flatten>
+						<view v-for="(item, index) in hItems" :key="item" class="h-item" flatten>
+							<sn-text font-size="$14" :color="itemColor" flatten>{{ item }}</sn-text>
+						</view>
+					</view>
+				</sn-scroll-view>
+			</view>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+	import { computed } from 'vue'
+	import { useI18n } from 'vue-i18n'
+	import { $snui } from '@/uni_modules/sinle-ui'
+	import type { ComponentPublicInstance } from 'vue'
+	import type { SnLoadmoreParams, SnRefresherParams } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+	const { t } = useI18n()
+
+	const scrollRef = ref<ComponentPublicInstance | null>(null)
+	const refresherTriggered = ref<boolean>(false)
+	const loadmoreStatus = ref<string>('loadmore')
+	const items = ref<string[]>([])
+	const hItems = ref<string[]>([])
+	let refreshTimer: number | null = null
+
+	const refresherConfig = computed<SnRefresherParams>(() => ({
+		refreshText: t('snScrollView.refreshText'),
+		refreshingText: t('snScrollView.refreshingText'),
+		iconColor: '$primary',
+		textColor: '$primary'
+	}))
+
+	const loadmoreConfig = computed<SnLoadmoreParams>(() => ({
+		loadmoreText: t('snScrollView.loadmoreText'),
+		nomoreText: t('snScrollView.nomoreText'),
+		loadingText: t('snScrollView.loadingText')
+	}))
+
+	const itemColor = computed<string>(() => $snui.colors.text)
+
+	function initItems(): void {
+		const arr: string[] = []
+		for (let i = 1; i <= 30; i++) {
+			arr.push(t('snScrollView.itemText', { n: i } as UTSJSONObject))
+		}
+		items.value = arr
+	}
+
+	function initHItems(): void {
+		const arr: string[] = []
+		for (let i = 1; i <= 12; i++) {
+			arr.push(t('snScrollView.hItemText', { n: i } as UTSJSONObject))
+		}
+		hItems.value = arr
+	}
+
+	/**
+	 * 下拉刷新：重置列表并模拟 1.5s 网络请求后结束刷新，同时复位加载更多状态
+	 */
+	function onRefresh(): void {
+		if (refreshTimer != null) {
+			clearTimeout(refreshTimer)
+			refreshTimer = null
+		}
+		refreshTimer = setTimeout(() => {
+			initItems()
+			loadmoreStatus.value = 'loadmore'
+			scrollRef.value?.$callMethod('stopRefresh')
+			refreshTimer = null
+		}, 1500) as number
+	}
+
+	/**
+	 * 加载更多：追加数据，数据达到上限后置为 nomore
+	 */
+	function onLoadmore(): void {
+		loadmoreStatus.value = 'loading'
+		if (refreshTimer != null) {
+			clearTimeout(refreshTimer)
+			refreshTimer = null
+		}
+		refreshTimer = setTimeout(() => {
+			const current = items.value.length
+			for (let i = 1; i <= 10; i++) {
+				items.value.push(t('snScrollView.itemText', { n: current + i } as UTSJSONObject))
+			}
+			if (items.value.length >= 80) {
+				loadmoreStatus.value = 'nomore'
+			} else {
+				loadmoreStatus.value = 'loadmore'
+			}
+			refreshTimer = null
+		}, 1000) as number
+	}
+
+	function onStartRefresh(): void {
+		scrollRef.value?.$callMethod('startRefresh')
+	}
+
+	function onStopRefresh(): void {
+		scrollRef.value?.$callMethod('stopRefresh')
+	}
+
+	onMounted((): void => {
+		initItems()
+		initHItems()
+	})
+
+	onUnmounted(() => {
+		if (refreshTimer != null) {
+			clearTimeout(refreshTimer)
+			refreshTimer = null
+		}
+	})
+</script>
+
+<style lang="scss">
+	.scroll-box {
+		height: 360px;
+	}
+	.scroll-box-horizontal {
+		height: 120px;
+		width: 100%;
+	}
+	.scroll-item {
+		padding: 16px;
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: var(--sn-line);
+		background-color: var(--sn-front);
+	}
+	.h-row {
+		flex-direction: row;
+		height: 120px;
+	}
+	.h-item {
+		width: 120px;
+		height: 100px;
+		margin-right: 10px;
+		border-radius: 10px;
+		align-items: center;
+		justify-content: center;
+		background-color: var(--sn-primary-light);
+	}
+	.btn-row {
+		flex-direction: row;
+	}
+</style>

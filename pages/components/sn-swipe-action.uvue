@@ -1,0 +1,333 @@
+<template>
+	<sn-page :title="t('snSwipeAction.title')" :show-back="true">
+		<demo-card :title="t('snSwipeAction.demoBasicTitle')" :subtitle="t('snSwipeAction.demoBasicSub')">
+			<sn-swipe-action custom-style="border-radius: 12px; margin-bottom: 12px; overflow: hidden;">
+				<view class="demo-row" flatten>
+					<sn-avatar shape="circle" icon="chat-1-line" bgColor="$primary" iconColor="$primaryText" customStyle="margin-right: 15px;"></sn-avatar>
+					<view class="demo-msg" flatten>
+						<sn-text font-size="$15" color="$text" flatten>{{ t('snSwipeAction.msg1') }}</sn-text>
+						<sn-text flatten font-size="$12" color="$textLight">{{ t('snSwipeAction.justNow') }}</sn-text>
+					</view>
+				</view>
+				<template #right>
+					<view class="demo-action demo-action-error" @click="onDelete(0)">
+						<sn-icon name="delete-bin-line" :size="18" color="$errorText" />
+						<sn-text flatten font-size="$12" color="$errorText">{{ t('snSwipeAction.delete') }}</sn-text>
+					</view>
+					<view class="demo-action demo-action-primary" @click="onMore">
+						<sn-icon name="more-2-line" :size="18" color="$primaryText" />
+						<sn-text flatten font-size="$12" color="$primaryText">{{ t('snSwipeAction.more') }}</sn-text>
+					</view>
+				</template>
+			</sn-swipe-action>
+			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-left: 4px;">
+				{{ t('snSwipeAction.basicTip') }}
+			</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snSwipeAction.demoBothTitle')" :subtitle="t('snSwipeAction.demoBothSub')">
+			<sn-swipe-action custom-style="border-radius: 12px; overflow: hidden;">
+				<view class="demo-row">
+					<sn-avatar shape="circle" icon="price-tag-3-line" bgColor="$warning" iconColor="$warningText" customStyle="margin-right: 15px;"></sn-avatar>
+					<view class="demo-msg" flatten>
+						<sn-text font-size="$15" color="$text">{{ t('snSwipeAction.orderTitle') }}</sn-text>
+						<sn-text flatten font-size="$12" color="$textLight">{{ t('snSwipeAction.orderDesc') }}</sn-text>
+					</view>
+				</view>
+				<template #left>
+					<view class="demo-action demo-action-warning" @click="onRead">
+						<sn-icon name="eye-line" :size="18" color="$warningText" />
+						<sn-text flatten font-size="$12" color="$warningText">{{ t('snSwipeAction.read') }}</sn-text>
+					</view>
+				</template>
+				<template #right>
+					<view class="demo-action demo-action-success" @click="onCollect">
+						<sn-icon name="star-line" :size="18" color="$successText" />
+						<sn-text flatten font-size="$12" color="$successText">{{ t('snSwipeAction.collect') }}</sn-text>
+					</view>
+					<view class="demo-action demo-action-error" @click="onDelete(1)">
+						<sn-icon name="delete-bin-line" :size="18" color="$errorText" />
+						<sn-text flatten font-size="$12" color="$errorText">{{ t('snSwipeAction.delete') }}</sn-text>
+					</view>
+				</template>
+			</sn-swipe-action>
+		</demo-card>
+
+		<demo-card :title="t('snSwipeAction.demoAsyncTitle')" :subtitle="t('snSwipeAction.demoAsyncSub')">
+			<sn-swipe-action :before-close="beforeActionClose"
+				custom-style="border-radius: 12px; overflow: hidden;">
+				<view class="demo-row">
+					<sn-avatar shape="circle" icon="shopping-cart-line" bgColor="$error" iconColor="$errorText" customStyle="margin-right: 15px;"></sn-avatar>
+					<view class="demo-msg" flatten>
+						<sn-text font-size="$15" color="$text">{{ t('snSwipeAction.asyncTitle') }}</sn-text>
+						<sn-text flatten font-size="$12" color="$textLight">{{ t('snSwipeAction.asyncDesc') }}</sn-text>
+					</view>
+				</view>
+				<template #right>
+					<view class="demo-action demo-action-error" @click="onDelete(2)">
+						<sn-icon name="delete-bin-line" :size="18" color="$errorText" />
+						<sn-text flatten font-size="$12" color="$errorText">{{ t('snSwipeAction.delete') }}</sn-text>
+					</view>
+				</template>
+			</sn-swipe-action>
+		</demo-card>
+
+		<demo-card :title="t('snSwipeAction.demoCtrlTitle')" :subtitle="t('snSwipeAction.demoCtrlSub')">
+			<view class="demo-btn-row">
+				<sn-button :text="t('snSwipeAction.openLeft')" type="primary" @click="openAction('left')" />
+				<sn-button :text="t('snSwipeAction.openRight')" level="second" @click="openAction('right')"
+					custom-style="margin-left: 10px;" />
+				<sn-button :text="t('snSwipeAction.close')" level="least" @click="closeAction" custom-style="margin-left: 10px;" />
+			</view>
+			<sn-swipe-action ref="ctrlAction" @open="onOpen" @close="onClose"
+				custom-style="border-radius: 12px; margin-top: 12px; overflow: hidden;">
+				<view class="demo-row">
+					<sn-avatar shape="circle" icon="settings-2-line" bgColor="$primary" iconColor="$primaryText" customStyle="margin-right: 15px;"></sn-avatar>
+					<view class="demo-msg" flatten>
+						<sn-text font-size="$15" color="$text">{{ t('snSwipeAction.ctrlTitle') }}</sn-text>
+						<sn-text flatten font-size="$12" color="$textLight">{{ controlHint }}</sn-text>
+					</view>
+				</view>
+				<template #left>
+					<view class="demo-action demo-action-success" @click="onCollect">
+						<sn-icon name="star-line" :size="18" color="$successText" />
+						<sn-text flatten font-size="$12" color="$successText">{{ t('snSwipeAction.collect') }}</sn-text>
+					</view>
+				</template>
+				<template #right>
+					<view class="demo-action demo-action-error" @click="onDelete(3)">
+						<sn-icon name="delete-bin-line" :size="18" color="$errorText" />
+						<sn-text flatten font-size="$12" color="$errorText">{{ t('snSwipeAction.delete') }}</sn-text>
+					</view>
+				</template>
+			</sn-swipe-action>
+			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top: 10px; margin-left: 4px;">
+				{{ t('snSwipeAction.openEvtCount', { count: openCount } as UTSJSONObject) }}
+			</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snSwipeAction.demoThTitle')" :subtitle="t('snSwipeAction.demoThSub')">
+			<view class="demo-btn-row">
+				<sn-button :text="thText(0)" :type="thIndex == 0 ? 'primary' : 'info'" level="least"
+					@click="setThIndex(0)" custom-style="margin-right: 8px;" />
+				<sn-button :text="thText(1)" :type="thIndex == 1 ? 'primary' : 'info'" level="least"
+					@click="setThIndex(1)" custom-style="margin-right: 8px;" />
+				<sn-button :text="thText(2)" :type="thIndex == 2 ? 'primary' : 'info'" level="least"
+					@click="setThIndex(2)" custom-style="margin-right: 8px;" />
+				<sn-button :text="thText(3)" :type="thIndex == 3 ? 'primary' : 'info'" level="least"
+					@click="setThIndex(3)" />
+			</view>
+			<sn-swipe-action :open-threshold="openThreshold"
+				custom-style="border-radius: 12px; margin-top: 12px; overflow: hidden;">
+				<view class="demo-row">
+<sn-avatar shape="circle" icon="cursor-line" bgColor="$primary" iconColor="$primaryText" customStyle="margin-right: 15px;"></sn-avatar>
+					<view class="demo-msg" flatten>
+						<sn-text font-size="$15" color="$text">{{ t('snSwipeAction.thTitle2') }}</sn-text>
+						<sn-text flatten font-size="$12" color="$textLight">{{ openHint }}</sn-text>
+					</view>
+				</view>
+				<template #right>
+					<view class="demo-action demo-action-primary" @click="onEdit">
+						<sn-icon name="edit-box-line" :size="18" color="$primaryText" />
+						<sn-text flatten font-size="$12" color="$primaryText">{{ t('snSwipeAction.edit') }}</sn-text>
+					</view>
+					<view class="demo-action demo-action-error" @click="onDelete(4)">
+						<sn-icon name="delete-bin-line" :size="18" color="$errorText" />
+						<sn-text flatten font-size="$12" color="$errorText">{{ t('snSwipeAction.delete') }}</sn-text>
+					</view>
+					<view class="demo-action demo-action-warning" @click="onCollect">
+						<sn-icon name="star-line" :size="18" color="$warningText" />
+						<sn-text flatten font-size="$12" color="$warningText">{{ t('snSwipeAction.collect') }}</sn-text>
+					</view>
+				</template>
+			</sn-swipe-action>
+		</demo-card>
+
+		<demo-card :title="t('snSwipeAction.demoListTitle')" :subtitle="t('snSwipeAction.demoListSub')">
+			<view v-for="(item, index) in msgList" :key="'msg' + index">
+				<sn-swipe-action custom-style="border-radius: 12px; margin-bottom: 10px; overflow: hidden;">
+					<view class="demo-row">
+<sn-avatar shape="circle" icon="user-3-line" bgColor="$primary" iconColor="$primaryText" customStyle="margin-right: 15px;"></sn-avatar>
+						<view class="demo-msg" flatten>
+							<sn-text font-size="$15" color="$text">{{ item.name }}</sn-text>
+							<sn-text flatten font-size="$12" color="$textLight">{{ item.desc }}</sn-text>
+						</view>
+					</view>
+					<template #right>
+						<view class="demo-action demo-action-error" @click="onDeleteMsg(index)">
+							<sn-icon name="delete-bin-line" :size="18" color="$errorText" />
+							<sn-text flatten font-size="$12" color="$errorText">{{ t('snSwipeAction.delete') }}</sn-text>
+						</view>
+					</template>
+				</sn-swipe-action>
+			</view>
+			<sn-text v-if="msgList.length == 0" flatten font-size="$12" color="$textLight" custom-style="text-align: center; padding: 20px 0;">
+				{{ t('snSwipeAction.listEmpty') }}
+			</sn-text>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import type { ComponentPublicInstance } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui'
+
+const { t } = useI18n()
+
+
+
+
+const ctrlAction = ref<ComponentPublicInstance | null>(null)
+const controlHint = ref<string>(t('snSwipeAction.hintBoth'))
+const openCount = ref<number>(0)
+
+function openAction(direction: string): void {
+	ctrlAction.value?.$callMethod('open', direction)
+}
+
+function closeAction(): void {
+	ctrlAction.value?.$callMethod('close')
+}
+
+
+function onOpen(direction: string): void {
+	openCount.value = openCount.value + 1
+	controlHint.value = direction == 'left' ? t('snSwipeAction.hintLeft') : t('snSwipeAction.hintRight')
+}
+
+function onClose(): void {
+	openCount.value = openCount.value + 1
+	controlHint.value = t('snSwipeAction.hintClosed')
+}
+
+
+
+const thOptions: string[] = [t('snSwipeAction.thDefault'), '20%', '80%', '60px']
+const thIndex = ref<number>(0)
+const openThreshold = ref<string | number>('')
+const openHint = ref<string>(t('snSwipeAction.thHintDefault'))
+
+function thText(index: number): string {
+	return thOptions[index]
+}
+
+function setThIndex(index: number): void {
+	thIndex.value = index
+	if (index == 0) {
+		openThreshold.value = ''
+		openHint.value = t('snSwipeAction.thHintDefault')
+	} else if (index == 1) {
+		openThreshold.value = '20%'
+		openHint.value = t('snSwipeAction.thHint20')
+	} else if (index == 2) {
+		openThreshold.value = '80%'
+		openHint.value = t('snSwipeAction.thHint80')
+	} else {
+		openThreshold.value = '60px'
+		openHint.value = t('snSwipeAction.thHint60')
+	}
+}
+
+
+function beforeActionClose(direction: string): Promise<boolean> {
+	return new Promise((resolve) => {
+		snu.showModal({
+			title: t('snSwipeAction.confirmTitle'),
+			content: t('snSwipeAction.closeConfirm', { side: (direction == 'right' ? t('snSwipeAction.right') : t('snSwipeAction.left')) } as UTSJSONObject),
+			success: (confirm, cancel) => {
+				resolve(confirm)
+			},
+			fail: () => {
+				resolve(false)
+			}
+		})
+	})
+}
+
+
+function onRead(): void {
+	snu.showToast({ text: t('snSwipeAction.toastRead') })
+}
+
+function onCollect(): void {
+	snu.showToast({ text: t('snSwipeAction.toastCollect') })
+}
+
+function onMore(): void {
+	snu.showToast({ text: t('snSwipeAction.toastMore') })
+}
+
+function onEdit(): void {
+	snu.showToast({ text: t('snSwipeAction.toastEdit') })
+}
+
+function onDelete(index: number): void {
+	snu.showToast({ text: t('snSwipeAction.toastDelete', { n: index + 1 } as UTSJSONObject) })
+}
+
+
+type MsgItem = {
+	name: string
+	desc: string
+}
+
+const msgList = ref<MsgItem[]>([
+	{ name: t('snSwipeAction.msg1Name'), desc: t('snSwipeAction.msg1Desc') },
+	{ name: t('snSwipeAction.msg2Name'), desc: t('snSwipeAction.msg2Desc') },
+	{ name: t('snSwipeAction.msg3Name'), desc: t('snSwipeAction.msg3Desc') }
+])
+
+function onDeleteMsg(index: number): void {
+	if (index >= 0 && index < msgList.value.length) {
+		msgList.value.splice(index, 1)
+	}
+}
+</script>
+
+<style lang="scss">
+.demo-row {
+	flex-direction: row;
+	align-items: center;
+	padding: 14px 14px;
+	background-color: var(--sn-front);
+}
+
+.demo-msg {
+	flex: 1;
+	flex-direction: column;
+}
+
+.demo-action {
+	width: 60px;
+	align-self: stretch;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.demo-action-error {
+	background-color: var(--sn-error);
+}
+
+.demo-action-primary {
+	background-color: var(--sn-primary);
+}
+
+.demo-action-success {
+	background-color: var(--sn-success);
+}
+
+.demo-action-warning {
+	background-color: var(--sn-warning);
+}
+
+.demo-action-info {
+	background-color: var(--sn-info);
+}
+
+.demo-btn-row {
+	flex-direction: row;
+	align-items: center;
+}
+</style>

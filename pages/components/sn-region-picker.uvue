@@ -1,0 +1,204 @@
+<template>
+	<sn-page :title="t('snRegionPicker.title')" :show-back="true">
+
+		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
+			<sn-text font-size="$12" color="$primary" flatten>{{ t('snRegionPicker.alert') }}</sn-text>
+		</sn-alert>
+
+		<demo-card :title="t('snRegionPicker.basicTitle')" :subtitle="t('snRegionPicker.basicSubtitle')">
+			<view class="config-row" flatten>
+				<sn-button :text="t('snRegionPicker.selectAddress')" type="primary" custom-style="flex:1;" @click="openPicker" />
+				<sn-button :text="t('snRegionPicker.close')" type="info" custom-style="flex:1;margin-left:10px;" @click="closePicker" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snRegionPicker.currentSelected', { value: pickerText } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snRegionPicker.levelTitle')" :subtitle="t('snRegionPicker.levelSubtitle')">
+			<view class="btn-row" flatten>
+				<sn-button type="primary" :text="t('snRegionPicker.provinceCityArea')" custom-style="margin-right:8px;flex:1;" @click="openLevel(7)" />
+				<sn-button type="info" :text="t('snRegionPicker.provinceCity')" custom-style="margin-right:8px;flex:1;" @click="openLevel(3)" />
+				<sn-button type="info" :text="t('snRegionPicker.onlyProvince')" custom-style="flex:1;" @click="openLevel(1)" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snRegionPicker.aliasTip') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snRegionPicker.filterTitle')" :subtitle="t('snRegionPicker.filterSubtitle')">
+			<sn-button type="warning" :text="t('snRegionPicker.selectSouthChinaProvince')" custom-style="flex:1;" @click="openFiltered" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snRegionPicker.filterCascade') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snRegionPicker.configTitle')" :subtitle="t('snRegionPicker.configSubtitle')">
+			<view class="btn-row" flatten>
+				<sn-button type="success" :text="t('snRegionPicker.customTheme')" custom-style="margin-right:8px;flex:1;" @click="openCustomStyle" />
+				<sn-button type="info" :text="t('snRegionPicker.onlyConfirm')" custom-style="flex:1;" @click="openOnlyConfirm" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snRegionPicker.eventTitle')" :subtitle="t('snRegionPicker.eventSubtitle')">
+			<view class="config-row" flatten>
+				<sn-text :text="t('snRegionPicker.eventResult')" custom-style="width:80px;" flatten />
+				<sn-text bold font-size="$14" :text="eventResult" flatten />
+			</view>
+			<sn-button type="primary" :text="t('snRegionPicker.triggerEventDemo')" custom-style="margin-top:10px;flex:1;" @click="openListen" />
+		</demo-card>
+
+		
+		<sn-region-picker ref="pickerRef" v-model="pickerValue" :mode="pickerMode" :custom-filter="pickerFilter"
+			:title="pickerTitle" :title-color="pickerTitleColor" :show-close="pickerShowClose"
+			:show-cancel="pickerShowCancel" :show-confirm="pickerShowConfirm"
+			:active-item-text-color="pickerActiveColor" @open="onOpen" @close="onClose" @confirm="onConfirm"
+			@cancel="onCancel" @change="onPickerChange" />
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+	
+	import { useI18n } from 'vue-i18n'
+	import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+	import type { ComponentPublicInstance } from 'vue'
+	import type { SnDataItem, SnRegionDetail, SnRegionLevel, SnRegionValue } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+	const { isDark } = useTheme()
+	const { t } = useI18n()
+
+	const descColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+
+	const pickerRef = ref<ComponentPublicInstance | null>(null)
+
+	const pickerValue = ref<SnRegionValue>(['110000', '110000', '110105'])
+	const pickerText = ref<string>(t('snRegionPicker.defaultPickerText'))
+	const pickerMode = ref<number | string>(7)
+	const pickerFilter = ref<((type: SnRegionLevel, columns: SnDataItem[]) => SnDataItem[]) | null>(null)
+	const pickerTitle = ref<string>(t('snRegionPicker.selectAddress'))
+	const pickerTitleColor = ref<string>('')
+	const pickerShowClose = ref<boolean>(true)
+	const pickerShowCancel = ref<boolean>(true)
+	const pickerShowConfirm = ref<boolean>(true)
+	const pickerActiveColor = ref<string>('')
+
+	const eventResult = ref<string>(t('snRegionPicker.noEvent'))
+
+	
+	function resetAll(): void {
+		pickerMode.value = 7
+		pickerFilter.value = null
+		pickerTitle.value = t('snRegionPicker.selectAddress')
+		pickerTitleColor.value = ''
+		pickerShowClose.value = true
+		pickerShowCancel.value = true
+		pickerShowConfirm.value = true
+		pickerActiveColor.value = ''
+	}
+
+	
+	const filterFn = (type: SnRegionLevel, columns: SnDataItem[]): SnDataItem[] => {
+		if (type == 'province') {
+			const res: SnDataItem[] = []
+			for (let i = 0; i < columns.length; i++) {
+				const it = columns[i]
+				const t = it.text ?? ''
+				if (t == '广东省' || t == '广西壮族自治区' || t == '海南省') {
+					res.push(it)
+				}
+			}
+			return res
+		}
+		return columns
+	}
+
+	function openPicker(): void {
+		resetAll()
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function closePicker(): void {
+		pickerRef.value?.$callMethod('close')
+	}
+
+	function openLevel(mode: number): void {
+		resetAll()
+		pickerMode.value = mode
+		if (mode == 7) {
+			pickerTitle.value = t('snRegionPicker.selectProvinceCityArea')
+		} else if (mode == 3) {
+			pickerTitle.value = t('snRegionPicker.selectProvinceCity')
+		} else {
+			pickerTitle.value = t('snRegionPicker.selectProvince')
+		}
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openFiltered(): void {
+		resetAll()
+		pickerFilter.value = filterFn
+		pickerTitle.value = t('snRegionPicker.selectSouthChinaProvince')
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openCustomStyle(): void {
+		resetAll()
+		pickerTitle.value = t('snRegionPicker.customTheme')
+		pickerTitleColor.value = '$primary'
+		pickerActiveColor.value = '$primary'
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openOnlyConfirm(): void {
+		resetAll()
+		pickerShowCancel.value = false
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function openListen(): void {
+		resetAll()
+		eventResult.value = t('snRegionPicker.noEvent')
+		pickerTitle.value = t('snRegionPicker.eventDemo')
+		pickerRef.value?.$callMethod('open')
+	}
+
+	function onOpen(): void {
+		eventResult.value = t('snRegionPicker.eventOpen')
+	}
+
+	function onClose(): void {
+		eventResult.value = t('snRegionPicker.eventClose')
+	}
+
+	function onConfirm(): void {
+		eventResult.value = t('snRegionPicker.eventConfirm')
+	}
+
+	function onCancel(): void {
+		eventResult.value = t('snRegionPicker.eventCancel')
+	}
+
+	function onPickerChange(v: SnRegionValue, d: SnRegionDetail): void {
+		let s = ''
+		for (let i = 0; i < d.names.length; i++) {
+			const n = d.names[i]
+			if (n == '') {
+				continue
+			}
+			if (s != '') {
+				s += ' '
+			}
+			s += n
+		}
+		pickerText.value = s
+		eventResult.value = t('snRegionPicker.eventChange', { value: s } as UTSJSONObject)
+	}
+</script>
+
+<style lang="scss">
+	.config-row {
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 12px;
+	}
+
+	.btn-row {
+		flex-direction: row;
+		margin-bottom: 10px;
+	}
+</style>

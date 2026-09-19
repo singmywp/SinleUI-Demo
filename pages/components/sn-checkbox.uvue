@@ -1,135 +1,271 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Checkbox 复选"></sn-topbar>
-		<com-card title="基础用法"
-		note="跟radio的用法很像，但可以多选 \n（注意：一组sn-checkbox、sn-checkbox-tag必须放在sn-checkbox-group里）">
-			<sn-checkbox-group v-model="v1">
-				<sn-checkbox text="苹果"></sn-checkbox>
-				<sn-checkbox text="香蕉"></sn-checkbox>
-				<sn-checkbox text="菠萝"></sn-checkbox>
+	<sn-page :title="t('snCheckbox.title')" :show-back="true">
+		<demo-card :title="t('snCheckbox.basic')" :subtitle="t('snCheckbox.basicSub')">
+			<sn-checkbox-group v-model="check1">
+				<sn-checkbox :text="t('snCheckbox.apple')" />
+				<sn-checkbox :text="t('snCheckbox.banana')" />
+				<sn-checkbox :text="t('snCheckbox.pineapple')" />
 			</sn-checkbox-group>
-		</com-card>
-		<com-card title="类型"
-		note="自定义复选组显示的样式（支持两种组件：sn-checkbox和sn-checkbox-tag）">
-			<sn-checkbox-group v-model="v2">
-				<sn-checkbox text="及格"></sn-checkbox>
-				<sn-checkbox text="良好"></sn-checkbox>
-				<sn-checkbox text="优秀"></sn-checkbox>
+			<sn-text flatten font-size="$12" color="$textLight">{{ t('snCheckbox.selectedIndex', { text: check1Text } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snCheckbox.defaultSelected')" :subtitle="t('snCheckbox.defaultSelectedSub')">
+			<sn-checkbox-group v-model="check2">
+				<sn-checkbox :text="t('snCheckbox.option1')" />
+				<sn-checkbox :text="t('snCheckbox.option2')" />
+				<sn-checkbox :text="t('snCheckbox.option3')" />
 			</sn-checkbox-group>
-			<sn-checkbox-group v-model="v2">
-				<sn-checkbox-tag text="及格"></sn-checkbox-tag>
-				<sn-checkbox-tag text="良好"></sn-checkbox-tag>
-				<sn-checkbox-tag text="优秀"></sn-checkbox-tag>
+			<sn-text flatten font-size="$12" color="$textLight">{{ t('snCheckbox.vmInit', { text: check2Text } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snCheckbox.vertical')" :subtitle="t('snCheckbox.verticalSub')">
+			<sn-checkbox-group v-model="check3" vertical>
+				<sn-checkbox :text="t('snCheckbox.vertical1')" />
+				<sn-checkbox :text="t('snCheckbox.vertical2')" />
+				<sn-checkbox :text="t('snCheckbox.vertical3')" />
 			</sn-checkbox-group>
-		</com-card>
-		<com-card title="圆角"
-		note="复选组件可设置统一的圆角">
-			<sn-checkbox-group v-model="v4" boxBorderRadius="100px" boxIconSize="13px"
-				:customBoxContainStyle="{marginBottom:'15px'}">
-				<sn-checkbox text="小桥流水"></sn-checkbox>
-				<sn-checkbox text="烟火"></sn-checkbox>
-				<sn-checkbox text="夕阳"></sn-checkbox>
+		</demo-card>
+
+		<demo-card :title="t('snCheckbox.disabled')" :subtitle="t('snCheckbox.disabledSub')">
+			<sn-checkbox-group v-model="check4">
+				<sn-checkbox :text="t('snCheckbox.usable')" />
+				<sn-checkbox :text="t('snCheckbox.disabledUnchecked')" disabled />
+				<sn-checkbox :text="t('snCheckbox.disabledChecked')" disabled />
 			</sn-checkbox-group>
-			<sn-line></sn-line>
-			<sn-checkbox-group v-model="v4" tagBorderRadius="100px">
-				<sn-checkbox-tag text="小桥流水"></sn-checkbox-tag>
-				<sn-checkbox-tag text="烟火"></sn-checkbox-tag>
-				<sn-checkbox-tag text="夕阳"></sn-checkbox-tag>
+		</demo-card>
+
+		<demo-card :title="t('snCheckbox.customIcon')" :subtitle="t('snCheckbox.customIconSub')">
+			<sn-text flatten font-size="$12" color="$textLight">{{ t('snCheckbox.groupDot') }}</sn-text>
+			<sn-checkbox-group v-model="check5" box-icon="check-double-fill" box-icon-color="#fff"
+				box-active-bg-color="$success" box-active-border-color="$success">
+				<sn-checkbox :text="t('snCheckbox.selectAll')" />
+				<sn-checkbox :text="t('snCheckbox.batchOp')" />
 			</sn-checkbox-group>
-		</com-card>
-		<com-card title="图标 【Box特色】"
-		note="box 复选组件可设置选中图标。既可以给整个复选组设置统一图标，也可以为某一个子组件单独设置">
-			<sn-checkbox-group v-model="v5" boxSize="26px" boxBorderRadius="8px" boxIcon="heart-3-fill">
-				<sn-checkbox text="A1"></sn-checkbox>
-				<sn-checkbox text="B2" icon="user-smile-fill"></sn-checkbox>
-				<sn-checkbox text="C3"></sn-checkbox>
-				<sn-checkbox text="D4"></sn-checkbox>
+			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:12px;">{{ t('snCheckbox.singleOverride') }}</sn-text>
+			<sn-checkbox-group v-model="check6">
+				<sn-checkbox :text="t('snCheckbox.defaultIcon')" />
+				<sn-checkbox :text="t('snCheckbox.defaultToo')" />
+				<sn-checkbox :text="t('snCheckbox.heartIcon')" icon="heart-fill" />
 			</sn-checkbox-group>
-		</com-card>
-		<com-card title="方向"
-		note="复选组可以设置排列的方向（竖向和横向），适用于多种场景">
-			<sn-checkbox-group v-model="v6" vertical :customBoxContainStyle="{marginBottom:'15px'}">
-				<sn-checkbox text="一曲新词酒一杯"></sn-checkbox>
-				<sn-checkbox text="去年天气旧亭台"></sn-checkbox>
-				<sn-checkbox text="夕阳西下几时回"></sn-checkbox>
+		</demo-card>
+
+		<demo-card :title="t('snCheckbox.boxColor')" :subtitle="t('snCheckbox.boxColorSub')">
+			<sn-checkbox-group v-model="check7" box-active-bg-color="$warning" box-active-border-color="$warning"
+				box-icon-color="#fff" box-border-color="$line" box-bg-color="$front">
+				<sn-checkbox :text="t('snCheckbox.orangeTheme')" />
+				<sn-checkbox :text="t('snCheckbox.multiSelect')" />
 			</sn-checkbox-group>
-			<sn-line></sn-line>
-			<sn-checkbox-group v-model="v6" vertical spacing="5px" tagBorderRadius="15px"
-				tagPadding="10px 15px">
-				<sn-checkbox-tag text="无可奈何花落去"></sn-checkbox-tag>
-				<sn-checkbox-tag text="似曾相识燕归来"></sn-checkbox-tag>
-				<sn-checkbox-tag text="小园香径独徘徊"></sn-checkbox-tag>
+		</demo-card>
+
+		<demo-card :title="t('snCheckbox.tagCheckbox')" :subtitle="t('snCheckbox.tagCheckboxSub')">
+			<sn-checkbox-group v-model="check8">
+				<sn-checkbox-tag :text="t('snCheckbox.basketball')" />
+				<sn-checkbox-tag :text="t('snCheckbox.football')" />
+				<sn-checkbox-tag :text="t('snCheckbox.badminton')" />
+				<sn-checkbox-tag :text="t('snCheckbox.swimming')" />
 			</sn-checkbox-group>
-		</com-card>
-		<com-card title="默认值"
-		note="复选组可以设置默认的选项，更懂用户的选择">
-			<sn-checkbox-group v-model="v7">
-				<sn-checkbox text="李白"></sn-checkbox>
-				<sn-checkbox text="杜甫"></sn-checkbox>
-				<sn-checkbox text="王勃"></sn-checkbox>
-				<sn-checkbox text="苏轼"></sn-checkbox>
-				<sn-checkbox text="李清照"></sn-checkbox>
+		</demo-card>
+
+		<demo-card :title="t('snCheckbox.tagTheme')" :subtitle="t('snCheckbox.tagThemeSub')">
+			<sn-text flatten font-size="$12" color="$textLight">{{ t('snCheckbox.groupSuccess') }}</sn-text>
+			<sn-checkbox-group v-model="check9" tag-type="success">
+				<sn-checkbox-tag :text="t('snCheckbox.basicMember')" />
+				<sn-checkbox-tag :text="t('snCheckbox.premiumMember')" />
 			</sn-checkbox-group>
-			<sn-line></sn-line>
-			<sn-checkbox-group v-model="v7" spacing="5px">
-				<sn-checkbox-tag text="李白"></sn-checkbox-tag>
-				<sn-checkbox-tag text="杜甫"></sn-checkbox-tag>
-				<sn-checkbox-tag text="王勃"></sn-checkbox-tag>
-				<sn-checkbox-tag text="苏轼"></sn-checkbox-tag>
-				<sn-checkbox-tag text="李清照"></sn-checkbox-tag>
+			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:12px;">{{ t('snCheckbox.singleOverrideWarning') }}</sn-text>
+			<sn-checkbox-group v-model="check10">
+				<sn-checkbox-tag text="primary" />
+				<sn-checkbox-tag text="info" />
+				<sn-checkbox-tag text="warning" type="warning" />
 			</sn-checkbox-group>
-		</com-card>
-		<com-card title="禁用"
-		note="为单个单选设置禁用状态\n 注意：只是禁用手动点击，不会屏蔽数据的修改">
-			<sn-text class="introduction" :text="'\u3000\u3000'"></sn-text>
-			<sn-checkbox-group v-model="v8">
-				<sn-checkbox text="秦朝" disabled></sn-checkbox>
-				<sn-checkbox text="汉朝"></sn-checkbox>
-				<sn-checkbox text="晋朝" disabled></sn-checkbox>
-				<sn-checkbox text="唐朝"></sn-checkbox>
-				<sn-checkbox text="清朝" disabled></sn-checkbox>
+		</demo-card>
+
+		<demo-card :title="t('snCheckbox.tagLevel')" :subtitle="t('snCheckbox.tagLevelSub')">
+			<sn-checkbox-group v-model="check11">
+				<sn-checkbox-tag level="first" text="first" />
+				<sn-checkbox-tag level="second" text="second" />
+				<sn-checkbox-tag level="third" text="third" />
+				<sn-checkbox-tag level="least" text="least" />
 			</sn-checkbox-group>
-			<sn-line></sn-line>
-			<sn-checkbox-group v-model="v8" spacing="5px">
-				<sn-checkbox-tag text="秦朝" disabled></sn-checkbox-tag>
-				<sn-checkbox-tag text="汉朝"></sn-checkbox-tag>
-				<sn-checkbox-tag text="晋朝" disabled></sn-checkbox-tag>
-				<sn-checkbox-tag text="唐朝"></sn-checkbox-tag>
-				<sn-checkbox-tag text="清朝" disabled></sn-checkbox-tag>
+			<view class="tag-level-gap" flatten />
+			<sn-checkbox-group v-model="check18" tag-type="success">
+				<sn-checkbox-tag type="success" level="first" text="first" />
+				<sn-checkbox-tag type="success" level="second" text="second" />
+				<sn-checkbox-tag type="success" level="third" text="third" />
+				<sn-checkbox-tag type="success" level="least" text="least" />
 			</sn-checkbox-group>
-		</com-card>
-		<com-card title="自定义样式"
-		note="通过丰富的组件属性，你可以自由地控制组件每个部分的样式，实现一些很酷的东西">
-			<sn-checkbox-group v-model="v9" 
-			spacing="7px" 
-			tagActiveTextColor="#e54e09" 
-			tagTextColor="$infoText"
-			tagActiveBgColor="$info" 
-			tagBgColor="$info" 
-			tagBorderRadius="100px"
-			tagPadding="5px 13px" 
-			tagTextSize="14px">
-				<sn-checkbox-tag text="梦入江南烟水路"></sn-checkbox-tag>
-				<sn-checkbox-tag text="丹枫万叶碧云边"></sn-checkbox-tag>
-				<sn-checkbox-tag text="小院闲庭，轻寒翠袖生"></sn-checkbox-tag>
+			<view class="tag-level-gap" flatten />
+			<sn-checkbox-group v-model="check19" tag-type="warning">
+				<sn-checkbox-tag type="warning" level="first" text="first" />
+				<sn-checkbox-tag type="warning" level="second" text="second" />
+				<sn-checkbox-tag type="warning" level="third" text="third" />
+				<sn-checkbox-tag type="warning" level="least" text="least" />
 			</sn-checkbox-group>
-		</com-card>
+			<view class="tag-level-gap" flatten />
+			<sn-checkbox-group v-model="check20" tag-type="error">
+				<sn-checkbox-tag type="error" level="first" text="first" />
+				<sn-checkbox-tag type="error" level="second" text="second" />
+				<sn-checkbox-tag type="error" level="third" text="third" />
+				<sn-checkbox-tag type="error" level="least" text="least" />
+			</sn-checkbox-group>
+			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:4px;">{{ t('snCheckbox.levelTip') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snCheckbox.tagDisabled')" :subtitle="t('snCheckbox.tagDisabledSub')">
+			<sn-checkbox-group v-model="check12">
+				<sn-checkbox-tag :text="t('snCheckbox.usableTag')" />
+				<sn-checkbox-tag :text="t('snCheckbox.disabledUnchecked')" disabled />
+				<sn-checkbox-tag :text="t('snCheckbox.disabledChecked')" disabled />
+			</sn-checkbox-group>
+		</demo-card>
+
+		<demo-card :title="t('snCheckbox.tagCustomColor')" :subtitle="t('snCheckbox.tagCustomColorSub')">
+			<sn-checkbox-group v-model="check17" tag-active-bg-color="$primary" tag-active-text-color="$primaryText"
+				tag-bg-color="$primaryLight" tag-text-color="$primaryDark" tag-border-radius="$20">
+				<sn-checkbox-tag :text="t('snCheckbox.monthly')" />
+				<sn-checkbox-tag :text="t('snCheckbox.yearly')" />
+			</sn-checkbox-group>
+		</demo-card>
+
+		<demo-card :title="t('snCheckbox.sizeCustom')" :subtitle="t('snCheckbox.sizeCustomSub')">
+			<sn-checkbox-group v-model="check13" box-size="24px" box-text-size="$15" box-border-width="3px"
+				box-border-radius="$8">
+				<sn-checkbox :text="t('snCheckbox.largeBox')" />
+				<sn-checkbox :text="t('snCheckbox.roundedBox')" />
+			</sn-checkbox-group>
+			<sn-checkbox-group v-model="check14" tag-text-size="$14" tag-border-radius="$4" tag-padding="8px 14px"
+				custom-style="margin-top:12px;">
+				<sn-checkbox-tag :text="t('snCheckbox.largeTag')" />
+				<sn-checkbox-tag :text="t('snCheckbox.squareRadius')" />
+			</sn-checkbox-group>
+		</demo-card>
+
+		<demo-card :title="t('snCheckbox.mixed')" :subtitle="t('snCheckbox.mixedSub')">
+			<sn-checkbox-group v-model="check15">
+				<sn-checkbox :text="t('snCheckbox.boxOption')" />
+				<sn-checkbox-tag :text="t('snCheckbox.tagOption')" />
+				<sn-checkbox :text="t('snCheckbox.boxOption2')" />
+			</sn-checkbox-group>
+		</demo-card>
+
+		<demo-card :title="t('snCheckbox.event')" :subtitle="t('snCheckbox.eventSub')">
+			<sn-checkbox-group v-model="check16" @change="onChange">
+				<sn-checkbox :text="t('snCheckbox.optionA')" />
+				<sn-checkbox :text="t('snCheckbox.optionB')" />
+				<sn-checkbox :text="t('snCheckbox.optionC')" />
+			</sn-checkbox-group>
+			<sn-text flatten font-size="$13" color="$primary" custom-style="margin-top:12px;">{{ t('snCheckbox.recentEvent', { text: changeLog } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snCheckbox.externalStyle')" :subtitle="t('snCheckbox.externalStyleSub')">
+			<sn-checkbox-group v-model="check21">
+				<sn-checkbox :text="t('snCheckbox.boxExternalClass')" box-class="demo-box-big" />
+				<sn-checkbox :text="t('snCheckbox.boxCustomStyle')" box-style="transform: scale(1.2);" />
+				<sn-checkbox :text="t('snCheckbox.textExternalClass')" text-class="demo-text-strong" />
+				<sn-checkbox :text="t('snCheckbox.textCustomStyle')" text-style="font-weight:bold;color:#ff6600;" />
+			</sn-checkbox-group>
+			<view style="margin-top: 12px;" flatten>
+				<sn-text flatten font-size="$12" color="$textLight">{{ t('snCheckbox.groupClassDesc') }}</sn-text>
+				<sn-checkbox-group v-model="check23" box-class="demo-box-big" text-class="demo-text-strong">
+					<sn-checkbox :text="t('snCheckbox.apple')" />
+					<sn-checkbox :text="t('snCheckbox.banana')" />
+					<sn-checkbox :text="t('snCheckbox.pineapple')" />
+				</sn-checkbox-group>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snCheckbox.tagExternalStyle')" :subtitle="t('snCheckbox.tagExternalStyleSub')">
+			<sn-checkbox-group v-model="check22">
+				<sn-checkbox-tag :text="t('snCheckbox.textExternalClass')" text-class="demo-tag-text-strong" />
+				<sn-checkbox-tag :text="t('snCheckbox.textCustomStyle')" text-style="font-weight:bold;letter-spacing:1px;" />
+			</sn-checkbox-group>
+			<view style="margin-top: 12px;" flatten>
+				<sn-text flatten font-size="$12" color="$textLight">{{ t('snCheckbox.groupTagClassDesc') }}</sn-text>
+				<sn-checkbox-group v-model="check24" tag-class="demo-tag-scale">
+					<sn-checkbox-tag :text="t('snCheckbox.basketball')" />
+					<sn-checkbox-tag :text="t('snCheckbox.football')" />
+				</sn-checkbox-group>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snCheckbox.scene')" :subtitle="t('snCheckbox.sceneSub')">
+			<view class="scene-card" flatten>
+				<sn-text flatten bold font-size="$14" color="$text">{{ t('snCheckbox.chooseInterest') }}</sn-text>
+				<sn-checkbox-group v-model="hobbies" custom-style="margin-top:12px;">
+					<sn-checkbox-tag :text="t('snCheckbox.programming')" />
+					<sn-checkbox-tag :text="t('snCheckbox.design')" />
+					<sn-checkbox-tag :text="t('snCheckbox.music')" />
+					<sn-checkbox-tag :text="t('snCheckbox.photography')" />
+					<sn-checkbox-tag :text="t('snCheckbox.sports')" />
+					<sn-checkbox-tag :text="t('snCheckbox.reading')" />
+				</sn-checkbox-group>
+				<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snCheckbox.hobbiesCount', { count: hobbies.length, text: hobbiesText } as UTSJSONObject) }}</sn-text>
+			</view>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	const v1 = ref([0,1] as number[])
-	const v2 = ref([1] as number[])
-	const v3 = ref([] as number[])
-	const v4 = ref([2] as number[])
-	const v5 = ref([1,2] as number[])
-	const v6 = ref([0,1] as number[])
-	const v7 = ref([0, 2] as number[])
-	const v8 = ref([0, 1, 3] as number[])
-	const v9 = ref([] as number[])
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { $snui } from '@/uni_modules/sinle-ui'
+
+const { t } = useI18n()
+
+const check1 = ref<number[]>([])
+const check2 = ref<number[]>([0, 2])
+const check3 = ref<number[]>([])
+const check4 = ref<number[]>([2])
+const check5 = ref<number[]>([])
+const check6 = ref<number[]>([])
+const check7 = ref<number[]>([])
+const check8 = ref<number[]>([])
+const check9 = ref<number[]>([])
+const check10 = ref<number[]>([])
+const check11 = ref<number[]>([])
+const check12 = ref<number[]>([2])
+const check13 = ref<number[]>([])
+const check14 = ref<number[]>([])
+const check15 = ref<number[]>([])
+const check16 = ref<number[]>([])
+const check17 = ref<number[]>([])
+const check18 = ref<number[]>([])
+const check19 = ref<number[]>([])
+const check20 = ref<number[]>([])
+const check21 = ref<number[]>([])
+const check22 = ref<number[]>([])
+const check23 = ref<number[]>([])
+const check24 = ref<number[]>([])
+const hobbies = ref<number[]>([])
+const changeLog = ref<string>(t('snCheckbox.noEvent'))
+
+const check1Text = computed<string>(() => '[' + check1.value.join(', ') + ']')
+const check2Text = computed<string>(() => '[' + check2.value.join(', ') + ']')
+const hobbiesText = computed<string>(() => '[' + hobbies.value.join(', ') + ']')
+
+function onChange(value: number[]): void {
+	changeLog.value = t('snCheckbox.changeLog', { text: '[' + value.join(', ') + ']' } as UTSJSONObject)
+}
 </script>
 
 <style lang="scss">
+.tag-level-gap {
+	height: 10px;
+}
+.scene-card {
+	padding: 14px;
+	border-radius: 10px;
+	background-color: var(--sn-front);
+}
+.demo-box-big {
+	transform: scale(1.2);
+}
+.demo-text-strong {
+	font-weight: bold;
+}
+.demo-tag-text-strong {
+	font-weight: bold;
+}
+.demo-tag-scale {
+	transform: scale(1.08);
+}
 </style>

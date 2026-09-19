@@ -1,117 +1,331 @@
 <template>
-	<sn-page>
-		<sn-topbar title="View 视图容器"></sn-topbar>
-		<sn-alert type="warning"
-		icon="notification-fill"
-		text="手势事件可通过 event 属性操作原事件，例如阻止冒泡、阻止默认行为"></sn-alert>
-		<com-card title="基础用法"
-		note="用法与内置 view 组件无异。但样式更好调；扩展了组件的手势事件，相当于简化版的 sn-e-gesture。">
-		</com-card>
-		<com-card title="加载"
-		note="可以通过 View 组件设置区域加载">
-			<sn-form>
-				<sn-form-item label="是否加载">
-					<sn-switch v-model="loading"></sn-switch>
-				</sn-form-item>
-			</sn-form>
-			<sn-view borderRadius="10px"
-			padding="2px 10px"
-			:loading="loading">
-				<sn-row justify="space-between">
-					<sn-text text="这是文字"></sn-text>
-					<sn-button text="这是 View 的子组件"></sn-button>
-				</sn-row>
+	<sn-page :title="t('snView.title')" :show-back="true">
+
+		
+		<demo-card :title="t('snView.basicTitle')" :subtitle="t('snView.basicSubtitle')">
+			<sn-view bg-color="$primaryLight" border-radius="$16" padding="14px">
+				<sn-text font-size="$14" bold color="$title" flatten>{{ t('snView.container') }}</sn-text>
+				<sn-text font-size="$12" color="$text" custom-style="margin-top:4px;" flatten>{{ t('snView.outerDesc') }}</sn-text>
+				<sn-view bg-color="$primary" border-radius="$10" padding="12px" custom-style="margin-top:12px;">
+					<sn-text font-size="$12" color="$primaryText" flatten>{{ t('snView.nestedContainer') }}</sn-text>
+				</sn-view>
 			</sn-view>
-		</com-card>
-		<com-card title="禁用"
-		note="可以通过 View 组件设置区域禁用">
-			<sn-form>
-				<sn-form-item label="是否禁用">
-					<sn-switch v-model="disabled"></sn-switch>
-				</sn-form-item>
-			</sn-form>
-			<sn-view borderRadius="10px"
-			padding="2px 10px"
-			:disabled="disabled">
-				<sn-row justify="space-between">
-					<sn-text text="这是文字"></sn-text>
-					<sn-button text="这是 View 的子组件"></sn-button>
-				</sn-row>
+		</demo-card>
+
+		
+		<demo-card :title="t('snView.flattenTitle')" :subtitle="t('snView.flattenSubtitle')">
+			<sn-view bg-color="$primaryLight" border-radius="$16" padding="14px" flatten>
+				<view class="flat-row" flatten>
+					<view class="flat-avatar" flatten>
+						<text class="flat-avatar-text" flatten>SN</text>
+					</view>
+					<view class="flat-body" flatten>
+						<text class="flat-title" flatten>{{ t('snView.flattenNode') }}</text>
+						<text class="flat-desc" flatten>{{ t('snView.flattenDesc') }}</text>
+					</view>
+				</view>
 			</sn-view>
-		</com-card>
-		<com-card title="手势事件">
-			<sn-view class="gesture-block" 
-			padding="10px"
-			borderRadius="$normal"
-			bgColor="$page"
-			@click="pointGestureEvent" 
-			@scale="scaleGestureEvent" 
-			@rotate="rotateGestureEvent"
-			@longpress="touchGestureEvent" 
-			@dbclick="pointGestureEvent"
-			@touchmove="touchGestureEvent" 
-			@touchstart="touchGestureEvent" 
-			@touchend="touchGestureEvent"
-			@touchcancel="touchGestureEvent">
-				<sn-text :text="gestureEventText"
-				color="$text"
-				:style="{
-					height: 'auto',
-					wordBreak: 'break-all'
-				}"></sn-text>
-				<sn-text :text="gestureScaleEventText"
-				color="$text"
-				:style="{
-					height: 'auto',
-					wordBreak: 'break-all'
-				}"></sn-text>
-				<sn-text :text="gestureRotateEventText"
-				color="$text"
-				:style="{
-					height: 'auto',
-					wordBreak: 'break-all'
-				}"></sn-text>
+			<sn-view custom-style="flex-direction:row;align-items:center;margin-top:12px;">
+				<sn-view bg-color="$primary" border-radius="3px" custom-style="width:6px;height:6px;margin-right:8px;"></sn-view>
+				<sn-text font-size="$11" color="$textLight" flatten>{{ t('snView.flattenTip') }}</sn-text>
 			</sn-view>
-		</com-card>
+		</demo-card>
+
+		
+		<demo-card :title="t('snView.paletteTitle')" :subtitle="t('snView.paletteSubtitle')">
+			<view class="hero-row" flatten>
+				<sn-view bg-color="$primary" border-radius="$14" custom-style="flex:1;margin-right:10px;padding:14px 0;">
+					<sn-view custom-style="flex-direction:column;align-items:center;">
+						<sn-text font-size="$13" bold color="$primaryText" flatten>PRIMARY</sn-text>
+						<sn-text font-size="$10" color="$primaryText" custom-style="opacity:0.75;margin-top:2px;" flatten>{{ t('snView.primaryColor') }}</sn-text>
+					</sn-view>
+				</sn-view>
+				<sn-view bg-color="$info" border-radius="$14" custom-style="flex:1;margin-right:10px;padding:14px 0;">
+					<sn-view custom-style="flex-direction:column;align-items:center;">
+						<sn-text font-size="$13" bold color="$infoText" flatten>INFO</sn-text>
+						<sn-text font-size="$10" color="$infoText" custom-style="opacity:0.75;margin-top:2px;" flatten>{{ t('snView.infoColor') }}</sn-text>
+					</sn-view>
+				</sn-view>
+				<sn-view bg-color="$success" border-radius="$14" custom-style="flex:1;padding:14px 0;">
+					<sn-view custom-style="flex-direction:column;align-items:center;">
+						<sn-text font-size="$13" bold color="$successText" flatten>OK</sn-text>
+						<sn-text font-size="$10" color="$successText" custom-style="opacity:0.75;margin-top:2px;" flatten>{{ t('snView.successColor') }}</sn-text>
+					</sn-view>
+				</sn-view>
+			</view>
+			<view class="hero-row offset-row" flatten>
+				<sn-view bg-color="$warningLight" border-radius="$14" custom-style="flex:1;margin-right:10px;padding:12px 0;border-width:1px;border-style:solid;border-color:rgba(255,255,255,0.35);">
+					<sn-view custom-style="flex-direction:column;align-items:center;">
+						<sn-text font-size="$13" bold color="$warningDark" flatten>WARN</sn-text>
+						<sn-text font-size="$10" color="$warningDark" custom-style="opacity:0.75;margin-top:2px;" flatten>{{ t('snView.warningLight') }}</sn-text>
+					</sn-view>
+				</sn-view>
+				<sn-view bg-color="$errorLight" border-radius="$14" custom-style="flex:1;padding:12px 0;">
+					<sn-view custom-style="flex-direction:column;align-items:center;">
+						<sn-text font-size="$13" bold color="$error" flatten>ERR</sn-text>
+						<sn-text font-size="$10" color="$error" custom-style="opacity:0.75;margin-top:2px;" flatten>{{ t('snView.errorLight') }}</sn-text>
+					</sn-view>
+				</sn-view>
+			</view>
+			<sn-view custom-style="flex-direction:row;align-items:center;margin-top:12px;">
+				<sn-view bg-color="$primaryDark" border-radius="3px" custom-style="width:6px;height:6px;margin-right:8px;"></sn-view>
+				<sn-text font-size="$11" color="$textLight" flatten>{{ t('snView.paletteTip') }}</sn-text>
+			</sn-view>
+		</demo-card>
+
+		
+		<demo-card :title="t('snView.loadingTitle')" :subtitle="t('snView.loadingSubtitle')">
+			<sn-view padding="14px" bg-color="$infoLight" border-radius="$14" :loading="viewLoading"
+				custom-style="margin-bottom:12px;">
+				<view class="hero-row" flatten>
+					<sn-view bg-color="$info" border-radius="$12"
+						custom-style="width:60px;height:60px;margin-right:12px;justify-content:center;align-items:center;transform:rotate(-3deg);">
+						<sn-text font-size="$20" bold color="$infoText" flatten>≡</sn-text>
+					</sn-view>
+					<view class="col" flatten>
+						<sn-text font-size="$15" bold color="$title" flatten>{{ t('snView.loadingDemo') }}</sn-text>
+						<sn-text font-size="$12" color="$textLight" custom-style="margin-top:4px;" flatten>{{ t('snView.loadingMask') }}</sn-text>
+					</view>
+				</view>
+			</sn-view>
+			<sn-button :text="viewLoading ? t('snView.stopLoading') : t('snView.startLoading')" :level="viewLoading ? 'second' : 'first'"
+				@click="toggleLoading"></sn-button>
+		</demo-card>
+
+		
+		<demo-card :title="t('snView.disabledTitle')" :subtitle="t('snView.disabledSubtitle')">
+			<sn-view padding="14px" bg-color="$infoLight" border-radius="$14" :disabled="viewDisabled"
+				custom-style="margin-bottom:12px;">
+				<view class="hero-row" flatten style="align-items:center;">
+					<sn-button :text="t('snView.disabledBtn')" @click="onDisabledAreaClick" custom-style="align-self:flex-start;"></sn-button>
+					<sn-view bg-color="$primary" border-radius="4px"
+						custom-style="width:8px;height:8px;margin-left:10px;"></sn-view>
+				</view>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snView.disabledTip') }}</sn-text>
+			</sn-view>
+			<sn-button :text="viewDisabled ? t('snView.unDisable') : t('snView.disableArea')" :level="viewDisabled ? 'second' : 'first'"
+				@click="toggleDisabled"></sn-button>
+		</demo-card>
+
+		
+		<demo-card :title="t('snView.hoverTitle')" :subtitle="t('snView.hoverSubtitle')">
+			
+			<sn-view padding="18px" bg-color="$successLight" border-radius="$16" hover-class="none"
+				hover-style="transform:scale(0.95);"
+			 custom-style="flex-direction:row;align-items:center;margin-top:12px;">
+				<sn-view bg-color="$success" border-radius="4px"
+					custom-style="width:8px;height:8px;margin-right:12px;"></sn-view>
+				<sn-text font-size="$14" bold color="$successDark" custom-style="flex:1;" flatten>{{ t('snView.hoverScale') }}</sn-text>
+				<sn-text font-size="$16" color="$success" custom-style="font-weight:bold;" flatten>›</sn-text>
+			</sn-view>
+
+			
+			<sn-view padding="18px" bg-color="$warningLight" border-radius="$16" hover-class="none"
+				hover-style="background-color:#ffa726;"
+			 custom-style="flex-direction:row;align-items:center;margin-top:12px;">
+				<sn-view bg-color="$warning" border-radius="4px"
+					custom-style="width:8px;height:8px;margin-right:12px;"></sn-view>
+				<sn-text font-size="$14" bold color="$warningDark" custom-style="flex:1;" flatten>{{ t('snView.hoverBg') }}</sn-text>
+				<sn-text font-size="$16" color="$warning" custom-style="font-weight:bold;" flatten>›</sn-text>
+			</sn-view>
+		</demo-card>
+
+		
+		<demo-card :title="t('snView.gestureTitle')" :subtitle="t('snView.gestureSubtitle')">
+			<sn-view custom-class="gesture-pad" bg-color="$infoDark" border-radius="$18"
+				@down="onGestureDown" @click="onGestureClick" @dbclick="onGestureDbclick"
+				@longpress="onGestureLongpress" @touchstart="onGestureTouchStart" @touchmove="onGestureTouchMove"
+				@touchend="onGestureTouchEnd" @touchcancel="onGestureTouchCancel" custom-style="margin-bottom:12px;">
+				<view class="gesture-live-row" flatten>
+					<sn-view bg-color="#ff4d4f" custom-style="width:8px;height:8px;border-radius:4px;margin-right:6px;"></sn-view>
+					<sn-text font-size="$10" bold color="$infoDarkText" custom-style="opacity:0.8;" flatten>LIVE</sn-text>
+				</view>
+				<sn-text font-size="$16" bold color="$infoText" custom-style="margin-top:10px;" flatten>{{ t('snView.touchPad') }}</sn-text>
+				<sn-text font-size="$11" color="$infoDarkText" custom-style="margin-top:6px;opacity:0.7;" flatten>{{ t('snView.gestureHint') }}</sn-text>
+			</sn-view>
+			<view class="gesture-log" flatten>
+				<text v-if="gestureLogs.length == 0" class="gesture-log-empty" flatten>{{ t('snView.noGestureEvent') }}</text>
+				<text v-for="(item, index) in gestureLogs" :key="'log' + index" class="gesture-log-item"
+					:style="getLogItemStyle(item)" flatten>{{ item.text }}</text>
+			</view>
+			<sn-button type="primary" level="second" :text="t('snView.demoInstance')" @click="goToGestureInstance"
+				custom-style="margin-top:12px;"></sn-button>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui, SnPointerEvent, SnTouchEvent, SnScaleEvent, SnRotateEvent } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { $snui, snu } from '@/uni_modules/sinle-ui'
+import type { SnPointerEvent, SnTouchEvent } from '@/uni_modules/sinle-ui'
+
+const { t } = useI18n()
+type LogItem = {
+	text: string
+	color: string
+}
+
+const viewLoading = ref<boolean>(false)
+const viewDisabled = ref<boolean>(false)
+const gestureLogs = ref<LogItem[]>([])
+
+function toggleLoading(): void {
+	viewLoading.value = !viewLoading.value
+}
+
+function toggleDisabled(): void {
+	viewDisabled.value = !viewDisabled.value
+}
+
+function goToGestureInstance(): void {
+	uni.navigateTo({
+		url: '/pages/components/sn-view-instances'
+	})
+}
+
+function onDisabledAreaClick(): void {
+	snu.showToast({
+		text: t('snView.disabledClicked')
+	})
+}
+
+
+function pushLog(text: string, color: string = ''): void {
+	const c = color != '' ? color : $snui.colors.textLight
 	
-	const gestureEventText = ref('')
-	const gestureScaleEventText = ref('')
-	const gestureRotateEventText = ref('')
-	const disabled = ref(true)
-	const loading = ref(true)
-	
-	function touchGestureEvent(event : SnTouchEvent) {
-		event.event.preventDefault()
-		let strE = JSON.stringify(event)!
-		gestureEventText.value = strE
+	const list = gestureLogs.value.concat([])
+	list.push({
+		text: text,
+		color: c
+	} as LogItem)
+	if (list.length > 8) {
+		list.shift()
 	}
-	
-	function rotateGestureEvent(event : SnRotateEvent) {
-		let strE = JSON.stringify(event)!
-		gestureRotateEventText.value = strE
+	gestureLogs.value = list
+}
+
+function onGestureDown(e: SnPointerEvent): void {
+	pushLog(`down   x=${Math.round(e.x)} y=${Math.round(e.y)}`, $snui.colors.primary)
+}
+
+function onGestureClick(e: SnPointerEvent): void {
+	pushLog(`click  x=${Math.round(e.x)} y=${Math.round(e.y)}`, $snui.colors.success)
+}
+
+function onGestureDbclick(e: SnPointerEvent): void {
+	pushLog('dbclick' + ' ' + t('snView.dbclick'), $snui.colors.error)
+}
+
+function onGestureLongpress(e: SnTouchEvent): void {
+	pushLog('longpress' + ' ' + t('snView.longpress'), $snui.colors.warning)
+}
+
+function onGestureTouchStart(e: SnTouchEvent): void {
+	e.event.preventDefault()
+	if (e.touches.length > 0) {
+		const t = e.touches[0]
+		pushLog(`touchstart x=${Math.round(t.x)} y=${Math.round(t.y)}`)
 	}
-	
-	function pointGestureEvent(event : SnPointerEvent) {
-		event?.event?.preventDefault()
-		let strE = JSON.stringify(event)!
-		gestureEventText.value = strE
+}
+
+function onGestureTouchMove(e: SnTouchEvent): void {
+	e.event.preventDefault()
+	if (e.touches.length > 0) {
+		const t = e.touches[0]
+		pushLog(t('snView.touchmoveLog', { direction: t.direction, dx: Math.round(t.diffX).toString(), dy: Math.round(t.diffY).toString() } as UTSJSONObject))
 	}
-	
-	function scaleGestureEvent(event : SnScaleEvent) {
-		let strE = JSON.stringify(event)!
-		gestureScaleEventText.value = strE
-	}
+}
+
+function onGestureTouchEnd(e: SnTouchEvent): void {
+	e.event.preventDefault()
+	pushLog('touchend')
+}
+
+function onGestureTouchCancel(e: SnTouchEvent): void {
+	e.event.preventDefault()
+	pushLog('touchcancel')
+}
+
+function getLogItemStyle(item: LogItem): Map<string, any> {
+	const styles = new Map<string, any>()
+	styles.set('color', item.color)
+	styles.set('fontSize', '12px')
+	styles.set('fontFamily', 'monospace')
+	return styles
+}
 </script>
 
 <style lang="scss">
-	.gesture-block {
-		width: 100%;
-		min-height: 200px;
-	}
+.hero-row {
+	flex-direction: row;
+	align-items: center;
+}
+
+.offset-row {
+	margin-top: 12px;
+	margin-left: 16px;
+}
+.col {
+	flex: 1;
+	flex-direction: column;
+}
+
+.flat-row {
+	flex-direction: row;
+	align-items: center;
+}
+.flat-avatar {
+	width: 48px;
+	height: 48px;
+	border-radius: 24px;
+	background-color: var(--sn-primary);
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	margin-right: 12px;
+}
+.flat-avatar-text {
+	font-size: 16px;
+	font-weight: bold;
+	color: var(--sn-primary-text);
+}
+.flat-body {
+	flex: 1;
+	flex-direction: column;
+}
+.flat-title {
+	font-size: 15px;
+	font-weight: bold;
+	color: var(--sn-title);
+}
+.flat-desc {
+	font-size: 12px;
+	color: var(--sn-text-light);
+	margin-top: 4px;
+}
+.gesture-pad {
+	min-height: 120px;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.gesture-live-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+.gesture-log {
+	flex-direction: column;
+	padding: 10px 12px;
+	border-radius: 10px;
+	background-color: var(--sn-front);
+}
+.gesture-log-empty {
+	font-size: 13px;
+	color: var(--sn-text-light);
+}
+.gesture-log-item {
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
 </style>

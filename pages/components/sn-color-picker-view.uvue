@@ -1,0 +1,59 @@
+<template>
+	<sn-page :title="t('snColorPickerView.title')" :show-back="true">
+		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
+			<sn-text font-size="$12" color="$primary" flatten>{{ t('snColorPickerView.note') }}</sn-text>
+		</sn-alert>
+
+		<demo-card :title="t('snColorPickerView.basicTitle')" :subtitle="t('snColorPickerView.basicDesc')">
+			<sn-color-picker-view v-model="value" @change="onChange" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:10px;" flatten>{{ t('snColorPickerView.currentColor', { v: value } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snColorPickerView.hexTitle')" subtitle="HEX / RGBA / HSB / HSL">
+			<view class="format-row" flatten>
+				<sn-button type="primary" text="HEX" custom-style="flex:1;margin-right:6px;" @click="format = 'hex'" />
+				<sn-button type="info" text="RGBA" custom-style="flex:1;margin-right:6px;" @click="format = 'rgba'" />
+				<sn-button type="info" text="HSB" custom-style="flex:1;margin-right:6px;" @click="format = 'hsb'" />
+				<sn-button type="info" text="HSL" custom-style="flex:1;" @click="format = 'hsl'" />
+			</view>
+			<sn-color-picker-view v-model="formatValue" :format="format" :show-alpha="true" :show-presets="false" panel-height="220px" custom-style="margin-top:12px;" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:10px;" flatten>{{ t('snColorPickerView.formatDesc', { f: format, v: formatValue } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snColorPickerView.presetTitle')" :subtitle="t('snColorPickerView.presetDesc')">
+			<sn-color-picker-view v-model="presetValue" :preset-colors="presetColors" panel-height="220px" :show-alpha="false" :preset-title="t('snColorPickerView.projectPalette')" />
+		</demo-card>
+
+		<demo-card :title="t('snColorPickerView.disabledTitle')" :subtitle="t('snColorPickerView.disabledDesc')">
+			<sn-color-picker-view v-model="disabledValue" disabled panel-height="180px" :show-presets="false" />
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { $snui } from '@/uni_modules/sinle-ui/index.uts'
+
+const { t } = useI18n()
+
+const descColor = computed<string>(() => $snui.theme == 'dark' ? '#CBD5E1' : '#334155')
+const value = ref<string>('#F5222D')
+const formatValue = ref<string>('#1677FF')
+const presetValue = ref<string>('#13A8A8')
+const disabledValue = ref<string>('#722ED1')
+const format = ref<'hex' | 'rgba' | 'hsb' | 'hsl'>('hex')
+const presetColors: string[][] = [
+	['#1677FF', '#2F54EB', '#722ED1', '#EB2F96'],
+	['#13A8A8', '#52C41A', '#FAAD14', '#F5222D']
+]
+
+function onChange(next: string): void {
+	value.value = next
+}
+</script>
+
+<style lang="scss">
+.format-row {
+	flex-direction: row;
+}
+</style>

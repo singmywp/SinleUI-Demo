@@ -1,0 +1,240 @@
+<template>
+	<sn-page :show-back="true" fill-content>
+		<sn-topbar :title="t('snGestureInstances.title')" :show-back="true"></sn-topbar>
+
+		<sn-alert type="primary" :text="t('snGestureInstances.alert')" icon="notification-fill"
+			custom-style="margin-left:16px;margin-right:16px;"></sn-alert>
+
+		<view ref="area" class="instance-area" flatten>
+			<sn-gesture custom-style="flex:1;align-items:center;justify-content:center;"
+				@touchstart="onTouchStart" @touchmove="onTouchMove" @scale="onScale" @fling="onFling">
+				<view ref="target" class="instance-block" flatten></view>
+			</sn-gesture>
+		</view>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import type { SnTouchEvent, SnScaleEvent, SnFlingEvent } from '@/uni_modules/sinle-ui'
+
+const { t } = useI18n()
+
+const tX = ref<number>(0)
+const tY = ref<number>(0)
+const rotate = ref<number>(0)
+const scale = ref<number>(1)
+const target = ref<UniElement | null>(null)
+const area = ref<UniElement | null>(null)
+
+const HALF_BLOCK = 100
+const FLING_THRESHOLD = 250
+const DECEL = 1200
+const RESTITUTION = 0.6
+
+let lastAngle: number | null = null
+let areaW = 0
+let areaH = 0
+let vX = 0
+let vY = 0
+let animating = false
+let lastFrameTime = 0
+let animTaskId = 0
+
+function maxOffsetX(): number {
+	const bound = areaW / 2 - HALF_BLOCK * scale.value
+	if (bound < 0) {
+		return 0
+	}
+	return bound
+}
+
+function maxOffsetY(): number {
+	const bound = areaH / 2 - HALF_BLOCK * scale.value
+	if (bound < 0) {
+		return 0
+	}
+	return bound
+}
+
+function update(): void {
+	if (target.value == null) {
+		return
+	}
+	target.value.style.setProperty('transform', `translateX(${tX.value}px) translateY(${tY.value}px) rotate(${rotate.value}deg) scale(${scale.value})`)
+}
+
+function measureArea(): void {
+	if (area.value == null) {
+		return
+	}
+	const rect = area.value.getBoundingClientRect()
+	areaW = rect.width
+	areaH = rect.height
+}
+
+function clampDrag(): void {
+	const mx = maxOffsetX()
+	const my = maxOffsetY()
+	if (tX.value > mx) {
+		tX.value = mx
+	}
+	if (tX.value < -mx) {
+		tX.value = -mx
+	}
+	if (tY.value > my) {
+		tY.value = my
+	}
+	if (tY.value < -my) {
+		tY.value = -my
+	}
+}
+
+function reflectOnBoundary(): void {
+	const mx = maxOffsetX()
+	const my = maxOffsetY()
+	if (tX.value > mx) {
+		tX.value = mx
+		vX = -vX * RESTITUTION
+	}
+	if (tX.value < -mx) {
+		tX.value = -mx
+		vX = -vX * RESTITUTION
+	}
+	if (tY.value > my) {
+		tY.value = my
+		vY = -vY * RESTITUTION
+	}
+	if (tY.value < -my) {
+		tY.value = -my
+		vY = -vY * RESTITUTION
+	}
+}
+
+function stopAnim(): void {
+	animating = false
+	if (animTaskId > 0) {
+		cancelAnimationFrame(animTaskId)
+		animTaskId = 0
+	}
+}
+
+function onFrame(timestamp: number): void {
+	if (!animating) {
+		return
+	}
+	const now = Date.now()
+	let dt = (now - lastFrameTime) / 1000
+	if (dt > 0.05) {
+		dt = 0.05
+	}
+	lastFrameTime = now
+	const speed = Math.sqrt(vX * vX + vY * vY)
+	if (speed > 0) {
+		const reduce = DECEL * dt
+		if (reduce >= speed) {
+			vX = 0
+			vY = 0
+		} else {
+			vX -= vX / speed * reduce
+			vY -= vY / speed * reduce
+		}
+	}
+	tX.value += vX * dt
+	tY.value += vY * dt
+	reflectOnBoundary()
+	update()
+	if (vX == 0 && vY == 0) {
+		stopAnim()
+		return
+	}
+	animTaskId = requestAnimationFrame(onFrame)
+}
+
+function startAnim(fx: number, fy: number): void {
+	if (fx == 0 && fy == 0) {
+		return
+	}
+	stopAnim()
+	vX = fx
+	vY = fy
+	animating = true
+	lastFrameTime = Date.now()
+	animTaskId = requestAnimationFrame(onFrame)
+}
+
+function onTouchStart(e: SnTouchEvent): void {
+	stopAnim()
+}
+
+function onTouchMove(e: SnTouchEvent): void {
+	const touches = e.touches
+	if (touches.length >= 2) {
+		const t0 = touches[0]
+		const t1 = touches[1]
+		const angle = Math.atan2(t1.y - t0.y, t1.x - t0.x) * 180 / Math.PI
+		if (lastAngle != null) {
+			let delta = angle - lastAngle
+			if (delta > 180) {
+				delta -= 360
+			}
+			if (delta < -180) {
+				delta += 360
+			}
+			rotate.value += delta
+		}
+		lastAngle = angle
+	} else {
+		lastAngle = null
+		if (touches.length > 0) {
+			const t = touches[0]
+			tX.value += t.diffX
+			tY.value += t.diffY
+			clampDrag()
+		}
+	}
+	update()
+}
+
+function onScale(e: SnScaleEvent): void {
+	scale.value *= e.zoom
+	if (scale.value < 0.2) {
+		scale.value = 0.2
+	}
+	if (scale.value > 5) {
+		scale.value = 5
+	}
+	clampDrag()
+	update()
+}
+
+function onFling(e: SnFlingEvent): void {
+	const fx = e.vX
+	const fy = e.vY
+	const speed = Math.sqrt(fx * fx + fy * fy)
+	if (speed >= FLING_THRESHOLD) {
+		startAnim(fx, fy)
+	}
+}
+
+onReady(() => {
+	measureArea()
+})
+
+onUnload(() => {
+	stopAnim()
+})
+</script>
+
+<style lang="scss">
+.instance-area {
+	flex: 1;
+}
+
+.instance-block {
+	width: 100px;
+	height: 100px;
+	border-radius: 20px;
+	background-color: var(--sn-primary);
+}
+</style>

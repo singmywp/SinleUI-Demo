@@ -1,0 +1,120 @@
+<template>
+	<sn-page :title="t('apiShowLoading.title')" :show-back="true">
+
+		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
+			<sn-text font-size="$12" color="$primary" flatten>{{ t('apiShowLoading.alert1') }}</sn-text>
+			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;" flatten>{{ t('apiShowLoading.alert2') }}</sn-text>
+			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;" flatten>{{ t('apiShowLoading.alert3') }}</sn-text>
+		</sn-alert>
+
+		<demo-card :title="t('apiShowLoading.basic')" :subtitle="t('apiShowLoading.basicSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="primary" :text="t('apiShowLoading.load5s')" custom-style="flex:1;" @click="onShowLoading" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiShowLoading.overlayCard')" :subtitle="t('apiShowLoading.overlayCardSub')">
+			<view class="btn-row" flatten>
+				<sn-button type="warning" :text="t('apiShowLoading.withOverlay')" custom-style="flex:1;" @click="onShowOverlay" />
+			</view>
+		</demo-card>
+		<demo-card :title="t('apiShowLoading.backCard')" :subtitle="t('apiShowLoading.backCardSub')">
+			<view class="btn-row btn-gap" flatten>
+				<sn-button type="primary" :text="t('apiShowLoading.backClose')" custom-style="flex:1;" @click="onShowBackClose" />
+				<sn-button type="error" :text="t('apiShowLoading.preventBack')" custom-style="flex:1;margin-left:10px;" @click="onShowPreventBack" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiShowLoading.styleCard')" :subtitle="t('apiShowLoading.styleCardSub')">
+			<view class="btn-row btn-gap" flatten>
+				<sn-button type="info" :text="t('apiShowLoading.themeLoading')" custom-style="flex:1;" @click="onShowCustom" />
+				<sn-button type="info" :text="t('apiShowLoading.lightLoading')" custom-style="flex:1;margin-left:10px;" @click="onShowLight" />
+			</view>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import type { SnShowLoadingConfig } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+
+function onShowLoading(): void {
+	snu.showLoading({
+		text: t('apiShowLoading.loadingText')
+	} as SnShowLoadingConfig)
+	
+	setTimeout((): void => {
+		snu.hideLoading()
+	}, 5000)
+}
+
+function onHideLoading(): void {
+	snu.hideLoading()
+}
+
+function onShowOverlay(): void {
+	snu.showLoading({
+		text: t('apiShowLoading.loadingText'),
+		overlay: true,
+		maskOpacity: 0.4
+	} as SnShowLoadingConfig)
+	
+	setTimeout((): void => {
+		snu.hideLoading()
+	}, 5000)
+}
+
+function onShowBackClose(): void {
+	snu.showLoading({
+		text: t('apiShowLoading.backCloseText')
+	} as SnShowLoadingConfig)
+	setTimeout((): void => {
+		snu.hideLoading()
+	}, 5000)
+}
+
+function onShowPreventBack(): void {
+	snu.showLoading({
+		text: t('apiShowLoading.preventText'),
+		overlay: true,
+		preventBack: true
+	} as SnShowLoadingConfig)
+	setTimeout((): void => {
+		snu.hideLoading()
+	}, 5000)
+}
+
+function onShowCustom(): void {
+	snu.showLoading({
+		text: t('apiShowLoading.customText'),
+		iconColor: '$success',
+		textColor: '$success'
+	} as SnShowLoadingConfig)
+	setTimeout((): void => {
+		snu.hideLoading()
+	}, 5000)
+}
+
+function onShowLight(): void {
+	snu.showLoading({
+		text: t('apiShowLoading.lightText'),
+		bgColor: '#fff',
+		textColor: '#2b2b2b',
+		iconColor: '#4d82ff'
+	} as SnShowLoadingConfig)
+	setTimeout((): void => {
+		snu.hideLoading()
+	}, 5000)
+}
+</script>
+
+<style lang="scss">
+.btn-row {
+	flex-direction: row;
+}
+
+</style>

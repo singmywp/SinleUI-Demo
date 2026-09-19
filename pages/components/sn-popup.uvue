@@ -1,107 +1,742 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Popup 弹出层"
-		:features="[{id:'run',icon:'play-circle-fill'} as SnDataItem]"
-		@button-click="buttonClicked"></sn-topbar>
-		<com-card title="组件演示"
-		note="需要弹窗？试试它吧。\n请注意区分 Popup 和 Drawer。Popup 只控制动画和显隐逻辑，UI 需要自己写。而 Drawer 则是在 Popup 的基础上加了一层 UI 模板。">
-			<sn-form v-model="configs"
-			:showBorder="false">
-				<sn-form-item label="遮罩关闭">
-					<sn-switch v-model="(configs['maskClose'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="阻止返回事件">
-					<sn-switch v-model="(configs['preventBack'] as boolean)"></sn-switch>
-				</sn-form-item>
-				<sn-form-item label="位置">
-					<sn-select 
-					v-model="(configs['position'] as number)"
-					width="200px"
-					:data="positions">
-					</sn-select>
-				</sn-form-item>
-				<sn-form-item label="动画时长">
-					<sn-stepper v-model="(configs['aniTime'] as number)"
-					:step="100"
-					:min="100"></sn-stepper>
-				</sn-form-item>
-				<sn-form-item label="遮罩透明度">
-					<sn-stepper v-model="(configs['maskOpacity'] as number)"
-					:step="0.1"
-					:min="0"
-					:max="1"></sn-stepper>
-				</sn-form-item>
-				<sn-button text="打开" 
-				level="second" 
-				type="primary" 
-				@click="show()"
-				style="margin-top: 10px;">
-				</sn-button>
-			</sn-form>
-		</com-card>
-		<sn-gap></sn-gap>
+	<sn-page :title="t('snPopup.title')" :show-back="true">
+
+		<demo-card :title="t('snPopup.basicTitle')" :subtitle="t('snPopup.basicSubtitle')">
+			<view class="config-row" flatten>
+				<sn-button :text="t('snPopup.openPopup')" type="primary" custom-style="flex:1;" @click="openPopup" />
+				<sn-button :text="t('snPopup.closePopup')" type="info" custom-style="flex:1;margin-left:10px;" @click="closePopup" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snPopup.basicDesc') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snPopup.positionTitle')" :subtitle="t('snPopup.positionSubtitle')">
+			<view class="btn-row" flatten>
+				<sn-button type="info" :text="t('snPopup.centerPos')" custom-style="margin-right:8px;flex:1;" @click="openPosPopup('center')" />
+				<sn-button type="info" :text="t('snPopup.topPos')" custom-style="margin-right:8px;flex:1;" @click="openPosPopup('top')" />
+				<sn-button type="info" :text="t('snPopup.bottomPos')" custom-style="flex:1;" @click="openPosPopup('bottom')" />
+			</view>
+			<view class="btn-row" flatten>
+				<sn-button type="info" :text="t('snPopup.leftPos')" custom-style="margin-right:8px;flex:1;" @click="openPosPopup('left')" />
+				<sn-button type="info" :text="t('snPopup.rightPos')" custom-style="flex:1;" @click="openPosPopup('right')" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snPopup.propsTitle')" :subtitle="t('snPopup.propsSubtitle')">
+			<view class="config-row" flatten>
+				<sn-text :text="t('snPopup.clickMaskClose')" custom-style="width:140px;" flatten />
+				<sn-switch v-model="configs.maskClose" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snPopup.maskOpacity')" custom-style="width:140px;" flatten />
+				<sn-stepper v-model="configs.maskOpacity" :step="0.1" :min="0" :max="1" style="flex:1;" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snPopup.aniTime')" custom-style="width:140px;" flatten />
+				<sn-stepper v-model="configs.aniTime" :step="100" :min="0" style="flex:1;" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snPopup.preventBack')" custom-style="width:140px;" flatten />
+				<sn-switch v-model="configs.preventBack" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snPopup.propsDesc') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snPopup.eventTitle')" :subtitle="t('snPopup.eventSubtitle')">
+			<view class="config-row">
+				<sn-text :text="t('snPopup.eventResult')" custom-style="width:80px;" />
+				<sn-text bold font-size="$14" :text="eventResult" />
+			</view>
+			<sn-button type="primary" :text="t('snPopup.triggerEventDemo')" custom-style="margin-top:10px;flex:1;" @click="openPopup" />
+		</demo-card>
+
+		<demo-card :title="t('snPopup.overlayStyleTitle')" :subtitle="t('snPopup.overlayStyleSubtitle')">
+			<sn-button :text="t('snPopup.openOverlayStyle')" type="warning" custom-style="flex:1;" @click="openOverlayStylePopup" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snPopup.overlayStyleDesc') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snPopup.externalTitle')" :subtitle="t('snPopup.externalSubtitle')">
+			<sn-button :text="t('snPopup.openClassPopup')" type="primary" custom-style="flex:1;" @click="openClassPopup" />
+			<sn-text flatten font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snPopup.externalDesc') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snPopup.animTitle')" :subtitle="t('snPopup.animSubtitle')">
+			<view class="btn-row" flatten>
+				<sn-button type="primary" :text="t('snPopup.bounceIn')" custom-style="margin-right:8px;flex:1;" @click="openBouncePopup" />
+				<sn-button type="info" :text="t('snPopup.flipIn')" custom-style="flex:1;" @click="openFlipPopup" />
+			</view>
+			<view class="btn-row" flatten>
+				<sn-button type="success" :text="t('snPopup.slideIn')" custom-style="margin-right:8px;flex:1;" @click="openSlidePopup" />
+				<sn-button type="warning" :text="t('snPopup.zoomIn')" custom-style="flex:1;" @click="openZoomPopup" />
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snPopup.animDesc') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snPopup.nestedTitle')" :subtitle="t('snPopup.nestedSubtitle')">
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-bottom:10px;" flatten>{{ nestedTip }}</sn-text>
+			<sn-button :text="t('snPopup.openFirstLayer')" type="primary" custom-style="flex:1;" @click="openNestedFirst" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snPopup.nestedTip') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snPopup.sceneTitle')" :subtitle="t('snPopup.sceneSubtitle')">
+			<view class="goods-row">
+				<view class="goods-thumb" :style="thumbStyle">
+					<sn-icon name="shopping-bag-line" :size="30" color="#fff" />
+				</view>
+				<view class="goods-info" flatten>
+					<sn-text bold fontSize="$15" color="$title" :text="t('snPopup.bluetoothEarphone')" />
+					<sn-text fontSize="$12" color="$textLight" :text="t('snPopup.earphoneDesc')" custom-style="margin-top:4px;" />
+					<view class="goods-price" flatten>
+						<sn-text bold fontSize="$16" color="$error" text="¥399" />
+						<sn-text fontSize="$12" color="$textLight" :text="t('snPopup.selectedCount')" custom-style="margin-left:6px;" />
+					</view>
+				</view>
+			</view>
+			<sn-button :text="t('snPopup.selectSpec')" type="primary" custom-style="margin-top:12px;flex:1;" @click="openPopup" />
+		</demo-card>
+
+		<sn-popup ref="popupRef" :position="posC" :mask-close="configs.maskClose"
+				:mask-opacity="configs.maskOpacity" :ani-time="configs.aniTime" :prevent-back="configs.preventBack"
+				@beforeenter="onBeforeEnter" @afterenter="onAfterEnter" @beforeleave="onBeforeLeave"
+				@afterleave="onAfterLeave" @clickoverlay="onClickOverlay">
+				<view class="popup-demo">
+					<view class="popup-header" flatten>
+						<sn-text bold fontSize="$16" color="$title">{{ t('snPopup.selectSpec') }}</sn-text>
+						<view class="popup-close" :style="closeBtnStyle" @click="closePopup">
+							<sn-icon name="close-line" :size="16" color="$textLight" />
+						</view>
+					</view>
+					<view class="popup-divider" flatten></view>
+					<view class="spec-section">
+						<sn-text fontSize="$13" color="$title" :text="t('snPopup.color')" custom-style="margin-bottom:8px;" />
+						<view class="spec-row">
+							<view class="spec-item" :style="getSpecStyle(0)" @click="selectSpec(0)">
+								<sn-text fontSize="$13" :color="specTextColor(0)" :text="t('snPopup.obsidianBlack')" />
+							</view>
+							<view class="spec-item" :style="getSpecStyle(1)" @click="selectSpec(1)">
+								<sn-text fontSize="$13" :color="specTextColor(1)" :text="t('snPopup.cloudWhite')" />
+							</view>
+							<view class="spec-item" :style="getSpecStyle(2)" @click="selectSpec(2)">
+								<sn-text fontSize="$13" :color="specTextColor(2)" :text="t('snPopup.coralPink')" />
+							</view>
+						</view>
+					</view>
+					<sn-button :text="t('snPopup.confirm')" type="primary" custom-style="margin-top:16px;" @click="closePopup" />
+				</view>
+			</sn-popup>
+
+		<sn-popup ref="bouncePopupRef" position="center" :ani-time="500" :open-animation="bounceOpenAnim"
+				:close-animation="bounceCloseAnim" @clickoverlay="closeBouncePopup">
+			<view class="custom-popup">
+				<sn-text bold fontSize="$16" color="$title" :text="t('snPopup.bounceIn')" />
+				<sn-text fontSize="$13" color="$textLight" :text="t('snPopup.bounceContent')" custom-style="margin-top:8px;text-align:center;" />
+				<sn-button :text="t('snPopup.close')" type="primary" custom-style="margin-top:16px;" @click="closeBouncePopup" />
+			</view>
+		</sn-popup>
+
+		<sn-popup ref="flipPopupRef" position="center" :ani-time="500" :open-animation="flipOpenAnim"
+				:close-animation="flipCloseAnim" @clickoverlay="closeFlipPopup">
+			<view class="custom-popup">
+				<sn-text bold fontSize="$16" color="$title" :text="t('snPopup.flipTitle')" />
+				<sn-text fontSize="$13" color="$textLight" :text="t('snPopup.flipContent')" custom-style="margin-top:8px;text-align:center;" />
+				<sn-button :text="t('snPopup.close')" type="primary" custom-style="margin-top:16px;" @click="closeFlipPopup" />
+			</view>
+		</sn-popup>
+
+		<sn-popup ref="slidePopupRef" position="center" :ani-time="500" :open-animation="slideOpenAnim"
+				:close-animation="slideCloseAnim" @clickoverlay="closeSlidePopup">
+			<view class="custom-popup">
+				<sn-text bold fontSize="$16" color="$title" :text="t('snPopup.slideTitle')" />
+				<sn-text fontSize="$13" color="$textLight" :text="t('snPopup.slideContent')" custom-style="margin-top:8px;text-align:center;" />
+				<sn-button :text="t('snPopup.close')" type="primary" custom-style="margin-top:16px;" @click="closeSlidePopup" />
+			</view>
+		</sn-popup>
+
+		<sn-popup ref="zoomPopupRef" position="center" :ani-time="500" :open-animation="zoomOpenAnim"
+				:close-animation="zoomCloseAnim" @clickoverlay="closeZoomPopup">
+			<view class="custom-popup">
+				<sn-text bold fontSize="$16" color="$title" :text="t('snPopup.zoomTitle')" />
+				<sn-text fontSize="$13" color="$textLight" :text="t('snPopup.zoomContent')" custom-style="margin-top:8px;text-align:center;" />
+				<sn-button :text="t('snPopup.close')" type="primary" custom-style="margin-top:16px;" @click="closeZoomPopup" />
+			</view>
+		</sn-popup>
+
+		<sn-popup ref="overlayStylePopupRef" position="center" :ani-time="300" :mask-opacity="0.55"
+				overlay-style="background-color: rgba(88, 66, 160, 0.45);" @clickoverlay="closeOverlayStylePopup">
+			<view class="custom-popup">
+				<sn-text bold fontSize="$16" color="$title" :text="t('snPopup.overlayStyleTitle2')" />
+				<sn-text fontSize="$13" color="$textLight" :text="t('snPopup.overlayStyleContent')" custom-style="margin-top:8px;text-align:center;" />
+				<sn-button :text="t('snPopup.close')" type="primary" custom-style="margin-top:16px;" @click="closeOverlayStylePopup" />
+			</view>
+		</sn-popup>
+
+		<sn-popup ref="classPopupRef" position="center" :ani-time="300"
+				custom-style="border-radius: 0px;" @clickoverlay="closeClassPopup">
+			<view class="custom-popup">
+				<sn-text bold fontSize="$16" color="$title" :text="t('snPopup.externalTitle2')" />
+				<sn-text fontSize="$13" color="$textLight" :text="t('snPopup.externalContent')" custom-style="margin-top:8px;text-align:center;" />
+				<sn-button :text="t('snPopup.close')" type="primary" custom-style="margin-top:16px;" @click="closeClassPopup" />
+			</view>
+		</sn-popup>
+
+		<sn-popup ref="nestedFirstRef" position="center" :ani-time="300"
+				@afterenter="onNestedFirstEnter" @afterleave="onNestedFirstLeave">
+			<view class="nested-card">
+				<view class="nested-card-header" flatten>
+					<sn-text bold fontSize="$16" color="$title" :text="t('snPopup.confirmOrder')" />
+					<view class="popup-close" :style="closeBtnStyle" @click="closeNestedFirst">
+						<sn-icon name="close-line" :size="16" color="$textLight" />
+					</view>
+				</view>
+				<sn-cell icon="shopping-bag-line" :title="t('snPopup.bluetoothEarphone')" :label="t('snPopup.obsidianBlack2Pcs')" value="¥798" />
+				<sn-cell :title="t('snPopup.receiptAddress')" :value="nestedAddress" right-icon="arrow-right"
+						@click="openNestedAddress" />
+				<sn-cell :title="t('snPopup.deliveryMethod')" :value="t('snPopup.sfExpress')" :border="false" />
+				<view class="nested-card-footer" flatten>
+					<sn-button :text="t('snPopup.submitOrder')" type="primary" custom-style="flex:1;" @click="closeNestedFirst" />
+				</view>
+			</view>
+		</sn-popup>
+
+		<sn-popup ref="nestedAddressRef" position="center" :ani-time="300" :mask-opacity="0.2"
+				@afterenter="onNestedAddressEnter" @afterleave="onNestedAddressLeave">
+			<view class="nested-card">
+				<view class="nested-card-header" flatten>
+					<sn-text bold fontSize="$16" color="$title" :text="t('snPopup.selectAddress')" />
+					<view class="popup-close" :style="closeBtnStyle" @click="closeNestedAddress">
+						<sn-icon name="close-line" :size="16" color="$textLight" />
+					</view>
+				</view>
+				<sn-cell :title="t('snPopup.zhangWei')" :label="t('snPopup.phoneZhang')" :name="t('snPopup.addrZhang')"
+						right-icon="arrow-right" @click="selectNestedAddress" />
+				<sn-cell :title="t('snPopup.liNa')" :label="t('snPopup.phoneLi')" :name="t('snPopup.addrLi')"
+						right-icon="arrow-right" @click="selectNestedAddress" />
+				<sn-cell icon="add-line" :title="t('snPopup.addAddress')" right-icon="arrow-right" :border="false"
+						@click="openNestedForm" />
+			</view>
+		</sn-popup>
+
+		<sn-popup ref="nestedFormRef" position="center" :ani-time="300" :mask-opacity="0.15"
+				@afterenter="onNestedFormEnter" @afterleave="onNestedFormLeave">
+			<view class="nested-form">
+				<sn-text bold fontSize="$16" color="$title" :text="t('snPopup.addReceiptAddress')" />
+				<sn-text font-size="$12" :color="descColor" custom-style="margin-top:6px;" flatten>{{ t('snPopup.formLayerTip') }}</sn-text>
+				<view class="nested-form-body" flatten>
+					<sn-input-field v-model="nestedForm.name" :label="t('snPopup.receiver')" label-width="60px" :placeholder="t('snPopup.inputName')" />
+					<sn-input-field v-model="nestedForm.phone" :label="t('snPopup.phoneLabel')" label-width="60px" type="number"
+							:placeholder="t('snPopup.inputPhone')" />
+				</view>
+				<sn-button :text="t('snPopup.saveAndReturn')" type="primary" custom-style="margin-top:16px;flex:1;"
+						@click="saveNestedForm" />
+			</view>
+		</sn-popup>
 	</sn-page>
-	<sn-popup ref="popupEle"
-	:position="positions[configs['position'] as number ?? 1]['id'] ?? ''"
-	:aniTime="`${configs['aniTime']}ms`"
-	:maskOpacity="configs['maskOpacity']"
-	:maskClose="configs['maskClose']"
-	:preventBack="configs['preventBack']">
-		<sn-row justify="center">
-			<image class="w-200"
-			mode="aspectFit"
-			src="/static/images/letter-open.png" ></image>
-		</sn-row>
-	</sn-popup>
 </template>
 
-<script setup>
-	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
-	const snu = $snui.utils
-	
-	const popupEle = ref(null as SnPopupComponentPublicInstance | null)
-	
-	const configs = ref({
-		position: 1,
-		maskClose: true,
-		preventBack: false,
-		aniTime: parseInt($snui.configs.aniTime.long),
-		maskOpacity: 0.3
-	})
-	
-	const positions = [
-		{
-			id: 'top',
-			text: '顶部',
-		},
-		{
-			id: 'center',
-			text: '居中',
-		},
-		{
-			id: 'bottom',
-			text: '底部',
-		},
-		{
-			id: 'left',
-			text: '左侧',
-		},
-		{
-			id: 'right',
-			text: '右侧',
-		}
-	] as SnDataItem[]
+<script lang="uts" setup>
 
-	function show() {
-		snu.throttle(()=>{
-			(popupEle.value as SnPopupComponentPublicInstance).open()
-		}, 50)
-	}
+import { useI18n } from 'vue-i18n'
+import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import type { ComponentPublicInstance } from 'vue'
+
+const { isDark } = useTheme()
+const { t } = useI18n()
+
+const descColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+
+type PopupConfigs = {
+	maskClose: boolean
+	maskOpacity: number
+	aniTime: number
+	preventBack: boolean
+}
+
+type NestedAddressForm = {
+	name: string
+	phone: string
+}
+
+const popupRef = ref<ComponentPublicInstance | null>(null)
+const bouncePopupRef = ref<ComponentPublicInstance | null>(null)
+const flipPopupRef = ref<ComponentPublicInstance | null>(null)
+const slidePopupRef = ref<ComponentPublicInstance | null>(null)
+const zoomPopupRef = ref<ComponentPublicInstance | null>(null)
+const overlayStylePopupRef = ref<ComponentPublicInstance | null>(null)
+const classPopupRef = ref<ComponentPublicInstance | null>(null)
+const nestedFirstRef = ref<ComponentPublicInstance | null>(null)
+const nestedAddressRef = ref<ComponentPublicInstance | null>(null)
+const nestedFormRef = ref<ComponentPublicInstance | null>(null)
+
+
+const eventResult = ref<string>(t('snPopup.noEvent'))
+	const activeSpec = ref<number>(0)
+	const nestedTip = ref<string>(t('snPopup.nestedTipDefault'))
+	const nestedAddress = ref<string>(t('snPopup.notSelected'))
+	const nestedForm = ref<NestedAddressForm>({ name: '', phone: '' })
+
+
+const posC = ref<string>('center')
+
+const configs = ref<PopupConfigs>({
+	maskClose: true,
+	maskOpacity: 0.4,
+	aniTime: 400,
+	preventBack: false
+})
+
+function openPopup(): void {
 	
-	function buttonClicked(e: SnDataItem){
-		if (e.id == 'run') show()
+	posC.value = 'center'
+	popupRef.value?.$callMethod('open')
+}
+
+function closePopup(): void {
+	popupRef.value?.$callMethod('close')
+}
+
+
+function openPosPopup(position: string): void {
+	posC.value = position
+	popupRef.value?.$callMethod('open')
+}
+
+function openBouncePopup(): void {
+	bouncePopupRef.value?.$callMethod('open')
+}
+
+function closeBouncePopup(): void {
+	bouncePopupRef.value?.$callMethod('close')
+}
+
+function openFlipPopup(): void {
+	flipPopupRef.value?.$callMethod('open')
+}
+
+function closeFlipPopup(): void {
+	flipPopupRef.value?.$callMethod('close')
+}
+
+function openSlidePopup(): void {
+	slidePopupRef.value?.$callMethod('open')
+}
+
+function closeSlidePopup(): void {
+	slidePopupRef.value?.$callMethod('close')
+}
+
+function openZoomPopup(): void {
+	zoomPopupRef.value?.$callMethod('open')
+}
+
+function closeZoomPopup(): void {
+	zoomPopupRef.value?.$callMethod('close')
+}
+
+function openOverlayStylePopup(): void {
+	overlayStylePopupRef.value?.$callMethod('open')
+}
+
+function closeOverlayStylePopup(): void {
+	overlayStylePopupRef.value?.$callMethod('close')
+}
+
+function openClassPopup(): void {
+	classPopupRef.value?.$callMethod('open')
+}
+
+function closeClassPopup(): void {
+	classPopupRef.value?.$callMethod('close')
+}
+
+function openNestedFirst(): void {
+	nestedFirstRef.value?.$callMethod('open')
+}
+
+function closeNestedFirst(): void {
+	nestedFirstRef.value?.$callMethod('close')
+}
+
+function openNestedAddress(): void {
+	nestedAddressRef.value?.$callMethod('open')
+}
+
+function closeNestedAddress(): void {
+	nestedAddressRef.value?.$callMethod('close')
+}
+
+function openNestedForm(): void {
+	nestedFormRef.value?.$callMethod('open')
+}
+
+function closeNestedForm(): void {
+	nestedFormRef.value?.$callMethod('close')
+}
+
+function selectNestedAddress(name: string | number): void {
+	nestedAddress.value = t('snPopup.selected', { value: name } as UTSJSONObject)
+	closeNestedAddress()
+}
+
+function saveNestedForm(): void {
+	if (nestedForm.value.name != '') {
+		nestedAddress.value = t('snPopup.selected', { value: nestedForm.value.name + ' ' + nestedForm.value.phone } as UTSJSONObject)
+	} else {
+		nestedAddress.value = t('snPopup.selectedNewAddress')
 	}
+	closeNestedForm()
+	closeNestedAddress()
+}
+
+function onNestedFirstEnter(): void {
+	nestedTip.value = t('snPopup.nestedFirstEnter')
+}
+
+function onNestedFirstLeave(): void {
+	nestedTip.value = t('snPopup.nestedAllClosed')
+}
+
+function onNestedAddressEnter(): void {
+	nestedTip.value = t('snPopup.nestedAddressEnter')
+}
+
+function onNestedAddressLeave(): void {
+	nestedTip.value = t('snPopup.nestedAddressLeave')
+}
+
+function onNestedFormEnter(): void {
+	nestedTip.value = t('snPopup.nestedFormEnter')
+}
+
+function onNestedFormLeave(): void {
+	nestedTip.value = t('snPopup.nestedFormLeave')
+}
+
+
+const bounceOpenAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {
+	if (overlay != null) {
+		overlay.animate(
+			[{ opacity: '0' } as UniAnimationKeyframe, { opacity: '1' } as UniAnimationKeyframe],
+			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+		)
+	}
+	if (content != null) {
+		content.animate(
+			[
+				{ transform: 'scale(0.6)' } as UniAnimationKeyframe,
+				{ transform: 'scale(1.08)' } as UniAnimationKeyframe,
+				{ transform: 'scale(1)' } as UniAnimationKeyframe
+			],
+			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+		)
+	}
+}
+
+
+const bounceCloseAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {
+	if (overlay != null) {
+		overlay.animate(
+			[{ opacity: '1' } as UniAnimationKeyframe, { opacity: '0' } as UniAnimationKeyframe],
+			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+		)
+	}
+	if (content != null) {
+		content.animate(
+			[
+				{ transform: 'scale(1)' } as UniAnimationKeyframe,
+				{ transform: 'scale(1.05)' } as UniAnimationKeyframe,
+				{ transform: 'scale(0.4)' } as UniAnimationKeyframe
+			],
+			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+		)
+	}
+}
+
+
+const flipOpenAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {
+	if (overlay != null) {
+		overlay.animate(
+			[{ opacity: '0' } as UniAnimationKeyframe, { opacity: '1' } as UniAnimationKeyframe],
+			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+		)
+	}
+	if (content != null) {
+		content.animate(
+			[
+				{ transform: 'rotateX(80deg)' } as UniAnimationKeyframe,
+				{ transform: 'rotateX(0deg)' } as UniAnimationKeyframe
+			],
+			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+		)
+	}
+}
+
+
+const flipCloseAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {
+	if (overlay != null) {
+		overlay.animate(
+			[{ opacity: '1' } as UniAnimationKeyframe, { opacity: '0' } as UniAnimationKeyframe],
+			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+		)
+	}
+	if (content != null) {
+		content.animate(
+			[
+				{ transform: 'rotateX(0deg)' } as UniAnimationKeyframe,
+				{ transform: 'rotateX(-80deg)' } as UniAnimationKeyframe
+			],
+			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+		)
+	}
+}
+
+
+const slideOpenAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {
+	if (overlay != null) {
+		overlay.animate(
+			[{ opacity: '0' } as UniAnimationKeyframe, { opacity: '1' } as UniAnimationKeyframe],
+			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+		)
+	}
+	if (content != null) {
+		
+		content.animate(
+			[
+				{ transform: 'translateX(-340px)' } as UniAnimationKeyframe,
+				{ transform: 'translateX(0)' } as UniAnimationKeyframe,
+				{ transform: 'translateX(18px)' } as UniAnimationKeyframe,
+				{ transform: 'translateX(0)' } as UniAnimationKeyframe
+			],
+			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+		)
+	}
+}
+
+
+const slideCloseAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {
+	if (overlay != null) {
+		overlay.animate(
+			[{ opacity: '1' } as UniAnimationKeyframe, { opacity: '0' } as UniAnimationKeyframe],
+			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+		)
+	}
+	if (content != null) {
+		
+		content.animate(
+			[
+				{ transform: 'translateX(0)' } as UniAnimationKeyframe,
+				{ transform: 'translateX(12px)' } as UniAnimationKeyframe,
+				{ transform: 'translateX(-340px)' } as UniAnimationKeyframe
+			],
+			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+		)
+	}
+}
+
+
+const zoomOpenAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {
+	if (overlay != null) {
+		overlay.animate(
+			[{ opacity: '0' } as UniAnimationKeyframe, { opacity: '1' } as UniAnimationKeyframe],
+			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+		)
+	}
+	if (content != null) {
+		content.animate(
+			[
+				{ transform: 'scale(0.85)', opacity: '0.3' } as UniAnimationKeyframe,
+				{ transform: 'scale(1)', opacity: '1' } as UniAnimationKeyframe
+			],
+			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+		)
+	}
+}
+
+
+const zoomCloseAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {
+	if (overlay != null) {
+		overlay.animate(
+			[{ opacity: '1' } as UniAnimationKeyframe, { opacity: '0' } as UniAnimationKeyframe],
+			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+		)
+	}
+	if (content != null) {
+		content.animate(
+			[
+				{ transform: 'scale(1)', opacity: '1' } as UniAnimationKeyframe,
+				{ transform: 'scale(0.85)', opacity: '0.3' } as UniAnimationKeyframe
+			],
+			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+		)
+	}
+}
+
+function onBeforeEnter(): void {
+	eventResult.value = t('snPopup.eventBeforeEnter')
+}
+
+function onAfterEnter(): void {
+	eventResult.value = t('snPopup.eventAfterEnter')
+}
+
+function onBeforeLeave(): void {
+	eventResult.value = t('snPopup.eventBeforeLeave')
+}
+
+function onAfterLeave(): void {
+	eventResult.value = t('snPopup.eventAfterLeave')
+}
+
+function onClickOverlay(): void {
+	eventResult.value = t('snPopup.eventClickOverlay')
+}
+
+function selectSpec(idx: number): void {
+	activeSpec.value = idx
+}
+
+function specTextColor(idx: number): string {
+	return activeSpec.value == idx ? '$primary' : '$text'
+}
+
+function getSpecStyle(idx: number): Map<string, any> {
+	const styles = new Map<string, any>()
+	styles.set('padding', '8px 16px')
+	styles.set('borderRadius', '8px')
+	styles.set('marginRight', '10px')
+	if (activeSpec.value == idx) {
+		styles.set('backgroundColor', 'rgba(77,130,255,0.12)')
+		styles.set('borderWidth', '1px')
+		styles.set('borderStyle', 'solid')
+		styles.set('borderColor', 'var(--sn-primary)')
+	} else {
+		styles.set('backgroundColor', 'var(--sn-info-light)')
+		styles.set('borderWidth', '1px')
+		styles.set('borderStyle', 'solid')
+		styles.set('borderColor', 'var(--sn-line)')
+	}
+	return styles
+}
+
+const closeBtnStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', '30px')
+	styles.set('height', '30px')
+	styles.set('borderRadius', '15px')
+	styles.set('alignItems', 'center')
+	styles.set('justifyContent', 'center')
+	styles.set('backgroundColor', 'var(--sn-info-light)')
+	return styles
+})
+
+const thumbStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', '80px')
+	styles.set('height', '80px')
+	styles.set('borderRadius', '12px')
+	styles.set('alignItems', 'center')
+	styles.set('justifyContent', 'center')
+	styles.set('backgroundColor', 'var(--sn-primary)')
+	styles.set('marginRight', '12px')
+	return styles
+})
 </script>
 
 <style lang="scss">
+.btn-row {
+	flex-direction: row;
+	margin-bottom: 10px;
+}
+.config-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+.goods-row {
+	flex-direction: row;
+	align-items: center;
+}
+.goods-thumb {
+	flex-direction: column;
+}
+.goods-info {
+	flex: 1;
+	flex-direction: column;
+}
+.goods-price {
+	flex-direction: row;
+	align-items: center;
+	margin-top: 6px;
+}
+.popup-demo {
+	flex-direction: column;
+	width: 320px;
+	background: var(--sn-front);
+	border-radius: 20px;
+	padding: 16px;
+}
+.popup-header {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+.popup-close {
+	flex-direction: column;
+}
+.popup-divider {
+	height: 1px;
+	background-color: var(--sn-line);
+	margin: 12px 0;
+}
+.spec-section {
+	flex-direction: column;
+}
+.spec-row {
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+.spec-item {
+	flex-direction: row;
+}
+.custom-popup {
+	width: 280px;
+	background: var(--sn-front);
+	border-radius: 16px;
+	padding: 20px;
+	flex-direction: column;
+	align-items: center;
+}
+.demo-popup-round {
+	border-radius: 0px;
+	border-width: 2px;
+	border-style: solid;
+	border-color: var(--sn-primary);
+}
+.nested-card {
+	flex-direction: column;
+	width: 300px;
+	background-color: var(--sn-front);
+	border-radius: 16px;
+	padding-bottom: 16px;
+}
+.nested-card-header {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding: 16px 16px 12px 16px;
+}
+.nested-card-footer {
+	flex-direction: row;
+	padding: 16px 16px 0 16px;
+}
+.nested-form {
+	flex-direction: column;
+	width: 300px;
+	background-color: var(--sn-front);
+	border-radius: 16px;
+	padding: 20px;
+}
+.nested-form-body {
+	flex-direction: column;
+	margin-top: 12px;
+}
 </style>

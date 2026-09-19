@@ -1,91 +1,237 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Progress 进度条"></sn-topbar>
-		<com-card title="基础用法">
-			<sn-progress class="m-t-10" v-model="v1"></sn-progress>
-		</com-card>
-		<com-card title="高度"
-		note="可以自定义进度条的高度，灵活百变">
-			<sn-progress class="m-t-10" v-model="v2"
-			height="3px"></sn-progress>
-			<sn-progress class="m-t-20" v-model="v3"
-			height="15px"></sn-progress>
-		</com-card>
-		<com-card title="颜色"
-		note="百变颜色，随心所欲">
-			<sn-progress class="m-t-10"
-			v-model="v2"
-			height="6px"
-			activeColor="$error"></sn-progress>
-			<sn-progress class="m-t-10" 
-			v-model="v1"
-			height="6px"
-			activeColor="$warning"></sn-progress>
-			<sn-progress class="m-t-10"
-			v-model="v3"
-			height="6px"
-			activeColor="$primary"></sn-progress>
-			<sn-progress class="m-t-10"
-			v-model="v1"
-			height="6px"
-			activeColor="$success"></sn-progress>
-		</com-card>
-		<com-card title="动画时长"
-		note="支持双向绑定，动态赋值，可自由设置值变化时的动画时长">
-			<sn-progress class="m-t-10" v-model="v4"></sn-progress>
-			<sn-progress class="m-t-10" v-model="v4"
-			aniTime="$short"
-			activeColor="$warning"></sn-progress>
-			<sn-progress class="m-t-10" v-model="v4"
-			aniTime="$xlong"
-			activeColor="$success"></sn-progress>
-			<sn-row  class="m-t-10">
-				<sn-button
-				text="增加"
-				@click="v4 += 10"></sn-button>
-				<sn-button class="m-l-10"
-				text="减少"
-				@click="v4 -= 10"></sn-button>
-			</sn-row>
-		</com-card>
-		<com-card title="文本"
-		note="支持显示当前值的文本，提供两种位置：内部和外部。">
-			<sn-progress class="m-t-10" 
-			v-model="v5"
-			showValueText></sn-progress>
-			<sn-progress class="m-t-10"
-			v-model="v5"
-			height="20px"
-			showValueText
-			valueTextPosition="inside"
-			textColor="black"
-			activeColor="$warning"></sn-progress>
-			<sn-row class="m-t-10">
-				<sn-button
-				text="增加"
-				@click="v5 += 10"></sn-button>
-				<sn-button class="m-l-10"
-				text="减少"
-				@click="v5 -= 10"></sn-button>
-			</sn-row>
-		</com-card>
-		<sn-gap></sn-gap>
+	<sn-page :title="t('snProgress.title')" :show-back="true">
+		<demo-card :title="t('snProgress.basicTitle')" :subtitle="t('snProgress.basicSubtitle')">
+			<sn-progress v-model="v1" @change="onChange" custom-style="margin-bottom:14px;" />
+			<sn-text type="text-light" :font-size="13" :text="t('snProgress.currentProgress', { value: v1.toString(), change: changeCount.toString() } as UTSJSONObject)" custom-style="margin-bottom:12px;" flatten />
+			<view class="row" flatten>
+				<sn-button :text="t('snProgress.add10')" type="primary" @click="addValue(1)" />
+				<sn-button :text="t('snProgress.subtract10')" level="second" @click="addValue(-1)" custom-style="margin-left:12px;" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snProgress.heightTitle')" :subtitle="t('snProgress.heightSubtitle')">
+			<sn-progress v-model="v2" height="3px" custom-style="margin-bottom:14px;" />
+			<sn-progress v-model="v3" height="6px" custom-style="margin-bottom:14px;" />
+			<sn-progress v-model="v4" height="15px" custom-style="margin-bottom:14px;" />
+		</demo-card>
+
+		<demo-card :title="t('snProgress.colorTitle')" :subtitle="t('snProgress.colorSubtitle')">
+			<sn-progress v-model="v2" active-color="$error" custom-style="margin-bottom:14px;" />
+			<sn-progress v-model="v1" active-color="$warning" custom-style="margin-bottom:14px;" />
+			<sn-progress v-model="v3" active-color="$primary" custom-style="margin-bottom:14px;" />
+			<sn-progress v-model="v4" active-color="$success" custom-style="margin-bottom:14px;" />
+		</demo-card>
+
+		<demo-card :title="t('snProgress.aniTimeTitle')" :subtitle="t('snProgress.aniTimeSubtitle')">
+			<sn-progress v-model="v5" ani-time="$150" custom-style="margin-bottom:14px;" />
+			<sn-progress v-model="v5" ani-time="$400" active-color="$warning" custom-style="margin-bottom:14px;" />
+			<sn-progress v-model="v5" ani-time="$1200" active-color="$success" custom-style="margin-bottom:14px;" />
+			<view class="row" flatten>
+				<sn-button :text="t('snProgress.add10')" type="primary" @click="addValue(5)" />
+				<sn-button :text="t('snProgress.subtract10')" level="second" @click="addValue(-5)" custom-style="margin-left:12px;" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snProgress.animDirTitle')" :subtitle="t('snProgress.animDirSubtitle')">
+			<sn-text flatten type="text-light" :font-size="13" :text="t('snProgress.forwardsFromCurrent')" custom-style="margin-bottom:6px;" />
+			<sn-progress v-model="v9" active-mode="forwards" custom-style="margin-bottom:14px;" />
+			<sn-text flatten type="text-light" :font-size="13" :text="t('snProgress.backwardsFromZero')" custom-style="margin-bottom:6px;" />
+			<sn-progress v-model="v9" active-mode="backwards" active-color="$success" custom-style="margin-bottom:14px;" />
+			<view class="row" flatten>
+				<sn-button :text="t('snProgress.add10')" type="primary" @click="addValue(9)" />
+				<sn-button :text="t('snProgress.subtract10')" level="second" @click="addValue(-9)" custom-style="margin-left:12px;" />
+			</view>
+			<sn-text flatten type="text-light" fontSize="$12" style="margin-top:10px;" :text="t('snProgress.sharedProgress')" />
+		</demo-card>
+
+		<demo-card :title="t('snProgress.valueTextTitle')" :subtitle="t('snProgress.valueTextSubtitle')">
+			<sn-progress v-model="v6" show-value-text custom-style="margin-bottom:14px;" />
+			<sn-progress v-model="v6" show-value-text value-text-position="inside" height="22px"
+				text-color="#000" active-color="$warning" custom-style="margin-bottom:14px;" />
+			<sn-progress v-model="v6" show-value-text value-text-position="inside" height="22px"
+				active-color="$success" value-text-size="$12" custom-style="margin-bottom:14px;" />
+			<view class="row" flatten>
+				<sn-button :text="t('snProgress.add10')" type="primary" @click="addValue(6)" />
+				<sn-button :text="t('snProgress.subtract10')" level="second" @click="addValue(-6)" custom-style="margin-left:12px;" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snProgress.radiusTitle')" :subtitle="t('snProgress.radiusSubtitle')">
+			<sn-progress v-model="v7" :border-radius="0" custom-style="margin-bottom:14px;" />
+			<sn-progress v-model="v7" border-radius="3px" active-color="$info" custom-style="margin-bottom:14px;" />
+			<sn-progress v-model="v7" height="12px" active-color="$primary" custom-style="margin-bottom:14px;" />
+		</demo-card>
+
+		<demo-card :title="t('snProgress.loadingTitle')" :subtitle="t('snProgress.loadingSubtitle')">
+			<sn-progress loading custom-style="margin-bottom:14px;" />
+			<sn-progress loading active-color="$success" custom-style="margin-bottom:14px;" />
+			<sn-progress loading active-color="$warning" custom-style="margin-bottom:14px;" />
+			<sn-progress loading active-color="$error" custom-style="margin-bottom:14px;" />
+			<view class="row" style="margin-top: 10px" flatten>
+				<sn-button :text="progressLoading ? t('snProgress.stopLoading') : t('snProgress.startLoading')" type="primary" @click="toggleProgressLoading" />
+				<sn-progress v-model="v8" :loading="progressLoading" active-color="$primary"
+					custom-style="flex:1;margin-left:14px;" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snProgress.downloadTitle')" :subtitle="t('snProgress.downloadSubtitle')">
+			<sn-progress v-model="downloadValue" show-value-text value-text-position="inside"
+				active-color="$primary" custom-style="margin-bottom:10px;" />
+			<sn-text flatten type="text-light" :font-size="13" :text="downloadText" custom-style="margin-bottom:12px;" />
+			<view class="row" flatten>
+				<sn-button :text="t('snProgress.startDownload')" type="primary" :disabled="downloading" @click="onStartDownload" />
+				<sn-button :text="t('snProgress.pause')" level="second" :disabled="!downloading" @click="onPauseDownload" custom-style="margin-left:12px;" />
+				<sn-button :text="t('snProgress.reset')" level="least" @click="onResetDownload" custom-style="margin-left:12px;" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snProgress.externalTitle')" :subtitle="t('snProgress.externalSubtitle')">
+			<sn-progress v-model="v2" active-class="demo-progress-grad" style="margin-bottom:14px;" />
+			<sn-progress v-model="v1" active-style="background-color: var(--sn-warning); border-radius: 0px;" style="margin-bottom:14px;" />
+			<sn-progress v-model="v6" show-value-text value-text-position="inside" height="22px"
+				text-color="#fff" text-style="color:#ffffff;font-weight:bold;" />
+			<view style="margin-top: 12px" flatten>
+				<sn-progress v-model="v1" show-value-text text-class="demo-progress-text-bold" />
+			</view>
+			<view style="margin-top: 12px" flatten>
+				<sn-progress v-model="v2" show-value-text text-style="color: #f56c6c; font-weight: bold;" />
+			</view>
+			<sn-text flatten type="text-light" fontSize="$12" style="margin-top:10px;" :text="t('snProgress.externalTip')" />
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	const snu = $snui.utils
-	
-	const v1 = ref(30)
-	const v2 = ref(50)
-	const v3 = ref(70)
-	const v4 = ref(10)
-	const v5 = ref(30)
+<script lang="uts" setup>
 
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+const v1 = ref<number>(30)
+const v2 = ref<number>(50)
+const v3 = ref<number>(70)
+const v4 = ref<number>(15)
+const v5 = ref<number>(10)
+const v6 = ref<number>(30)
+const v7 = ref<number>(45)
+const v8 = ref<number>(35)
+const v9 = ref<number>(20)
+const progressLoading = ref<boolean>(false)
+const changeCount = ref<number>(0)
+
+function toggleProgressLoading(): void {
+	progressLoading.value = !progressLoading.value
+}
+
+function onChange(v: number): void {
+	changeCount.value = changeCount.value + 1
+}
+
+
+function addValue(target: number): void {
+	if (target == 1) {
+		v1.value = Math.min(100, v1.value + 10)
+	} else if (target == -1) {
+		v1.value = Math.max(0, v1.value - 10)
+	} else if (target == 5) {
+		v5.value = Math.min(100, v5.value + 10)
+	} else if (target == -5) {
+		v5.value = Math.max(0, v5.value - 10)
+	} else if (target == 6) {
+		v6.value = Math.min(100, v6.value + 10)
+	} else if (target == -6) {
+		v6.value = Math.max(0, v6.value - 10)
+	} else if (target == 9) {
+		v9.value = Math.min(100, v9.value + 10)
+	} else if (target == -9) {
+		v9.value = Math.max(0, v9.value - 10)
+	}
+}
+
+
+
+const downloadValue = ref<number>(0)
+const downloading = ref<boolean>(false)
+const downloadText = ref<string>(t('snProgress.readyDownload'))
+let downloadTimer = -1
+
+let dlSpeed = 1.5
+
+function onStartDownload(): void {
+	if (downloading.value) {
+		return
+	}
+	if (downloadValue.value >= 100) {
+		downloadValue.value = 0
+	}
+	downloading.value = true
+	downloadText.value = t('snProgress.downloading')
+	downloadTimer = setInterval((): void => {
+		if (!downloading.value) {
+			return
+		}
+		
+		let delta = Math.random() * 0.6 - 0.3
+		dlSpeed = Math.min(2.5, Math.max(1.0, dlSpeed + delta))
+		
+		const inc = dlSpeed * 0.1
+		const next = Math.min(100, downloadValue.value + inc)
+		downloadValue.value = next
+		
+		const doneMb = next
+		downloadText.value = t('snProgress.downloadedProgress', { done: doneMb.toFixed(1), speed: dlSpeed.toFixed(1) } as UTSJSONObject)
+		if (next >= 100) {
+			downloading.value = false
+			clearInterval(downloadTimer)
+			downloadTimer = -1
+			downloadText.value = t('snProgress.downloadComplete')
+		}
+	}, 100)
+}
+
+function onPauseDownload(): void {
+	if (!downloading.value) {
+		return
+	}
+	downloading.value = false
+	if (downloadTimer != -1) {
+		clearInterval(downloadTimer)
+		downloadTimer = -1
+	}
+	downloadText.value = t('snProgress.downloadPaused', { done: downloadValue.value.toFixed(1) } as UTSJSONObject)
+}
+
+function onResetDownload(): void {
+	if (downloading.value) {
+		onPauseDownload()
+	}
+	downloadValue.value = 0
+	dlSpeed = 1.5
+	downloadText.value = t('snProgress.readyDownload')
+}
+
+onUnmounted((): void => {
+	if (downloadTimer != -1) {
+		clearInterval(downloadTimer)
+		downloadTimer = -1
+	}
+})
 </script>
 
-<style>
-		
+<style lang="scss">
+	.row {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.demo-progress-grad {
+		background-color: var(--sn-success);
+		border-radius: 3px;
+	}
+
+	.demo-progress-text-bold {
+		font-weight: bold;
+	}
 </style>

@@ -1,0 +1,413 @@
+<template>
+	<sn-page :title="t('apiUtils.title')" :show-back="true">
+		<demo-card :title="t('apiUtils.randomTitle')" :subtitle="t('apiUtils.randomSub')">
+			<view v-for="(item, i) in randomItems" :key="'r' + i" :class="rowClass(i == randomItems.length - 1)" flatten>
+				<sn-text font-size="$12" :color="nameColor" custom-style="flex:1;" flatten>{{ item.name }}</sn-text>
+				<sn-text font-size="$12" :color="valueColor" custom-style="flex:1;text-align:right;" flatten>{{ item.value }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiUtils.basicTitle')" :subtitle="t('apiUtils.basicSub')">
+			<view :class="rowClass(false)" flatten>
+				<sn-text font-size="$12" :color="nameColor" custom-style="flex:1;" flatten>clamp(15, 0, 10)</sn-text>
+				<sn-text font-size="$12" :color="valueColor" flatten>{{ basicClamp }}</sn-text>
+			</view>
+			<view :class="rowClass(false)" flatten>
+				<sn-text font-size="$12" :color="nameColor" custom-style="flex:1;" flatten>clamp(-5, 0)</sn-text>
+				<sn-text font-size="$12" :color="valueColor" flatten>{{ basicClampMin }}</sn-text>
+			</view>
+			<view :class="rowClass(false)" flatten>
+				<sn-text font-size="$12" :color="nameColor" custom-style="flex:1;" flatten>{{ t('apiUtils.throttleLabel') }}</sn-text>
+				<sn-text font-size="$12" :color="valueColor" flatten>{{ t('apiUtils.triggered', { count: throttleCount } as UTSJSONObject) }}</sn-text>
+			</view>
+			<view :class="rowClass(true)" flatten>
+				<sn-text font-size="$12" :color="nameColor" custom-style="flex:1;" flatten>{{ t('apiUtils.debounceLabel') }}</sn-text>
+				<sn-text font-size="$12" :color="valueColor" flatten>{{ t('apiUtils.triggered', { count: debounceCount } as UTSJSONObject) }}</sn-text>
+			</view>
+			<view class="btn-row" flatten>
+				<sn-button  type="primary" :text="t('apiUtils.clickThrottle')" custom-style="margin-right:10px;flex:1;" @click="onThrottleClick" />
+				<sn-button  type="info" :text="t('apiUtils.clickDebounce')" custom-style="flex:1;" @click="onDebounceClick" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiUtils.easingTitle')" :subtitle="t('apiUtils.easingSub')">
+			<view class="easing-grid">
+				<view v-for="(item, i) in easingItems" :key="'e' + i" class="easing-cell" flatten>
+					<sn-text font-size="$10" :color="nameColor" :lines="1">{{ item.name }}</sn-text>
+					<sn-text font-size="$11" :color="valueColor" custom-style="margin-top:2px;">{{ item.value }}</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiUtils.objectTitle')" :subtitle="t('apiUtils.objectSub')">
+			<view v-for="(item, i) in objectItems" :key="'o' + i" :class="rowClass(i == objectItems.length - 1)" flatten>
+				<sn-text font-size="$12" :color="nameColor" custom-style="flex:1;">{{ item.name }}</sn-text>
+				<sn-text font-size="$12" :color="valueColor" custom-style="flex:1;text-align:right;">{{ item.value }}</sn-text>
+			</view>
+			<view :class="rowClass(false)" flatten>
+				<view id="utils-demo-el" class="dataset-box" flatten>
+					<sn-text font-size="$12" :color="nameColor">{{ t('apiUtils.datasetNode') }}</sn-text>
+				</view>
+			</view>
+			<view :class="rowClass(true)" flatten>
+				<sn-text font-size="$12" :color="nameColor" custom-style="flex:1;">{{ t('apiUtils.datasetLabel') }}</sn-text>
+				<sn-text font-size="$12" :color="valueColor">{{ datasetResult }}</sn-text>
+			</view>
+			<view class="btn-row" flatten>
+				<sn-button  type="primary" :text="t('apiUtils.setDatasetBtn')" custom-style="flex:1;" @click="onSetDataset" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiUtils.systemTitle')" :subtitle="t('apiUtils.systemSub')">
+			<view v-for="(item, i) in systemItems" :key="'s' + i" :class="rowClass(i == systemItems.length - 1)" flatten>
+				<sn-text font-size="$12" :color="nameColor" custom-style="flex:1;">{{ item.name }}</sn-text>
+				<sn-text font-size="$12" :color="valueColor" custom-style="flex:1;text-align:right;">{{ item.value }}</sn-text>
+			</view>
+			<view class="btn-row" flatten>
+				<sn-button  type="primary" :text="t('apiUtils.sysToast')" custom-style="margin-right:10px;flex:1;" @click="onShowSysToast" />
+				<sn-button  type="info" :text="t('apiUtils.openLink')" custom-style="margin-right:10px;flex:1;" @click="onOpenLink" />
+				<sn-button  type="warning" :text="t('apiUtils.webview')" custom-style="flex:1;" @click="onViewUrlByWebview" />
+			</view>
+			<view class="btn-row" flatten>
+				<sn-button  type="success" :text="t('apiUtils.requestCamera')" custom-style="margin-right:10px;flex:1;" @click="onRequestSystemPermission" />
+				<sn-button  type="error" :text="t('apiUtils.gotoPerm')" custom-style="margin-right:10px;flex:1;" @click="onGotoPermission" />
+				<sn-button  type="info" :text="t('apiUtils.requestMedia')" custom-style="flex:1;" @click="onRequestMediaPermission" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiUtils.resolveTitle')" :subtitle="t('apiUtils.resolveSub')">
+			<view v-for="(item, i) in resolveItems" :key="'v' + i" :class="rowClass(i == resolveItems.length - 1)" flatten>
+				<sn-text font-size="$12" :color="nameColor" custom-style="flex:1;">{{ item.name }}</sn-text>
+				<sn-text font-size="$12" :color="valueColor" custom-style="flex:1;text-align:right;">{{ item.value }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiUtils.sortTitle')" :subtitle="t('apiUtils.sortSub')">
+			<view v-for="(item, i) in sortItems" :key="'t' + i" :class="rowClass(i == sortItems.length - 1)" flatten>
+				<sn-text font-size="$12" :color="nameColor" custom-style="flex:1;">{{ item.name }}</sn-text>
+				<sn-text font-size="$12" :color="valueColor" custom-style="flex:1;text-align:right;">{{ item.value }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiUtils.textTitle')" :subtitle="t('apiUtils.textSub')">
+			<view v-for="(item, i) in textItems" :key="'x' + i" :class="rowClass(i == textItems.length - 1)" flatten>
+				<sn-text font-size="$12" :color="nameColor" custom-style="flex:1;">{{ item.name }}</sn-text>
+				<sn-text font-size="$12" :color="valueColor" custom-style="flex:1;text-align:right;">{{ item.value }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiUtils.uiTitle')" :subtitle="t('apiUtils.uiSub')">
+			<view v-for="(item, i) in uiItems" :key="'u' + i" :class="rowClass(i == uiItems.length - 1)" flatten>
+				<sn-text font-size="$12" :color="nameColor" custom-style="flex:1;">{{ item.name }}</sn-text>
+				<sn-text font-size="$12" :color="valueColor" custom-style="flex:1;text-align:right;">{{ item.value }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiUtils.verifyTitle')" :subtitle="t('apiUtils.verifySub')">
+			<view v-for="(item, i) in verifyItems" :key="'y' + i" :class="rowClass(i == verifyItems.length - 1)" flatten>
+				<sn-text font-size="$12" :color="nameColor" custom-style="flex:1;">{{ item.name }}</sn-text>
+				<sn-text font-size="$12" :color="verifyColor(item.value)" custom-style="flex:1;text-align:right;">{{ item.value }}</sn-text>
+			</view>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import { useResolve, useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import type {
+	SnRequestSystemPermissionOptions,
+	SnRequestMediaPermissionOptions,
+	SnRequestMediaPermissionOptionsType
+} from '@/uni_modules/sinle-api/utssdk/interface.uts'
+
+const { t } = useI18n()
+const { isDark } = useTheme()
+const resolver = useResolve()
+
+type DemoItem = {
+	name: string
+	value: string
+}
+
+
+function rowClass(isLast: boolean): string {
+	return isLast ? 'demo-row demo-row-last' : 'demo-row'
+}
+
+const nameColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+const valueColor = computed<string>(() => isDark.value ? '#73a2ff' : '#4d82ff')
+
+function verifyColor(v: string): string {
+	return v == 'true' ? '#39c478' : '#fc5454'
+}
+
+
+const randomItems = computed<DemoItem[]>(() => {
+	return [
+		{ name: 'randomComId()', value: snu.randomComId() },
+		{ name: 'randint(1, 100)', value: snu.randint(1, 100).toString() },
+		{ name: 'randomNumber(6)', value: snu.randomNumber(6).toString() },
+		{ name: 'uuid()', value: snu.uuid() }
+	]
+})
+
+
+const basicClamp = computed<string>(() => snu.clamp(15, 0, 10).toString())
+const basicClampMin = computed<string>(() => snu.clamp(-5, 0).toString())
+const throttleCount = ref<number>(0)
+const debounceCount = ref<number>(0)
+function onThrottleClick(): void {
+	snu.throttle((): void => {
+		throttleCount.value++
+	}, 500)
+}
+function onDebounceClick(): void {
+	snu.debounce((): void => {
+		debounceCount.value++
+	}, 500)
+}
+
+
+const easingItems = computed<DemoItem[]>(() => {
+	const t = 0.5
+	return [
+		{ name: 'easeInSine', value: snu.easeInSine(t).toFixed(4) },
+		{ name: 'easeOutSine', value: snu.easeOutSine(t).toFixed(4) },
+		{ name: 'easeInOutSine', value: snu.easeInOutSine(t).toFixed(4) },
+		{ name: 'easeInQuad', value: snu.easeInQuad(t).toFixed(4) },
+		{ name: 'easeOutQuad', value: snu.easeOutQuad(t).toFixed(4) },
+		{ name: 'easeInOutQuad', value: snu.easeInOutQuad(t).toFixed(4) },
+		{ name: 'easeInCubic', value: snu.easeInCubic(t).toFixed(4) },
+		{ name: 'easeOutCubic', value: snu.easeOutCubic(t).toFixed(4) },
+		{ name: 'easeInOutCubic', value: snu.easeInOutCubic(t).toFixed(4) },
+		{ name: 'easeInQuart', value: snu.easeInQuart(t).toFixed(4) },
+		{ name: 'easeOutQuart', value: snu.easeOutQuart(t).toFixed(4) },
+		{ name: 'easeInOutQuart', value: snu.easeInOutQuart(t).toFixed(4) },
+		{ name: 'easeInQuint', value: snu.easeInQuint(t).toFixed(4) },
+		{ name: 'easeOutQuint', value: snu.easeOutQuint(t).toFixed(4) },
+		{ name: 'easeInOutQuint', value: snu.easeInOutQuint(t).toFixed(4) },
+		{ name: 'easeInExpo', value: snu.easeInExpo(t).toFixed(4) },
+		{ name: 'easeOutExpo', value: snu.easeOutExpo(t).toFixed(4) },
+		{ name: 'easeInOutExpo', value: snu.easeInOutExpo(t).toFixed(4) },
+		{ name: 'easeInCirc', value: snu.easeInCirc(t).toFixed(4) },
+		{ name: 'easeOutCirc', value: snu.easeOutCirc(t).toFixed(4) },
+		{ name: 'easeInOutCirc', value: snu.easeInOutCirc(t).toFixed(4) },
+		{ name: 'easeInBack', value: snu.easeInBack(t).toFixed(4) },
+		{ name: 'easeOutBack', value: snu.easeOutBack(t).toFixed(4) },
+		{ name: 'easeInOutBack', value: snu.easeInOutBack(t).toFixed(4) },
+		{ name: 'easeInElastic', value: snu.easeInElastic(t).toFixed(4) },
+		{ name: 'easeOutElastic', value: snu.easeOutElastic(t).toFixed(4) },
+		{ name: 'easeInOutElastic', value: snu.easeInOutElastic(t).toFixed(4) },
+		{ name: 'easeInBounce', value: snu.easeInBounce(t).toFixed(4) },
+		{ name: 'easeOutBounce', value: snu.easeOutBounce(t).toFixed(4) },
+		{ name: 'easeInOutBounce', value: snu.easeInOutBounce(t).toFixed(4) },
+		{ name: 'linear', value: snu.linear(t).toFixed(4) }
+	]
+})
+
+
+const objectItems = computed<DemoItem[]>(() => {
+	return [
+		{ name: 'formatNumber(3.14)', value: snu.formatNumber(3.14).toString() },
+		{ name: 'formatNumber(3)', value: snu.formatNumber(3).toString() },
+		{ name: 'deepClone([1,2,3])', value: JSON.stringify(snu.deepClone<number[]>([1, 2, 3])) },
+		{ name: 'reArray([1,2,3])', value: JSON.stringify(snu.reArray<number>([1, 2, 3])) },
+		{ name: 'shuffle([1,2,3,4,5])', value: JSON.stringify(snu.shuffle([1, 2, 3, 4, 5])) },
+		{ name: 'isNumber(123)', value: snu.isNumber(123).toString() },
+		{ name: 'isNumber("abc")', value: snu.isNumber('abc').toString() }
+	]
+})
+
+const datasetResult = ref<string>(t('apiUtils.datasetInit'))
+function onSetDataset(): void {
+	const el = uni.getElementById('utils-demo-el')
+	if (el == null) {
+		datasetResult.value = t('apiUtils.nodeNotFound')
+		return
+	}
+	snu.setDataset(el, 'demo-key', 'sinleui-demo')
+	const readBack = snu.getDataset(el, 'demo-key')
+	datasetResult.value = t('apiUtils.datasetResultKey') + readBack
+}
+
+
+const systemItems = computed<DemoItem[]>(() => {
+	return [
+		{ name: 'getOsTheme()', value: snu.getOsTheme() },
+		{ name: 'checkSystemPermissionGranted([CAMERA])', value: snu.checkSystemPermissionGranted(['android.permission.CAMERA']).toString() },
+		{ name: 'getSystemPermissionDenied([CAMERA])', value: JSON.stringify(snu.getSystemPermissionDenied(['android.permission.CAMERA'])) },
+		{ name: 'checkMediaPermission([image])', value: snu.checkMediaPermission(['image']).toString() }
+	]
+})
+
+function onShowSysToast(): void {
+	snu.showSysToast({ title: t('apiUtils.sysToastTitle'), type: 'short', position: 'center' } as UTSJSONObject)
+}
+
+function onOpenLink(): void {
+	snu.openLink('https://sinleui.pages.dev')
+}
+
+function onViewUrlByWebview(): void {
+	snu.viewUrlByWebview('https://sinleui.pages.dev')
+}
+
+function onRequestSystemPermission(): void {
+	snu.requestSystemPermission({
+		permissions: ['android.permission.CAMERA'],
+		success: (allRight: boolean, grantedList: string[]): void => {
+			snu.showToast({ text: t('apiUtils.cameraPrefix') + (allRight ? t('apiUtils.granted') : t('apiUtils.partialGranted')) })
+		},
+		fail: (_doNotAskAgain: boolean, _grantedList: string[]): void => {
+			snu.showToast({ text: t('apiUtils.cameraRefused') })
+		}
+	} as SnRequestSystemPermissionOptions)
+}
+
+function onGotoPermission(): void {
+	snu.gotoSystemPermissionActivity(['android.permission.CAMERA'])
+}
+
+function onRequestMediaPermission(): void {
+	snu.requestMediaPermission({
+		types: ['image', 'video'] as SnRequestMediaPermissionOptionsType[],
+		success: (allRight: boolean, _grantedList: string[]): void => {
+			snu.showToast({ text: t('apiUtils.mediaPrefix') + (allRight ? t('apiUtils.granted') : t('apiUtils.partialGranted')) })
+		},
+		fail: (_doNotAskAgain: boolean, _grantedList: string[]): void => {
+			snu.showToast({ text: t('apiUtils.mediaRefused') })
+		}
+	} as SnRequestMediaPermissionOptions)
+}
+
+
+const resolveItems = computed<DemoItem[]>(() => {
+	return [
+		{ name: "resolveSize('$16', 'font')", value: resolver.resolveSize('$16', 'font') },
+		{ name: "resolveSize('16px', 'font')", value: resolver.resolveSize('16px', 'font') },
+		{ name: "resolveSize(16, 'font')", value: resolver.resolveSize(16, 'font') },
+		{ name: "resolveSizeNum('$16', 'font')", value: resolver.resolveSizeNum('$16', 'font').toString() },
+		{ name: "resolveSizeNum(16, 'font')", value: resolver.resolveSizeNum(16, 'font').toString() },
+		{ name: "resolveColor('$primaryTextDark')", value: resolver.resolveColor('$primaryTextDark') },
+		{ name: "resolveColor('#ff0000')", value: resolver.resolveColor('#ff0000') }
+	]
+})
+
+
+const sortItems = computed<DemoItem[]>(() => {
+	return [
+		{ name: 'bubbleSort', value: JSON.stringify(snu.bubbleSort([3, 1, 4, 1, 5, 9, 2, 6])) },
+		{ name: 'selectionSort', value: JSON.stringify(snu.selectionSort([3, 1, 4, 1, 5, 9, 2, 6])) },
+		{ name: 'insertionSort', value: JSON.stringify(snu.insertionSort([3, 1, 4, 1, 5, 9, 2, 6])) },
+		{ name: 'quickSort', value: JSON.stringify(snu.quickSort([3, 1, 4, 1, 5, 9, 2, 6])) },
+		{ name: 'mergeSort', value: JSON.stringify(snu.mergeSort([3, 1, 4, 1, 5, 9, 2, 6])) },
+		{ name: 'heapSort', value: JSON.stringify(snu.heapSort([3, 1, 4, 1, 5, 9, 2, 6])) },
+		{ name: 'shellSort', value: JSON.stringify(snu.shellSort([3, 1, 4, 1, 5, 9, 2, 6])) },
+		{ name: 'bucketSort', value: JSON.stringify(snu.bucketSort([3, 1, 4, 1, 5, 9, 2, 6])) }
+	]
+})
+
+
+const textItems = computed<DemoItem[]>(() => {
+	return [
+		{ name: "isEmpty('  ')", value: snu.isEmpty('  ').toString() },
+		{ name: "len('ab')", value: snu.len('ab').toString() },
+		{ name: "kebabCaseToCamelCase('sn-text')", value: snu.kebabCaseToCamelCase('sn-text') },
+		{ name: "camelCaseToKebabCase('snText')", value: snu.camelCaseToKebabCase('snText') },
+		{ name: "numToUpper('1234.5')", value: snu.numToUpper('1234.5') },
+		{ name: "encryptName('张三丰')", value: snu.encryptName('张三丰') },
+		{ name: "encryptPhone('13800138000')", value: snu.encryptPhone('13800138000') },
+		{ name: "encryptIDCard('110101199003077416')", value: snu.encryptIDCard('110101199003077416') },
+		{ name: "encryptEmail('zhangsan@example.com')", value: snu.encryptEmail('zhangsan@example.com') },
+		{ name: "encryptBankCard('6222021234567890')", value: snu.encryptBankCard('6222021234567890') },
+		{ name: "separateNumber('1234567.89')", value: snu.separateNumber('1234567.89') }
+	]
+})
+
+
+const uiItems = computed<DemoItem[]>(() => {
+	return [
+		{ name: "getPx('20rpx')", value: snu.getPx('20rpx').toString() },
+		{ name: 'addUnit(16)', value: snu.addUnit(16) },
+		{ name: 'addUnit("50%")', value: snu.addUnit('50%') },
+		{ name: 'getInnerRadius(100, 20, 80)', value: snu.getInnerRadius(100, 20, 80).toString() },
+		{ name: 'getDistance(0, 0, 3, 4)', value: snu.getDistance(0, 0, 3, 4).toString() },
+		{ name: 'getRotateAngle(0, 0, 1, 1)', value: snu.getRotateAngle(0, 0, 1, 1).toString() },
+		{ name: 'findParent(instance, [sn-page])', value: findParentResult.value },
+		{ name: 'findBrother(instance, [demo-card])', value: findBrotherResult.value }
+	]
+})
+
+const currentInstance = getCurrentInstance()
+const findParentResult = ref<string>(t('apiUtils.notFound'))
+const findBrotherResult = ref<string>(t('apiUtils.notFound'))
+if (currentInstance != null) {
+	const publicInstance = currentInstance.proxy
+	if (publicInstance != null) {
+		const parent = snu.findParent(publicInstance, ['sn-page'])
+		findParentResult.value = parent != null ? t('apiUtils.found') + (parent.$options.name ?? 'sn-page') : t('apiUtils.notFound')
+		const brother = snu.findBrother(publicInstance, ['demo-card'])
+		findBrotherResult.value = brother != null ? t('apiUtils.found') + (brother.$options.name ?? 'demo-card') : t('apiUtils.notFound')
+	}
+}
+
+
+const verifyItems = computed<DemoItem[]>(() => {
+	return [
+		{ name: "isDate('2024-01-01')", value: snu.isDate('2024-01-01').toString() },
+		{ name: "isURL('https://example.com')", value: snu.isURL('https://example.com').toString() },
+		{ name: "isNumberString('123.45')", value: snu.isNumberString('123.45').toString() },
+		{ name: "isAbc('abc')", value: snu.isAbc('abc').toString() },
+		{ name: "isChinese('中文')", value: snu.isChinese('中文').toString() },
+		{ name: "isEmail('a@b.com')", value: snu.isEmail('a@b.com').toString() },
+		{ name: "isPhone('13800138000')", value: snu.isPhone('13800138000').toString() },
+		{ name: "isLandline('010-12345678')", value: snu.isLandline('010-12345678').toString() },
+		{ name: "isQQNumber('123456')", value: snu.isQQNumber('123456').toString() },
+		{ name: "isIPv6('2001:db8::1')", value: snu.isIPv6('2001:db8::1').toString() },
+		{ name: "isIPv4('192.168.1.1')", value: snu.isIPv4('192.168.1.1').toString() },
+		{ name: "isIDCard('110101199003077416')", value: snu.isIDCard('110101199003077416').toString() },
+		{ name: "isImage('avatar.png')", value: snu.isImage('avatar.png').toString() },
+		{ name: "isVideo('movie.mp4')", value: snu.isVideo('movie.mp4').toString() },
+		{ name: "isCarNumber('京A12345')", value: snu.isCarNumber('京A12345').toString() },
+		{ name: 'isInteger(3)', value: snu.isInteger(3).toString() },
+		{ name: 'isFloat(3.14)', value: snu.isFloat(3.14).toString() }
+	]
+})
+</script>
+
+<style lang="scss">
+.demo-row {
+	flex-direction: row;
+	align-items: center;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: rgba(128, 128, 128, 0.12);
+}
+.demo-row-last {
+	border-bottom-width: 0;
+}
+.btn-row {
+	flex-direction: row;
+	margin-top: 10px;
+}
+.easing-grid {
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+.easing-cell {
+	width: 25%;
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+.dataset-box {
+	padding: 10px;
+	border-radius: 10px;
+	border-width: 1px;
+	border-style: dashed;
+	border-color: rgba(77, 130, 255, 0.4);
+}
+</style>

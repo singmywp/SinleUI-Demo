@@ -1,59 +1,73 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Blurview 高斯模糊"></sn-topbar>
-		<com-card title="基础用法"
-		note="动态模糊，支持 Android/Web 多端">
-		</com-card>
-		<sn-alert type="primary"
-		text="这是占位内容"></sn-alert>
-		<sn-alert type="success"
-		text="这是占位内容"></sn-alert>
-		<sn-alert type="error"
-		text="这是占位内容"></sn-alert>
-		<sn-alert type="warning"
-		text="这是占位内容"></sn-alert>
-		<sn-alert type="primary"
-		text="这是占位内容"></sn-alert>
-		<sn-alert type="success"
-		text="这是占位内容"></sn-alert>
-		<sn-alert type="error"
-		text="这是占位内容"></sn-alert>
-		<sn-alert type="warning"
-		text="这是占位内容"></sn-alert>
-		<sn-alert type="primary"
-		text="这是占位内容"></sn-alert>
-		<sn-alert type="success"
-		text="这是占位内容"></sn-alert>
-		<sn-alert type="error"
-		text="这是占位内容"></sn-alert>
-		<sn-alert type="warning"
-		text="这是占位内容"></sn-alert>
-		<sn-alert type="primary"
-		text="这是占位内容"></sn-alert>
-		<sn-alert type="success"
-		text="这是占位内容"></sn-alert>
-		<sn-alert type="error"
-		text="这是占位内容"></sn-alert>
-		<sn-alert type="warning"
-		text="这是占位内容"></sn-alert>
-		<sn-alert type="primary"
-		text="这是占位内容"></sn-alert>
-		<sn-alert type="success"
-		text="这是占位内容"></sn-alert>
-		<sn-alert type="error"
-		text="这是占位内容"></sn-alert>
-		<sn-alert type="warning"
-		text="这是占位内容"></sn-alert>
-		<sn-e-blurview style="position: fixed;left: 0;top: 200px;right: 0;height: 100px;padding: 50px;">
-			<sn-text text="内部内容不会被模糊，只会处理背景部分"></sn-text>
+	<sn-page :show-back="true">
+		<sn-topbar :title="t('snEBlurview.topbarTitle')"></sn-topbar>
+
+		<demo-card :title="t('snEBlurview.basicTitle')" :subtitle="t('snEBlurview.basicSubtitle')">
+			<sn-alert type="primary" :text="t('snEBlurview.placeholder')" style="margin: 0 16px 12px;"></sn-alert>
+			<sn-alert type="success" :text="t('snEBlurview.placeholder')" style="margin: 0 16px 12px;"></sn-alert>
+			<sn-alert type="error" :text="t('snEBlurview.placeholder')" style="margin: 0 16px 12px;"></sn-alert>
+			<sn-alert type="warning" :text="t('snEBlurview.placeholder')" style="margin: 0 16px 12px;"></sn-alert>
+			<sn-alert type="primary" :text="t('snEBlurview.placeholder')" style="margin: 0 16px 12px;"></sn-alert>
+			<sn-alert type="success" :text="t('snEBlurview.placeholder')" style="margin: 0 16px 12px;"></sn-alert>
+			<sn-alert type="error" :text="t('snEBlurview.placeholder')" style="margin: 0 16px 12px;"></sn-alert>
+			<sn-alert type="warning" :text="t('snEBlurview.placeholder')" style="margin: 0 16px 12px;"></sn-alert>
+			<sn-alert type="primary" :text="t('snEBlurview.placeholder')" style="margin: 0 16px 12px;"></sn-alert>
+			<sn-alert type="success" :text="t('snEBlurview.placeholder')" style="margin: 0 16px 12px;"></sn-alert>
+			<sn-alert type="error" :text="t('snEBlurview.placeholder')" style="margin: 0 16px 12px;"></sn-alert>
+			<sn-alert type="warning" :text="t('snEBlurview.placeholder')" style="margin: 0 16px 12px;"></sn-alert>
+			<sn-alert type="primary" :text="t('snEBlurview.placeholder')" style="margin: 0 16px 12px;"></sn-alert>
+			<sn-alert type="success" :text="t('snEBlurview.placeholder')" style="margin: 0 16px 12px;"></sn-alert>
+			<sn-alert type="error" :text="t('snEBlurview.placeholder')" style="margin: 0 16px 12px;"></sn-alert>
+			<sn-alert type="warning" :text="t('snEBlurview.placeholder')" style="margin: 0 16px 12px;"></sn-alert>
+		</demo-card>
+
+		<sn-e-blurview custom-class="blur-fixed" custom-style="background-color:rgba(255,255,255,0.2);">
+			<sn-text :text="t('snEBlurview.innerText')" font-size="$15" color="$title" flatten></sn-text>
 		</sn-e-blurview>
+
+		<view class="blur-round-wrap">
+			<sn-e-blurview custom-class="blur-round-view" custom-style="background-color:rgba(175,74,7,0.2);">
+				<sn-text :text="t('snEBlurview.roundText')" font-size="$14" color="$title" flatten></sn-text>
+			</sn-e-blurview>
+		</view>
 	</sn-page>
 </template>
 
-<script setup>
-		
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 </script>
 
-<style>
-		
+<style lang="scss">
+.blur-fixed {
+	position: fixed;
+	top: 200px;
+	right: 0px;
+	left: 0px;
+	height: 100px;
+	padding-right: 20px;
+	padding-left: 20px;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+.blur-round-wrap {
+	position: fixed;
+	top: 350px;
+	right: 20px;
+	left: 20px;
+	height: 170px;
+	border-radius: 20px;
+	overflow: hidden;
+}
+.blur-round-view {
+	flex: 1;
+	padding-right: 20px;
+	padding-left: 20px;
+	align-items: center;
+	border-radius: 20px;
+	justify-content: center;
+	flex-direction: column;
+}
 </style>

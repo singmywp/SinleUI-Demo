@@ -1,0 +1,410 @@
+<template>
+	<sn-page>
+		<sn-topbar :title="t('snDrawerList.title')"></sn-topbar>
+
+		<demo-card :title="t('snDrawerList.basicTitle')" :subtitle="t('snDrawerList.basicDesc')">
+			<sn-button :text="t('snDrawerList.openLong')" type="primary" custom-style="flex:1;" @click="openDrawer" />
+			<sn-text type="text-light" fontSize="$12" :text="t('snDrawerList.basicTip')" custom-style="margin-top:8px;" flatten />
+		</demo-card>
+
+		<demo-card :title="t('snDrawerList.behaviorTitle')" :subtitle="t('snDrawerList.behaviorDesc')">
+			<view class="config-row" flatten>
+				<sn-text :text="t('snDrawerList.panelHeight')" custom-style="width:130px;" flatten />
+				<sn-stepper v-model="configs.height" :step="40" :min="200" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snDrawerList.closeThreshold')" custom-style="width:130px;" flatten />
+				<sn-stepper v-model="configs.slideHeight" :step="20" :min="0" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snDrawerList.slideCloseLabel')" custom-style="width:130px;" flatten />
+				<sn-switch v-model="configs.slideClose" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snDrawerList.maskCloseLabel')" custom-style="width:130px;" flatten />
+				<sn-switch v-model="configs.maskClose" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snDrawerList.preventBackLabel')" custom-style="width:130px;" flatten />
+				<sn-switch v-model="configs.preventBack" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snDrawerList.showLineLabel')" custom-style="width:130px;" flatten />
+				<sn-switch v-model="configs.showLine" />
+			</view>
+			<sn-button :text="t('snDrawerList.reopen')" type="info" custom-style="margin-top:12px;" @click="openDrawer" />
+		</demo-card>
+
+		<demo-card :title="t('snDrawerList.colorTitle')" :subtitle="t('snDrawerList.colorDesc')">
+			<view flatten class="config-row">
+				<sn-text flatten :text="t('snDrawerList.bgColorLabel')" custom-style="width:130px;" />
+				<sn-input v-model="configs.bgColor" :placeholder="t('snDrawerList.defaultFront')" style="flex:1;" />
+			</view>
+			<view flatten class="config-row">
+				<sn-text flatten :text="t('snDrawerList.lineColorLabel')" custom-style="width:130px;" />
+				<sn-input v-model="configs.lineColor" :placeholder="t('snDrawerList.defaultLineText')" style="flex:1;" />
+			</view>
+			<sn-button :text="t('snDrawerList.reopen')" type="info" custom-style="margin-top:12px;" @click="openDrawer" />
+		</demo-card>
+
+		<demo-card :title="t('snDrawerList.halfTitle')" :subtitle="t('snDrawerList.halfDesc')">
+			<sn-button :text="t('snDrawerList.openHalf')" type="warning" custom-style="flex:1;" @click="openHalfDrawer" />
+		</demo-card>
+
+		<demo-card :title="t('snDrawerList.eventTitle')" :subtitle="t('snDrawerList.eventDesc')">
+			<view class="config-row" flatten>
+				<sn-text :text="t('snDrawerList.afterEnterLabel')" custom-style="width:140px;" flatten />
+				<sn-text flatten bold fontSize="$14" :text="t('snDrawerList.evAfterEnter', { c: enterCount } as UTSJSONObject)" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snDrawerList.afterLeaveLabel')" custom-style="width:140px;" flatten />
+				<sn-text flatten bold fontSize="$14" :text="t('snDrawerList.evAfterLeave', { c: leaveCount } as UTSJSONObject)" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snDrawerList.overlayLabel')" custom-style="width:140px;" flatten />
+				<sn-text flatten bold fontSize="$14" :text="t('snDrawerList.evOverlay', { c: overlayCount } as UTSJSONObject)" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snDrawerList.sceneTitle')" :subtitle="t('snDrawerList.sceneDesc')">
+			<sn-button :text="t('snDrawerList.viewPlaylist')" type="success" custom-style="flex:1;" @click="openSongDrawer" />
+			<sn-text type="text-light" fontSize="$12" :text="playingTip()" custom-style="margin-top:8px;" flatten />
+		</demo-card>
+
+		<sn-drawer-list ref="drawerRef" :height="`${configs.height}px`" :slide-height="`${configs.slideHeight}px`"
+			:slide-close="configs.slideClose" :mask-close="configs.maskClose" :prevent-back="configs.preventBack"
+			:show-line="configs.showLine" :bg-color="configs.bgColor" :line-color="configs.lineColor"
+			@afterenter="onAfterEnter" @afterleave="onAfterLeave" @clickoverlay="onOverlay"
+			:list="basicItems">
+			<template v-slot:default="slotProps">
+				<view class="drawer-item">
+					<text flatten class="drawer-item-text">{{ slotProps.item }}</text>
+				</view>
+			</template>
+		</sn-drawer-list>
+
+		<sn-drawer-list ref="halfDrawerRef" height="50%" :slide-height="120" :list="halfItems">
+			<template v-slot:default="slotProps">
+				<view class="drawer-item">
+					<text class="drawer-item-text">{{ slotProps.item }}</text>
+				</view>
+			</template>
+		</sn-drawer-list>
+
+		<sn-drawer-list ref="songDrawerRef" height="480px" :show-scrollbar="false" :loadmore="true"
+			v-model:loadmore-status="songLoadmore" @loadmore="onSongLoadmore" :list="songDrawerItems">
+			<template v-slot:default="slotProps">
+				<view v-if="songEntryKind(slotProps.item) == 'header'" class="playlist-header">
+						<view class="playlist-cover" :style="`background-color: ${playlistColor};`" flatten>
+							<text class="playlist-cover-icon" flatten>♪</text>
+						</view>
+						<view class="playlist-info">
+							<text class="playlist-title" flatten>{{ t('snDrawerList.playlistTitle') }}</text>
+							<text class="playlist-sub" flatten>{{ t('snDrawerList.playlistSub', { c: songs.length } as UTSJSONObject) }}</text>
+						</view>
+						<sn-button :text="t('snDrawerList.playAll')" type="primary" custom-style="margin-right:10px;" @click="onPlayAll" />
+						<sn-icon :name="collected ? 'heart-fill' : 'heart-line'" :color="collected ? '$error' : '$textLight'"
+							:size="22" @click="onCollect" />
+					</view>
+					<view v-else class="song-row" @click="onSongClick(songEntryIndex(slotProps.item))">
+						<view class="song-cover" :style="`background-color: ${songEntryColor(slotProps.item)};`" flatten>
+							<text class="song-cover-icon" flatten>♪</text>
+						</view>
+						<view class="song-main">
+							<text :class="songEntryIndex(slotProps.item) == playingIndex ? 'song-name-active' : 'song-name'" flatten>{{ songEntryName(slotProps.item) }}</text>
+							<text class="song-sub" flatten>{{ songEntryArtist(slotProps.item) }} · {{ songEntryAlbum(slotProps.item) }}</text>
+						</view>
+						<text :class="songEntryIndex(slotProps.item) == playingIndex ? 'song-duration-playing' : 'song-duration'" flatten>{{ songEntryIndex(slotProps.item) == playingIndex ? t('snDrawerList.playingNow') : songEntryDuration(slotProps.item) }}</text>
+						<sn-icon class="song-more" name="more-2-fill" color="$textLight" :size="16" flatten />
+					</view>
+			</template>
+		</sn-drawer-list>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+
+import { useI18n } from 'vue-i18n'
+import type { ComponentPublicInstance } from 'vue'
+
+const { t } = useI18n()
+
+type Configs = {
+	height: number
+	slideHeight: number
+	slideClose: boolean
+	maskClose: boolean
+	preventBack: boolean
+	showLine: boolean
+	bgColor: string
+	lineColor: string
+}
+
+type Song = {
+	id: number
+	name: string
+	artist: string
+	album: string
+	duration: string
+	color: string
+}
+
+type SongDrawerEntry = {
+	type: number
+	kind: string
+	index: number
+	name: string
+	artist: string
+	album: string
+	duration: string
+	color: string
+}
+
+const drawerRef = ref<ComponentPublicInstance | null>(null)
+const halfDrawerRef = ref<ComponentPublicInstance | null>(null)
+const songDrawerRef = ref<ComponentPublicInstance | null>(null)
+const enterCount = ref<number>(0)
+const leaveCount = ref<number>(0)
+const overlayCount = ref<number>(0)
+
+const configs = ref<Configs>({
+	height: 360,
+	slideHeight: 100,
+	slideClose: true,
+	maskClose: true,
+	preventBack: false,
+	showLine: true,
+	bgColor: '$front',
+	lineColor: ''
+})
+
+const basicItems: string[] = []
+for (let i = 1; i <= 50; i++) {
+	basicItems.push(t('snDrawerList.listItem', { i: i } as UTSJSONObject))
+}
+
+const halfItems: string[] = []
+for (let i = 1; i <= 20; i++) {
+	halfItems.push(t('snDrawerList.halfListItem', { i: i } as UTSJSONObject))
+}
+
+const songNames: string[] = [t('snDrawerList.song1'), t('snDrawerList.song2'), t('snDrawerList.song3'), t('snDrawerList.song4'), t('snDrawerList.song5'), t('snDrawerList.song6'), t('snDrawerList.song7'), t('snDrawerList.song8'), t('snDrawerList.song9'), t('snDrawerList.song10'), t('snDrawerList.song11'), t('snDrawerList.song12'), t('snDrawerList.song13'), t('snDrawerList.song14'), t('snDrawerList.song15'), t('snDrawerList.song16'), t('snDrawerList.song17'), t('snDrawerList.song18'), t('snDrawerList.song19'), t('snDrawerList.song20'), t('snDrawerList.song21'), t('snDrawerList.song22'), t('snDrawerList.song23'), t('snDrawerList.song24'), t('snDrawerList.song25'), t('snDrawerList.song26'), t('snDrawerList.song27'), t('snDrawerList.song28'), t('snDrawerList.song29'), t('snDrawerList.song30')]
+const songArtists: string[] = [t('snDrawerList.artist1'), t('snDrawerList.artist2'), t('snDrawerList.artist3'), t('snDrawerList.artist4'), t('snDrawerList.artist5'), t('snDrawerList.artist6'), t('snDrawerList.artist7'), t('snDrawerList.artist8')]
+const songAlbums: string[] = [t('snDrawerList.album1'), t('snDrawerList.album2'), t('snDrawerList.album3'), t('snDrawerList.album4'), t('snDrawerList.album5'), t('snDrawerList.album6'), t('snDrawerList.album7'), t('snDrawerList.album8')]
+const songColors: string[] = ['#F97316', '#8B5CF6', '#0EA5E9', '#10B981', '#F43F5E', '#6366F1', '#F59E0B', '#14B8A6']
+const playlistColor = '#8B5CF6'
+
+const songs: Song[] = []
+for (let i = 0; i < songNames.length; i++) {
+	const min = 3 + i % 3
+	const sec = i * 17 % 60
+	let secStr = `${sec}`
+	if (sec < 10) {
+		secStr = `0${sec}`
+	}
+	songs.push({
+		id: i + 1,
+		name: songNames[i],
+		artist: songArtists[i % songArtists.length],
+		album: songAlbums[i % songAlbums.length],
+		duration: `${min}:${secStr}`,
+		color: songColors[i % songColors.length]
+	})
+}
+
+const playingIndex = ref<number>(-1)
+const collected = ref<boolean>(false)
+const songLoadmore = ref<string>('loadmore')
+
+const songDrawerItems: SongDrawerEntry[] = []
+songDrawerItems.push({
+	type: 1,
+	kind: 'header',
+	index: -1,
+	name: '',
+	artist: '',
+	album: '',
+	duration: '',
+	color: playlistColor
+})
+for (let i = 0; i < songs.length; i++) {
+	songDrawerItems.push({
+		type: 0,
+		kind: 'song',
+		index: i,
+		name: songs[i].name,
+		artist: songs[i].artist,
+		album: songs[i].album,
+		duration: songs[i].duration,
+		color: songs[i].color
+	})
+}
+
+function songEntryKind(item: any): string {
+	return (item as SongDrawerEntry).kind
+}
+function songEntryIndex(item: any): number {
+	return (item as SongDrawerEntry).index
+}
+function songEntryName(item: any): string {
+	return (item as SongDrawerEntry).name
+}
+function songEntryArtist(item: any): string {
+	return (item as SongDrawerEntry).artist
+}
+function songEntryAlbum(item: any): string {
+	return (item as SongDrawerEntry).album
+}
+function songEntryDuration(item: any): string {
+	return (item as SongDrawerEntry).duration
+}
+function songEntryColor(item: any): string {
+	return (item as SongDrawerEntry).color
+}
+
+function playingTip(): string {
+	if (playingIndex.value >= 0 && playingIndex.value < songs.length) {
+		return t('snDrawerList.playing', { name: songs[playingIndex.value].name, artist: songs[playingIndex.value].artist } as UTSJSONObject)
+	}
+	return t('snDrawerList.notPlaying')
+}
+
+function openDrawer(): void {
+	drawerRef.value?.$callMethod('open')
+}
+
+function openHalfDrawer(): void {
+	halfDrawerRef.value?.$callMethod('open')
+}
+
+function openSongDrawer(): void {
+	songDrawerRef.value?.$callMethod('open')
+}
+
+function onSongClick(index: number): void {
+	playingIndex.value = index
+}
+
+function onPlayAll(): void {
+	playingIndex.value = 0
+}
+
+function onCollect(): void {
+	collected.value = !collected.value
+}
+
+function onSongLoadmore(): void {
+	setTimeout((): void => {
+		songLoadmore.value = 'nomore'
+	}, 800)
+}
+
+function onAfterEnter(): void {
+	enterCount.value = enterCount.value + 1
+}
+
+function onAfterLeave(): void {
+	leaveCount.value = leaveCount.value + 1
+}
+
+function onOverlay(): void {
+	overlayCount.value = overlayCount.value + 1
+}
+</script>
+
+<style lang="scss">
+.config-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+.drawer-item {
+	padding: 13px 4px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: var(--sn-line);
+}
+.drawer-item-text {
+	font-size: 14px;
+	color: var(--sn-text);
+}
+.playlist-header {
+	flex-direction: row;
+	align-items: center;
+	padding: 4px 4px 16px 4px;
+}
+.playlist-cover {
+	width: 56px;
+	height: 56px;
+	border-radius: 12px;
+	align-items: center;
+	justify-content: center;
+	margin-right: 12px;
+}
+.playlist-cover-icon {
+	color: #FFFFFF;
+	font-size: 24px;
+}
+.playlist-info {
+	flex: 1;
+	flex-direction: column;
+}
+.playlist-title {
+	font-size: 16px;
+	font-weight: bold;
+	color: var(--sn-title);
+}
+.playlist-sub {
+	font-size: 12px;
+	color: var(--sn-text-light);
+	margin-top: 4px;
+}
+.song-row {
+	flex-direction: row;
+	align-items: center;
+	padding: 10px 4px;
+}
+.song-cover {
+	width: 44px;
+	height: 44px;
+	border-radius: 8px;
+	align-items: center;
+	justify-content: center;
+	margin-right: 12px;
+}
+.song-cover-icon {
+	color: #FFFFFF;
+	font-size: 16px;
+}
+.song-main {
+	flex: 1;
+	flex-direction: column;
+	margin-right: 8px;
+}
+.song-name {
+	font-size: 14px;
+	color: var(--sn-text);
+}
+.song-name-active {
+	font-size: 14px;
+	font-weight: bold;
+	color: var(--sn-primary);
+}
+.song-sub {
+	font-size: 12px;
+	color: var(--sn-text-light);
+	margin-top: 3px;
+}
+.song-duration {
+	font-size: 12px;
+	color: var(--sn-text-light);
+}
+.song-duration-playing {
+	font-size: 12px;
+	color: var(--sn-primary);
+}
+.song-more {
+	margin-left: 12px;
+}
+</style>

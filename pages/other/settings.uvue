@@ -1,0 +1,324 @@
+<template>
+	<sn-page :title="t('settings.title')" :show-back="true">
+		<view class="page-content" flatten>
+			<view class="settings-card" :style="cardStyle" flatten>
+				<view class="setting-row" flatten>
+					<view class="setting-label" flatten>
+						<sn-icon name="contrast-2-line" :size="18" color="$primary" />
+						<sn-text font-size="$14" color="$text" custom-style="margin-left:10px;" flatten>{{ t('settings.followSystem') }}</sn-text>
+					</view>
+					<sn-switch :model-value="isAuto" active-bg-color="$primary" @change="onAutoChange" />
+				</view>
+				<view class="row-divider" flatten :style="dividerStyle"></view>
+				<view class="setting-row" flatten>
+					<view class="setting-label" flatten>
+						<sn-icon name="moon-line" :size="18" color="$primary" />
+						<sn-text font-size="$14" color="$text" custom-style="margin-left:10px;" flatten>{{ t('settings.darkMode') }}</sn-text>
+					</view>
+					<sn-switch :model-value="isDark" active-bg-color="$primary" @change="onDarkChange" />
+				</view>
+				<view class="row-divider" flatten :style="dividerStyle"></view>
+				<view class="setting-row" flatten>
+					<view class="setting-label" flatten>
+						<sn-icon name="flower-line" :size="18" color="$primary" />
+						<sn-text font-size="$14" color="$text" custom-style="margin-left:10px;" flatten>{{ t('settings.grayMode') }}</sn-text>
+					</view>
+					<sn-switch :model-value="isGray" active-bg-color="$primary" @change="onGrayChange" />
+				</view>
+				<view class="row-divider" flatten :style="dividerStyle"></view>
+				<view class="setting-row" flatten>
+					<view class="setting-label" flatten>
+						<sn-icon name="global-line" :size="18" color="$primary" />
+						<sn-text font-size="$14" color="$text" custom-style="margin-left:10px;" flatten>{{ t('settings.appLanguage') }}</sn-text>
+					</view>
+					<sn-select v-model="appLocaleIdx" :data="appLocaleOptions" width="132px" selected-mode="check"
+						@change="onAppLocaleChange" />
+				</view>
+				<view class="row-divider" flatten :style="dividerStyle"></view>
+				<view class="setting-row" flatten>
+					<view class="setting-label" flatten>
+						<sn-icon name="palette-line" :size="18" color="$primary" />
+						<sn-text font-size="$14" color="$text" custom-style="margin-left:10px;" flatten>{{ t('settings.style') }}</sn-text>
+					</view>
+					<sn-select v-model="styleIdx" :data="styleOptions" width="132px" selected-mode="check"
+						@change="onStyleChange" />
+				</view>
+				<view class="row-divider" flatten :style="dividerStyle"></view>
+				<view class="slider-block" flatten>
+					<view class="slider-label-row" flatten>
+						<view class="setting-label" flatten>
+							<sn-icon name="font-size" :size="18" color="$primary" />
+							<sn-text font-size="$13" color="$text" custom-style="margin-left:10px;" flatten>{{ t('settings.fontSize') }}</sn-text>
+						</view>
+						<sn-text bold font-size="$13" color="$primary" flatten>{{ fontsizeFactorText }}×</sn-text>
+					</view>
+					<sn-slider :model-value="fontsizeFactorInt" :min="6" :max="16" :step="1"
+						active-color="$primary" inactive-color="$line" @change="onFontsizeChange" />
+				</view>
+				<view class="row-divider" flatten :style="dividerStyle"></view>
+				<view class="slider-block" flatten>
+					<view class="slider-label-row" flatten>
+						<view class="setting-label" flatten>
+							<sn-icon name="shape-line" :size="18" color="$primary" />
+							<sn-text font-size="$13" color="$text" custom-style="margin-left:10px;" flatten>{{ t('settings.radius') }}</sn-text>
+						</view>
+						<sn-text bold font-size="$13" color="$primary" flatten>{{ radiusFactorText }}×</sn-text>
+					</view>
+					<sn-slider :model-value="radiusFactorInt" :min="0" :max="20" :step="1"
+						active-color="$primary" inactive-color="$line" @change="onRadiusChange" />
+				</view>
+				<view class="row-divider" flatten :style="dividerStyle"></view>
+				<view class="slider-block" flatten>
+					<view class="slider-label-row" flatten>
+						<view class="setting-label" flatten>
+							<sn-icon name="expand-left-right-line" :size="18" color="$primary" />
+							<sn-text font-size="$13" color="$text" custom-style="margin-left:10px;" flatten>{{ t('settings.margin') }}</sn-text>
+						</view>
+						<sn-text bold font-size="$13" color="$primary">{{ marginFactorText }}×</sn-text>
+					</view>
+					<sn-slider :model-value="marginFactorInt" :min="0" :max="20" :step="1"
+						active-color="$primary" inactive-color="$line" @change="onMarginChange" />
+				</view>
+				<view class="row-divider" flatten :style="dividerStyle"></view>
+				<view class="slider-block" flatten>
+					<view class="slider-label-row" flatten>
+						<view class="setting-label" flatten>
+							<sn-icon name="expand-up-down-line" :size="18" color="$primary" />
+							<sn-text font-size="$13" color="$text" custom-style="margin-left:10px;">{{ t('settings.padding') }}</sn-text>
+						</view>
+						<sn-text bold font-size="$13" color="$primary">{{ paddingFactorText }}×</sn-text>
+					</view>
+					<sn-slider :model-value="paddingFactorInt" :min="0" :max="20" :step="1"
+						active-color="$primary" inactive-color="$line" @change="onPaddingChange" />
+				</view>
+				<view class="row-divider" flatten :style="dividerStyle"></view>
+				<view class="slider-block" flatten>
+					<view class="slider-label-row" flatten>
+						<view class="setting-label" flatten>
+							<sn-icon name="play-circle-line" :size="18" color="$primary" />
+							<sn-text font-size="$13" color="$text" custom-style="margin-left:10px;">{{ t('settings.aniSpeed') }}</sn-text>
+						</view>
+						<sn-text bold font-size="$13" color="$primary">{{ aniTimeFactorLabel }}</sn-text>
+					</view>
+					<sn-slider :model-value="aniTimeFactorIdx" :min="0" :max="4" :step="1"
+						active-color="$primary" inactive-color="$line" @change="onAniTimeFactorChange" />
+				</view>
+			</view>
+		</view>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { $snui, useTheme, useFactors, useStyle } from '@/uni_modules/sinle-ui/index.uts'
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t, locale: appLocale } = useI18n()
+const { isAuto, isDark, setTheme, setAutoTheme } = useTheme()
+const { marginFactor, paddingFactor, fontsizeFactor, radiusFactor, aniTimeFactor } = useFactors()
+const { styleId, setStyle } = useStyle()
+const isGray = computed<boolean>((): boolean => $snui.grayMode)
+
+function onAutoChange(val: boolean): void {
+	setAutoTheme(val)
+}
+
+function onDarkChange(val: boolean): void {
+	if (val) {
+		setAutoTheme(false)
+		setTheme('dark')
+	} else {
+		setTheme('light')
+	}
+}
+
+function onGrayChange(val: boolean): void {
+	$snui.grayMode = val
+}
+
+const appLocaleOptions: SnDataItem[] = [
+	{ id: 'zh-Hans', text: '简体中文' },
+	{ id: 'en', text: 'English' },
+	{ id: 'zh-Hant', text: '繁體中文' }
+]
+
+const appLocaleIdx = ref<number>(0)
+
+function syncAppLocaleIdx(): void {
+	for (let i = 0; i < appLocaleOptions.length; i++) {
+		if (appLocaleOptions[i].id == appLocale.value) {
+			appLocaleIdx.value = i
+			return
+		}
+	}
+	appLocaleIdx.value = 0
+}
+
+function onAppLocaleChange(idx: number): void {
+	if (idx >= 0 && idx < appLocaleOptions.length) {
+		const id = appLocaleOptions[idx].id
+		if (id != null) {
+			appLocale.value = id
+			$snui.locale = id
+		}
+	}
+}
+
+const styleOptions = computed<SnDataItem[]>(() => [
+	{ id: 'default', text: t('style.default') },
+	{ id: 'ink', text: t('style.ink') },
+	{ id: 'chinese', text: t('style.chinese') },
+	{ id: 'new-year', text: t('style.newYear') },
+	{ id: 'morandi-green', text: t('style.morandiGreen') },
+	{ id: 'orange', text: t('style.orange') }
+])
+
+const styleIdx = ref<number>(0)
+
+function syncStyleIdx(): void {
+	const list = styleOptions.value
+	for (let i = 0; i < list.length; i++) {
+		if (list[i].id == styleId.value) {
+			styleIdx.value = i
+			return
+		}
+	}
+	styleIdx.value = 0
+}
+
+function onStyleChange(idx: number): void {
+	const list = styleOptions.value
+	if (idx >= 0 && idx < list.length) {
+		const id = list[idx].id
+		if (id != null) {
+			setStyle(id)
+		}
+	}
+}
+
+onMounted((): void => {
+	syncStyleIdx()
+	syncAppLocaleIdx()
+	$snui.locale = appLocale.value
+})
+
+watch(styleId, (): void => {
+	syncStyleIdx()
+})
+
+watch(appLocale, (): void => {
+	syncAppLocaleIdx()
+})
+
+function formatFactor(val: number): string {
+	const i = Math.round(val * 10)
+	return (i / 10).toString()
+}
+
+const fontsizeFactorInt = computed<number>(() => Math.round(fontsizeFactor.value * 10))
+const radiusFactorInt = computed<number>(() => Math.round(radiusFactor.value * 10))
+const marginFactorInt = computed<number>(() => Math.round(marginFactor.value * 10))
+const paddingFactorInt = computed<number>(() => Math.round(paddingFactor.value * 10))
+
+const aniTimeFactorLabels = computed<string[]>(() => [t('settings.aniOff'), '×0.5', '×1', '×1.5', '×2'])
+const aniTimeFactorIdx = computed<number>(() => {
+	const val = aniTimeFactor.value
+	if (val <= 0) return 0
+	if (val <= 0.5) return 1
+	if (val <= 1) return 2
+	if (val <= 1.5) return 3
+	return 4
+})
+
+const fontsizeFactorText = computed<string>(() => formatFactor(fontsizeFactor.value))
+const radiusFactorText = computed<string>(() => formatFactor(radiusFactor.value))
+const marginFactorText = computed<string>(() => formatFactor(marginFactor.value))
+const paddingFactorText = computed<string>(() => formatFactor(paddingFactor.value))
+const aniTimeFactorLabel = computed<string>(() => aniTimeFactorLabels.value[aniTimeFactorIdx.value])
+
+function onFontsizeChange(val: number): void {
+	$snui.fontsizeFactor = val / 10
+}
+
+function onRadiusChange(val: number): void {
+	$snui.radiusFactor = val / 10
+}
+
+function onMarginChange(val: number): void {
+	$snui.marginFactor = val / 10
+}
+
+function onPaddingChange(val: number): void {
+	$snui.paddingFactor = val / 10
+}
+
+function onAniTimeFactorChange(val: number): void {
+	const aniTimeFactorMap: number[] = [0, 0.5, 1, 1.5, 2]
+	$snui.aniTimeFactor = aniTimeFactorMap[val]
+}
+
+function factorRadius(n: number): number {
+	return Math.round(n * $snui.radiusFactor)
+}
+
+const cardStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('backgroundColor', $snui.colors.front)
+	styles.set('borderRadius', `${factorRadius(20)}px`)
+	styles.set('overflow', 'hidden')
+	styles.set('flexDirection', 'column')
+	return styles
+})
+
+const dividerStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('height', '1px')
+	styles.set('backgroundColor', $snui.colors.line)
+	styles.set('marginLeft', '44px')
+	return styles
+})
+</script>
+
+<style lang="scss">
+.page-content {
+	flex-direction: column;
+	padding: 16px 16px 32px 16px;
+}
+
+.settings-card {
+	background-color: var(--sn-front);
+	border-radius: 20px;
+	overflow: hidden;
+	flex-direction: column;
+}
+
+.setting-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding: 15px 16px;
+}
+
+.setting-label {
+	flex-direction: row;
+	align-items: center;
+}
+
+.row-divider {
+	height: 1px;
+	background-color: var(--sn-line);
+}
+
+.slider-block {
+	flex-direction: column;
+	padding: 15px 16px 6px 16px;
+}
+
+.slider-label-row {
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 8px;
+}
+</style>

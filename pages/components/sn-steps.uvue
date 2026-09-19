@@ -1,0 +1,128 @@
+<template>
+	<sn-page>
+		<sn-topbar :title="t('snSteps.title')"></sn-topbar>
+
+		<demo-card :title="t('snSteps.demoBasicTitle')" :subtitle="t('snSteps.demoBasicSub')">
+			<sn-steps v-model="current1" @change="onChange1">
+				<sn-step :title="t('snSteps.step1Title')" :content="t('snSteps.step1Content')"></sn-step>
+				<sn-step :title="t('snSteps.step2Title')" :content="t('snSteps.step2Content')"></sn-step>
+				<sn-step :title="t('snSteps.step3Title')" :content="t('snSteps.step3Content')"></sn-step>
+				<sn-step :title="t('snSteps.step4Title')" :content="t('snSteps.step4Content')"></sn-step>
+			</sn-steps>
+			<sn-text type="text-light" :font-size="12" :text="t('snSteps.currentStep', { cur: current1, cnt: changeCount1 } as UTSJSONObject)"
+				custom-style="margin-top:12px;" flatten />
+		</demo-card>
+
+		<demo-card :title="t('snSteps.demoDotTitle')" :subtitle="t('snSteps.demoDotSub')">
+			<sn-steps v-model="current2" type="dot">
+				<sn-step :title="t('snSteps.dot1Title')"></sn-step>
+				<sn-step :title="t('snSteps.dot2Title')"></sn-step>
+				<sn-step :title="t('snSteps.dot3Title')"></sn-step>
+				<sn-step :title="t('snSteps.dot4Title')"></sn-step>
+			</sn-steps>
+		</demo-card>
+
+		<demo-card :title="t('snSteps.demoErrorTitle')" :subtitle="t('snSteps.demoErrorSub')">
+			<sn-steps v-model="current3">
+				<sn-step icon="shopping-cart-2-line" :title="t('snSteps.err1Title')" :content="t('snSteps.err1Content')"></sn-step>
+				<sn-step icon="bank-card-line" :title="t('snSteps.err2Title')" :content="t('snSteps.err2Content')" status="error"></sn-step>
+				<sn-step icon="car-line" :title="t('snSteps.err3Title')" :content="t('snSteps.err3Content')"></sn-step>
+				<sn-step icon="checkbox-circle-line" :title="t('snSteps.err4Title')"></sn-step>
+			</sn-steps>
+		</demo-card>
+
+		<demo-card :title="t('snSteps.demoVertTitle')" :subtitle="t('snSteps.demoVertSub')">
+			<sn-steps v-model="current4" vertical>
+				<sn-step :title="t('snSteps.vStep1')" :content="t('snSteps.vContent1')"></sn-step>
+				<sn-step :title="t('snSteps.vStep2')" :content="t('snSteps.vContent2')"></sn-step>
+				<sn-step :title="t('snSteps.vStep3')" :content="t('snSteps.vContent3')">
+					<template #extra>
+						<view class="demo-extra-box" flatten>
+							<sn-text font-size="$12" :color="extraColor" flatten>{{ t('snSteps.transTip') }}</sn-text>
+						</view>
+					</template>
+				</sn-step>
+				<sn-step :title="t('snSteps.vStep4')" :content="t('snSteps.vContent4')"></sn-step>
+				<sn-step :title="t('snSteps.vStep5')"></sn-step>
+			</sn-steps>
+		</demo-card>
+
+		<demo-card :title="t('snSteps.demoSelectTitle')" :subtitle="t('snSteps.demoSelectSub')">
+			<view class="demo-switch-row">
+				<sn-text :color="labelColor">{{ t('snSteps.allowSelect') }}</sn-text>
+				<sn-switch v-model="selectable5"></sn-switch>
+			</view>
+			<sn-steps v-model="current5" :selectable="selectable5" custom-style="margin-top:14px;">
+				<sn-step :title="t('snSteps.sel1')"></sn-step>
+				<sn-step :title="t('snSteps.sel2')"></sn-step>
+				<sn-step :title="t('snSteps.sel3')"></sn-step>
+			</sn-steps>
+			<sn-text type="text-light" :font-size="12" :text="t('snSteps.currentStepHint', { cur: current5 } as UTSJSONObject)" custom-style="margin-top:12px;" />
+		</demo-card>
+
+		<demo-card :title="t('snSteps.demoStyleTitle')" :subtitle="t('snSteps.demoStyleSub')">
+			<sn-steps v-model="current6" active-color="$success" custom-style="margin-bottom:20px;"
+				title-style="font-weight:normal;" content-class="demo-steps-content">
+				<sn-step :title="t('snSteps.st1')" :content="t('snSteps.st1Content')"></sn-step>
+				<sn-step :title="t('snSteps.st2')" :content="t('snSteps.st2Content')"></sn-step>
+				<sn-step :title="t('snSteps.st3')"></sn-step>
+				<sn-step :title="t('snSteps.st4')"></sn-step>
+			</sn-steps>
+			<sn-steps v-model="current6" circle-size="$28px" text-size="$13px"
+				line-style="height:3px; border-radius:3px;">
+				<sn-step :title="t('snSteps.ss1')"></sn-step>
+				<sn-step :title="t('snSteps.ss2')"></sn-step>
+				<sn-step :title="t('snSteps.ss3')"></sn-step>
+			</sn-steps>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+
+import { useI18n } from 'vue-i18n'
+import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+
+const { t } = useI18n()
+const { isDark } = useTheme()
+
+const current1 = ref<number>(1)
+const changeCount1 = ref<number>(0)
+
+function onChange1(_value: number): void {
+	changeCount1.value++
+}
+
+const current2 = ref<number>(2)
+
+const current3 = ref<number>(2)
+
+const current4 = ref<number>(2)
+
+const current5 = ref<number>(0)
+const selectable5 = ref<boolean>(true)
+
+const current6 = ref<number>(1)
+
+const labelColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+const extraColor = computed<string>(() => isDark.value ? 'rgba(255,255,255,0.65)' : 'rgba(15,23,42,0.65)')
+</script>
+
+<style lang="scss">
+.demo-switch-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.demo-extra-box {
+	margin-top: 8px;
+	padding: 8px 10px;
+	border-radius: 8px;
+	background-color: rgba(127, 127, 127, 0.08);
+}
+
+.demo-steps-content {
+	font-weight: bold;
+}
+</style>

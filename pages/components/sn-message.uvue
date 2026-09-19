@@ -1,0 +1,200 @@
+<template>
+	<sn-page :title="t('snMessage.title')" :show-back="true">
+
+		<demo-card :title="t('snMessage.basicTitle')" :subtitle="t('snMessage.basicSubtitle')">
+			<sn-button type="primary" :text="t('snMessage.showBasic')" custom-style="flex:1;" @click="onShowBasic" />
+			<sn-text font-size="$12" color="$textLight" :text="t('snMessage.tipContinuous')" custom-style="margin-top:8px;" flatten />
+		</demo-card>
+
+		<demo-card :title="t('snMessage.typeTitle')" :subtitle="t('snMessage.typeSubtitle')">
+			<view class="btn-row btn-gap" flatten>
+				<sn-button type="info" text="info" custom-style="flex:1;" @click="onShowType('info')" />
+				<sn-button type="primary" text="primary" custom-style="flex:1;margin-left:10px;" @click="onShowType('primary')" />
+			</view>
+			<view class="btn-row btn-gap" style="margin-top:10px;" flatten>
+				<sn-button type="success" text="success" custom-style="flex:1;" @click="onShowType('success')" />
+				<sn-button type="warning" text="warning" custom-style="flex:1;margin-left:10px;" @click="onShowType('warning')" />
+				<sn-button type="error" text="error" custom-style="flex:1;margin-left:10px;" @click="onShowType('error')" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snMessage.levelTitle')" :subtitle="t('snMessage.levelSubtitle')">
+			<view class="btn-row btn-gap" flatten>
+				<sn-button type="primary" level="first" text="primary·first" custom-style="flex:1;" @click="onShowLevel('primary', 'first')" />
+				<sn-button type="primary" level="second" text="primary·second" custom-style="flex:1;margin-left:10px;" @click="onShowLevel('primary', 'second')" />
+				<sn-button type="primary" level="third" text="primary·third" custom-style="flex:1;margin-left:10px;" @click="onShowLevel('primary', 'third')" />
+			</view>
+			<view class="btn-row btn-gap" style="margin-top:10px;" flatten>
+				<sn-button type="success" level="first" text="success·first" custom-style="flex:1;" @click="onShowLevel('success', 'first')" />
+				<sn-button type="success" level="second" text="success·second" custom-style="flex:1;margin-left:10px;" @click="onShowLevel('success', 'second')" />
+				<sn-button type="success" level="third" text="success·third" custom-style="flex:1;margin-left:10px;" @click="onShowLevel('success', 'third')" />
+			</view>
+			<view class="btn-row btn-gap" style="margin-top:10px;" flatten>
+				<sn-button type="warning" level="first" text="warning·first" custom-style="flex:1;" @click="onShowLevel('warning', 'first')" />
+				<sn-button type="warning" level="second" text="warning·second" custom-style="flex:1;margin-left:10px;" @click="onShowLevel('warning', 'second')" />
+				<sn-button type="warning" level="third" text="warning·third" custom-style="flex:1;margin-left:10px;" @click="onShowLevel('warning', 'third')" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snMessage.positionTitle')" :subtitle="t('snMessage.positionSubtitle')">
+			<view class="btn-row btn-gap" flatten>
+				<sn-button type="info" :text="t('snMessage.posTopLeft')" custom-style="flex:1;" @click="onShowPosition('top-left')" />
+				<sn-button type="primary" :text="t('snMessage.posTop')" custom-style="flex:1;margin-left:10px;" @click="onShowPosition('top')" />
+				<sn-button type="info" :text="t('snMessage.posTopRight')" custom-style="flex:1;margin-left:10px;" @click="onShowPosition('top-right')" />
+			</view>
+			<view class="btn-row btn-gap" style="margin-top:10px;" flatten>
+				<sn-button type="info" :text="t('snMessage.posBottomLeft')" custom-style="flex:1;" @click="onShowPosition('bottom-left')" />
+				<sn-button type="primary" :text="t('snMessage.posBottom')" custom-style="flex:1;margin-left:10px;" @click="onShowPosition('bottom')" />
+				<sn-button type="info" :text="t('snMessage.posBottomRight')" custom-style="flex:1;margin-left:10px;" @click="onShowPosition('bottom-right')" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snMessage.closeTitle')" :subtitle="t('snMessage.closeSubtitle')">
+			<view class="btn-row btn-gap" flatten>
+				<sn-button type="primary" :text="t('snMessage.withClose')" custom-style="flex:1;" @click="onShowClosable" />
+				<sn-button type="warning" :text="t('snMessage.groupingOpen')" custom-style="flex:1;margin-left:10px;" @click="onShowGroup" />
+			</view>
+			<sn-text font-size="$12" color="$textLight" :text="t('snMessage.closeCount', { count: closeCount } as UTSJSONObject)" custom-style="margin-top:10px;" flatten />
+		</demo-card>
+
+		<demo-card :title="t('snMessage.shadowTitle')" :subtitle="t('snMessage.shadowSubtitle')">
+			<sn-button type="info" :text="t('snMessage.showShadow')" custom-style="flex:1;" @click="onShowShadow" />
+		</demo-card>
+
+		<demo-card :title="t('snMessage.customTitle')" :subtitle="t('snMessage.customSubtitle')">
+			<view class="btn-row btn-gap" flatten>
+				<sn-button type="info" :text="t('snMessage.customColor')" custom-style="flex:1;" @click="onShowCustom" />
+				<sn-button type="info" :text="t('snMessage.lightBg')" custom-style="flex:1;margin-left:10px;" @click="onShowLight" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snMessage.createTitle')" :subtitle="t('snMessage.createSubtitle')">
+			<view class="btn-row btn-gap" flatten>
+				<sn-button type="primary" :text="t('snMessage.createMsg')" custom-style="flex:1;" @click="onCreateMsg" />
+				<sn-button type="error" :text="t('snMessage.closeLast')" custom-style="flex:1;margin-left:10px;" @click="onCloseLast" />
+			</view>
+			<sn-text font-size="$12" color="$textLight" :text="t('snMessage.createdCount', { count: createdCount } as UTSJSONObject)" custom-style="margin-top:10px;" flatten />
+		</demo-card>
+
+		<sn-message ref="messageRef" @close="onMessageClose" />
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+
+import { useI18n } from 'vue-i18n'
+import type { ComponentPublicInstance } from 'vue'
+import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import type { SnMessageParams, SnMessageType, SnMessageLevel, SnMessagePosition } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+
+const messageRef = ref<ComponentPublicInstance | null>(null)
+const closeCount = ref<number>(0)
+const createdCount = ref<number>(0)
+const lastMsgId = ref<string>('')
+
+// 创建消息：show 返回 uuid，保存用于后续关闭
+function onCreateMsg(): void {
+	const id = messageRef.value?.$callMethod('show', {
+		text: t('snMessage.msgCloseUuid'),
+		type: 'primary',
+		duration: 30000
+	} as SnMessageParams) as string
+	lastMsgId.value = id
+	createdCount.value = createdCount.value + 1
+}
+
+// 关闭最后创建的消息（uuid 关闭）
+function onCloseLast(): void {
+	if (lastMsgId.value == '') {
+		snu.showToast({ text: t('snMessage.pleaseCreateFirst') })
+		return
+	}
+	messageRef.value?.$callMethod('close', lastMsgId.value)
+	lastMsgId.value = ''
+}
+
+function onShowBasic(): void {
+	messageRef.value?.$callMethod('show', {
+		text: t('snMessage.basicMsg')
+	} as SnMessageParams)
+}
+
+function onShowType(type: SnMessageType): void {
+	messageRef.value?.$callMethod('show', {
+		text: t('snMessage.typeMsg', { type: type } as UTSJSONObject),
+		type: type
+	} as SnMessageParams)
+}
+
+function onShowLevel(type: SnMessageType, level: SnMessageLevel): void {
+	messageRef.value?.$callMethod('show', {
+		text: t('snMessage.levelMsg', { type: type, level: level } as UTSJSONObject),
+		type: type,
+		level: level,
+		duration:5000
+	} as SnMessageParams)
+}
+
+function onShowPosition(position: SnMessagePosition): void {
+	messageRef.value?.$callMethod('show', {
+		text: t('snMessage.positionMsg', { position: position } as UTSJSONObject),
+		position: position
+	} as SnMessageParams)
+}
+
+function onShowClosable(): void {
+	messageRef.value?.$callMethod('show', {
+		text: t('snMessage.closeThis'),
+		closable: true
+	} as SnMessageParams)
+}
+
+function onShowGroup(): void {
+	messageRef.value?.$callMethod('show', {
+		text: t('snMessage.groupMerge'),
+		type: 'warning',
+		grouping: true,
+		duration: 5000
+	} as SnMessageParams)
+}
+
+function onShowShadow(): void {
+	messageRef.value?.$callMethod('show', {
+		text: t('snMessage.shadowMsg'),
+		type: 'primary',
+		duration: 5000
+	} as SnMessageParams)
+}
+
+function onShowCustom(): void {
+	messageRef.value?.$callMethod('show', {
+		text: t('snMessage.customColorMsg'),
+		type: 'primary',
+		bgColor: '$primary',
+		textColor: '$primaryText'
+	} as SnMessageParams)
+}
+
+function onShowLight(): void {
+	messageRef.value?.$callMethod('show', {
+		text: t('snMessage.lightBgMsg'),
+		type: 'info',
+		bgColor: '#fff',
+		textColor: '#2b2b2b',
+		borderRadius: '$12'
+	} as SnMessageParams)
+}
+
+function onMessageClose(): void {
+	closeCount.value = closeCount.value + 1
+}
+</script>
+
+<style lang="scss">
+.btn-row {
+	flex-direction: row;
+}
+
+</style>

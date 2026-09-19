@@ -1,0 +1,141 @@
+<template>
+	<view class="demo-card-shell" :style="shellStyle">
+		<view class="demo-card" :style="cardStyle">
+			<view v-if="hasHeader" flatten class="demo-card-header">
+				<slot name="title">
+					<text flatten :style="titleStyle">{{ title }}</text>
+				</slot>
+				<slot name="header-extra" />
+			</view>
+			<view v-if="hasSubtitle" flatten class="demo-card-subtitle">
+				<slot name="subtitle">
+					<text flatten :style="subtitleStyle">{{ subtitle }}</text>
+				</slot>
+			</view>
+<view class="demo-card-body" v-if="$slots['default'] != null">
+				<slot />
+			</view>
+		</view>
+	</view>
+</template>
+
+<script lang="uts" setup>
+import { useTheme, useFactors } from '@/uni_modules/sinle-ui/index.uts'
+
+defineOptions({
+	name: 'DemoCard'
+})
+
+const { isDark } = useTheme()
+const { fontsizeFactor } = useFactors()
+
+type Props = {
+	title?: string
+	subtitle?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+	title: '',
+	subtitle: ''
+})
+
+const slots = useSlots()
+
+const hasHeader = computed<boolean>(() => {
+	return props.title != '' || slots['title'] != null
+})
+
+const hasSubtitle = computed<boolean>(() => {
+	return props.subtitle != '' || slots['subtitle'] != null
+})
+
+const titleColor = computed<string>(() => isDark.value ? '#E2E8F0' : '#1E293B')
+const subColor = computed<string>(() => isDark.value ? 'rgba(255,255,255,0.5)' : 'rgba(15,23,42,0.5)')
+
+const titleStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('fontSize', `${Math.round(16 * fontsizeFactor.value)}px`)
+	styles.set('fontWeight', '600')
+	styles.set('color', titleColor.value)
+	return styles
+})
+
+const subtitleStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('fontSize', `${Math.round(12 * fontsizeFactor.value)}px`)
+	styles.set('color', subColor.value)
+	return styles
+})
+const glassBg = computed<string>(() => isDark.value ? 'rgba(30,41,59,0.5)' : 'rgba(255,255,255,0.6)')
+const glassBorder = computed<string>(() => isDark.value ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.9)')
+
+const shellStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('border-radius', '20px')
+	styles.set('marginBottom', '16px')
+	
+	styles.set('marginLeft', '16px')
+	styles.set('marginRight', '16px')
+	return styles
+})
+
+const cardStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('paddingTop', '20px')
+	styles.set('paddingRight', '16px')
+	styles.set('paddingBottom', '20px')
+	styles.set('paddingLeft', '16px')
+	styles.set('backgroundColor', 'var(--sn-front)')
+	styles.set('borderTopWidth', '1px')
+	styles.set('borderTopStyle', 'solid')
+	styles.set('borderRadius', '15px')
+	styles.set('borderTopColor', glassBorder.value)
+	styles.set('flexDirection', 'column')
+	return styles
+})
+
+const glowStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', '120px')
+	styles.set('height', '120px')
+	styles.set('borderRadius', '60px')
+	styles.set('position', 'absolute')
+	styles.set('top', '-40px')
+	styles.set('right', '-30px')
+	styles.set('backgroundColor', isDark.value ? 'rgba(99,102,241,0.1)' : 'rgba(99,102,241,0.12)')
+	return styles
+})
+</script>
+
+<style lang="scss">
+.demo-card {
+	overflow: visible;
+	transition-property: all;
+	transition-duration: var(--ani-time-normal);
+}
+
+
+
+.demo-card-shell {
+	overflow: visible;
+	flex-direction: column;
+	transition-property: all;
+	transition-duration: var(--ani-time-normal);
+}
+
+.demo-card-header {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 8px;
+	position: relative;
+}
+.demo-card-subtitle {
+	position: relative;
+}
+.demo-card-body {
+	margin-top: 16px;
+	flex-direction: column;
+	overflow: visible;
+}
+</style>

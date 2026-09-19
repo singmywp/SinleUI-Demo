@@ -1,0 +1,96 @@
+<template>
+	<view class="form-field" :style="[customStyleText]">
+		<view class="form-field-row">
+			<view class="form-field-label" :style="labelWrapStyle">
+				<sn-text :text="label" :font-size="labelSizeNum" :color="labelColorC" />
+			</view>
+			<view class="form-field-content">
+				<slot></slot>
+			</view>
+		</view>
+		
+		<sn-alert v-if="error != ''" type="error" effect="light" :text="error" custom-style="margin-top:8px;" />
+	</view>
+</template>
+
+<script lang="uts" setup>
+import { $snui, useTheme, useFactors } from '@/uni_modules/sinle-ui/index.uts'
+import { useExternalStyle } from '@/uni_modules/sinle-ui/core/private/use-external-style.uts'
+
+
+
+
+
+
+defineOptions({
+	name: 'FormField'
+})
+
+const { isDark } = useTheme()
+const { fontsizeFactor, marginFactor } = useFactors()
+
+type Props = {
+	
+	label?: string
+	
+	labelWidth?: string | number
+	
+	error?: string
+	
+	customStyle?: UTSJSONObject | string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+	label: '',
+	labelWidth: '',
+	error: '',
+	customStyle: ''
+})
+
+const customStyleText = useExternalStyle((): UTSJSONObject | string => props.customStyle)
+
+
+const labelColorC = computed<string>(() => {
+	return isDark.value ? $snui.colors.textLight : $snui.colors.text
+})
+
+
+const labelSizeNum = computed<number>(() => Math.round(14 * fontsizeFactor.value))
+
+
+const labelWidthC = computed<string>(() => {
+	if (typeof props.labelWidth == 'number') {
+		return `${props.labelWidth}px`
+	}
+	const w = props.labelWidth as string
+	if (w == '') {
+		return '88px'
+	}
+	return w
+})
+
+const labelWrapStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('width', labelWidthC.value)
+	styles.set('marginRight', `${Math.round(10 * marginFactor.value)}px`)
+	styles.set('flexDirection', 'row')
+	styles.set('alignItems', 'center')
+	styles.set('flexShrink', 0)
+	return styles
+})
+</script>
+
+<style lang="scss">
+.form-field {
+	flex-direction: column;
+}
+.form-field-row {
+	flex-direction: row;
+	align-items: center;
+}
+.form-field-content {
+	flex: 1;
+	flex-direction: row;
+	align-items: center;
+}
+</style>

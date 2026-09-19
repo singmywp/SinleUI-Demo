@@ -1,112 +1,271 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Topbar 导航栏"
-		:menuButton="enableMenu"
-		:menuData="menuData" 
-		@menuClick="menuClicked"
-		:customStyle="{zIndex:200}"></sn-topbar>
-		<sn-gap></sn-gap>
-		<com-card title="基础用法"
-		note="导航栏默认置顶（即fixed值为true），效果如页面顶端所示">
-		</com-card>
-		<com-card title="取消置顶"
-		note="当你因某种特殊需求（比如本demo的实现）而需要将导航栏放置在容器中时，可以取消导航栏的置顶\n为方便显示，接下来的demo示范皆已取消置顶">
-			<sn-topbar title="非置顶导航栏" :fixed="false"></sn-topbar>
-		</com-card>
-		<com-card title="取消返回键"
-		note="有些特殊场景，比如应用的主页，不需要返回上一页，可以取消返回按钮的显示">
-			<sn-topbar title="主页" :fixed="false" :backButton="false"></sn-topbar>
-		</com-card>
-		<com-card title="标题位置"
-		note="中央还是两边？">
-			<sn-topbar title="LEFT" :fixed="false" titleAlign="left"></sn-topbar>
-			<sn-line></sn-line>
-			<sn-topbar title="CENTER" :fixed="false" titleAlign="center"></sn-topbar>
-			<sn-line></sn-line>
-			<sn-topbar title="RIGHT" :fixed="false" titleAlign="right"></sn-topbar>
-		</com-card>
-		<com-card title="功能按钮区"
-		note="各式各样的功能，尽你所用">
-			<sn-topbar title="导航栏"
-			:fixed="false"
-			:features="features"
-			@button-click="buttonClicked"></sn-topbar>
-		</com-card>
-		<com-card title="菜单"
-		note="集成了常见的菜单悬浮窗，可与features连用，极大地扩展了导航栏的按钮位\n（请一定要将有菜单的导航栏置顶）">
-			<sn-card>
-				<sn-row justify="space-between">
-					<sn-text text="启用菜单"></sn-text>
-					<sn-switch v-model="enableMenu"></sn-switch>
-				</sn-row>
-			</sn-card>
-		</com-card>
-		<com-card title="自定义样式"
-		note="多姿多彩，追求独特">
-			<sn-topbar title="星空征途，永不停息" 
-			bgColor="$front" 
-			boxShadow="0"
-			titleColor="$primaryDark" 
-			borderRadius="0"
-			:fixed="false" 
-			:backButton="false">
+	<sn-page :title="t('snTopbar.title')" :show-back="true">
+		<view class="demo-section" flatten>
+			<view class="section-head" style="margin-bottom: 12px" flatten>
+				<sn-text type="title" bold style="margin-bottom: 6px" flatten>{{ t('snTopbar.basicTitle') }}</sn-text>
+				
+				<sn-text type="text-light" font-size="$12" flatten>{{ t('snTopbar.basicDesc') }}</sn-text>
+			</view>
+			
+			<sn-topbar :title="t('snTopbar.pageTitle')" :fixed="false" :status-bar="false" :back-button="false" bg-color="var(--sn-front)" />
+		</view>
+
+		<sn-line margin="24" />
+
+		<view class="demo-section" flatten>
+			<view class="section-head" style="margin-bottom: 12px" flatten>
+				<sn-text type="title" bold style="margin-bottom: 6px" flatten>{{ t('snTopbar.backTitle') }}</sn-text>
+				
+				<sn-text type="text-light" font-size="$12" flatten>{{ t('snTopbar.backDesc') }}</sn-text>
+			</view>
+			
+			<sn-topbar :title="t('snTopbar.withBack')" :fixed="false" :status-bar="false" :back-button="true" bg-color="var(--sn-front)" @back="onBack" />
+		</view>
+
+		<sn-line margin="24" />
+
+		<view class="demo-section" flatten>
+			<view class="section-head" style="margin-bottom: 12px" flatten>
+				<sn-text type="title" bold style="margin-bottom: 6px" flatten>{{ t('snTopbar.alignTitle') }}</sn-text>
+				
+				<sn-text type="text-light" font-size="$12" flatten>{{ t('snTopbar.alignDesc') }}</sn-text>
+			</view>
+			
+			<sn-topbar :title="t('snTopbar.leftTitle')" title-align="left" :fixed="false" :status-bar="false" :back-button="true" bg-color="var(--sn-front)" />
+		</view>
+
+		<sn-line margin="24" />
+
+		<view class="demo-section" flatten>
+			<view class="section-head" style="margin-bottom: 12px" flatten>
+				<sn-text type="title" bold style="margin-bottom: 6px" flatten>{{ t('snTopbar.featureTitle') }}</sn-text>
+				
+				<sn-text type="text-light" font-size="$12" flatten>{{ t('snTopbar.featureDesc') }}</sn-text>
+			</view>
+			
+			<sn-topbar
+				:title="t('snTopbar.featureTitle')"
+				:fixed="false"
+				:status-bar="false"
+				:back-button="true"
+				bg-color="var(--sn-front)"
+				:features="iconFeatures"
+				@featureclick="onFeatureClick"
+				style="margin-bottom: 8px"
+			/>
+			
+			<sn-topbar
+				:title="t('snTopbar.textIcon')"
+				:fixed="false"
+				:status-bar="false"
+				:back-button="true"
+				bg-color="var(--sn-front)"
+				:features="mixedFeatures"
+				@featureclick="onFeatureClick"
+			/>
+		</view>
+
+		<sn-line margin="24" />
+
+		<view class="demo-section" flatten>
+			<view class="section-head" style="margin-bottom: 12px" flatten>
+				<sn-text type="title" bold style="margin-bottom: 6px" flatten>{{ t('snTopbar.dropdownMenu') }}</sn-text>
+				
+				<sn-text type="text-light" font-size="$12" flatten>{{ t('snTopbar.menuDesc') }}</sn-text>
+			</view>
+			
+			<sn-topbar
+				id="topbar-menu-demo"
+				:title="t('snTopbar.dropdownMenu')"
+				:fixed="false"
+				:status-bar="false"
+				:back-button="true"
+				:menu-button="true"
+				:menu-data="menuData"
+				bg-color="var(--sn-front)"
+				@menuselect="onMenuSelect"
+			/>
+		</view>
+
+		<sn-line margin="24" />
+
+		<view class="demo-section" flatten>
+			<view class="section-head" style="margin-bottom: 12px" flatten>
+				<sn-text type="title" bold style="margin-bottom: 6px">{{ t('snTopbar.colorTitle') }}</sn-text>
+				
+				<sn-text type="text-light" font-size="$12">{{ t('snTopbar.colorDesc') }}</sn-text>
+			</view>
+			
+			<sn-topbar
+				:title="t('snTopbar.themeNav')"
+				:fixed="false"
+				:status-bar="false"
+				:back-button="true"
+				bg-color="var(--sn-primary)"
+				button-style="background-color: rgba(255, 255, 255, 0.18); border-width: 0;"
+				button-text-style="color: #ffffff;"
+				title-style="color: #ffffff;"
+				button-icon-style="color: #ffffff;"
+				hover-button-style="background-color: rgba(255, 255, 255, 0.25);"
+				:menu-button="true"
+				:menu-data="menuData"
+				@menuselect="onMenuSelect"
+				@back="onBack"
+				style="margin-bottom: 8px"
+			/>
+			
+			<sn-topbar
+				:title="t('snTopbar.darkNav')"
+				:fixed="false"
+				:status-bar="false"
+				:back-button="true"
+				bg-color="#2e2e2e"
+				button-style="background-color: rgba(255, 255, 255, 0.18); border-width: 0;"
+				button-text-style="color: #ffffff;"
+				button-icon-style="color: #ffffff;"
+				title-style="color: #ffffff;"
+				hover-button-style="background-color: rgba(255, 255, 255, 0.2);"
+				:menu-button="true"
+				:menu-data="menuData"
+				:features="whiteIconFeatures"
+				@menuselect="onMenuSelect"
+				@back="onBack"
+			/>
+		</view>
+
+		<sn-line margin="24" />
+
+		<demo-card :title="t('snTopbar.externalTitle')" :subtitle="t('snTopbar.externalSubtitle')">
+			<sn-topbar :title="t('snTopbar.titleExternalClass')" :fixed="false" :status-bar="false" :back-button="false"
+				bg-color="var(--sn-front)" title-class="demo-topbar-title" style="margin-bottom: 12px" />
+			<sn-topbar :title="t('snTopbar.titleExternalStyle')" :fixed="false" :status-bar="false" :back-button="false"
+				bg-color="var(--sn-front)" title-style="letter-spacing: 10px;" />
+		</demo-card>
+
+		<sn-line margin="24" />
+
+		<view class="demo-section" flatten>
+			<view class="section-head" style="margin-bottom: 12px" flatten>
+				<sn-text type="title" bold style="margin-bottom: 6px">{{ t('snTopbar.slotTitle') }}</sn-text>
+				
+				<sn-text type="text-light" font-size="$12">{{ t('snTopbar.slotDesc') }}</sn-text>
+			</view>
+			
+			<sn-topbar
+				:title="t('snTopbar.capsuleNav')"
+				:fixed="false"
+				:status-bar="false"
+				:back-button="false"
+				bg-color="var(--sn-front)"
+			>
 				<template #header>
-					<view :style="[{
-						flexDirection: 'row',
-						justifyContent: 'space-around',
-						border: `1px solid ${colors.line}`,
-						borderRadius: $snui.configs.radius.circle,
-						padding: '3px 8px'
-					} as Map<string,any>]">
-						<sn-icon name="arrow-left-line"
-						size="$4"
-						style="padding-right: 5px;"
-						@click="alarm('触发事件：返回上一级页面')"></sn-icon>
-						<sn-icon name="home-4-line"
-						size="$4"
-						style="border-left: 1px solid #ededed;padding-left: 5px;"
-						@click="alarm('触发事件：返回首页')"></sn-icon>
+					<view class="capsule-btn" flatten>
+						<sn-icon name="arrow-left-line" size="$16" custom-style="padding-right: 6px;" @click="onBack" />
+						<sn-icon name="home-4-line" size="$16"
+							custom-style="border-left-width: 1px; border-left-style: solid; border-left-color: var(--sn-line); padding-left: 6px;"
+							@click="onHome" />
 					</view>
 				</template>
 			</sn-topbar>
-		</com-card>
-		<sn-gap></sn-gap>
+		</view>
+
+		<sn-line margin="24" />
+
+		<view class="demo-section" flatten>
+			<view class="section-head" style="margin-bottom: 12px" flatten>
+				<sn-text type="title" bold style="margin-bottom: 6px">{{ t('snTopbar.eventTitle') }}</sn-text>
+				
+				<sn-text type="text-light" font-size="$12">{{ t('snTopbar.eventDesc') }}</sn-text>
+			</view>
+			
+			<view class="event-log" flatten>
+				<sn-text v-if="eventLog != ''" font-size="$13" color="$primary">{{ eventLog }}</sn-text>
+				<sn-text v-else font-size="$13" type="text-light">{{ t('snTopbar.noEvent') }}</sn-text>
+			</view>
+		</view>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui, SnDataItem } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	const snu = $snui.utils
-	
-	const features = [{ icon: 'refresh-line', id: 'refresh' }, { icon: 'delete-bin-4-line', id: 'remove' }] as SnDataItem[]
-	const menuData = [{ icon: 'refresh-line', text: '刷新', id: 'refresh' }, { icon: 'search-2-line', text: '搜索', id: 'search' }, { icon: 'check-line', text: '提交', id: 'submit' }, { icon: 'information-line', text: '关于', id: 'about' }] as SnDataItem[]
-	const enableMenu = ref(false)
-	
-	function buttonClicked(e : SnDataItem) {
-		snu.showModal({
-			title: "按钮点击事件",
-			content: JSON.stringify(e),
-			showCancel: false
-		})
-	}
-	
-	function menuClicked(e : SnDataItem) {
-		snu.showModal({
-			title: "菜单点击事件",
-			content: JSON.stringify(e),
-			showCancel: false
-		})
-	}
-	
-	function alarm(text: string) {
-		snu.showModal({
-			title: '提示',
-			content: text,
-			showCancel: false
-		})
-	}
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+const iconFeatures: SnDataItem[] = [
+	{ icon: 'search-line' },
+	{ icon: 'notification-3-line' }
+]
+
+const mixedFeatures: SnDataItem[] = [
+	{ icon: 'star-line' },
+	{ text: t('snTopbar.publish') }
+]
+
+const whiteIconFeatures: SnDataItem[] = [
+	{ icon: 'share-line' }
+]
+
+const menuData: SnDataItem[] = [
+	{ text: t('snTopbar.refresh'), icon: 'refresh-line' },
+	{ text: t('snTopbar.copyLink'), icon: 'link' },
+	{ text: t('snTopbar.share'), icon: 'share-line' },
+	{ text: t('snTopbar.report'), icon: 'spam-3-line', disabled: true }
+]
+
+const eventLog = ref<string>('')
+
+function onBack(): void {
+	eventLog.value = t('snTopbar.clickedBack')
+}
+
+function onHome(): void {
+	eventLog.value = t('snTopbar.clickedHome')
+}
+
+function onFeatureClick(_item: SnDataItem, index: number): void {
+	eventLog.value = t('snTopbar.clickedFeature') + index.toString()
+}
+
+function onMenuSelect(_item: SnDataItem, index: number): void {
+	eventLog.value = t('snTopbar.selectedMenu') + index.toString()
+}
+
+
 </script>
 
 <style lang="scss">
+.demo-section {
+	padding: 0 16px;
+}
+.section-head {
+	flex-direction: column;
+}
+.control-row {
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 2px;
+}
+.btn-row {
+	flex-direction: row;
+}
+.event-log {
+	flex-direction: row;
+	align-items: center;
+	background-color: var(--sn-info-light);
+	border-radius: 12px;
+	padding: 14px 16px;
+}
+.capsule-btn {
+	flex-direction: row;
+	align-items: center;
+	border-width: 1px;
+	border-style: solid;
+	border-color: var(--sn-line);
+	border-radius: 999px;
+	padding: 4px 8px;
+}
+.demo-topbar-title {
+	letter-spacing: 2px;
+}
 </style>

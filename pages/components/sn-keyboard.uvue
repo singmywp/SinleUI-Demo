@@ -1,0 +1,221 @@
+<template>
+	<sn-page :title="t('snKeyboard.title')" :show-back="true">
+		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
+			<sn-text font-size="$12" color="$primary" flatten>{{ t('snKeyboard.alert') }}</sn-text>
+		</sn-alert>
+
+		<demo-card :title="t('snKeyboard.numTitle')" :subtitle="t('snKeyboard.numDesc')">
+			<sn-button :text="t('snKeyboard.openNum')" @click="onOpenNumber" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snKeyboard.currentValue') }}{{ numValue }} · {{ t('snKeyboard.popupState') }}{{ numShow ? t('snKeyboard.on') : t('snKeyboard.off') }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:4px;" flatten>{{ t('snKeyboard.confirmResult') }}{{ numResult }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snKeyboard.intTitle')" :subtitle="t('snKeyboard.intDesc')">
+			<sn-button :text="t('snKeyboard.openInt')" @click="onOpenInt" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snKeyboard.currentValue') }}{{ intValue }} · {{ t('snKeyboard.popupState') }}{{ intShow ? t('snKeyboard.on') : t('snKeyboard.off') }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:4px;" flatten>{{ t('snKeyboard.confirmResult') }}{{ intResult }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snKeyboard.shuffleTitle')" :subtitle="t('snKeyboard.shuffleDesc')">
+			<sn-view custom-style="flex-direction:row;align-items:center;">
+				<sn-switch v-model="shuffleOn" />
+				<sn-text font-size="$12" :color="descColor" custom-style="margin-left:8px;" flatten>{{ t('snKeyboard.shuffleEnable') }}</sn-text>
+			</sn-view>
+			<sn-button :text="t('snKeyboard.openShuffle')" custom-style="margin-top:8px;" @click="onOpenShuffle" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snKeyboard.currentValue') }}{{ shuffleValue }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:4px;" flatten>{{ t('snKeyboard.confirmResult') }}{{ shuffleResult }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snKeyboard.idTitle')" :subtitle="t('snKeyboard.idDesc')">
+			<sn-button :text="t('snKeyboard.openId')" @click="onOpenIdCard" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snKeyboard.currentValue') }}{{ idValue }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:4px;" flatten>{{ t('snKeyboard.confirmResult') }}{{ idResult }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snKeyboard.pwdTitle')" :subtitle="t('snKeyboard.pwdDesc')">
+			<sn-input v-model="pwdValue" password :placeholder="t('snKeyboard.placeholderPwd')" :adjust-position="false" @focus="hideSysKb" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snKeyboard.currentValue') }}{{ pwdValue }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:4px;">{{ t('snKeyboard.confirmResult') }}{{ pwdResult }}</sn-text>
+			<sn-button :text="t('snKeyboard.openPwd')" custom-style="margin-top:8px;" @click="onOpenPwd" />
+		</demo-card>
+
+		<demo-card :title="t('snKeyboard.carTitle')" :subtitle="t('snKeyboard.carDesc')">
+			<sn-input v-model="carValue" :placeholder="t('snKeyboard.placeholderCar')" :adjust-position="false" @focus="hideSysKb" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snKeyboard.currentValue') }}{{ carValue }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:4px;">{{ t('snKeyboard.confirmResult') }}{{ carResult }}</sn-text>
+			<sn-button :text="t('snKeyboard.openCar')" custom-style="margin-top:8px;" @click="onOpenCar" />
+		</demo-card>
+
+		<demo-card :title="t('snKeyboard.customTitle')" :subtitle="t('snKeyboard.customDesc')">
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-bottom:8px;">{{ t('snKeyboard.customHint') }}</sn-text>
+			<sn-button :text="t('snKeyboard.openCustom')" @click="onOpenCustom" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snKeyboard.currentValue') }}{{ customValue }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snKeyboard.noInputTitle')" :subtitle="t('snKeyboard.noInputDesc')">
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-bottom:8px;">{{ t('snKeyboard.noInputHint') }}</sn-text>
+			<sn-button :text="t('snKeyboard.openNoInput')" @click="onOpenNoInput" />
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snKeyboard.currentValue') }}{{ noInputValue }}</sn-text>
+		</demo-card>
+
+		
+		<sn-keyboard type="number" v-model:show="numShow" v-model="numValue" :maxlength="10" show-input
+			@confirm="onNumConfirm" />
+
+		
+		<sn-keyboard type="int" v-model:show="intShow" v-model="intValue" :maxlength="10" show-input
+			@confirm="onIntConfirm" />
+
+		
+		<sn-keyboard type="int" v-model:show="shuffleShow" v-model="shuffleValue" :maxlength="10"
+			:shuffle="shuffleOn" show-input @confirm="onShuffleConfirm" />
+
+		
+		<sn-keyboard type="idcard" v-model:show="idShow" v-model="idValue" :maxlength="18" show-input
+			@confirm="onIdConfirm" />
+
+		
+		<sn-keyboard type="password" v-model:show="pwdShow" v-model="pwdValue" :maxlength="16" show-input
+			@confirm="onPwdConfirm" />
+
+		
+		<sn-keyboard type="car" v-model:show="carShow" v-model="carValue" :maxlength="8" show-input
+			@confirm="onCarConfirm" />
+
+		
+		<sn-keyboard type="number" v-model:show="customShow" v-model="customValue" :maxlength="6" show-input
+			confirm-type="success" confirm-level="second" :confirm-text="t('snKeyboard.confirmText')"
+			key-gap="$6"
+			key-style="background-color:#DBEAFE;border-radius:8px;border:1px solid #BFDBFE;"
+			key-hover-style="background-color:#BFDBFE;"
+			key-text-style="color:#1D4ED8;font-size:18px;font-weight:600;"
+			key-icon-style="color:#1D4ED8;font-size:18px;"
+			confirm-key-hover-style="background-color:#86EFAC;" @confirm="onCustomConfirm" />
+
+		
+		<sn-keyboard type="number" v-model:show="noInputShow" v-model="noInputValue" :maxlength="10"
+			:show-input="false" @confirm="onNoInputConfirm" />
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+
+
+import { useI18n } from 'vue-i18n'
+import { useTheme, snu } from '@/uni_modules/sinle-ui/index.uts'
+
+const { t } = useI18n()
+const { isDark } = useTheme()
+
+const descColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+
+
+const numShow = ref<boolean>(false)
+const idShow = ref<boolean>(false)
+const pwdShow = ref<boolean>(false)
+const carShow = ref<boolean>(false)
+const customShow = ref<boolean>(false)
+const noInputShow = ref<boolean>(false)
+const intShow = ref<boolean>(false)
+const shuffleShow = ref<boolean>(false)
+const shuffleOn = ref<boolean>(true)
+
+
+const numValue = ref<string>('')
+const idValue = ref<string>('')
+const pwdValue = ref<string>('')
+const carValue = ref<string>('')
+const customValue = ref<string>('')
+const noInputValue = ref<string>('')
+const intValue = ref<string>('')
+const shuffleValue = ref<string>('')
+
+
+const numResult = ref<string>(t('snKeyboard.notConfirm'))
+const idResult = ref<string>(t('snKeyboard.notConfirm'))
+const pwdResult = ref<string>(t('snKeyboard.notConfirm'))
+const carResult = ref<string>(t('snKeyboard.notConfirm'))
+const intResult = ref<string>(t('snKeyboard.notConfirm'))
+const shuffleResult = ref<string>(t('snKeyboard.notConfirm'))
+
+
+function onOpenNumber(): void {
+	numShow.value = true
+}
+
+function onOpenInt(): void {
+	intShow.value = true
+}
+
+function onOpenShuffle(): void {
+	shuffleShow.value = true
+}
+
+function onOpenIdCard(): void {
+	idShow.value = true
+}
+
+function onOpenPwd(): void {
+	pwdShow.value = true
+}
+
+function onOpenCar(): void {
+	carShow.value = true
+}
+
+function onOpenCustom(): void {
+	customShow.value = true
+}
+
+function onOpenNoInput(): void {
+	noInputShow.value = true
+}
+
+
+function hideSysKb(): void {
+	uni.hideKeyboard()
+}
+
+function formatResult(v: string): string {
+	if (v == '') {
+		return t('snKeyboard.empty')
+	}
+	return v
+}
+
+function onNumConfirm(): void {
+	numResult.value = formatResult(numValue.value)
+}
+
+function onIntConfirm(): void {
+	intResult.value = formatResult(intValue.value)
+}
+
+function onShuffleConfirm(): void {
+	shuffleResult.value = formatResult(shuffleValue.value)
+}
+
+function onIdConfirm(): void {
+	idResult.value = formatResult(idValue.value)
+}
+
+function onPwdConfirm(): void {
+	pwdResult.value = formatResult(pwdValue.value)
+}
+
+function onCarConfirm(): void {
+	carResult.value = formatResult(carValue.value)
+}
+
+function onCustomConfirm(): void {
+	
+	snu.showToast({ text: t('snKeyboard.confirmValue', { v: customValue.value } as UTSJSONObject) })
+}
+
+function onNoInputConfirm(): void {
+	noInputShow.value = false
+}
+</script>
+
+<style lang="scss">
+</style>

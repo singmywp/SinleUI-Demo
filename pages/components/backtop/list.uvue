@@ -1,0 +1,110 @@
+<template>
+	<sn-page :title="t('backtopList.title')" :show-back="true" fill-content>
+		<sn-list-view ref="listRef" :list="items" refresher-enabled :refresher-config="refresherConfig"
+			loadmore :loadmore-config="loadmoreConfig" v-model:loadmore-status="loadmoreStatus"
+			backtop :backtop-top="200" :backtop-right="16" :backtop-bottom="80"
+			@refresherrefresh="onRefresh" @loadmore="onLoadmore">
+			<template v-slot:default="slotProps">
+				<view class="list-item-inner" flatten>
+					<sn-text font-size="$14" :color="itemColor" flatten>{{ slotProps.item }}</sn-text>
+					<sn-text font-size="$12" color="$textLight" custom-style="margin-top:4px;" flatten>{{ t('backtopList.tip') }}</sn-text>
+				</view>
+			</template>
+		</sn-list-view>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+	import { useI18n } from 'vue-i18n'
+	import { $snui } from '@/uni_modules/sinle-ui'
+	import type { ComponentPublicInstance } from 'vue'
+	import type { SnLoadmoreParams, SnRefresherParams } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+	const { t } = useI18n()
+
+	const listRef = ref<ComponentPublicInstance | null>(null)
+	const items = ref<string[]>([])
+	const loadmoreStatus = ref<string>('loadmore')
+	let refreshTimer: number | null = null
+
+	const refresherConfig = computed<SnRefresherParams>(() => {
+		return {
+			refreshText: t('backtopList.refreshText'),
+			refreshingText: t('backtopList.refreshingText'),
+			iconColor: '$primary',
+			textColor: '$primary'
+		}
+	})
+
+	const loadmoreConfig = computed<SnLoadmoreParams>(() => {
+		return {
+			loadmoreText: t('backtopList.loadmoreText'),
+			nomoreText: t('backtopList.nomoreText'),
+			loadingText: t('backtopList.loadingText')
+		}
+	})
+
+	const itemColor = computed<string>(() => $snui.colors.text)
+
+	function initItems(): void {
+		const arr: string[] = []
+		for (let i = 1; i <= 60; i++) {
+			arr.push(t('backtopList.item', { index: i } as UTSJSONObject))
+		}
+		items.value = arr
+	}
+
+	function onRefresh(): void {
+		if (refreshTimer != null) {
+			clearTimeout(refreshTimer)
+			refreshTimer = null
+		}
+		refreshTimer = setTimeout(() => {
+			initItems()
+			loadmoreStatus.value = 'loadmore'
+			listRef.value?.$callMethod('stopRefresh')
+			refreshTimer = null
+		}, 1200) as number
+	}
+
+	function onLoadmore(): void {
+		if (refreshTimer != null) {
+			clearTimeout(refreshTimer)
+			refreshTimer = null
+		}
+		refreshTimer = setTimeout(() => {
+			const current = items.value.length
+			for (let i = 1; i <= 10; i++) {
+				items.value.push(t('backtopList.item', { index: current + i } as UTSJSONObject))
+			}
+			if (items.value.length >= 120) {
+				loadmoreStatus.value = 'nomore'
+			} else {
+				loadmoreStatus.value = 'loadmore'
+			}
+			refreshTimer = null
+		}, 1000) as number
+	}
+
+	onMounted((): void => {
+		initItems()
+	})
+
+	onUnmounted(() => {
+		if (refreshTimer != null) {
+			clearTimeout(refreshTimer)
+			refreshTimer = null
+		}
+	})
+</script>
+
+<style lang="scss">
+	.list-item-inner {
+		padding: 16px;
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: var(--sn-line);
+		background-color: var(--sn-front);
+		flex-direction: column;
+	}
+</style>

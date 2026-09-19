@@ -1,15 +1,10 @@
 import App from './App.uvue'
 
 import { createSSRApp } from 'vue'
-import { init } from './init.uts'
-
+import { i18n } from './i18n.uts'
 export function createApp() {
 	const app = createSSRApp(App)
-	
-	nextTick(()=>{
-		init()
-	})
-	
+	app.use(i18n)
 	return {
 		app
 	}

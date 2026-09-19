@@ -1,0 +1,171 @@
+<template>
+	<sn-page :title="t('snCell.title')" :show-back="true">
+		<demo-card :title="t('snCell.basic')" :subtitle="t('snCell.basicSub')">
+			<view class="cell-group" flatten>
+				<sn-cell :title="t('snCell.cell')" :value="t('snCell.value')" />
+				<sn-cell :title="t('snCell.cell')" :value="t('snCell.value')" :label="t('snCell.label')" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snCell.arrow')" :subtitle="t('snCell.arrowSub')">
+			<view class="cell-group" flatten>
+				<sn-cell :title="t('snCell.cell')" :value="t('snCell.value')" right-icon="arrow-right" />
+				<sn-cell :title="t('snCell.cell')" :value="t('snCell.value')" right-icon="arrow-right" :clickable="true" :border="false" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snCell.arrowDir')" :subtitle="t('snCell.arrowDirSub')">
+			<view class="cell-group" flatten>
+				<sn-cell :title="t('snCell.arrowRight')" right-icon="arrow-right" arrow-direction="right" />
+				<sn-cell :title="t('snCell.arrowDown')" right-icon="arrow-right" arrow-direction="down" />
+				<sn-cell :title="t('snCell.arrowUp')" right-icon="arrow-right" arrow-direction="up" />
+				<sn-cell :title="t('snCell.arrowLeft')" right-icon="arrow-right" arrow-direction="left" :border="false" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snCell.icon')" :subtitle="t('snCell.iconSub')">
+			<view class="cell-group" flatten>
+				<sn-cell :title="t('snCell.myOrders')" icon="shopping-cart-line" right-icon="arrow-right" />
+				<sn-cell :title="t('snCell.address')" icon="map-pin-line" right-icon="arrow-right" />
+				<sn-cell :title="t('snCell.favorites')" icon="star-line" right-icon="arrow-right" :border="false" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snCell.disabled')" :subtitle="t('snCell.disabledSub')">
+			<view class="cell-group" flatten>
+				<sn-cell :title="t('snCell.cell')" right-icon="arrow-right" :disabled="true" />
+				<sn-cell :title="t('snCell.cell')" :value="t('snCell.value')" :disabled="true" :border="false" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snCell.noBorder')" :subtitle="t('snCell.noBorderSub')">
+			<view class="cell-group" flatten>
+				<sn-cell :title="t('snCell.cell')" :value="t('snCell.value')" :border="false" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snCell.click')" :subtitle="t('snCell.clickSub')">
+			<view class="cell-group" flatten>
+				<sn-cell :title="t('snCell.clickTrigger')" right-icon="arrow-right" name="cell1" @click="onCellClick" />
+				<sn-cell :title="t('snCell.notStop')" right-icon="arrow-right" name="cell2" :stop="false"
+					@click="onCellClick" :border="false" />
+			</view>
+			<view class="click-result" flatten v-if="clickResult != ''">
+				<sn-text type="text-light" font-size="$12" flatten>{{ clickResult }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snCell.customStyleTitle')" :subtitle="t('snCell.customStyleSub')">
+			<view class="cell-group" flatten>
+				<sn-cell :title="t('snCell.customBg')" :value="t('snCell.value')" right-icon="arrow-right"
+					:custom-style="customBgStyle" />
+				<sn-cell :title="t('snCell.customIconColor')" :value="t('snCell.value')" icon="fire-line" right-icon="arrow-right"
+					:icon-style="iconStyle1" />
+				<sn-cell :title="t('snCell.customTitleStyle')" :value="t('snCell.value')" right-icon="arrow-right"
+					:title-style="titleStyle1" :border="false" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snCell.slot')" :subtitle="t('snCell.slotSub')">
+			<view class="cell-group" flatten>
+				<sn-cell right-icon="arrow-right">
+					<template #icon>
+						<view class="slot-icon" flatten>
+							<sn-icon name="user-line" size="18" color="#fff" />
+						</view>
+					</template>
+					<template #title>
+						<sn-text type="title" font-size="$14">{{ t('snCell.slotTitle') }}</sn-text>
+					</template>
+					<template #value>
+						<sn-text type="primary" font-size="$12">{{ t('snCell.slotValue') }}</sn-text>
+					</template>
+				</sn-cell>
+				<sn-cell :border="false" right-icon="arrow-right">
+					<template #label>
+						<view class="slot-label" flatten>
+							<sn-text type="success" font-size="$12">{{ t('snCell.slotLabel') }}</sn-text>
+						</view>
+					</template>
+					<template #title>
+						<sn-text type="title" font-size="$14">{{ t('snCell.slotLabelTitle') }}</sn-text>
+					</template>
+				</sn-cell>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snCell.externalStyle')" :subtitle="t('snCell.externalStyleSub')">
+			<view class="cell-group">
+				<sn-cell :title="t('snCell.iconExternalClass')" icon="fire-line" icon-class="demo-cell-icon" />
+				<sn-cell :title="t('snCell.iconExternalStyle')" icon="star-line" icon-style="color: var(--sn-error);" />
+				<sn-cell :title="t('snCell.titleExternalClass')" right-icon="arrow-right" title-class="demo-cell-title" />
+				<sn-cell :title="t('snCell.titleExternalStyle')" right-icon="arrow-right" title-style="color: var(--sn-primary); font-weight: bold;" />
+				<sn-cell :title="t('snCell.rightIconExternalClass')" right-icon="arrow-right" right-icon-class="demo-cell-right-icon" />
+				<sn-cell :title="t('snCell.rightIconExternalStyle')" right-icon="arrow-right" right-icon-style="color: var(--sn-warning);" :border="false" />
+			</view>
+		</demo-card>
+
+		<view style="height: 32px" />
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+const clickResult = ref<string>('')
+
+const customBgStyle = {
+	backgroundColor: 'var(--sn-primary-light)'
+} as UTSJSONObject
+
+const iconStyle1 = {
+	color: 'var(--sn-error)'
+} as UTSJSONObject
+
+const titleStyle1 = {
+	color: 'var(--sn-primary)',
+	fontWeight: 'bold'
+} as UTSJSONObject
+
+function onCellClick(name: string | number): void {
+	clickResult.value = t('snCell.clickCell') + name
+}
+</script>
+
+<style lang="scss">
+.cell-group {
+	border-radius: 8px;
+	background-color: var(--sn-front);
+	overflow: hidden;
+}
+
+.click-result {
+	padding: 8px 16px;
+}
+
+.slot-icon {
+	width: 32px;
+	height: 32px;
+	border-radius: 16px;
+	background-color: var(--sn-primary);
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+
+.slot-label {
+	flex-direction: row;
+	align-items: center;
+}
+
+.demo-cell-icon {
+	opacity: 0.75;
+}
+.demo-cell-title {
+	letter-spacing: 1px;
+}
+.demo-cell-right-icon {
+	opacity: 0.75;
+}
+</style>

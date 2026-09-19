@@ -1,82 +1,172 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Tooltip 弹出提示"></sn-topbar>
-		<com-card title="基础用法"
-		note="也许当你想要动态介绍某个按钮的用途时会用到它">
-			<sn-tooltip>
+	<sn-page :title="t('snTooltip.title')" :show-back="true">
+		<demo-card :title="t('snTooltip.basicTitle')" :subtitle="t('snTooltip.basicSubtitle')">
+			<sn-tooltip :text="t('snTooltip.tooltipText')">
 				<template #trigger>
-					<sn-button type="error" 
-					level="second"
-					round>
-						<sn-icon name="fire-fill" 
-						color="$error"></sn-icon>
+					<sn-button type="primary" level="second" size="normal">
+						<sn-icon name="question-line" />
 					</sn-button>
 				</template>
-				<sn-text text="⚠️ WARNING: 发射核武器"></sn-text>
 			</sn-tooltip>
-		</com-card>
-		<com-card title="位置"
-		note="诶，怎……怎么会在这儿 (#ﾟДﾟ)">
-			<sn-tooltip :position="position" :customStyle="{margin:'50px'}">
+		</demo-card>
+
+		<demo-card :title="t('snTooltip.positionTitle')" :subtitle="t('snTooltip.positionSubtitle')">
+			<sn-tooltip :position="position" :custom-style="posStyle">
 				<template #trigger>
-					<sn-button level="second" 
-					text="Click Me"
-					@click="onClick"></sn-button>
+					<sn-button level="second" size="normal" text="Click Me" @click="onCyclePosition"></sn-button>
 				</template>
 				<sn-text text="Hello!"></sn-text>
 			</sn-tooltip>
-		</com-card>
-		<com-card title="插槽"
-		note="你可以放点更多别的东西">
-			<sn-tooltip position="bottom" padding="70px">
-				<template #trigger>
-					<sn-button level="second"
-					round>
-						<sn-icon name="number-1" 
-						color="$primary"></sn-icon>
-					</sn-button>
-				</template>
-				<sn-tooltip position="top" width="100px" 
-				bgColor="$front">
+			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snTooltip.currentPosition') }}：{{ position }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snTooltip.styleTitle')" :subtitle="t('snTooltip.styleSubtitle')">
+			<view class="demo-row" flatten>
+				<sn-tooltip bg-color="$error" :custom-style="demoMargin">
 					<template #trigger>
-						<sn-button type="error" 
-						level="second"
-						round>
-							<sn-icon name="number-2" 
-							color="$error"></sn-icon>
+						<sn-button type="error" level="second" size="normal">
+							<sn-icon name="fire-fill" color="$error" />
 						</sn-button>
 					</template>
-					<sn-text text="嵌套第三层 (●'◡'●)"></sn-text>
+					<sn-text :text="t('snTooltip.dangerTip')" color="$errorText" />
 				</sn-tooltip>
+				<sn-tooltip bg-color="$success" border-radius="4px" padding="14px 18px" width="120px"
+					box-shadow="0px 4px 16px 0px rgba(0,0,0,0.15)" :custom-style="demoMargin">
+					<template #trigger>
+						<sn-button type="success" level="second" size="normal" :text="t('snTooltip.round')" />
+					</template>
+					<sn-text :text="t('snTooltip.roundTip')" color="$successText" />
+				</sn-tooltip>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snTooltip.slotTitle')" :subtitle="t('snTooltip.slotSubtitle')">
+			<sn-tooltip position="bottom" padding="16px">
+				<template #trigger>
+					<sn-button level="second" size="normal" round>
+						<sn-icon name="number-1" color="$primary" />
+					</sn-button>
+				</template>
+				<view class="demo-slot-content" flatten>
+					<sn-text flatten font-size="$13" color="$primaryText">{{ t('snTooltip.slotContent') }}</sn-text>
+					<sn-tooltip position="top" width="120px" bg-color="$primary">
+						<template #trigger>
+							<sn-button type="primary" level="second" size="normal" custom-style="margin-top:8px;">
+								<sn-icon name="number-2" />
+							</sn-button>
+						</template>
+						<sn-text :text="t('snTooltip.nested')" color="$primaryText"></sn-text>
+					</sn-tooltip>
+				</view>
 			</sn-tooltip>
-			<sn-gap height="200px"></sn-gap>
-		</com-card>
+		</demo-card>
+
+		<demo-card :title="t('snTooltip.noTriggerTitle')" :subtitle="t('snTooltip.noTriggerSubtitle')">
+			<sn-tooltip :text="t('snTooltip.clickToPopup')" :custom-style="demoMargin" />
+		</demo-card>
+
+		<demo-card :title="t('snTooltip.styleExtTitle')" :subtitle="t('snTooltip.styleExtSubtitle')">
+			<sn-tooltip :text="t('snTooltip.customTip')" tooltip-style="border: 1px solid var(--sn-primary);"
+				trigger-style="padding: 4px;" :custom-style="demoMargin">
+				<template #trigger>
+					<sn-button type="primary" size="normal" :text="t('snTooltip.trigger')" />
+				</template>
+			</sn-tooltip>
+		</demo-card>
+
+		<demo-card :title="t('snTooltip.aniTitle')" :subtitle="t('snTooltip.aniSubtitle')">
+			<view class="demo-row" flatten>
+				<sn-tooltip :text="t('snTooltip.quick')" ani-time="100" :custom-style="demoMargin">
+					<template #trigger>
+						<sn-button type="primary" level="second" size="normal" :text="t('snTooltip.quickBtn')" />
+					</template>
+				</sn-tooltip>
+				<sn-tooltip :text="t('snTooltip.slow')" ani-time="600" :custom-style="demoMargin">
+					<template #trigger>
+						<sn-button type="primary" level="second" size="normal" :text="t('snTooltip.slowBtn')" />
+					</template>
+				</sn-tooltip>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snTooltip.sceneTitle')" :subtitle="t('snTooltip.sceneSubtitle')">
+			<view class="scene-card" flatten>
+				<view class="demo-row" flatten>
+					<sn-tooltip :text="t('snTooltip.saveTip')" position="top">
+						<template #trigger>
+							<sn-button type="primary" level="second" size="normal">
+								<sn-icon name="save-line" />
+							</sn-button>
+						</template>
+					</sn-tooltip>
+					<view class="h-gap" flatten></view>
+					<sn-tooltip :text="t('snTooltip.shareTip')" position="top">
+						<template #trigger>
+							<sn-button type="success" level="second" size="normal">
+								<sn-icon name="share-line" />
+							</sn-button>
+						</template>
+					</sn-tooltip>
+					<view class="h-gap" flatten></view>
+					<sn-tooltip position="top" bg-color="$error" :custom-style="demoMargin">
+						<template #trigger>
+							<sn-button type="error" level="second" size="normal">
+								<sn-icon name="delete-bin-line" />
+							</sn-button>
+						</template>
+						<sn-text :text="t('snTooltip.deleteTip')" color="$errorText" />
+					</sn-tooltip>
+				</view>
+			</view>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui } from '@/uni_modules/sinle-ui'
-	const colors = $snui.colors
-	const cnt = ref(0)
-	const index = ref(0)
-	const position = ref('top-start')
-	
-	function onClick() {
-		let positions = ['top-start', 'top', 'top-end', 'right-start', 'right', 'right-end', 'bottom-end', 'bottom', 'bottom-start', 'left-end', 'left', 'left-start']
-		cnt.value++
-		if (cnt.value >= 2) {
-			cnt.value = 0
-			if (index.value < positions.length - 1) {
-				index.value++
-				position.value = positions[index.value]
-			} else {
-				index.value = 0
-				position.value = positions[0]
-			}
-		}
-	}
+<script lang="uts" setup>
 
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+const position = ref<string>('top-start')
+const cnt = ref<number>(0)
+const posIndex = ref<number>(0)
+
+const demoMargin = 'margin: 10px 16px 10px 0;'
+
+const posStyle = 'margin: 30px 0;'
+
+function onCyclePosition(): void {
+	cnt.value++
+	if (cnt.value >= 2) {
+		cnt.value = 0
+		const positions: string[] = ['top-start', 'top', 'top-end', 'right-start', 'right', 'right-end', 'bottom-end', 'bottom', 'bottom-start', 'left-end', 'left', 'left-start']
+		if (posIndex.value < positions.length - 1) {
+			posIndex.value++
+		} else {
+			posIndex.value = 0
+		}
+		position.value = positions[posIndex.value]
+	}
+}
 </script>
 
 <style lang="scss">
+.demo-row {
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+}
+.h-gap {
+	width: 12px;
+	height: 8px;
+}
+.demo-slot-content {
+	flex-direction: column;
+	align-items: center;
+}
+.scene-card {
+	padding: 14px;
+	border-radius: 10px;
+	background-color: var(--sn-front);
+}
 </style>

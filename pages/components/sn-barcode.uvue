@@ -1,0 +1,225 @@
+<template>
+	<sn-page :title="t('snBarcode.title')" :show-back="true">
+		<demo-card :title="t('snBarcode.preview')" :subtitle="t('snBarcode.previewSub')">
+			<view class="demo-center barcode-gap" flatten>
+				<sn-barcode :value="content" :code-type="currentCodeType" :width="width" :height="height" :padding="padding"
+					:rotation="currentRotation" :show-value="showValue" :value-align="currentValueAlign"
+					:value-font-size="valueFontSize" :value-spacing="valueSpacing" :bar-color="barColor"
+					:background-color="backgroundColor" :value-color="valueColor" :bar-shape="currentBarShape"
+					:bar-radius="barRadius" :module-min-width="moduleMinWidth" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snBarcode.limit')" :subtitle="t('snBarcode.limitSub')">
+			<sn-text :text="t('snBarcode.limitDesc')" custom-style="font-size:12px;color:var(--sn-text-light);line-height:20px;" flatten />
+		</demo-card>
+
+		<demo-card :title="t('snBarcode.form')" :subtitle="t('snBarcode.formSub')">
+			<view class="config-row" flatten>
+				<sn-text :text="t('snBarcode.content')" custom-style="width:104px;" flatten />
+				<sn-input v-model="content" custom-style="flex:1;" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snBarcode.format')" custom-style="width:104px;" flatten />
+				<sn-select v-model="codeTypeIndex" :data="codeTypeOptions" width="168px" selected-mode="check" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snBarcode.rotation')" custom-style="width:104px;" flatten />
+				<sn-select v-model="rotationIndex" :data="rotationOptions" width="168px" selected-mode="check" />
+			</view>
+			<view class="config-row" flatten>
+				<sn-text :text="t('snBarcode.showValue')" custom-style="width:104px;" flatten />
+				<sn-switch v-model="showValue" />
+			</view>
+			<view class="config-row">
+				<sn-text :text="t('snBarcode.valueAlign')" custom-style="width:104px;" />
+				<sn-select v-model="valueAlignIndex" :data="valueAlignOptions" width="168px" selected-mode="check" />
+			</view>
+			<view class="config-row">
+				<sn-text :text="t('snBarcode.width')" custom-style="width:104px;" />
+				<sn-stepper v-model="width" :min="200" :max="420" :step="8" />
+			</view>
+			<view class="config-row">
+				<sn-text :text="t('snBarcode.height')" custom-style="width:104px;" />
+				<sn-stepper v-model="height" :min="64" :max="180" :step="8" />
+			</view>
+			<view class="config-row">
+				<sn-text :text="t('snBarcode.padding')" custom-style="width:104px;" />
+				<sn-stepper v-model="padding" :min="0" :max="24" :step="2" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snBarcode.barStyle')">
+			<view class="config-row">
+				<sn-text :text="t('snBarcode.barShape')" custom-style="width:104px;" />
+				<sn-select v-model="barShapeIndex" :data="barShapeOptions" width="168px" selected-mode="check" />
+			</view>
+			<view class="config-row">
+				<sn-text :text="t('snBarcode.barRadius')" custom-style="width:104px;" />
+				<sn-stepper v-model="barRadius" :min="0" :max="16" :step="1" />
+			</view>
+			<view class="config-row">
+				<sn-text :text="t('snBarcode.moduleMinWidth')" custom-style="width:104px;" />
+				<sn-stepper v-model="moduleMinWidth" :min="1" :max="4" :step="1" />
+			</view>
+			<view class="config-row">
+				<sn-text :text="t('snBarcode.aboutRadius')" custom-style="width:104px;" />
+				<sn-text :text="t('snBarcode.radiusHint')" custom-style="flex:1;font-size:12px;color:var(--sn-text-light);" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snBarcode.colorText')">
+			<view class="config-row">
+				<sn-text :text="t('snBarcode.valueFontSize')" custom-style="width:104px;" />
+				<sn-stepper v-model="valueFontSize" :min="10" :max="22" :step="1" />
+			</view>
+			<view class="config-row">
+				<sn-text :text="t('snBarcode.valueSpacing')" custom-style="width:104px;" />
+				<sn-stepper v-model="valueSpacing" :min="0" :max="24" :step="1" />
+			</view>
+			<view class="config-row">
+				<sn-text :text="t('snBarcode.barColor')" custom-style="width:104px;" />
+				<sn-input v-model="barColor" custom-style="flex:1;" />
+			</view>
+			<view class="config-row">
+				<sn-text :text="t('snBarcode.backgroundColor')" custom-style="width:104px;" />
+				<sn-input v-model="backgroundColor" custom-style="flex:1;" />
+			</view>
+			<view class="config-row">
+				<sn-text :text="t('snBarcode.valueColor')" custom-style="width:104px;" />
+				<sn-input v-model="valueColor" custom-style="flex:1;" />
+			</view>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type { SnBarcodeFormat } from '@/uni_modules/sinle-ui'
+
+const { t } = useI18n()
+
+type FormatPreset = {
+	format: SnBarcodeFormat
+	value: string
+}
+
+type RotationValue = 'N' | 'L' | 'R' | 'I'
+type ValueAlignValue = 'left' | 'center' | 'right'
+type BarShapeValue = 'flat' | 'rounded'
+
+const codeTypeOptions: SnDataItem[] = [
+	{ id: 'code128', text: 'CODE128' },
+	{ id: 'code39', text: 'CODE39' },
+	{ id: 'code93', text: 'CODE93' },
+	{ id: 'codabar', text: 'CODABAR' },
+	{ id: 'ean13', text: 'EAN13' },
+	{ id: 'ean8', text: 'EAN8' },
+	{ id: 'upca', text: 'UPC-A' },
+	{ id: 'upce', text: 'UPC-E' },
+	{ id: 'itf', text: 'ITF' }
+]
+
+const rotationOptions = computed<SnDataItem[]>(() => [
+	{ id: 'N', text: t('snBarcode.normal') },
+	{ id: 'L', text: t('snBarcode.leftRotate') },
+	{ id: 'R', text: t('snBarcode.rightRotate') },
+	{ id: 'I', text: t('snBarcode.upsideDown') }
+])
+
+const valueAlignOptions = computed<SnDataItem[]>(() => [
+	{ id: 'center', text: t('snBarcode.center') },
+	{ id: 'left', text: t('snBarcode.leftAlign') },
+	{ id: 'right', text: t('snBarcode.rightAlign') }
+])
+
+const barShapeOptions = computed<SnDataItem[]>(() => [
+	{ id: 'flat', text: t('snBarcode.flat') },
+	{ id: 'rounded', text: t('snBarcode.rounded') }
+])
+
+const codeTypePresets: FormatPreset[] = [
+	{ format: 'code128', value: 'SN-20260820-001' },
+	{ format: 'code39', value: 'SNUI2026' },
+	{ format: 'code93', value: 'SNUI2026' },
+	{ format: 'codabar', value: 'A123456A' },
+	{ format: 'ean13', value: '6901234567892' },
+	{ format: 'ean8', value: '12345670' },
+	{ format: 'upca', value: '123456789012' },
+	{ format: 'upce', value: '04252614' },
+	{ format: 'itf', value: '12345678901231' }
+]
+
+const codeTypeIndex = ref<number>(0)
+const rotationIndex = ref<number>(0)
+const valueAlignIndex = ref<number>(0)
+const barShapeIndex = ref<number>(0)
+const content = ref<string>(codeTypePresets[0].value)
+const showValue = ref<boolean>(true)
+const width = ref<number>(320)
+const height = ref<number>(108)
+const padding = ref<number>(8)
+const valueFontSize = ref<number>(14)
+const valueSpacing = ref<number>(8)
+const barColor = ref<string>('#111111')
+const backgroundColor = ref<string>('#ffffff')
+const valueColor = ref<string>('')
+const barRadius = ref<number>(6)
+const moduleMinWidth = ref<number>(1)
+
+const currentCodeType = computed((): SnBarcodeFormat => {
+	if (codeTypeIndex.value < 0 || codeTypeIndex.value >= codeTypePresets.length) {
+		return codeTypePresets[0].format
+	}
+	return codeTypePresets[codeTypeIndex.value].format
+})
+
+const currentRotation = computed((): RotationValue => {
+	if (rotationIndex.value < 0 || rotationIndex.value >= rotationOptions.value.length) return 'N'
+	if (rotationIndex.value == 1) return 'L'
+	if (rotationIndex.value == 2) return 'R'
+	if (rotationIndex.value == 3) return 'I'
+	return 'N'
+})
+
+const currentValueAlign = computed((): ValueAlignValue => {
+	if (valueAlignIndex.value == 1) return 'left'
+	if (valueAlignIndex.value == 2) return 'right'
+	return 'center'
+})
+
+const currentBarShape = computed((): BarShapeValue => {
+	return barShapeIndex.value == 1 ? 'rounded' : 'flat'
+})
+
+watch(codeTypeIndex, (newValue: number) => {
+	if (newValue < 0 || newValue >= codeTypePresets.length) {
+		return
+	}
+	content.value = codeTypePresets[newValue].value
+})
+</script>
+
+<style lang="scss">
+.demo-center {
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.barcode-gap {
+	margin-top: 6px;
+}
+
+.config-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+
+.config-row-top {
+	align-items: flex-start;
+}
+</style>

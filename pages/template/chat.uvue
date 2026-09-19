@@ -1,0 +1,367 @@
+<template>
+	<sn-page :fill-content="true">
+		<sn-topbar :title="t('tmplChat.title')" :back-button="true" :fixed="true" :status-bar="true"
+			:features="topbarFeatures" @featureclick="onFeatureClick" />
+		<view class="chat-body">
+			<scroll-view class="chat-msgs" direction="vertical" :scroll-into-view="scrollAnchor"
+				:show-scrollbar="false">
+				<view class="chat-pad-top"></view>
+				<view v-for="(msg, i) in messages" :key="i" :id="`msg-${i}`">
+					<view v-if="msg.kind == 'time'" class="chat-time-row" flatten>
+						<sn-text font-size="$11" color="$textLight" flatten>{{ msg.text }}</sn-text>
+					</view>
+					<view v-else-if="!msg.self" class="chat-msg-row">
+						<sn-avatar mode="text" :text="msg.avatarText" :size="36" :text-size="14"
+							:bg-color="msg.avatarColor" text-color="#FFFFFF" shape="circle" />
+						<view class="chat-msg-col">
+							<sn-text font-size="$11" color="$textLight" flatten custom-style="margin-bottom: 4px;">{{ msg.sender }}</sn-text>
+							<view class="chat-bubble chat-bubble--peer">
+								<sn-text font-size="$14" color="$text" :custom-style="msgTextStyle">{{ msg.text }}</sn-text>
+							</view>
+						</view>
+					</view>
+					<view v-else class="chat-msg-row chat-msg-row--self">
+						<view class="chat-bubble chat-bubble--self">
+							<sn-text font-size="$14" color="$primaryText" :custom-style="msgTextStyle">{{ msg.text }}</sn-text>
+						</view>
+						<sn-avatar mode="text" :text="msg.avatarText" :size="36" :text-size="14"
+							:bg-color="msg.avatarColor" text-color="#FFFFFF" shape="circle" />
+					</view>
+				</view>
+				<view class="chat-pad-bottom"></view>
+			</scroll-view>
+
+			<view class="chat-input-bar" :style="inputBarStyle">
+				<view class="chat-tool-btn" flatten @click="onToolClick(t('tmplChat.morePanel'))">
+					<sn-icon name="add-line" :size="22" color="$textLight" />
+				</view>
+				<view class="chat-input-wrap" flatten>
+					<sn-mention ref="mentionRef" v-model="draft" :placeholder="t('tmplChat.placeholder')" confirm-type="send"
+						:show-border="false" bg-color="$info" :border-radius="18"
+						@mention="onMention" @removemention="onRemoveMention" @confirm="onSend" />
+				</view>
+				<view class="chat-tool-btn" flatten @click="onToolClick(t('tmplChat.emojiPanel'))">
+					<sn-icon name="emoji-sticker-line" :size="22" color="$textLight" />
+				</view>
+				<view class="chat-send-btn" flatten @click="onSend">
+					<sn-icon name="send-plane-fill" :size="16" color="$primaryText" />
+				</view>
+			</view>
+		</view>
+
+		<sn-drawer-list ref="drawerRef" height="420px" :show-scrollbar="false" :backtop="false" :list="drawerItems">
+			<template v-slot:default="slotProps">
+				<view v-if="entryOf(slotProps.item).kind == 'header'" class="chat-mention-header" flatten>
+					<sn-text bold font-size="$15" color="$title" flatten>{{ entryOf(slotProps.item).label }}</sn-text>
+				</view>
+				<sn-cell v-else :title="entryOf(slotProps.item).label" icon="user-line" clickable :border="false"
+					custom-style="border-radius: 12px; margin-bottom: 8px;" bg-color="$infoLight"
+					@click="selectMember(entryOf(slotProps.item).index)" />
+			</template>
+		</sn-drawer-list>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import { useI18n } from 'vue-i18n'
+import type { ComponentPublicInstance } from 'vue'
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+
+type GroupMember = {
+	name: string
+	avatarText: string
+	avatarColor: string
+}
+
+type ChatMsg = {
+	kind: string
+	self: boolean
+	sender: string
+	avatarText: string
+	avatarColor: string
+	text: string
+}
+
+type MentionEntry = {
+	kind: string
+	label: string
+	index: number
+}
+
+const topbarFeatures: SnDataItem[] = [
+	{ id: 'phone', icon: 'phone-line' }
+]
+
+const selfMember = computed<GroupMember>(() => {
+	return { name: t('tmplChat.selfName'), avatarText: t('tmplChat.selfAvatar'), avatarColor: '$primary' }
+})
+
+const members = computed<GroupMember[]>(() => [
+	{ name: t('tmplChat.m0.name'), avatarText: t('tmplChat.m0.avatar'), avatarColor: '$success' },
+	{ name: 'Aiden', avatarText: 'A', avatarColor: '$warning' },
+	{ name: 'Momo', avatarText: 'M', avatarColor: '$error' },
+	{ name: t('tmplChat.m3.name'), avatarText: t('tmplChat.m3.avatar'), avatarColor: '$primaryDark' },
+	{ name: t('tmplChat.m4.name'), avatarText: t('tmplChat.m4.avatar'), avatarColor: '$info' },
+	{ name: t('tmplChat.m5.name'), avatarText: t('tmplChat.m5.avatar'), avatarColor: '$primary' },
+	{ name: t('tmplChat.m6.name'), avatarText: t('tmplChat.m6.avatar'), avatarColor: '$successDark' },
+	{ name: t('tmplChat.m7.name'), avatarText: t('tmplChat.m7.avatar'), avatarColor: '$warningDark' },
+	{ name: t('tmplChat.m8.name'), avatarText: t('tmplChat.m8.avatar'), avatarColor: '$errorDark' }
+])
+
+const drawerItems = computed<MentionEntry[]>(() => {
+	const arr: MentionEntry[] = []
+	arr.push({ kind: 'header', label: t('tmplChat.chooseMember'), index: -1 })
+	for (let i = 0; i < members.value.length; i++) {
+		arr.push({ kind: 'member', label: members.value[i].name, index: i })
+	}
+	return arr
+})
+
+function entryOf(item: any): MentionEntry {
+	return item as MentionEntry
+}
+
+function buildInitialMessages(): ChatMsg[] {
+	return [
+		{ kind: 'time', self: false, sender: '', avatarText: '', avatarColor: '', text: t('tmplChat.msgTime1') },
+		{ kind: 'text', self: false, sender: t('tmplChat.m7.name'), avatarText: t('tmplChat.m7.avatar'), avatarColor: '$warningDark', text: t('tmplChat.msg1') },
+		{ kind: 'text', self: false, sender: t('tmplChat.m6.name'), avatarText: t('tmplChat.m6.avatar'), avatarColor: '$successDark', text: t('tmplChat.msg2') },
+		{ kind: 'text', self: false, sender: t('tmplChat.m0.name'), avatarText: t('tmplChat.m0.avatar'), avatarColor: '$success', text: t('tmplChat.msg3') },
+		{ kind: 'text', self: false, sender: t('tmplChat.m6.name'), avatarText: t('tmplChat.m6.avatar'), avatarColor: '$successDark', text: t('tmplChat.msg4') },
+		{ kind: 'text', self: true, sender: selfMember.value.name, avatarText: selfMember.value.avatarText, avatarColor: '$primary', text: t('tmplChat.msg5') },
+		{ kind: 'text', self: false, sender: t('tmplChat.m5.name'), avatarText: t('tmplChat.m5.avatar'), avatarColor: '$primary', text: t('tmplChat.msg6') },
+		{ kind: 'text', self: false, sender: t('tmplChat.m3.name'), avatarText: t('tmplChat.m3.avatar'), avatarColor: '$primaryDark', text: t('tmplChat.msg7') },
+		{ kind: 'text', self: false, sender: 'Momo', avatarText: 'M', avatarColor: '$error', text: t('tmplChat.msg8') },
+		{ kind: 'time', self: false, sender: '', avatarText: '', avatarColor: '', text: t('tmplChat.msgTime2') },
+		{ kind: 'text', self: false, sender: t('tmplChat.m4.name'), avatarText: t('tmplChat.m4.avatar'), avatarColor: '$info', text: t('tmplChat.msg9') },
+		{ kind: 'text', self: false, sender: t('tmplChat.m8.name'), avatarText: t('tmplChat.m8.avatar'), avatarColor: '$errorDark', text: t('tmplChat.msg10') }
+	]
+}
+
+const messages = ref<ChatMsg[]>(buildInitialMessages())
+
+const draft = ref<string>('')
+const scrollAnchor = ref<string>('')
+const safeAreaBottom = ref<number>(0)
+
+const mentionRef = ref<ComponentPublicInstance | null>(null)
+const drawerRef = ref<ComponentPublicInstance | null>(null)
+
+let replyIdx = 0
+
+const replyPool = computed<string[]>(() => [
+	t('tmplChat.reply1'),
+	t('tmplChat.reply2'),
+	t('tmplChat.reply3'),
+	t('tmplChat.reply4'),
+	t('tmplChat.reply5')
+])
+
+const inputBarStyle = computed<string>((): string => {
+	return `padding-bottom: ${12 + safeAreaBottom.value}px;`
+})
+
+const msgTextStyle = computed<string>((): string => {
+	// #ifdef WEB
+	return 'line-height: 21px; word-break: break-all;'
+	// #endif
+	// #ifndef WEB
+	return 'line-height: 21px;'
+	// #endif
+})
+
+function onFeatureClick(_item: SnDataItem, _index: number): void {
+	snu.showToast({ text: t('tmplChat.voiceTip') })
+}
+
+function onToolClick(name: string): void {
+	snu.showToast({ text: name })
+}
+
+function onMention(): void {
+	uni.hideKeyboard()
+	drawerRef.value?.$callMethod('open')
+}
+
+function onRemoveMention(tag: string): void {
+	snu.showToast({ text: t('tmplChat.removedMention', { tag: tag } as UTSJSONObject) })
+}
+
+function selectMember(idx: number): void {
+	if (idx < 0 || idx >= members.value.length) {
+		return
+	}
+	drawerRef.value?.$callMethod('close')
+	mentionRef.value?.$callMethod('insertMention', members.value[idx].name)
+}
+
+function scrollToBottom(): void {
+	scrollAnchor.value = `msg-${messages.value.length - 1}`
+}
+
+function onSend(): void {
+	const text = draft.value.trim()
+	if (text == '') {
+		snu.showToast({ text: t('tmplChat.typeSomething') })
+		return
+	}
+	messages.value.push({
+		kind: 'text',
+		self: true,
+		sender: selfMember.value.name,
+		avatarText: selfMember.value.avatarText,
+		avatarColor: selfMember.value.avatarColor,
+		text: text
+	})
+	draft.value = ''
+	nextTick((): void => {
+		scrollToBottom()
+	})
+	setTimeout((): void => {
+		const m = members.value[replyIdx % members.value.length]
+		replyIdx++
+		messages.value.push({
+			kind: 'text',
+			self: false,
+			sender: m.name,
+			avatarText: m.avatarText,
+			avatarColor: m.avatarColor,
+			text: replyPool.value[replyIdx % replyPool.value.length]
+		})
+		nextTick((): void => {
+			scrollToBottom()
+		})
+	}, 1200)
+}
+
+onBeforeMount((): void => {
+	const windowInfo = uni.getWindowInfo()
+	const insets = windowInfo.safeAreaInsets
+	safeAreaBottom.value = insets != null ? (insets.bottom ?? 0) : 0
+})
+
+onMounted((): void => {
+	nextTick((): void => {
+		scrollToBottom()
+	})
+})
+</script>
+
+<style lang="scss">
+.chat-body {
+	flex: 1;
+	flex-direction: column;
+	min-height: 0px;
+}
+
+.chat-msgs {
+	flex: 1;
+	flex-direction: column;
+	background-color: var(--sn-page);
+}
+
+.chat-pad-top {
+	height: 12px;
+}
+
+.chat-pad-bottom {
+	height: 12px;
+}
+
+.chat-time-row {
+	flex-direction: row;
+	justify-content: center;
+	padding: 10px 0 10px 0;
+}
+
+.chat-msg-row {
+	flex-direction: row;
+	align-items: flex-end;
+	padding: 6px 16px 6px 16px;
+}
+
+.chat-msg-row--self {
+	justify-content: flex-end;
+}
+
+.chat-msg-col {
+	flex-direction: column;
+	align-items: flex-start;
+	margin-left: 8px;
+	max-width: 72%;
+}
+
+.chat-bubble {
+	border-radius: 14px;
+	padding: 9px 14px 9px 14px;
+	flex-direction: column;
+}
+
+.chat-bubble--peer {
+	max-width: 100%;
+	background-color: var(--sn-front);
+	border-bottom-left-radius: 4px;
+}
+
+.chat-bubble--self {
+	max-width: 72%;
+	background-color: var(--sn-primary);
+	border-bottom-right-radius: 4px;
+	margin-right: 8px;
+}
+
+.chat-bubble--peer {
+	background-color: var(--sn-front);
+	border-bottom-left-radius: 4px;
+}
+
+.chat-bubble--self {
+	background-color: var(--sn-primary);
+	border-bottom-right-radius: 4px;
+	margin-left: 8px;
+	max-width: 72%;
+}
+
+.chat-input-bar {
+	flex-direction: row;
+	align-items: center;
+	background-color: var(--sn-front);
+	padding: 10px 10px 12px 10px;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: var(--sn-line);
+}
+
+.chat-tool-btn {
+	width: 36px;
+	height: 36px;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+
+.chat-input-wrap {
+	flex: 1;
+	flex-direction: row;
+	margin: 0px 6px 0px 6px;
+}
+
+.chat-send-btn {
+	width: 48px;
+	height: 36px;
+	border-radius: 18px;
+	background-color: var(--sn-primary);
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	margin-left: 4px;
+}
+
+.chat-mention-header {
+	flex-direction: row;
+	padding: 4px 4px 12px 4px;
+}
+</style>

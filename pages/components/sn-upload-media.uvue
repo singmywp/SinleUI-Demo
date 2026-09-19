@@ -1,80 +1,139 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Upload Media 媒体上传"></sn-topbar>
-		<com-card title="基础用法"
-		note="本组件用于快速上传图片/视频媒体文件，分为基础版和 uniCloud 版"></com-card>
-		<com-card title="基础版"
-		note="基于 uni.uploadFile，可上传到开发者服务器">
-			<sn-upload-media :url="testUrl"></sn-upload-media>
-		</com-card>
-		<com-card title="uniCloud 版"
-		note="基于 uniCloud.uploadFile，需先绑定服务空间">
-			<sn-upload-media-unicloud></sn-upload-media-unicloud>
-		</com-card>
-		<com-card title="上传视频"
-		note="支持视频上传，支持显示缩略图。">
-			<sn-upload-media mode="video" :url="testUrl"></sn-upload-media>
-		</com-card>
-		<com-card title="视频图片混传"
-		note="mode 设为 all 以支持视频图片混传，使用系统相册选择">
-			<sn-upload-media mode="all"
-			:url="testUrl"></sn-upload-media>
-		</com-card>
-		<com-card title="限制数量"
-		note="可以限制选择数量以及最大总数量.图片每次最多选择 20 个，视频每次最多选择1个。">
-		<sn-text class="m-b-10"
-		:text="'选择：最大 3 张\n总数：最大 4 张'"></sn-text>
-			<sn-upload-media :url="testUrl"
-			:chooseCount="3"
-			:maxCount="4"></sn-upload-media>
-		</com-card>
-		<com-card title="自定义样式"
-		note="可以自定义占位图，自定义尺寸、圆角、背景颜色、图标颜色、大小等">
-			<sn-upload-media width="280px"
-			height="173px"
-			:chooseCount="1"
-			:maxCount="1"
-			:url="testUrl">
-				<image mode="widthFix" 
-				src="/static/images/idcard.png" 
-				style="width: 280px;height: 173px;"></image>
+	<sn-page :title="t('snUploadMedia.title')" :show-back="true">
+		<demo-card :title="t('snUploadMedia.basicTitle')" :subtitle="t('snUploadMedia.basicSubtitle')">
+			<sn-upload-media ref="mediaRef" mode="image" :url="uploadUrl" :auto-upload="false" :timeout="8000"
+				@image-chose="onImageChose" @uploaded="onUploaded" @upload-error="onUploadError" @choose-error="onChooseError" />
+			<view class="ud-row" style="margin-top:10px;" flatten>
+				<sn-button :text="t('snUploadMedia.upload')" type="primary" custom-style="flex:1; margin-right:8px;" @click="onUpload" />
+			</view>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snUploadMedia.choseImages', { count: imageChoseCount, tip: uploadTip } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snUploadMedia.videoTitle')" :subtitle="t('snUploadMedia.videoSubtitle')">
+			<sn-upload-media ref="videoRef" mode="video" :url="uploadUrl" width="120px" height="120px"
+				@video-chose="onVideoChose" @uploaded="onVideoUploaded" @upload-error="onVideoUploadError" />
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snUploadMedia.choseVideos', { count: videoChoseCount, tip: videoUploadTip } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snUploadMedia.mixTitle')" :subtitle="t('snUploadMedia.mixSubtitle')">
+			<sn-upload-media mode="all" :max-count="4" :auto-upload="false" @file-chose="onFileChose" />
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snUploadMedia.fileCount', { count: fileChoseCount } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snUploadMedia.cloudTitle')" :subtitle="t('snUploadMedia.cloudSubtitle')">
+			<sn-upload-media-unicloud ref="cloudRef" mode="image" :auto-upload="false" directory="demoUpload/"
+				@uploaded="onCloudUploaded" @upload-error="onCloudUploadError" @choose-error="onCloudChooseError" />
+			<sn-button :text="t('snUploadMedia.upload')" type="primary" custom-style="margin-top:10px;" @click="onCloudUpload" />
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ cloudTip }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snUploadMedia.customTitle')" :subtitle="t('snUploadMedia.customSubtitle')">
+			<sn-upload-media mode="image" :auto-upload="false" width="225px" height="135px"
+				item-bg-color="$primaryLight" item-border-radius="8px">
+				<image src="/static/images/positive.png" mode="scaleToFill"
+					style="width:100%;height:100%;border-radius:8px;" />
 			</sn-upload-media>
-		</com-card>
-		<com-card title="删除按钮"
-		note="可以取消显示删除按钮">
-			<sn-upload-media :url="testUrl"
-			:clearable="false"></sn-upload-media>
-		</com-card>
-		<com-card title="图片预览"
-		note="选择的图片默认可点击预览，如果怕点错，可以取消。视频文件不支持点击预览。">
-			<sn-upload-media :url="testUrl"
-			:enablePreview="false"></sn-upload-media>
-		</com-card>
-		<com-card title="手动上传"
-		:note="`设置 autoUpload=false 即可通过 upload 方法手动上传`">
-			<sn-upload-media ref="mediaRef"
-			:url="testUrl"
-			:autoUpload="false"></sn-upload-media>
-			<sn-button class="m-t-10"
-			type="primary" 
-			level="second"
-			text="上传" 
-			@click="upload"></sn-button>
-		</com-card>
-		<sn-gap height="40px"></sn-gap>
+		</demo-card>
+
+		<demo-card :title="t('snUploadMedia.disableTitle')" :subtitle="t('snUploadMedia.disableSubtitle')">
+			<view class="ud-row" flatten>
+				<sn-upload-media mode="image" :auto-upload="false" disabled custom-style="margin-right:12px;" />
+				<sn-upload-media mode="image" :auto-upload="false" :clearable="false" />
+			</view>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	const testUrl = 'https://unidemo.dcloud.net.cn/upload"'
-	
-	const mediaRef = ref(null as SnUploadMediaComponentPublicInstance | null)
-	
-	function upload() {
-		mediaRef.value?.upload?.()
-	}
+<script lang="uts" setup>
+
+
+import { useI18n } from 'vue-i18n'
+import type { ComponentPublicInstance } from 'vue'
+import type { SnFile } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+
+
+
+
+const uploadUrl = 'http://www.test.com/upload'
+const mediaRef = ref<ComponentPublicInstance | null>(null)
+const imageChoseCount = ref<number>(0)
+const uploadTip = ref<string>(t('snUploadMedia.notUploaded'))
+
+function onImageChose(): void {
+	imageChoseCount.value++
+	uploadTip.value = t('snUploadMedia.chooseThenClickUpload')
+}
+
+function onUpload(): void {
+	mediaRef.value?.$callMethod('upload')
+}
+
+function onUploaded(): void {
+	uploadTip.value = t('snUploadMedia.uploaded')
+}
+
+function onUploadError(err: UniError): void {
+	const detail = err.cause != null && err.cause.message != '' ? `：${err.cause.message}` : ''
+	uploadTip.value = t('snUploadMedia.uploadFail', { code: err.errCode, detail } as UTSJSONObject)
+}
+
+function onChooseError(err: UniError): void {
+	uploadTip.value = t('snUploadMedia.chooseFail', { code: err.errCode } as UTSJSONObject)
+}
+
+
+const videoRef = ref<ComponentPublicInstance | null>(null)
+const videoChoseCount = ref<number>(0)
+const videoUploadTip = ref<string>(t('snUploadMedia.notUploaded'))
+
+function onVideoChose(): void {
+	videoChoseCount.value++
+	videoUploadTip.value = t('snUploadMedia.videoUploading')
+}
+
+function onVideoUploaded(): void {
+	videoUploadTip.value = t('snUploadMedia.uploaded')
+}
+
+function onVideoUploadError(err: UniError): void {
+	const detail = err.cause != null && err.cause.message != '' ? `：${err.cause.message}` : ''
+	videoUploadTip.value = t('snUploadMedia.uploadFail', { code: err.errCode, detail } as UTSJSONObject)
+}
+
+
+const fileChoseCount = ref<number>(0)
+
+function onFileChose(files: SnFile[]): void {
+	fileChoseCount.value += files.length
+}
+
+
+const cloudRef = ref<ComponentPublicInstance | null>(null)
+const cloudTip = ref<string>(t('snUploadMedia.cloudNotUploaded'))
+
+function onCloudUpload(): void {
+	cloudRef.value?.$callMethod('upload')
+}
+
+function onCloudUploaded(): void {
+	cloudTip.value = t('snUploadMedia.cloudUploaded')
+}
+
+function onCloudUploadError(err: UniError): void {
+	const detail = err.cause != null && err.cause.message != '' ? `：${err.cause.message}` : ''
+	cloudTip.value = t('snUploadMedia.uploadFail', { code: err.errCode, detail } as UTSJSONObject)
+}
+
+function onCloudChooseError(err: UniError): void {
+	cloudTip.value = t('snUploadMedia.chooseFail', { code: err.errCode } as UTSJSONObject)
+}
 </script>
 
-<style>
-		
+<style lang="scss">
+.ud-row {
+	flex-direction: row;
+	align-items: center;
+}
 </style>

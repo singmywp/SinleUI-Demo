@@ -1,0 +1,253 @@
+<template>
+	<sn-page :title="t('snKeyboardTop.title')" :show-back="true">
+		<sn-alert type="primary" :text="t('snKeyboardTop.alert')" style="margin: 0 16px 16px;" />
+
+		<demo-card :title="t('snKeyboardTop.basicTitle')" :subtitle="t('snKeyboardTop.basicSub')">
+			<view class="field-row" flatten>
+				<view class="readonly-field" flatten @click="onToggleCommentPanel">
+					<sn-input v-model="commentText" :placeholder="t('snKeyboardTop.commentPlaceholder')" :readonly="true"
+						:adjust-position="false" :maxlength="200" placeholder-style="color:#8a8a8a;"
+						custom-style="flex:1;height:46px;background-color:var(--sn-page);border-color:var(--sn-line);" />
+				</view>
+				<sn-button type="primary" :disabled="commentText == ''" @click="onSendComment">
+					{{ t('snKeyboardTop.send') }}
+				</sn-button>
+			</view>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>
+				{{ commentText == '' ? t('snKeyboardTop.emptyValue') : commentText }}
+			</sn-text>
+			<sn-text font-size="$12" color="$textLight" flatten>{{ t('snKeyboardTop.readonlyDesc') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snKeyboardTop.slotTitle')" :subtitle="t('snKeyboardTop.slotSub')">
+			<sn-text font-size="$14" :color="textColor" flatten>{{ t('snKeyboardTop.slotLiveDesc') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>
+				{{ t('snKeyboardTop.slotDesc') }}
+			</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snKeyboardTop.switchTitle')" :subtitle="t('snKeyboardTop.switchSub')">
+			<sn-text font-size="$14" :color="textColor" flatten>{{ t('snKeyboardTop.switchDesc') }}</sn-text>
+			<view class="field-row" flatten>
+				<sn-button type="primary" custom-style="margin-right:10px;" @click="onShowPanel('comment')">
+					{{ t('snKeyboardTop.btnComment') }}
+				</sn-button>
+				<sn-button type="primary" custom-style="margin-right:10px;" @click="onShowPanel('toolbar')">
+					{{ t('snKeyboardTop.btnToolbar') }}
+				</sn-button>
+				<sn-button type="primary" @click="onShowPanel('reply')">{{ t('snKeyboardTop.btnReply') }}</sn-button>
+			</view>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>
+				{{ t('snKeyboardTop.currentPanel') }}{{ currentPanelLabel }}
+			</sn-text>
+			<sn-text font-size="$12" color="$textLight" flatten>{{ t('snKeyboardTop.singleTip') }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snKeyboardTop.animTitle')" :subtitle="t('snKeyboardTop.animSub')">
+			<sn-text font-size="$14" color="$textLight" flatten>{{ t('snKeyboardTop.aniTimeLabel') }}{{ aniTimeText }}</sn-text>
+			<view class="field-row" flatten>
+				<sn-button type="primary" custom-style="margin-right:10px;" @click="onSetAniTime(0)">
+					{{ t('snKeyboardTop.aniNone') }}
+				</sn-button>
+				<sn-button type="primary" custom-style="margin-right:10px;" @click="onSetAniTime(aniTimeNormalNum)">
+					{{ t('snKeyboardTop.aniNormal') }}
+				</sn-button>
+				<sn-button type="primary" @click="onSetAniTime(600)">{{ t('snKeyboardTop.aniSlow') }}</sn-button>
+			</view>
+		</demo-card>
+
+		<sn-keyboard-top ref="commentPanelRef" :show="currentPanel == 'comment'">
+			<template v-slot:default="slotProps">
+				<view class="bar" :style="commentBarStyle">
+					<view class="bar-field" flatten>
+						<sn-input v-model="commentText" :placeholder="t('snKeyboardTop.commentPlaceholder')"
+							:focus="slotProps.focus" :hold-keyboard="true" :maxlength="200"
+							placeholder-style="color:#8a8a8a;" custom-style="flex:1;height:46px;background-color:var(--sn-page);border-color:var(--sn-line);" />
+					</view>
+					<sn-button type="primary" :disabled="commentText == ''" @click="onSendComment">
+						{{ t('snKeyboardTop.send') }}
+					</sn-button>
+				</view>
+			</template>
+		</sn-keyboard-top>
+		<sn-keyboard-top ref="toolbarPanelRef" :show="currentPanel == 'toolbar'" :ani-time="aniTimeValue" :offset="10" width="94%"
+			:z-index="995">
+			<template v-slot:default="slotProps">
+				<view class="bar bar-toolbar" :style="toolbarStyle">
+					<sn-input v-model="toolbarText" :placeholder="t('snKeyboardTop.toolbarPlaceholder')"
+						:focus="slotProps.focus" :hold-keyboard="true" :maxlength="100"
+						placeholder-style="color:#8a8a8a;" custom-style="flex:1;height:46px;background-color:var(--sn-page);border-color:var(--sn-line);" />
+					<sn-button type="primary" custom-style="margin-left:10px;" @click="dismissPanel">
+						{{ t('snKeyboardTop.done') }}
+					</sn-button>
+				</view>
+			</template>
+		</sn-keyboard-top>
+
+		<sn-keyboard-top ref="replyPanelRef" :show="currentPanel == 'reply'" :ani-time="aniTimeValue">
+			<template v-slot:default="slotProps">
+				<view class="bar-reply" :style="replyStyle">
+					<sn-text font-size="$12" color="$textLight" flatten>{{ t('snKeyboardTop.replyTo') }}@{{ replyTarget }}</sn-text>
+					<sn-input v-model="replyText" :placeholder="t('snKeyboardTop.replyPlaceholder')"
+						:focus="slotProps.focus" :hold-keyboard="true" :maxlength="200"
+						placeholder-style="color:#8a8a8a;" custom-style="margin-top:6px;height:46px;background-color:var(--sn-page);border-color:var(--sn-line);" />
+					<view class="field-row" flatten>
+						<sn-button type="primary" custom-style="margin-right:10px;" @click="dismissPanel">
+							{{ t('snKeyboardTop.cancel') }}
+						</sn-button>
+						<sn-button type="primary" :disabled="replyText == ''" @click="onSendReply">
+							{{ t('snKeyboardTop.send') }}
+						</sn-button>
+					</view>
+				</view>
+			</template>
+		</sn-keyboard-top>
+		<view class="bar-spacer" flatten></view>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+	import { useI18n } from 'vue-i18n'
+	import { $snui, snu } from '@/uni_modules/sinle-ui'
+
+	const { t } = useI18n()
+
+	const commentText = ref<string>('')
+	const toolbarText = ref<string>('')
+	const replyText = ref<string>('')
+	const replyTarget = ref<string>('')
+	const currentPanel = ref<string>('comment')
+	const aniTimeValue = ref<string | number>('')
+
+	const commentPanelRef = ref<ComponentPublicInstance | null>(null)
+	const toolbarPanelRef = ref<ComponentPublicInstance | null>(null)
+	const replyPanelRef = ref<ComponentPublicInstance | null>(null)
+
+	const aniTimeNormalNum = computed<number>((): number => $snui.aniTimeNormal)
+	const aniTimeText = computed<string>((): string => aniTimeValue.value == '' ? t('snKeyboardTop.aniFollow') : t('snKeyboardTop.aniCustom', { time: aniTimeValue.value } as UTSJSONObject))
+	const currentPanelLabel = computed<string>((): string => {
+		if (currentPanel.value == 'toolbar') {
+			return t('snKeyboardTop.panelToolbar')
+		}
+		if (currentPanel.value == 'reply') {
+			return t('snKeyboardTop.panelReply')
+		}
+		return t('snKeyboardTop.panelComment')
+	})
+	const textColor = computed<string>((): string => $snui.colors.text)
+
+	const commentBarStyle = computed<string>((): string => {
+		return `background-color:${$snui.colors.front};border-top-width:1px;border-top-style:solid;border-top-color:${$snui.colors.line};padding:8px 12px;flex-direction:row;align-items:center;`
+	})
+
+	const toolbarStyle = computed<string>((): string => {
+		return `background-color:${$snui.colors.front};margin: 10px;padding:8px 12px;box-shadow:0 0 12px -5px ${$snui.colors.shadow};`
+	})
+
+	const replyStyle = computed<string>((): string => {
+		return `background-color:${$snui.colors.front};padding:10px 12px;`
+	})
+
+	function requestPanelFocus(): void {
+		let panel: ComponentPublicInstance | null = null
+		if (currentPanel.value == 'toolbar') {
+			panel = toolbarPanelRef.value
+		} else if (currentPanel.value == 'reply') {
+			panel = replyPanelRef.value
+		} else {
+			panel = commentPanelRef.value
+		}
+		if (panel != null) {
+			panel.$callMethod('requestFocus')
+		}
+	}
+
+	function dismissPanel(): void {
+		currentPanel.value = ''
+		uni.hideKeyboard()
+	}
+
+	function onToggleCommentPanel(): void {
+		if (currentPanel.value == 'comment') {
+			dismissPanel()
+			return
+		}
+		onShowPanel('comment')
+	}
+
+	function onShowPanel(name: string): void {
+		if (name == 'reply') {
+			replyTarget.value = t('snKeyboardTop.replyTarget')
+			replyText.value = ''
+		}
+		if (name == '') {
+			dismissPanel()
+			return
+		}
+		currentPanel.value = name
+		nextTick((): void => {
+			requestPanelFocus()
+		})
+	}
+
+	function onSendComment(): void {
+		if (commentText.value == '') {
+			return
+		}
+		snu.showToast({ text: t('snKeyboardTop.sentTip'), icon: 'checkbox-circle-fill' })
+		commentText.value = ''
+		dismissPanel()
+	}
+
+	function onSendReply(): void {
+		if (replyText.value == '') {
+			return
+		}
+		snu.showToast({ text: t('snKeyboardTop.sentTip'), icon: 'checkbox-circle-fill' })
+		replyText.value = ''
+		dismissPanel()
+	}
+
+	function onSetAniTime(time: number): void {
+		aniTimeValue.value = time
+	}
+</script>
+
+<style lang="scss">
+	.bar {
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.bar-field {
+		flex: 1;
+		flex-direction: row;
+		margin-right: 10px;
+	}
+
+	.readonly-field {
+		flex: 1;
+		flex-direction: row;
+	}
+
+	.bar-toolbar {
+		flex-direction: row;
+		align-items: center;
+		border-radius: 15px;
+	}
+
+	.bar-reply {
+		border-radius: 15px 15px 0 0;
+	}
+
+	.field-row {
+		flex-direction: row;
+		align-items: center;
+		margin-top: 10px;
+	}
+
+	.bar-spacer {
+		height: 60px;
+		flex-shrink: 0;
+	}
+</style>

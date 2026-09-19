@@ -1,0 +1,221 @@
+<template>
+	<sn-page :title="t('snAmount.title')" :show-back="true">
+		<demo-card :title="t('snAmount.basic')" :subtitle="t('snAmount.basicSub')">
+			<view class="demo-line" flatten>
+				<sn-amount :value="123456.789" currency="¥"></sn-amount>
+			</view>
+			<view class="demo-line" flatten>
+				<sn-amount :value="'9999.9'" currency="$" :decimals="2"></sn-amount>
+			</view>
+			<view class="demo-line" flatten>
+				<sn-amount :value="'¥888,888.88'" :decimals="2"></sn-amount>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snAmount.rounding')" :subtitle="t('snAmount.roundingSub')">
+			<view flatten class="rule-block">
+				<sn-text flatten font-size="12px" type="primary" bold>{{ t('snAmount.roundHead') }}</sn-text>
+				<sn-text flatten font-size="12px" type="text">{{ t('snAmount.roundDesc') }}</sn-text>
+			</view>
+			<view flatten class="rule-block">
+				<sn-text flatten font-size="12px" type="success" bold>{{ t('snAmount.ceilHead') }}</sn-text>
+				<sn-text flatten font-size="12px" type="text">{{ t('snAmount.ceilDesc') }}</sn-text>
+			</view>
+			<view flatten class="rule-block">
+				<sn-text flatten font-size="12px" type="warning" bold>{{ t('snAmount.floorHead') }}</sn-text>
+				<sn-text flatten font-size="12px" type="text">{{ t('snAmount.floorDesc') }}</sn-text>
+			</view>
+			<view flatten class="rule-block" style="margin-bottom: 12px;">
+				<sn-text flatten font-size="12px" type="error" bold>{{ t('snAmount.truncHead') }}</sn-text>
+				<sn-text flatten font-size="12px" type="text">{{ t('snAmount.truncDesc') }}</sn-text>
+			</view>
+
+			<sn-text flatten bold font-size="14px" style="margin-bottom: 6px;">{{ t('snAmount.posCompare') }}</sn-text>
+			<view class="demo-row">
+				<view class="demo-row-item">
+					<sn-text flatten type="text-light" font-size="12px">round → 1.01</sn-text>
+					<sn-amount :value="'1.005'" currency="¥" :decimals="2" rounding-mode="round"></sn-amount>
+				</view>
+				<view class="demo-row-item">
+					<sn-text flatten type="text-light" font-size="12px">ceil → 1.01</sn-text>
+					<sn-amount :value="'1.005'" currency="¥" :decimals="2" rounding-mode="ceil"></sn-amount>
+				</view>
+			</view>
+			<view class="demo-row">
+				<view class="demo-row-item">
+					<sn-text flatten type="text-light" font-size="12px">floor → 1.00</sn-text>
+					<sn-amount :value="'1.009'" currency="¥" :decimals="2" rounding-mode="floor"></sn-amount>
+				</view>
+				<view class="demo-row-item">
+					<sn-text flatten type="text-light" font-size="12px">trunc → 1.00</sn-text>
+					<sn-amount :value="'1.009'" currency="¥" :decimals="2" rounding-mode="trunc"></sn-amount>
+				</view>
+			</view>
+
+			<sn-text flatten bold font-size="14px" style="margin-top: 12px; margin-bottom: 6px;">{{ t('snAmount.negCompare') }}</sn-text>
+			<view class="demo-row">
+				<view class="demo-row-item">
+					<sn-text flatten type="text-light" font-size="12px">round → −1.01</sn-text>
+					<sn-amount :value="'-1.005'" currency="¥" :decimals="2" rounding-mode="round"></sn-amount>
+				</view>
+				<view class="demo-row-item">
+					<sn-text flatten type="text-light" font-size="12px">ceil → −1.00</sn-text>
+					<sn-amount :value="'-1.005'" currency="¥" :decimals="2" rounding-mode="ceil"></sn-amount>
+				</view>
+			</view>
+			<view class="demo-row">
+				<view class="demo-row-item">
+					<sn-text flatten type="text-light" font-size="12px">floor → −1.01</sn-text>
+					<sn-amount :value="'-1.001'" currency="¥" :decimals="2" rounding-mode="floor"></sn-amount>
+				</view>
+				<view class="demo-row-item">
+					<sn-text flatten type="text-light" font-size="12px">trunc → −1.00</sn-text>
+					<sn-amount :value="'-1.009'" currency="¥" :decimals="2" rounding-mode="trunc"></sn-amount>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snAmount.decimals')" :subtitle="t('snAmount.decimalsSub')">
+			<view class="demo-line" flatten>
+				<sn-text flatten type="text-light" font-size="12px">{{ t('snAmount.noneDecimal') }}</sn-text>
+				<sn-amount :value="'1234.567'" currency="¥" :decimals="0" rounding-mode="round"></sn-amount>
+			</view>
+			<view class="demo-line" flatten>
+				<sn-text flatten type="text-light" font-size="12px">{{ t('snAmount.keep2') }}</sn-text>
+				<sn-amount :value="'1234.5'" currency="¥" :decimals="2"></sn-amount>
+			</view>
+			<view class="demo-line" flatten>
+				<sn-text flatten type="text-light" font-size="12px">{{ t('snAmount.keep4') }}</sn-text>
+				<sn-amount :value="'1234.56789'" currency="$" :decimals="4"></sn-amount>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snAmount.separator')" :subtitle="t('snAmount.separatorSub')">
+			<view class="demo-line" flatten>
+				<sn-text flatten type="text-light" font-size="12px">{{ t('snAmount.comma3') }}</sn-text>
+				<sn-amount :value="'1234567890.12'" currency="¥" separator="," :separator-digits="3"></sn-amount>
+			</view>
+			<view class="demo-line" flatten>
+				<sn-text flatten type="text-light" font-size="12px">{{ t('snAmount.space3') }}</sn-text>
+				<sn-amount :value="'1234567.89'" currency="€" separator=" " :separator-digits="3"></sn-amount>
+			</view>
+			<view class="demo-line" flatten>
+				<sn-text flatten type="text-light" font-size="12px">{{ t('snAmount.noSplit') }}</sn-text>
+				<sn-amount :value="'1234567.89'" currency="£" separator=""></sn-amount>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snAmount.fontSize')" :subtitle="t('snAmount.fontSizeSub')">
+			<view class="demo-line" flatten>
+				<sn-amount :value="'98765.43'" currency="¥" font-size="20px" bold></sn-amount>
+			</view>
+			<view class="demo-line" flatten>
+				<sn-amount :value="'12345.67'" currency="¥" type="primary"></sn-amount>
+			</view>
+			<view class="demo-line" flatten>
+				<sn-amount :value="negativeAmountLarge" currency="¥" type="error" bold></sn-amount>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snAmount.partStyle')" :subtitle="t('snAmount.partStyleSub')">
+			<view class="demo-line" flatten>
+				<sn-amount
+					:value="'88888.66'"
+					currency="¥"
+					currency-font-size="14px" currency-color="$textLight"
+					int-font-size="28px" int-color="$primary"
+					decimal-font-size="14px" decimal-color="$textLight"
+					bold></sn-amount>
+			</view>
+			<view class="demo-line" flatten>
+				<sn-amount
+					:value="'6666.88'"
+					currency="$"
+					currency-font-size="12px" currency-color="$success"
+					int-font-size="24px" int-color="$success"
+					decimal-font-size="12px" decimal-color="$text"
+					bold></sn-amount>
+			</view>
+			<view class="demo-line" flatten>
+				<sn-amount
+					:value="'-9999.99'"
+					currency="¥"
+					currency-font-size="16px"
+					int-font-size="22px"
+					decimal-font-size="16px"
+					color="$error"
+					bold></sn-amount>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snAmount.upper')" :subtitle="t('snAmount.upperSub')">
+			<view class="demo-line" flatten>
+				<sn-amount :value="12345.67" :to-upper="true" type="primary"></sn-amount>
+			</view>
+			<view class="demo-line" flatten>
+				<sn-amount :value="100000000.00" :to-upper="true"></sn-amount>
+			</view>
+			<view class="demo-line" flatten>
+				<sn-amount :value="'100050000.50'" :to-upper="true"></sn-amount>
+			</view>
+			<view class="demo-line" flatten>
+				<sn-amount :value="'100.05'" :to-upper="true"></sn-amount>
+			</view>
+			<view class="demo-line" flatten>
+				<sn-amount :value="'0.0156'" :decimals="4" :to-upper="true"></sn-amount>
+			</view>
+			<view class="demo-line" flatten>
+				<sn-amount :value="'-12345678901234.56'" :decimals="2" :to-upper="true"></sn-amount>
+			</view>
+			<view class="demo-line" flatten>
+				<sn-amount :value="0" :to-upper="true"></sn-amount>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snAmount.typeColor')" :subtitle="t('snAmount.typeColorSub')">
+			<view class="demo-line" flatten><sn-amount :value="999.99" currency="¥" type="title" bold></sn-amount></view>
+			<view class="demo-line" flatten><sn-amount :value="999.99" currency="¥" type="primary"></sn-amount></view>
+			<view class="demo-line" flatten><sn-amount :value="999.99" currency="¥" type="info"></sn-amount></view>
+			<view class="demo-line" flatten><sn-amount :value="999.99" currency="¥" type="success"></sn-amount></view>
+			<view class="demo-line" flatten><sn-amount :value="negativeAmountSmall" currency="¥" type="warning"></sn-amount></view>
+			<view class="demo-line" flatten><sn-amount :value="negativeAmountSmall" currency="¥" type="error"></sn-amount></view>
+			<view class="demo-line" flatten><sn-amount :value="999.99" currency="¥" type="text-light"></sn-amount></view>
+		</demo-card>
+
+		<demo-card :title="t('snAmount.selectable')" :subtitle="t('snAmount.selectableSub')">
+			<sn-amount :value="'1234567890.12'" currency="¥" selectable font-size="18px" bold type="primary"></sn-amount>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+const negativeAmountLarge = -2345.67
+const negativeAmountSmall = -999.99
+</script>
+
+<style lang="scss">
+.demo-line {
+	margin-bottom: 10px;
+}
+.demo-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+.demo-row-item {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	margin-right: 12px;
+}
+.rule-block {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-bottom: 4px;
+}
+</style>

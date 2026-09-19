@@ -1,16 +1,26 @@
 <template>
-	<sn-page>
-		<sn-topbar title="消息"
-		:backButton="false"></sn-topbar>
-		<sn-empty mode="fail"
-		text="正在开发中"></sn-empty>
-	</sn-page>
+	<view class="sub-page" flatten>
+		<sn-topbar :title="t('tabbarSub3.title')" :back-button="false" :fixed="false" />
+		<view class="sub-empty" flatten>
+			<sn-empty mode="fail" :text="t('tabbarSub3.developing')" />
+		</view>
+	</view>
 </template>
 
-<script setup>
-		
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 </script>
 
-<style>
-		
+<style lang="scss">
+.sub-page {
+	height: 100%;
+}
+
+.sub-empty {
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+}
 </style>

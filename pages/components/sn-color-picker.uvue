@@ -1,0 +1,74 @@
+<template>
+	<sn-page :title="t('snColorPicker.title')" :show-back="true">
+		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
+			<sn-text font-size="$12" color="$primary" flatten>{{ t('snColorPicker.note') }}</sn-text>
+		</sn-alert>
+
+		<demo-card :title="t('snColorPicker.basicTitle')" :subtitle="t('snColorPicker.basicDesc')">
+			<sn-button type="primary" :text="t('snColorPicker.open')" custom-style="flex:1;" @click="openPicker" />
+			<view class="color-result" :style="resultStyle" flatten>
+				<sn-text font-size="$13" color="$text" flatten>{{ t('snColorPicker.confirmed', { v: pickerValue } as UTSJSONObject) }}</sn-text>
+			</view>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snColorPicker.event', { v: eventResult } as UTSJSONObject) }}</sn-text>
+		</demo-card>
+
+		<sn-color-picker ref="pickerRef" v-model="pickerValue" :title="t('snColorPicker.pickerTitle')" :show-alpha="true" :show-presets="true" @open="onOpen" @close="onClose" @confirm="onConfirm" @cancel="onCancel" @change="onPickerChange" />
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { $snui } from '@/uni_modules/sinle-ui/index.uts'
+import type { ComponentPublicInstance } from 'vue'
+
+const { t } = useI18n()
+
+const descColor = computed<string>(() => $snui.theme == 'dark' ? '#CBD5E1' : '#334155')
+const pickerRef = ref<ComponentPublicInstance | null>(null)
+const pickerValue = ref<string>('#F5222D')
+const eventResult = ref<string>(t('snColorPicker.noEvent'))
+
+const resultStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('marginTop', '12px')
+	styles.set('paddingTop', '14px')
+	styles.set('paddingBottom', '14px')
+	styles.set('paddingLeft', '14px')
+	styles.set('paddingRight', '14px')
+	styles.set('borderRadius', '10px')
+	styles.set('backgroundColor', pickerValue.value)
+	return styles
+})
+
+function openPicker(): void {
+	eventResult.value = t('snColorPicker.prepareOpen')
+	pickerRef.value?.$callMethod('open')
+}
+
+function onOpen(): void {
+	eventResult.value = 'open'
+}
+
+function onClose(): void {
+	eventResult.value = 'close'
+}
+
+function onConfirm(value: string): void {
+	eventResult.value = t('snColorPicker.confirm', { v: value } as UTSJSONObject)
+}
+
+function onCancel(): void {
+	eventResult.value = 'cancel'
+}
+
+function onPickerChange(value: string): void {
+	eventResult.value = t('snColorPicker.change', { v: value } as UTSJSONObject)
+}
+</script>
+
+<style lang="scss">
+.color-result {
+	display: flex;
+	flex-direction: column;
+}
+</style>

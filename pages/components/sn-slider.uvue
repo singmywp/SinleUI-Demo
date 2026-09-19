@@ -1,104 +1,176 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Slider 滑动选择"></sn-topbar>
-		<com-card title="基础用法"
-		note="和内置 Slider 组件不同的是，本组件并非使用 Draw Api 绘制。大部分场景下，不会出现大量 Slider 联动的高性能需求，使用多 DOM 布局以更好满足用户个性化需求。支持双向 Slider。">
-			<sn-slider v-model="v1"></sn-slider>
-			<sn-slider-double class="m-t-10"
-			v-model="d1"></sn-slider-double>
-		</com-card>
-		<com-card title="滑块大小"
-		note="可以自由设置滑块大小">
-			<sn-slider v-model="v2"
-			thumbSize="16px"></sn-slider>
-			<sn-slider-double v-model="d2"
-			class="m-t-10"
-			thumbSize="20px"
-			thickness="2px"
-			valueTextWidth="50px"
-			thumbBorder="1px solid #ededed">
-			</sn-slider-double>
-		</com-card>
-		<com-card title="厚度"
-		note="调节 Slider 的显示厚度，可以更小，也可更大">
-			<sn-slider v-model="v3"
-			thickness="15px"
-			padding="3px"></sn-slider>
-			<sn-slider-double v-model="d3"
-			class="m-t-10"
-			thickness="15px"
-			padding="3px"
-			valueTextWidth="50px"></sn-slider-double>
-		</com-card>
-		<com-card title="显示值"
-		note="可以显示当前数值文本">
-			<sn-slider v-model="v4"
-			showValueText></sn-slider>
-			<sn-slider-double v-model="d4"
-			class="m-t-10"
-			showValueText
-			valueTextWidth="50px"></sn-slider-double>
-		</com-card>
-		<com-card title="极值和步长"
-		note="可以自由设置最大值、最小值、步长。支持自动检查初始数据并纠错。">
-			<sn-text class="m-b-10"
-			:text="`最小值：10\n最大值：60\n步长：5\n当前值：${v5}`"></sn-text>
-			<sn-slider v-model="v5"
-			:min="10"
-			:max="60"
-			:step="5"></sn-slider>
-			<sn-slider-double class="m-t-10"
-			v-model="d6"
-			:min="10"
-			:max="60"
-			:step="5"></sn-slider-double>
-		</com-card>
-		<com-card title="竖向"
-		note="支持设置竖向显示">
-			<sn-row class="h-250">
-				<sn-slider v-model="v6"
-				vertical></sn-slider>
-				<sn-slider class="m-r-50"
-				v-model="v6"
-				vertical
-				showValueText>
-				</sn-slider>
-				<sn-slider-double v-model="d5"
-				vertical></sn-slider-double>
-				<sn-slider-double v-model="d5"
-				vertical
-				showValueText
-				valueTextWidth="60px"></sn-slider-double>
-			</sn-row>
-		</com-card>
-		<com-card title="禁用"
-		note="支持设置禁用">
-			<sn-slider v-model="v3"
-			disabled></sn-slider>
-			<sn-slider-double v-model="d3"
-			class="m-t-10"
-			disabled
-			valueTextWidth="50px"></sn-slider-double>
-		</com-card>
-		<sn-gap height="50px"></sn-gap>
+	<sn-page :title="t('snSlider.title')" :show-back="true">
+		<demo-card :title="t('snSlider.demoBasicTitle')" :subtitle="t('snSlider.demoBasicSub')">
+			<view class="demo-block" flatten>
+				<sn-slider v-model="v1" />
+				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.currentValue', { val: v1 } as UTSJSONObject) }}</sn-text>
+			</view>
+			<view class="demo-block" flatten>
+				<sn-slider-double v-model="d1" />
+				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.currentRange', { val: d1Text } as UTSJSONObject) }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snSlider.demoTrackTitle')" :subtitle="t('snSlider.demoTrackSub')">
+			<view class="demo-block" flatten>
+				<sn-slider v-model="v2" thumb-size="18px" thickness="4px" thumb-style="box-shadow:0 0px 6px rgba(0,0,0,0.5);" />
+				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.thinRowTip', { val: v2 } as UTSJSONObject) }}</sn-text>
+			</view>
+			<view class="demo-block" flatten>
+				<sn-slider-double v-model="d2" thumb-size="16px" thickness="24px" thumb-border="2px solid #ffffff" />
+				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.thickRowTip', { val: d2Text } as UTSJSONObject) }}</sn-text>
+			</view>
+			<view class="demo-block" flatten>
+				<sn-slider v-model="v3" thumb-size="14px" thickness="6px" border-radius="2px" thumb-border-radius="4px"
+					thumb-style="box-shadow:0 0px 6px rgba(0,0,0,0.5);" />
+				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.rightTrackTip', { val: v3 } as UTSJSONObject) }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snSlider.demoRangeTitle')" :subtitle="t('snSlider.demoRangeSub')">
+			<view class="demo-block" flatten>
+				<sn-slider v-model="v4" :min="10" :max="60" :step="5" />
+				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.rangeStepTip1', { val: v4 } as UTSJSONObject) }}</sn-text>
+			</view>
+			<view class="demo-block" flatten>
+				<sn-slider-double v-model="d3" :min="0" :max="1000" :step="100" />
+				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.rangeStepTip2', { val: d3Text } as UTSJSONObject) }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snSlider.demoValueTitle')" :subtitle="t('snSlider.demoValueSub')">
+			<view class="demo-block" flatten>
+				<sn-slider v-model="v1" show-value-text />
+			</view>
+			<view class="demo-block" flatten>
+				<sn-slider-double v-model="d1" show-value-text value-text-width="70px" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snSlider.demoColorTitle')" :subtitle="t('snSlider.demoColorSub')">
+			<view class="demo-block" flatten>
+				<sn-slider v-model="v5" active-color="$success" />
+				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.successColorTip') }}</sn-text>
+			</view>
+			<view class="demo-block" flatten>
+				<sn-slider-double v-model="d4" active-color="#ff6600" inactive-color="$disabled" />
+				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.orangeRangeTip') }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snSlider.demoVerticalTitle')" :subtitle="t('snSlider.demoVerticalSub')">
+			<view class="demo-row" flatten>
+				<view class="demo-v-item" flatten>
+					<sn-slider v-model="v6" vertical />
+					<sn-text flatten text-class="demo-label" font-size="$12" color="$textLight">{{ v6 }}</sn-text>
+				</view>
+				<view class="demo-v-item" flatten>
+					<sn-slider v-model="v6" vertical show-value-text />
+				</view>
+				<view class="demo-v-item" flatten>
+					<sn-slider-double v-model="d5" vertical />
+					<sn-text flatten text-class="demo-label" font-size="$12" color="$textLight">{{ d5Text }}</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snSlider.demoDisabledTitle')" :subtitle="t('snSlider.demoDisabledSub')">
+			<view class="demo-block" flatten>
+				<sn-slider v-model="v2" disabled />
+			</view>
+			<view class="demo-block" flatten>
+				<sn-slider-double v-model="d2" disabled show-value-text value-text-width="70px" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snSlider.demoEventTitle')" :subtitle="t('snSlider.demoEventSub')">
+			<view class="demo-block" style="margin-bottom: 12px" flatten>
+				<sn-slider v-model="vEvent" @change="onSliderChange" />
+			</view>
+			<view class="demo-block" style="margin-bottom: 12px" flatten>
+				<sn-slider-double v-model="dEvent" @change="onDoubleChange" />
+			</view>
+			<sn-text flatten font-size="$13" color="$primary">{{ changeLog }}</sn-text>
+		</demo-card>
+
+		<demo-card :title="t('snSlider.demoSceneTitle')" :subtitle="t('snSlider.demoSceneSub')">
+			<view class="demo-block" flatten>
+				<view class="scene-row" flatten>
+					<sn-icon name="volume-down-line" :size="18" color="$textLight" />
+					<sn-slider v-model="volume" custom-style="flex:1;margin:0 10px;" />
+					<sn-icon name="volume-up-line" :size="18" color="$textLight" />
+				</view>
+				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.volumeTip', { val: volume } as UTSJSONObject) }}</sn-text>
+			</view>
+			<view class="demo-block" flatten>
+				<sn-slider-double v-model="priceRange" :min="0" :max="5000" :step="100" />
+				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.priceRangeTip', { val: priceText } as UTSJSONObject) }}</sn-text>
+			</view>
+		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
-	const v1 = ref(70)
-	const v2 = ref(50)
-	const v3 = ref(20)
-	const v4 = ref(20)
-	const v5 = ref(20)
-	const v6 = ref(20)
-	const d1 = ref([20, 40] as number[])
-	const d2 = ref([20, 40] as number[])
-	const d3 = ref([20, 40] as number[])
-	const d4 = ref([20, 40] as number[])
-	const d5 = ref([20, 40] as number[])
-	const d6 = ref([20, 40] as number[])
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+const v1 = ref<number>(70)
+const v2 = ref<number>(50)
+const v3 = ref<number>(20)
+const v4 = ref<number>(28)
+const v5 = ref<number>(60)
+const v6 = ref<number>(40)
+const vEvent = ref<number>(30)
+const d1 = ref<number[]>([20, 40])
+const d2 = ref<number[]>([20, 40])
+const d3 = ref<number[]>([200, 800])
+const d4 = ref<number[]>([30, 70])
+const d5 = ref<number[]>([20, 40])
+const dEvent = ref<number[]>([30, 70])
+const volume = ref<number>(60)
+const priceRange = ref<number[]>([800, 3000])
+const changeLog = ref<string>(t('snSlider.changeLogInit'))
+
+const d1Text = computed<string>(() => `${d1.value[0]} - ${d1.value[1]}`)
+const d2Text = computed<string>(() => `${d2.value[0]} - ${d2.value[1]}`)
+const d3Text = computed<string>(() => `${d3.value[0]} - ${d3.value[1]}`)
+const d5Text = computed<string>(() => `${d5.value[0]} - ${d5.value[1]}`)
+const priceText = computed<string>(() => `${priceRange.value[0]} - ${priceRange.value[1]}`)
+
+function onSliderChange(v: number): void {
+	changeLog.value = `slider change: ${v}`
+}
+
+function onDoubleChange(v: number[]): void {
+	changeLog.value = `double change: ${v[0]} - ${v[1]}`
+}
 </script>
 
-<style>
-		
+<style lang="scss">
+.demo-block {
+	flex-direction: column;
+	overflow: visible;
+	margin-bottom: 14px;
+}
+.demo-tip {
+	margin-top: 6px;
+}
+.demo-row {
+	flex-direction: row;
+	align-items: flex-start;
+}
+.demo-v-item {
+	flex-direction: column;
+	align-items: center;
+	height: 220px;
+	margin-right: 28px;
+}
+.demo-label {
+	margin-top: 6px;
+}
+.scene-row {
+	flex-direction: row;
+	align-items: center;
+}
 </style>

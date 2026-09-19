@@ -1,43 +1,128 @@
 <template>
-	<sn-page padding="0"
-	:scroll-on="false">
-		<sn-tabbar :data="data"
-		:border="`1px solid ${colors.line}`">
-			<template #1>
-				<Home></Home>
+	<sn-page :show-back="false" fill-content>
+		<sn-topbar :fixed="true" :status-bar="true"
+			:back-button="false" :features="topbarFeatures" :menu-data="menuData"
+			@featureclick="onFeatureClick" @menuselect="onMenuSelect">
+			<template #default>
+				<sn-text bold font-size="$20" :color="titleColor" flatten>SinleUI</sn-text>
 			</template>
-			<template #2>
-				<Templates></Templates>
-			</template>
-		</sn-tabbar>
+		</sn-topbar>
+
+		<view class="page-slot">
+			<components-page v-if="tabbarIndex == 1" />
+			<api-page v-else-if="tabbarIndex == 2" />
+			<template-page v-else />
+		</view>
+		<view class="tabbar-safe" :style="tabbarSafeStyle" flatten></view>
+		<sn-tabbar v-model:height="tabbarHeight" :data="tabbarData" :index="tabbarIndex" :bg-color="tabbarBg"
+			@change="onTabbarChange" />
 	</sn-page>
 </template>
 
-<script setup>
-	import { $snui, SnTabbarItem } from '@/uni_modules/sinle-ui'
-	import Home from './home.uvue'
-	import Templates from './templates.uvue'
-	
-	const colors = $snui.colors
-	
-	const data = [
-		{
-			icon: 'home-5-line',
-			text: '首页',
-			activeIcon: 'home-5-fill'
-		},
-		{
-			icon: 'community-line',
-			text: '模板',
-			activeIcon: 'community-fill',
-		}
-	] as SnTabbarItem[]
-	
-	
+<script lang="uts" setup>
+import { useI18n } from 'vue-i18n'
+import { $snui, useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import type { SnDataItem, SnTabbarItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import ComponentsPage from '@/pages/components/components.uvue'
+import ApiPage from '@/pages/api/API.uvue'
+import TemplatePage from '@/pages/template/template.uvue'
+
+const { t } = useI18n()
+const { isDark } = useTheme()
+
+const tabbarData = computed<SnTabbarItem[]>(() => [
+	{
+		icon: 'shapes-line',
+		text: t('index.tab.components'),
+		activeIcon: 'shapes-fill'
+	},
+	{
+		icon: 'code-s-slash-line',
+		text: t('index.tab.api'),
+		activeIcon: 'code-s-slash-fill'
+	},
+	{
+		icon: 'layout-line',
+		text: t('index.tab.template'),
+		activeIcon: 'layout-fill'
+	}
+])
+
+const topbarFeatures: SnDataItem[] = [
+	{ id:'settings', icon: 'settings-line' }
+]
+
+const menuData = computed<SnDataItem[]>(() => [
+	{ id: 'about-framework', icon: 'information-line', text: t('index.menu.aboutFramework') },
+	{ id: 'about-app', icon: 'apps-line', text: t('index.menu.aboutApp') },
+	{ id: 'document', icon: 'book-2-line', text: t('index.menu.document') },
+	{ id: 'uniappx', icon: 'user-2-line', text: t('index.menu.uniappx') },
+	{ id: 'ui', icon: 'quill-pen-line', text: t('index.menu.ui') }
+])
+
+const tabbarHeight = ref<string>('0px')
+const tabbarIndex = ref<number>(1)
+
+const tabbarHeightStr = computed<string>(() => {
+	const n = parseInt(tabbarHeight.value)
+	if (!isNaN(n)) {
+		return n.toString()
+	}
+	return '0'
+})
+
+const tabbarSafeStyle = computed<string>(() => {
+	return `height:${tabbarHeightStr.value}px;`
+})
+
+const titleColor = computed<string>(() => isDark.value ? '#FFFFFF' : '#1E293B')
+
+const tabbarBg = computed<string>(() => $snui.colors.front)
+
+function goTo(url: string): void {
+	uni.navigateTo({
+		url: url
+	})
+}
+
+function onFeatureClick(item: SnDataItem, index: number): void {
+	if (item.id == 'settings') {
+		goTo('/pages/other/settings')
+	}
+}
+
+function onMenuSelect(item: SnDataItem, _index: number): void {
+	let url = ''
+	if (item.id == 'about-framework') {
+		url = '/pages/other/about'
+	} else if (item.id == 'about-app') {
+		url = '/pages/other/about-app'
+	} else if (item.id == 'document') {
+		url = '/pages/other/webview?title=' + encodeURI(t('index.docTitle')) + '&url=' + encodeURI('https://sinleui.pages.dev/')
+	} else if (item.id == 'uniappx') {
+		url = '/pages/other/webview?title=' + encodeURI(t('index.uniappxDocTitle')) + '&url=' + encodeURI('https://doc.dcloud.net.cn/uni-app-x/')
+	} else if (item.id == 'ui') {
+		url = '/pages/other/ui'
+	}
+	if (url != '') {
+		goTo(url)
+	}
+}
+
+function onTabbarChange(index: number): void {
+	tabbarIndex.value = index
+}
 </script>
 
+
 <style lang="scss">
-	.com-item {
-		padding: 10px 0;
-	}
+.tabbar-safe {
+	flex-shrink: 0;
+}
+
+.page-slot {
+	flex: 1;
+	min-height: 0px;
+	flex-direction: column;
+}
 </style>

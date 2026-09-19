@@ -1,0 +1,101 @@
+<template>
+	<sn-page :title="t('aboutApp.title')" :show-back="true">
+		<view class="page-content" flatten>
+			<view class="center-area" flatten>
+				<sn-avatar mode="text" text="S" size="$72" bg-color="$primary" text-color="$primaryText" shape="circle" />
+				<sn-text bold font-size="$24" color="$title" custom-style="margin-top:14px;" flatten>SinleUI</sn-text>
+				<sn-text font-size="$13" type="info" custom-style="margin-top:6px;" flatten>{{ t('aboutApp.demoDesc') }}</sn-text>
+			</view>
+
+			<sn-view custom-style="border-radius:16px;overflow:hidden;">
+				<sn-cell icon="file-text-line" :title="t('aboutApp.appVersion')" :value="`v${version}`" clickable :border="true" @click="onVersionClick" />
+				<sn-cell icon="code-s-slash-line" :title="t('aboutApp.compileVersion')" :value="`HBuilder X ${compilerVersion}`" :border="false" />
+			</sn-view>
+
+			<sn-view custom-style="border-radius:16px;overflow:hidden;margin-top:12px;">
+				<sn-cell icon="chat-1-line" :title="t('aboutApp.feedback')" :right-icon="rightIconName" clickable :border="true" @click="joinQQGroup" />
+				<sn-cell icon="global-line" :title="t('aboutApp.website')" :right-icon="rightIconName" clickable :border="false" @click="website" />
+			</sn-view>
+
+			<view class="bottom-area" flatten>
+				<sn-text font-size="$11" type="text-light" text="Copyright ©2023-present Singmy" flatten />
+			</view>
+		</view>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import { useI18n } from 'vue-i18n'
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+
+const version = ref<string>('')
+const compilerVersion = ref<string>('')
+
+const rightIconName = 'arrow-right-s-line'
+
+function onVersionClick(): void {
+	snu.showToast({ text: t('aboutApp.currentVersion', { version: version.value } as UTSJSONObject) })
+}
+
+function joinQQGroup(): void {
+	// #ifdef APP-ANDROID
+	snu.openLink('mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26jump_from%3Dwebapi%26k%3Dk-lW1BIDpMjxCkApqaYWvy7qTGicsBbm')
+	// #endif
+	// #ifdef WEB
+	snu.openLink('https://qm.qq.com/cgi-bin/qm/qr?k=KsbLR9q_Fh-hfvJ0qu52vhJNYpjAiJYu&jump_from=webapi')
+	// #endif
+}
+
+function website(): void {
+	let actions = [
+		{
+			text: 'singmywp.github.io'
+		},
+		{
+			text: 'sinleui.pages.dev'
+		}
+	] as SnDataItem[]
+	snu.showActionsheet({
+		actions,
+		success: (tapIndex: number): void => {
+			const item = actions[tapIndex]
+			uni.navigateTo({
+				url: `/pages/other/webview?title=${encodeURI('SinleUI')}&url=${encodeURI('https://' + item.text)}`
+			})
+		}
+	})
+}
+
+onLoad((): void => {
+	try {
+		const info = uni.getAppBaseInfo() as unknown as UTSJSONObject
+		compilerVersion.value = `${(info['uniCompilerVersionCode'] as number) ?? ''}`
+		version.value = (info['appVersion'] as string) ?? ''
+	} catch (e) {
+		version.value = ''
+		compilerVersion.value = ''
+	}
+})
+</script>
+
+<style lang="scss">
+.page-content {
+	flex-direction: column;
+	padding: 16px 16px 32px 16px;
+}
+
+.center-area {
+	align-items: center;
+	justify-content: center;
+	margin: 30px 0 36px 0;
+}
+
+.bottom-area {
+	align-items: center;
+	justify-content: center;
+	margin-top: 32px;
+}
+</style>
