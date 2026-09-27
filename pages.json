@@ -846,6 +846,12 @@
 			}
 		},
 		{
+			"path": "pages/components/sn-scan__half",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/api/show-loading",
 			"style": {
 				"navigationBarTitleText": "Loading 全局加载中"

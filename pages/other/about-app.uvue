@@ -2,7 +2,7 @@
 	<sn-page :title="t('aboutApp.title')" :show-back="true">
 		<view class="page-content" flatten>
 			<view class="center-area" flatten>
-				<sn-avatar mode="text" text="S" size="$72" bg-color="$primary" text-color="$primaryText" shape="circle" />
+				<image class="app-logo" src="/static/logo-trans.png" mode="aspectFit" flatten />
 				<sn-text bold font-size="$24" color="$title" custom-style="margin-top:14px;" flatten>SinleUI</sn-text>
 				<sn-text font-size="$13" type="info" custom-style="margin-top:6px;" flatten>{{ t('aboutApp.demoDesc') }}</sn-text>
 			</view>
@@ -91,6 +91,11 @@ onLoad((): void => {
 	align-items: center;
 	justify-content: center;
 	margin: 30px 0 36px 0;
+}
+
+.app-logo {
+	width: 72px;
+	height: 72px;
 }
 
 .bottom-area {

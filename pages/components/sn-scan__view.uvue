@@ -20,6 +20,8 @@
 		:continuous-sleep="(data['continuousSleep'] as number)"
 		:show-album="(data['showAlbum'] as boolean)"
 		:show-back-button="(data['showBackButton'] as boolean)"
+		:show-title="(data['showTitle'] as boolean)"
+		:show-tip="(data['showTip'] as boolean)"
 		:show-ani="(data['showAni'] as boolean)"
 		:enable-zoom="(data['enableZoom'] as boolean)"
 		@goin="goin"></sn-scan>
@@ -53,6 +55,8 @@
 		continuousSleep: 100,
 		showAlbum: true,
 		showBackButton: true,
+		showTitle: true,
+		showTip: true,
 		showAni: true,
 		enableZoom: true
 	})

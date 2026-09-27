@@ -460,10 +460,7 @@ const flipOpenAnim = (overlay: UniElement | null, content: UniElement | null, du
 	}
 	if (content != null) {
 		content.animate(
-			[
-				{ transform: 'rotateX(80deg)' } as UniAnimationKeyframe,
-				{ transform: 'rotateX(0deg)' } as UniAnimationKeyframe
-			],
+			[{ transform: 'rotateX(80deg)' } as UniAnimationKeyframe, { transform: 'rotateX(0deg)' } as UniAnimationKeyframe],
 			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
 		)
 	}
@@ -479,10 +476,7 @@ const flipCloseAnim = (overlay: UniElement | null, content: UniElement | null, d
 	}
 	if (content != null) {
 		content.animate(
-			[
-				{ transform: 'rotateX(0deg)' } as UniAnimationKeyframe,
-				{ transform: 'rotateX(-80deg)' } as UniAnimationKeyframe
-			],
+			[{ transform: 'rotateX(0deg)' } as UniAnimationKeyframe, { transform: 'rotateX(-80deg)' } as UniAnimationKeyframe],
 			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
 		)
 	}
@@ -497,7 +491,6 @@ const slideOpenAnim = (overlay: UniElement | null, content: UniElement | null, d
 		)
 	}
 	if (content != null) {
-		
 		content.animate(
 			[
 				{ transform: 'translateX(-340px)' } as UniAnimationKeyframe,
@@ -519,7 +512,6 @@ const slideCloseAnim = (overlay: UniElement | null, content: UniElement | null, 
 		)
 	}
 	if (content != null) {
-		
 		content.animate(
 			[
 				{ transform: 'translateX(0)' } as UniAnimationKeyframe,

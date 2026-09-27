@@ -291,7 +291,12 @@ onMounted((): void => {
 	flex-direction: column;
 	align-items: flex-start;
 	margin-left: 8px;
+	/* #ifdef APP-HARMONY */
+	max-width: 280px;
+	/* #endif */
+	/* #ifndef APP-HARMONY */
 	max-width: 72%;
+	/* #endif */
 }
 
 .chat-bubble {
@@ -301,13 +306,23 @@ onMounted((): void => {
 }
 
 .chat-bubble--peer {
+	/* #ifdef APP-HARMONY */
+	max-width: 280px;
+	/* #endif */
+	/* #ifndef APP-HARMONY */
 	max-width: 100%;
+	/* #endif */
 	background-color: var(--sn-front);
 	border-bottom-left-radius: 4px;
 }
 
 .chat-bubble--self {
+	/* #ifdef APP-HARMONY */
+	max-width: 280px;
+	/* #endif */
+	/* #ifndef APP-HARMONY */
 	max-width: 72%;
+	/* #endif */
 	background-color: var(--sn-primary);
 	border-bottom-right-radius: 4px;
 	margin-right: 8px;
@@ -322,7 +337,12 @@ onMounted((): void => {
 	background-color: var(--sn-primary);
 	border-bottom-right-radius: 4px;
 	margin-left: 8px;
+	/* #ifdef APP-HARMONY */
+	max-width: 280px;
+	/* #endif */
+	/* #ifndef APP-HARMONY */
 	max-width: 72%;
+	/* #endif */
 }
 
 .chat-input-bar {

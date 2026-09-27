@@ -40,6 +40,12 @@
 				<sn-form-field :label="t('snScan.backBtn')">
 					<sn-switch v-model="(configs['showBackButton'] as boolean)"></sn-switch>
 				</sn-form-field>
+				<sn-form-field :label="t('snScan.showTitle')">
+					<sn-switch v-model="(configs['showTitle'] as boolean)"></sn-switch>
+				</sn-form-field>
+				<sn-form-field :label="t('snScan.showTip')">
+					<sn-switch v-model="(configs['showTip'] as boolean)"></sn-switch>
+				</sn-form-field>
 				<sn-form-field :label="t('snScan.zoom')">
 					<sn-switch v-model="(configs['enableZoom'] as boolean)"></sn-switch>
 				</sn-form-field>
@@ -93,6 +99,11 @@
 				level="second"
 				type="primary"
 				@click="scan()"></sn-button>
+			<sn-button custom-style="margin-top:10px;"
+				:text="t('snScan.halfBtn')"
+				level="least"
+				type="primary"
+				@click="scanHalf()"></sn-button>
 		</demo-card>
 	</sn-page>
 </template>
@@ -109,6 +120,8 @@
 		showTorch: true,
 		showAlbum: true,
 		showBackButton: true,
+		showTitle: true,
+		showTip: true,
 		showAni: true,
 		enableZoom: true,
 		title: t('snScan.configsTitle'),
@@ -173,6 +186,8 @@
 			showTorch: configs.value['showTorch'] as boolean,
 			showAlbum: configs.value['showAlbum'] as boolean,
 			showBackButton: configs.value['showBackButton'] as boolean,
+			showTitle: configs.value['showTitle'] as boolean,
+			showTip: configs.value['showTip'] as boolean,
 			showAni: configs.value['showAni'] as boolean,
 			enableZoom: configs.value['enableZoom'] as boolean,
 			initZoomScale: configs.value['initZoomScale'] as number,
@@ -187,6 +202,19 @@
 
 	function buttonClicked(item: SnDataItem, index: number) {
 		if (item.id == 'run') scan()
+	}
+
+	function scanHalf() {
+		const sys = uni.getSystemInfoSync()
+		if (sys.uniPlatform != 'app' || sys.osName != 'android') {
+			snu.showSysToast({
+				title: t('snScan.onlyAndroid')
+			})
+			return
+		}
+		uni.navigateTo({
+			url: '/pages/components/sn-scan__half'
+		})
 	}
 </script>
 

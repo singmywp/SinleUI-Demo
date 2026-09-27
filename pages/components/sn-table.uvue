@@ -4,14 +4,14 @@
 		<demo-card :title="t('snTable.demoBasicTitle')" :subtitle="t('snTable.demoBasicSub')">
 			<sn-table>
 				<sn-tr :custom-style="headerStyle">
-					<sn-td flatten><text flatten class="td-head">ID</text></sn-td>
-					<sn-td flatten><text flatten class="td-head">{{ t('snTable.headName') }}</text></sn-td>
-					<sn-td flatten><text flatten class="td-head">{{ t('snTable.headCity') }}</text></sn-td>
+					<sn-td><text class="td-head">ID</text></sn-td>
+					<sn-td><text class="td-head">{{ t('snTable.headName') }}</text></sn-td>
+					<sn-td><text class="td-head">{{ t('snTable.headCity') }}</text></sn-td>
 				</sn-tr>
-				<sn-tr v-for="item in basicRows" :key="item.id" flatten>
-					<sn-td flatten><text flatten class="td-text">{{ item.id }}</text></sn-td>
-					<sn-td flatten><text flatten class="td-text">{{ item.name }}</text></sn-td>
-					<sn-td flatten><text flatten class="td-text">{{ item.city }}</text></sn-td>
+				<sn-tr v-for="item in basicRows" :key="item.id">
+					<sn-td><text class="td-text">{{ item.id }}</text></sn-td>
+					<sn-td><text class="td-text">{{ item.name }}</text></sn-td>
+					<sn-td><text class="td-text">{{ item.city }}</text></sn-td>
 				</sn-tr>
 			</sn-table>
 		</demo-card>
@@ -19,14 +19,14 @@
 		<demo-card :title="t('snTable.demoBorderTitle')" :subtitle="t('snTable.demoBorderSub')">
 			<sn-table bordered border-color="$lineText">
 				<sn-tr :custom-style="headerStyle">
-					<sn-td flatten><text flatten class="td-head">ID</text></sn-td>
-					<sn-td flatten><text flatten class="td-head">{{ t('snTable.headName') }}</text></sn-td>
-					<sn-td flatten><text flatten class="td-head">{{ t('snTable.headCity') }}</text></sn-td>
+					<sn-td><text class="td-head">ID</text></sn-td>
+					<sn-td><text class="td-head">{{ t('snTable.headName') }}</text></sn-td>
+					<sn-td><text class="td-head">{{ t('snTable.headCity') }}</text></sn-td>
 				</sn-tr>
-				<sn-tr v-for="item in basicRows" :key="item.id" flatten>
-					<sn-td flatten><text flatten class="td-text">{{ item.id }}</text></sn-td>
-					<sn-td flatten><text flatten class="td-text">{{ item.name }}</text></sn-td>
-					<sn-td flatten><text flatten class="td-text">{{ item.city }}</text></sn-td>
+				<sn-tr v-for="item in basicRows" :key="item.id">
+					<sn-td><text class="td-text">{{ item.id }}</text></sn-td>
+					<sn-td><text class="td-text">{{ item.name }}</text></sn-td>
+					<sn-td><text class="td-text">{{ item.city }}</text></sn-td>
 				</sn-tr>
 			</sn-table>
 		</demo-card>
@@ -34,29 +34,29 @@
 		<demo-card :title="t('snTable.demoUnderlineTitle')" :subtitle="t('snTable.demoUnderlineSub')">
 			<sn-table underline>
 				<sn-tr :custom-style="headerStyle">
-					<sn-td flatten><text flatten class="td-head">ID</text></sn-td>
-					<sn-td flatten><text flatten class="td-head">{{ t('snTable.headName') }}</text></sn-td>
-					<sn-td flatten><text flatten class="td-head">{{ t('snTable.headCity') }}</text></sn-td>
+					<sn-td><text class="td-head">ID</text></sn-td>
+					<sn-td><text class="td-head">{{ t('snTable.headName') }}</text></sn-td>
+					<sn-td><text class="td-head">{{ t('snTable.headCity') }}</text></sn-td>
 				</sn-tr>
-				<sn-tr v-for="item in basicRows" :key="item.id" flatten>
-					<sn-td flatten><text flatten class="td-text">{{ item.id }}</text></sn-td>
-					<sn-td flatten><text flatten class="td-text">{{ item.name }}</text></sn-td>
-					<sn-td flatten><text flatten class="td-text">{{ item.city }}</text></sn-td>
+				<sn-tr v-for="item in basicRows" :key="item.id">
+					<sn-td><text class="td-text">{{ item.id }}</text></sn-td>
+					<sn-td><text class="td-text">{{ item.name }}</text></sn-td>
+					<sn-td><text class="td-text">{{ item.city }}</text></sn-td>
 				</sn-tr>
 			</sn-table>
 		</demo-card>
 
 		<demo-card :title="t('snTable.demoStripeTitle')" :subtitle="t('snTable.demoStripeSub')">
 			<sn-table>
-				<sn-tr flatten>
-					<sn-td flatten><text flatten class="td-head">ID</text></sn-td>
-					<sn-td flatten><text flatten class="td-head">{{ t('snTable.headName') }}</text></sn-td>
-					<sn-td flatten><text flatten class="td-head">{{ t('snTable.headCity') }}</text></sn-td>
+				<sn-tr>
+					<sn-td><text class="td-head">ID</text></sn-td>
+					<sn-td><text class="td-head">{{ t('snTable.headName') }}</text></sn-td>
+					<sn-td><text class="td-head">{{ t('snTable.headCity') }}</text></sn-td>
 				</sn-tr>
-				<sn-tr v-for="(item, index) in stripeRows" :key="item.id" flatten :custom-style="getStripeStyle(index)">
-					<sn-td flatten><text flatten class="td-text">{{ item.id }}</text></sn-td>
-					<sn-td flatten><text flatten class="td-text">{{ item.name }}</text></sn-td>
-					<sn-td flatten><text flatten class="td-text">{{ item.city }}</text></sn-td>
+				<sn-tr v-for="(item, index) in stripeRows" :key="item.id" :custom-style="getStripeStyle(index)">
+					<sn-td><text class="td-text">{{ item.id }}</text></sn-td>
+					<sn-td><text class="td-text">{{ item.name }}</text></sn-td>
+					<sn-td><text class="td-text">{{ item.city }}</text></sn-td>
 				</sn-tr>
 			</sn-table>
 		</demo-card>
@@ -64,26 +64,26 @@
 		<demo-card :title="t('snTable.demoWidthTitle')" :subtitle="t('snTable.demoWidthSub')">
 			<sn-table underline>
 				<sn-tr :custom-style="headerStyle">
-					<sn-td flatten width="2"><text flatten class="td-head">ID</text></sn-td>
-					<sn-td flatten width="2"><text flatten class="td-head">{{ t('snTable.headName') }}</text></sn-td>
-					<sn-td flatten width="3"><text flatten class="td-head">{{ t('snTable.headCity') }}</text></sn-td>
+					<sn-td width="2"><text class="td-head">ID</text></sn-td>
+					<sn-td width="2"><text class="td-head">{{ t('snTable.headName') }}</text></sn-td>
+					<sn-td width="3"><text class="td-head">{{ t('snTable.headCity') }}</text></sn-td>
 				</sn-tr>
-				<sn-tr flatten>
-					<sn-td flatten width="2"><text flatten class="td-text">1001</text></sn-td>
-					<sn-td flatten width="2"><text flatten class="td-text">{{ t('snTable.wangXiaoming') }}</text></sn-td>
-					<sn-td flatten width="3"><text flatten class="td-text">{{ t('snTable.shanghai') }}</text></sn-td>
+				<sn-tr>
+					<sn-td width="2"><text class="td-text">1001</text></sn-td>
+					<sn-td width="2"><text class="td-text">{{ t('snTable.wangXiaoming') }}</text></sn-td>
+					<sn-td width="3"><text class="td-text">{{ t('snTable.shanghai') }}</text></sn-td>
 				</sn-tr>
 			</sn-table>
 			<sn-table underline custom-style="margin-top:16px;">
 				<sn-tr :custom-style="headerStyle">
-					<sn-td flatten width="90px"><text flatten class="td-head">ID</text></sn-td>
-					<sn-td flatten width="110px"><text flatten class="td-head">{{ t('snTable.headName') }}</text></sn-td>
-					<sn-td flatten width="2"><text flatten class="td-head">{{ t('snTable.headCity') }}</text></sn-td>
+					<sn-td width="90px"><text class="td-head">ID</text></sn-td>
+					<sn-td width="110px"><text class="td-head">{{ t('snTable.headName') }}</text></sn-td>
+					<sn-td width="2"><text class="td-head">{{ t('snTable.headCity') }}</text></sn-td>
 				</sn-tr>
-				<sn-tr flatten>
-					<sn-td flatten width="90px"><text flatten class="td-text">1001</text></sn-td>
-					<sn-td flatten width="110px"><text flatten class="td-text">{{ t('snTable.wangXiaoming') }}</text></sn-td>
-					<sn-td flatten width="2"><text flatten class="td-text">{{ t('snTable.addr2') }}</text></sn-td>
+				<sn-tr>
+					<sn-td width="90px"><text class="td-text">1001</text></sn-td>
+					<sn-td width="110px"><text class="td-text">{{ t('snTable.wangXiaoming') }}</text></sn-td>
+					<sn-td width="2"><text class="td-text">{{ t('snTable.addr2') }}</text></sn-td>
 				</sn-tr>
 			</sn-table>
 		</demo-card>
@@ -92,15 +92,15 @@
 			<sn-table height="240px" @scrolltolower="onLoadMore">
 				<template #head>
 					<sn-tr :custom-style="headerStyle">
-						<sn-td flatten width="1"><text flatten class="td-head">{{ t('snTable.headEmpId') }}</text></sn-td>
-						<sn-td flatten width="2"><text flatten class="td-head">{{ t('snTable.headEmpName') }}</text></sn-td>
-						<sn-td flatten width="2"><text flatten class="td-head">{{ t('snTable.headDept') }}</text></sn-td>
+						<sn-td width="1"><text class="td-head">{{ t('snTable.headEmpId') }}</text></sn-td>
+						<sn-td width="2"><text class="td-head">{{ t('snTable.headEmpName') }}</text></sn-td>
+						<sn-td width="2"><text class="td-head">{{ t('snTable.headDept') }}</text></sn-td>
 					</sn-tr>
 				</template>
-				<sn-tr v-for="item in employees" :key="item.id" flatten>
-					<sn-td flatten width="1"><text flatten class="td-text">{{ item.id }}</text></sn-td>
-					<sn-td flatten width="2"><text flatten class="td-text">{{ item.name }}</text></sn-td>
-					<sn-td flatten width="2"><text flatten class="td-text">{{ item.dept }}</text></sn-td>
+				<sn-tr v-for="item in employees" :key="item.id">
+					<sn-td width="1"><text class="td-text">{{ item.id }}</text></sn-td>
+					<sn-td width="2"><text class="td-text">{{ item.name }}</text></sn-td>
+					<sn-td width="2"><text class="td-text">{{ item.dept }}</text></sn-td>
 				</sn-tr>
 			</sn-table>
 			<sn-text v-if="loadTip != ''" font-size="$12" :color="tipColor" custom-style="margin-top:8px;" flatten>{{ loadTip }}</sn-text>
@@ -110,18 +110,18 @@
 			<sn-table height="240px" underline>
 				<template #head>
 					<sn-tr :custom-style="headerStyle">
-						<sn-td fixed width="90px" :custom-style="headerStyle"><text class="td-head" flatten>ID</text></sn-td>
-						<sn-td width="110px"><text class="td-head" flatten>{{ t('snTable.headDate') }}</text></sn-td>
-						<sn-td width="90px"><text class="td-head" flatten>{{ t('snTable.headName') }}</text></sn-td>
-						<sn-td width="180px"><text class="td-head" flatten>{{ t('snTable.headEmail') }}</text></sn-td>
-						<sn-td width="190px"><text class="td-head" flatten>{{ t('snTable.headAddr') }}</text></sn-td>
-						<sn-td fixed="right" width="90px" :custom-style="headerStyle"><text class="td-head" flatten>{{ t('snTable.headOp') }}</text></sn-td>
+						<sn-td fixed width="90px" :custom-style="headerStyle"><text class="td-head">ID</text></sn-td>
+						<sn-td width="110px"><text class="td-head">{{ t('snTable.headDate') }}</text></sn-td>
+						<sn-td width="90px"><text class="td-head">{{ t('snTable.headName') }}</text></sn-td>
+						<sn-td width="180px"><text class="td-head">{{ t('snTable.headEmail') }}</text></sn-td>
+						<sn-td width="190px"><text class="td-head">{{ t('snTable.headAddr') }}</text></sn-td>
+						<sn-td fixed="right" width="90px" :custom-style="headerStyle"><text class="td-head">{{ t('snTable.headOp') }}</text></sn-td>
 					</sn-tr>
 				</template>
 				<sn-tr v-for="item in orders" :key="item.id">
-					<sn-td fixed width="90px"><text class="td-text" flatten>{{ item.id }}</text></sn-td>
-					<sn-td width="110px"><text class="td-text" flatten>{{ item.date }}</text></sn-td>
-					<sn-td width="90px"><text class="td-text" flatten>{{ item.name }}</text></sn-td>
+					<sn-td fixed width="90px"><text class="td-text">{{ item.id }}</text></sn-td>
+					<sn-td width="110px"><text class="td-text">{{ item.date }}</text></sn-td>
+					<sn-td width="90px"><text class="td-text">{{ item.name }}</text></sn-td>
 					<sn-td width="180px"><text class="td-text">{{ item.email }}</text></sn-td>
 					<sn-td width="190px"><text class="td-text">{{ item.address }}</text></sn-td>
 					<sn-td fixed="right" width="90px">
@@ -139,33 +139,33 @@
 			<sn-table bordered height="280px">
 				<template #head>
 					<sn-tr :custom-style="headerStyle">
-						<sn-td flatten width="90px"><text flatten class="td-head">ID</text></sn-td>
-						<sn-td flatten width="360px">
+						<sn-td width="90px"><text class="td-head">ID</text></sn-td>
+						<sn-td width="360px">
 							<sn-tr>
-								<sn-td flatten width="90px"><text flatten class="td-head">{{ t('snTable.headRecipient') }}</text></sn-td>
-								<sn-td flatten width="270px"><text flatten class="td-head">{{ t('snTable.headShipAddr') }}</text></sn-td>
+								<sn-td width="90px"><text class="td-head">{{ t('snTable.headRecipient') }}</text></sn-td>
+								<sn-td width="270px"><text class="td-head">{{ t('snTable.headShipAddr') }}</text></sn-td>
 							</sn-tr>
 							<sn-tr>
-								<sn-td flatten width="90px"><text flatten class="td-head">{{ t('snTable.headPhone') }}</text></sn-td>
-								<sn-td flatten width="270px"><text flatten class="td-head">{{ t('snTable.headOrderTime') }}</text></sn-td>
+								<sn-td width="90px"><text class="td-head">{{ t('snTable.headPhone') }}</text></sn-td>
+								<sn-td width="270px"><text class="td-head">{{ t('snTable.headOrderTime') }}</text></sn-td>
 							</sn-tr>
 						</sn-td>
-						<sn-td flatten width="90px"><text flatten class="td-head">{{ t('snTable.headAmount') }}</text></sn-td>
+						<sn-td width="90px"><text class="td-head">{{ t('snTable.headAmount') }}</text></sn-td>
 					</sn-tr>
 				</template>
-				<sn-tr v-for="item in parcelRows" :key="item.id" flatten>
-					<sn-td flatten width="90px"><text flatten class="td-text">{{ item.id }}</text></sn-td>
-					<sn-td flatten width="360px">
+				<sn-tr v-for="item in parcelRows" :key="item.id">
+					<sn-td width="90px"><text class="td-text">{{ item.id }}</text></sn-td>
+					<sn-td width="360px">
 						<sn-tr>
-							<sn-td flatten width="90px"><text flatten class="td-text">{{ item.name }}</text></sn-td>
-							<sn-td flatten width="270px"><text flatten class="td-text">{{ item.address }}</text></sn-td>
+								<sn-td width="90px"><text class="td-text">{{ item.name }}</text></sn-td>
+								<sn-td width="270px"><text class="td-text">{{ item.address }}</text></sn-td>
 						</sn-tr>
 						<sn-tr>
-							<sn-td flatten width="90px"><text flatten class="td-text">{{ item.phone }}</text></sn-td>
-							<sn-td flatten width="270px"><text flatten class="td-text">{{ item.time }}</text></sn-td>
+								<sn-td width="90px"><text class="td-text">{{ item.phone }}</text></sn-td>
+								<sn-td width="270px"><text class="td-text">{{ item.time }}</text></sn-td>
 						</sn-tr>
 					</sn-td>
-					<sn-td flatten width="90px"><text flatten class="td-text">{{ item.amount }}</text></sn-td>
+					<sn-td width="90px"><text class="td-text">{{ item.amount }}</text></sn-td>
 				</sn-tr>
 			</sn-table>
 		</demo-card>

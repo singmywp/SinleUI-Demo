@@ -1,15 +1,15 @@
 <template>
 	<view class="demo-card-shell" :style="shellStyle">
 		<view class="demo-card" :style="cardStyle">
-			<view v-if="hasHeader" flatten class="demo-card-header">
+			<view v-if="hasHeader" class="demo-card-header">
 				<slot name="title">
-					<text flatten :style="titleStyle">{{ title }}</text>
+					<text :style="titleStyle">{{ title }}</text>
 				</slot>
 				<slot name="header-extra" />
 			</view>
-			<view v-if="hasSubtitle" flatten class="demo-card-subtitle">
+			<view v-if="hasSubtitle" class="demo-card-subtitle">
 				<slot name="subtitle">
-					<text flatten :style="subtitleStyle">{{ subtitle }}</text>
+					<text :style="subtitleStyle">{{ subtitle }}</text>
 				</slot>
 			</view>
 <view class="demo-card-body" v-if="$slots['default'] != null">

@@ -1,7 +1,23 @@
 <script setup lang="uts">
 	import { i18n } from './i18n.uts'
-	// #ifdef APP-ANDROID || APP-HARMONY
+	// #ifdef WEB
+	import { useTheme } from '@/uni_modules/sinle-ui'
+	// #endif
+	// #ifdef APP
 	let firstBackTime = 0
+	// #endif
+
+	// #ifdef WEB
+	/**
+	 * @description 文档站 DemoPhone 通过 iframe 注入主题切换，逻辑与用户点击主题开关等同
+	 * @param {string} theme - 目标主题，'light' 或 'dark'
+	 * @returns {void}
+	 */
+	const themeCtx = useTheme()
+	const win = window as any
+	win.__snuiSetTheme = (theme: string): void => {
+		themeCtx.setTheme(theme)
+	}
 	// #endif
 
 	onLaunch(() => {

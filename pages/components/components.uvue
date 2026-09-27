@@ -80,7 +80,7 @@
 			</view>
 		</scroll-view>
 
-		<sn-popup ref="popupRef" position="center" ani-time="$normal" @clickoverlay="closeCatPopup">
+		<sn-popup ref="popupRef" position="center" render-mode="v-show" ani-time="$normal" @clickoverlay="closeCatPopup">
 			<view class="cat-popup-shell" :style="popupShellStyle">
 				<view class="cat-popup-glow" :style="popupGlowLayerStyle">
 					<view class="popup-glow-orb" flatten :style="popupGlowOrbStyle"></view>
@@ -474,7 +474,14 @@ function closeCatPopup(): void {
 
 function openCat(idx: number): void {
 	activeCat.value = idx
-	popupRef.value?.$callMethod('open')
+	const popup = popupRef.value
+	if (popup != null) {
+		popup.$callMethod('open')
+		return
+	}
+	nextTick((): void => {
+		popupRef.value?.$callMethod('open')
+	})
 }
 
 function onDesignTouchStart(idx: number): void {
@@ -786,6 +793,9 @@ const popupScrollStyle = computed((): Map<string, any> => {
 	// #ifdef WEB
 	styles.set('maxHeight', '356px')
 	// #endif
+	// #ifndef WEB
+	styles.set('maxHeight', '340px')
+	// #endif
 	return styles
 })
 
@@ -961,7 +971,6 @@ const popupScrollStyle = computed((): Map<string, any> => {
 }
 
 .popup-scroll {
-	flex: 1;
 	flex-direction: column;
 	position: relative;
 	z-index: 1;

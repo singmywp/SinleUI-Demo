@@ -1,0 +1,121 @@
+<template>
+	<sn-page fill-content>
+		<sn-topbar :title="t('snScanHalf.title')"
+			:features="[{ id: 'clear', icon: 'delete-bin-line' } as SnDataItem]"
+			@featureclick="onFeatureClick"></sn-topbar>
+		<view class="sn-scan-half-body">
+			<view class="sn-scan-half-list">
+				<view class="sn-scan-half-head">
+					<sn-text font-size="$13" bold color="$title" :text="t('snScanHalf.listTitle')" flatten></sn-text>
+					<sn-text font-size="$12" color="$textLight" :text="countText" flatten></sn-text>
+				</view>
+				<sn-list-view :list="results" :refresher-enabled="false" :show-scrollbar="false">
+					<template v-slot:default="slotProps">
+						<sn-cell :title="(slotProps.item as string)" icon="qr-scan-line" clickable
+							@click="onResultClick(slotProps.item as string)"></sn-cell>
+					</template>
+				</sn-list-view>
+				<view v-if="results.length == 0" class="sn-scan-half-empty">
+					<sn-text font-size="$13" color="$textLight" :text="t('snScanHalf.empty')" flatten></sn-text>
+				</view>
+			</view>
+			<view class="sn-scan-half-camera">
+				<!-- #ifdef APP-ANDROID -->
+				<sn-scan :continuous="true" :continuous-sleep="200"
+					:show-title="false" :show-tip="false" :show-back-button="false"
+					@scanned="onScanned"></sn-scan>
+				<!-- #endif -->
+				<!-- #ifndef APP-ANDROID -->
+				<view class="sn-scan-half-placeholder">
+					<sn-text font-size="$13" color="$textLight" :text="t('snScan.onlyAndroid')"></sn-text>
+				</view>
+				<!-- #endif -->
+			</view>
+		</view>
+	</sn-page>
+</template>
+
+<script lang="uts" setup>
+	import { snu } from '@/uni_modules/sinle-ui'
+	import { useI18n } from 'vue-i18n'
+	import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+	import type { SnScanResult } from '@/uni_modules/sn-scan-provider'
+
+	const { t } = useI18n()
+
+	const results = ref<string[]>([])
+
+	const countText = computed<string>(() => {
+		return t('snScanHalf.count', { n: results.value.length } as UTSJSONObject)
+	})
+
+	function onScanned(res: SnScanResult): void {
+		for (let i = 0; i < res.data.length; i++) {
+			const value = res.data[i].value
+			if (value != '' && !results.value.includes(value)) {
+				results.value.push(value)
+			}
+		}
+	}
+
+	function onResultClick(value: string): void {
+		snu.showToast({ text: value })
+	}
+
+	function onFeatureClick(item: SnDataItem, index: number): void {
+		if (item.id == 'clear') {
+			results.value = [] as string[]
+			snu.showToast({ text: t('snScanHalf.cleared') })
+		}
+	}
+</script>
+
+<style lang="scss">
+	.sn-scan-half-body {
+		flex: 1;
+		flex-direction: column;
+	}
+
+	.sn-scan-half-list {
+		position: relative;
+		flex: 1;
+		flex-direction: column;
+		background-color: var(--sn-page);
+	}
+
+	.sn-scan-half-head {
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		padding: 10px 16px 10px 16px;
+		background-color: var(--sn-front);
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: var(--sn-line);
+	}
+
+	.sn-scan-half-empty {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.sn-scan-half-camera {
+		flex: 1;
+		flex-direction: column;
+		background-color: #000000;
+	}
+
+	.sn-scan-half-placeholder {
+		flex: 1;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 0px 24px 0px 24px;
+	}
+</style>

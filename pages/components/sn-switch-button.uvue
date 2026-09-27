@@ -75,8 +75,8 @@
 
 		<demo-card :title="t('snSwitchButton.demoPlainTitle')" :subtitle="t('snSwitchButton.demoPlainSub')">
 			<view class="demo-row" flatten>
-				<sn-switch-button v-model="plainValue1" plain :text="t('snSwitchButton.outline')" type="primary"
-					level="least" active-type="primary" active-level="first" />
+				<sn-switch-button v-model="plainValue1" plain :text="t('snSwitchButton.outline')" border-color="$line"
+					text-color="$textLight" active-type="primary" active-level="first" />
 				<sn-switch-button v-model="plainValue2" plain dashed :text="t('snSwitchButton.outline')" type="info"
 					level="least" active-type="success" active-level="least" active-border-color="$success"
 					custom-style="margin-left:12px;" />

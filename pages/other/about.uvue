@@ -2,7 +2,7 @@
 	<sn-page :title="t('about.title')" :show-back="true">
 		<view class="page-content" flatten>
 			<view class="info-area" flatten>
-				<sn-avatar mode="text" text="S" size="$56" bg-color="$primary" text-color="$primaryText" shape="circle" />
+				<image class="app-logo" src="/static/logo-trans.png" mode="aspectFit" flatten />
 				<view class="info-text" flatten>
 					<sn-text bold font-size="$20" color="$title" flatten>SinleUI</sn-text>
 					<sn-text font-size="$13" type="info" custom-style="margin-top:4px;" flatten>{{ t('about.slogan') }}</sn-text>
@@ -62,6 +62,11 @@ const mit = 'Copyright (C) <2023-> <Singmy>\n\nPermission is hereby granted, fre
 	flex: 1;
 	flex-direction: column;
 	margin-left: 14px;
+}
+
+.app-logo {
+	width: 56px;
+	height: 56px;
 }
 
 .font-item {

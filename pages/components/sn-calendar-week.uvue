@@ -2,7 +2,7 @@
 	<sn-page :title="t('snCalendarWeek.title')" :show-back="true">
 		<view class="calendar-week-demo-content" flatten>
 			<demo-card :title="t('snCalendarWeek.basic')" :subtitle="t('snCalendarWeek.basicSub')">
-				<sn-calendar-week v-model="baseValue" @select="onBaseSelect" @change="onBaseChange" @week-change="onWeekChange" />
+				<sn-calendar-week v-model="baseValue" :show-switch="false" @select="onBaseSelect" @change="onBaseChange" @week-change="onWeekChange" />
 				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;" flatten>{{ t('snCalendarWeek.selected', { text: formatDay(baseValue) } as UTSJSONObject) }}</sn-text>
 			</demo-card>
 
@@ -17,22 +17,22 @@
 
 			<demo-card :title="t('snCalendarWeek.weekStartTitle')" :subtitle="t('snCalendarWeek.weekStartSub')">
 				<sn-subsection v-model="weekStartIndex" :data="weekStartOptions" />
-				<sn-calendar-week v-model="weekStartValue" :week-start="weekStart" :week-titles="fullWeekTitles" custom-style="margin-top:10px;" />
+				<sn-calendar-week v-model="weekStartValue" :show-switch="false" :week-start="weekStart" :week-titles="fullWeekTitles" custom-style="margin-top:10px;" />
 				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;" flatten>{{ t('snCalendarWeek.selected', { text: formatDay(weekStartValue) } as UTSJSONObject) }}</sn-text>
 			</demo-card>
 
 			<demo-card :title="t('snCalendarWeek.rangeTitle')" :subtitle="t('snCalendarWeek.rangeSub')">
-				<sn-calendar-week v-model="rangeValue" :min-date="rangeMin" :max-date="rangeMax" :disabled-dates="disabledDates" />
+				<sn-calendar-week v-model="rangeValue" :show-switch="false" :min-date="rangeMin" :max-date="rangeMax" :disabled-dates="disabledDates" />
 				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;" flatten>{{ t('snCalendarWeek.rangeText', { min: formatDay(rangeMin), max: formatDay(rangeMax) } as UTSJSONObject) }}</sn-text>
 			</demo-card>
 
 			<demo-card :title="t('snCalendarWeek.markTitle')" :subtitle="t('snCalendarWeek.markSub')">
-				<sn-calendar-week v-model="markValue" :format="markFormatter" :week-titles="fullWeekTitles" />
+				<sn-calendar-week v-model="markValue" :show-switch="false" :format="markFormatter" :week-titles="fullWeekTitles" />
 				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;" flatten>{{ t('snCalendarWeek.markText') }}</sn-text>
 			</demo-card>
 
 			<demo-card :title="t('snCalendarWeek.customStyleTitle')" :subtitle="t('snCalendarWeek.customStyleSub')">
-				<sn-calendar-week v-model="styleValue" :week-titles="fullWeekTitles"
+				<sn-calendar-week v-model="styleValue" :show-switch="true" :week-titles="fullWeekTitles"
 					custom-style="border-width:1px;border-style:solid;border-color:var(--sn-line);border-radius:12px;"
 					switch-class="calendar-week-demo-switch"
 					day-style="border-radius:999px;"
@@ -40,23 +40,23 @@
 					day-text-style="font-size:18px;" />
 				<sn-text font-size="$12" color="$primary" custom-style="margin-top:6px;" flatten>{{ t('snCalendarWeek.styleDesc1') }}</sn-text>
 
-				<sn-calendar-week v-model="styleSwitchValue" custom-style="margin-top:16px;"
+				<sn-calendar-week v-model="styleSwitchValue" :show-switch="true" custom-style="margin-top:16px;"
 					switch-class="calendar-week-demo-switch-pill"
 					switch-style="padding-left:18px;padding-right:18px;padding-top:14px;padding-bottom:14px;" />
 				<sn-text font-size="$12" color="$primary" custom-style="margin-top:6px;" flatten>{{ t('snCalendarWeek.styleDesc2') }}</sn-text>
 
-				<sn-calendar-week v-model="styleWeeksValue" custom-style="margin-top:16px;" weeks-style="background-color:var(--sn-page);border-radius:10px;" />
+				<sn-calendar-week v-model="styleWeeksValue" :show-switch="false" custom-style="margin-top:16px;" weeks-style="background-color:var(--sn-page);border-radius:10px;" />
 				<sn-text font-size="$12" color="$primary" custom-style="margin-top:6px;" flatten>{{ t('snCalendarWeek.styleDesc3') }}</sn-text>
 
-				<sn-calendar-week v-model="styleDayValue" custom-style="margin-top:16px;"
+				<sn-calendar-week v-model="styleDayValue" :show-switch="false" custom-style="margin-top:16px;"
 					day-class="calendar-week-demo-day-gap"
 					day-title-style="color:var(--sn-warning);font-size:10px;" />
 				<sn-text font-size="$12" color="$primary" custom-style="margin-top:6px;" flatten>{{ t('snCalendarWeek.styleDesc4') }}</sn-text>
 
-				<sn-calendar-week v-model="styleRootValue" custom-style="margin-top:16px;" custom-class="calendar-week-demo-root" />
+				<sn-calendar-week v-model="styleRootValue" :show-switch="false" custom-style="margin-top:16px;" custom-class="calendar-week-demo-root" />
 				<sn-text font-size="$12" color="$primary" custom-style="margin-top:6px;" flatten>{{ t('snCalendarWeek.styleDesc5') }}</sn-text>
 
-				<sn-calendar-week v-model="styleColorValue" custom-style="margin-top:16px;background-color:var(--sn-info);border-radius:10px;"
+				<sn-calendar-week v-model="styleColorValue" :show-switch="true" custom-style="margin-top:16px;background-color:var(--sn-info);border-radius:10px;"
 					switch-icon-color="$text" selected-bg-color="$success" />
 				<sn-text font-size="$12" color="$primary" custom-style="margin-top:6px;" flatten>{{ t('snCalendarWeek.styleDesc6') }}</sn-text>
 			</demo-card>
