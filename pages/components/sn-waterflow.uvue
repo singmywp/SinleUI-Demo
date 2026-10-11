@@ -8,8 +8,8 @@
 					:loadmore-config="loadmoreConfig" backtop @refresh="onRefresh" @loadmore="onLoadmore">
 					<template v-slot:default="slotProps">
 						<view class="flow-card" :style="flowCardStyle(slotProps.item)" flatten>
-							<sn-text font-size="$14" color="$primaryText" bold flatten>{{ flowTitle(slotProps.item) }}</sn-text>
-							<sn-text font-size="$11" color="$primaryText" flatten>{{ flowSubText(slotProps.item) }}</sn-text>
+							<sn-text font-size="$14" color="$primaryText" bold>{{ flowTitle(slotProps.item) }}</sn-text>
+							<sn-text font-size="$11" color="$primaryText">{{ flowSubText(slotProps.item) }}</sn-text>
 						</view>
 					</template>
 				</sn-waterflow>
@@ -51,7 +51,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 		import { useI18n } from 'vue-i18n'
 		import { $snui } from '@/uni_modules/sinle-ui'
 		import type { ComponentPublicInstance } from 'vue'

@@ -1,10 +1,11 @@
 <template>
 	<sn-page :show-back="false" fill-content>
 		<sn-topbar :fixed="true" :status-bar="true"
+			:blur="true" :blur-radius="20" :blur-opacity="0.68"
 			:back-button="false" :features="topbarFeatures" :menu-data="menuData"
 			@featureclick="onFeatureClick" @menuselect="onMenuSelect">
 			<template #default>
-				<sn-text bold font-size="$20" :color="titleColor" flatten>SinleUI</sn-text>
+				<sn-text bold font-size="$20" :color="titleColor">SinleUI</sn-text>
 			</template>
 		</sn-topbar>
 
@@ -13,15 +14,15 @@
 			<api-page v-else-if="tabbarIndex == 2" />
 			<template-page v-else />
 		</view>
-		<view class="tabbar-safe" :style="tabbarSafeStyle" flatten></view>
-		<sn-tabbar v-model:height="tabbarHeight" :data="tabbarData" :index="tabbarIndex" :bg-color="tabbarBg"
-			@change="onTabbarChange" />
+		<sn-tabbar tabbar-key="home" :data="tabbarData" :index="tabbarIndex" fixed
+			:blur="true" :blur-radius="20" :blur-opacity="0.68"
+			:custom-style="tabbarStyleText" @change="onTabbarChange" />
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { $snui, useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
 import type { SnDataItem, SnTabbarItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
 import ComponentsPage from '@/pages/components/components.uvue'
 import ApiPage from '@/pages/api/API.uvue'
@@ -60,24 +61,19 @@ const menuData = computed<SnDataItem[]>(() => [
 	{ id: 'ui', icon: 'quill-pen-line', text: t('index.menu.ui') }
 ])
 
-const tabbarHeight = ref<string>('0px')
 const tabbarIndex = ref<number>(1)
 
-const tabbarHeightStr = computed<string>(() => {
-	const n = parseInt(tabbarHeight.value)
-	if (!isNaN(n)) {
-		return n.toString()
+const bottomSafeNum = computed<number>(() => {
+	try {
+		return uni.getWindowInfo().safeAreaInsets?.bottom ?? 0
+	} catch (e) {
+		return 0
 	}
-	return '0'
 })
 
-const tabbarSafeStyle = computed<string>(() => {
-	return `height:${tabbarHeightStr.value}px;`
-})
+const tabbarStyleText = computed<string>(() => `bottom: ${bottomSafeNum.value}px;`)
 
 const titleColor = computed<string>(() => isDark.value ? '#FFFFFF' : '#1E293B')
-
-const tabbarBg = computed<string>(() => $snui.colors.front)
 
 function goTo(url: string): void {
 	uni.navigateTo({
@@ -116,10 +112,6 @@ function onTabbarChange(index: number): void {
 
 
 <style lang="scss">
-.tabbar-safe {
-	flex-shrink: 0;
-}
-
 .page-slot {
 	flex: 1;
 	min-height: 0px;

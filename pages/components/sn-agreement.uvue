@@ -1,20 +1,19 @@
 <template>
-	<sn-page>
-		<sn-topbar :title="t('snAgreement.title')"></sn-topbar>
+	<sn-page :title="t('snAgreement.title')" :show-back="true">
 
 		<demo-card :title="t('snAgreement.basic')" :subtitle="t('snAgreement.basicSub')">
 			<sn-agreement v-model="agreed" :text="t('snAgreement.basicText')" :links="linkTexts"
 				@change="onChange" @open-link="onOpenLink" />
 			<view class="config-row" flatten>
-				<sn-text :text="t('snAgreement.checkState')" custom-style="width:110px;" flatten />
+				<sn-text :text="t('snAgreement.checkState')" custom-style="width:110px;"/>
 				<sn-text bold :text="agreed ? t('snAgreement.agreed') : t('snAgreement.disagreed')" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snAgreement.changeCount')" custom-style="width:110px;" flatten />
+				<sn-text :text="t('snAgreement.changeCount')" custom-style="width:110px;"/>
 				<sn-text bold :text="`${changeCount}`" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snAgreement.lastLink')" custom-style="width:110px;" flatten />
+				<sn-text :text="t('snAgreement.lastLink')" custom-style="width:110px;"/>
 				<sn-text bold :text="lastLink" />
 			</view>
 		</demo-card>
@@ -25,7 +24,7 @@
 			<sn-agreement v-model="agreedDisabled" disabled :text="t('snAgreement.basicText')" :links="linkTexts"
 				custom-style="margin-top:12px;" @open-link="onOpenLink" />
 			<view class="config-row" flatten>
-				<sn-text :text="t('snAgreement.initState')" custom-style="width:110px;" flatten />
+				<sn-text :text="t('snAgreement.initState')" custom-style="width:110px;"/>
 				<sn-text bold :text="agreedInit ? t('snAgreement.agreed') : t('snAgreement.disagreed')" />
 			</view>
 		</demo-card>
@@ -46,7 +45,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { snu } from '@/uni_modules/sinle-ui'
 

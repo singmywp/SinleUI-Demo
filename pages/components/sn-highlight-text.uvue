@@ -16,7 +16,7 @@
 		<demo-card :title="t('snHighlightText.clickTitle')" :subtitle="t('snHighlightText.clickDesc')">
 			<sn-highlight-text :text="t('snHighlightText.text4')" :keywords="eventKeywords"
 				@highlight-click="onHighlightClick" />
-			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:10px;">{{ eventText }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:10px;">{{ eventText }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snHighlightText.searchTitle')" :subtitle="t('snHighlightText.searchDesc')">
@@ -33,7 +33,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

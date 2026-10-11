@@ -2,156 +2,238 @@
 	<sn-page :title="t('snTimer.title')" :show-back="true">
 		<demo-card :title="t('snTimer.basicTitle')" :subtitle="t('snTimer.basicSubtitle')">
 			<sn-timer ref="timer1" format="HH:mm:ss" @change="onChange1" />
-			<sn-text type="text-light" :font-size="13" :text="t('snTimer.changeCount', { count: changeCount1 } as UTSJSONObject)" custom-style="margin-top:8px;" flatten />
+			<sn-text type="text-light" :font-size="13" :text="t('snTimer.changeCount', { count: changeCount1 } as UTSJSONObject)" custom-style="margin-top:8px;"/>
 		</demo-card>
 
-		<demo-card :title="t('snTimer.msTitle')" :subtitle="t('snTimer.msSubtitle')">
-			<sn-timer ref="timer2" format="mm:ss.SSS" :millisecond="true" text-color="$primary" text-size="$18" />
-			<sn-timer ref="timer2b" format="mm:ss.SS" :millisecond="true" text-color="$warning" custom-style="margin-top:6px;" />
+		<demo-card :title="t('snTimer.focusTitle')" :subtitle="t('snTimer.focusSubtitle')">
+		</demo-card>
+		<view class="timer-focus-wrap">
+			<view class="timer-focus">
+				<view class="timer-focus-heading" flatten>
+					<view :class="focusRunning ? 'timer-focus-dot timer-focus-dot-running' : 'timer-focus-dot'" flatten></view>
+					<sn-text bold :font-size="11" color="$textLight" text="TIMER"/>
+				</view>
+				<sn-timer ref="timerFocus" format="mm:ss.SS" :millisecond="true" :autoplay="false" @change="onFocusChange"
+					custom-style="width:100%;justify-content:center;padding-top:24px;padding-bottom:26px;">
+					<sn-text :font-size="52" color="$text" :text="focusMainText" custom-style="text-align:center;"/>
+					<sn-text :font-size="25" :color="focusRunning ? '$primary' : '$textLight'" :text="focusMsText" custom-style="margin-left:3px;margin-top:19px;text-align:center;"/>
+				</sn-timer>
+				<view class="timer-focus-controls" flatten>
+					<sn-button :text="focusRunning ? t('snTimer.pause') : t('snTimer.start')" :type="focusRunning ? 'info' : 'primary'" :text-style="focusButtonTextStyle" :custom-style="focusButtonStyle" @click="toggleFocusTimer" />
+					<sn-button :text="t('snTimer.reset')" type="info" custom-style="flex:1;height:46px;margin-left:10px;" @click="resetFocusTimer" />
+				</view>
+			</view>
+		</view>
+
+		<demo-card :title="t('snTimer.segmentTitle')" :subtitle="t('snTimer.segmentSubtitle')">
+			<sn-timer ref="timerSegment" format="HH:mm:ss" :autoplay="false" @change="onSegmentChange"
+				custom-style="justify-content:center;padding-top:14px;padding-bottom:14px;">
+				<view class="timer-segment-item" flatten>
+					<sn-text bold :font-size="24" color="$text" :text="segmentTexts[0]"/>
+					<sn-text type="text-light" :font-size="11" :text="t('snTimer.hour')" custom-style="margin-top:3px;"/>
+				</view>
+				<sn-text bold :font-size="22" color="$primary" text=":" custom-style="margin-left:7px;margin-right:7px;margin-bottom:14px;"/>
+				<view class="timer-segment-item" flatten>
+					<sn-text bold :font-size="24" color="$text" :text="segmentTexts[1]"/>
+					<sn-text type="text-light" :font-size="11" :text="t('snTimer.minute')" custom-style="margin-top:3px;"/>
+				</view>
+				<sn-text bold :font-size="22" color="$primary" text=":" custom-style="margin-left:7px;margin-right:7px;margin-bottom:14px;"/>
+				<view class="timer-segment-item" flatten>
+					<sn-text bold :font-size="24" color="$text" :text="segmentTexts[2]"/>
+					<sn-text type="text-light" :font-size="11" :text="t('snTimer.second')" custom-style="margin-top:3px;"/>
+				</view>
+			</sn-timer>
+			<sn-text type="text-light" :font-size="12" :text="segmentHint" custom-style="margin-top:8px;"/>
+			<view class="timer-actions" flatten>
+				<sn-button :text="t('snTimer.start')" type="primary" @click="startSegmentTimer" />
+				<sn-button :text="t('snTimer.reset')" type="warning" custom-style="margin-left:8px;" @click="resetSegmentTimer" />
+			</view>
 		</demo-card>
 
-		<demo-card :title="t('snTimer.formatTitle')" :subtitle="t('snTimer.formatSubtitle')">
-			<sn-timer format="DD天HH小时mm分钟ss秒" custom-style="margin-bottom:10px;" />
-			<sn-timer format="mm:ss" text-color="$success" text-size="$20" custom-style="margin-bottom:10px;" />
-			<sn-timer format="ss秒" text-color="$error" />
+		<demo-card :title="t('snTimer.activityTitle')" :subtitle="t('snTimer.activitySubtitle')">
+			<view class="timer-activity" flatten>
+				<view class="timer-activity-icon" flatten>
+					<sn-icon name="pulse-line" :size="24" color="$success" />
+				</view>
+				<view class="timer-activity-body" flatten>
+					<sn-text bold :font-size="15" :text="t('snTimer.activityLabel')"/>
+					<sn-text type="text-light" :font-size="12" :text="t('snTimer.activityHint')" custom-style="margin-top:3px;"/>
+				</view>
+				<sn-timer format="mm:ss" text-size="$18" text-color="$success" custom-style="margin-left:auto;" />
+			</view>
 		</demo-card>
 
 		<demo-card :title="t('snTimer.apiTitle')" :subtitle="t('snTimer.apiSubtitle')">
-			<view class="timer-control-row" flatten>
-				<sn-timer ref="timerCtl" format="HH:mm:ss" :autoplay="false" text-size="$22" text-color="$primaryDark" />
-			</view>
-			<view class="timer-control-row" flatten>
-				<sn-button :text="t('snTimer.start')"  type="primary" custom-style="margin-right:8px;" @click="startTimer" />
-				<sn-button :text="t('snTimer.pause')"  type="info" custom-style="margin-right:8px;" @click="pauseTimer" />
-				<sn-button :text="t('snTimer.reset')"  type="warning" @click="resetTimer" />
-			</view>
-		</demo-card>
-
-		<demo-card :title="t('snTimer.slotTitle')" :subtitle="t('snTimer.slotSubtitle')">
-			<sn-timer ref="timerSeg" format="HH:mm:ss" :autoplay="false" @change="onSegChange"
-				custom-style="justify-content:center;padding-top:16px;padding-bottom:16px;">
-				<view class="timer-seg-cell" flatten>
-					<sn-text bold :font-size="24" color="#fff" :text="segTexts[0]" flatten />
-				</view>
-				<sn-text bold :font-size="22" color="$textLight" text=":" custom-style="margin-left:5px;margin-right:5px;" flatten />
-				<view class="timer-seg-cell timer-seg-cell-accent" flatten>
-					<sn-text bold :font-size="24" color="#fff" :text="segTexts[1]" flatten />
-				</view>
-				<sn-text bold :font-size="22" color="$textLight" text=":" custom-style="margin-left:5px;margin-right:5px;" flatten />
-				<view class="timer-seg-cell" flatten>
-					<sn-text bold :font-size="24" color="#fff" :text="segTexts[2]" flatten />
-				</view>
-			</sn-timer>
-			<sn-text type="text-light" :font-size="12" :text="segHint" custom-style="margin-top:8px;" flatten />
-			<view class="timer-seg-actions">
-					<sn-button :text="t('snTimer.start')" type="primary" custom-style="flex:1;margin-right:8px;" @click="startSegTimer" />
-					<sn-button :text="t('snTimer.pause')" type="info" custom-style="flex:1;margin-right:8px;" @click="pauseSegTimer" />
-					<sn-button :text="t('snTimer.reset')" type="warning" custom-style="flex:1;" @click="resetSegTimer" />
+			<sn-timer ref="timerCtl" format="HH:mm:ss" :autoplay="false" text-size="$22" text-color="$primaryDark" />
+			<view class="timer-actions" flatten>
+				<sn-button :text="t('snTimer.start')" type="primary" @click="startTimer" />
+				<sn-button :text="t('snTimer.pause')" type="info" custom-style="margin-left:8px;" @click="pauseTimer" />
+				<sn-button :text="t('snTimer.reset')" type="warning" custom-style="margin-left:8px;" @click="resetTimer" />
 			</view>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type { SnTime } from '@/uni_modules/sinle-ui/core/types/index.uts'
 import type { ComponentPublicInstance } from 'vue'
 
 const { t } = useI18n()
 
-
-
 const timer1 = ref<UniElement | null>(null)
-const timer2 = ref<UniElement | null>(null)
-const timer2b = ref<UniElement | null>(null)
+const timerFocus = ref<ComponentPublicInstance | null>(null)
+const timerSegment = ref<ComponentPublicInstance | null>(null)
 const timerCtl = ref<ComponentPublicInstance | null>(null)
-const timerSeg = ref<ComponentPublicInstance | null>(null)
 
 const changeCount1 = ref<number>(0)
-const segTexts = ref<string[]>(['00', '00', '00'])
-const segHint = ref<string>(t('snTimer.segPaused'))
+const focusRunning = ref<boolean>(false)
+const focusMainText = ref<string>('00:00')
+const focusMsText = ref<string>('.00')
+const focusButtonStyle = computed<string>(() => focusRunning.value ? 'flex:1;height:46px;' : 'flex:1;height:46px;background-color:#111318;')
+const focusButtonTextStyle = computed<string>(() => focusRunning.value ? '' : 'color:#fff;')
+const segmentTexts = ref<string[]>(['00', '00', '00'])
+const segmentHint = ref<string>(t('snTimer.segmentPaused'))
 
 function onChange1(v: SnTime): void {
 	changeCount1.value = changeCount1.value + 1
 }
 
+function onSegmentChange(v: SnTime): void {
+	segmentTexts.value = [pad2(v.h), pad2(v.m), pad2(v.s)]
+}
 
-function onSegChange(v: SnTime): void {
-	segTexts.value = [pad2(v.h), pad2(v.m), pad2(v.s)]
+function onFocusChange(v: SnTime): void {
+	focusMainText.value = `${pad2(v.m)}:${pad2(v.s)}`
+	focusMsText.value = `.${pad2(Math.floor(v.ms / 10))}`
 }
 
 function pad2(n: number): string {
-	const s = `${n}`
-	return s.length < 2 ? `0${s}` : s
+	const value = `${n}`
+	return value.length < 2 ? `0${value}` : value
+}
+
+function callTimer(timer: ComponentPublicInstance | null, method: string): void {
+	if (timer != null) {
+		timer.$callMethod(method)
+	}
+}
+
+function toggleFocusTimer(): void {
+	focusRunning.value = !focusRunning.value
+	callTimer(timerFocus.value, focusRunning.value ? 'start' : 'pause')
+}
+
+function resetFocusTimer(): void {
+	focusRunning.value = false
+	focusMainText.value = '00:00'
+	focusMsText.value = '.00'
+	callTimer(timerFocus.value, 'reset')
+}
+
+function startSegmentTimer(): void {
+	segmentHint.value = t('snTimer.segmentRunning')
+	callTimer(timerSegment.value, 'start')
+}
+
+function resetSegmentTimer(): void {
+	segmentHint.value = t('snTimer.segmentReset')
+	callTimer(timerSegment.value, 'reset')
 }
 
 function startTimer(): void {
-	const ele = timerCtl.value
-	if (ele != null) {
-		ele.$callMethod('start')
-	}
+	callTimer(timerCtl.value, 'start')
 }
 
 function pauseTimer(): void {
-	const ele = timerCtl.value
-	if (ele != null) {
-		ele.$callMethod('pause')
-	}
+	callTimer(timerCtl.value, 'pause')
 }
 
 function resetTimer(): void {
-	const ele = timerCtl.value
-	if (ele != null) {
-		ele.$callMethod('reset')
-	}
-}
-
-function startSegTimer(): void {
-	segHint.value = t('snTimer.segRunning')
-	const ele = timerSeg.value
-	if (ele != null) {
-		ele.$callMethod('start')
-	}
-}
-
-function pauseSegTimer(): void {
-	segHint.value = t('snTimer.segPaused2')
-	const ele = timerSeg.value
-	if (ele != null) {
-		ele.$callMethod('pause')
-	}
-}
-
-function resetSegTimer(): void {
-	segHint.value = t('snTimer.segReset')
-	const ele = timerSeg.value
-	if (ele != null) {
-		ele.$callMethod('reset')
-	}
+	callTimer(timerCtl.value, 'reset')
 }
 </script>
 
 <style lang="scss">
-.timer-control-row {
+.timer-focus {
+	width: 100%;
+	max-width: 320px;
+	padding: 16px;
+	border-radius: 24px;
+	background-color: var(--sn-front);
+	transition-property: all;
+	transition-duration: var(--ani-time-normal);
+}
+
+.timer-focus-wrap {
+	margin-left: 16px;
+	margin-right: 16px;
+	margin-top: 2px;
+	margin-bottom: 16px;
+	flex-direction: column;
+	align-items: center;
+}
+
+.timer-focus-heading,
+.timer-activity {
 	flex-direction: row;
 	align-items: center;
-	margin-bottom: 10px;
 }
-.timer-seg-actions {
+
+.timer-focus-dot {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	margin-left: 2px;
+	margin-right: 8px;
+	background-color: var(--sn-line);
+	transition-property: all;
+	transition-duration: var(--ani-time-short);
+}
+
+.timer-focus-dot-running {
+	background-color: var(--sn-success);
+	transform: scale(1.3);
+}
+
+.timer-focus-controls {
 	flex-direction: row;
 	align-items: center;
-	margin-top: 10px;
 }
-.timer-seg-cell {
-	width: 46px;
-	height: 46px;
-	border-radius: 10px;
-	background-color: var(--sn-primary-dark);
+
+.timer-actions {
+	flex-direction: row;
+	align-items: center;
+	margin-top: 12px;
+}
+
+.timer-segment-item {
+	min-width: 54px;
+	padding: 10px 8px 8px;
+	border-radius: 12px;
+	background-color: var(--sn-back);
+	flex-direction: column;
+	align-items: center;
+}
+
+.timer-activity {
+	padding: 14px;
+	border-radius: 14px;
+	background-color: var(--sn-success-light);
+}
+
+.timer-activity-icon {
+	width: 42px;
+	height: 42px;
+	border-radius: 12px;
+	background-color: var(--sn-front);
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
 }
-.timer-seg-cell-accent {
-	background-color: var(--sn-primary);
+
+.timer-activity-body {
+	flex-direction: column;
+	margin-left: 10px;
 }
 </style>

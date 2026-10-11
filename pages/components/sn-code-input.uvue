@@ -2,27 +2,27 @@
 	<sn-page :title="t('snCodeInput.title')" :show-back="true">
 	<demo-card :title="t('snCodeInput.basicTitle')" :subtitle="t('snCodeInput.basicDesc')">
 		<sn-code-input v-model="v1" @change="onChange1" @finish="onFinish1" />
-		<sn-text type="text-light" :font-size="13" :text="card1Text" custom-style="margin-top:10px;" flatten />
+		<sn-text type="text-light" :font-size="13" :text="card1Text" custom-style="margin-top:10px;"/>
 	</demo-card>
 
 	<demo-card :title="t('snCodeInput.lineTitle')" :subtitle="t('snCodeInput.lineDesc')">
 		<sn-code-input v-model="v2" mode="line" :length="6" />
-		<sn-text type="text-light" :font-size="13" :text="currentValueText(v2)" custom-style="margin-top:10px;" flatten />
+		<sn-text type="text-light" :font-size="13" :text="currentValueText(v2)" custom-style="margin-top:10px;"/>
 	</demo-card>
 
 	<demo-card :title="t('snCodeInput.numberTitle')" :subtitle="t('snCodeInput.numberDesc')">
 		<sn-code-input v-model="v3" :length="4" format="number" @finish="onFinish3" />
-		<sn-text type="text-light" :font-size="13" :text="currentValueText(v3)" custom-style="margin-top:10px;" flatten />
+		<sn-text type="text-light" :font-size="13" :text="currentValueText(v3)" custom-style="margin-top:10px;"/>
 	</demo-card>
 
 	<demo-card :title="t('snCodeInput.letterTitle')" :subtitle="t('snCodeInput.letterDesc')">
 		<sn-code-input v-model="v4" :length="4" format="letter" />
-		<sn-text type="text-light" :font-size="13" :text="currentValueText(v4)" custom-style="margin-top:10px;" flatten />
+		<sn-text type="text-light" :font-size="13" :text="currentValueText(v4)" custom-style="margin-top:10px;"/>
 	</demo-card>
 
 	<demo-card :title="t('snCodeInput.maskTitle')" :subtitle="t('snCodeInput.maskDesc')">
 		<sn-code-input v-model="v5" :length="6" format="number" :mask="true" />
-		<sn-text type="text-light" :font-size="13" :text="realValueText(v5)" custom-style="margin-top:10px;" flatten />
+		<sn-text type="text-light" :font-size="13" :text="realValueText(v5)" custom-style="margin-top:10px;"/>
 	</demo-card>
 
 	<demo-card :title="t('snCodeInput.pasteTitle')" :subtitle="t('snCodeInput.pasteDesc')">
@@ -38,11 +38,11 @@
 		<view class="ci-login-card" flatten>
 			<view class="ci-login-phone" flatten>
 				<sn-icon name="smartphone-line" :size="18" color="$primary" />
-				<sn-text :font-size="14" text="+86 138 **** 8000" custom-style="margin-left:8px;flex:1;" flatten />
+				<sn-text :font-size="14" text="+86 138 **** 8000" custom-style="margin-left:8px;flex:1;"/>
 				<sn-button :text="sendText" :type="!sending ? 'primary' : 'info'" :disabled="sending" @click="onSendCode" />
 			</view>
 			<sn-code-input v-model="v7" :length="6" format="number" @finish="onOtpFinish" custom-style="margin-top:16px;" />
-			<sn-text :font-size="13" :color="otpOk ? '$success' : '$textLight'" :text="otpTip" custom-style="margin-top:10px;" flatten />
+			<sn-text :font-size="13" :color="otpOk ? '$success' : '$textLight'" :text="otpTip" custom-style="margin-top:10px;"/>
 		</view>
 	</demo-card>
 
@@ -55,7 +55,7 @@
 </sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type { ComponentPublicInstance } from 'vue'
 import { snu } from '@/uni_modules/sinle-ui/index.uts'

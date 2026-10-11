@@ -15,12 +15,12 @@
 			<view class="demo-row" flatten>
 				<view class="demo-item" flatten>
 					<sn-switch v-model="colorSwitch" active-bg-color="$success" />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snSwitch.green') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snSwitch.green') }}</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-switch v-model="colorSwitch2" active-bg-color="#ff6600" active-block-color="#ffe0cc"
 						bg-color="$lineDark" />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snSwitch.orange') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snSwitch.orange') }}</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -29,15 +29,15 @@
 			<view class="demo-row" flatten>
 				<view class="demo-item" flatten>
 					<sn-switch v-model="sizeSwitch" width="60px" height="30px" />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snSwitch.sizeTip1') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snSwitch.sizeTip1') }}</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-switch v-model="sizeSwitch2" width="40px" height="20px" padding="3px" />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snSwitch.sizeTip2') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snSwitch.sizeTip2') }}</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-switch v-model="sizeSwitch3" :border-radius="6" />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snSwitch.sizeTip3') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snSwitch.sizeTip3') }}</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -46,7 +46,7 @@
 			<view class="demo-row" flatten>
 				<view class="demo-item" flatten>
 					<sn-switch v-model="padSwitch1" padding="2px" />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snSwitch.padTip1') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snSwitch.padTip1') }}</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-switch v-model="padSwitch2" padding="5px" />
@@ -128,7 +128,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

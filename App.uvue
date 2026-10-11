@@ -1,4 +1,4 @@
-<script setup lang="uts">
+<script setup lang="ts">
 	import { i18n } from './i18n.uts'
 	// #ifdef WEB
 	import { useTheme } from '@/uni_modules/sinle-ui'

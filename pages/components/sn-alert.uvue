@@ -46,14 +46,14 @@
 
 		<demo-card :title="t('snAlert.customContent')" :subtitle="t('snAlert.customContentSub')">
 			<sn-alert type="primary">
-				<sn-text bold font-size="$14" color="$primary" flatten>{{ t('snAlert.slotTitle') }}</sn-text>
-				<sn-text font-size="$12" color="$primary" flatten>{{ t('snAlert.slotDesc') }}</sn-text>
+				<sn-text bold font-size="$14" color="$primary">{{ t('snAlert.slotTitle') }}</sn-text>
+				<sn-text font-size="$12" color="$primary">{{ t('snAlert.slotDesc') }}</sn-text>
 			</sn-alert>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

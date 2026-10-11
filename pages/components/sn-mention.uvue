@@ -4,26 +4,26 @@
 			<sn-mention ref="mention1Ref" v-model="value1" :placeholder="t('snMention.placeholderSelect')"
 				@mention="onMention1" @removemention="onRemove1" @change="onChange1" />
 			<sn-text type="text-light" :font-size="13"
-				:text="t('snMention.currentValue') + (value1 == '' ? t('snMention.empty') : value1)" custom-style="margin-top:12px;" flatten />
+				:text="t('snMention.currentValue') + (value1 == '' ? t('snMention.empty') : value1)" custom-style="margin-top:12px;"/>
 			<sn-text type="text-light" :font-size="13"
 				:text="t('snMention.mentionCounts', { m: mentionCount1, r: removeCount1, c: changeCount1 } as UTSJSONObject)"
-				custom-style="margin-top:6px;" flatten />
+				custom-style="margin-top:6px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snMention.removeTitle')" :subtitle="t('snMention.removeDesc')">
 			<sn-mention ref="mention2Ref" v-model="value2" :before-remove="beforeRemove2"
 				:placeholder="t('snMention.placeholderRemove')" @mention="onMention2" @removemention="onRemove2" />
 			<sn-text type="text-light" :font-size="13"
-				:text="t('snMention.currentValue') + (value2 == '' ? t('snMention.empty') : value2)" custom-style="margin-top:12px;" flatten />
+				:text="t('snMention.currentValue') + (value2 == '' ? t('snMention.empty') : value2)" custom-style="margin-top:12px;"/>
 			<sn-text :font-size="13" color="$primaryDark"
-				:text="t('snMention.deleteLog') + (removeLog2 == '' ? t('snMention.noneLog') : removeLog2)" custom-style="margin-top:6px;" flatten />
+				:text="t('snMention.deleteLog') + (removeLog2 == '' ? t('snMention.noneLog') : removeLog2)" custom-style="margin-top:6px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snMention.charTitle')" :subtitle="t('snMention.charDesc')">
 			<sn-mention ref="mention3Ref" v-model="value3" mention-char="#" :placeholder="t('snMention.placeholderTopic')"
 				@mention="onMention3" />
 			<sn-text type="text-light" :font-size="13"
-				:text="t('snMention.currentValue') + (value3 == '' ? t('snMention.empty') : value3)" custom-style="margin-top:12px;" flatten />
+				:text="t('snMention.currentValue') + (value3 == '' ? t('snMention.empty') : value3)" custom-style="margin-top:12px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snMention.propsTitle')" :subtitle="t('snMention.propsDesc')">
@@ -45,7 +45,7 @@
 					<sn-text :font-size="14" :text="msg" />
 				</view>
 			</view>
-			<sn-text v-else type="text-light" :font-size="13" :text="t('snMention.noMessage')" custom-style="margin-bottom:12px;" flatten />
+			<sn-text v-else type="text-light" :font-size="13" :text="t('snMention.noMessage')" custom-style="margin-bottom:12px;"/>
 			<sn-mention ref="chatMentionRef" v-model="chatInput" :before-remove="beforeRemoveChat" confirm-type="send"
 				:placeholder="t('snMention.placeholderChat')" @mention="onChatMention" @confirm="onChatConfirm"
 				@removemention="onChatRemove" />
@@ -93,7 +93,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { snu } from '@/uni_modules/sinle-ui'
 

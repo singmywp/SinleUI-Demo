@@ -1,12 +1,12 @@
 <template>
 	<sn-page :title="t('snColorPickerView.title')" :show-back="true">
 		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
-			<sn-text font-size="$12" color="$primary" flatten>{{ t('snColorPickerView.note') }}</sn-text>
+			<sn-text font-size="$12" color="$primary">{{ t('snColorPickerView.note') }}</sn-text>
 		</sn-alert>
 
 		<demo-card :title="t('snColorPickerView.basicTitle')" :subtitle="t('snColorPickerView.basicDesc')">
 			<sn-color-picker-view v-model="value" @change="onChange" />
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:10px;" flatten>{{ t('snColorPickerView.currentColor', { v: value } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:10px;">{{ t('snColorPickerView.currentColor', { v: value } as UTSJSONObject) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snColorPickerView.hexTitle')" subtitle="HEX / RGBA / HSB / HSL">
@@ -17,7 +17,7 @@
 				<sn-button type="info" text="HSL" custom-style="flex:1;" @click="format = 'hsl'" />
 			</view>
 			<sn-color-picker-view v-model="formatValue" :format="format" :show-alpha="true" :show-presets="false" panel-height="220px" custom-style="margin-top:12px;" />
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:10px;" flatten>{{ t('snColorPickerView.formatDesc', { f: format, v: formatValue } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:10px;">{{ t('snColorPickerView.formatDesc', { f: format, v: formatValue } as UTSJSONObject) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snColorPickerView.presetTitle')" :subtitle="t('snColorPickerView.presetDesc')">
@@ -30,7 +30,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { $snui } from '@/uni_modules/sinle-ui/index.uts'
 

@@ -1,6 +1,5 @@
 <template>
-	<sn-page :fill-content="true">
-		<sn-topbar :title="t('tmplTabsSwiper.title')" :back-button="true" :fixed="true" :status-bar="true" />
+	<sn-page :fill-content="true" :title="t('tmplTabsSwiper.title')" :show-back="true">
 		<view class="news-body">
 			<sn-tabs v-model="tabIndex" :data="tabs" mode="push" bg-color="$front" height="44px" />
 			<swiper class="news-swiper" :current="tabIndex" @change="onSwiperChange">
@@ -14,7 +13,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import NewsChannel from './news-channel.uvue'
 import { useI18n } from 'vue-i18n'
 import type { SnTabParams } from '@/uni_modules/sinle-ui/core/types/index.uts'

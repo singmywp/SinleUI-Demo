@@ -2,12 +2,12 @@
 	<sn-page :title="t('apiShowToast.title')" :show-back="true">
 
 		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
-			<sn-text font-size="$12" color="$primary" flatten>{{ t('apiShowToast.alert1') }}</sn-text>
-			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;" flatten>{{ t('apiShowToast.alert2') }}</sn-text>
+			<sn-text font-size="$12" color="$primary">{{ t('apiShowToast.alert1') }}</sn-text>
+			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;">{{ t('apiShowToast.alert2') }}</sn-text>
 		</sn-alert>
 
 		<demo-card :title="t('apiShowToast.basic')" :subtitle="t('apiShowToast.basicSub')">
-			<sn-text font-size="$13" :color="descColor" custom-style="margin-bottom:12px;" flatten>{{ t('apiShowToast.basicDesc') }}</sn-text>
+			<sn-text font-size="$13" :color="descColor" custom-style="margin-bottom:12px;">{{ t('apiShowToast.basicDesc') }}</sn-text>
 			<view class="btn-row" flatten>
 				<sn-button type="primary" :text="t('apiShowToast.showToast')" custom-style="flex:1;" @click="onShowBase" />
 			</view>
@@ -58,7 +58,7 @@
 				<sn-button type="primary" :text="t('apiShowToast.enablePass')" custom-style="flex:1;" @click="onShowPassThrough" />
 				<sn-button type="info" :text="t('apiShowToast.disablePass')" custom-style="flex:1;margin-left:10px;" @click="onShowNoPassThrough" />
 			</view>
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:10px;" flatten>{{ t('apiShowToast.passDesc') }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:10px;">{{ t('apiShowToast.passDesc') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('apiShowToast.linesCard')" :subtitle="t('apiShowToast.linesCardSub')">
@@ -71,12 +71,12 @@
 			<view class="btn-row" flatten>
 				<sn-button type="primary" :text="t('apiShowToast.withCallback')" custom-style="flex:1;" @click="onShowWithCallback" />
 			</view>
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:10px;" flatten>{{ t('apiShowToast.callbackLabel') }}：{{ callbackResult }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:10px;">{{ t('apiShowToast.callbackLabel') }}：{{ callbackResult }}</sn-text>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { snu, useTheme } from '@/uni_modules/sinle-ui/index.uts'
 

@@ -3,38 +3,45 @@
 		<demo-card :title="t('snSlider.demoBasicTitle')" :subtitle="t('snSlider.demoBasicSub')">
 			<view class="demo-block" flatten>
 				<sn-slider v-model="v1" />
-				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.currentValue', { val: v1 } as UTSJSONObject) }}</sn-text>
+				<sn-text text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.currentValue', { val: v1 } as UTSJSONObject) }}</sn-text>
 			</view>
 			<view class="demo-block" flatten>
 				<sn-slider-double v-model="d1" />
-				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.currentRange', { val: d1Text } as UTSJSONObject) }}</sn-text>
+				<sn-text text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.currentRange', { val: d1Text } as UTSJSONObject) }}</sn-text>
+			</view>
+			<view class="demo-block" flatten>
+				<sn-slider v-model="v1" :show-glow="false" />
+				<sn-text text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.glowOffTip') }}</sn-text>
 			</view>
 		</demo-card>
 
 		<demo-card :title="t('snSlider.demoTrackTitle')" :subtitle="t('snSlider.demoTrackSub')">
 			<view class="demo-block" flatten>
 				<sn-slider v-model="v2" thumb-size="18px" thickness="4px" thumb-style="box-shadow:0 0px 6px rgba(0,0,0,0.5);" />
-				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.thinRowTip', { val: v2 } as UTSJSONObject) }}</sn-text>
+				<sn-text text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.thinRowTip', { val: v2 } as UTSJSONObject) }}</sn-text>
 			</view>
 			<view class="demo-block" flatten>
 				<sn-slider-double v-model="d2" thumb-size="16px" thickness="24px" thumb-border="2px solid #ffffff" />
-				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.thickRowTip', { val: d2Text } as UTSJSONObject) }}</sn-text>
+				<sn-text text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.thickRowTip', { val: d2Text } as UTSJSONObject) }}</sn-text>
+			</view>
+			<view class="demo-block" flatten>
+				<sn-slider-double v-model="d2" thumb-size="18px" thickness="4px" thumb-style="box-shadow:0 0px 6px rgba(0,0,0,0.5);" />
 			</view>
 			<view class="demo-block" flatten>
 				<sn-slider v-model="v3" thumb-size="14px" thickness="6px" border-radius="2px" thumb-border-radius="4px"
 					thumb-style="box-shadow:0 0px 6px rgba(0,0,0,0.5);" />
-				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.rightTrackTip', { val: v3 } as UTSJSONObject) }}</sn-text>
+				<sn-text text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.rightTrackTip', { val: v3 } as UTSJSONObject) }}</sn-text>
 			</view>
 		</demo-card>
 
 		<demo-card :title="t('snSlider.demoRangeTitle')" :subtitle="t('snSlider.demoRangeSub')">
 			<view class="demo-block" flatten>
 				<sn-slider v-model="v4" :min="10" :max="60" :step="5" />
-				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.rangeStepTip1', { val: v4 } as UTSJSONObject) }}</sn-text>
+				<sn-text text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.rangeStepTip1', { val: v4 } as UTSJSONObject) }}</sn-text>
 			</view>
 			<view class="demo-block" flatten>
 				<sn-slider-double v-model="d3" :min="0" :max="1000" :step="100" />
-				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.rangeStepTip2', { val: d3Text } as UTSJSONObject) }}</sn-text>
+				<sn-text text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.rangeStepTip2', { val: d3Text } as UTSJSONObject) }}</sn-text>
 			</view>
 		</demo-card>
 
@@ -50,11 +57,11 @@
 		<demo-card :title="t('snSlider.demoColorTitle')" :subtitle="t('snSlider.demoColorSub')">
 			<view class="demo-block" flatten>
 				<sn-slider v-model="v5" active-color="$success" />
-				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.successColorTip') }}</sn-text>
+				<sn-text text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.successColorTip') }}</sn-text>
 			</view>
 			<view class="demo-block" flatten>
 				<sn-slider-double v-model="d4" active-color="#ff6600" inactive-color="$disabled" />
-				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.orangeRangeTip') }}</sn-text>
+				<sn-text text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.orangeRangeTip') }}</sn-text>
 			</view>
 		</demo-card>
 
@@ -62,14 +69,17 @@
 			<view class="demo-row" flatten>
 				<view class="demo-v-item" flatten>
 					<sn-slider v-model="v6" vertical />
-					<sn-text flatten text-class="demo-label" font-size="$12" color="$textLight">{{ v6 }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ v6 }}</sn-text>
 				</view>
 				<view class="demo-v-item" flatten>
-					<sn-slider v-model="v6" vertical show-value-text />
+					<sn-slider v-model="v6" vertical show-value-text thumb-size="18px" thickness="4px" thumb-style="box-shadow:0 0px 6px rgba(0,0,0,0.5);" />
 				</view>
 				<view class="demo-v-item" flatten>
 					<sn-slider-double v-model="d5" vertical />
-					<sn-text flatten text-class="demo-label" font-size="$12" color="$textLight">{{ d5Text }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ d5Text }}</sn-text>
+				</view>
+				<view class="demo-v-item" flatten>
+					<sn-slider-double v-model="d5" vertical thumb-size="18px" thickness="4px" thumb-style="box-shadow:0 0px 6px rgba(0,0,0,0.5);" />
 				</view>
 			</view>
 		</demo-card>
@@ -90,7 +100,7 @@
 			<view class="demo-block" style="margin-bottom: 12px" flatten>
 				<sn-slider-double v-model="dEvent" @change="onDoubleChange" />
 			</view>
-			<sn-text flatten font-size="$13" color="$primary">{{ changeLog }}</sn-text>
+			<sn-text font-size="$13" color="$primary">{{ changeLog }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snSlider.demoSceneTitle')" :subtitle="t('snSlider.demoSceneSub')">
@@ -100,17 +110,17 @@
 					<sn-slider v-model="volume" custom-style="flex:1;margin:0 10px;" />
 					<sn-icon name="volume-up-line" :size="18" color="$textLight" />
 				</view>
-				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.volumeTip', { val: volume } as UTSJSONObject) }}</sn-text>
+				<sn-text text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.volumeTip', { val: volume } as UTSJSONObject) }}</sn-text>
 			</view>
 			<view class="demo-block" flatten>
 				<sn-slider-double v-model="priceRange" :min="0" :max="5000" :step="100" />
-				<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.priceRangeTip', { val: priceText } as UTSJSONObject) }}</sn-text>
+				<sn-text text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlider.priceRangeTip', { val: priceText } as UTSJSONObject) }}</sn-text>
 			</view>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -159,15 +169,21 @@ function onDoubleChange(v: number[]): void {
 .demo-row {
 	flex-direction: row;
 	align-items: flex-start;
+	flex-wrap: wrap;
 }
 .demo-v-item {
 	flex-direction: column;
 	align-items: center;
 	height: 220px;
-	margin-right: 28px;
+	width: 48px;
+	margin-right: 10px;
+	margin-bottom: 12px;
+	overflow: visible;
 }
 .demo-label {
 	margin-top: 6px;
+	width: 48px;
+	text-align: center;
 }
 .scene-row {
 	flex-direction: row;

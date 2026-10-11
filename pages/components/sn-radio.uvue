@@ -6,7 +6,7 @@
 				<sn-radio :text="t('snRadio.cancelRadio')" />
 				<sn-radio :text="t('snRadio.laterRadio')" />
 			</sn-radio-group>
-			<sn-text flatten font-size="$12" color="$textLight">{{ t('snRadio.currentSelected', { value: radio1.toString() } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" color="$textLight">{{ t('snRadio.currentSelected', { value: radio1.toString() } as UTSJSONObject) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snRadio.defaultSelectedTitle')" :subtitle="t('snRadio.defaultSelectedSubtitle')">
@@ -15,7 +15,7 @@
 				<sn-radio :text="t('snRadio.option2')" />
 				<sn-radio :text="t('snRadio.option3')" />
 			</sn-radio-group>
-			<sn-text flatten font-size="$12" color="$textLight">{{ t('snRadio.defaultSelectedTip', { value: radio2.toString() } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" color="$textLight">{{ t('snRadio.defaultSelectedTip', { value: radio2.toString() } as UTSJSONObject) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snRadio.verticalTitle')" :subtitle="t('snRadio.verticalSubtitle')">
@@ -41,7 +41,7 @@
 				<sn-radio :text="t('snRadio.wechatPay')" />
 				<sn-radio :text="t('snRadio.alipay')" />
 			</sn-radio-group>
-			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:4px;">{{ t('snRadio.successGreenTip') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:4px;">{{ t('snRadio.successGreenTip') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snRadio.tagTitle')" :subtitle="t('snRadio.tagSubtitle')">
@@ -53,12 +53,12 @@
 		</demo-card>
 
 		<demo-card :title="t('snRadio.tagThemeTitle')" :subtitle="t('snRadio.tagThemeSubtitle')">
-			<sn-text flatten font-size="$12" color="$textLight">{{ t('snRadio.groupSuccessTheme') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight">{{ t('snRadio.groupSuccessTheme') }}</sn-text>
 			<sn-radio-group v-model="radio7" tag-type="success">
 				<sn-radio-tag :text="t('snRadio.basic')" />
 				<sn-radio-tag :text="t('snRadio.senior')" />
 			</sn-radio-group>
-			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:12px;">{{ t('snRadio.singleOverride') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:12px;">{{ t('snRadio.singleOverride') }}</sn-text>
 			<sn-radio-group v-model="radio8">
 				<sn-radio-tag text="primary" />
 				<sn-radio-tag text="info" />
@@ -94,7 +94,7 @@
 				<sn-radio-tag type="error" level="third" text="third" />
 				<sn-radio-tag type="error" level="least" text="least" />
 			</sn-radio-group>
-			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:4px;">{{ t('snRadio.levelColorTip') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:4px;">{{ t('snRadio.levelColorTip') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snRadio.tagDisabledTitle')" :subtitle="t('snRadio.tagDisabledSubtitle')">
@@ -139,7 +139,7 @@
 				<sn-radio :text="t('snRadio.optB')" />
 				<sn-radio :text="t('snRadio.optC')" />
 			</sn-radio-group>
-			<sn-text flatten font-size="$13" color="$primary" custom-style="margin-top:12px;">{{ t('snRadio.recentEvent', { value: changeLog } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$13" color="$primary" custom-style="margin-top:12px;">{{ t('snRadio.recentEvent', { value: changeLog } as UTSJSONObject) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snRadio.externalTitle')" :subtitle="t('snRadio.externalSubtitle')">
@@ -150,7 +150,7 @@
 				<sn-radio :text="t('snRadio.textCustom')" text-style="font-weight:bold;color:#ff6600;" />
 			</sn-radio-group>
 			<view style="margin-top: 12px;" flatten>
-				<sn-text flatten font-size="$12" color="$textLight">{{ t('snRadio.groupClassTip') }}</sn-text>
+				<sn-text font-size="$12" color="$textLight">{{ t('snRadio.groupClassTip') }}</sn-text>
 				<sn-radio-group v-model="radio22" radio-class="demo-radio-big" text-class="demo-text-strong">
 					<sn-radio :text="t('snRadio.confirmRadio')" />
 					<sn-radio :text="t('snRadio.cancelRadio')" />
@@ -164,7 +164,7 @@
 				<sn-radio-tag :text="t('snRadio.tagTextCustom')" text-style="font-weight:bold;letter-spacing:1px;" />
 			</sn-radio-group>
 			<view style="margin-top: 12px;" flatten>
-				<sn-text flatten font-size="$12" color="$textLight">{{ t('snRadio.tagClassTip') }}</sn-text>
+				<sn-text font-size="$12" color="$textLight">{{ t('snRadio.tagClassTip') }}</sn-text>
 				<sn-radio-group v-model="radio23" tag-class="demo-tag-scale">
 					<sn-radio-tag :text="t('snRadio.free')" />
 					<sn-radio-tag :text="t('snRadio.advanced')" />
@@ -174,19 +174,19 @@
 
 		<demo-card :title="t('snRadio.sceneTitle')" :subtitle="t('snRadio.sceneSubtitle')">
 			<view class="scene-card" flatten>
-				<sn-text flatten bold font-size="$14" color="$text">{{ t('snRadio.selectDelivery') }}</sn-text>
+				<sn-text bold font-size="$14" color="$text">{{ t('snRadio.selectDelivery') }}</sn-text>
 				<sn-radio-group v-model="delivery" custom-style="margin-top:12px;">
 					<sn-radio :text="t('snRadio.regularExpress')" />
 					<sn-radio :text="t('snRadio.nextDay')" />
 					<sn-radio-tag :text="t('snRadio.expressQuick')" />
 				</sn-radio-group>
-				<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snRadio.deliveryIndex', { value: delivery.toString() } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snRadio.deliveryIndex', { value: delivery.toString() } as UTSJSONObject) }}</sn-text>
 			</view>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { $snui } from '@/uni_modules/sinle-ui'
 

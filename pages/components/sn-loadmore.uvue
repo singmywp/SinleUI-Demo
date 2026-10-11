@@ -2,7 +2,7 @@
 	<sn-page :title="t('snLoadmore.title')" :show-back="true">
 		<demo-card :title="t('snLoadmore.basicTitle')" :subtitle="t('snLoadmore.basicDesc')">
 			<sn-loadmore @loadmore="onLoadmore" />
-			<sn-text font-size="$12" color="$primary" flatten>{{ t('snLoadmore.recentEvent') }}{{ eventLog }}</sn-text>
+			<sn-text font-size="$12" color="$primary">{{ t('snLoadmore.recentEvent') }}{{ eventLog }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snLoadmore.loadingTitle')" :subtitle="t('snLoadmore.loadingDesc')">
@@ -30,25 +30,25 @@
 
 		<demo-card :title="t('snLoadmore.loadingCustomTitle')" :subtitle="t('snLoadmore.loadingCustomDesc')">
 			<sn-loadmore status="loading" loading-class="demo-loading" loading-style="width: 20px;height:20px" />
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snLoadmore.loadingClassHint') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLoadmore.loadingClassHint') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snLoadmore.disabledTitle')" :subtitle="t('snLoadmore.disabledDesc')">
 			<sn-loadmore disabled @loadmore="onLoadmore" />
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snLoadmore.disabledHint') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLoadmore.disabledHint') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snLoadmore.simulateTitle')" :subtitle="t('snLoadmore.simulateDesc')">
 			<view class="scene-card" flatten>
-				<sn-text bold font-size="$14" color="$text" flatten>{{ t('snLoadmore.listBottom') }}</sn-text>
+				<sn-text bold font-size="$14" color="$text">{{ t('snLoadmore.listBottom') }}</sn-text>
 				<sn-loadmore :status="loadStatus" custom-style="margin-top:10px;" @loadmore="onSimulateLoad" />
-				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:4px;" flatten>{{ t('snLoadmore.currentStatus', { status: loadStatus } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:4px;">{{ t('snLoadmore.currentStatus', { status: loadStatus } as UTSJSONObject) }}</sn-text>
 			</view>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { $snui } from '@/uni_modules/sinle-ui'
 

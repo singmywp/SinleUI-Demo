@@ -3,8 +3,8 @@
 		<view class="page-content" flatten>
 			<view class="center-area" flatten>
 				<image class="app-logo" src="/static/logo-trans.png" mode="aspectFit" flatten />
-				<sn-text bold font-size="$24" color="$title" custom-style="margin-top:14px;" flatten>SinleUI</sn-text>
-				<sn-text font-size="$13" type="info" custom-style="margin-top:6px;" flatten>{{ t('aboutApp.demoDesc') }}</sn-text>
+				<sn-text bold font-size="$24" color="$title" custom-style="margin-top:14px;">SinleUI</sn-text>
+				<sn-text font-size="$13" type="info" custom-style="margin-top:6px;">{{ t('aboutApp.demoDesc') }}</sn-text>
 			</view>
 
 			<sn-view custom-style="border-radius:16px;overflow:hidden;">
@@ -18,13 +18,13 @@
 			</sn-view>
 
 			<view class="bottom-area" flatten>
-				<sn-text font-size="$11" type="text-light" text="Copyright ©2023-present Singmy" flatten />
+				<sn-text font-size="$11" type="text-light" text="Copyright ©2023-present Singmy"/>
 			</view>
 		</view>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { snu } from '@/uni_modules/sinle-ui/index.uts'
 import { useI18n } from 'vue-i18n'
 import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
@@ -72,8 +72,8 @@ function website(): void {
 onLoad((): void => {
 	try {
 		const info = uni.getAppBaseInfo() as unknown as UTSJSONObject
-		compilerVersion.value = `${(info['uniCompilerVersionCode'] as number) ?? ''}`
-		version.value = (info['appVersion'] as string) ?? ''
+		compilerVersion.value = `${(info.uniCompilerVersionCode as number) ?? ''}`
+		version.value = (info.appVersion as string) ?? ''
 	} catch (e) {
 		version.value = ''
 		compilerVersion.value = ''

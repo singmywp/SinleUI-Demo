@@ -1,6 +1,7 @@
 <template>
 	<view class="comps-page" flatten>
 		<scroll-view direction="vertical" class="comps-scroll" :show-scrollbar="false">
+			<view class="home-topbar-safe" :style="topbarSafeStyle" flatten></view>
 			<view class="home-content" flatten>
 				<view class="hero-shell" :style="heroShellStyle" >
 					<view class="hero-glow-layer" :style="heroGlowLayerStyle" flatten>
@@ -10,18 +11,18 @@
 					</view>
 					<view class="hero-card glass" :style="heroCardStyle" flatten>
 						<view class="hero-badge" :style="badgeStyle" flatten>
-							<sn-text font-size="$11" :color="accentColor" flatten>v2.0 Beta</sn-text>
+							<sn-text font-size="$11" :color="accentColor">v2.0 Beta</sn-text>
 						</view>
 						<sn-text bold font-size="$32" :color="heroTitleColor"
-							custom-style="margin-bottom:8px;letter-spacing:-0.5px;" flatten>
+							custom-style="margin-bottom:8px;letter-spacing:-0.5px;">
 							SinleUI
 						</sn-text>
-						<sn-text font-size="$14" :color="heroSubColor" custom-style="margin-bottom:20px;line-height:20px;" flatten>
+						<sn-text font-size="$14" :color="heroSubColor" custom-style="margin-bottom:20px;line-height:20px;">
 							{{ t('comps.heroSub') }}
 						</sn-text>
 						<view class="hero-stats" flatten>
 							<view class="hero-stat" flatten>
-								<sn-text bold font-size="$24" :color="heroAccentColor" flatten>{{ compCount }}</sn-text>
+								<sn-text bold font-size="$24" :color="heroAccentColor">{{ compCount }}</sn-text>
 								<sn-text font-size="$11" :color="mutedColor">{{ t('comps.statComponents') }}</sn-text>
 							</view>
 							<view class="hero-stat-divider" flatten :style="dividerStyle"></view>
@@ -41,43 +42,41 @@
 				<sn-text bold font-size="$17" :color="sectionTitleColor"
 					custom-style="margin-top:20px;margin-bottom:12px;margin-left:4px;">{{ t('comps.sectionDesign') }}</sn-text>
 
-				<view class="design-row">
-					<view v-for="(d, di) in designEntries" :key="'d' + di" class="design-card glass" :style="getDesignCardStyle(d)"
-						@touchstart="onDesignTouchStart(di)"
-						@touchend="onDesignTouchEnd" @touchcancel="onDesignTouchEnd" @click="openDesign(d)">
-						<view class="design-icon-wrap" flatten :style="getDesignIconWrapStyle(d)">
-							<sn-icon :name="d.icon" :size="20" :color="d.color" />
-						</view>
-						<view class="design-body" flatten>
-							<sn-text bold font-size="$14" :color="cardTitleColor">{{ t(d.name) }}</sn-text>
-								<sn-text font-size="$11" :color="mutedColor" custom-style="margin-top:3px;">{{ t(d.desc) }}</sn-text>
-						</view>
-						<sn-icon name="arrow-right-s-line" :size="18" :color="mutedColor" />
+			<view class="design-grid">
+				<view v-for="(d, di) in designEntries" :key="'d' + di" class="design-card glass" :style="getGridCardStyle(di, pressedDesign)"
+					@touchstart="onDesignTouchStart(di)"
+					@touchend="onDesignTouchEnd" @touchcancel="onDesignTouchEnd" @click="openDesign(d)">
+					<view class="design-icon-wrap" flatten :style="getGridIconWrapStyle(d.lightColor)">
+						<sn-icon :name="d.icon" :size="20" :color="d.color" />
 					</view>
+					<sn-text bold font-size="$14" :color="cardTitleColor"
+						custom-style="margin-bottom:4px;">{{ t(d.name) }}</sn-text>
+					<sn-text font-size="$11" :color="mutedColor">{{ t(d.desc) }}</sn-text>
 				</view>
-
+			</view>
 				<sn-text bold font-size="$17" :color="sectionTitleColor"
 					custom-style="margin-top:20px;margin-bottom:12px;margin-left:4px;">{{ t('comps.sectionCategories') }}</sn-text>
 
 				<view class="cat-grid">
-					<view v-for="(cat, ci) in categories" :key="'c'+ci" class="cat-card glass" :style="getCatCardStyle(cat, ci)"
-						:class="{ 'cat-card-active': pressedCat == ci }" @touchstart="onCatTouchStart(ci)"
-						@touchend="onCatTouchEnd" @touchcancel="onCatTouchEnd" @click="openCat(ci)">
-						<view class="cat-card-top" flatten>
-							<view class="cat-icon-wrap" flatten :style="getCatIconWrapStyle(cat)">
-								<sn-icon :name="cat.icon" :size="20" :color="cat.color" />
-							</view>
+				<view v-for="(cat, ci) in categories" :key="'c'+ci" class="cat-card glass" :style="getGridCardStyle(ci, pressedCat)"
+					:class="{ 'cat-card-active': pressedCat == ci }" @touchstart="onCatTouchStart(ci)"
+					@touchend="onCatTouchEnd" @touchcancel="onCatTouchEnd" @click="openCat(ci)">
+					<view class="cat-card-top" flatten>
+						<view class="cat-icon-wrap" flatten :style="getGridIconWrapStyle(cat.lightColor)">
+							<sn-icon :name="cat.icon" :size="20" :color="cat.color" />
 						</view>
+					</view>
 						<sn-text bold font-size="$14" :color="cardTitleColor"
 							custom-style="margin-bottom:4px;">{{ t(cat.name) }}</sn-text>
 						<sn-text font-size="$11" :color="mutedColor">{{ t(cat.desc) }}</sn-text>
 						<view class="cat-count-badge" :style="getCatCountStyle(cat)" flatten>
-							<sn-text flatten font-size="$10" :color="cat.color">{{ cat.items.length }}</sn-text>
+							<sn-text font-size="$10" :color="cat.color">{{ cat.items.length }}</sn-text>
 						</view>
 					</view>
 				</view>
 
 			</view>
+			<view class="home-tabbar-safe" :style="tabbarSafeStyle" flatten></view>
 		</scroll-view>
 
 		<sn-popup ref="popupRef" position="center" render-mode="v-show" ani-time="$normal" @clickoverlay="closeCatPopup">
@@ -104,9 +103,9 @@
 							<view v-for="(item, ii) in categories[activeCat].items" :key="'i'+ii"
 								class="popup-item" :style="getPopupItemStyle(ii, categories[activeCat].items.length)"
 								@click="navTo(item.url)">
-								<sn-icon :name="item.icon" :size="18" :color="accentColor" flatten />
-								<sn-text font-size="$14" :color="itemColor" custom-style="margin-left:12px;flex:1;" flatten>{{ itemLabel(item) }}</sn-text>
-								<sn-icon name="arrow-right-s-line" :size="16" :color="mutedColor" flatten />
+								<sn-icon :name="item.icon" :size="18" :color="accentColor"/>
+								<sn-text font-size="$14" :color="itemColor" custom-style="margin-left:12px;flex:1;">{{ itemLabel(item) }}</sn-text>
+								<sn-icon name="arrow-right-s-line" :size="16" :color="mutedColor"/>
 							</view>
 						</view>
 						<view v-else class="popup-empty" flatten>
@@ -120,9 +119,9 @@
 	</view>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { $snui, snu, useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import { $snui, snu, useTheme, useTabbarHeights } from '@/uni_modules/sinle-ui/index.uts'
 import type { ComponentPublicInstance } from 'vue'
 
 type Props = {
@@ -132,6 +131,27 @@ const props = withDefaults(defineProps<Props>(), {})
 
 const { t, locale: appLocale } = useI18n()
 const { isDark } = useTheme()
+const { tabbarHeights } = useTabbarHeights()
+const tabbarSafeStyle = computed<string>(() => {
+	const height = (tabbarHeights.value['home'] as number | null) ?? 0
+	let bottom = 0
+	try {
+		bottom = uni.getWindowInfo().safeAreaInsets?.bottom ?? 0
+	} catch (e) {
+		bottom = 0
+	}
+	return `height: ${height > 0 ? height + bottom : 0}px; flex-shrink: 0;`
+})
+
+const topbarSafeStyle = computed<string>(() => {
+	let height = parseInt($snui.topbarHeightResolved)
+	if (isNaN(height)) height = 0
+	try {
+		return `height: ${height + uni.getWindowInfo().statusBarHeight}px; flex-shrink: 0;`
+	} catch (e) {
+		return `height: ${height}px; flex-shrink: 0;`
+	}
+})
 
 type CompItem = {
 	name: string
@@ -162,6 +182,11 @@ const designEntries: DesignEntry[] = [
 		name: 'comps.design.color', desc: 'comps.design.colorDesc', icon: 'palette-line',
 		color: '#4d82ff', lightColor: 'rgba(77,130,255,0.12)',
 		url: '/pages/design/color'
+	},
+	{
+		name: 'comps.design.factors', desc: 'comps.design.factorsDesc', icon: 'ruler-line',
+		color: '#0EA5E9', lightColor: 'rgba(14,165,233,0.12)',
+		url: '/pages/design/factors'
 	}
 ]
 
@@ -251,7 +276,7 @@ const categories: CategoryItem[] = [
 	},
 	{
 		name: 'comps.cat.feedback', desc: 'comps.cat.feedbackDesc', icon: 'feedback-line',
-		color: '#F59E0B', lightColor: 'rgba(245,158,11,0.11)',
+		color: '#F59E1B', lightColor: 'rgba(245,158,11,0.11)',
 		items: [
 			{ name: 'comps.item.result', url: '/pages/components/sn-result', icon: 'checkbox-circle-line' },
 			{ name: 'comps.item.popup', url: '/pages/components/sn-popup', icon: 'window-line' },
@@ -415,11 +440,11 @@ const platformName = ref<string>('Web')
 onMounted((): void => {
 	try {
 		const sysInfo = uni.getSystemInfoSync() as unknown as UTSJSONObject
-		const platform = sysInfo['uniPlatform'] as string
+		const platform = sysInfo.uniPlatform as string
 		if (platform == 'web') {
 			platformName.value = 'Web'
 		} else if (platform == 'app') {
-			const osName = sysInfo['osName'] as string
+			const osName = sysInfo.osName as string
 			if (osName == 'android') {
 				platformName.value = 'Android'
 			} else if (osName == 'ios') {
@@ -601,7 +626,7 @@ const dividerStyle = computed((): Map<string, any> => {
 	return styles
 })
 
-function getCatCardStyle(_cat: CategoryItem, idx: number): Map<string, any> {
+function getGridCardStyle(idx: number, pressed: number): Map<string, any> {
 	const styles = new Map<string, any>()
 	styles.set('width', '48%')
 	styles.set('marginBottom', '12px')
@@ -613,16 +638,15 @@ function getCatCardStyle(_cat: CategoryItem, idx: number): Map<string, any> {
 	styles.set('borderWidth', '1px')
 	styles.set('borderStyle', 'solid')
 	styles.set('borderColor', glassBorderColor.value)
-	
 	styles.set('overflow', 'hidden')
 	styles.set('position', 'relative')
-	styles.set('transform', pressedCat.value == idx ? 'scale(0.97)' : 'scale(1)')
+	styles.set('transform', pressed == idx ? 'scale(0.97)' : 'scale(1)')
 	styles.set('transitionProperty', 'transform, box-shadow, background-color')
 	styles.set('transitionDuration', '150ms')
 	return styles
 }
 
-function getCatIconWrapStyle(cat: CategoryItem): Map<string, any> {
+function getGridIconWrapStyle(lightColor: string): Map<string, any> {
 	const styles = new Map<string, any>()
 	styles.set('width', '40px')
 	styles.set('height', '40px')
@@ -630,43 +654,7 @@ function getCatIconWrapStyle(cat: CategoryItem): Map<string, any> {
 	styles.set('alignItems', 'center')
 	styles.set('justifyContent', 'center')
 	styles.set('marginBottom', '10px')
-	styles.set('backgroundColor', cat.lightColor)
-	return styles
-}
-
-function getDesignCardStyle(d: DesignEntry): Map<string, any> {
-	const styles = new Map<string, any>()
-	styles.set('width', '100%')
-	styles.set('marginBottom', '4px')
-	styles.set('flexDirection', 'row')
-	styles.set('alignItems', 'center')
-	styles.set('paddingTop', '14px')
-	styles.set('paddingRight', '16px')
-	styles.set('paddingBottom', '14px')
-	styles.set('paddingLeft', '16px')
-	styles.set('borderRadius', `${factorRadius(20)}px`)
-	styles.set('backgroundColor', glassBgColor.value)
-	// #ifdef WEB
-	styles.set('backdropFilter', 'blur(20px)')
-	// #endif
-	styles.set('borderWidth', '1px')
-	styles.set('borderStyle', 'solid')
-	styles.set('borderColor', glassBorderColor.value)
-	styles.set('transform', pressedDesign.value == 0 ? 'scale(0.98)' : 'scale(1)')
-	styles.set('transitionProperty', 'transform, box-shadow, background-color')
-	styles.set('transitionDuration', '150ms')
-	return styles
-}
-
-function getDesignIconWrapStyle(d: DesignEntry): Map<string, any> {
-	const styles = new Map<string, any>()
-	styles.set('width', '44px')
-	styles.set('height', '44px')
-	styles.set('borderRadius', `${factorRadius(12)}px`)
-	styles.set('alignItems', 'center')
-	styles.set('justifyContent', 'center')
-	styles.set('marginRight', '12px')
-	styles.set('backgroundColor', d.lightColor)
+	styles.set('backgroundColor', lightColor)
 	return styles
 }
 
@@ -877,21 +865,23 @@ const popupScrollStyle = computed((): Map<string, any> => {
 	justify-content: space-between;
 }
 
-.design-row {
-	flex-direction: column;
-	margin: 0 0 4px 0;
+.design-grid {
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
 }
 
 .design-card {
-	flex-direction: row;
-	align-items: center;
-	position: relative;
+	padding: 14px;
 	border-radius: 20px;
+	flex-direction: column;
+	position: relative;
 }
 
-.design-body {
-	flex: 1;
-	flex-direction: column;
+.design-icon-wrap {
+	border-radius: 12px;
+	align-items: center;
+	justify-content: center;
 }
 
 .cat-card {

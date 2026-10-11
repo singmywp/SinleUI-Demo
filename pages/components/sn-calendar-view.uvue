@@ -2,13 +2,13 @@
 <sn-page :title="t('snCalendarView.title')" :show-back="true">
 		<view class="calendar-view-demo-content" flatten>
 			<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
-				<sn-text font-size="$12" color="$primary" flatten>{{ t('snCalendarView.alertText1') }}</sn-text>
-				<sn-text font-size="$12" color="$primary" custom-style="margin-top:6px;" flatten>{{ t('snCalendarView.alertText2') }}</sn-text>
+				<sn-text font-size="$12" color="$primary">{{ t('snCalendarView.alertText1') }}</sn-text>
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:6px;">{{ t('snCalendarView.alertText2') }}</sn-text>
 			</sn-alert>
 
 			<demo-card :title="t('snCalendarView.modeModel')" :subtitle="t('snCalendarView.modeModelSub')">
 				<sn-subsection v-model="modeIndex" :data="modeOptions" @change="onModeChange" />
-				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;" flatten>{{ t('snCalendarView.modelLbl', { text: formatValue(calendarValue) } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;">{{ t('snCalendarView.modelLbl', { text: formatValue(calendarValue) } as UTSJSONObject) }}</sn-text>
 			</demo-card>
 
 			<demo-card :title="t('snCalendarView.renderRange')" :subtitle="t('snCalendarView.renderRangeSub')">
@@ -22,11 +22,11 @@
 
 			<demo-card :title="t('snCalendarView.canvasPaint')" :subtitle="t('snCalendarView.canvasPaintSub')">
 				<view class="calendar-view-control-row" flatten>
-					<sn-text :text="t('snCalendarView.enablePaint')" font-size="$13" color="$text" custom-style="flex:1;" flatten />
+					<sn-text :text="t('snCalendarView.enablePaint')" font-size="$13" color="$text" custom-style="flex:1;"/>
 					<sn-switch v-model="customRender" />
 				</view>
 				<view class="calendar-view-control-row calendar-view-control-row-space" flatten>
-					<sn-text :text="t('snCalendarView.showWatermark')" font-size="$13" color="$text" custom-style="flex:1;" flatten />
+					<sn-text :text="t('snCalendarView.showWatermark')" font-size="$13" color="$text" custom-style="flex:1;"/>
 					<sn-switch v-model="showWatermark" />
 				</view>
 			</demo-card>
@@ -44,13 +44,13 @@
 			</demo-card>
 			
 			<demo-card :title="t('snCalendarView.eventRecord')" :subtitle="t('snCalendarView.eventRecordSub')">
-				<sn-text font-size="$12" color="$text" flatten>{{ eventResult }}</sn-text>
+				<sn-text font-size="$12" color="$text">{{ eventResult }}</sn-text>
 			</demo-card>
 		</view>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { createCalendarDayContent, dayuts } from '@/uni_modules/sinle-ui/index.uts'
 import type { ComponentPublicInstance } from 'vue'

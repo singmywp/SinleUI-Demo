@@ -2,23 +2,23 @@
 	<sn-page :title="t('snLabelCheckbox.title')" :show-back="true">
 		<demo-card :title="t('snLabelCheckbox.basicTitle')" :subtitle="t('snLabelCheckbox.basicDesc')">
 			<sn-label-checkbox v-model="check1" :data="hobbyData" />
-			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLabelCheckbox.currentSelected') }}{{ check1Text }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLabelCheckbox.currentSelected') }}{{ check1Text }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snLabelCheckbox.defaultTitle')" :subtitle="t('snLabelCheckbox.defaultDesc')">
 			<sn-label-checkbox v-model="check2" :data="hobbyData" />
-			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLabelCheckbox.initialSelected') }}{{ check2Text }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLabelCheckbox.initialSelected') }}{{ check2Text }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snLabelCheckbox.disabledTitle')" :subtitle="t('snLabelCheckbox.disabledDesc')">
-			<sn-text flatten font-size="$12" color="$textLight">{{ t('snLabelCheckbox.disabledAll') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight">{{ t('snLabelCheckbox.disabledAll') }}</sn-text>
 			<sn-label-checkbox v-model="check3" :data="hobbyData" disabled />
-			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:10px;">{{ t('snLabelCheckbox.disabledSingle') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:10px;">{{ t('snLabelCheckbox.disabledSingle') }}</sn-text>
 			<sn-label-checkbox v-model="check4" :data="disabledData" />
 		</demo-card>
 
 		<demo-card :title="t('snLabelCheckbox.iconPosTitle')" :subtitle="t('snLabelCheckbox.iconPosDesc')">
-			<sn-text flatten font-size="$12" color="$textLight">{{ t('snLabelCheckbox.iconRight') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight">{{ t('snLabelCheckbox.iconRight') }}</sn-text>
 			<sn-label-checkbox v-model="check5" :data="hobbyData" icon-position="right" />
 			<sn-label-checkbox v-model="check6" :data="hobbyData" custom-style="margin-top:10px;" />
 		</demo-card>
@@ -34,7 +34,7 @@
 		</demo-card>
 
 		<demo-card :title="t('snLabelCheckbox.sizeTitle')" :subtitle="t('snLabelCheckbox.sizeDesc')">
-			<sn-text flatten font-size="$12" color="$textLight">{{ t('snLabelCheckbox.largeLabel') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight">{{ t('snLabelCheckbox.largeLabel') }}</sn-text>
 			<sn-label-checkbox v-model="check9" :data="hobbyData" item-padding="16px 28px" text-size="$16"
 				icon-size="20" />
 			<sn-label-checkbox v-model="check10" :data="hobbyData" item-padding="8px 12px" text-size="$12"
@@ -43,20 +43,20 @@
 
 		<demo-card :title="t('snLabelCheckbox.eventsTitle')" :subtitle="t('snLabelCheckbox.eventsDesc')">
 			<sn-label-checkbox v-model="check11" :data="hobbyData" @change="onChange" />
-			<sn-text flatten font-size="$13" color="$primary" custom-style="margin-top:10px;">{{ t('snLabelCheckbox.recentEvent') }}{{ changeLog }}</sn-text>
+			<sn-text font-size="$13" color="$primary" custom-style="margin-top:10px;">{{ t('snLabelCheckbox.recentEvent') }}{{ changeLog }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snLabelCheckbox.sceneTitle')" :subtitle="t('snLabelCheckbox.sceneDesc')">
 			<view class="scene-card" flatten>
-				<sn-text flatten bold font-size="$14" color="$text">{{ t('snLabelCheckbox.selectCategory') }}</sn-text>
+				<sn-text bold font-size="$14" color="$text">{{ t('snLabelCheckbox.selectCategory') }}</sn-text>
 				<sn-label-checkbox v-model="filter" :data="filterData" custom-style="margin-top:10px;" />
-				<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLabelCheckbox.selectedCount', { n: filter.length } as UTSJSONObject) }}{{ filterText }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLabelCheckbox.selectedCount', { n: filter.length } as UTSJSONObject) }}{{ filterText }}</sn-text>
 			</view>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
 

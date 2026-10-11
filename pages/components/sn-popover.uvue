@@ -3,14 +3,14 @@
 		<demo-card :title="t('snPopover.longpressTitle')" :subtitle="t('snPopover.longpressSubtitle')">
 			<sn-view class="gesture-pad" bg-color="$infoDark" border-radius="$16" flex="1" custom-style="height: 220px;"
 				@touchstart="onPadTouchStart" @longpress="onPadLongpress">
-				<sn-text font-size="$14" bold color="$infoText" custom-style="margin: 16px;" flatten>{{ t('snPopover.longPressArea') }}</sn-text>
+				<sn-text font-size="$14" bold color="$infoText" custom-style="margin: 16px;">{{ t('snPopover.longPressArea') }}</sn-text>
 			</sn-view>
 		</demo-card>
 
 		<demo-card :title="t('snPopover.edgeTitle')" :subtitle="t('snPopover.edgeSubtitle')">
 			<sn-view class="gesture-pad" bg-color="$primaryLight" border-radius="$16" flex="1" custom-style="height: 200px;"
 				@touchstart="onEdgeTouchStart" @longpress="onEdgeLongpress">
-				<sn-text font-size="$14" bold color="$primaryLightText" custom-style="margin: 16px;" flatten>{{ t('snPopover.longPressEdge') }}</sn-text>
+				<sn-text font-size="$14" bold color="$primaryLightText" custom-style="margin: 16px;">{{ t('snPopover.longPressEdge') }}</sn-text>
 			</sn-view>
 		</demo-card>
 
@@ -40,7 +40,7 @@
 				<view class="h-gap" flatten></view>
 				<sn-stepper v-model="aniTimeVal" :min="0" :step="50" custom-style="flex:1;min-width:0;" />
 			</view>
-			<sn-text type="text-light" font-size="$12" custom-style="margin-top: 8px;" flatten>{{ t('snPopover.animTip') }}</sn-text>
+			<sn-text type="text-light" font-size="$12" custom-style="margin-top: 8px;">{{ t('snPopover.animTip') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snPopover.animFuncTitle')" :subtitle="t('snPopover.animFuncSubtitle')">
@@ -49,17 +49,17 @@
 				<view class="h-gap" flatten></view>
 				<sn-button type="success" level="first" size="normal" @click="openShakePopover">{{ t('snPopover.shakeIn') }}</sn-button>
 			</view>
-			<sn-text type="text-light" font-size="$12" custom-style="margin-top: 8px;" flatten>{{ t('snPopover.animFuncTip') }}</sn-text>
+			<sn-text type="text-light" font-size="$12" custom-style="margin-top: 8px;">{{ t('snPopover.animFuncTip') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snPopover.styleTitle')" :subtitle="t('snPopover.styleSubtitle')">
 			<sn-view class="gesture-pad" bg-color="$warningLight" border-radius="$16" flex="1" custom-style="height: 160px;"
 				@touchstart="onStyleTouchStart" @longpress="onStyleLongpress">
-				<sn-text font-size="$14" bold color="$warningLightText" custom-style="margin: 16px;" flatten>{{ t('snPopover.styleLongPress') }}</sn-text>
+				<sn-text font-size="$14" bold color="$warningLightText" custom-style="margin: 16px;">{{ t('snPopover.styleLongPress') }}</sn-text>
 			</sn-view>
 		</demo-card>
 
-		<sn-text v-if="lastEvent != ''" type="text-light" font-size="$12" custom-style="margin-left:16px;margin-right:16px;" flatten>{{ lastEvent }}</sn-text>
+		<sn-text v-if="lastEvent != ''" type="text-light" font-size="$12" custom-style="margin-left:16px;margin-right:16px;">{{ lastEvent }}</sn-text>
 
 		<sn-popover ref="popoverRef" :z-index="1000" close-on-click-overlay @clickoverlay="onOverlayClick"
 			@update:show="onUpdateShow" @afterenter="onEvt('afterenter')" @afterleave="onEvt('afterleave')">
@@ -77,8 +77,8 @@
 
 		<sn-popover ref="edgeRef" :z-index="1000" close-on-click-overlay>
 			<view class="pop-card pop-edge">
-				<sn-text font-size="$14" bold custom-style="padding: 14px; color: var(--sn-primary);" flatten>{{ t('snPopover.edgeLongPressTitle') }}</sn-text>
-				<sn-text font-size="$12" type="text-light" custom-style="padding: 0 14px 14px;" flatten>{{ t('snPopover.edgeContent') }}</sn-text>
+				<sn-text font-size="$14" bold custom-style="padding: 14px; color: var(--sn-primary);">{{ t('snPopover.edgeLongPressTitle') }}</sn-text>
+				<sn-text font-size="$12" type="text-light" custom-style="padding: 0 14px 14px;">{{ t('snPopover.edgeContent') }}</sn-text>
 			</view>
 		</sn-popover>
 
@@ -96,38 +96,38 @@
 		<sn-popover ref="overlayRef" :z-index="1000" :overlay="true" :overlay-opacity="0.4" close-on-click-overlay
 			@clickoverlay="onOverlayClick">
 			<view class="pop-card pop-overlay">
-				<sn-text font-size="$14" bold custom-style="padding: 14px; color: var(--sn-primary);" flatten>{{ t('snPopover.overlayLayer') }}</sn-text>
-				<sn-text font-size="$12" type="text-light" custom-style="padding: 0 14px 14px;" flatten>{{ t('snPopover.overlayClose') }}</sn-text>
+				<sn-text font-size="$14" bold custom-style="padding: 14px; color: var(--sn-primary);">{{ t('snPopover.overlayLayer') }}</sn-text>
+				<sn-text font-size="$12" type="text-light" custom-style="padding: 0 14px 14px;">{{ t('snPopover.overlayClose') }}</sn-text>
 			</view>
 		</sn-popover>
 
 		<sn-popover ref="animRef" :z-index="1000" close-on-click-overlay
 			:animation="currentAnim" :ani-time="aniTimeVal">
 			<view class="pop-card pop-anim">
-				<sn-text font-size="$14" bold custom-style="padding: 14px; color: var(--sn-primary);" :text="t('snPopover.animType', { value: currentAnim } as UTSJSONObject)" flatten />
-				<sn-text font-size="$12" type="text-light" custom-style="padding: 0 14px 14px;" flatten>{{ t('snPopover.animDuration', { value: aniTimeVal } as UTSJSONObject) }} ms</sn-text>
+				<sn-text font-size="$14" bold custom-style="padding: 14px; color: var(--sn-primary);" :text="t('snPopover.animType', { value: currentAnim } as UTSJSONObject)"/>
+				<sn-text font-size="$12" type="text-light" custom-style="padding: 0 14px 14px;">{{ t('snPopover.animDuration', { value: aniTimeVal } as UTSJSONObject) }} ms</sn-text>
 			</view>
 		</sn-popover>
 
 		<sn-popover ref="flipRef" :z-index="1000" :ani-time="450" close-on-click-overlay
 			:open-animation="flipOpenAnim" :close-animation="flipCloseAnim">
 			<view class="pop-card pop-flip">
-				<sn-text font-size="$14" bold custom-style="padding: 14px; color: var(--sn-warning);" flatten>{{ t('snPopover.flipTitle') }}</sn-text>
-				<sn-text font-size="$12" type="text-light" custom-style="padding: 0 14px 14px;" flatten>{{ t('snPopover.flipContent') }}</sn-text>
+				<sn-text font-size="$14" bold custom-style="padding: 14px; color: var(--sn-warning);">{{ t('snPopover.flipTitle') }}</sn-text>
+				<sn-text font-size="$12" type="text-light" custom-style="padding: 0 14px 14px;">{{ t('snPopover.flipContent') }}</sn-text>
 			</view>
 		</sn-popover>
 
 		<sn-popover ref="shakeRef" :z-index="1000" :ani-time="450" close-on-click-overlay
 			:open-animation="shakeOpenAnim" :close-animation="shakeCloseAnim">
 			<view class="pop-card pop-shake">
-				<sn-text font-size="$14" bold custom-style="padding: 14px; color: var(--sn-success);" flatten>{{ t('snPopover.shakeTitle') }}</sn-text>
-				<sn-text font-size="$12" type="text-light" custom-style="padding: 0 14px 14px;" flatten>{{ t('snPopover.shakeContent') }}</sn-text>
+				<sn-text font-size="$14" bold custom-style="padding: 14px; color: var(--sn-success);">{{ t('snPopover.shakeTitle') }}</sn-text>
+				<sn-text font-size="$12" type="text-light" custom-style="padding: 0 14px 14px;">{{ t('snPopover.shakeContent') }}</sn-text>
 			</view>
 		</sn-popover>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type { ComponentPublicInstance } from 'vue'
 import type { SnTouchEvent } from '@/uni_modules/sinle-ui'

@@ -2,23 +2,23 @@
 	<sn-page :title="t('snLabelRadio.title')" :show-back="true">
 		<demo-card :title="t('snLabelRadio.basicTitle')" :subtitle="t('snLabelRadio.basicDesc')">
 			<sn-label-radio v-model="radio1" :data="basicData" />
-			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLabelRadio.currentSelected') }}{{ radio1 }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLabelRadio.currentSelected') }}{{ radio1 }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snLabelRadio.defaultTitle')" :subtitle="t('snLabelRadio.defaultDesc')">
 			<sn-label-radio v-model="radio2" :data="basicData" />
-			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLabelRadio.initialSelected') }}{{ radio2 }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLabelRadio.initialSelected') }}{{ radio2 }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snLabelRadio.disabledTitle')" :subtitle="t('snLabelRadio.disabledDesc')">
-			<sn-text flatten font-size="$12" color="$textLight">{{ t('snLabelRadio.disabledAll') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight">{{ t('snLabelRadio.disabledAll') }}</sn-text>
 			<sn-label-radio v-model="radio3" :data="basicData" disabled />
-			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:10px;">{{ t('snLabelRadio.disabledSingle') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:10px;">{{ t('snLabelRadio.disabledSingle') }}</sn-text>
 			<sn-label-radio v-model="radio4" :data="disabledData" />
 		</demo-card>
 
 		<demo-card :title="t('snLabelRadio.iconPosTitle')" :subtitle="t('snLabelRadio.iconPosDesc')">
-			<sn-text flatten font-size="$12" color="$textLight">{{ t('snLabelRadio.iconRight') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight">{{ t('snLabelRadio.iconRight') }}</sn-text>
 			<sn-label-radio v-model="radio5" :data="basicData" icon-position="right" />
 			<sn-label-radio v-model="radio6" :data="basicData" custom-style="margin-top:10px;" />
 		</demo-card>
@@ -34,7 +34,7 @@
 		</demo-card>
 
 		<demo-card :title="t('snLabelRadio.sizeTitle')" :subtitle="t('snLabelRadio.sizeDesc')">
-			<sn-text flatten font-size="$12" color="$textLight">{{ t('snLabelRadio.largeLabel') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight">{{ t('snLabelRadio.largeLabel') }}</sn-text>
 			<sn-label-radio v-model="radio9" :data="basicData" item-padding="16px 28px" text-size="$16"
 				icon-size="20" />
 			<sn-label-radio v-model="radio10" :data="basicData" item-padding="8px 12px" text-size="$12"
@@ -43,20 +43,20 @@
 
 		<demo-card :title="t('snLabelRadio.eventsTitle')" :subtitle="t('snLabelRadio.eventsDesc')">
 			<sn-label-radio v-model="radio11" :data="basicData" @change="onChange" />
-			<sn-text flatten font-size="$13" color="$primary" custom-style="margin-top:10px;">{{ t('snLabelRadio.recentEvent') }}{{ changeLog }}</sn-text>
+			<sn-text font-size="$13" color="$primary" custom-style="margin-top:10px;">{{ t('snLabelRadio.recentEvent') }}{{ changeLog }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snLabelRadio.sceneTitle')" :subtitle="t('snLabelRadio.sceneDesc')">
 			<view class="scene-card" flatten>
-				<sn-text flatten bold font-size="$14" color="$text">{{ t('snLabelRadio.selectDelivery') }}</sn-text>
+				<sn-text bold font-size="$14" color="$text">{{ t('snLabelRadio.selectDelivery') }}</sn-text>
 				<sn-label-radio v-model="delivery" :data="deliveryData" custom-style="margin-top:10px;" />
-				<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLabelRadio.currentIndex') }}{{ delivery }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLabelRadio.currentIndex') }}{{ delivery }}</sn-text>
 			</view>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
 

@@ -13,21 +13,21 @@
 					{{ t('snKeyboardTop.send') }}
 				</sn-button>
 			</view>
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">
 				{{ commentText == '' ? t('snKeyboardTop.emptyValue') : commentText }}
 			</sn-text>
-			<sn-text font-size="$12" color="$textLight" flatten>{{ t('snKeyboardTop.readonlyDesc') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight">{{ t('snKeyboardTop.readonlyDesc') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snKeyboardTop.slotTitle')" :subtitle="t('snKeyboardTop.slotSub')">
-			<sn-text font-size="$14" :color="textColor" flatten>{{ t('snKeyboardTop.slotLiveDesc') }}</sn-text>
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>
+			<sn-text font-size="$14" :color="textColor">{{ t('snKeyboardTop.slotLiveDesc') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">
 				{{ t('snKeyboardTop.slotDesc') }}
 			</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snKeyboardTop.switchTitle')" :subtitle="t('snKeyboardTop.switchSub')">
-			<sn-text font-size="$14" :color="textColor" flatten>{{ t('snKeyboardTop.switchDesc') }}</sn-text>
+			<sn-text font-size="$14" :color="textColor">{{ t('snKeyboardTop.switchDesc') }}</sn-text>
 			<view class="field-row" flatten>
 				<sn-button type="primary" custom-style="margin-right:10px;" @click="onShowPanel('comment')">
 					{{ t('snKeyboardTop.btnComment') }}
@@ -37,14 +37,14 @@
 				</sn-button>
 				<sn-button type="primary" @click="onShowPanel('reply')">{{ t('snKeyboardTop.btnReply') }}</sn-button>
 			</view>
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">
 				{{ t('snKeyboardTop.currentPanel') }}{{ currentPanelLabel }}
 			</sn-text>
-			<sn-text font-size="$12" color="$textLight" flatten>{{ t('snKeyboardTop.singleTip') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight">{{ t('snKeyboardTop.singleTip') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snKeyboardTop.animTitle')" :subtitle="t('snKeyboardTop.animSub')">
-			<sn-text font-size="$14" color="$textLight" flatten>{{ t('snKeyboardTop.aniTimeLabel') }}{{ aniTimeText }}</sn-text>
+			<sn-text font-size="$14" color="$textLight">{{ t('snKeyboardTop.aniTimeLabel') }}{{ aniTimeText }}</sn-text>
 			<view class="field-row" flatten>
 				<sn-button type="primary" custom-style="margin-right:10px;" @click="onSetAniTime(0)">
 					{{ t('snKeyboardTop.aniNone') }}
@@ -87,7 +87,7 @@
 		<sn-keyboard-top ref="replyPanelRef" :show="currentPanel == 'reply'" :ani-time="aniTimeValue">
 			<template v-slot:default="slotProps">
 				<view class="bar-reply" :style="replyStyle">
-					<sn-text font-size="$12" color="$textLight" flatten>{{ t('snKeyboardTop.replyTo') }}@{{ replyTarget }}</sn-text>
+					<sn-text font-size="$12" color="$textLight">{{ t('snKeyboardTop.replyTo') }}@{{ replyTarget }}</sn-text>
 					<sn-input v-model="replyText" :placeholder="t('snKeyboardTop.replyPlaceholder')"
 						:focus="slotProps.focus" :hold-keyboard="true" :maxlength="200"
 						placeholder-style="color:#8a8a8a;" custom-style="margin-top:6px;height:46px;background-color:var(--sn-page);border-color:var(--sn-line);" />
@@ -106,7 +106,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 	import { useI18n } from 'vue-i18n'
 	import { $snui, snu } from '@/uni_modules/sinle-ui'
 

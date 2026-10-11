@@ -1,6 +1,5 @@
 <template>
-	<sn-page>
-		<sn-topbar :title="t('snSelect.title')"></sn-topbar>
+	<sn-page :title="t('snSelect.title')" :show-back="true">
 
 		<demo-card :title="t('snSelect.demoBasicTitle')" :subtitle="t('snSelect.demoBasicSub')">
 			<view class="demo-center" flatten>
@@ -8,7 +7,7 @@
 			</view>
 			<sn-text type="text-light" fontSize="$12"
 				:text="t('snSelect.currentSelected', { text: getSelectedText(basicOptions, basicValue), idx: basicValue } as UTSJSONObject)"
-				custom-style="margin-top:10px;text-align:center;" flatten />
+				custom-style="margin-top:10px;text-align:center;"/>
 		</demo-card>
 
 		<demo-card :title="t('snSelect.demoColorTitle')" :subtitle="t('snSelect.demoColorSub')">
@@ -18,14 +17,14 @@
 					:selected-item-bg-color="colorSelectedBg" :selected-item-text-color="colorSelectedText"
 					:item-hover-style="colorHoverStyle" />
 			</view>
-			<sn-text type="text-light" fontSize="$12" :text="t('snSelect.colorTip')" custom-style="margin-top:10px;text-align:center;" flatten />
+			<sn-text type="text-light" fontSize="$12" :text="t('snSelect.colorTip')" custom-style="margin-top:10px;text-align:center;"/>
 		</demo-card>
 
 		<demo-card :title="t('snSelect.demoIconTitle')" :subtitle="t('snSelect.demoIconSub')">
 			<view class="demo-center" flatten>
 				<sn-select v-model="iconValue" :data="iconOptions" width="220px" />
 			</view>
-			<sn-text type="text-light" fontSize="$12" :text="t('snSelect.iconTip')" custom-style="margin-top:10px;text-align:center;" flatten />
+			<sn-text type="text-light" fontSize="$12" :text="t('snSelect.iconTip')" custom-style="margin-top:10px;text-align:center;"/>
 		</demo-card>
 
 		<demo-card :title="t('snSelect.demoCellTitle')" :subtitle="t('snSelect.demoCellSub')">
@@ -33,14 +32,14 @@
 				<sn-select v-model="cellValue" :data="cellOptions" width="200px"
 					item-style="padding-top:6px;padding-bottom:6px;" />
 			</view>
-			<sn-text type="text-light" fontSize="$12" :text="t('snSelect.cellTip')" custom-style="margin-top:10px;text-align:center;" flatten />
+			<sn-text type="text-light" fontSize="$12" :text="t('snSelect.cellTip')" custom-style="margin-top:10px;text-align:center;"/>
 		</demo-card>
 
 		<demo-card :title="t('snSelect.demoCheckTitle')" :subtitle="t('snSelect.demoCheckSub')">
 			<view class="demo-center" flatten>
 				<sn-select v-model="checkValue" :data="checkOptions" width="200px" selectedMode="check" />
 			</view>
-			<sn-text type="text-light" fontSize="$12" :text="t('snSelect.checkTip1')" custom-style="margin-top:10px;text-align:center;" flatten />
+			<sn-text type="text-light" fontSize="$12" :text="t('snSelect.checkTip1')" custom-style="margin-top:10px;text-align:center;"/>
 			<sn-select v-model="checkValue2" :data="checkOptions" width="200px" selectedMode="check"
 				check-icon-color="$error" check-icon-size="$18" custom-style="margin-top:14px;align-self:center;" />
 			<sn-text type="text-light" fontSize="$12" :text="t('snSelect.checkTip2')" custom-style="margin-top:10px;text-align:center;" />
@@ -52,7 +51,7 @@
 					text-style="color: var(--sn-error);" pop-class="demo-select-pop"
 					pop-style="box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);" />
 			</view>
-			<sn-text flatten type="text-light" fontSize="$12" :text="t('snSelect.extTip')" custom-style="margin-top:10px;text-align:center;" />
+			<sn-text type="text-light" fontSize="$12" :text="t('snSelect.extTip')" custom-style="margin-top:10px;text-align:center;" />
 		</demo-card>
 
 		<demo-card :title="t('snSelect.demoSceneTitle')" :subtitle="t('snSelect.demoSceneSub')">
@@ -75,12 +74,12 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useTheme } from '@/uni_modules/sinle-ui'
-import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type { SnSelectItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
 
 const { t } = useI18n()
 const { isDark } = useTheme()
@@ -105,38 +104,38 @@ const sortValue = ref<number>(0)
 const extValue = ref<number>(0)
 const longValue = ref<number>(25)
 
-const basicOptions = computed<SnDataItem[]>(() => [
+const basicOptions = computed<SnSelectItem[]>(() => [
 	{ id: 'android', text: 'Android' },
 	{ id: 'ios', text: 'iOS' },
 	{ id: 'web', text: 'Web' },
 	{ id: 'mp', text: t('snSelect.mpText') }
 ])
 
-const colorOptions = computed<SnDataItem[]>(() => [
+const colorOptions = computed<SnSelectItem[]>(() => [
 	{ id: 'light', text: t('snSelect.lightText') },
 	{ id: 'dark', text: t('snSelect.darkText') },
 	{ id: 'auto', text: t('snSelect.autoText') }
 ])
 
-const iconOptions = computed<SnDataItem[]>(() => [
-	{ id: 'star', text: t('snSelect.starText'), icon: 'star-line' },
-	{ id: 'heart', text: t('snSelect.heartText'), icon: 'heart-line' },
-	{ id: 'gift', text: t('snSelect.giftText'), icon: 'gift-line', disabled: true }
+const iconOptions = computed<SnSelectItem[]>(() => [
+	{ id: 'star', text: t('snSelect.starText'), leftIcon: 'star-line', rightIcon: 'arrow-right-s-line', leftIconColor: '$warning', rightIconColor: '$text-light' },
+	{ id: 'heart', text: t('snSelect.heartText'), leftIcon: 'heart-line', textColor: '$error', rightIcon: 'arrow-right-s-line' },
+	{ id: 'gift', text: t('snSelect.giftText'), leftIcon: 'gift-line', disabled: true }
 ])
 
-const cellOptions = computed<SnDataItem[]>(() => [
+const cellOptions = computed<SnSelectItem[]>(() => [
 	{ id: 'small', text: t('snSelect.smallText') },
 	{ id: 'normal', text: t('snSelect.normalText') },
 	{ id: 'loose', text: t('snSelect.looseText') }
 ])
 
-const checkOptions = computed<SnDataItem[]>(() => [
+const checkOptions = computed<SnSelectItem[]>(() => [
 	{ id: 'v1', text: t('snSelect.v1Text') },
 	{ id: 'v2', text: t('snSelect.v2Text') },
 	{ id: 'v3', text: t('snSelect.v3Text') }
 ])
 
-const sortOptions = computed<SnDataItem[]>(() => [
+const sortOptions = computed<SnSelectItem[]>(() => [
 	{ id: 'default', text: t('snSelect.sortDefault') },
 	{ id: 'sales', text: t('snSelect.sortSales') },
 	{ id: 'price-asc', text: t('snSelect.sortPriceAsc') },
@@ -144,15 +143,15 @@ const sortOptions = computed<SnDataItem[]>(() => [
 	{ id: 'newest', text: t('snSelect.sortNewest') }
 ])
 
-const longOptions = computed<SnDataItem[]>(() => {
-	const arr: SnDataItem[] = []
+const longOptions = computed<SnSelectItem[]>(() => {
+	const arr: SnSelectItem[] = []
 	for (let i = 0; i < 30; i++) {
 		arr.push({ id: `opt-${i}`, text: t('snSelect.optionText', { n: i + 1 } as UTSJSONObject) })
 	}
 	return arr
 })
 
-function getSelectedText(list: SnDataItem[], idx: number): string {
+function getSelectedText(list: SnSelectItem[], idx: number): string {
 	if (idx >= 0 && idx < list.length) {
 		const item = list[idx]
 		if (item.text != null) return item.text!

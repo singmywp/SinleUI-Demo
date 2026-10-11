@@ -1,6 +1,5 @@
 <template>
-	<sn-page :show-back="true" fill-content>
-		<sn-topbar :title="t('snGestureInstances.title')" :show-back="true"></sn-topbar>
+	<sn-page :title="t('snGestureInstances.title')" :show-back="true" fill-content>
 
 		<sn-alert type="primary" :text="t('snGestureInstances.alert')" icon="notification-fill"
 			custom-style="margin-left:16px;margin-right:16px;"></sn-alert>
@@ -14,7 +13,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type { SnTouchEvent, SnScaleEvent, SnFlingEvent } from '@/uni_modules/sinle-ui'
 

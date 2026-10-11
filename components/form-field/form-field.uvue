@@ -13,7 +13,7 @@
 	</view>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { $snui, useTheme, useFactors } from '@/uni_modules/sinle-ui/index.uts'
 import { useExternalStyle } from '@/uni_modules/sinle-ui/core/private/use-external-style.uts'
 

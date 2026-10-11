@@ -6,25 +6,25 @@
 			<view class="ud-row" style="margin-top:10px;" flatten>
 				<sn-button :text="t('snUploadMedia.upload')" type="primary" custom-style="flex:1; margin-right:8px;" @click="onUpload" />
 			</view>
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snUploadMedia.choseImages', { count: imageChoseCount, tip: uploadTip } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snUploadMedia.choseImages', { count: imageChoseCount, tip: uploadTip } as UTSJSONObject) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snUploadMedia.videoTitle')" :subtitle="t('snUploadMedia.videoSubtitle')">
 			<sn-upload-media ref="videoRef" mode="video" :url="uploadUrl" width="120px" height="120px"
 				@video-chose="onVideoChose" @uploaded="onVideoUploaded" @upload-error="onVideoUploadError" />
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snUploadMedia.choseVideos', { count: videoChoseCount, tip: videoUploadTip } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snUploadMedia.choseVideos', { count: videoChoseCount, tip: videoUploadTip } as UTSJSONObject) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snUploadMedia.mixTitle')" :subtitle="t('snUploadMedia.mixSubtitle')">
 			<sn-upload-media mode="all" :max-count="4" :auto-upload="false" @file-chose="onFileChose" />
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snUploadMedia.fileCount', { count: fileChoseCount } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snUploadMedia.fileCount', { count: fileChoseCount } as UTSJSONObject) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snUploadMedia.cloudTitle')" :subtitle="t('snUploadMedia.cloudSubtitle')">
 			<sn-upload-media-unicloud ref="cloudRef" mode="image" :auto-upload="false" directory="demoUpload/"
 				@uploaded="onCloudUploaded" @upload-error="onCloudUploadError" @choose-error="onCloudChooseError" />
 			<sn-button :text="t('snUploadMedia.upload')" type="primary" custom-style="margin-top:10px;" @click="onCloudUpload" />
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ cloudTip }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ cloudTip }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snUploadMedia.customTitle')" :subtitle="t('snUploadMedia.customSubtitle')">
@@ -44,7 +44,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 
 import { useI18n } from 'vue-i18n'

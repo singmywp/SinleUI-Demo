@@ -26,7 +26,7 @@
 			<sn-refresher ref="refresherRef" v-model:refresher-triggered="triggered" status="refresh"
 				:refresh-text="t('snRefresher.clickToRefresh')" @refresh="onRefresh" />
 			<sn-text font-size="$12" :color="triggered ? $snui.colors.primary : $snui.colors.textLight"
-				custom-style="margin-top:12px;margin-bottom:10px;" flatten>
+				custom-style="margin-top:12px;margin-bottom:10px;">
 					{{ t('snRefresher.currentTriggered', { value: triggered ? 'true' : 'false' } as UTSJSONObject) }}
 			</sn-text>
 			<view class="btn-row" flatten>
@@ -37,7 +37,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 	import { useI18n } from 'vue-i18n'
 	import { $snui } from '@/uni_modules/sinle-ui'
 	import type { ComponentPublicInstance } from 'vue'

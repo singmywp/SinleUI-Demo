@@ -2,7 +2,7 @@
 	<sn-page :title="t('snInputField.title')" :show-back="true">
 
 		<demo-card :title="t('snInputField.basicTitle')" :subtitle="t('snInputField.basicDesc')">
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snInputField.currentValue') }}{{ value1 }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snInputField.currentValue') }}{{ value1 }}</sn-text>
 		</demo-card>
 		<sn-input-field v-model="value1" :placeholder="t('snInputField.placeholderInput')" />
 
@@ -102,7 +102,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { $snui, snu } from '@/uni_modules/sinle-ui'
 import type { ComponentPublicInstance } from 'vue'

@@ -1,0 +1,255 @@
+<template>
+	<view class="group-easing">
+		<utils-card :title="t('apiUtils.easeCardTitle')" :desc="t('apiUtils.easeCardDesc')" :signature="easeSignature">
+			<scroll-view class="ease-tabs" direction="horizontal" :show-scrollbar="false">
+				<view class="ease-tabs-row" flatten>
+					<view v-for="(n, ni) in easeNames" :key="ni"
+						:class="ni == selectedEase ? 'ease-tab ease-tab-active' : 'ease-tab'" @click="selectEase(ni)">
+						<sn-text font-size="$11" :color="ni == selectedEase ? '$primaryText' : '$text'">{{ n }}</sn-text>
+					</view>
+				</view>
+			</scroll-view>
+			<view class="ease-track" ref="trackEle">
+				<view class="ease-dot" ref="dotEle"></view>
+			</view>
+			<view class="ease-meta" flatten>
+				<sn-text font-size="$12" color="$textLight">{{ elapsedText }}</sn-text>
+				<sn-text font-size="$12" color="$primary" custom-style="flex:1;text-align:right;">{{ easeHalfText }}</sn-text>
+			</view>
+			<view class="ease-controls">
+				<sn-button :text="t('apiUtils.play')" :disabled="playing" @click="play" />
+				<sn-button :text="t('apiUtils.reset')" type="info" plain custom-style="margin-left:10px;" @click="reset" />
+			</view>
+		</utils-card>
+		<utils-card :title="t('apiUtils.easeListTitle')" :desc="t('apiUtils.easeListDesc')" signature="snu.linear(t) ~ snu.easeInOutBounce(t)">
+			<view class="ease-grid">
+				<view v-for="(e, ei) in easeOverview" :key="ei" class="ease-cell" flatten>
+					<sn-text font-size="$11" color="$text">{{ e.name }}</sn-text>
+					<sn-text bold font-size="$12" color="$primary" custom-style="margin-top:2px;">{{ e.value }}</sn-text>
+				</view>
+			</view>
+		</utils-card>
+	</view>
+</template>
+
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import UtilsCard from './utils-card.uvue'
+import type { UtilsEaseItem } from './types.uts'
+
+defineOptions({
+	name: 'group-easing'
+})
+
+const { t } = useI18n()
+
+const EASE_NAMES: string[] = [
+	'linear',
+	'easeInSine', 'easeOutSine', 'easeInOutSine',
+	'easeInQuad', 'easeOutQuad', 'easeInOutQuad',
+	'easeInCubic', 'easeOutCubic', 'easeInOutCubic',
+	'easeInQuart', 'easeOutQuart', 'easeInOutQuart',
+	'easeInQuint', 'easeOutQuint', 'easeInOutQuint',
+	'easeInExpo', 'easeOutExpo', 'easeInOutExpo',
+	'easeInCirc', 'easeOutCirc', 'easeInOutCirc',
+	'easeInBack', 'easeOutBack', 'easeInOutBack',
+	'easeInElastic', 'easeOutElastic', 'easeInOutElastic',
+	'easeInBounce', 'easeOutBounce', 'easeInOutBounce'
+]
+
+const selectedEase = ref<number>(0)
+const elapsedText = ref<string>('0.00s')
+const playing = ref<boolean>(false)
+
+const trackEle = ref<UniElement | null>(null)
+const dotEle = ref<UniElement | null>(null)
+
+let timer: number | null = null
+
+const easeNames = EASE_NAMES
+
+const easeSignature = computed<string>(() => {
+	return 'snu.' + EASE_NAMES[selectedEase.value] + '(t)'
+})
+
+const easeHalfText = computed<string>(() => {
+	return EASE_NAMES[selectedEase.value] + '(0.5) = ' + easeValue(selectedEase.value, 0.5).toFixed(4)
+})
+
+const easeOverview = computed<UtilsEaseItem[]>(() => {
+	const items: UtilsEaseItem[] = []
+	for (let i = 0; i < EASE_NAMES.length; i++) {
+		items.push({ name: EASE_NAMES[i], value: easeValue(i, 0.5).toFixed(4) })
+	}
+	return items
+})
+
+function easeValue(index: number, t: number): number {
+	if (index == 0) return snu.linear(t)
+	if (index == 1) return snu.easeInSine(t)
+	if (index == 2) return snu.easeOutSine(t)
+	if (index == 3) return snu.easeInOutSine(t)
+	if (index == 4) return snu.easeInQuad(t)
+	if (index == 5) return snu.easeOutQuad(t)
+	if (index == 6) return snu.easeInOutQuad(t)
+	if (index == 7) return snu.easeInCubic(t)
+	if (index == 8) return snu.easeOutCubic(t)
+	if (index == 9) return snu.easeInOutCubic(t)
+	if (index == 10) return snu.easeInQuart(t)
+	if (index == 11) return snu.easeOutQuart(t)
+	if (index == 12) return snu.easeInOutQuart(t)
+	if (index == 13) return snu.easeInQuint(t)
+	if (index == 14) return snu.easeOutQuint(t)
+	if (index == 15) return snu.easeInOutQuint(t)
+	if (index == 16) return snu.easeInExpo(t)
+	if (index == 17) return snu.easeOutExpo(t)
+	if (index == 18) return snu.easeInOutExpo(t)
+	if (index == 19) return snu.easeInCirc(t)
+	if (index == 20) return snu.easeOutCirc(t)
+	if (index == 21) return snu.easeInOutCirc(t)
+	if (index == 22) return snu.easeInBack(t)
+	if (index == 23) return snu.easeOutBack(t)
+	if (index == 24) return snu.easeInOutBack(t)
+	if (index == 25) return snu.easeInElastic(t)
+	if (index == 26) return snu.easeOutElastic(t)
+	if (index == 27) return snu.easeInOutElastic(t)
+	if (index == 28) return snu.easeInBounce(t)
+	if (index == 29) return snu.easeOutBounce(t)
+	if (index == 30) return snu.easeInOutBounce(t)
+	return snu.linear(t)
+}
+
+function stopTimer(): void {
+	if (timer != null) {
+		clearInterval(timer)
+		timer = null
+	}
+}
+
+function selectEase(index: number): void {
+	if (selectedEase.value == index) return
+	selectedEase.value = index
+	reset()
+}
+
+function play(): void {
+	stopTimer()
+	if (trackEle.value == null || dotEle.value == null) return
+	const trackRect = trackEle.value!.getBoundingClientRect()
+	const dotRect = dotEle.value!.getBoundingClientRect()
+	const padding = 6
+	let travel = trackRect.width - dotRect.width - padding * 2
+	if (travel < 0) travel = 0
+
+	const duration = 1500
+	const startTime = Date.now()
+	playing.value = true
+	let tick = 0
+
+	timer = setInterval((): void => {
+		let t = (Date.now() - startTime) / duration
+		if (t > 1) t = 1
+		let x = easeValue(selectedEase.value, t) * travel
+		if (x < 0) x = 0
+		if (x > travel) x = travel
+		dotEle.value?.style.setProperty('transform', `translateX(${x}px)`)
+		tick++
+		if (tick % 3 == 0 || t >= 1) {
+			elapsedText.value = ((t * duration) / 1000).toFixed(2) + 's'
+		}
+		if (t >= 1) {
+			stopTimer()
+			playing.value = false
+		}
+	}, 16)
+}
+
+function reset(): void {
+	stopTimer()
+	playing.value = false
+	dotEle.value?.style.setProperty('transform', 'translateX(0px)')
+	elapsedText.value = '0.00s'
+}
+
+onUnmounted((): void => {
+	stopTimer()
+})
+</script>
+
+<style lang="scss">
+.group-easing {
+	flex-direction: column;
+}
+
+.ease-tabs {
+	width: 100%;
+	height: 34px;
+	flex-direction: row;
+}
+
+.ease-tabs-row {
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+}
+
+.ease-tab {
+	flex-shrink: 0;
+	padding: 6px 10px;
+	margin-right: 6px;
+	border-radius: 8px;
+	background-color: var(--sn-info);
+	transition-property: background-color;
+	transition-duration: var(--ani-time-short);
+}
+
+.ease-tab-active {
+	background-color: var(--sn-primary);
+}
+
+.ease-track {
+	height: 44px;
+	margin-top: 12px;
+	border-radius: 22px;
+	background-color: var(--sn-info);
+	overflow: hidden;
+	position: relative;
+	transition-property: background-color;
+	transition-duration: var(--ani-time-normal);
+}
+
+.ease-dot {
+	position: absolute;
+	top: 6px;
+	left: 6px;
+	width: 32px;
+	height: 32px;
+	border-radius: 16px;
+	background-color: var(--sn-primary);
+}
+
+.ease-meta {
+	flex-direction: row;
+	align-items: center;
+	margin-top: 8px;
+}
+
+.ease-controls {
+	flex-direction: row;
+	align-items: center;
+	margin-top: 10px;
+}
+
+.ease-grid {
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.ease-cell {
+	width: 50%;
+	flex-direction: column;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+</style>

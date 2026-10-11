@@ -6,27 +6,27 @@
 
 		<demo-card :title="t('snDateformat.relativeTitle')" :subtitle="t('snDateformat.relativeDesc')">
 			<view class="demo-line" flatten>
-				<sn-text flatten color="$textLight">{{ t('snDateformat.past') }}</sn-text>
+				<sn-text color="$textLight">{{ t('snDateformat.past') }}</sn-text>
 				<sn-dateformat :date="pastDate"
 				 :threshold="[0, 999999999]"/>
 			</view>
 			<view class="demo-line" flatten>
-				<sn-text flatten color="$textLight">{{ t('snDateformat.future') }}</sn-text>
+				<sn-text color="$textLight">{{ t('snDateformat.future') }}</sn-text>
 				<sn-dateformat :date="futureDate" />
 			</view>
 		</demo-card>
 
 		<demo-card :title="t('snDateformat.thresholdTitle')" :subtitle="t('snDateformat.thresholdDesc')">
 			<view class="demo-line" flatten>
-				<sn-text flatten color="$textLight">{{ t('snDateformat.threshold1') }}</sn-text>
+				<sn-text color="$textLight">{{ t('snDateformat.threshold1') }}</sn-text>
 				<sn-dateformat :date="thresholdNearDate" :threshold="[5000, 60000]" format="HH:mm:ss" mode="fixed" />
 			</view>
 			<view class="demo-line" flatten>
-				<sn-text flatten color="$textLight">{{ t('snDateformat.threshold2') }}</sn-text>
+				<sn-text color="$textLight">{{ t('snDateformat.threshold2') }}</sn-text>
 				<sn-dateformat :date="thresholdBetweenDate" :threshold="[5000, 60000]" format="HH:mm:ss" mode="fixed" />
 			</view>
 			<view class="demo-line" flatten>
-				<sn-text flatten color="$textLight">{{ t('snDateformat.threshold3') }}</sn-text>
+				<sn-text color="$textLight">{{ t('snDateformat.threshold3') }}</sn-text>
 				<sn-dateformat :date="thresholdFarDate" :threshold="[5000, 60000]" format="HH:mm:ss" mode="fixed" />
 			</view>
 		</demo-card>
@@ -42,7 +42,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

@@ -12,7 +12,7 @@
 			<view class="mode-grid" flatten>
 				<view v-for="item in modeItems" :key="item.mode" class="mode-item" flatten>
 					<sn-image custom-class="mode-image" :mode="item.mode" :src="modeImage" width="80px" height="80px" />
-					<sn-text flatten :text="item.label" font-size="$11" color="$textLight" custom-style="margin-top:6px;" />
+					<sn-text :text="item.label" font-size="$11" color="$textLight" custom-style="margin-top:6px;" />
 				</view>
 			</view>
 		</demo-card>
@@ -64,15 +64,15 @@
 				<view class="demo-col">
 					<sn-image custom-class="demo-stack" src="https://img2.baidu.com/it/u=3307857314,3539337404&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800"
 						@load="onLoad" @error="onError" @click="onClick" @dbclick="onDbClick" @longpress="onLongpress" />
-					<sn-text text-class="demo-stack" font-size="$13" color="$primary" flatten>{{ t('snImage.recentEvent') }}{{ lastEvent }}</sn-text>
+					<sn-text text-class="demo-stack" font-size="$13" color="$primary">{{ t('snImage.recentEvent') }}{{ lastEvent }}</sn-text>
 					<sn-image custom-class="demo-stack" src="https://it.does.not.exist/the-picture.png" width="160px" @error="onError" />
-					<sn-text font-size="$13" color="$textLight" flatten>{{ t('snImage.errorHint') }}</sn-text>
+					<sn-text font-size="$13" color="$textLight">{{ t('snImage.errorHint') }}</sn-text>
 				</view>
 			</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

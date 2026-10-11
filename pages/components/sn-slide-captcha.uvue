@@ -7,7 +7,7 @@
 		<demo-card :title="t('snSlideCaptcha.demoPuzzleTitle')" :subtitle="t('snSlideCaptcha.demoPuzzleSub')">
 			<sn-slide-captcha mode="puzzle" src="/static/captcha/scenic-mountain.png" @success="onEvent(t('snSlideCaptcha.puzzleSuccess'))"
 				@fail="onEvent(t('snSlideCaptcha.puzzleFail'))" />
-			<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlideCaptcha.refreshTip') }}</sn-text>
+			<sn-text text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlideCaptcha.refreshTip') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snSlideCaptcha.demoStyleTitle')" :subtitle="t('snSlideCaptcha.demoStyleSub')">
@@ -16,7 +16,7 @@
 			<view class="demo-gap" flatten></view>
 			<sn-slide-captcha :target="60" active-color="$primary" target-color="$primary" :thumb-size="44"
 				@success="onEvent(t('snSlideCaptcha.fixedSuccess'))" @fail="onEvent(t('snSlideCaptcha.fixedFail'))" />
-			<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlideCaptcha.targetTip') }}</sn-text>
+			<sn-text text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlideCaptcha.targetTip') }}</sn-text>
 			<view class="demo-gap" flatten></view>
 			<sn-slide-captcha mode="puzzle" src="/static/captcha/street-dusk.png" :height="160" :thumb-size="36"
 				@success="onEvent(t('snSlideCaptcha.customPuzzleSuccess'))" @fail="onEvent(t('snSlideCaptcha.customPuzzleFail'))" />
@@ -27,26 +27,26 @@
 			<view class="demo-actions" flatten>
 				<sn-button @click="onResetClick">{{ t('snSlideCaptcha.resetVerify') }}</sn-button>
 			</view>
-			<sn-text flatten text-class="demo-log" font-size="$12" :color="primaryColor">{{ eventLog }}</sn-text>
+			<sn-text text-class="demo-log" font-size="$12" :color="primaryColor">{{ eventLog }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snSlideCaptcha.demoSceneTitle')" :subtitle="t('snSlideCaptcha.demoSceneSub')">
 			<view class="demo-scene" :style="sceneStyles" flatten>
 				<view class="demo-scene-row" flatten>
 					<sn-icon name="lock-2-line" :size="18" color="$primary" />
-					<sn-text flatten font-size="$14" color="$text" custom-style="margin-left:6px;">{{ t('snSlideCaptcha.securityVerify') }}</sn-text>
+					<sn-text font-size="$14" color="$text" custom-style="margin-left:6px;">{{ t('snSlideCaptcha.securityVerify') }}</sn-text>
 				</view>
 				<sn-slide-captcha :hint-text="t('snSlideCaptcha.hintText')" :success-text="t('snSlideCaptcha.successText')" :fail-text="t('snSlideCaptcha.failText')"
 					@success="onEvent(t('snSlideCaptcha.sceneSuccess'))" @fail="onEvent(t('snSlideCaptcha.sceneFail'))" />
 			</view>
 			<view class="demo-gap" flatten></view>
 			<sn-slide-captcha disabled @success="onEvent(t('snSlideCaptcha.disabledEvent'))" @fail="onEvent(t('snSlideCaptcha.disabledEvent'))" />
-			<sn-text flatten text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlideCaptcha.disabledTip') }}</sn-text>
+			<sn-text text-class="demo-tip" font-size="$12" color="$textLight">{{ t('snSlideCaptcha.disabledTip') }}</sn-text>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { $snui } from '@/uni_modules/sinle-ui/index.uts'

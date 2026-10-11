@@ -6,17 +6,17 @@
 		</demo-card>
 
 		<demo-card :title="t('snPage.docTitle')" :subtitle="t('snPage.docSubtitle')">
-			<sn-text type="text-light" font-size="$12" style="margin-bottom: 12px" flatten>
+			<sn-text type="text-light" font-size="$12" style="margin-bottom: 12px">
 				{{ t('snPage.docDesc1') }}
 			</sn-text>
-			<sn-text type="text-light" font-size="$12" flatten>
+			<sn-text type="text-light" font-size="$12">
 				{{ t('snPage.docDesc2') }}
 			</sn-text>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { $snui } from '@/uni_modules/sinle-ui/index.uts'
 import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'

@@ -1,6 +1,7 @@
 <template>
 	<view class="api-page" flatten>
 		<scroll-view direction="vertical" class="api-scroll" :show-scrollbar="false">
+			<view class="home-topbar-safe" :style="topbarSafeStyle" flatten></view>
 			<view class="home-content" flatten>
 				<view class="hero-shell" :style="heroShellStyle" >
 					<view class="hero-glow-layer" :style="heroGlowLayerStyle" flatten>
@@ -10,18 +11,18 @@
 					</view>
 					<view class="hero-card glass" :style="heroCardStyle" flatten>
 						<view class="hero-badge" :style="badgeStyle" flatten>
-							<sn-text font-size="$11" :color="accentColor" flatten>SinleUI API</sn-text>
+							<sn-text font-size="$11" :color="accentColor">SinleUI API</sn-text>
 						</view>
 						<sn-text bold font-size="$32" :color="heroTitleColor"
-							custom-style="margin-bottom:8px;letter-spacing:-0.5px;" flatten>
+							custom-style="margin-bottom:8px;letter-spacing:-0.5px;">
 							{{ t('apiIndex.heroTitle') }}
 						</sn-text>
-						<sn-text font-size="$14" :color="heroSubColor" custom-style="margin-bottom:20px;line-height:20px;" flatten>
+						<sn-text font-size="$14" :color="heroSubColor" custom-style="margin-bottom:20px;line-height:20px;">
 							{{ t('apiIndex.heroSub') }}
 						</sn-text>
 						<view class="hero-stats" flatten>
 							<view class="hero-stat" flatten>
-								<sn-text bold font-size="$24" :color="heroAccentColor" flatten>{{ globalApiCount }}</sn-text>
+								<sn-text bold font-size="$24" :color="heroAccentColor">{{ globalApiCount }}</sn-text>
 								<sn-text font-size="$11" :color="mutedColor">{{ t('apiIndex.globalMethod') }}</sn-text>
 							</view>
 							<view class="hero-stat-divider" flatten :style="dividerStyle"></view>
@@ -39,46 +40,22 @@
 				</view>
 
 				<sn-text bold font-size="$17" :color="sectionTitleColor"
-					custom-style="margin-top:20px;margin-bottom:12px;margin-left:4px;">{{ t('apiIndex.utilsToolLib') }}</sn-text>
-
-				<view class="utils-card glass" :style="getUtilsCardStyle()"
-					@touchstart="onUtilsTouchStart"
-					@touchend="onUtilsTouchEnd" @touchcancel="onUtilsTouchEnd" @click="navTo(utilsUrl)">
-					<view class="utils-top" flatten>
-						<view class="utils-icon-wrap" flatten :style="utilsIconWrapStyle">
-							<sn-icon name="hammer-line" :size="22" :color="utilsColor" />
-						</view>
-						<view class="utils-head-body" flatten>
-							<sn-text bold font-size="$15" :color="cardTitleColor">{{ t('apiIndex.utilsName') }}</sn-text>
-							<sn-text font-size="$11" :color="mutedColor" custom-style="margin-top:3px;">{{ t('apiIndex.utilsDesc') }}</sn-text>
-						</view>
-						<sn-icon name="arrow-right-s-line" :size="18" :color="mutedColor" />
-					</view>
-					<view class="utils-tags" flatten>
-						<view v-for="(m, mi) in utilModules" :key="'m' + mi" class="utils-tag" flatten
-							:style="getUtilTagStyle(mi)">
-							<sn-text font-size="$10" :color="utilsColor">{{ m }}</sn-text>
-						</view>
-					</view>
-				</view>
-
-				<sn-text bold font-size="$17" :color="sectionTitleColor"
 					custom-style="margin-top:20px;margin-bottom:12px;margin-left:4px;">{{ t('apiIndex.utilsLib') }}</sn-text>
 
 				<view class="cat-grid">
-					<view v-for="(cat, ci) in apiCategories" :key="'c'+ci" class="cat-card glass" :style="getCatCardStyle(ci)"
+					<view v-for="(card, ci) in apiCards" :key="'c'+ci" class="cat-card glass" :style="getCatCardStyle(ci)"
 						@touchstart="onCatTouchStart(ci)"
-						@touchend="onCatTouchEnd" @touchcancel="onCatTouchEnd" @click="openCat(ci)">
+						@touchend="onCatTouchEnd" @touchcancel="onCatTouchEnd" @click="onCardClick(card)">
 						<view class="cat-card-top" flatten>
-							<view class="cat-icon-wrap" flatten :style="getCatIconWrapStyle(cat)">
-								<sn-icon :name="cat.icon" :size="20" :color="cat.color" />
+							<view class="cat-icon-wrap" flatten :style="getCatIconWrapStyle(card)">
+								<sn-icon :name="card.icon" :size="20" :color="card.color" />
 							</view>
 						</view>
 						<sn-text bold font-size="$14" :color="cardTitleColor"
-							custom-style="margin-bottom:4px;">{{ cat.name }}</sn-text>
-						<sn-text font-size="$11" :color="mutedColor">{{ cat.desc }}</sn-text>
-						<view class="cat-count-badge" :style="getCatCountStyle(cat)" flatten>
-							<sn-text flatten font-size="$10" :color="cat.color">{{ cat.items.length }}</sn-text>
+							custom-style="margin-bottom:4px;">{{ card.name }}</sn-text>
+						<sn-text font-size="$11" :color="mutedColor">{{ card.desc }}</sn-text>
+						<view v-if="card.badge > 0" class="cat-count-badge" :style="getCatCountStyle(card)" flatten>
+							<sn-text font-size="$10" :color="card.color">{{ card.badge }}</sn-text>
 						</view>
 					</view>
 				</view>
@@ -120,6 +97,7 @@
 				</view>
 
 			</view>
+			<view class="home-tabbar-safe" :style="tabbarSafeStyle" flatten></view>
 		</scroll-view>
 
 		<sn-popup ref="popupRef" position="center" ani-time="$normal" @clickoverlay="closeCatPopup">
@@ -131,10 +109,10 @@
 					<view class="popup-header">
 						<view class="popup-title-row" flatten>
 							<view v-if="activeCat >= 0" class="popup-icon-wrap" flatten :style="getPopupIconWrapStyle()">
-								<sn-icon :name="apiCategories[activeCat].icon" :size="18" :color="apiCategories[activeCat].color" />
+								<sn-icon :name="popupCategories[activeCat].icon" :size="18" :color="popupCategories[activeCat].color" />
 							</view>
-							<sn-text v-if="activeCat >= 0" bold font-size="$16" :color="cardTitleColor" flatten>
-								{{ apiCategories[activeCat].name }}
+							<sn-text v-if="activeCat >= 0" bold font-size="$16" :color="cardTitleColor">
+								{{ popupCategories[activeCat].name }}
 							</sn-text>
 						</view>
 						<view class="popup-close" :style="popupCloseStyle" @click="closeCatPopup">
@@ -142,21 +120,21 @@
 						</view>
 					</view>
 					<scroll-view direction="vertical" class="popup-scroll" :show-scrollbar="false" :style="popupScrollStyle">
-						<view v-if="activeCat >= 0 && apiCategories[activeCat].items.length > 0" class="popup-items" flatten>
-							<view v-for="(item, ii) in apiCategories[activeCat].items" :key="'i'+ii"
-								class="popup-item" :style="getPopupItemStyle(ii, apiCategories[activeCat].items.length)"
+						<view v-if="activeCat >= 0 && popupCategories[activeCat].items.length > 0" class="popup-items" flatten>
+							<view v-for="(item, ii) in popupCategories[activeCat].items" :key="'i'+ii"
+								class="popup-item" :style="getPopupItemStyle(ii, popupCategories[activeCat].items.length)"
 								@click="navTo(item.url)">
-								<sn-icon :name="item.icon" :size="18" :color="accentColor" flatten />
+								<sn-icon :name="item.icon" :size="18" :color="accentColor"/>
 								<view class="popup-item-body" flatten>
-									<sn-text font-size="$14" :color="itemColor" flatten>{{ item.name }}</sn-text>
-									<sn-text font-size="$11" :color="mutedColor" custom-style="margin-top:2px;" flatten>{{ item.desc }}</sn-text>
+									<sn-text font-size="$14" :color="itemColor">{{ item.name }}</sn-text>
+									<sn-text font-size="$11" :color="mutedColor" custom-style="margin-top:2px;">{{ item.desc }}</sn-text>
 								</view>
-								<sn-icon name="arrow-right-s-line" :size="16" :color="mutedColor" flatten />
+								<sn-icon name="arrow-right-s-line" :size="16" :color="mutedColor"/>
 							</view>
 						</view>
 						<view v-else class="popup-empty" flatten>
 							<sn-icon name="inbox-line" :size="40" :color="mutedColor" />
-							<sn-text font-size="$13" :color="mutedColor" custom-style="margin-top:12px;" flatten>{{ t('apiIndex.empty') }}</sn-text>
+							<sn-text font-size="$13" :color="mutedColor" custom-style="margin-top:12px;">{{ t('apiIndex.empty') }}</sn-text>
 						</view>
 					</scroll-view>
 				</view>
@@ -165,9 +143,9 @@
 	</view>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { $snui, useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import { $snui, useTheme, useTabbarHeights } from '@/uni_modules/sinle-ui/index.uts'
 import type { ComponentPublicInstance } from 'vue'
 
 const { t } = useI18n()
@@ -178,6 +156,27 @@ type Props = {
 const props = withDefaults(defineProps<Props>(), {})
 
 const { isDark } = useTheme()
+const { tabbarHeights } = useTabbarHeights()
+const tabbarSafeStyle = computed<string>(() => {
+	const height = (tabbarHeights.value['home'] as number | null) ?? 0
+	let bottom = 0
+	try {
+		bottom = uni.getWindowInfo().safeAreaInsets?.bottom ?? 0
+	} catch (e) {
+		bottom = 0
+	}
+	return `height: ${height > 0 ? height + bottom : 0}px; flex-shrink: 0;`
+})
+
+const topbarSafeStyle = computed<string>(() => {
+	let height = parseInt($snui.topbarHeightResolved)
+	if (isNaN(height)) height = 0
+	try {
+		return `height: ${height + uni.getWindowInfo().statusBarHeight}px; flex-shrink: 0;`
+	} catch (e) {
+		return `height: ${height}px; flex-shrink: 0;`
+	}
+})
 
 type ApiEntry = {
 	name: string
@@ -204,14 +203,64 @@ type CoreLib = {
 	url: string
 }
 
-const utilsUrl = '/pages/api/utils'
-const utilModules: string[] = [
-	'Random', 'Basic', 'Easing', 'ObjectUtils', 'System',
-	'Resolve', 'Sort', 'Text', 'Ui', 'Verify'
-]
-const utilsColor = '#F59E0B'
+type UtilPage = {
+	name: string
+	desc: string
+	icon: string
+	color: string
+	lightColor: string
+	url: string
+	count: number
+	popupIndex: number
+}
 
-const apiCategories = computed<ApiCategory[]>(() => [
+type GridCard = {
+	name: string
+	desc: string
+	icon: string
+	color: string
+	lightColor: string
+	badge: number
+	popupIndex: number
+	url: string
+}
+
+const utilPages = computed<UtilPage[]>(() => [
+	{
+		name: t('apiIndex.modRandom'), desc: t('apiUtils.randomSub'), icon: 'dice-line',
+		color: '#F59E0B', lightColor: 'rgba(245,158,11,0.12)', url: '/pages/api/utils/random', count: 4, popupIndex: -1
+	},
+	{
+		name: t('apiIndex.modBasic'), desc: t('apiUtils.basicSub'), icon: 'function-line',
+		color: '#8B5CF6', lightColor: 'rgba(139,92,246,0.12)', url: '/pages/api/utils/basic', count: 3, popupIndex: -1
+	},
+	{
+		name: t('apiIndex.modText'), desc: t('apiUtils.textSub'), icon: 'font-size-2',
+		color: '#EC4899', lightColor: 'rgba(236,72,153,0.12)', url: '/pages/api/utils/text', count: 13, popupIndex: -1
+	},
+	{
+		name: t('apiIndex.modVerify'), desc: t('apiUtils.verifySub'), icon: 'shield-check-line',
+		color: '#10B981', lightColor: 'rgba(16,185,129,0.12)', url: '/pages/api/utils/verify', count: 17, popupIndex: -1
+	},
+	{
+		name: t('apiIndex.modObject'), desc: t('apiUtils.objectSub'), icon: 'braces-line',
+		color: '#0EA5E9', lightColor: 'rgba(14,165,233,0.12)', url: '/pages/api/utils/object', count: 7, popupIndex: -1
+	},
+	{
+		name: t('apiIndex.modSort'), desc: t('apiUtils.sortSub'), icon: 'sort-asc',
+		color: '#F97316', lightColor: 'rgba(249,115,22,0.12)', url: '/pages/api/utils/sort', count: 8, popupIndex: -1
+	},
+	{
+		name: t('apiIndex.modEasing'), desc: t('apiUtils.easingSub'), icon: 'line-chart-line',
+		color: '#6366F1', lightColor: 'rgba(99,102,241,0.12)', url: '/pages/api/utils/easing', count: 31, popupIndex: -1
+	},
+	{
+		name: t('apiIndex.catPerm'), desc: t('apiUtils.permSub'), icon: 'shield-user-line',
+		color: '#EF4444', lightColor: 'rgba(239,68,68,0.12)', url: '/pages/api/utils/perm', count: 8, popupIndex: 1
+	}
+])
+
+const popupCategories = computed<ApiCategory[]>(() => [
 	{
 		name: t('apiIndex.catUi'), desc: t('apiIndex.catUiDesc'), icon: 'chat-smile-line',
 		color: '#4d82ff', lightColor: 'rgba(77,130,255,0.12)',
@@ -219,57 +268,89 @@ const apiCategories = computed<ApiCategory[]>(() => [
 			{ name: t('apiIndex.toastName'), desc: t('apiIndex.toastDesc'), icon: 'chat-smile-line', url: '/pages/api/show-toast' },
 			{ name: t('apiIndex.loadingName'), desc: t('apiIndex.loadingDesc'), icon: 'loader-4-line', url: '/pages/api/show-loading' },
 			{ name: t('apiIndex.modalName'), desc: t('apiIndex.modalDesc'), icon: 'window-line', url: '/pages/api/show-modal' },
-			{ name: t('apiIndex.actionName'), desc: t('apiIndex.actionDesc'), icon: 'apps-line', url: '/pages/api/show-actionsheet' }
+			{ name: t('apiIndex.actionName'), desc: t('apiIndex.actionDesc'), icon: 'apps-line', url: '/pages/api/show-actionsheet' },
+			{ name: t('apiUtils.uiTitle'), desc: t('apiUtils.uiSub'), icon: 'layout-line', url: '/pages/api/utils/ui' }
 		]
 	},
 	{
-		name: t('apiIndex.catSystem'), desc: t('apiIndex.catSystemDesc'), icon: 'settings-line',
-		color: '#10B981', lightColor: 'rgba(16,185,129,0.12)',
+		name: t('apiIndex.catPerm'), desc: t('apiUtils.permSub'), icon: 'shield-user-line',
+		color: '#EF4444', lightColor: 'rgba(239,68,68,0.12)',
 		items: [
-			{ name: t('apiIndex.permName'), desc: t('apiIndex.permDesc'), icon: 'shield-user-line', url: '/pages/api/perm-listener' }
+			{ name: t('apiIndex.permName'), desc: t('apiIndex.permDesc'), icon: 'shield-user-line', url: '/pages/api/perm-listener' },
+			{ name: t('apiIndex.permMiscName'), desc: t('apiUtils.permSub'), icon: 'shield-check-line', url: '/pages/api/utils/perm' }
 		]
 	}
 ])
 
+const apiCards = computed<GridCard[]>(() => {
+	const cards: GridCard[] = []
+	const ui = popupCategories.value[0]
+	cards.push({
+		name: ui.name, desc: ui.desc, icon: ui.icon, color: ui.color, lightColor: ui.lightColor,
+		badge: ui.items.length, popupIndex: 0, url: ''
+	})
+	cards.push({
+		name: t('apiIndex.catSystem'), desc: t('apiIndex.catSystemDesc'), icon: 'settings-line',
+		color: '#10B981', lightColor: 'rgba(16,185,129,0.12)', badge: 0, popupIndex: -1, url: '/pages/api/utils/system'
+	})
+	const utils = utilPages.value
+	for (let i = 0; i < utils.length; i++) {
+		const util = utils[i]
+		cards.push({
+			name: util.name, desc: util.desc, icon: util.icon, color: util.color, lightColor: util.lightColor,
+			badge: util.popupIndex >= 0 ? popupCategories.value[util.popupIndex].items.length : util.count,
+			popupIndex: util.popupIndex, url: util.url
+		})
+	}
+	return cards
+})
+
 const coreLibs = computed<CoreLib[]>(() => [
 	{
-		name: t('apiIndex.colorName'), desc: t('apiIndex.colorDesc'), icon: 'palette-line',
+		name: t('apiIndex.modColor'), desc: t('apiIndex.colorDesc'), icon: 'palette-line',
 		color: '#EC4899', lightColor: 'rgba(236,72,153,0.12)',
 		url: '/pages/api/color'
+	},
+	{
+		name: t('apiIndex.modDate'), desc: t('apiIndex.dateDesc'), icon: 'calendar-line',
+		color: '#0EA5E9', lightColor: 'rgba(14,165,233,0.12)',
+		url: '/pages/api/date'
+	},
+	{
+		name: t('apiIndex.modStore'), desc: t('apiIndex.storeDesc'), icon: 'database-2-line',
+		color: '#8B5CF6', lightColor: 'rgba(139,92,246,0.12)',
+		url: '/pages/api/store'
 	}
 ])
 
 const pluginLibs = computed<CoreLib[]>(() => [
 	{
-		name: t('apiIndex.scanName'), desc: t('apiIndex.scanDesc'), icon: 'scan-line',
+		name: t('apiIndex.modScan'), desc: t('apiIndex.scanDesc'), icon: 'scan-line',
 		color: '#F97316', lightColor: 'rgba(249,115,22,0.12)',
 		url: '/pages/api/scan'
 	}
 ])
 
-const utilsPressed = ref<boolean>(false)
 const pressedCat = ref<number>(-1)
 const pressedLib = ref<number>(-1)
 const pressedPlugin = ref<number>(-1)
 const popupRef = ref<ComponentPublicInstance | null>(null)
 const activeCat = ref<number>(-1)
 
-const globalApiCount = 5
-const utilModuleCount = utilModules.length
+const globalApiCount = computed<number>(() => {
+	let total = 0
+	for (let i = 0; i < popupCategories.value.length; i++) {
+		total += popupCategories.value[i].items.length
+	}
+	return total
+})
+const utilModuleCount = computed<number>(() => utilPages.value.length)
 const platformName = ref<string>('Web')
 
 function navTo(url: string): void {
 	uni.navigateTo({
 		url: url
 	})
-}
-
-function onUtilsTouchStart(): void {
-	utilsPressed.value = true
-}
-
-function onUtilsTouchEnd(): void {
-	utilsPressed.value = false
 }
 
 function onCatTouchStart(idx: number): void {
@@ -305,14 +386,22 @@ function openCat(idx: number): void {
 	popupRef.value?.$callMethod('open')
 }
 
+function onCardClick(card: GridCard): void {
+	if (card.popupIndex >= 0) {
+		openCat(card.popupIndex)
+	} else {
+		navTo(card.url)
+	}
+}
+
 onMounted((): void => {
 	try {
 		const sysInfo = uni.getSystemInfoSync() as unknown as UTSJSONObject
-		const platform = sysInfo['uniPlatform'] as string
+		const platform = sysInfo.uniPlatform as string
 		if (platform == 'web') {
 			platformName.value = 'Web'
 		} else if (platform == 'app') {
-			const osName = sysInfo['osName'] as string
+			const osName = sysInfo.osName as string
 			if (osName == 'android') {
 				platformName.value = 'Android'
 			} else if (osName == 'ios') {
@@ -448,55 +537,6 @@ const dividerStyle = computed((): Map<string, any> => {
 	return styles
 })
 
-function getUtilsCardStyle(): Map<string, any> {
-	const styles = new Map<string, any>()
-	styles.set('flexDirection', 'column')
-	styles.set('paddingTop', '16px')
-	styles.set('paddingRight', '16px')
-	styles.set('paddingBottom', '16px')
-	styles.set('paddingLeft', '16px')
-	styles.set('borderRadius', `${factorRadius(20)}px`)
-	styles.set('backgroundColor', glassBgColor.value)
-	// #ifdef WEB
-	styles.set('backdropFilter', 'blur(20px)')
-	// #endif
-	styles.set('borderWidth', '1px')
-	styles.set('borderStyle', 'solid')
-	styles.set('borderColor', glassBorderColor.value)
-	styles.set('overflow', 'hidden')
-	styles.set('position', 'relative')
-	styles.set('transform', utilsPressed.value ? 'scale(0.98)' : 'scale(1)')
-	styles.set('transitionProperty', 'transform, box-shadow, background-color')
-	styles.set('transitionDuration', '150ms')
-	return styles
-}
-
-const utilsIconWrapStyle = computed((): Map<string, any> => {
-	const styles = new Map<string, any>()
-	styles.set('width', '44px')
-	styles.set('height', '44px')
-	styles.set('borderRadius', `${factorRadius(12)}px`)
-	styles.set('alignItems', 'center')
-	styles.set('justifyContent', 'center')
-	styles.set('backgroundColor', isDark.value ? 'rgba(245,158,11,0.18)' : 'rgba(245,158,11,0.12)')
-	return styles
-})
-
-function getUtilTagStyle(idx: number): Map<string, any> {
-	const styles = new Map<string, any>()
-	styles.set('paddingLeft', '10px')
-	styles.set('paddingRight', '10px')
-	styles.set('paddingTop', '5px')
-	styles.set('paddingBottom', '5px')
-	styles.set('borderRadius', `${factorRadius(8)}px`)
-	styles.set('backgroundColor', isDark.value ? 'rgba(245,158,11,0.14)' : 'rgba(245,158,11,0.1)')
-	if (idx % 2 == 0) {
-		styles.set('marginRight', '8px')
-	}
-	styles.set('marginBottom', '8px')
-	return styles
-}
-
 function getCatCardStyle(idx: number): Map<string, any> {
 	const styles = new Map<string, any>()
 	styles.set('width', '48%')
@@ -569,7 +609,7 @@ function getPluginCardStyle(idx: number): Map<string, any> {
 	return styles
 }
 
-function getCatIconWrapStyle(cat: ApiCategory): Map<string, any> {
+function getCatIconWrapStyle(cat: GridCard): Map<string, any> {
 	const styles = new Map<string, any>()
 	styles.set('width', '40px')
 	styles.set('height', '40px')
@@ -593,7 +633,7 @@ function getLibIconWrapStyle(lib: CoreLib): Map<string, any> {
 	return styles
 }
 
-function getCatCountStyle(cat: ApiCategory): Map<string, any> {
+function getCatCountStyle(cat: GridCard): Map<string, any> {
 	const styles = new Map<string, any>()
 	styles.set('position', 'absolute')
 	styles.set('top', '12px')
@@ -640,7 +680,7 @@ const popupGlowOrbStyle = computed((): Map<string, any> => {
 	styles.set('right', '-60px')
 	let color = 'rgba(77,130,255,0.15)'
 	if (activeCat.value >= 0) {
-		color = apiCategories.value[activeCat.value].color + '22'
+		color = popupCategories.value[activeCat.value].color + '22'
 	}
 	styles.set('backgroundColor', color)
 	return styles
@@ -684,7 +724,7 @@ function getPopupIconWrapStyle(): Map<string, any> {
 	styles.set('justifyContent', 'center')
 	styles.set('marginRight', '10px')
 	if (activeCat.value >= 0) {
-		styles.set('backgroundColor', apiCategories.value[activeCat.value].lightColor)
+		styles.set('backgroundColor', popupCategories.value[activeCat.value].lightColor)
 	}
 	return styles
 }
@@ -785,32 +825,6 @@ const popupScrollStyle = computed((): Map<string, any> => {
 
 .hero-stat-divider {
 	width: 1px;
-}
-
-.utils-card {
-	margin-bottom: 4px;
-}
-
-.utils-top {
-	flex-direction: row;
-	align-items: center;
-	margin-bottom: 14px;
-}
-
-.utils-head-body {
-	flex: 1;
-	flex-direction: column;
-	margin: 0 12px;
-}
-
-.utils-tags {
-	flex-direction: row;
-	flex-wrap: wrap;
-}
-
-.utils-tag {
-	align-items: center;
-	justify-content: center;
 }
 
 .cat-grid {

@@ -62,7 +62,7 @@
 				<sn-tag :text="t('snTag.closePrimary')" type="primary" closable @close="onTagClose" custom-style="margin-right:8px;margin-bottom:8px;" />
 				<sn-tag :text="t('snTag.closeDisabled')" closable disabled custom-style="margin-right:8px;margin-bottom:8px;" />
 			</view>
-			<sn-text font-size="$12" color="$primary" flatten>{{ t('snTag.recentClose') }}：{{ closeLog }}</sn-text>
+			<sn-text font-size="$12" color="$primary">{{ t('snTag.recentClose') }}：{{ closeLog }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snTag.slotTitle')" :subtitle="t('snTag.slotSubtitle')">
@@ -95,7 +95,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { $snui } from '@/uni_modules/sinle-ui'
 

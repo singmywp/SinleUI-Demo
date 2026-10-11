@@ -3,7 +3,7 @@
 		<demo-card :title="t('snBacktop.autoBind')" :subtitle="t('snBacktop.autoBindSub')">
 			<sn-alert type="primary" :text="t('snBacktop.scrollTip')" style="margin: 0 16px 16px;" />
 			<view v-for="(item, index) in pageItems" :key="item" class="page-item" flatten>
-				<sn-text font-size="$14" :color="itemColor" flatten>{{ item }}</sn-text>
+				<sn-text font-size="$14" :color="itemColor">{{ item }}</sn-text>
 			</view>
 		</demo-card>
 		<!-- 自动绑定页面：作为 sn-page 直接子节点（demo-card 内亦可自动绑定祖先 sn-page） -->
@@ -15,7 +15,7 @@
 				<sn-button type="primary" custom-style="margin-right:10px;" @click="openSub('list')">{{ t('snBacktop.listTop') }}</sn-button>
 				<sn-button type="primary" @click="openSub('waterflow')">{{ t('snBacktop.waterflowTop') }}</sn-button>
 			</view>
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">
 				{{ t('snBacktop.containerDesc') }}
 			</sn-text>
 		</demo-card>
@@ -26,7 +26,7 @@
 					{{ disabled ? t('snBacktop.restoreEnable') : t('snBacktop.setDisabled') }}
 				</sn-button>
 			</view>
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">
 				{{ t('snBacktop.disableDesc') }}
 			</sn-text>
 		</demo-card>
@@ -36,7 +36,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 		import { useI18n } from 'vue-i18n'
 		import { $snui } from '@/uni_modules/sinle-ui'
 

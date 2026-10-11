@@ -2,10 +2,10 @@
 	<sn-page :title="t('snModal.title')" :show-back="true">
 
 		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
-			<sn-text font-size="$12" color="$primary" flatten>{{ t('snModal.alert1') }}</sn-text>
-			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;" flatten>{{ t('snModal.alert2') }}</sn-text>
-			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;" flatten>{{ t('snModal.alert3') }}</sn-text>
-			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;" flatten>{{ t('snModal.alert4') }}</sn-text>
+			<sn-text font-size="$12" color="$primary">{{ t('snModal.alert1') }}</sn-text>
+			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;">{{ t('snModal.alert2') }}</sn-text>
+			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;">{{ t('snModal.alert3') }}</sn-text>
+			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;">{{ t('snModal.alert4') }}</sn-text>
 		</sn-alert>
 
 		<demo-card :title="t('snModal.basicTitle')" :subtitle="t('snModal.basicSubtitle')">
@@ -13,7 +13,7 @@
 				<sn-button :text="t('snModal.openModal')" type="primary" custom-style="flex:1;" @click="openModal" />
 				<sn-button :text="t('snModal.closeModal')" type="info" custom-style="flex:1;margin-left:10px;" @click="closeModal" />
 			</view>
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snModal.basicDesc') }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snModal.basicDesc') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snModal.positionTitle')" :subtitle="t('snModal.positionSubtitle')">
@@ -58,15 +58,15 @@
 
 		<demo-card :title="t('snModal.eventTitle')" :subtitle="t('snModal.eventSubtitle')">
 			<view class="config-row" flatten>
-				<sn-text :text="t('snModal.eventResult')" custom-style="width:80px;" flatten />
-				<sn-text bold font-size="$14" :text="eventResult" flatten />
+				<sn-text :text="t('snModal.eventResult')" custom-style="width:80px;"/>
+				<sn-text bold font-size="$14" :text="eventResult"/>
 			</view>
 			<sn-button type="primary" :text="t('snModal.triggerEventDemo')" custom-style="margin-top:10px;flex:1;" @click="openEventModal" />
 		</demo-card>
 
 		<demo-card :title="t('snModal.slotTitle')" :subtitle="t('snModal.slotSubtitle')">
 			<sn-button type="primary" :text="t('snModal.openSlotModal')" custom-style="flex:1;" @click="openSlotModal" />
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snModal.slotDesc') }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snModal.slotDesc') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snModal.animTitle')" :subtitle="t('snModal.animSubtitle')">
@@ -152,7 +152,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
 import { useTheme } from '@/uni_modules/sinle-ui/index.uts'

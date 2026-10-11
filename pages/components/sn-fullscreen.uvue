@@ -5,10 +5,10 @@
 		<demo-card :title="t('snFullscreen.basicTitle')" :subtitle="t('snFullscreen.basicDesc')">
 			<sn-fullscreen layer-style="width:100px;height:40px;" :click-close="true">
 				<view class="fs-mini" :style="miniStyle" flatten>
-					<sn-text font-size="$13" color="$primaryText" flatten>{{ t('snFullscreen.clickFullscreen') }}</sn-text>
+					<sn-text font-size="$13" color="$primaryText">{{ t('snFullscreen.clickFullscreen') }}</sn-text>
 				</view>
 			</sn-fullscreen>
-			<sn-text type="text-light" font-size="$12" :text="t('snFullscreen.basicHint')" custom-style="margin-top:8px;line-height:18px;" flatten />
+			<sn-text type="text-light" font-size="$12" :text="t('snFullscreen.basicHint')" custom-style="margin-top:8px;line-height:18px;"/>
 		</demo-card>
 
 		
@@ -18,8 +18,8 @@
 					<view class="fs-player-icon" :style="playerIconStyle" flatten>
 						<sn-icon name="play-circle-line" :size="40" color="#fff" />
 					</view>
-					<sn-text bold font-size="$18" color="$title" custom-style="margin-top:12px;" flatten>{{ t('snFullscreen.simulatePlayer') }}</sn-text>
-					<sn-text font-size="$13" color="$textLight" custom-style="margin-top:4px;line-height:20px;text-align:center;" flatten>{{ t('snFullscreen.playerHint') }}</sn-text>
+					<sn-text bold font-size="$18" color="$title" custom-style="margin-top:12px;">{{ t('snFullscreen.simulatePlayer') }}</sn-text>
+					<sn-text font-size="$13" color="$textLight" custom-style="margin-top:4px;line-height:20px;text-align:center;">{{ t('snFullscreen.playerHint') }}</sn-text>
 					<view class="fs-player-close" :style="playerCloseStyle" @click="closeFs2">
 						<sn-icon name="close-line" :size="18" color="#fff" />
 					</view>
@@ -31,12 +31,12 @@
 		
 		<demo-card :title="t('snFullscreen.configTitle')" :subtitle="t('snFullscreen.configDesc')">
 			<view class="config-row" flatten>
-				<sn-text :text="t('snFullscreen.aniTimeLabel')" custom-style="width:140px;" flatten />
+				<sn-text :text="t('snFullscreen.aniTimeLabel')" custom-style="width:140px;"/>
 				<sn-stepper v-model="configs.aniTime" :min="0" :max="1000" :step="50" />
 			</view>
 			<sn-fullscreen :ani-time="configs.aniTime" layer-style="width:200px;height:48px;" :click-close="true">
 				<view class="fs-mini" :style="[miniStyle, miniStyle3]" flatten>
-					<sn-text font-size="$13" color="$title" flatten>{{ t('snFullscreen.aniTimeAdjust') }}</sn-text>
+					<sn-text font-size="$13" color="$title">{{ t('snFullscreen.aniTimeAdjust') }}</sn-text>
 				</view>
 			</sn-fullscreen>
 		</demo-card>
@@ -45,15 +45,15 @@
 		<demo-card :title="t('snFullscreen.externalTitle')" :subtitle="t('snFullscreen.externalDesc')">
 			<sn-fullscreen layer-class="fs-custom-layer" layer-style="width:200px;height:48px;" :click-close="true">
 				<view class="fs-mini" :style="[miniStyle, miniStyle4]" flatten>
-					<sn-text font-size="$13" color="$warningDark" flatten>{{ t('snFullscreen.externalClass') }}</sn-text>
+					<sn-text font-size="$13" color="$warningDark">{{ t('snFullscreen.externalClass') }}</sn-text>
 				</view>
 			</sn-fullscreen>
-			<sn-text type="text-light" font-size="$12" :text="t('snFullscreen.externalHint')" custom-style="margin-top:8px;" flatten />
+			<sn-text type="text-light" font-size="$12" :text="t('snFullscreen.externalHint')" custom-style="margin-top:8px;"/>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type { ComponentPublicInstance } from 'vue'
 

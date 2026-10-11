@@ -1,0 +1,285 @@
+<template>
+	<sn-page :show-back="false">
+		<sn-topbar :fixed="true" :status-bar="true" :features="topbarFeatures" @featureclick="onFeatureClick">
+			<template #default>
+				<sn-text bold font-size="$16" :color="titleColor">{{ t('designFactors.title') }}</sn-text>
+			</template>
+		</sn-topbar>
+		<sn-gap :height="$snui.topbarHeightResolved" />
+		<sn-gap mode="statusbar" />
+
+		<demo-card :title="t('designFactors.overviewTitle')" :subtitle="t('designFactors.overviewSub')">
+			<view class="factor-list">
+				<view v-for="factor in factors" :key="factor.name" class="factor-row">
+					<sn-text font-size="$13" bold :color="titleColor">{{ factor.name }}</sn-text>
+					<sn-text font-size="$13" :color="textColor" custom-style="width:80px;text-align:right;">{{ factor.value }}</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('designFactors.jsTitle')" :subtitle="t('designFactors.jsSub')">
+			<view class="code-block">
+				<sn-text font-size="$12" :color="codeText" selectable>{{ jsExample }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('designFactors.resolveTitle')" :subtitle="t('designFactors.resolveSub')">
+			<view class="resolve-preview" :style="resolvePreviewStyle">
+				<sn-text font-size="$14" :color="previewText">{{ t('designFactors.resolvePreview') }}</sn-text>
+			</view>
+			<view class="code-block">
+				<sn-text font-size="$12" :color="codeText" selectable>{{ resolveExample }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('designFactors.cssTitle')" :subtitle="t('designFactors.cssSub')">
+			<view class="css-preview">
+				<sn-text font-size="$14" :color="previewText">{{ t('designFactors.cssPreviewTitle') }}</sn-text>
+				<sn-text font-size="$12" :color="previewText">{{ t('designFactors.cssPreviewText') }}</sn-text>
+			</view>
+			<view class="code-block">
+				<sn-text font-size="$12" :color="codeText" selectable>{{ cssExample }}</sn-text>
+			</view>
+		</demo-card>
+
+		<sn-drawer ref="drawerRef" position="bottom" height="470px" :slide-height="90"
+				@afterenter="syncSliders">
+			<view class="drawer-body">
+				<view class="drawer-header">
+					<sn-text bold font-size="$15" :color="titleColor">{{ t('designFactors.adjust') }}</sn-text>
+					<view @click="onReset">
+						<sn-text font-size="$12" color="$primary">{{ t('designFactors.reset') }}</sn-text>
+					</view>
+				</view>
+				<sn-text font-size="$11" :color="textColor">{{ t('designFactors.adjustTip') }}</sn-text>
+
+				<view class="slider-block" flatten>
+					<view class="slider-head" flatten>
+						<sn-text font-size="$12" :color="titleColor">{{ t('settings.fontSize') }}</sn-text>
+						<sn-text bold font-size="$12" color="$primary">{{ fontsizeFactorText }}×</sn-text>
+					</view>
+					<sn-slider v-model="fontsizeFactorRaw" :min="6" :max="16" :step="1"
+						active-color="$primary" inactive-color="$line" />
+				</view>
+				<view class="slider-block" flatten>
+					<view class="slider-head" flatten>
+						<sn-text font-size="$12" :color="titleColor">{{ t('settings.radius') }}</sn-text>
+						<sn-text bold font-size="$12" color="$primary">{{ radiusFactorText }}×</sn-text>
+					</view>
+					<sn-slider v-model="radiusFactorRaw" :min="0" :max="20" :step="1"
+						active-color="$primary" inactive-color="$line" />
+				</view>
+				<view class="slider-block" flatten>
+					<view class="slider-head" flatten>
+						<sn-text font-size="$12" :color="titleColor">{{ t('settings.margin') }}</sn-text>
+						<sn-text bold font-size="$12" color="$primary">{{ marginFactorText }}×</sn-text>
+					</view>
+					<sn-slider v-model="marginFactorRaw" :min="0" :max="20" :step="1"
+						active-color="$primary" inactive-color="$line" />
+				</view>
+				<view class="slider-block" flatten>
+					<view class="slider-head" flatten>
+						<sn-text font-size="$12" :color="titleColor">{{ t('settings.padding') }}</sn-text>
+						<sn-text bold font-size="$12" color="$primary">{{ paddingFactorText }}×</sn-text>
+					</view>
+					<sn-slider v-model="paddingFactorRaw" :min="0" :max="20" :step="1"
+						active-color="$primary" inactive-color="$line" />
+				</view>
+				<view class="slider-block" flatten>
+					<view class="slider-head" flatten>
+						<sn-text font-size="$12" :color="titleColor">{{ t('settings.aniSpeed') }}</sn-text>
+						<sn-text bold font-size="$12" color="$primary">{{ aniTimeFactorLabel }}</sn-text>
+					</view>
+					<sn-slider v-model="aniTimeFactorRaw" :min="0" :max="4" :step="1"
+						active-color="$primary" inactive-color="$line" />
+				</view>
+			</view>
+		</sn-drawer>
+	</sn-page>
+</template>
+
+<script lang="ts" setup>
+import { $snui, useFactors, useResolve, useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import { useI18n } from 'vue-i18n'
+import type { ComponentPublicInstance } from 'vue'
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+const { t } = useI18n()
+const { isDark } = useTheme()
+const resolver = useResolve()
+const { marginFactor, paddingFactor, radiusFactor, fontsizeFactor, aniTimeFactor } = useFactors()
+
+type FactorItem = {
+	name: string
+	value: string
+}
+
+const titleColor = computed<string>(() => isDark.value ? '#FFFFFF' : '#1E293B')
+const textColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#475569')
+const codeText = computed<string>(() => isDark.value ? '#BAE6FD' : '#0F4C5C')
+const previewText = computed<string>(() => isDark.value ? '#F8FAFC' : '#0F172A')
+
+// ---- 顶部栏 ----
+const topbarFeatures = computed<SnDataItem[]>(() => {
+	return [{ icon: 'equalizer-2-line' }]
+})
+
+const drawerRef = ref<ComponentPublicInstance | null>(null)
+
+function onFeatureClick(_item: SnDataItem, _idx: number): void {
+	drawerRef.value?.$callMethod('open')
+}
+
+const factors = computed<FactorItem[]>(() => [
+	{ name: 'marginFactor', value: $snui.marginFactor.toString() },
+	{ name: 'paddingFactor', value: $snui.paddingFactor.toString() },
+	{ name: 'radiusFactor', value: $snui.radiusFactor.toString() },
+	{ name: 'fontsizeFactor', value: $snui.fontsizeFactor.toString() },
+	{ name: 'aniTimeFactor', value: $snui.aniTimeFactor.toString() }
+])
+
+// ---- 乘数调节 ----
+function formatFactor(val: number): string {
+	const i = Math.round(val * 10)
+	return (i / 10).toString()
+}
+
+const fontsizeFactorRaw = ref<number>(10)
+const radiusFactorRaw = ref<number>(10)
+const marginFactorRaw = ref<number>(10)
+const paddingFactorRaw = ref<number>(10)
+const aniTimeFactorRaw = ref<number>(2)
+
+const aniTimeFactorMap: number[] = [0, 0.5, 1, 1.5, 2]
+const aniTimeFactorLabels = computed<string[]>(() => [
+	t('settings.aniOff'), '×0.5', '×1', '×1.5', '×2'
+])
+const aniTimeFactorLabel = computed<string>(() => aniTimeFactorLabels.value[aniTimeFactorRaw.value])
+
+const fontsizeFactorText = computed<string>(() => formatFactor(fontsizeFactor.value))
+const radiusFactorText = computed<string>(() => formatFactor(radiusFactor.value))
+const marginFactorText = computed<string>(() => formatFactor(marginFactor.value))
+const paddingFactorText = computed<string>(() => formatFactor(paddingFactor.value))
+
+function toAniTimeIdx(val: number): number {
+	if (val <= 0) return 0
+	if (val <= 0.5) return 1
+	if (val <= 1) return 2
+	if (val <= 1.5) return 3
+	return 4
+}
+
+function syncSliders(): void {
+	fontsizeFactorRaw.value = Math.round(fontsizeFactor.value * 10)
+	radiusFactorRaw.value = Math.round(radiusFactor.value * 10)
+	marginFactorRaw.value = Math.round(marginFactor.value * 10)
+	paddingFactorRaw.value = Math.round(paddingFactor.value * 10)
+	aniTimeFactorRaw.value = toAniTimeIdx(aniTimeFactor.value)
+}
+
+watch(fontsizeFactorRaw, (val: number): void => {
+	$snui.fontsizeFactor = val / 10
+})
+
+watch(radiusFactorRaw, (val: number): void => {
+	$snui.radiusFactor = val / 10
+})
+
+watch(marginFactorRaw, (val: number): void => {
+	$snui.marginFactor = val / 10
+})
+
+watch(paddingFactorRaw, (val: number): void => {
+	$snui.paddingFactor = val / 10
+})
+
+watch(aniTimeFactorRaw, (val: number): void => {
+	$snui.aniTimeFactor = aniTimeFactorMap[val]
+})
+
+function onReset(): void {
+	fontsizeFactorRaw.value = 10
+	radiusFactorRaw.value = 10
+	marginFactorRaw.value = 10
+	paddingFactorRaw.value = 10
+	aniTimeFactorRaw.value = 2
+}
+
+onMounted((): void => {
+	syncSliders()
+})
+
+const jsExample = 'const gap = 12 * $snui.marginFactor\nconst radius = 8 * $snui.radiusFactor\nconst fontSize = 14 * $snui.fontsizeFactor'
+const resolveExample = 'resolver.resolveSize("$12", "padding")\nresolver.resolveSizeNum("$8", "radius")\nresolver.resolveColor("$primary")'
+const cssExample = '.card {\n  padding: calc(var(--paddingFactor) * 12px);\n  border-radius: calc(var(--radiusFactor) * 8px);\n  font-size: calc(var(--fontsizeFactor) * 14px);\n}'
+
+const resolvePreviewStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('padding', resolver.resolveSize('$12', 'padding'))
+	styles.set('borderRadius', resolver.resolveSize('$8', 'radius'))
+	styles.set('backgroundColor', 'var(--sn-primary-light)')
+	return styles
+})
+</script>
+
+<style lang="scss">
+.factor-list {
+	flex-direction: column;
+}
+
+.factor-row {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: var(--sn-line);
+}
+
+.code-block {
+	padding: 12px;
+	border-radius: 8px;
+	background-color: var(--sn-page);
+}
+
+.resolve-preview {
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 12px;
+}
+
+.css-preview {
+	padding: calc(var(--paddingFactor) * 12px);
+	border-radius: calc(var(--radiusFactor) * 8px);
+	background-color: var(--sn-primary-light);
+	flex-direction: column;
+	margin-bottom: 12px;
+}
+
+.drawer-body {
+	flex-direction: column;
+	flex: 1;
+	min-height: 0px;
+}
+
+.drawer-header {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 6px;
+}
+
+.slider-block {
+	flex-direction: column;
+	margin-top: 14px;
+}
+
+.slider-head {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 8px;
+}
+</style>

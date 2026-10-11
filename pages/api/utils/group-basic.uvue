@@ -1,0 +1,60 @@
+<template>
+	<view class="group-basic">
+		<utils-card title="clamp(value, min, max)" :desc="t('apiUtils.descClamp')" signature="snu.clamp(15, 0, 10)"
+			:result-text="clampResult" result-type="success" />
+		<utils-card title="throttle(fun, wait)" :desc="t('apiUtils.descThrottle')" signature="snu.throttle(fn, 500)"
+			:action-text="t('apiUtils.tap')" :result-text="throttleResult" result-type="info"
+			@action="onThrottle" />
+		<utils-card title="debounce(fun, wait)" :desc="t('apiUtils.descDebounce')" signature="snu.debounce(fn, 500)"
+			:action-text="t('apiUtils.tap')" :result-text="debounceResult" result-type="info"
+			@action="onDebounce" />
+	</view>
+</template>
+
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import UtilsCard from './utils-card.uvue'
+
+defineOptions({
+	name: 'group-basic'
+})
+
+const { t } = useI18n()
+
+const throttleCount = ref<number>(0)
+const debounceCount = ref<number>(0)
+
+const clampResult = computed<string>(() => {
+	const a = snu.clamp(15, 0, 10)
+	const b = snu.clamp(-5, 0)
+	const c = snu.clamp(5, 0, 10)
+	return `clamp(15, 0, 10) = ${a}\nclamp(-5, 0) = ${b}\nclamp(5, 0, 10) = ${c}`
+})
+
+const throttleResult = computed<string>(() => {
+	return t('apiUtils.triggered', { count: throttleCount.value } as UTSJSONObject)
+})
+
+const debounceResult = computed<string>(() => {
+	return t('apiUtils.triggered', { count: debounceCount.value } as UTSJSONObject)
+})
+
+function onThrottle(): void {
+	snu.throttle((): void => {
+		throttleCount.value++
+	}, 500, 'utils-basic-throttle')
+}
+
+function onDebounce(): void {
+	snu.debounce((): void => {
+		debounceCount.value++
+	}, 500, 'utils-basic-debounce')
+}
+</script>
+
+<style lang="scss">
+.group-basic {
+	flex-direction: column;
+}
+</style>

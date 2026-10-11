@@ -25,7 +25,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 		import { computed } from 'vue'
 		import { useI18n } from 'vue-i18n'
 		import { snu } from '@/uni_modules/sinle-ui'
@@ -49,7 +49,7 @@
 	onMounted(() => {
 		try {
 			const sysInfo = uni.getSystemInfoSync() as UTSJSONObject
-			const platform = sysInfo['uniPlatform'] as string
+			const platform = sysInfo.uniPlatform as string
 			isApp.value = platform == 'app'
 		} catch (e) {
 			isApp.value = false

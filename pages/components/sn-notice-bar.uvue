@@ -30,12 +30,12 @@
 
 		<demo-card :title="t('snNoticeBar.closeTitle')" :subtitle="t('snNoticeBar.closeSubtitle')">
 			<sn-notice-bar :texts="closeTexts" closable @close="onClose" />
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snNoticeBar.closeEventCount', { count: closeCount } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snNoticeBar.closeEventCount', { count: closeCount } as UTSJSONObject) }}</sn-text>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

@@ -10,14 +10,14 @@
 					<sn-icon name="more-line" :size="18" color="$textLight" />
 				</view>
 			</template>
-			<sn-text font-size="$14" color="$text" flatten custom-style="line-height: 22px;">{{ t('snPostCard.content1') }}</sn-text>
+			<sn-text font-size="$14" color="$text" custom-style="line-height: 22px;">{{ t('snPostCard.content1') }}</sn-text>
 		</sn-post-card>
 
 		<demo-card :title="t('snPostCard.activateTitle')" :subtitle="t('snPostCard.activateSubtitle')" />
 		<sn-post-card :avatar-config="avatarConfig2" :nickname="t('snPostCard.nicknameSu')" :datetime="demoTime2"
 			:actions="stateActions" @action-click="onStateActionClick"
 			custom-style="margin-left: 16px; margin-right: 16px; margin-bottom: 16px;">
-			<sn-text font-size="$14" color="$text" flatten custom-style="line-height: 22px;">{{ t('snPostCard.content2') }}</sn-text>
+			<sn-text font-size="$14" color="$text" custom-style="line-height: 22px;">{{ t('snPostCard.content2') }}</sn-text>
 		</sn-post-card>
 
 		<demo-card :title="t('snPostCard.slotTitle')" :subtitle="t('snPostCard.slotSubtitle')" />
@@ -27,10 +27,10 @@
 				<sn-avatar text="A" :size="40" shape="circle" bg-color="$warning" text-color="#FFFFFF" />
 			</template>
 			<template #info>
-				<sn-text bold font-size="$14" color="$title" flatten>Aiden</sn-text>
+				<sn-text bold font-size="$14" color="$title">Aiden</sn-text>
 				<view class="demo-info-sub">
 					<sn-dateformat :date="demoTime3" text-size="$11" text-color="$textLight" />
-					<sn-text font-size="$11" color="$textLight" flatten custom-style="margin-left: 4px;">· iPad</sn-text>
+					<sn-text font-size="$11" color="$textLight" custom-style="margin-left: 4px;">· iPad</sn-text>
 				</view>
 			</template>
 			<template #header-action>
@@ -38,7 +38,7 @@
 					<sn-icon name="more-line" :size="18" color="$textLight" />
 				</view>
 			</template>
-			<sn-text font-size="$14" color="$text" flatten custom-style="line-height: 22px;">{{ t('snPostCard.content3') }}</sn-text>
+			<sn-text font-size="$14" color="$text" custom-style="line-height: 22px;">{{ t('snPostCard.content3') }}</sn-text>
 			<template #action>
 				<sn-button level="second" custom-style="flex: 1; margin-right: 8px;" @click="onPartClick(t('snPostCard.comment'))">{{ t('snPostCard.comment') }}</sn-button>
 				<sn-button level="second" custom-style="flex: 1;" @click="onPartClick(t('snPostCard.forward'))">{{ t('snPostCard.forward') }}</sn-button>
@@ -51,13 +51,13 @@
 			:comments="comments" :show-more="true"
 			@comment-user-click="onCommentUserClick" @comment-click="onCommentClick" @more-click="onCommentMoreClick"
 			custom-style="margin-left: 16px; margin-right: 16px; margin-bottom: 16px;">
-			<sn-text font-size="$14" color="$text" flatten custom-style="line-height: 22px;">{{ t('snPostCard.content4') }}</sn-text>
+			<sn-text font-size="$14" color="$text" custom-style="line-height: 22px;">{{ t('snPostCard.content4') }}</sn-text>
 		</sn-post-card>
 
 		<demo-card :title="t('snPostCard.commentSlotTitle')" :subtitle="t('snPostCard.commentSlotSubtitle')" />
 		<sn-post-card :avatar-config="avatarConfig2" :nickname="t('snPostCard.nicknameSu')" :datetime="demoTime2"
 			custom-style="margin-left: 16px; margin-right: 16px; margin-bottom: 16px;">
-			<sn-text font-size="$14" color="$text" flatten custom-style="line-height: 22px;">{{ t('snPostCard.content5') }}</sn-text>
+			<sn-text font-size="$14" color="$text" custom-style="line-height: 22px;">{{ t('snPostCard.content5') }}</sn-text>
 			<template #comment>
 				<view v-for="(c, i) in customComments" :key="i" class="demo-comment-line" @click="onCommentClick(c, i)">
 					<text class="demo-comment-user" @click="onCommentUserClick(c, c.user ?? '')">{{ c.user ?? '' }}</text>
@@ -73,12 +73,12 @@
 			action-color="$primary" action-size="$13" action-icon-size="$20"
 			:actions="plainActions" @action-click="onStyleActionClick"
 			custom-style="margin-left: 16px; margin-right: 16px; margin-bottom: 16px;">
-			<sn-text font-size="$14" color="$text" flatten custom-style="line-height: 22px;">{{ t('snPostCard.content6') }}</sn-text>
+			<sn-text font-size="$14" color="$text" custom-style="line-height: 22px;">{{ t('snPostCard.content6') }}</sn-text>
 		</sn-post-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { snu } from '@/uni_modules/sinle-ui/index.uts'
 import type { SnAvatarConfig, SnPostCardAction, SnPostCardComment, SnShowActionsheetConfig } from '@/uni_modules/sinle-ui/core/types/index.uts'

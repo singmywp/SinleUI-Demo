@@ -2,7 +2,7 @@
 	<sn-page :title="t('snDatetimePicker.title')" :show-back="true">
 
 		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
-			<sn-text font-size="$12" color="$primary" flatten>{{ t('snDatetimePicker.note') }}</sn-text>
+			<sn-text font-size="$12" color="$primary">{{ t('snDatetimePicker.note') }}</sn-text>
 		</sn-alert>
 
 		<demo-card :title="t('snDatetimePicker.basicTitle')" :subtitle="t('snDatetimePicker.basicDesc')">
@@ -10,7 +10,7 @@
 				<sn-button :text="t('snDatetimePicker.open')" type="primary" custom-style="flex:1;" @click="openPicker" />
 				<sn-button :text="t('snDatetimePicker.close')" type="info" custom-style="flex:1;margin-left:10px;" @click="closePicker" />
 			</view>
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snDatetimePicker.current', { v: pickerValue } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snDatetimePicker.current', { v: pickerValue } as UTSJSONObject) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snDatetimePicker.modeTitle')" :subtitle="t('snDatetimePicker.modeDesc')">
@@ -29,7 +29,7 @@
 				<sn-button type="warning" :text="t('snDatetimePicker.limitRangeBtn')" custom-style="margin-right:8px;flex:1;" @click="openRange" />
 				<sn-button type="info" :text="t('snDatetimePicker.customFormatBtn')" custom-style="flex:1;" @click="openFormat" />
 			</view>
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snDatetimePicker.rangeFormat') }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snDatetimePicker.rangeFormat') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snDatetimePicker.configTitle')" :subtitle="t('snDatetimePicker.configDesc')">
@@ -41,8 +41,8 @@
 
 		<demo-card :title="t('snDatetimePicker.eventTitle')" :subtitle="t('snDatetimePicker.eventDesc')">
 			<view class="config-row" flatten>
-				<sn-text :text="t('snDatetimePicker.eventResult')" custom-style="width:80px;" flatten />
-				<sn-text bold font-size="$14" :text="eventResult" flatten />
+				<sn-text :text="t('snDatetimePicker.eventResult')" custom-style="width:80px;"/>
+				<sn-text bold font-size="$14" :text="eventResult"/>
 			</view>
 			<sn-button type="primary" :text="t('snDatetimePicker.triggerEvent')" custom-style="margin-top:10px;flex:1;" @click="openListen" />
 		</demo-card>
@@ -56,7 +56,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 	
 	import { useI18n } from 'vue-i18n'
 	import { useTheme } from '@/uni_modules/sinle-ui/index.uts'

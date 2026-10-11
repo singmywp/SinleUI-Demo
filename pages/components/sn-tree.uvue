@@ -2,31 +2,31 @@
 	<sn-page :title="t('snTree.title')" :show-back="true">
 		<demo-card :title="t('snTree.modeTitle')" :subtitle="t('snTree.modeSubtitle')">
 			<view class="demo-control-row" flatten>
-				<sn-text :text="t('snTree.showCheckbox')" font-size="$13" color="$text" custom-style="flex:1;" flatten />
+				<sn-text :text="t('snTree.showCheckbox')" font-size="$13" color="$text" custom-style="flex:1;"/>
 				<sn-switch v-model="modeCheckable" />
 			</view>
 			<sn-tree v-model="modeValue" :data="baseData" :checkable="modeCheckable"
 				:default-expanded-ids="['docs', 'project']" custom-style="margin-top:12px;" />
-			<sn-text :text="formatIds(modeValue)" font-size="$12" color="$primary" custom-style="margin-top:8px;" flatten />
+			<sn-text :text="formatIds(modeValue)" font-size="$12" color="$primary" custom-style="margin-top:8px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snTree.multiSingleTitle')" :subtitle="t('snTree.multiSingleSubtitle')">
-			<sn-text text="checkable=true · multiple=true · cascade=true" bold font-size="$13" color="$title" flatten />
+			<sn-text text="checkable=true · multiple=true · cascade=true" bold font-size="$13" color="$title"/>
 			<sn-tree v-model="multipleValue" :data="baseData" checkable cascade
 				:default-expanded-ids="['docs']" custom-style="margin-top:8px;" />
-			<sn-text :text="formatIds(multipleValue)" font-size="$12" color="$primary" flatten />
+			<sn-text :text="formatIds(multipleValue)" font-size="$12" color="$primary"/>
 			<sn-line custom-style="margin:14px 0;" />
-			<sn-text :text="t('snTree.multiSingleDisc')" bold font-size="$13" color="$title" flatten />
+			<sn-text :text="t('snTree.multiSingleDisc')" bold font-size="$13" color="$title"/>
 			<sn-tree v-model="singleValue" :data="baseData" checkable cascade :multiple="false"
 				:default-expanded-ids="['docs']" custom-style="margin-top:8px;" />
-			<sn-text :text="formatIds(singleValue)" font-size="$12" color="$primary" flatten />
+			<sn-text :text="formatIds(singleValue)" font-size="$12" color="$primary"/>
 			<sn-line custom-style="margin:14px 0;" />
-			<sn-text :text="t('snTree.nonCheckMultiDesc')" bold font-size="$13" color="$title" flatten />
+			<sn-text :text="t('snTree.nonCheckMultiDesc')" bold font-size="$13" color="$title"/>
 			<sn-tree v-model="nonCheckableMultiValue" :data="baseData" :checkable="false" :multiple="true"
 				:default-expanded-ids="['docs']" custom-style="margin-top:8px;" />
-			<sn-text :text="formatIds(nonCheckableMultiValue)" font-size="$12" color="$primary" flatten />
+			<sn-text :text="formatIds(nonCheckableMultiValue)" font-size="$12" color="$primary"/>
 			<sn-line custom-style="margin:14px 0;" />
-			<sn-text :text="t('snTree.nonCheckSingleDesc')" bold font-size="$13" color="$title" flatten />
+			<sn-text :text="t('snTree.nonCheckSingleDesc')" bold font-size="$13" color="$title"/>
 			<sn-tree v-model="nonCheckableSingleValue" :data="baseData" :checkable="false" :multiple="false"
 				:default-expanded-ids="['docs']" custom-style="margin-top:8px;" />
 			<sn-text :text="formatIds(nonCheckableSingleValue)" font-size="$12" color="$primary" />
@@ -112,7 +112,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type {
 	SnTreeData,

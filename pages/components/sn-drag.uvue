@@ -9,8 +9,8 @@
 							<sn-icon :name="item.icon" :size="22" color="$primary" />
 						</view>
 						<view class="column-content" flatten>
-							<sn-text bold :font-size="14" :text="item.name" flatten />
-							<sn-text :font-size="12" type="text-light" :text="item.desc" custom-style="margin-top:3px;" flatten />
+							<sn-text bold :font-size="14" :text="item.name"/>
+							<sn-text :font-size="12" type="text-light" :text="item.desc" custom-style="margin-top:3px;"/>
 						</view>
 						<sn-icon name="drag-move-2-line" :size="20" color="$info" />
 					</view>
@@ -26,7 +26,7 @@
 						<view class="grid-icon" :style="getGridIconStyle(index)" flatten>
 							<sn-icon :name="item.icon" :size="25" color="#ffffff" />
 						</view>
-						<sn-text bold :font-size="13" :text="item.name" custom-style="margin-top:8px;" flatten />
+						<sn-text bold :font-size="13" :text="item.name" custom-style="margin-top:8px;"/>
 					</view>
 				</sn-drag-item>
 			</sn-drag>
@@ -56,7 +56,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

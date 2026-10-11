@@ -4,7 +4,7 @@
 			<view class="demo-row" flatten>
 				<sn-switch-button v-model="basicValue" :text="t('snSwitchButton.basicText')" />
 			</view>
-			<sn-text flatten custom-style="margin-top:10px;" font-size="$12" color="$textLight">
+			<sn-text custom-style="margin-top:10px;" font-size="$12" color="$textLight">
 				{{ t('snSwitchButton.currentValue', { val: basicValue.toString() } as UTSJSONObject) }}
 			</sn-text>
 		</demo-card>
@@ -104,14 +104,14 @@
 				<sn-switch-button v-model="eventValue" @change="onSwitchChange"
 					:text="t('snSwitchButton.tapMe')" custom-style="margin-left:12px;" />
 			</view>
-			<sn-text flatten custom-style="margin-top:10px;" font-size="$12" color="$textLight">
+			<sn-text custom-style="margin-top:10px;" font-size="$12" color="$textLight">
 				{{ t('snSwitchButton.latestEvent', { val: changeLog } as UTSJSONObject) }}
 			</sn-text>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

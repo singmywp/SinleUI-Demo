@@ -7,7 +7,7 @@
 						<view class="grid-menu-icon" flatten>
 							<sn-icon :name="item.icon" :size="26" color="$primary" />
 						</view>
-						<sn-text :font-size="13" :text="item.name" custom-style="margin-top:8px;" flatten />
+						<sn-text :font-size="13" :text="item.name" custom-style="margin-top:8px;"/>
 					</view>
 				</sn-grid-item>
 			</sn-grid-group>
@@ -20,7 +20,7 @@
 						<view class="grid-menu-icon" flatten>
 							<sn-icon :name="item.icon" :size="24" color="$primary" />
 						</view>
-						<sn-text :font-size="12" :text="item.name" custom-style="margin-top:6px;" flatten />
+						<sn-text :font-size="12" :text="item.name" custom-style="margin-top:6px;"/>
 					</view>
 				</sn-grid-item>
 			</sn-grid-group>
@@ -30,29 +30,29 @@
 			<sn-grid-group :col="3" gutter="20px">
 				<sn-grid-item v-for="(item, idx) in bgList" :key="'bg' + idx" :bg-color="item.bg">
 					<view class="grid-tile" flatten>
-						<sn-text bold :font-size="16" color="#fff" :text="t('snGrid.number', { n: idx + 1 } as UTSJSONObject)" flatten />
+						<sn-text bold :font-size="16" color="#fff" :text="t('snGrid.number', { n: idx + 1 } as UTSJSONObject)"/>
 					</view>
 				</sn-grid-item>
 			</sn-grid-group>
 		</demo-card>
 
 		<demo-card :title="t('snGrid.alignTitle')" :subtitle="t('snGrid.alignDesc')">
-			<sn-text type="text-light" :font-size="13" :text="t('snGrid.leftDefault')" custom-style="margin-bottom:8px;" flatten />
+			<sn-text type="text-light" :font-size="13" :text="t('snGrid.leftDefault')" custom-style="margin-bottom:8px;"/>
 			<sn-grid-group :col="4" gutter="10px" align="left">
 				<sn-grid-item v-for="(item, idx) in menuList" :key="'al' + idx" bg-color="$primaryLight">
-					<sn-text :font-size="12" color="$primary" :text="item.name" custom-style="padding:14px 0;" flatten />
+					<sn-text :font-size="12" color="$primary" :text="item.name" custom-style="padding:14px 0;"/>
 				</sn-grid-item>
 			</sn-grid-group>
-			<sn-text type="text-light" :font-size="13" text="center" custom-style="margin-top:14px;margin-bottom:8px;" flatten />
+			<sn-text type="text-light" :font-size="13" text="center" custom-style="margin-top:14px;margin-bottom:8px;"/>
 			<sn-grid-group :col="4" gutter="10px" align="center">
 				<sn-grid-item v-for="(item, idx) in menuList" :key="'ac' + idx" bg-color="$primaryLight">
-					<sn-text :font-size="12" color="$primary" :text="item.name" custom-style="padding:14px 0;" flatten />
+					<sn-text :font-size="12" color="$primary" :text="item.name" custom-style="padding:14px 0;"/>
 				</sn-grid-item>
 			</sn-grid-group>
-			<sn-text type="text-light" :font-size="13" text="right" custom-style="margin-top:14px;margin-bottom:8px;" flatten />
+			<sn-text type="text-light" :font-size="13" text="right" custom-style="margin-top:14px;margin-bottom:8px;"/>
 			<sn-grid-group :col="4" gutter="10px" align="right">
 				<sn-grid-item v-for="(item, idx) in menuList" :key="'ar' + idx" bg-color="$primaryLight">
-					<sn-text :font-size="12" color="$primary" :text="item.name" custom-style="padding:14px 0;" flatten />
+					<sn-text :font-size="12" color="$primary" :text="item.name" custom-style="padding:14px 0;"/>
 				</sn-grid-item>
 			</sn-grid-group>
 		</demo-card>
@@ -62,7 +62,7 @@
 				<sn-grid-item v-for="(item, idx) in cardList" :key="'card' + idx" :bg-color="item.bg">
 					<view class="grid-card" flatten>
 						<sn-icon :name="item.icon" :size="28" color="#fff" />
-						<sn-text bold :font-size="15" color="#fff" :text="item.name" custom-style="margin-top:8px;" flatten />
+						<sn-text bold :font-size="15" color="#fff" :text="item.name" custom-style="margin-top:8px;"/>
 						<sn-text :font-size="11" color="#ffffffcc" :text="item.desc" custom-style="margin-top:4px;" />
 					</view>
 				</sn-grid-item>
@@ -115,7 +115,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

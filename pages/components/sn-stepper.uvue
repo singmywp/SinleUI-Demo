@@ -3,29 +3,29 @@
 		<demo-card :title="t('snStepper.demoBasicTitle')" :subtitle="t('snStepper.demoBasicSub')">
 			<view class="demo-row" flatten>
 				<sn-stepper v-model="value1" />
-				<sn-text font-size="$14" color="$textLight" custom-style="margin-left:16px;" flatten>{{ t('snStepper.currentValue', { val: value1 } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$14" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.currentValue', { val: value1 } as UTSJSONObject) }}</sn-text>
 			</view>
 		</demo-card>
 
 		<demo-card :title="t('snStepper.demoRangeTitle')" :subtitle="t('snStepper.demoRangeSub')">
 			<view class="demo-row" flatten>
 				<sn-stepper v-model="value2" :min="5" :max="25" :step="5" />
-				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;" flatten>{{ t('snStepper.stepTip1', { val: value2 } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.stepTip1', { val: value2 } as UTSJSONObject) }}</sn-text>
 			</view>
 			<view class="demo-row" flatten>
 				<sn-stepper v-model="value3" :min="0" :max="10" :step="0.5" />
-				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;" flatten>{{ t('snStepper.stepTip2', { val: value3 } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.stepTip2', { val: value3 } as UTSJSONObject) }}</sn-text>
 			</view>
 			<view class="demo-row" flatten>
 				<sn-stepper v-model="value4" :min="0" />
-				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;" flatten>{{ t('snStepper.stepTip3', { val: value4 } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.stepTip3', { val: value4 } as UTSJSONObject) }}</sn-text>
 			</view>
 		</demo-card>
 
 		<demo-card :title="t('snStepper.demoSizeTitle')" :subtitle="t('snStepper.demoSizeSub')">
 			<view class="demo-row" flatten>
 				<sn-stepper v-model="value5" size="36px" input-width="64px" />
-				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;" flatten>{{ t('snStepper.sizeTip1') }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.sizeTip1') }}</sn-text>
 			</view>
 			<view class="demo-row">
 				<sn-stepper v-model="value6" size="24px" input-width="40px" :spacing="8" text-size="$16" />
@@ -80,7 +80,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

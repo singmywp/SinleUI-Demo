@@ -3,9 +3,11 @@
 		<sn-topbar :fixed="true" :status-bar="true"
 			:features="topbarFeatures" @featureclick="onThemeBtnClick">
 			<template #default>
-				<sn-text bold font-size="$16" :color="titleColor" flatten>{{ t('designColor.title') }}</sn-text>
+				<sn-text bold font-size="$16" :color="titleColor">{{ t('designColor.pageTitle') }}</sn-text>
 			</template>
 		</sn-topbar>
+		<sn-gap :height="$snui.topbarHeightResolved" />
+		<sn-gap mode="statusbar" />
 
 		
 		<demo-card :title="t('designColor.funcTitle')" :subtitle="t('designColor.funcSub')">
@@ -42,7 +44,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 // ---- import ----
 import { $snui, ColorLib, useTheme } from '@/uni_modules/sinle-ui/index.uts'
 import { useI18n } from 'vue-i18n'

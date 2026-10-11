@@ -2,7 +2,7 @@
 	<sn-page :title="t('snInput.title')" :show-back="true">
 		<demo-card :title="t('snInput.basicTitle')" :subtitle="t('snInput.basicDesc')">
 			<sn-input v-model="value1" :placeholder="t('snInput.placeholderContent')" />
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snInput.currentValue') }}{{ value1 }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snInput.currentValue') }}{{ value1 }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snInput.typeTitle')" :subtitle="t('snInput.typeDesc')">
@@ -56,7 +56,7 @@
 		<demo-card :title="t('snInput.eventsTitle')" :subtitle="t('snInput.eventsDesc')">
 			<sn-input v-model="valueEvent" :placeholder="t('snInput.placeholderEvent')" clearable @input="onInput" @focus="onFocus"
 				@blur="onBlur" @confirm="onConfirm" />
-			<sn-text font-size="$12" :color="eventColor" custom-style="margin-top:12px;" flatten>{{ eventLog }}</sn-text>
+			<sn-text font-size="$12" :color="eventColor" custom-style="margin-top:12px;">{{ eventLog }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snInput.externalTitle')" :subtitle="t('snInput.externalDesc')">
@@ -77,7 +77,7 @@
 				<sn-input v-model="valueExt6" suffix-icon="close-circle-fill" suffix-icon-style="color: #67c23a;"
 					:placeholder="t('snInput.placeholderSuffixStyle')" />
 			</view>
-			<sn-text flatten font-size="$12" color="$textLight" style="margin-top: 12px;">{{ t('snInput.extAffixHint') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" style="margin-top: 12px;">{{ t('snInput.extAffixHint') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snInput.sceneTitle')" :subtitle="t('snInput.sceneDesc')">
@@ -87,7 +87,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { $snui } from '@/uni_modules/sinle-ui'
 

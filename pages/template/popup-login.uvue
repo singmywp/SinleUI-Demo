@@ -1,0 +1,258 @@
+<template>
+	<sn-page :fill-content="true" title="弹出式登录页面" :show-back="true">
+		<view class="popup-login-launch" flatten>
+			<sn-button text="打开登录页面" @click="openDrawer" />
+		</view>
+		<sn-drawer ref="drawerEle" position="bottom" :height="drawerHeightNum" padding="0"
+			:border-radius="32" :show-line="false" :slide-close="false" :prevent-back="true"
+			bg-color="#F1F3F5" :mask-opacity="0.25">
+			<scroll-view class="popup-login-scroll" direction="vertical" :show-scrollbar="false">
+				<view class="popup-login-content" :style="contentStyleText">
+					<view class="popup-login-toolbar" flatten>
+						<sn-button shape="circle" icon="arrow-left-s-line" :icon-size="24" type="info" level="first"
+							custom-style="width:40px;height:40px;border-width:0;" @click="onBack" />
+						<sn-button shape="circle" icon="close-line" :icon-size="22" type="info" level="first"
+							custom-style="width:40px;height:40px;border-width:0;" @click="closeDrawer" />
+					</view>
+					<view class="popup-login-heading" flatten>
+						<sn-icon name="account-circle-line" :size="48" color="#0866FF" />
+						<sn-text text="登录账号" bold :font-size="24" color="#191919"
+							custom-style="margin-top:12px;line-height:32px;text-align:center;"/>
+					</view>
+					<view class="popup-login-fields" flatten>
+						<sn-input v-model="phone" type="tel" :maxlength="11" :text-size="16" :border-radius="20"
+							:show-border="false" :show-active-border="false" bg-color="#FFFFFF" active-bg-color="#FFFFFF"
+							text-color="#191919" placeholder="手机号" placeholder-style="color:#858585;font-size:16px;"
+							padding="0 16px" custom-style="height:58px;" input-style="height:58px;">
+							<template #prefix>
+								<sn-link text="+86" suffix-icon="arrow-down-s-fill" :size="16" color="#191919"
+									custom-style="align-self:center;margin-left:0;padding-right:16px;margin-right:16px;border-right:1px solid #F1F3F5;"
+									@click="onCountryCode" />
+							</template>
+						</sn-input>
+						<sn-input v-if="!passwordMode" v-model="code" type="number" :maxlength="6" :text-size="16"
+							:border-radius="20" :show-border="false" :show-active-border="false" bg-color="#FFFFFF"
+							active-bg-color="#FFFFFF" text-color="#191919" placeholder="短信验证码"
+							placeholder-style="color:#858585;font-size:16px;" padding="0 16px"
+							custom-style="height:58px;margin-top:16px;" input-style="height:58px;">
+							<template #suffix>
+								<sn-link :text="codeText" :size="14" :color="countdown > 0 ? '#A4BEFF' : '#0866FF'"
+									custom-style="align-self:center;margin-left:8px;flex-shrink:0;" @click="onSendCode" />
+							</template>
+						</sn-input>
+						<sn-input v-else v-model="password" password :maxlength="32" :text-size="16" :border-radius="20"
+							:show-border="false" :show-active-border="false" bg-color="#FFFFFF" active-bg-color="#FFFFFF"
+							text-color="#191919" placeholder="密码" placeholder-style="color:#858585;font-size:16px;"
+							padding="0 16px" custom-style="height:58px;margin-top:16px;" input-style="height:58px;" />
+						<sn-link :text="passwordMode ? '验证码登录' : '密码登录'" :size="14" color="#0866FF"
+							custom-style="margin-top:16px;margin-left:12px;align-self:flex-start;"
+							text-style="font-weight:600;" @click="toggleMode" />
+						<view class="popup-login-agreement" flatten>
+							<sn-agreement v-model="agreed" text="我已阅读并同意" :font-size="11" :box-size="15"
+								color="#929292" :box-style="agreementBoxStyleText"
+								custom-style="flex-shrink:0;align-items:center;" />
+							<sn-link text="《用户协议》" :size="11" color="#0866FF"
+								custom-style="align-self:center;" @click="openUserAgreement" />
+							<sn-link text="《隐私政策》" :size="11" color="#0866FF"
+								custom-style="align-self:center;" @click="openPrivacy" />
+						</view>
+					</view>
+					<view class="popup-login-spacer" flatten></view>
+					<view class="popup-login-bottom" flatten>
+						<sn-button text="登录/注册" :radius="24" :disabled="!canSubmit"
+							:custom-style="submitStyleText" text-style="color:#FFFFFF;font-size:16px;font-weight:400;"
+							@click="onSubmit" />
+						<sn-link text="其他方式登录" :size="16" color="#0866FF"
+							custom-style="align-self:center;margin-top:20px;" @click="onOtherLogin" />
+						<view class="popup-login-privacy" flatten>
+							<sn-text text="若要了解详细信息，请参阅" :font-size="11" color="#929292"/>
+							<sn-link text="关于账号与隐私的声明" :size="11" color="#0866FF" @click="openPrivacy" />
+						</view>
+					</view>
+				</view>
+			</scroll-view>
+		</sn-drawer>
+		<sn-notification ref="notificationEle">
+			<template #action="slotProps">
+				<sn-button type="primary" level="least" text="复制" @click="onCopyNotice(slotProps.id)" />
+			</template>
+		</sn-notification>
+	</sn-page>
+</template>
+
+<script lang="ts" setup>
+	import type { ComponentPublicInstance } from 'vue'
+	import { snu } from '@/uni_modules/sinle-ui/index.uts'
+	import type { SnNotificationParams } from '@/uni_modules/sinle-ui/core/types/index.uts'
+
+	const drawerEle = ref<ComponentPublicInstance | null>(null)
+	const notificationEle = ref<ComponentPublicInstance | null>(null)
+	const drawerHeightNum = ref<number>(748)
+	const safeBottomNum = ref<number>(16)
+	const phone = ref<string>('17613358468')
+	const code = ref<string>('')
+	const password = ref<string>('')
+	const passwordMode = ref<boolean>(false)
+	const agreed = ref<boolean>(false)
+	const countdown = ref<number>(0)
+	const sentCode = ref<string>('')
+	const sentPhone = ref<string>('')
+	let codeTimer = 0
+	let sendTimer = 0
+
+	const codeText = computed<string>(() => countdown.value > 0 ? `重新获取 (${countdown.value})` : '获取验证码')
+	const canSubmit = computed<boolean>(() => /^1[3-9]\d{9}$/.test(phone.value)
+		&& (passwordMode.value ? password.value.length >= 6 : /^\d{6}$/.test(code.value)) && agreed.value)
+	const contentStyleText = computed<string>(() => `height:${drawerHeightNum.value}px;min-height:660px;padding-bottom:${safeBottomNum.value}px;`)
+	const submitStyleText = computed<string>(() => `width:100%;height:42px;border-width:0;background-color:${canSubmit.value ? '#0866FF' : '#98B8F8'};opacity:1;`)
+	const agreementBoxStyleText = computed<string>(() => `border-radius:50%;border-color:${agreed.value ? '#0866FF' : '#929292'};background-color:${agreed.value ? '#0866FF' : '#FFFFFF'};`)
+
+	function openDrawer(): void {
+		const info = uni.getWindowInfo()
+		drawerHeightNum.value = Math.max(280, info.windowHeight - 48)
+		safeBottomNum.value = Math.max(16, info.safeAreaInsets?.bottom ?? 0)
+		drawerEle.value?.$callMethod('open')
+	}
+
+	function closeDrawer(): void {
+		drawerEle.value?.$callMethod('close')
+	}
+
+	function onBack(): void {
+		if (passwordMode.value) {
+			passwordMode.value = false
+		} else {
+			closeDrawer()
+		}
+	}
+
+	function toggleMode(): void {
+		passwordMode.value = !passwordMode.value
+	}
+
+	function onCountryCode(): void {
+		snu.showToast({ text: '此模板演示中国大陆手机号（+86）' })
+	}
+
+	function onSendCode(): void {
+		if (countdown.value > 0) return
+		if (!/^1[3-9]\d{9}$/.test(phone.value)) {
+			snu.showToast({ text: '请输入正确的手机号' })
+			return
+		}
+		const smsCode = `${Math.floor(100000 + Math.random() * 900000)}`
+		sentCode.value = smsCode
+		sentPhone.value = phone.value
+		sendTimer = setTimeout((): void => {
+			notificationEle.value?.$callMethod('show', {
+				title: '模拟短信验证码',
+				content: `验证码：${smsCode}，仅用于登录模板演示，未发送真实短信。`,
+				type: 'primary',
+				duration: 15000,
+				showAction: true,
+				closable: false
+			} as SnNotificationParams)
+			sendTimer = 0
+		}, 2000)
+		countdown.value = 60
+		codeTimer = setInterval((): void => {
+			countdown.value--
+			if (countdown.value <= 0) {
+				clearInterval(codeTimer)
+				codeTimer = 0
+			}
+		}, 1000)
+	}
+
+	function onCopyNotice(id: string): void {
+		snu.setClipboardData(sentCode.value)
+		notificationEle.value?.$callMethod('close', id)
+	}
+
+	function onSubmit(): void {
+		if (!canSubmit.value) return
+		if (!passwordMode.value) {
+			if (sentCode.value == '' || sentPhone.value != phone.value) {
+				snu.showToast({ text: '请先获取当前手机号的验证码' })
+				return
+			}
+			if (code.value != sentCode.value) {
+				snu.showToast({ text: '验证码不正确，请使用通知中的模拟验证码' })
+				return
+			}
+		}
+		snu.showToast({ text: '表单校验通过，此模板未接入真实登录服务', icon: 'checkbox-circle-line' })
+	}
+
+	function onOtherLogin(): void {
+		closeDrawer()
+		uni.navigateTo({ url: '/pages/template/login' })
+	}
+
+	function openUserAgreement(): void {
+		uni.navigateTo({ url: '/pages/template/agreement?type=user' })
+	}
+
+	function openPrivacy(): void {
+		uni.navigateTo({ url: '/pages/template/agreement?type=privacy' })
+	}
+
+	onUnmounted((): void => {
+		if (codeTimer != 0) clearInterval(codeTimer)
+		if (sendTimer != 0) clearTimeout(sendTimer)
+	})
+</script>
+
+<style lang="scss">
+	.popup-login-launch {
+		flex: 1;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+	.popup-login-scroll {
+		flex: 1;
+		min-height: 0px;
+		flex-direction: column;
+	}
+	.popup-login-content {
+		display: flex;
+		flex-direction: column;
+		padding: 16px 16px 16px;
+	}
+	.popup-login-toolbar {
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.popup-login-heading {
+		flex-direction: column;
+		align-items: center;
+		margin-top: 8px;
+	}
+	.popup-login-fields {
+		flex-direction: column;
+		margin-top: 48px;
+	}
+	.popup-login-spacer {
+		flex: 1;
+		min-height: 48px;
+	}
+	.popup-login-bottom {
+		flex-direction: column;
+	}
+	.popup-login-privacy {
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+		margin-top: 26px;
+	}
+	.popup-login-agreement {
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		margin-top: 20px;
+	}
+</style>

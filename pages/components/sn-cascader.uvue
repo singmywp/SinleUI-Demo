@@ -2,21 +2,21 @@
 	<sn-page :title="t('snCascader.title')" :show-back="true">
 		<demo-card :title="t('snCascader.basic')" :subtitle="t('snCascader.basicSub')">
 			<sn-button type="primary" :text="t('snCascader.selectCategory')" custom-style="flex:1;" @click="openBasic" />
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:10px;" flatten>{{ basicText }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:10px;">{{ basicText }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snCascader.async')" :subtitle="t('snCascader.asyncSub')">
 			<sn-button type="success" :text="t('snCascader.selectRegion')" custom-style="flex:1;" @click="openAsync" />
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:10px;" flatten>{{ asyncText }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:10px;">{{ asyncText }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snCascader.iconStyle')" :subtitle="t('snCascader.iconStyleSub')">
 			<view class="demo-row" flatten>
-				<sn-text font-size="$14" color="$text" :text="t('snCascader.pushAni')" custom-style="flex:1;" flatten />
+				<sn-text font-size="$14" color="$text" :text="t('snCascader.pushAni')" custom-style="flex:1;"/>
 				<sn-switch v-model="styledPush" />
 			</view>
 			<sn-button type="primary" :text="t('snCascader.selectCategory')" custom-style="flex:1;margin-top:12px;" @click="openStyled" />
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:10px;" flatten>{{ styledText }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:10px;">{{ styledText }}</sn-text>
 		</demo-card>
 
 		<sn-cascader ref="basicEle" v-model="basicValue" :title="t('snCascader.chooseCategoryTitle')" :data="categoryData"
@@ -31,7 +31,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { snu } from '@/uni_modules/sinle-ui'
  import type { ComponentPublicInstance } from 'vue'

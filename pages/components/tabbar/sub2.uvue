@@ -9,7 +9,7 @@
 				<view class="wf-item" flatten>
 					<image :src="e.avatar" mode="widthFix" class="wf-img" />
 					<view class="wf-desc" flatten>
-						<sn-text :text="t(e.description)" flatten />
+						<sn-text :text="t(e.description)"/>
 					</view>
 				</view>
 			</flow-item>
@@ -20,7 +20,7 @@
 			<view v-for="(e, index) in poets" :key="index" class="wf-item" style="margin-bottom:10px;" flatten>
 				<image :src="e.avatar" mode="widthFix" class="wf-img" />
 				<view class="wf-desc" flatten>
-					<sn-text :text="t(e.description)" flatten />
+					<sn-text :text="t(e.description)"/>
 				</view>
 			</view>
 		</scroll-view>
@@ -28,7 +28,7 @@
 	</view>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
 

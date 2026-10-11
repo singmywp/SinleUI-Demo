@@ -1,6 +1,5 @@
 <template>
-	<sn-page :show-back="true">
-		<sn-topbar :title="t('snGesture.title')" :show-back="true"></sn-topbar>
+	<sn-page :title="t('snGesture.title')" :show-back="true">
 
 		<sn-alert type="primary" :text="t('snGesture.alert')" icon="notification-fill"
 			custom-style="margin-left:16px;margin-right:16px;"></sn-alert>
@@ -10,8 +9,8 @@
 				@click="onViewClick" @dbclick="onViewDbclick" @longpress="onViewLongpress"
 				@touchstart="onViewTouchStart" @touchmove="onViewTouchMove" @touchend="onViewTouchEnd"
 				@touchcancel="onViewTouchCancel">
-				<sn-text :text="viewEventText" font-size="$12" color="$infoText" custom-style="word-break:break-all;" flatten></sn-text>
-				<sn-text :text="viewTouchText" font-size="$12" color="$infoText" custom-style="word-break:break-all;margin-top:4px;" flatten></sn-text>
+				<sn-text :text="viewEventText" font-size="$12" color="$infoText" custom-style="word-break:break-all;"></sn-text>
+				<sn-text :text="viewTouchText" font-size="$12" color="$infoText" custom-style="word-break:break-all;margin-top:4px;"></sn-text>
 			</sn-view>
 			<sn-button type="primary" level="second" :text="t('snGesture.viewInstances')" @click="goToViewInstances"
 				custom-style="margin-top:12px;"></sn-button>
@@ -24,10 +23,10 @@
 				@touchstart="onNativeTouchStart" @touchmove="onNativeTouchMove" @touchend="onNativeTouchEnd"
 				@touchcancel="onNativeTouchCancel" @scale="onNativeScale" @fling="onNativeFling">
 				<view class="gesture-block-contain" flatten>
-					<sn-text :text="nativeTouchText" font-size="$12" color="$text" custom-style="word-break:break-all;" flatten></sn-text>
-					<sn-text :text="nativeEventText" font-size="$12" color="$text" custom-style="word-break:break-all;margin-top:4px;" flatten></sn-text>
-					<sn-text :text="nativeScaleText" font-size="$12" color="$warning" custom-style="word-break:break-all;margin-top:4px;" flatten></sn-text>
-					<sn-text :text="nativeFlingText" font-size="$12" color="$success" custom-style="word-break:break-all;margin-top:4px;" flatten></sn-text>
+					<sn-text :text="nativeTouchText" font-size="$12" color="$text" custom-style="word-break:break-all;"></sn-text>
+					<sn-text :text="nativeEventText" font-size="$12" color="$text" custom-style="word-break:break-all;margin-top:4px;"></sn-text>
+					<sn-text :text="nativeScaleText" font-size="$12" color="$warning" custom-style="word-break:break-all;margin-top:4px;"></sn-text>
+					<sn-text :text="nativeFlingText" font-size="$12" color="$success" custom-style="word-break:break-all;margin-top:4px;"></sn-text>
 				</view>
 			</sn-gesture>
 		</demo-card>
@@ -36,7 +35,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type { SnPointerEvent, SnTouchEvent, SnScaleEvent, SnFlingEvent } from '@/uni_modules/sinle-ui'
 
@@ -63,28 +62,28 @@ function goToViewInstances(): void {
 
 function pointerEventToObj(type: string, e: SnPointerEvent): UTSJSONObject {
 	const obj = new UTSJSONObject()
-	obj['type'] = type
-	obj['x'] = e.x
-	obj['y'] = e.y
+	obj.type = type
+	obj.x = e.x
+	obj.y = e.y
 	return obj
 }
 
 function touchEventToObj(type: string, e: SnTouchEvent): UTSJSONObject {
 	const obj = new UTSJSONObject()
-	obj['type'] = type
+	obj.type = type
 	const touches: UTSJSONObject[] = []
 	for (let i = 0; i < e.touches.length; i++) {
 		const t = e.touches[i]
 		const item = new UTSJSONObject()
-		item['x'] = t.x
-		item['y'] = t.y
-		item['diffX'] = t.diffX
-		item['diffY'] = t.diffY
-		item['direction'] = t.direction
-		item['id'] = t.id
+		item.x = t.x
+		item.y = t.y
+		item.diffX = t.diffX
+		item.diffY = t.diffY
+		item.direction = t.direction
+		item.id = t.id
 		touches.push(item)
 	}
-	obj['touches'] = touches
+	obj.touches = touches
 	return obj
 }
 
@@ -122,20 +121,20 @@ function onViewTouchCancel(e: SnTouchEvent): void {
 
 function scaleEventToObj(type: string, e: SnScaleEvent): UTSJSONObject {
 	const obj = new UTSJSONObject()
-	obj['type'] = type
-	obj['zoom'] = e.zoom
+	obj.type = type
+	obj.zoom = e.zoom
 	return obj
 }
 
 function flingEventToObj(type: string, e: SnFlingEvent): UTSJSONObject {
 	const obj = new UTSJSONObject()
-	obj['type'] = type
-	obj['beginX'] = e.beginX
-	obj['beginY'] = e.beginY
-	obj['endX'] = e.endX
-	obj['endY'] = e.endY
-	obj['vX'] = e.vX
-	obj['vY'] = e.vY
+	obj.type = type
+	obj.beginX = e.beginX
+	obj.beginY = e.beginY
+	obj.endX = e.endX
+	obj.endY = e.endY
+	obj.vX = e.vX
+	obj.vY = e.vY
 	return obj
 }
 

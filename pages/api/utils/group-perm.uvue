@@ -1,0 +1,220 @@
+<template>
+	<view class="group-perm">
+		<utils-card v-for="(c, ci) in cards" :key="c.key" :title="c.title" :desc="c.desc" :signature="c.signature"
+			:action-text="c.actionText" :result-text="c.resultText" :result-type="c.resultType"
+			@action="runCard(ci)" />
+		<utils-card :title="t('apiUtils.permTipsCardTitle')" :desc="t('apiUtils.permTipsCardDesc')"
+			signature="snu.setPermTips(tips) / snu.setPermTipsStyle(style) / snu.hidePermTips()"
+			:result-text="tipsResult" result-type="info">
+			<view class="perm-btn-row">
+				<sn-button :text="t('apiUtils.apply')" @click="onApplyTips" />
+				<sn-button :text="t('apiUtils.hide')" type="info" plain custom-style="margin-left:10px;" @click="onHideTips" />
+			</view>
+		</utils-card>
+		<utils-card :title="t('apiUtils.permListenerCardTitle')" :desc="t('apiUtils.permListenerCardDesc')"
+			signature="snu.registerPermListener(listener) / snu.unregisterPermListener(null)"
+			:result-text="listenerResult" result-type="info">
+			<view class="perm-btn-row">
+				<sn-button :text="t('apiUtils.register')" @click="onRegister" />
+				<sn-button :text="t('apiUtils.unregister')" type="info" plain custom-style="margin-left:10px;" @click="onUnregister" />
+			</view>
+		</utils-card>
+	</view>
+</template>
+
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import type { SnPermTipConfig } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import UtilsCard from './utils-card.uvue'
+import type { UtilsActionCard } from './types.uts'
+
+defineOptions({
+	name: 'group-perm'
+})
+
+const { t } = useI18n()
+
+const tipsResult = ref<string>('')
+const listenerResult = ref<string>('')
+
+const cards = ref<UtilsActionCard[]>(buildCards())
+
+function buildCards(): UtilsActionCard[] {
+	return [
+		{
+			key: 'checkSystemPermissionGranted',
+			title: 'checkSystemPermissionGranted(permissions)',
+			desc: t('apiUtils.descCheckSysPerm'),
+			signature: "snu.checkSystemPermissionGranted(['android.permission.CAMERA'])",
+			actionText: t('apiUtils.check'),
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'getSystemPermissionDenied',
+			title: 'getSystemPermissionDenied(permissions)',
+			desc: t('apiUtils.descGetSysPermDenied'),
+			signature: "snu.getSystemPermissionDenied(['android.permission.CAMERA'])",
+			actionText: t('apiUtils.check'),
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'checkMediaPermission',
+			title: 'checkMediaPermission(types)',
+			desc: t('apiUtils.descCheckMediaPerm'),
+			signature: "snu.checkMediaPermission(['image', 'video'])",
+			actionText: t('apiUtils.check'),
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'requestSystemPermission',
+			title: 'requestSystemPermission(options)',
+			desc: t('apiUtils.descRequestSysPerm'),
+			signature: "snu.requestSystemPermission({ permissions: ['android.permission.CAMERA'] })",
+			actionText: t('apiUtils.request'),
+			resultText: '',
+			resultType: 'info'
+		},
+		{
+			key: 'requestMediaPermission',
+			title: 'requestMediaPermission(options)',
+			desc: t('apiUtils.descRequestMediaPerm'),
+			signature: "snu.requestMediaPermission({ types: ['image', 'video'] })",
+			actionText: t('apiUtils.request'),
+			resultText: '',
+			resultType: 'info'
+		},
+		{
+			key: 'gotoSystemPermissionActivity',
+			title: 'gotoSystemPermissionActivity(permissions)',
+			desc: t('apiUtils.descGotoPerm'),
+			signature: "snu.gotoSystemPermissionActivity(['android.permission.CAMERA'])",
+			actionText: t('apiUtils.open'),
+			resultText: '',
+			resultType: 'info'
+		}
+	]
+}
+
+function runCard(index: number): void {
+	const card = cards.value[index]
+	let text = ''
+	let type = 'success'
+	if (card.key == 'checkSystemPermissionGranted') {
+		const granted = snu.checkSystemPermissionGranted(['android.permission.CAMERA'])
+		text = `${t('apiUtils.grantedLabel')}${granted}`
+	} else if (card.key == 'getSystemPermissionDenied') {
+		const denied = snu.getSystemPermissionDenied(['android.permission.CAMERA'])
+		text = `${t('apiUtils.deniedLabel')}[${denied.join(', ')}]`
+	} else if (card.key == 'checkMediaPermission') {
+		const granted = snu.checkMediaPermission(['image', 'video'])
+		text = `${t('apiUtils.grantedLabel')}${granted}`
+	} else if (card.key == 'requestSystemPermission') {
+		snu.requestSystemPermission({
+			permissions: ['android.permission.CAMERA'],
+			success: (_allRight: boolean, _grantedList: string[]): void => {
+				replaceCard(index, t('apiUtils.cameraPrefix') + t('apiUtils.granted'), 'success')
+				snu.showToast({ text: t('apiUtils.cameraPrefix') + t('apiUtils.granted') })
+			},
+			fail: (_doNotAskAgain: boolean, _grantedList: string[]): void => {
+				replaceCard(index, t('apiUtils.cameraRefused'), 'fail')
+				snu.showToast({ text: t('apiUtils.cameraRefused') })
+			}
+		})
+		text = t('apiUtils.requesting')
+		type = 'info'
+	} else if (card.key == 'requestMediaPermission') {
+		snu.requestMediaPermission({
+			types: ['image', 'video'],
+			success: (_allRight: boolean, _grantedList: string[]): void => {
+				replaceCard(index, t('apiUtils.mediaPrefix') + t('apiUtils.granted'), 'success')
+				snu.showToast({ text: t('apiUtils.mediaPrefix') + t('apiUtils.granted') })
+			},
+			fail: (_doNotAskAgain: boolean, _grantedList: string[]): void => {
+				replaceCard(index, t('apiUtils.mediaRefused'), 'fail')
+				snu.showToast({ text: t('apiUtils.mediaRefused') })
+			}
+		})
+		text = t('apiUtils.requesting')
+		type = 'info'
+	} else if (card.key == 'gotoSystemPermissionActivity') {
+		snu.gotoSystemPermissionActivity(['android.permission.CAMERA'])
+		text = t('apiUtils.gotoPermOpened')
+		type = 'info'
+	}
+	replaceCard(index, text, type)
+}
+
+function onApplyTips(): void {
+	const tips = new Map<string, SnPermTipConfig>()
+	tips.set('android.permission.CAMERA', {
+		title: t('apiUtils.permTipsTitle'),
+		content: t('apiUtils.permTipsContent')
+	})
+	snu.setPermTips(tips)
+	snu.setPermTipsStyle({
+		position: 'top',
+		bgColor: '$front',
+		maxWidth: 300
+	})
+	tipsResult.value = t('apiUtils.permTipsApplied')
+	snu.showToast({ text: t('apiUtils.permTipsApplied') })
+}
+
+function onHideTips(): void {
+	snu.hidePermTips()
+	tipsResult.value = t('apiUtils.permTipsHidden')
+}
+
+function onRegister(): void {
+	snu.registerPermListener({
+		onRequest: (_permissions: string[]): void => {
+			snu.showToast({ text: t('apiUtils.permOnRequest') })
+		},
+		onConfirm: (_permissions: string[]): void => {
+			snu.showToast({ text: t('apiUtils.permOnConfirm') })
+		},
+		onComplete: (_res: UTSJSONObject): void => {
+			snu.showToast({ text: t('apiUtils.permOnComplete') })
+		}
+	})
+	listenerResult.value = t('apiUtils.permListenerRegistered')
+}
+
+function onUnregister(): void {
+	snu.unregisterPermListener(null)
+	listenerResult.value = t('apiUtils.permListenerUnregistered')
+}
+
+function replaceCard(index: number, text: string, type: string): void {
+	const c = cards.value[index]
+	const next: UtilsActionCard = {
+		key: c.key,
+		title: c.title,
+		desc: c.desc,
+		signature: c.signature,
+		actionText: c.actionText,
+		resultText: text,
+		resultType: type
+	}
+	cards.value.splice(index, 1, next)
+}
+
+onUnmounted((): void => {
+	snu.unregisterPermListener(null)
+})
+</script>
+
+<style lang="scss">
+.group-perm {
+	flex-direction: column;
+}
+
+.perm-btn-row {
+	flex-direction: row;
+	align-items: center;
+}
+</style>

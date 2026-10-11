@@ -3,7 +3,7 @@
 
 		<demo-card :title="t('snMessage.basicTitle')" :subtitle="t('snMessage.basicSubtitle')">
 			<sn-button type="primary" :text="t('snMessage.showBasic')" custom-style="flex:1;" @click="onShowBasic" />
-			<sn-text font-size="$12" color="$textLight" :text="t('snMessage.tipContinuous')" custom-style="margin-top:8px;" flatten />
+			<sn-text font-size="$12" color="$textLight" :text="t('snMessage.tipContinuous')" custom-style="margin-top:8px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snMessage.typeTitle')" :subtitle="t('snMessage.typeSubtitle')">
@@ -54,7 +54,7 @@
 				<sn-button type="primary" :text="t('snMessage.withClose')" custom-style="flex:1;" @click="onShowClosable" />
 				<sn-button type="warning" :text="t('snMessage.groupingOpen')" custom-style="flex:1;margin-left:10px;" @click="onShowGroup" />
 			</view>
-			<sn-text font-size="$12" color="$textLight" :text="t('snMessage.closeCount', { count: closeCount } as UTSJSONObject)" custom-style="margin-top:10px;" flatten />
+			<sn-text font-size="$12" color="$textLight" :text="t('snMessage.closeCount', { count: closeCount } as UTSJSONObject)" custom-style="margin-top:10px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snMessage.shadowTitle')" :subtitle="t('snMessage.shadowSubtitle')">
@@ -73,14 +73,14 @@
 				<sn-button type="primary" :text="t('snMessage.createMsg')" custom-style="flex:1;" @click="onCreateMsg" />
 				<sn-button type="error" :text="t('snMessage.closeLast')" custom-style="flex:1;margin-left:10px;" @click="onCloseLast" />
 			</view>
-			<sn-text font-size="$12" color="$textLight" :text="t('snMessage.createdCount', { count: createdCount } as UTSJSONObject)" custom-style="margin-top:10px;" flatten />
+			<sn-text font-size="$12" color="$textLight" :text="t('snMessage.createdCount', { count: createdCount } as UTSJSONObject)" custom-style="margin-top:10px;"/>
 		</demo-card>
 
 		<sn-message ref="messageRef" @close="onMessageClose" />
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
 import type { ComponentPublicInstance } from 'vue'

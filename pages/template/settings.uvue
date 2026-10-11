@@ -5,13 +5,13 @@
 				<sn-avatar mode="text" :text="t('tmplSettings.avatar')" :size="54" :text-size="20" bg-color="$primary"
 					text-color="#FFFFFF" shape="circle" />
 				<view class="set-profile-info" flatten>
-					<sn-text bold font-size="$17" color="$title" flatten>{{ t('tmplSettings.userName') }}</sn-text>
-					<sn-text font-size="$12" color="$textLight" flatten>{{ t('tmplSettings.spaceNo') }}</sn-text>
+					<sn-text bold font-size="$17" color="$title">{{ t('tmplSettings.userName') }}</sn-text>
+					<sn-text font-size="$12" color="$textLight">{{ t('tmplSettings.spaceNo') }}</sn-text>
 				</view>
 				<sn-icon name="arrow-right-s-line" :size="16" color="$textLight" />
 			</view>
 
-			<sn-text flatten font-size="$11" color="$textLight"
+			<sn-text font-size="$11" color="$textLight"
 				custom-style="margin-top: 20px; margin-bottom: 8px; margin-left: 4px;">{{ t('tmplSettings.groupAccount') }}</sn-text>
 			<view class="set-card">
 				<sn-cell :title="t('tmplSettings.accountSafety')" icon="shield-check-line" right-icon="arrow-right" clickable
@@ -20,7 +20,7 @@
 					icon-style="color: var(--sn-success);" :border="false" @click="onCellClick(t('tmplSettings.phone'))" />
 			</view>
 
-			<sn-text flatten font-size="$11" color="$textLight"
+			<sn-text font-size="$11" color="$textLight"
 				custom-style="margin-top: 20px; margin-bottom: 8px; margin-left: 4px;">{{ t('tmplSettings.groupGeneral') }}</sn-text>
 			<view class="set-card">
 				<sn-cell :title="t('tmplSettings.darkMode')" icon="moon-line" icon-style="color: var(--sn-info);">
@@ -37,7 +37,7 @@
 					icon-style="color: var(--sn-primary);" :border="false" @click="onCellClick(t('tmplSettings.fontSize'))" />
 			</view>
 
-			<sn-text flatten font-size="$11" color="$textLight"
+			<sn-text font-size="$11" color="$textLight"
 				custom-style="margin-top: 20px; margin-bottom: 8px; margin-left: 4px;">{{ t('tmplSettings.groupOther') }}</sn-text>
 			<view class="set-card">
 				<sn-cell :title="t('tmplSettings.clearCache')" icon="delete-bin-line" :value="cacheSize" clickable
@@ -54,7 +54,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { snu, useTheme } from '@/uni_modules/sinle-ui/index.uts'
 import { useI18n } from 'vue-i18n'
 

@@ -16,12 +16,12 @@
 
 		<demo-card :title="t('snGap.modeTitle')" :subtitle="t('snGap.modeDesc')">
 			<view class="v-stack" flatten>
-				<sn-text :font-size="13" type="text-light" flatten>{{ t('snGap.statusbar') }}</sn-text>
+				<sn-text :font-size="13" type="text-light">{{ t('snGap.statusbar') }}</sn-text>
 				<sn-gap mode="statusbar" bg-color="$primaryLight" />
 			</view>
 			<sn-gap height="12px" />
 			<view class="v-stack" flatten>
-				<sn-text :font-size="13" type="text-light" flatten>{{ t('snGap.safearea') }}</sn-text>
+				<sn-text :font-size="13" type="text-light">{{ t('snGap.safearea') }}</sn-text>
 				<sn-gap mode="safearea" bg-color="$successLight" />
 			</view>
 		</demo-card>
@@ -36,7 +36,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

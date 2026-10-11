@@ -1,27 +1,26 @@
 <template>
-	<sn-page>
-		<sn-topbar :title="t('snFloatButton.title')"></sn-topbar>
+	<sn-page :title="t('snFloatButton.title')" :show-back="true">
 
 		<demo-card :title="t('snFloatButton.demoTitle')" :subtitle="t('snFloatButton.demoDesc')">
 			
 			<view class="config-row" flatten>
-				<sn-text :text="t('snFloatButton.presetPos')" custom-style="width:120px;" flatten />
+				<sn-text :text="t('snFloatButton.presetPos')" custom-style="width:120px;"/>
 				<sn-switch v-model="configs.init" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snFloatButton.absorb')" custom-style="width:120px;" flatten />
+				<sn-text :text="t('snFloatButton.absorb')" custom-style="width:120px;"/>
 				<sn-switch v-model="configs.absorb" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snFloatButton.disabled')" custom-style="width:120px;" flatten />
+				<sn-text :text="t('snFloatButton.disabled')" custom-style="width:120px;"/>
 				<sn-switch v-model="configs.disabled" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snFloatButton.positionLabel')" custom-style="width:120px;" flatten />
+				<sn-text :text="t('snFloatButton.positionLabel')" custom-style="width:120px;"/>
 				<sn-select v-model="configs.position" :data="positions" width="160px" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snFloatButton.aniTime')" custom-style="width:120px;" flatten />
+				<sn-text :text="t('snFloatButton.aniTime')" custom-style="width:120px;"/>
 				<sn-stepper v-model="configs.aniTime" :step="100" :min="100" />
 			</view>
 			<view class="config-row">
@@ -52,7 +51,7 @@
 				<sn-text :text="t('snFloatButton.iconColor')" custom-style="width:120px;" />
 				<sn-input v-model="configs.iconColor" :placeholder="t('snFloatButton.defaultVal')" style="flex:1;" />
 			</view>
-			<sn-text flatten type="text-light" :font-size="12" :text="posText" custom-style="margin-top:4px;" />
+			<sn-text type="text-light" :font-size="12" :text="posText" custom-style="margin-top:4px;" />
 		</demo-card>
 
 		<sn-gap :height="`${sizeNum + 40}px`"></sn-gap>
@@ -73,7 +72,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
 import { $snui, snu } from '@/uni_modules/sinle-ui/index.uts'

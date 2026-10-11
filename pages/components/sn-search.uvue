@@ -3,7 +3,7 @@
 		<demo-card :title="t('snSearch.demoBasicTitle')" :subtitle="t('snSearch.demoBasicSub')">
 			<sn-search v-model="keyword" @change="onChange" @confirm="onConfirm" @cancel="onCancel" />
 			<sn-text type="text-light" :font-size="13"
-				:text="t('snSearch.currentInput', { kw: keyword, count: changeCount } as UTSJSONObject)" custom-style="margin-top:12px;" flatten />
+				:text="t('snSearch.currentInput', { kw: keyword, count: changeCount } as UTSJSONObject)" custom-style="margin-top:12px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snSearch.demoTypeTitle')" :subtitle="t('snSearch.demoTypeSub')">
@@ -101,7 +101,7 @@
 				<sn-search v-model="kwExt" cancel-style="color: #f56c6c;"
 					:placeholder="t('snSearch.plCancelStyle')" />
 			</view>
-			<sn-text flatten font-size="$12" color="$textLight" style="margin-top: 12px;">{{ t('snSearch.extTip') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" style="margin-top: 12px;">{{ t('snSearch.extTip') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snSearch.demoSceneTitle')" :subtitle="t('snSearch.demoSceneSub')" style="margin-bottom: 16px">
@@ -114,7 +114,9 @@
 				</view>
 				<view class="search-history-head" flatten>
 					<sn-text bold :font-size="15" :text="t('snSearch.historyTitle')" />
-					<sn-icon name="delete-bin-line" :size="18" color="$textLight" @click="clearHistory" />
+					<view @click="clearHistory">
+						<sn-icon name="delete-bin-line" :size="18" color="$textLight" />
+					</view>
 				</view>
 				<view v-if="historyList.length == 0" class="search-empty" flatten>
 					<sn-text type="text-light" :font-size="12" :text="t('snSearch.emptyHistory')" />
@@ -143,7 +145,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { snu } from '@/uni_modules/sinle-ui'

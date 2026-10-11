@@ -8,11 +8,11 @@
 			<view class="demo-row" flatten>
 				<view class="demo-col" flatten>
 					<sn-loading />
-					<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLoading.iconMode') }}</sn-text>
+					<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLoading.iconMode') }}</sn-text>
 				</view>
 				<view class="demo-col" flatten>
 					<sn-loading mode="native" />
-					<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLoading.nativeMode') }}</sn-text>
+					<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLoading.nativeMode') }}</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -80,7 +80,7 @@
 		<demo-card :title="t('snLoading.slotTitle')" :subtitle="t('snLoading.slotDesc')">
 			<sn-loading :text="t('snLoading.defaultText')">
 				<view class="demo-slot-text" flatten>
-					<sn-text flatten font-size="$13" color="$primary">{{ t('snLoading.slotContent') }}</sn-text>
+					<sn-text font-size="$13" color="$primary">{{ t('snLoading.slotContent') }}</sn-text>
 				</view>
 			</sn-loading>
 		</demo-card>
@@ -92,13 +92,13 @@
 					<sn-button type="primary" level="third" size="normal" custom-style="margin-left:auto;"
 						@click="onRefresh">{{ t('snLoading.simulateRefresh') }}</sn-button>
 				</view>
-				<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ refreshLog }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ refreshLog }}</sn-text>
 			</view>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

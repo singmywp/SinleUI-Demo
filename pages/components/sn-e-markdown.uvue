@@ -58,11 +58,11 @@
 
 		<demo-card :title="t('snEMarkdown.fontTitle')" :subtitle="t('snEMarkdown.fontSubtitle')">
 			<view class="config-row" flatten>
-				<sn-text :text="t('snEMarkdown.baseFontSize')" custom-style="width:96px;" flatten />
+				<sn-text :text="t('snEMarkdown.baseFontSize')" custom-style="width:96px;"/>
 				<sn-stepper v-model="baseFontSize" :min="10" :max="24" :step="1" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snEMarkdown.lineHeight')" custom-style="width:96px;" flatten />
+				<sn-text :text="t('snEMarkdown.lineHeight')" custom-style="width:96px;"/>
 				<sn-stepper v-model="lineHeightInt" :min="12" :max="24" :step="1" />
 			</view>
 			<sn-e-markdown :text="styleMarkdown" :base-font-size="baseFontSize" :line-height="lineHeight" />
@@ -70,11 +70,11 @@
 
 		<demo-card :title="t('snEMarkdown.colorTitle')" :subtitle="t('snEMarkdown.colorSubtitle')">
 			<view class="config-row" flatten>
-				<sn-text :text="t('snEMarkdown.textColor')" custom-style="width:96px;" flatten />
+				<sn-text :text="t('snEMarkdown.textColor')" custom-style="width:96px;"/>
 				<sn-input v-model="textColor" custom-style="flex:1;" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snEMarkdown.linkColor')" custom-style="width:96px;" flatten />
+				<sn-text :text="t('snEMarkdown.linkColor')" custom-style="width:96px;"/>
 				<sn-input v-model="linkColor" custom-style="flex:1;" />
 			</view>
 			<sn-e-markdown :text="styleMarkdown" :text-color="textColor" :link-color="linkColor" />
@@ -83,13 +83,13 @@
 		<demo-card :title="t('snEMarkdown.linkClickTitle')" :subtitle="t('snEMarkdown.linkClickSubtitle')">
 			<sn-e-markdown :text="linkMarkdown" @linkclick="onLinkClick" />
 			<view class="link-result" flatten>
-				<sn-text font-size="$13" :color="linkResultColor" flatten>{{ t('snEMarkdown.recentLink') }}：{{ lastLinkText }}</sn-text>
+				<sn-text font-size="$13" :color="linkResultColor">{{ t('snEMarkdown.recentLink') }}：{{ lastLinkText }}</sn-text>
 			</view>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type { SnMarkdownLinkEvent } from '@/uni_modules/sn-e-markdown/index.uts'
 

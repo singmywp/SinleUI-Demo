@@ -2,7 +2,7 @@
 	<sn-page :title="t('snTextareaField.title')" :show-back="true">
 
 		<demo-card :title="t('snTextareaField.basicTitle')" :subtitle="t('snTextareaField.basicSubtitle')">
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snTextareaField.currentValue') }}：{{ value1 }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snTextareaField.currentValue') }}：{{ value1 }}</sn-text>
 		</demo-card>
 		<sn-textarea-field v-model="value1" :label="t('snTextareaField.labelText')" :placeholder="t('snTextareaField.placeholder')"  />
 
@@ -36,7 +36,7 @@
 			<template #error>
 				<view class="demo-custom-error" flatten>
 					<sn-icon name="error-warning-line" :size="14" color="#f56c6c" />
-					<sn-text font-size="$12" color="$error" custom-style="margin-left:4px;" flatten>
+					<sn-text font-size="$12" color="$error" custom-style="margin-left:4px;">
 						{{ t('snTextareaField.checkInput') }}
 					</sn-text>
 				</view>
@@ -106,7 +106,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { $snui, snu } from '@/uni_modules/sinle-ui'
 import type { ComponentPublicInstance } from 'vue'

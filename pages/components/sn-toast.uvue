@@ -2,12 +2,12 @@
 	<sn-page :title="t('snToast.title')" :show-back="true">
 
 		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
-			<sn-text font-size="$12" color="$primary" flatten>{{ t('snToast.apiNote1') }}</sn-text>
-			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;" flatten>{{ t('snToast.apiNote2') }}</sn-text>
+			<sn-text font-size="$12" color="$primary">{{ t('snToast.apiNote1') }}</sn-text>
+			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;">{{ t('snToast.apiNote2') }}</sn-text>
 		</sn-alert>
 
 		<demo-card :title="t('snToast.basicTitle')" :subtitle="t('snToast.basicSubtitle')">
-			<sn-text font-size="$13" :color="descColor" custom-style="margin-bottom:12px;" flatten>{{ t('snToast.clickHint') }}</sn-text>
+			<sn-text font-size="$13" :color="descColor" custom-style="margin-bottom:12px;">{{ t('snToast.clickHint') }}</sn-text>
 			<view class="btn-row" flatten>
 				<sn-button  type="primary" :text="t('snToast.showToast')" custom-style="flex:1;" @click="onShowToast" />
 			</view>
@@ -43,7 +43,7 @@
 		</demo-card>
 
 		<demo-card :title="t('snToast.overrideTitle')" :subtitle="t('snToast.overrideSubtitle')">
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-bottom:12px;" flatten>{{ t('snToast.overrideDesc') }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-bottom:12px;">{{ t('snToast.overrideDesc') }}</sn-text>
 			<view class="btn-row" flatten>
 				<sn-button  type="success" :text="t('snToast.overrideSuccess')" custom-style="margin-right:10px;flex:1;" @click="onShowOverride" />
 				<sn-button  type="warning" :text="t('snToast.overrideWarn')" custom-style="flex:1;" @click="onShowOverrideWarn" />
@@ -54,7 +54,7 @@
 			<view class="btn-row" flatten>
 				<sn-button  type="primary" :text="t('snToast.overlayBtn')" custom-style="flex:1;" @click="onShowOverlay" />
 			</view>
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:10px;" flatten>{{ t('snToast.overlayDesc') }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:10px;">{{ t('snToast.overlayDesc') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snToast.externalTitle')" :subtitle="t('snToast.externalSubtitle')">
@@ -66,9 +66,9 @@
 
 		<demo-card :title="t('snToast.sceneTitle')" :subtitle="t('snToast.sceneSubtitle')">
 			<view class="scene-box" :style="sceneBoxStyle" flatten>
-				<sn-icon flatten name="user-line" :size="28" color="$primary" />
-				<sn-text bold font-size="$14" color="$title" :text="t('snToast.sceneTitle2')" custom-style="margin-top:8px;" flatten />
-				<sn-text font-size="$12" color="$textLight" :text="t('snToast.sceneDesc')" custom-style="margin-top:4px;" flatten />
+				<sn-icon name="user-line" :size="28" color="$primary" />
+				<sn-text bold font-size="$14" color="$title" :text="t('snToast.sceneTitle2')" custom-style="margin-top:8px;"/>
+				<sn-text font-size="$12" color="$textLight" :text="t('snToast.sceneDesc')" custom-style="margin-top:4px;"/>
 			</view>
 			<sn-button  type="primary" :text="t('snToast.submitModify')" custom-style="margin-top:12px;flex:1;" @click="onSubmit" />
 		</demo-card>
@@ -79,7 +79,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
 import { useTheme } from '@/uni_modules/sinle-ui/index.uts'

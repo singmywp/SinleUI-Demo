@@ -2,7 +2,7 @@
 <sn-page :title="t('snCalendarPunch.title')" :show-back="true">
 		<view class="calendar-punch-demo-content" flatten>
 			<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
-				<sn-text font-size="$12" color="$primary" flatten>{{ t('snCalendarPunch.alertText') }}</sn-text>
+				<sn-text font-size="$12" color="$primary">{{ t('snCalendarPunch.alertText') }}</sn-text>
 			</sn-alert>
 
 			<demo-card :title="t('snCalendarPunch.basic')" :subtitle="t('snCalendarPunch.basicSub')">
@@ -12,7 +12,7 @@
 			</demo-card>
 
 			<demo-card :title="t('snCalendarPunch.punchData')" :subtitle="t('snCalendarPunch.punchDataSub')">
-				<sn-text font-size="$12" color="$text" flatten>{{ signedText }}</sn-text>
+				<sn-text font-size="$12" color="$text">{{ signedText }}</sn-text>
 				<view class="calendar-punch-demo-actions">
 					<sn-button :text="t('snCalendarPunch.resetData')" type="info" level="second" custom-style="flex:1;margin-right:8px;" @click="resetSignedDates" />
 					<sn-button :text="t('snCalendarPunch.clearData')" type="error" level="second" custom-style="flex:1;" @click="clearSignedDates" />
@@ -21,19 +21,19 @@
 
 			<demo-card :title="t('snCalendarPunch.options')" :subtitle="t('snCalendarPunch.optionsSub')">
 				<view class="calendar-punch-demo-row">
-					<sn-text :text="t('snCalendarPunch.supportSupplement')" font-size="$13" color="$text" custom-style="flex:1;" flatten />
+					<sn-text :text="t('snCalendarPunch.supportSupplement')" font-size="$13" color="$text" custom-style="flex:1;"/>
 					<sn-switch v-model="canSupplement" />
 				</view>
 			</demo-card>
 
 			<demo-card :title="t('snCalendarPunch.eventRecord')" :subtitle="t('snCalendarPunch.eventRecordSub')">
-				<sn-text font-size="$12" color="$text" flatten>{{ eventResult }}</sn-text>
+				<sn-text font-size="$12" color="$text">{{ eventResult }}</sn-text>
 			</demo-card>
 		</view>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { dayuts, snu } from '@/uni_modules/sinle-ui/index.uts'
 import type { SnCalendarPunchDay, SnCalendarPanelChangeDetail, SnCalendarValue } from '@/uni_modules/sinle-ui/index.uts'

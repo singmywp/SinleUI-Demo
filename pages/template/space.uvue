@@ -8,8 +8,8 @@
 						<sn-avatar mode="text" :text="t('tmplSpace.a1')" :size="58" :text-size="22" bg-color="$primary"
 							text-color="#FFFFFF" shape="circle" />
 						<view class="zone-profile-info" flatten>
-							<sn-text bold font-size="$17" color="$title" flatten>{{ t('tmplSpace.name1') }}</sn-text>
-							<sn-text font-size="$12" color="$textLight" flatten custom-style="margin-top:3px;">{{ t('tmplSpace.signature') }}</sn-text>
+							<sn-text bold font-size="$17" color="$title">{{ t('tmplSpace.name1') }}</sn-text>
+							<sn-text font-size="$12" color="$textLight" custom-style="margin-top:3px;">{{ t('tmplSpace.signature') }}</sn-text>
 						</view>
 						<sn-switch-button v-model="followed" type="info" level="second" active-type="primary"
 							active-level="first" :text="t('tmplSpace.follow')" :active-text="t('tmplSpace.followed')"
@@ -17,18 +17,18 @@
 					</view>
 					<view class="zone-stats">
 						<view class="zone-stat" flatten>
-							<sn-text bold font-size="$16" color="$title" flatten>128</sn-text>
-							<sn-text font-size="$11" color="$textLight" flatten>{{ t('tmplSpace.statPosts') }}</sn-text>
+							<sn-text bold font-size="$16" color="$title">128</sn-text>
+							<sn-text font-size="$11" color="$textLight">{{ t('tmplSpace.statPosts') }}</sn-text>
 						</view>
 						<view class="zone-stat-divider"></view>
 						<view class="zone-stat" flatten>
-							<sn-text bold font-size="$16" color="$title" flatten>3.2w</sn-text>
-							<sn-text font-size="$11" color="$textLight" flatten>{{ t('tmplSpace.statVisitors') }}</sn-text>
+							<sn-text bold font-size="$16" color="$title">3.2w</sn-text>
+							<sn-text font-size="$11" color="$textLight">{{ t('tmplSpace.statVisitors') }}</sn-text>
 						</view>
 						<view class="zone-stat-divider"></view>
 						<view class="zone-stat" flatten>
-							<sn-text bold font-size="$16" color="$title" flatten>96</sn-text>
-							<sn-text font-size="$11" color="$textLight" flatten>{{ t('tmplSpace.statComments') }}</sn-text>
+							<sn-text bold font-size="$16" color="$title">96</sn-text>
+							<sn-text font-size="$11" color="$textLight">{{ t('tmplSpace.statComments') }}</sn-text>
 						</view>
 					</view>
 				</view>
@@ -40,10 +40,10 @@
 					@comment-click="onCommentClick" @comment-user-click="onCommentUserClick" @more-click="onMoreComments"
 					custom-style="margin-left: 12px; margin-right: 12px; margin-bottom: 12px;">
 					<template #info>
-						<sn-text bold font-size="$14" color="$title" flatten>{{ post.name }}</sn-text>
+						<sn-text bold font-size="$14" color="$title">{{ post.name }}</sn-text>
 						<view class="zone-post-sub">
 							<sn-dateformat :date="post.datetime" format="MM-DD HH:mm" text-size="$11" text-color="$textLight" />
-							<sn-text font-size="$11" color="$textLight" flatten custom-style="margin-left: 4px;">· {{ post.device }}</sn-text>
+							<sn-text font-size="$11" color="$textLight" custom-style="margin-left: 4px;">· {{ post.device }}</sn-text>
 						</view>
 					</template>
 					<template #header-action>
@@ -51,7 +51,7 @@
 							<sn-icon name="more-line" :size="18" color="$textLight" />
 						</view>
 					</template>
-					<sn-text font-size="$14" color="$text" flatten custom-style="line-height: 22px;">{{ post.content }}</sn-text>
+					<sn-text font-size="$14" color="$text" custom-style="line-height: 22px;">{{ post.content }}</sn-text>
 
 					<view v-if="post.images.length == 1" class="zone-img-single" flatten
 						:style="post.images[0].image == '' ? imgBlockStyle(post.images[0]) : ''">
@@ -70,14 +70,14 @@
 
 			<list-item :type="200" :key="'foot'">
 				<view class="zone-foot" flatten>
-						<sn-text font-size="$11" color="$textLight" flatten>{{ t('tmplSpace.footerTip') }}</sn-text>
+						<sn-text font-size="$11" color="$textLight">{{ t('tmplSpace.footerTip') }}</sn-text>
 					</view>
 			</list-item>
 		</list-view>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { snu } from '@/uni_modules/sinle-ui/index.uts'
 import { useI18n } from 'vue-i18n'
 import type { SnAvatarConfig, SnPostCardAction, SnPostCardComment, SnShowActionsheetConfig } from '@/uni_modules/sinle-ui/core/types/index.uts'

@@ -1,63 +1,72 @@
 <template>
 	<sn-page :title="t('apiColor.title')" :show-back="true">
 		<demo-card :title="t('apiColor.titleLib')" :subtitle="t('apiColor.subLib')">
-			<view v-for="(item, i) in libItems" :key="'l' + i" :class="rowClass(i == libItems.length - 1)" flatten>
-				<sn-text font-size="$12" :color="nameColor" custom-style="flex:1;" flatten>{{ item.name }}</sn-text>
-				<sn-text font-size="$12" :color="valueColor" custom-style="flex:1;text-align:right;" flatten>{{ item.value }}</sn-text>
-			</view>
+			<sn-cell v-for="(item, i) in libItems" :key="`l${i}`" :title="item.name" :label="item.label"
+				:border="i < libItems.length - 1">
+				<template #value>
+					<sn-text font-size="$12" :color="valueColor">{{ item.value }}</sn-text>
+				</template>
+			</sn-cell>
 			<view class="swatch-row" flatten>
-				<view v-for="(c, ci) in palette" :key="'p' + ci" :class="swatchClass(ci, palette.length, '')" :style="'background-color:' + c.hex" flatten>
-					<sn-text font-size="$9" :color="c.textColor" flatten>{{ c.hex }}</sn-text>
-				</view>
+				<view v-for="(c, ci) in palette" :key="`p${ci}`" :class="swatchClass(ci, palette.length)" :style="`background-color:${c}`" flatten></view>
 			</view>
 		</demo-card>
 
 		<demo-card :title="t('apiColor.titleBase')" :subtitle="t('apiColor.subBase')">
-			<view v-for="(item, i) in baseItems" :key="'b' + i" :class="rowClass(i == baseItems.length - 1)" flatten>
-				<sn-text font-size="$12" :color="nameColor" custom-style="flex:1;" flatten>{{ item.name }}</sn-text>
-				<sn-text font-size="$12" :color="valueColor" custom-style="flex:1;text-align:right;" flatten>{{ item.value }}</sn-text>
-			</view>
+			<sn-cell v-for="(item, i) in baseItems" :key="`b${i}`" :title="item.name" :label="item.label"
+				:border="i < baseItems.length - 1">
+				<template #value>
+					<sn-text font-size="$12" :color="valueColor">{{ item.value }}</sn-text>
+				</template>
+			</sn-cell>
 		</demo-card>
 
 		<demo-card :title="t('apiColor.titleFormat')" :subtitle="t('apiColor.subFormat')">
-			<view v-for="(item, i) in formatItems" :key="'f' + i" :class="rowClass(i == formatItems.length - 1)" flatten>
-				<sn-text font-size="$12" :color="nameColor" custom-style="flex:1;" flatten>{{ item.name }}</sn-text>
-				<sn-text font-size="$12" :color="valueColor" custom-style="flex:1;text-align:right;" flatten>{{ item.value }}</sn-text>
-			</view>
+			<sn-cell v-for="(item, i) in formatItems" :key="`f${i}`" :title="item.name" :label="item.label"
+				:border="i < formatItems.length - 1">
+				<template #value>
+					<sn-text font-size="$12" :color="valueColor">{{ item.value }}</sn-text>
+				</template>
+			</sn-cell>
 		</demo-card>
 
 		<demo-card :title="t('apiColor.titleAdjust')" :subtitle="t('apiColor.subAdjust')">
-			<view class="swatch-row" flatten>
-				<view v-for="(c, ci) in adjustSwatches" :key="'a' + ci" :class="swatchClass(ci, adjustSwatches.length, 'swatch-lg')" :style="'background-color:' + c.hex" flatten>
-					<sn-text font-size="$9" :color="c.textColor" :lines="2" custom-style="text-align:center;" flatten>{{ c.name }}</sn-text>
-				</view>
+			<view class="base-head" flatten>
+				<sn-text font-size="$12" :color="nameColor">{{ t('apiColor.original') }}</sn-text>
+				<sn-text font-size="$12" :color="valueColor">{{ baseHex }}</sn-text>
 			</view>
-			<view v-for="(item, i) in adjustItems" :key="'ad' + i" :class="rowClass(i == adjustItems.length - 1)" flatten>
-				<sn-text font-size="$12" :color="nameColor" custom-style="flex:1;" flatten>{{ item.name }}</sn-text>
-				<sn-text font-size="$12" :color="valueColor" custom-style="flex:1;text-align:right;" flatten>{{ item.value }}</sn-text>
-			</view>
+			<view class="base-swatch" :style="`background-color:${baseHex}`" flatten></view>
+			<sn-cell v-for="(item, i) in adjustCells" :key="`a${i}`" :title="item.name" :label="item.label"
+				:border="i < adjustCells.length - 1">
+				<template #value>
+					<sn-text font-size="$12" :color="valueColor">{{ item.value }}</sn-text>
+					<view v-if="item.swatchColor != ''" class="mini-swatch" :style="`background-color:${item.swatchColor}`"
+						flatten></view>
+				</template>
+			</sn-cell>
 		</demo-card>
 
 		<demo-card :title="t('apiColor.titleScheme')" :subtitle="t('apiColor.subScheme')">
-			<view v-for="(item, i) in schemeRows" :key="'sc' + i" class="scheme-row" flatten>
-				<sn-text font-size="$11" :color="nameColor" custom-style="width:130px;">{{ item.name }}</sn-text>
-				<view class="swatch-row" style="flex: 1;"  flatten>
-					<view v-for="(c, ci) in item.colors" :key="'sc' + i + '_' + ci" :class="swatchClass(ci, item.colors.length, '')" :style="'background-color:' + c.hex" flatten>
-						<sn-text font-size="$9" :color="c.textColor">{{ c.hex }}</sn-text>
-					</view>
-				</view>
-			</view>
+			<sn-cell v-for="(item, i) in schemeRows" :key="`sc${i}`" :title="item.name" :label="item.label"
+				:border="i < schemeRows.length - 1">
+				<template #value>
+					<view v-for="(c, ci) in item.colors" :key="`sc${i}_${ci}`" class="scheme-dot"
+						:style="`background-color:${c}`" flatten></view>
+				</template>
+			</sn-cell>
 		</demo-card>
 		<demo-card :title="t('apiColor.titleClone')" :subtitle="t('apiColor.subClone')">
-			<view v-for="(item, i) in cloneItems" :key="'cl' + i" :class="rowClass(i == cloneItems.length - 1)" flatten>
-				<sn-text font-size="$12" :color="nameColor" custom-style="flex:1;">{{ item.name }}</sn-text>
-				<sn-text font-size="$12" :color="valueColor" custom-style="flex:1;text-align:right;">{{ item.value }}</sn-text>
-			</view>
+			<sn-cell v-for="(item, i) in cloneItems" :key="`cl${i}`" :title="item.name" :label="item.label"
+				:border="i < cloneItems.length - 1">
+				<template #value>
+					<sn-text font-size="$12" :color="valueColor">{{ item.value }}</sn-text>
+				</template>
+			</sn-cell>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { ColorLib, TinyColor } from '@/uni_modules/sinle-ui/index.uts'
 import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
@@ -67,29 +76,16 @@ const { isDark } = useTheme()
 
 type DemoItem = {
 	name: string
+	label: string
 	value: string
-}
-
-type SwatchItem = {
-	name: string
-	hex: string
-	textColor: string
 }
 
 const nameColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
 const valueColor = computed<string>(() => isDark.value ? '#73a2ff' : '#4d82ff')
 
 
-function rowClass(isLast: boolean): string {
-	return isLast ? 'demo-row demo-row-last' : 'demo-row'
-}
-
-
-function swatchClass(ci: number, len: number, extra: string): string {
+function swatchClass(ci: number, len: number): string {
 	let cls = 'swatch'
-	if (extra != '') {
-		cls += ' ' + extra
-	}
 	if (ci == len - 1) {
 		cls += ' swatch-last'
 	}
@@ -97,47 +93,26 @@ function swatchClass(ci: number, len: number, extra: string): string {
 }
 
 
-function swatchTextColor(hex: string): string {
-	const c = ColorLib.tinyColor(hex)
-	return c.isDark() ? '#ffffff' : '#333333'
-}
-
-function swatch(name: string, hex: string): SwatchItem {
-	return {
-		name: name,
-		hex: hex,
-		textColor: swatchTextColor(hex)
-	}
-}
-
-
-function toSwatches(colors: TinyColor[]): SwatchItem[] {
-	const items: SwatchItem[] = []
+function hexList(colors: TinyColor[]): string[] {
+	const list: string[] = []
 	for (let i = 0; i < colors.length; i++) {
-		items.push(swatch('', colors[i].toHexString()))
+		list.push(colors[i].toHexString())
 	}
-	return items
+	return list
 }
 
 
-const palette = computed<SwatchItem[]>(() => {
-	const list = ColorLib.generate('#4d82ff')
-	const items: SwatchItem[] = []
-	for (let i = 0; i < list.length; i++) {
-		items.push(swatch('', list[i]))
-	}
-	return items
-})
+const palette = computed<string[]>(() => ColorLib.generate('#4d82ff'))
 
 const libItems = computed<DemoItem[]>(() => {
 	const randomColor = ColorLib.random()
 	return [
-		{ name: "tinyColor('#ff6347')", value: ColorLib.tinyColor('#ff6347').toHexString() },
-		{ name: 'random()', value: randomColor.toHexString() },
-		{ name: "mean(['#ff0000','#00ff00','#0000ff'])", value: ColorLib.mean(['#ff0000', '#00ff00', '#0000ff']).toHexString() },
-		{ name: "generate('#4d82ff')", value: ColorLib.generate('#4d82ff').length + t('apiColor.paletteCountSuffix') },
-		{ name: "calcAPCA('#ffffff', '#000000')", value: ColorLib.calcAPCA('#ffffff', '#000000').toString() },
-		{ name: "calcAPCA('#000000', '#ffffff')", value: ColorLib.calcAPCA('#000000', '#ffffff').toString() }
+		{ name: "tinyColor('#ff6347')", label: t('apiColor.fnTinyColor'), value: ColorLib.tinyColor('#ff6347').toHexString() },
+		{ name: 'random()', label: t('apiColor.fnRandom'), value: randomColor.toHexString() },
+		{ name: "mean(['#ff0000','#00ff00','#0000ff'])", label: t('apiColor.fnMean'), value: ColorLib.mean(['#ff0000', '#00ff00', '#0000ff']).toHexString() },
+		{ name: "generate('#4d82ff')", label: t('apiColor.fnGenerate'), value: `${ColorLib.generate('#4d82ff').length}${t('apiColor.paletteCountSuffix')}` },
+		{ name: "calcAPCA('#ffffff', '#000000')", label: t('apiColor.fnCalcAPCA'), value: ColorLib.calcAPCA('#ffffff', '#000000').toString() },
+		{ name: "calcAPCA('#000000', '#ffffff')", label: t('apiColor.fnCalcAPCA'), value: ColorLib.calcAPCA('#000000', '#ffffff').toString() }
 	]
 })
 
@@ -146,16 +121,16 @@ const baseItems = computed<DemoItem[]>(() => {
 	const c = ColorLib.tinyColor('#4d82ff')
 	const semi = ColorLib.tinyColor('rgba(77, 130, 255, 0.5)')
 	return [
-		{ name: "isValid('#4d82ff')", value: c.isValid.toString() },
-		{ name: "isValid('not-a-color')", value: ColorLib.tinyColor('not-a-color').isValid.toString() },
-		{ name: "isDark()", value: c.isDark().toString() },
-		{ name: "isLight()", value: c.isLight().toString() },
-		{ name: 'getBrightness()', value: c.getBrightness().toString() },
-		{ name: 'getLuminance()', value: c.getLuminance().toFixed(4) },
-		{ name: t('apiColor.getAlphaName'), value: semi.getAlpha().toString() },
-		{ name: "setAlpha(0.5).toRgbString()", value: c.setAlpha(0.5).toRgbString() },
-		{ name: "isMonochrome()", value: c.isMonochrome().toString() },
-		{ name: "isMonochrome('#888888')", value: ColorLib.tinyColor('#888888').isMonochrome().toString() }
+		{ name: "isValid('#4d82ff')", label: t('apiColor.fnIsValid'), value: c.isValid.toString() },
+		{ name: "isValid('not-a-color')", label: t('apiColor.fnIsValid'), value: ColorLib.tinyColor('not-a-color').isValid.toString() },
+		{ name: "isDark()", label: t('apiColor.fnIsDark'), value: c.isDark().toString() },
+		{ name: "isLight()", label: t('apiColor.fnIsLight'), value: c.isLight().toString() },
+		{ name: 'getBrightness()', label: t('apiColor.fnGetBrightness'), value: c.getBrightness().toString() },
+		{ name: 'getLuminance()', label: t('apiColor.fnGetLuminance'), value: c.getLuminance().toFixed(4) },
+		{ name: t('apiColor.getAlphaName'), label: t('apiColor.fnGetAlpha'), value: semi.getAlpha().toString() },
+		{ name: "setAlpha(0.5).toRgbString()", label: t('apiColor.fnSetAlpha'), value: c.setAlpha(0.5).toRgbString() },
+		{ name: "isMonochrome()", label: t('apiColor.fnIsMonochrome'), value: c.isMonochrome().toString() },
+		{ name: "isMonochrome('#888888')", label: t('apiColor.fnIsMonochrome'), value: ColorLib.tinyColor('#888888').isMonochrome().toString() }
 	]
 })
 
@@ -164,76 +139,82 @@ const formatItems = computed<DemoItem[]>(() => {
 	const c = ColorLib.tinyColor('#4d82ff')
 	const alphaC = ColorLib.tinyColor('rgba(77, 130, 255, 0.4)')
 	return [
-		{ name: 'toHex()', value: c.toHex() },
-		{ name: 'toHexString()', value: c.toHexString() },
-		{ name: 'toHexShortString()', value: c.toHexShortString() },
-		{ name: 'toRgbString()', value: c.toRgbString() },
-		{ name: 'toPercentageRgbString()', value: c.toPercentageRgbString() },
-		{ name: 'toHslString()', value: c.toHslString() },
-		{ name: 'toHsvString()', value: c.toHsvString() },
-		{ name: 'toHsbString()', value: c.toHsbString() },
-		{ name: t('apiColor.toNameBlack'), value: ColorLib.tinyColor('#000000').toName() ?? t('apiColor.noName') },
-		{ name: t('apiColor.toNameBlue'), value: c.toName() ?? t('apiColor.noName') },
-		{ name: 'toString()', value: c.toString() },
-		{ name: 'toNumber()', value: c.toNumber().toString() },
-		{ name: t('apiColor.toRgbAlpha'), value: alphaC.toRgbString() }
+		{ name: 'toHex()', label: t('apiColor.fnToHex'), value: c.toHex() },
+		{ name: 'toHexString()', label: t('apiColor.fnToHexString'), value: c.toHexString() },
+		{ name: 'toHexShortString()', label: t('apiColor.fnToHexShortString'), value: c.toHexShortString() },
+		{ name: 'toRgbString()', label: t('apiColor.fnToRgbString'), value: c.toRgbString() },
+		{ name: 'toPercentageRgbString()', label: t('apiColor.fnToPercentageRgbString'), value: c.toPercentageRgbString() },
+		{ name: 'toHslString()', label: t('apiColor.fnToHslString'), value: c.toHslString() },
+		{ name: 'toHsvString()', label: t('apiColor.fnToHsvString'), value: c.toHsvString() },
+		{ name: 'toHsbString()', label: t('apiColor.fnToHsbString'), value: c.toHsbString() },
+		{ name: t('apiColor.toNameBlack'), label: t('apiColor.fnToName'), value: ColorLib.tinyColor('#000000').toName() ?? t('apiColor.noName') },
+		{ name: t('apiColor.toNameBlue'), label: t('apiColor.fnToName'), value: c.toName() ?? t('apiColor.noName') },
+		{ name: 'toString()', label: t('apiColor.fnToString'), value: c.toString() },
+		{ name: 'toNumber()', label: t('apiColor.fnToNumber'), value: c.toNumber().toString() },
+		{ name: t('apiColor.toRgbAlpha'), label: t('apiColor.fnToRgbAlpha'), value: alphaC.toRgbString() }
 	]
 })
 
 
-const adjustSwatches = computed<SwatchItem[]>(() => {
-	const c = ColorLib.tinyColor('#4d82ff')
-	return [
-		swatch(t('apiColor.original'), c.toHexString()),
-		swatch('lighten(10)', c.lighten(10).toHexString()),
-		swatch('brighten(10)', c.brighten(10).toHexString()),
-		swatch('darken(10)', c.darken(10).toHexString()),
-		swatch('tint(20)', c.tint(20).toHexString()),
-		swatch('shade(20)', c.shade(20).toHexString()),
-		swatch('saturate(20)', c.saturate(20).toHexString()),
-		swatch('desaturate(20)', c.desaturate(20).toHexString()),
-		swatch('greyscale()', c.greyscale().toHexString()),
-		swatch('spin(60)', c.spin(60).toHexString()),
-		swatch('mix(#000,30)', c.mix('#000000', 30).toHexString())
-	]
-})
+const BASE_COLOR = '#4d82ff'
 
-const adjustItems = computed<DemoItem[]>(() => {
-	const c = ColorLib.tinyColor('#4d82ff')
+const baseHex = computed<string>(() => ColorLib.tinyColor(BASE_COLOR).toHexString())
+
+
+type AdjustCell = {
+	name: string
+	label: string
+	value: string
+	swatchColor: string
+}
+
+const adjustCells = computed<AdjustCell[]>(() => {
+	const c = ColorLib.tinyColor(BASE_COLOR)
+	const lighten = c.lighten(10).toHexString()
+	const brighten = c.brighten(10).toHexString()
+	const darken = c.darken(10).toHexString()
+	const tint = c.tint(20).toHexString()
+	const shade = c.shade(20).toHexString()
+	const saturate = c.saturate(20).toHexString()
+	const desaturate = c.desaturate(20).toHexString()
+	const greyscale = c.greyscale().toHexString()
+	const spin = c.spin(60).toHexString()
+	const mix = c.mix('#000000', 30).toHexString()
 	return [
-		{ name: 'lighten(10)', value: c.lighten(10).toHexString() },
-		{ name: 'brighten(10)', value: c.brighten(10).toHexString() },
-		{ name: 'darken(10)', value: c.darken(10).toHexString() },
-		{ name: 'tint(20)', value: c.tint(20).toHexString() },
-		{ name: 'shade(20)', value: c.shade(20).toHexString() },
-		{ name: 'saturate(20)', value: c.saturate(20).toHexString() },
-		{ name: 'desaturate(20)', value: c.desaturate(20).toHexString() },
-		{ name: 'greyscale()', value: c.greyscale().toHexString() },
-		{ name: 'spin(60)', value: c.spin(60).toHexString() },
-		{ name: "mix('#000000', 30)", value: c.mix('#000000', 30).toHexString() },
-		{ name: "equals('#4d82ff')", value: c.equals('#4d82ff').toString() },
-		{ name: "equals('#ff0000')", value: c.equals('#ff0000').toString() }
+		{ name: 'lighten(10)', label: t('apiColor.fnLighten'), value: lighten, swatchColor: lighten },
+		{ name: 'brighten(10)', label: t('apiColor.fnBrighten'), value: brighten, swatchColor: brighten },
+		{ name: 'darken(10)', label: t('apiColor.fnDarken'), value: darken, swatchColor: darken },
+		{ name: 'tint(20)', label: t('apiColor.fnTint'), value: tint, swatchColor: tint },
+		{ name: 'shade(20)', label: t('apiColor.fnShade'), value: shade, swatchColor: shade },
+		{ name: 'saturate(20)', label: t('apiColor.fnSaturate'), value: saturate, swatchColor: saturate },
+		{ name: 'desaturate(20)', label: t('apiColor.fnDesaturate'), value: desaturate, swatchColor: desaturate },
+		{ name: 'greyscale()', label: t('apiColor.fnGreyscale'), value: greyscale, swatchColor: greyscale },
+		{ name: 'spin(60)', label: t('apiColor.fnSpin'), value: spin, swatchColor: spin },
+		{ name: "mix('#000000', 30)", label: t('apiColor.fnMix'), value: mix, swatchColor: mix },
+		{ name: "equals('#4d82ff')", label: t('apiColor.fnEquals'), value: c.equals('#4d82ff').toString(), swatchColor: '' },
+		{ name: "equals('#ff0000')", label: t('apiColor.fnEquals'), value: c.equals('#ff0000').toString(), swatchColor: '' }
 	]
 })
 
 
 type SchemeRow = {
 	name: string
-	colors: SwatchItem[]
+	label: string
+	colors: string[]
 }
 
 const schemeRows = computed<SchemeRow[]>(() => {
-	const c = ColorLib.tinyColor('#4d82ff')
+	const c = ColorLib.tinyColor(BASE_COLOR)
 	return [
-		{ name: 'analogous(6, 30)', colors: toSwatches(c.analogous(6, 30)) },
-		{ name: 'complement()', colors: toSwatches([c.complement()]) },
-		{ name: 'monochromatic(6)', colors: toSwatches(c.monochromatic(6)) },
-		{ name: 'splitcomplement()', colors: toSwatches(c.splitcomplement()) },
-		{ name: 'triad()', colors: toSwatches(c.triad()) },
-		{ name: 'tetrad()', colors: toSwatches(c.tetrad()) },
-		{ name: 'polyad(5)', colors: toSwatches(c.polyad(5)) },
-		{ name: "onBackground('#ffffff')", colors: toSwatches([c.onBackground('#ffffff')]) },
-		{ name: "onBackground('#000000')", colors: toSwatches([c.onBackground('#000000')]) }
+		{ name: 'analogous(6, 30)', label: t('apiColor.fnAnalogous'), colors: hexList(c.analogous(6, 30)) },
+		{ name: 'complement()', label: t('apiColor.fnComplement'), colors: hexList([c.complement()]) },
+		{ name: 'monochromatic(6)', label: t('apiColor.fnMonochromatic'), colors: hexList(c.monochromatic(6)) },
+		{ name: 'splitcomplement()', label: t('apiColor.fnSplitcomplement'), colors: hexList(c.splitcomplement()) },
+		{ name: 'triad()', label: t('apiColor.fnTriad'), colors: hexList(c.triad()) },
+		{ name: 'tetrad()', label: t('apiColor.fnTetrad'), colors: hexList(c.tetrad()) },
+		{ name: 'polyad(5)', label: t('apiColor.fnPolyad'), colors: hexList(c.polyad(5)) },
+		{ name: "onBackground('#ffffff')", label: t('apiColor.fnOnBackground'), colors: hexList([c.onBackground('#ffffff')]) },
+		{ name: "onBackground('#000000')", label: t('apiColor.fnOnBackground'), colors: hexList([c.onBackground('#000000')]) }
 	]
 })
 
@@ -242,25 +223,13 @@ const cloneItems = computed<DemoItem[]>(() => {
 	const c = ColorLib.tinyColor('#4d82ff')
 	const clone = c.clone()
 	return [
-		{ name: 'clone()', value: clone.toHexString() },
-		{ name: t('apiColor.cloneName'), value: c.toHexString() + ' / ' + clone.darken(20).toHexString() }
+		{ name: 'clone()', label: t('apiColor.fnClone'), value: clone.toHexString() },
+		{ name: 'clone().darken(20)', label: t('apiColor.cloneName'), value: `${c.toHexString()} / ${clone.darken(20).toHexString()}` }
 	]
 })
 </script>
 
 <style lang="scss">
-.demo-row {
-	flex-direction: row;
-	align-items: center;
-	padding-top: 6px;
-	padding-bottom: 6px;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: rgba(128, 128, 128, 0.12);
-}
-.demo-row-last {
-	border-bottom-width: 0;
-}
 .swatch-row {
 	flex-direction: row;
 	margin-top: 10px;
@@ -276,13 +245,32 @@ const cloneItems = computed<DemoItem[]>(() => {
 .swatch-last {
 	margin-right: 0;
 }
-.swatch-lg {
-	height: 52px;
-}
-.scheme-row {
+.base-head {
 	flex-direction: row;
 	align-items: center;
-	padding-top: 6px;
-	padding-bottom: 6px;
+	justify-content: space-between;
+	margin-bottom: 8px;
+}
+.base-swatch {
+	height: 64px;
+	border-radius: 12px;
+}
+.mini-swatch {
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	margin-left: 8px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgba(128, 128, 128, 0.25);
+}
+.scheme-dot {
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	margin-left: 6px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgba(128, 128, 128, 0.25);
 }
 </style>

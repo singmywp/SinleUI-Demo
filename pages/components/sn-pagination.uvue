@@ -3,25 +3,25 @@
 		<demo-card :title="t('snPagination.basicTitle')" :subtitle="t('snPagination.basicSubtitle')">
 			<view class="demo-block" flatten>
 				<sn-pagination v-model:page="page1" :page-count="5" />
-				<sn-text font-size="$13" color="$textLight" custom-style="margin-top:10px;" flatten>{{ t('snPagination.currentPage', { page: page1.toString(), total: '5' } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$13" color="$textLight" custom-style="margin-top:10px;">{{ t('snPagination.currentPage', { page: page1.toString(), total: '5' } as UTSJSONObject) }}</sn-text>
 			</view>
 		</demo-card>
 
 		<demo-card :title="t('snPagination.ellipsisTitle')" :subtitle="t('snPagination.ellipsisSubtitle')">
 			<view class="demo-block" flatten>
-				<sn-text font-size="$13" color="$textLight" custom-style="margin-bottom:8px;" flatten>{{ t('snPagination.nearStart') }}</sn-text>
+				<sn-text font-size="$13" color="$textLight" custom-style="margin-bottom:8px;">{{ t('snPagination.nearStart') }}</sn-text>
 				<sn-pagination v-model:page="pageNearStart" :page-count="100" />
 			</view>
 			<view class="demo-block" flatten>
-				<sn-text font-size="$13" color="$textLight" custom-style="margin-bottom:8px;" flatten>{{ t('snPagination.midArea') }}</sn-text>
+				<sn-text font-size="$13" color="$textLight" custom-style="margin-bottom:8px;">{{ t('snPagination.midArea') }}</sn-text>
 				<sn-pagination v-model:page="pageMid" :page-count="100" />
 			</view>
 			<view class="demo-block" flatten>
-				<sn-text font-size="$13" color="$textLight" custom-style="margin-bottom:8px;" flatten>{{ t('snPagination.nearEnd') }}</sn-text>
+				<sn-text font-size="$13" color="$textLight" custom-style="margin-bottom:8px;">{{ t('snPagination.nearEnd') }}</sn-text>
 				<sn-pagination v-model:page="pageNearEnd" :page-count="100" />
 			</view>
 			<view class="demo-block" flatten>
-						<sn-text font-size="$13" color="$textLight" custom-style="margin-bottom:8px;" flatten>{{ t('snPagination.midMoreBtns') }}</sn-text>
+						<sn-text font-size="$13" color="$textLight" custom-style="margin-bottom:8px;">{{ t('snPagination.midMoreBtns') }}</sn-text>
 						<sn-pagination v-model:page="pageMid" :page-count="100" size="$30" :page-slot="7" />
 					</view>
 		</demo-card>
@@ -134,7 +134,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

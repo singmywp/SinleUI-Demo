@@ -14,62 +14,62 @@
 
 		<demo-card :title="t('snAmount.rounding')" :subtitle="t('snAmount.roundingSub')">
 			<view flatten class="rule-block">
-				<sn-text flatten font-size="12px" type="primary" bold>{{ t('snAmount.roundHead') }}</sn-text>
-				<sn-text flatten font-size="12px" type="text">{{ t('snAmount.roundDesc') }}</sn-text>
+				<sn-text font-size="12px" type="primary" bold>{{ t('snAmount.roundHead') }}</sn-text>
+				<sn-text font-size="12px" type="text">{{ t('snAmount.roundDesc') }}</sn-text>
 			</view>
 			<view flatten class="rule-block">
-				<sn-text flatten font-size="12px" type="success" bold>{{ t('snAmount.ceilHead') }}</sn-text>
-				<sn-text flatten font-size="12px" type="text">{{ t('snAmount.ceilDesc') }}</sn-text>
+				<sn-text font-size="12px" type="success" bold>{{ t('snAmount.ceilHead') }}</sn-text>
+				<sn-text font-size="12px" type="text">{{ t('snAmount.ceilDesc') }}</sn-text>
 			</view>
 			<view flatten class="rule-block">
-				<sn-text flatten font-size="12px" type="warning" bold>{{ t('snAmount.floorHead') }}</sn-text>
-				<sn-text flatten font-size="12px" type="text">{{ t('snAmount.floorDesc') }}</sn-text>
+				<sn-text font-size="12px" type="warning" bold>{{ t('snAmount.floorHead') }}</sn-text>
+				<sn-text font-size="12px" type="text">{{ t('snAmount.floorDesc') }}</sn-text>
 			</view>
 			<view flatten class="rule-block" style="margin-bottom: 12px;">
-				<sn-text flatten font-size="12px" type="error" bold>{{ t('snAmount.truncHead') }}</sn-text>
-				<sn-text flatten font-size="12px" type="text">{{ t('snAmount.truncDesc') }}</sn-text>
+				<sn-text font-size="12px" type="error" bold>{{ t('snAmount.truncHead') }}</sn-text>
+				<sn-text font-size="12px" type="text">{{ t('snAmount.truncDesc') }}</sn-text>
 			</view>
 
-			<sn-text flatten bold font-size="14px" style="margin-bottom: 6px;">{{ t('snAmount.posCompare') }}</sn-text>
+			<sn-text bold font-size="14px" style="margin-bottom: 6px;">{{ t('snAmount.posCompare') }}</sn-text>
 			<view class="demo-row">
 				<view class="demo-row-item">
-					<sn-text flatten type="text-light" font-size="12px">round → 1.01</sn-text>
+					<sn-text type="text-light" font-size="12px">round → 1.01</sn-text>
 					<sn-amount :value="'1.005'" currency="¥" :decimals="2" rounding-mode="round"></sn-amount>
 				</view>
 				<view class="demo-row-item">
-					<sn-text flatten type="text-light" font-size="12px">ceil → 1.01</sn-text>
+					<sn-text type="text-light" font-size="12px">ceil → 1.01</sn-text>
 					<sn-amount :value="'1.005'" currency="¥" :decimals="2" rounding-mode="ceil"></sn-amount>
 				</view>
 			</view>
 			<view class="demo-row">
 				<view class="demo-row-item">
-					<sn-text flatten type="text-light" font-size="12px">floor → 1.00</sn-text>
+					<sn-text type="text-light" font-size="12px">floor → 1.00</sn-text>
 					<sn-amount :value="'1.009'" currency="¥" :decimals="2" rounding-mode="floor"></sn-amount>
 				</view>
 				<view class="demo-row-item">
-					<sn-text flatten type="text-light" font-size="12px">trunc → 1.00</sn-text>
+					<sn-text type="text-light" font-size="12px">trunc → 1.00</sn-text>
 					<sn-amount :value="'1.009'" currency="¥" :decimals="2" rounding-mode="trunc"></sn-amount>
 				</view>
 			</view>
 
-			<sn-text flatten bold font-size="14px" style="margin-top: 12px; margin-bottom: 6px;">{{ t('snAmount.negCompare') }}</sn-text>
+			<sn-text bold font-size="14px" style="margin-top: 12px; margin-bottom: 6px;">{{ t('snAmount.negCompare') }}</sn-text>
 			<view class="demo-row">
 				<view class="demo-row-item">
-					<sn-text flatten type="text-light" font-size="12px">round → −1.01</sn-text>
+					<sn-text type="text-light" font-size="12px">round → −1.01</sn-text>
 					<sn-amount :value="'-1.005'" currency="¥" :decimals="2" rounding-mode="round"></sn-amount>
 				</view>
 				<view class="demo-row-item">
-					<sn-text flatten type="text-light" font-size="12px">ceil → −1.00</sn-text>
+					<sn-text type="text-light" font-size="12px">ceil → −1.00</sn-text>
 					<sn-amount :value="'-1.005'" currency="¥" :decimals="2" rounding-mode="ceil"></sn-amount>
 				</view>
 			</view>
 			<view class="demo-row">
 				<view class="demo-row-item">
-					<sn-text flatten type="text-light" font-size="12px">floor → −1.01</sn-text>
+					<sn-text type="text-light" font-size="12px">floor → −1.01</sn-text>
 					<sn-amount :value="'-1.001'" currency="¥" :decimals="2" rounding-mode="floor"></sn-amount>
 				</view>
 				<view class="demo-row-item">
-					<sn-text flatten type="text-light" font-size="12px">trunc → −1.00</sn-text>
+					<sn-text type="text-light" font-size="12px">trunc → −1.00</sn-text>
 					<sn-amount :value="'-1.009'" currency="¥" :decimals="2" rounding-mode="trunc"></sn-amount>
 				</view>
 			</view>
@@ -77,30 +77,30 @@
 
 		<demo-card :title="t('snAmount.decimals')" :subtitle="t('snAmount.decimalsSub')">
 			<view class="demo-line" flatten>
-				<sn-text flatten type="text-light" font-size="12px">{{ t('snAmount.noneDecimal') }}</sn-text>
+				<sn-text type="text-light" font-size="12px">{{ t('snAmount.noneDecimal') }}</sn-text>
 				<sn-amount :value="'1234.567'" currency="¥" :decimals="0" rounding-mode="round"></sn-amount>
 			</view>
 			<view class="demo-line" flatten>
-				<sn-text flatten type="text-light" font-size="12px">{{ t('snAmount.keep2') }}</sn-text>
+				<sn-text type="text-light" font-size="12px">{{ t('snAmount.keep2') }}</sn-text>
 				<sn-amount :value="'1234.5'" currency="¥" :decimals="2"></sn-amount>
 			</view>
 			<view class="demo-line" flatten>
-				<sn-text flatten type="text-light" font-size="12px">{{ t('snAmount.keep4') }}</sn-text>
+				<sn-text type="text-light" font-size="12px">{{ t('snAmount.keep4') }}</sn-text>
 				<sn-amount :value="'1234.56789'" currency="$" :decimals="4"></sn-amount>
 			</view>
 		</demo-card>
 
 		<demo-card :title="t('snAmount.separator')" :subtitle="t('snAmount.separatorSub')">
 			<view class="demo-line" flatten>
-				<sn-text flatten type="text-light" font-size="12px">{{ t('snAmount.comma3') }}</sn-text>
+				<sn-text type="text-light" font-size="12px">{{ t('snAmount.comma3') }}</sn-text>
 				<sn-amount :value="'1234567890.12'" currency="¥" separator="," :separator-digits="3"></sn-amount>
 			</view>
 			<view class="demo-line" flatten>
-				<sn-text flatten type="text-light" font-size="12px">{{ t('snAmount.space3') }}</sn-text>
+				<sn-text type="text-light" font-size="12px">{{ t('snAmount.space3') }}</sn-text>
 				<sn-amount :value="'1234567.89'" currency="€" separator=" " :separator-digits="3"></sn-amount>
 			</view>
 			<view class="demo-line" flatten>
-				<sn-text flatten type="text-light" font-size="12px">{{ t('snAmount.noSplit') }}</sn-text>
+				<sn-text type="text-light" font-size="12px">{{ t('snAmount.noSplit') }}</sn-text>
 				<sn-amount :value="'1234567.89'" currency="£" separator=""></sn-amount>
 			</view>
 		</demo-card>
@@ -188,7 +188,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

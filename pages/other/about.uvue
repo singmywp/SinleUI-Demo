@@ -4,24 +4,24 @@
 			<view class="info-area" flatten>
 				<image class="app-logo" src="/static/logo-trans.png" mode="aspectFit" flatten />
 				<view class="info-text" flatten>
-					<sn-text bold font-size="$20" color="$title" flatten>SinleUI</sn-text>
-					<sn-text font-size="$13" type="info" custom-style="margin-top:4px;" flatten>{{ t('about.slogan') }}</sn-text>
+					<sn-text bold font-size="$20" color="$title">SinleUI</sn-text>
+					<sn-text font-size="$13" type="info" custom-style="margin-top:4px;">{{ t('about.slogan') }}</sn-text>
 				</view>
 			</view>
 
 			<sn-card :title="t('about.authorTitle')" border="none" padding="20px">
-				<sn-text font-size="$13" type="text-light" :text="authorPS" flatten />
+				<sn-text font-size="$13" type="text-light" :text="authorPS"/>
 			</sn-card>
 
 			<sn-card :title="t('about.projectTitle')" border="none" padding="20px">
-				<sn-text font-size="$13" type="text-light" :text="projectDeclaration" flatten />
+				<sn-text font-size="$13" type="text-light" :text="projectDeclaration"/>
 			</sn-card>
 
 			<sn-card :title="t('about.refTitle')" border="none" padding="20px">
-				<sn-text font-size="$13" type="info" bold :text="t('about.fontDesc')" flatten />
+				<sn-text font-size="$13" type="info" bold :text="t('about.fontDesc')"/>
 				<view class="font-item" flatten>
-					<sn-text font-size="$13" text="Remix Icon" flatten />
-					<sn-text font-size="$12" type="success" :text="t('about.freeForCommercial')" flatten />
+					<sn-text font-size="$13" text="Remix Icon"/>
+					<sn-text font-size="$12" type="success" :text="t('about.freeForCommercial')"/>
 				</view>
 			</sn-card>
 
@@ -34,7 +34,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

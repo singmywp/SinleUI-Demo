@@ -1,0 +1,203 @@
+<template>
+	<view class="group-text">
+		<utils-card v-for="(c, ci) in cards" :key="c.key" :title="c.title" :desc="c.desc" :signature="c.signature"
+			:action-text="c.actionText" :result-text="c.resultText" :result-type="c.resultType"
+			@action="runCard(ci)" />
+	</view>
+</template>
+
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import UtilsCard from './utils-card.uvue'
+import type { UtilsActionCard } from './types.uts'
+
+defineOptions({
+	name: 'group-text'
+})
+
+const { t } = useI18n()
+
+const cards = ref<UtilsActionCard[]>(buildCards())
+
+function buildCards(): UtilsActionCard[] {
+	return [
+		{
+			key: 'isEmpty',
+			title: 'isEmpty(str)',
+			desc: t('apiUtils.descIsEmpty'),
+			signature: "snu.isEmpty('  ')",
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'len',
+			title: 'len(str)',
+			desc: t('apiUtils.descLen'),
+			signature: "snu.len('你好😀')",
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'kebabCaseToCamelCase',
+			title: 'kebabCaseToCamelCase(str)',
+			desc: t('apiUtils.descKebabToCamel'),
+			signature: "snu.kebabCaseToCamelCase('sn-text')",
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'camelCaseToKebabCase',
+			title: 'camelCaseToKebabCase(str)',
+			desc: t('apiUtils.descCamelToKebab'),
+			signature: "snu.camelCaseToKebabCase('snText')",
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'roundAmount',
+			title: 'roundAmount(value, decimals, mode)',
+			desc: t('apiUtils.descRoundAmount'),
+			signature: "snu.roundAmount('123.456', 2, 'round')",
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'numToUpper',
+			title: 'numToUpper(num)',
+			desc: t('apiUtils.descNumToUpper'),
+			signature: "snu.numToUpper('1001')",
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'numToUpperAmount',
+			title: 'numToUpperAmount(value)',
+			desc: t('apiUtils.descNumToUpperAmount'),
+			signature: 'snu.numToUpperAmount(123.45)',
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'encryptName',
+			title: 'encryptName(name)',
+			desc: t('apiUtils.descEncryptName'),
+			signature: "snu.encryptName('欧阳修文')",
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'encryptPhone',
+			title: 'encryptPhone(phone)',
+			desc: t('apiUtils.descEncryptPhone'),
+			signature: "snu.encryptPhone('13812345678')",
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'encryptIDCard',
+			title: 'encryptIDCard(no)',
+			desc: t('apiUtils.descEncryptIDCard'),
+			signature: "snu.encryptIDCard('110101199003071234')",
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'encryptEmail',
+			title: 'encryptEmail(email)',
+			desc: t('apiUtils.descEncryptEmail'),
+			signature: "snu.encryptEmail('test@example.com')",
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'encryptBankCard',
+			title: 'encryptBankCard(no)',
+			desc: t('apiUtils.descEncryptBankCard'),
+			signature: "snu.encryptBankCard('6222021234567890')",
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'separateNumber',
+			title: 'separateNumber(num, digits, separator)',
+			desc: t('apiUtils.descSeparateNumber'),
+			signature: "snu.separateNumber('1234567.89')",
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		}
+	]
+}
+
+function runCard(index: number): void {
+	const card = cards.value[index]
+	let text = ''
+	if (card.key == 'isEmpty') {
+		text = `isEmpty('') = ${snu.isEmpty('')}\nisEmpty('  ') = ${snu.isEmpty('  ')}\nisEmpty('abc') = ${snu.isEmpty('abc')}`
+	} else if (card.key == 'len') {
+		text = `len('') = ${snu.len('')}\nlen('abc') = ${snu.len('abc')}\nlen('你好😀') = ${snu.len('你好😀')}`
+	} else if (card.key == 'kebabCaseToCamelCase') {
+		text = `'sn-text' → '${snu.kebabCaseToCamelCase('sn-text')}'`
+	} else if (card.key == 'camelCaseToKebabCase') {
+		text = `'snText' → '${snu.camelCaseToKebabCase('snText')}'`
+	} else if (card.key == 'roundAmount') {
+		text = `round → ${snu.roundAmount('123.456', 2, 'round')}\nceil → ${snu.roundAmount('123.451', 2, 'ceil')}\nfloor → ${snu.roundAmount('123.456', 2, 'floor')}\ntrunc → ${snu.roundAmount('123.456', 2, 'trunc')}`
+	} else if (card.key == 'numToUpper') {
+		text = `'1001' → ${snu.numToUpper('1001')}\n'1234567890' → ${snu.numToUpper('1234567890')}`
+	} else if (card.key == 'numToUpperAmount') {
+		text = `123.45 → ${snu.numToUpperAmount(123.45)}\n1001 → ${snu.numToUpperAmount(1001)}`
+	} else if (card.key == 'encryptName') {
+		text = `'张三' → ${snu.encryptName('张三')}\n'欧阳修文' → ${snu.encryptName('欧阳修文')}`
+	} else if (card.key == 'encryptPhone') {
+		text = `'13812345678' → ${snu.encryptPhone('13812345678')}`
+	} else if (card.key == 'encryptIDCard') {
+		text = `'110101199003071234' → ${snu.encryptIDCard('110101199003071234')}`
+	} else if (card.key == 'encryptEmail') {
+		text = `'test@example.com' → ${snu.encryptEmail('test@example.com')}`
+	} else if (card.key == 'encryptBankCard') {
+		text = `'6222021234567890' → ${snu.encryptBankCard('6222021234567890')}`
+	} else if (card.key == 'separateNumber') {
+		text = `'1234567.89' → ${snu.separateNumber('1234567.89')}\n'1000000' → ${snu.separateNumber('1000000')}`
+	}
+	replaceCard(index, text, 'success')
+}
+
+function replaceCard(index: number, text: string, type: string): void {
+	const c = cards.value[index]
+	const next: UtilsActionCard = {
+		key: c.key,
+		title: c.title,
+		desc: c.desc,
+		signature: c.signature,
+		actionText: c.actionText,
+		resultText: text,
+		resultType: type
+	}
+	cards.value.splice(index, 1, next)
+}
+
+onMounted((): void => {
+	for (let i = 0; i < cards.value.length; i++) {
+		runCard(i)
+	}
+})
+</script>
+
+<style lang="scss">
+.group-text {
+	flex-direction: column;
+}
+</style>

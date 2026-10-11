@@ -2,69 +2,69 @@
 	<sn-page :title="t('snForm.title')" :show-back="true">
 		<demo-card :title="t('snForm.basicTitle')" :subtitle="t('snForm.basicDesc')">
 			<sn-form ref="formRef" v-model="formData">
-				<sn-input-field field="name" :rule="nameRule" v-model="(formData['name'] as string)" :label="t('snForm.name')" :error="getFieldError('name')" :placeholder="t('snForm.namePh')" clearable />
-				<sn-input-field field="password" :rule="pwdRule" v-model="(formData['password'] as string)" :label="t('snForm.password')" :error="getFieldError('password')" password :placeholder="t('snForm.pwdPh')" clearable />
-				<sn-input-field field="phone" :rule="phoneRule" v-model="(formData['phone'] as string)" :label="t('snForm.phone')" :error="getFieldError('phone')" type="number" :placeholder="t('snForm.phonePh')" clearable />
+				<sn-input-field field="name" :rule="nameRule" v-model="(formData.name as string)" :label="t('snForm.name')" :error="getFieldError('name')" :placeholder="t('snForm.namePh')" clearable />
+				<sn-input-field field="password" :rule="pwdRule" v-model="(formData.password as string)" :label="t('snForm.password')" :error="getFieldError('password')" password :placeholder="t('snForm.pwdPh')" clearable />
+				<sn-input-field field="phone" :rule="phoneRule" v-model="(formData.phone as string)" :label="t('snForm.phone')" :error="getFieldError('phone')" type="number" :placeholder="t('snForm.phonePh')" clearable />
 				<sn-form-field field="gender" :rule="genderRule" :label="t('snForm.gender')" :error="getFieldError('gender')">
-					<sn-radio-group v-model="(formData['gender'] as number)">
+					<sn-radio-group v-model="(formData.gender as number)">
 						<sn-radio :text="t('snForm.male')" />
 						<sn-radio :text="t('snForm.female')" />
 					</sn-radio-group>
 				</sn-form-field>
 				<sn-form-field field="loves" :rule="lovesRule" :label="t('snForm.loves')" :error="getFieldError('loves')">
-					<sn-checkbox-group v-model="(formData['loves'] as number[])">
+					<sn-checkbox-group v-model="(formData.loves as number[])">
 						<sn-checkbox :text="t('snForm.read')" />
 						<sn-checkbox :text="t('snForm.sport')" />
 						<sn-checkbox :text="t('snForm.music')" />
 					</sn-checkbox-group>
 				</sn-form-field>
 				<sn-form-field field="age" :rule="ageRule" :label="t('snForm.age')" :error="getFieldError('age')">
-					<sn-stepper v-model="(formData['age'] as number)" :min="0" :max="150" />
+					<sn-stepper v-model="(formData.age as number)" :min="0" :max="150" />
 				</sn-form-field>
 				<sn-form-field field="rate" :rule="rateRule" :label="t('snForm.rate')" :error="getFieldError('rate')" labelJustify="top">
-					<sn-rate v-model="(formData['rate'] as number)" clearable />
+					<sn-rate v-model="(formData.rate as number)" clearable />
 				</sn-form-field>
 				<sn-form-field field="volume" :rule="volumeRule" :label="t('snForm.volume')" :error="getFieldError('volume')">
-					<sn-slider v-model="(formData['volume'] as number)" :min="0" :max="100" custom-style="flex:1;" />
+					<sn-slider v-model="(formData.volume as number)" :min="0" :max="100" custom-style="flex:1;" />
 				</sn-form-field>
 				<sn-form-field field="city" :rule="cityRule" :label="t('snForm.city')" :error="getFieldError('city')">
-					<sn-select v-model="(formData['city'] as number)" :data="cityOptions" width="160px" />
+					<sn-select v-model="(formData.city as number)" :data="cityOptions" width="160px" />
 				</sn-form-field>
-				<sn-textarea-field field="remark" :rule="remarkRule" v-model="(formData['remark'] as string)" :label="t('snForm.remark')" :error="getFieldError('remark')" :placeholder="t('snForm.remarkPh')" :auto-height="true" />
+				<sn-textarea-field field="remark" :rule="remarkRule" v-model="(formData.remark as string)" :label="t('snForm.remark')" :error="getFieldError('remark')" :placeholder="t('snForm.remarkPh')" :auto-height="true" />
 			</sn-form>
 			<sn-button :text="t('snForm.submit')" type="primary" custom-style="margin-top:16px;" @click="onSubmit" />
-			<sn-text flatten v-if="submitCount > 0" font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snForm.submitCount', { c: submitCount } as UTSJSONObject) }}</sn-text>
+			<sn-text v-if="submitCount > 0" font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snForm.submitCount', { c: submitCount } as UTSJSONObject) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snForm.typeTitle')" :subtitle="t('snForm.typeDesc')">
 			<sn-form ref="typeFormRef" v-model="typeFormData">
-				<sn-input-field field="email" :rule="emailRule" v-model="(typeFormData['email'] as string)" :label="t('snForm.email')" :error="getTypeFieldError('email')" :placeholder="t('snForm.emailPh')" clearable />
-				<sn-input-field field="url" :rule="urlRule" v-model="(typeFormData['url'] as string)" :label="t('snForm.url')" :error="getTypeFieldError('url')" :placeholder="t('snForm.urlPh')" clearable />
-				<sn-input-field field="idcard" :rule="idcardRule" v-model="(typeFormData['idcard'] as string)" :label="t('snForm.idcard')" :error="getTypeFieldError('idcard')" :placeholder="t('snForm.idcardPh')" clearable />
-				<sn-input-field field="age" :rule="typeAgeRule" v-model="(typeFormData['age'] as string)" :label="t('snForm.age')" :error="getTypeFieldError('age')" type="number" :placeholder="t('snForm.agePh')" clearable />
+				<sn-input-field field="email" :rule="emailRule" v-model="(typeFormData.email as string)" :label="t('snForm.email')" :error="getTypeFieldError('email')" :placeholder="t('snForm.emailPh')" clearable />
+				<sn-input-field field="url" :rule="urlRule" v-model="(typeFormData.url as string)" :label="t('snForm.url')" :error="getTypeFieldError('url')" :placeholder="t('snForm.urlPh')" clearable />
+				<sn-input-field field="idcard" :rule="idcardRule" v-model="(typeFormData.idcard as string)" :label="t('snForm.idcard')" :error="getTypeFieldError('idcard')" :placeholder="t('snForm.idcardPh')" clearable />
+				<sn-input-field field="age" :rule="typeAgeRule" v-model="(typeFormData.age as string)" :label="t('snForm.age')" :error="getTypeFieldError('age')" type="number" :placeholder="t('snForm.agePh')" clearable />
 			</sn-form>
 			<sn-button :text="t('snForm.validate')" type="primary" custom-style="margin-top:16px;" @click="onTypeSubmit" />
 		</demo-card>
 
 		<demo-card :title="t('snForm.liveTitle')" :subtitle="t('snForm.liveDesc')">
 			<sn-form v-model="liveFormData" trigger-change @fail="onLiveFail" @pass="onLivePass">
-				<sn-input-field field="username" :rule="userRule" v-model="(liveFormData['username'] as string)" :label="t('snForm.username')" :error="getLiveFieldError('username')" :placeholder="t('snForm.userPh')" clearable />
-				<sn-input-field field="qq" :rule="qqRule" v-model="(liveFormData['qq'] as string)" :label="t('snForm.qq')" :error="getLiveFieldError('qq')" type="number" :placeholder="t('snForm.qqPh')" clearable />
+				<sn-input-field field="username" :rule="userRule" v-model="(liveFormData.username as string)" :label="t('snForm.username')" :error="getLiveFieldError('username')" :placeholder="t('snForm.userPh')" clearable />
+				<sn-input-field field="qq" :rule="qqRule" v-model="(liveFormData.qq as string)" :label="t('snForm.qq')" :error="getLiveFieldError('qq')" type="number" :placeholder="t('snForm.qqPh')" clearable />
 			</sn-form>
 		</demo-card>
 
 		<demo-card :title="t('snForm.customTitle')" :subtitle="t('snForm.customDesc')">
 			<sn-form ref="customFormRef" v-model="customFormData">
-				<sn-input-field field="age2" :rule="adultRule" v-model="(customFormData['age2'] as string)" :label="t('snForm.age')" :error="getCustomFieldError('age2')" type="number" :placeholder="t('snForm.age2Ph')" clearable />
-				<sn-input-field field="vipCode" :rule="vipRule" v-model="(customFormData['vipCode'] as string)" :label="t('snForm.vipCode')" :error="getCustomFieldError('vipCode')" :placeholder="t('snForm.vipPh')" clearable />
+				<sn-input-field field="age2" :rule="adultRule" v-model="(customFormData.age2 as string)" :label="t('snForm.age')" :error="getCustomFieldError('age2')" type="number" :placeholder="t('snForm.age2Ph')" clearable />
+				<sn-input-field field="vipCode" :rule="vipRule" v-model="(customFormData.vipCode as string)" :label="t('snForm.vipCode')" :error="getCustomFieldError('vipCode')" :placeholder="t('snForm.vipPh')" clearable />
 			</sn-form>
 			<sn-button :text="t('snForm.validateOnly')" type="primary" custom-style="margin-top:16px;" @click="onValidateOnly" />
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snForm.validateResultText', { v: validateResult } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snForm.validateResultText', { v: validateResult } as UTSJSONObject) }}</sn-text>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 
 import { useI18n } from 'vue-i18n'

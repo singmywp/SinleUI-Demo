@@ -3,32 +3,32 @@
 		<sn-watermark :content="t('watermarkFull.content')" :min-height="wmMinH" :row-gap="120" :col-gap="150" :rotate="pageRotate">
 			<view class="wm-page-body" flatten>
 				<view class="wm-page-card" :style="cardStyle" flatten>
-					<sn-text bold font-size="$15" color="$title" flatten>{{ t('watermarkFull.page') }}</sn-text>
-					<sn-text font-size="$13" color="$text" custom-style="margin-top:6px;line-height:20px;" flatten>{{ t('watermarkFull.desc') }}</sn-text>
+					<sn-text bold font-size="$15" color="$title">{{ t('watermarkFull.page') }}</sn-text>
+					<sn-text font-size="$13" color="$text" custom-style="margin-top:6px;line-height:20px;">{{ t('watermarkFull.desc') }}</sn-text>
 				</view>
 
 				<view class="config-row" flatten>
-					<sn-text :text="t('watermarkFull.notify')" custom-style="width:140px;" flatten />
+					<sn-text :text="t('watermarkFull.notify')" custom-style="width:140px;"/>
 					<sn-switch v-model="switchNotify" />
 				</view>
 				<view class="config-row" flatten>
-					<sn-text :text="t('watermarkFull.update')" custom-style="width:140px;" flatten />
+					<sn-text :text="t('watermarkFull.update')" custom-style="width:140px;"/>
 					<sn-switch v-model="switchUpdate" />
 				</view>
 
 				<sn-button :text="t('watermarkFull.btn')" type="primary" @click="onPageBtn" />
 
 				<view class="wm-page-card" :style="cardStyle" flatten>
-					<sn-text bold font-size="$15" color="$title" flatten>{{ t('watermarkFull.scrollTitle') }}</sn-text>
+					<sn-text bold font-size="$15" color="$title">{{ t('watermarkFull.scrollTitle') }}</sn-text>
 					<sn-text v-for="(line, idx) in lines" :key="idx" font-size="$13" color="$text"
-						custom-style="margin-top:8px;line-height:20px;" flatten>{{ line }}</sn-text>
+						custom-style="margin-top:8px;line-height:20px;">{{ line }}</sn-text>
 				</view>
 			</view>
 		</sn-watermark>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { snu } from '@/uni_modules/sinle-ui'
 

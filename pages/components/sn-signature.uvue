@@ -1,13 +1,12 @@
 <template>
-	<sn-page :show-back="true">
-		<sn-topbar :title="t('snSignature.title')"></sn-topbar>
+	<sn-page :title="t('snSignature.title')" :show-back="true">
 
 		<demo-card :title="t('snSignature.demoBasicTitle')" :subtitle="t('snSignature.demoBasicSub')">
 			<sn-signature ref="sigRef" :max-history="20" @exported="onExported" @change="onChange" />
 			<sn-text type="text-light" font-size="$12" :text="t('snSignature.settingsTip')"
-				custom-style="margin-top:8px;line-height:18px;" flatten />
+				custom-style="margin-top:8px;line-height:18px;"/>
 			<view v-if="exportPath != ''" class="sig-export" :style="sigExportStyle" flatten>
-				<sn-text font-size="$13" color="$title" flatten>{{ t('snSignature.exportResult') }}</sn-text>
+				<sn-text font-size="$13" color="$title">{{ t('snSignature.exportResult') }}</sn-text>
 				<image :src="exportPath" :style="sigExportImageStyle" mode="aspectFit" />
 			</view>
 		</demo-card>
@@ -19,7 +18,7 @@
 				<sn-button :text="t('snSignature.clear')" size="normal" type="warning" plain custom-style="flex:1;margin-right:8px;" @click="doClear" />
 				<sn-button :text="t('snSignature.export')" size="normal" type="primary" plain custom-style="flex:1;" @click="doExport" />
 			</view>
-			<sn-text type="text-light" font-size="$12" flatten>{{ t('snSignature.changeCountTip', { count: changeCount } as UTSJSONObject) }}</sn-text>
+			<sn-text type="text-light" font-size="$12">{{ t('snSignature.changeCountTip', { count: changeCount } as UTSJSONObject) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snSignature.demoBrushTitle')" :subtitle="t('snSignature.demoBrushSub')">
@@ -29,11 +28,11 @@
 					:custom-style="sigBrushBtnStyle(i)" @click="onPickBrush(b.value)" />
 			</view>
 			<view class="sig-opt-row" :style="sigOptRowStyle" flatten>
-				<sn-text font-size="$14" color="$title" :text="t('snSignature.currentBrush')" flatten />
+				<sn-text font-size="$14" color="$title" :text="t('snSignature.currentBrush')"/>
 				<sn-tag :text="brushLabel" type="primary" level="second" custom-style="margin-left:8px;" />
 			</view>
 			<view class="sig-opt-row" :style="sigOptRowStyle" flatten>
-				<sn-text font-size="$14" color="$title" :text="t('snSignature.showBrushSettings')" flatten />
+				<sn-text font-size="$14" color="$title" :text="t('snSignature.showBrushSettings')"/>
 				<sn-switch :model-value="showSettings" active-bg-color="$primary" @change="onToggleSettings" />
 			</view>
 			<sn-signature height="220" :brush="brush" :show-brush-settings="showSettings" custom-style="margin-top:4px;" />
@@ -41,7 +40,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { ComponentPublicInstance } from 'vue'

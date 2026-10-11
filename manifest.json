@@ -1,13 +1,14 @@
 {
-	"name": "SinleUI2",
+	"name": "SinleUI",
 	"appid": "__UNI__B140C8B",
 	"description": "一个简洁、轻巧的现代移动应用UI框架。",
-	"versionName": "2.0.1",
-	"versionCode": "201",
+	"versionName": "2.0.2",
+	"versionCode": "202",
 	"uni-app-x": {
 		"styleIsolationVersion": "2",
 		"vapor": true,
-		"vapor-render-target": "bytecode"
+		"vapor-render-target": "bytecode",
+		"vapor-default-script-lang": "ts"
 	},
 	/* 快应用特有相关 */
 	"quickapp": {},
@@ -17,10 +18,16 @@
 		"setting": {
 			"urlCheck": false
 		},
-		"usingComponents": true
+		"usingComponents": true,
+		"uniStatistics": {
+			"enable": false
+		}
 	},
 	"mp-alipay": {
-		"usingComponents": true
+		"usingComponents": true,
+		"uniStatistics": {
+			"enable": false
+		}
 	},
 	"mp-baidu": {
 		"usingComponents": true
@@ -29,7 +36,11 @@
 		"usingComponents": true
 	},
 	"uniStatistics": {
-		"enable": false
+		"enable": false,
+		"version": "2",
+		"type": "public",
+		"debug": false,
+		"reportInterval": "10"
 	},
 	"vueVersion": "3",
 	"app": {
@@ -59,6 +70,9 @@
 					"xxhdpi": "unpackage/res/splash/splash.9.png",
 					"xxxhdpi": ""
 				}
+			},
+			"modules": {
+				"uni-ad": {}
 			}
 		}
 	},
@@ -79,6 +93,9 @@
 		"devServer": {
 			"port": "9865",
 			"https": true
+		},
+		"uniStatistics": {
+			"enable": false
 		}
 	},
 	"h5": {
@@ -115,6 +132,9 @@
 					"xxxhdpi": ""
 				}
 			}
+		},
+		"uniStatistics": {
+			"enable": false
 		}
 	},
 	"app-ios": {
@@ -124,11 +144,17 @@
 				"appstore": "unpackage/res/icons/1024x1024.png"
 			},
 			"splashScreens": {}
+		},
+		"uniStatistics": {
+			"enable": false
 		}
 	},
 	"app-harmony": {
 		"distribute": {
 			"bundleName": "com.singmy.sinleui"
+		},
+		"uniStatistics": {
+			"enable": false
 		}
 	}
 }

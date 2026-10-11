@@ -16,7 +16,7 @@
 			<view class="demo-row" flatten>
 				<sn-button type="primary" size="normal" @click="openImage">{{ t('snLoadingPage.openImageLoading') }}</sn-button>
 			</view>
-			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLoadingPage.imageHint') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLoadingPage.imageHint') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snLoadingPage.bgTitle')" :subtitle="t('snLoadingPage.bgDesc')">
@@ -29,9 +29,9 @@
 
 		<demo-card :title="t('snLoadingPage.sceneTitle')" :subtitle="t('snLoadingPage.sceneDesc')">
 			<view class="scene-card" flatten>
-				<sn-text flatten font-size="$13" color="$text">{{ t('snLoadingPage.dataLoading') }}</sn-text>
+				<sn-text font-size="$13" color="$text">{{ t('snLoadingPage.dataLoading') }}</sn-text>
 				<sn-button type="primary" size="normal" custom-style="margin-top:10px;" @click="openScene">{{ t('snLoadingPage.startLoading') }}</sn-button>
-				<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ sceneLog }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ sceneLog }}</sn-text>
 			</view>
 		</demo-card>
 
@@ -53,7 +53,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

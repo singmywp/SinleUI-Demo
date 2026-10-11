@@ -1,6 +1,5 @@
 <template>
-	<sn-page>
-		<sn-topbar :title="t('snSubsection.title')"></sn-topbar>
+	<sn-page :title="t('snSubsection.title')" :show-back="true">
 
 		<demo-card :title="t('snSubsection.demoBasicTitle')" :subtitle="t('snSubsection.demoBasicSub')">
 			<sn-subsection v-model="v1" :data="list1"></sn-subsection>
@@ -37,12 +36,12 @@
 				text-class="demo-sub-text"></sn-subsection>
 			<sn-subsection v-model="v7" :data="list2" item-class="demo-sub-item" block-class="demo-sub-block"
 				text-style="font-weight:bold;"></sn-subsection>
-			<sn-text type="text-light" :font-size="12" :text="t('snSubsection.currentSelected', { val: v7 } as UTSJSONObject)" custom-style="margin-top:12px;" flatten />
+			<sn-text type="text-light" :font-size="12" :text="t('snSubsection.currentSelected', { val: v7 } as UTSJSONObject)" custom-style="margin-top:12px;"/>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'

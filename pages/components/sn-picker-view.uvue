@@ -1,17 +1,17 @@
 <template>
 	<sn-page :title="t('snPickerView.title')" :show-back="true">
 		<sn-alert type="primary" custom-style="margin:0 16px 16px 16px;">
-			<sn-text font-size="$12" color="$primary" flatten>{{ t('snPickerView.alert') }}</sn-text>
+			<sn-text font-size="$12" color="$primary">{{ t('snPickerView.alert') }}</sn-text>
 		</sn-alert>
 
 		<demo-card :title="t('snPickerView.basicTitle')" :subtitle="t('snPickerView.basicSubtitle')">
 			<sn-picker-view v-model="pickerValue" :data="cityData" />
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snPickerView.selectedValue', { value: pickerValueText } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snPickerView.selectedValue', { value: pickerValueText } as UTSJSONObject) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snPickerView.disabledTitle')" :subtitle="t('snPickerView.disabledSubtitle')">
 			<sn-picker-view v-model="pickerValue2" :data="disabledData" />
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snPickerView.disabledWuhan') }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snPickerView.disabledWuhan') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snPickerView.customStyleTitle')" :subtitle="t('snPickerView.customStyleSubtitle')">
@@ -22,7 +22,7 @@
 
 		<demo-card :title="t('snPickerView.disabledAllTitle')" :subtitle="t('snPickerView.disabledAllSubtitle')">
 			<sn-picker-view v-model="pickerValue4" :data="cityData" disabled />
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snPickerView.disabledNoScroll') }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snPickerView.disabledNoScroll') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snPickerView.heightTitle')" :subtitle="t('snPickerView.heightSubtitle')">
@@ -31,7 +31,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 	
 	import { useI18n } from 'vue-i18n'
 	import { useTheme } from '@/uni_modules/sinle-ui/index.uts'

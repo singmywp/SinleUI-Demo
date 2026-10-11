@@ -56,13 +56,13 @@
 					<sn-badge :value="100" :max="99">
 						<sn-icon name="mail-line" :size="24" />
 					</sn-badge>
-					<sn-text flatten text-class="demo-label" font-size="$12" color="$textLight">max=99</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">max=99</sn-text>
 				</view>
 				<view class="demo-item">
 					<sn-badge :value="1000" :max="unlimitedMax">
 						<sn-icon name="mail-line" :size="24" />
 					</sn-badge>
-					<sn-text flatten text-class="demo-label" font-size="$12" color="$textLight">max=-1</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">max=-1</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -113,13 +113,13 @@
 					<sn-badge :value="0">
 						<sn-icon name="mail-line" :size="26" />
 					</sn-badge>
-					<sn-text flatten text-class="demo-label" font-size="$12" color="$textLight">{{ t('snBadge.defaultHidden') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snBadge.defaultHidden') }}</sn-text>
 				</view>
 				<view class="demo-item">
 					<sn-badge :value="0" show-zero>
 						<sn-icon name="mail-line" :size="26" />
 					</sn-badge>
-					<sn-text flatten text-class="demo-label" font-size="$12" color="$textLight">show-zero</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">show-zero</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -186,13 +186,13 @@
 					<sn-badge :value="6" offset="translate(-10px, 6px)">
 						<sn-icon name="chat-3-line" :size="26" />
 					</sn-badge>
-					<sn-text flatten text-class="demo-label" font-size="$12" color="$textLight">{{ t('snBadge.leftDown') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snBadge.leftDown') }}</sn-text>
 				</view>
 				<view class="demo-item">
 					<sn-badge :value="6" offset="translate(8px, 0px)">
 						<sn-icon name="chat-3-line" :size="26" />
 					</sn-badge>
-					<sn-text flatten text-class="demo-label" font-size="$12" color="$textLight">{{ t('snBadge.right') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snBadge.right') }}</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -312,7 +312,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

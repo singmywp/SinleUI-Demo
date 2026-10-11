@@ -1,0 +1,270 @@
+<template>
+	<sn-page :title="t('apiDate.title')" :show-back="true">
+		<demo-card :title="t('apiDate.titleLib')" :subtitle="t('apiDate.subLib')">
+			<sn-cell v-for="(item, i) in libCells" :key="`l${i}`" :title="item.title" :label="item.label"
+				:border="i < libCells.length - 1">
+				<template #value>
+					<view class="cell-value">
+						<sn-text font-size="$12" :color="valueColor" text-class="cell-value-text">{{ item.value }}</sn-text>
+					</view>
+				</template>
+			</sn-cell>
+			<view class="day-strip" flatten>
+				<view v-for="(d, di) in weekDays" :key="`w${di}`" :class="dayCellClass(di, weekDays.length, d.isToday)"
+					flatten>
+					<sn-text font-size="$9" :color="d.isToday ? '#ffffff' : '$primary'">{{ d.label }}</sn-text>
+					<sn-text font-size="$9" :color="d.isToday ? '#ffffff' : '$primary'">{{ d.short }}</sn-text>
+				</view>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiDate.titleBase')" :subtitle="t('apiDate.subBase')">
+			<sn-cell v-for="(item, i) in baseCells" :key="`b${i}`" :title="item.title" :label="item.label"
+				:border="i < baseCells.length - 1">
+				<template #value>
+					<view class="cell-value">
+						<sn-text font-size="$12" :color="valueColor" text-class="cell-value-text">{{ item.value }}</sn-text>
+					</view>
+				</template>
+			</sn-cell>
+		</demo-card>
+
+		<demo-card :title="t('apiDate.titleFormat')" :subtitle="t('apiDate.subFormat')">
+			<sn-cell v-for="(item, i) in formatCells" :key="`f${i}`" :title="item.title" :label="item.label"
+				:border="i < formatCells.length - 1">
+				<template #value>
+					<view class="cell-value">
+						<sn-text font-size="$12" :color="valueColor" text-class="cell-value-text">{{ item.value }}</sn-text>
+					</view>
+				</template>
+			</sn-cell>
+		</demo-card>
+
+		<demo-card :title="t('apiDate.titleCalc')" :subtitle="t('apiDate.subCalc')">
+			<sn-cell v-for="(item, i) in calcCells" :key="`c${i}`" :title="item.title" :label="item.label"
+				:border="i < calcCells.length - 1">
+				<template #value>
+					<view class="cell-value">
+						<sn-text font-size="$12" :color="valueColor" text-class="cell-value-text">{{ item.value }}</sn-text>
+					</view>
+				</template>
+			</sn-cell>
+		</demo-card>
+
+		<demo-card :title="t('apiDate.titleCompare')" :subtitle="t('apiDate.subCompare')">
+			<sn-cell v-for="(item, i) in compareCells" :key="`m${i}`" :title="item.title" :label="item.label"
+				:border="i < compareCells.length - 1">
+				<template #value>
+					<view class="cell-value">
+						<sn-text font-size="$12" :color="valueColor" text-class="cell-value-text">{{ item.value }}</sn-text>
+					</view>
+				</template>
+			</sn-cell>
+		</demo-card>
+
+		<demo-card :title="t('apiDate.titleRelative')" :subtitle="t('apiDate.subRelative')">
+			<sn-cell v-for="(item, i) in relativeCells" :key="`r${i}`" :title="item.title" :label="item.label"
+				:border="i < relativeCells.length - 1">
+				<template #value>
+					<view class="cell-value">
+						<sn-text font-size="$12" :color="valueColor" text-class="cell-value-text">{{ item.value }}</sn-text>
+					</view>
+				</template>
+			</sn-cell>
+		</demo-card>
+
+		<demo-card :title="t('apiDate.titleConvert')" :subtitle="t('apiDate.subConvert')">
+			<sn-cell v-for="(item, i) in convertCells" :key="`v${i}`" :title="item.title" :label="item.label"
+				:border="i < convertCells.length - 1">
+				<template #value>
+					<view class="cell-value">
+						<sn-text font-size="$12" :color="valueColor" text-class="cell-value-text">{{ item.value }}</sn-text>
+					</view>
+				</template>
+			</sn-cell>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import { DateLib, dayuts, isDayuts, dayutsIntl } from '@/uni_modules/sinle-ui/index.uts'
+import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+
+const { t } = useI18n()
+const { isDark } = useTheme()
+
+const lib = new DateLib()
+const BASE = '2024-05-20'
+const WEEK_INDEX: number[] = [1, 2, 3, 4, 5, 6, 0]
+
+type Cell = {
+	title: string
+	label: string
+	value: string
+}
+
+type WeekDay = {
+	label: string
+	date: string
+	short: string
+	isToday: boolean
+}
+
+const valueColor = computed<string>(() => isDark.value ? '#73a2ff' : '#4d82ff')
+
+function dayCellClass(idx: number, len: number, isToday: boolean): string {
+	let cls = 'day-cell'
+	if (isToday) cls += ' day-cell-today'
+	if (idx == len - 1) cls += ' day-cell-last'
+	return cls
+}
+
+const weekDays = computed<WeekDay[]>(() => {
+	const dates = lib.weeks()
+	const today = lib.today()
+	const out: WeekDay[] = []
+	for (let i = 0; i < dates.length; i++) {
+		const dayIdx = i < WEEK_INDEX.length ? WEEK_INDEX[i] : 0
+		out.push({
+			label: lib.weekName(dayIdx, '周'),
+			date: dates[i],
+			short: dates[i].substring(5),
+			isToday: dates[i] == today
+		})
+	}
+	return out
+})
+
+const libCells = computed<Cell[]>(() => {
+	return [
+		{ title: "dayuts('2024-05-20').format('YYYY-MM-DD')", label: t('apiDate.fnCreate'), value: dayuts(BASE).format('YYYY-MM-DD') },
+		{ title: 'isDayuts(dayuts())', label: t('apiDate.fnIsDayuts'), value: isDayuts(dayuts()).toString() },
+		{ title: "toDate('2024年5月20日')", label: t('apiDate.fnToDate'), value: lib.toDate('2024年5月20日').toString() },
+		{ title: "fmtDate('2024-05-20', 'yyyy年MM月dd日')", label: t('apiDate.fnFmtDate'), value: lib.fmtDate(BASE, 'yyyy年MM月dd日') },
+		{ title: 'now()', label: t('apiDate.fnNow'), value: lib.now() },
+		{ title: 'today() · today(-1) · today(7)', label: t('apiDate.fnToday'), value: `${lib.today()} · ${lib.today(-1)} · ${lib.today(7)}` },
+		{ title: "weekName(1, '星期')", label: t('apiDate.fnWeekName'), value: lib.weekName(1, '星期') },
+		{ title: 'weeks()', label: t('apiDate.fnWeeks'), value: t('apiDate.weekCount', { count: lib.weeks().length } as UTSJSONObject) }
+	]
+})
+
+const baseCells = computed<Cell[]>(() => {
+	const d = dayuts(BASE)
+	return [
+		{ title: 'isValid()', label: t('apiDate.fnIsValid'), value: d.isValid().toString() },
+		{ title: 'isLeapYear()', label: t('apiDate.fnIsLeapYear'), value: d.isLeapYear().toString() },
+		{ title: 'isToday()', label: t('apiDate.fnIsToday'), value: d.isToday().toString() },
+		{ title: 'unix()', label: t('apiDate.fnUnix'), value: d.unix().toString() },
+		{ title: 'year()', label: t('apiDate.fnYear'), value: d.year().toString() },
+		{ title: 'month()', label: t('apiDate.fnMonth'), value: d.month().toString() },
+		{ title: 'date()', label: t('apiDate.fnDate'), value: d.date().toString() },
+		{ title: 'day()', label: t('apiDate.fnDay'), value: d.day().toString() },
+		{ title: 'hour() · minute() · second()', label: t('apiDate.fnHms'), value: `${d.hour()} · ${d.minute()} · ${d.second()}` },
+		{ title: 'daysInMonth()', label: t('apiDate.fnDaysInMonth'), value: d.daysInMonth().toString() },
+		{ title: 'dayOfYear()', label: t('apiDate.fnDayOfYear'), value: d.dayOfYear().toString() },
+		{ title: 'valueOf()', label: t('apiDate.fnValueOf'), value: d.valueOf().toString() },
+		{ title: 'utcOffset()', label: t('apiDate.fnUtcOffset'), value: d.utcOffset().toString() }
+	]
+})
+
+const formatCells = computed<Cell[]>(() => {
+	const d = dayuts(BASE, null, 'zh-cn')
+	return [
+		{ title: "format('YYYY-MM-DD')", label: t('apiDate.fmtYmd'), value: d.format('YYYY-MM-DD') },
+		{ title: "format('YYYY年MM月DD日 dddd')", label: t('apiDate.fmtWeek'), value: d.format('YYYY年MM月DD日 dddd') },
+		{ title: "format('YYYY年MMMM')", label: t('apiDate.fmtMonth'), value: d.format('YYYY年MMMM') },
+		{ title: "format('HH:mm:ss')", label: t('apiDate.fmt24'), value: d.format('HH:mm:ss') },
+		{ title: "format('h:mm A')", label: t('apiDate.fmt12'), value: d.format('h:mm A') },
+		{ title: "format('YYYY-MM-DDTHH:mm:ssZ')", label: t('apiDate.fmtTz'), value: d.format('YYYY-MM-DDTHH:mm:ssZ') },
+		{ title: "dayuts('not-a-date').format()", label: t('apiDate.fmtInvalid'), value: dayuts('not-a-date').format() }
+	]
+})
+
+const calcCells = computed<Cell[]>(() => {
+	const d = dayuts(BASE)
+	return [
+		{ title: "add(1, 'month')", label: t('apiDate.calcAdd'), value: d.add(1, 'month').format('YYYY-MM-DD') },
+		{ title: "subtract(7, 'day')", label: t('apiDate.calcSub'), value: d.subtract(7, 'day').format('YYYY-MM-DD') },
+		{ title: "startOf('month')", label: t('apiDate.calcStart'), value: d.startOf('month').format('YYYY-MM-DD') },
+		{ title: "endOf('year')", label: t('apiDate.calcEnd'), value: d.endOf('year').format('YYYY-MM-DD') },
+		{ title: "diff('2024-05-13', 'day')", label: t('apiDate.calcDiff'), value: d.diff('2024-05-13', 'day').toString() },
+		{ title: "clone().add(1, 'day')", label: t('apiDate.calcClone'), value: d.clone().add(1, 'day').format('YYYY-MM-DD') }
+	]
+})
+
+const compareCells = computed<Cell[]>(() => {
+	const d = dayuts(BASE)
+	return [
+		{ title: "isSame('2024-05-20', 'day')", label: t('apiDate.cmpSame'), value: d.isSame('2024-05-20', 'day').toString() },
+		{ title: "isAfter('2024-05-19')", label: t('apiDate.cmpAfter'), value: d.isAfter('2024-05-19').toString() },
+		{ title: "isBefore('2024-05-21')", label: t('apiDate.cmpBefore'), value: d.isBefore('2024-05-21').toString() },
+		{ title: "isSameOrBefore('2024-05-20')", label: t('apiDate.cmpSameOrBefore'), value: d.isSameOrBefore('2024-05-20').toString() },
+		{ title: "isSameOrAfter('2024-05-21')", label: t('apiDate.cmpSameOrAfter'), value: d.isSameOrAfter('2024-05-21').toString() },
+		{ title: "isBetween('2024-05-01', '2024-05-31')", label: t('apiDate.cmpBetween'), value: d.isBetween('2024-05-01', '2024-05-31').toString() }
+	]
+})
+
+const relativeCells = computed<Cell[]>(() => {
+	const anchor = lib.today(-3)
+	const d = dayuts(null, null, 'zh-cn')
+	return [
+		{ title: `from('${anchor}')`, label: t('apiDate.relFrom'), value: d.from(anchor) },
+		{ title: `to('${anchor}')`, label: t('apiDate.relTo'), value: d.to(anchor) },
+		{ title: 'fromNow()', label: t('apiDate.relFromNow'), value: d.fromNow() },
+		{ title: 'toNow()', label: t('apiDate.relToNow'), value: d.toNow() },
+		{ title: `from('${anchor}', true)`, label: t('apiDate.relSuffix'), value: d.from(anchor, true) }
+	]
+})
+
+const convertCells = computed<Cell[]>(() => {
+	const d = dayuts(BASE)
+	const obj = d.toObject()
+	const objText = `{ years: ${obj.years}, months: ${obj.months}, date: ${obj.date} }`
+	return [
+		{ title: 'toDate()', label: t('apiDate.cnvToDate'), value: d.toDate().toString() },
+		{ title: 'toArray()', label: t('apiDate.cnvToArray'), value: `[${d.toArray().join(', ')}]` },
+		{ title: 'toObject()', label: t('apiDate.cnvToObject'), value: objText },
+		{ title: 'toJSON()', label: t('apiDate.cnvToJson'), value: d.toJSON() ?? 'null' },
+		{ title: 'toISOString()', label: t('apiDate.cnvToIso'), value: d.toISOString() },
+		{ title: 'toString()', label: t('apiDate.cnvToString'), value: d.toString() },
+		{ title: "dayutsIntl.locale", label: t('apiDate.cnvLocale'), value: dayutsIntl.locale }
+	]
+})
+</script>
+
+<style lang="scss">
+.cell-value {
+	max-width: 320rpx;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+.cell-value-text {
+	text-align: right;
+}
+
+.day-strip {
+	flex-direction: row;
+	margin-top: 10px;
+}
+
+.day-cell {
+	flex: 1;
+	height: 34px;
+	border-radius: 6px;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin-right: 4px;
+	background-color: var(--sn-primary-light);
+}
+
+.day-cell-today {
+	background-color: var(--sn-primary);
+}
+
+.day-cell-last {
+	margin-right: 0px;
+}
+</style>

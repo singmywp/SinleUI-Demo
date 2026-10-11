@@ -3,93 +3,95 @@
 		<sn-topbar :title="t('snScan.title')"
 			:features="[{id:'run',icon:'play-circle-fill'} as SnDataItem]"
 			@featureclick="buttonClicked"></sn-topbar>
+		<sn-gap :height="$snui.topbarHeightResolved" />
+		<sn-gap mode="statusbar" />
 		<sn-alert type="primary" icon="none"
 			:text="t('snScan.alert')" style="margin: 0 16px 16px 16px"></sn-alert>
 		<demo-card :title="t('snScan.demoTitle')">
 			<sn-text font-size="$13" color="$textLight"
-				:text="t('snScan.intro')" flatten></sn-text>
+				:text="t('snScan.intro')"></sn-text>
 			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;"
-				:text="t('snScan.tipRs')" flatten></sn-text>
+				:text="t('snScan.tipRs')"></sn-text>
 			<sn-form v-model="configs">
 				<sn-form-field :label="t('snScan.scanType')">
-					<sn-select v-model="(configs['scanType'] as number)"
+					<sn-select v-model="(configs.scanType as number)"
 						width="150px"
 						:data="scanTypes"></sn-select>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.dingFile')">
-					<sn-select v-model="(configs['dingFileSrc'] as number)"
+					<sn-select v-model="(configs.dingFileSrc as number)"
 						width="150px"
 						:data="dingFiles"></sn-select>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.scanOnlyOnce')">
-					<sn-switch v-model="(configs['scanOnlyOnce'] as boolean)"></sn-switch>
+					<sn-switch v-model="(configs.scanOnlyOnce as boolean)"></sn-switch>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.continuous')">
-					<sn-switch v-model="(configs['continuous'] as boolean)"
-						:disabled="(configs['scanOnlyOnce'] as boolean)"></sn-switch>
+					<sn-switch v-model="(configs.continuous as boolean)"
+						:disabled="(configs.scanOnlyOnce as boolean)"></sn-switch>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.showAni')">
-					<sn-switch v-model="(configs['showAni'] as boolean)"></sn-switch>
+					<sn-switch v-model="(configs.showAni as boolean)"></sn-switch>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.torch')">
-					<sn-switch v-model="(configs['showTorch'] as boolean)"></sn-switch>
+					<sn-switch v-model="(configs.showTorch as boolean)"></sn-switch>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.album')">
-					<sn-switch v-model="(configs['showAlbum'] as boolean)"></sn-switch>
+					<sn-switch v-model="(configs.showAlbum as boolean)"></sn-switch>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.backBtn')">
-					<sn-switch v-model="(configs['showBackButton'] as boolean)"></sn-switch>
+					<sn-switch v-model="(configs.showBackButton as boolean)"></sn-switch>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.showTitle')">
-					<sn-switch v-model="(configs['showTitle'] as boolean)"></sn-switch>
+					<sn-switch v-model="(configs.showTitle as boolean)"></sn-switch>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.showTip')">
-					<sn-switch v-model="(configs['showTip'] as boolean)"></sn-switch>
+					<sn-switch v-model="(configs.showTip as boolean)"></sn-switch>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.zoom')">
-					<sn-switch v-model="(configs['enableZoom'] as boolean)"></sn-switch>
+					<sn-switch v-model="(configs.enableZoom as boolean)"></sn-switch>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.enableDing')">
-					<sn-switch v-model="(configs['enableDing'] as boolean)"></sn-switch>
+					<sn-switch v-model="(configs.enableDing as boolean)"></sn-switch>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.uiTitle')">
-					<sn-input v-model="(configs['title'] as string)"></sn-input>
+					<sn-input v-model="(configs.title as string)"></sn-input>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.tipText')">
-					<sn-input v-model="(configs['tip'] as string)"></sn-input>
+					<sn-input v-model="(configs.tip as string)"></sn-input>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.titleSize')">
-					<sn-input v-model="(configs['titleSize'] as string)" :placeholder="t('snScan.plSize18')"></sn-input>
+					<sn-input v-model="(configs.titleSize as string)" :placeholder="t('snScan.plSize18')"></sn-input>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.tipSize')">
-					<sn-input v-model="(configs['tipSize'] as string)" :placeholder="t('snScan.plSize14')"></sn-input>
+					<sn-input v-model="(configs.tipSize as string)" :placeholder="t('snScan.plSize14')"></sn-input>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.titleColor')">
-					<sn-input v-model="(configs['titleColor'] as string)" :placeholder="t('snScan.plColor')"></sn-input>
+					<sn-input v-model="(configs.titleColor as string)" :placeholder="t('snScan.plColor')"></sn-input>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.tipColor')">
-					<sn-input v-model="(configs['tipColor'] as string)" :placeholder="t('snScan.plFollow')"></sn-input>
+					<sn-input v-model="(configs.tipColor as string)" :placeholder="t('snScan.plFollow')"></sn-input>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.titleStyle')">
-					<sn-input v-model="(configs['customTitleStyle'] as string)" :placeholder="t('snScan.plFontWeight')"></sn-input>
+					<sn-input v-model="(configs.customTitleStyle as string)" :placeholder="t('snScan.plFontWeight')"></sn-input>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.tipStyle')">
-					<sn-input v-model="(configs['customTipStyle'] as string)" :placeholder="t('snScan.plLetterSpacing')"></sn-input>
+					<sn-input v-model="(configs.customTipStyle as string)" :placeholder="t('snScan.plLetterSpacing')"></sn-input>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.initZoom')">
-					<sn-stepper v-model="(configs['initZoomScale'] as number)"
+					<sn-stepper v-model="(configs.initZoomScale as number)"
 						:min="0"
 						:max="1"
 						:step="0.1"></sn-stepper>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.recognizeInterval')">
-					<sn-stepper v-model="(configs['recognizeInterval'] as number)"
+					<sn-stepper v-model="(configs.recognizeInterval as number)"
 						:min="0"
 						:max="2000"
 						:step="100"></sn-stepper>
 				</sn-form-field>
 				<sn-form-field :label="t('snScan.continuousSleep')">
-					<sn-stepper v-model="(configs['continuousSleep'] as number)"
+					<sn-stepper v-model="(configs.continuousSleep as number)"
 						:min="100"
 						:step="100"></sn-stepper>
 				</sn-form-field>
@@ -108,8 +110,8 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
-	import { snu, store } from '@/uni_modules/sinle-ui'
+<script lang="ts" setup>
+	import { $snui, snu, store } from '@/uni_modules/sinle-ui'
 	import { useI18n } from 'vue-i18n'
 	import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
 
@@ -156,8 +158,8 @@
 	])
 
 	watch(configs, (v: UTSJSONObject) => {
-		if (v['scanOnlyOnce'] == true) {
-			configs.value['continuous'] = false
+		if (v.scanOnlyOnce == true) {
+			configs.value.continuous = false
 		}
 	})
 
@@ -170,29 +172,29 @@
 			return
 		}
 		const data: UTSJSONObject = {
-			enableDing: configs.value['enableDing'] as boolean,
-			dingFileSrc: configs.value['dingFileSrc'] != 0 ? `static/media/${(dingFiles.value[configs.value['dingFileSrc'] as number]['id'] as string)}.mp3` : '',
-			scanType: scanTypes.value[configs.value['scanType'] as number]['id'] as string,
-			scanOnlyOnce: configs.value['scanOnlyOnce'] as boolean,
-			continuous: configs.value['continuous'] as boolean,
-			title: configs.value['title'] as string,
-			tip: configs.value['tip'] as string,
-			titleSize: configs.value['titleSize'] as string,
-			tipSize: configs.value['tipSize'] as string,
-			titleColor: configs.value['titleColor'] as string.ColorString,
-			tipColor: configs.value['tipColor'] as string.ColorString,
-			customTitleStyle: configs.value['customTitleStyle'] as string,
-			customTipStyle: configs.value['customTipStyle'] as string,
-			showTorch: configs.value['showTorch'] as boolean,
-			showAlbum: configs.value['showAlbum'] as boolean,
-			showBackButton: configs.value['showBackButton'] as boolean,
-			showTitle: configs.value['showTitle'] as boolean,
-			showTip: configs.value['showTip'] as boolean,
-			showAni: configs.value['showAni'] as boolean,
-			enableZoom: configs.value['enableZoom'] as boolean,
-			initZoomScale: configs.value['initZoomScale'] as number,
-			recognizeInterval: configs.value['recognizeInterval'] as number,
-			continuousSleep: configs.value['continuousSleep'] as number
+			enableDing: configs.value.enableDing as boolean,
+			dingFileSrc: configs.value.dingFileSrc != 0 ? `static/media/${(dingFiles.value[configs.value.dingFileSrc as number]['id'] as string)}.mp3` : '',
+			scanType: scanTypes.value[configs.value.scanType as number]['id'] as string,
+			scanOnlyOnce: configs.value.scanOnlyOnce as boolean,
+			continuous: configs.value.continuous as boolean,
+			title: configs.value.title as string,
+			tip: configs.value.tip as string,
+			titleSize: configs.value.titleSize as string,
+			tipSize: configs.value.tipSize as string,
+			titleColor: configs.value.titleColor as string.ColorString,
+			tipColor: configs.value.tipColor as string.ColorString,
+			customTitleStyle: configs.value.customTitleStyle as string,
+			customTipStyle: configs.value.customTipStyle as string,
+			showTorch: configs.value.showTorch as boolean,
+			showAlbum: configs.value.showAlbum as boolean,
+			showBackButton: configs.value.showBackButton as boolean,
+			showTitle: configs.value.showTitle as boolean,
+			showTip: configs.value.showTip as boolean,
+			showAni: configs.value.showAni as boolean,
+			enableZoom: configs.value.enableZoom as boolean,
+			initZoomScale: configs.value.initZoomScale as number,
+			recognizeInterval: configs.value.recognizeInterval as number,
+			continuousSleep: configs.value.continuousSleep as number
 		}
 		store.set('demo-scan-params', data)
 		uni.navigateTo({

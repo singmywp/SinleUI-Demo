@@ -1,0 +1,144 @@
+<template>
+	<view class="group-sort">
+		<utils-card :title="t('apiUtils.sortCardTitle')" :desc="t('apiUtils.sortCardDesc')"
+			:signature="sortSignature" :action-text="t('apiUtils.start')"
+			:result-text="resultText" result-type="info" @action="onSort">
+			<view class="sort-row" flatten>
+				<sn-text font-size="$12" color="$textLight" custom-style="width:70px;">{{ t('apiUtils.sortSize') }}</sn-text>
+				<sn-stepper v-model="sizeValue" :min="100" :max="SIZE_MAX" :step="1000" :maxlength="6"
+					:placeholder="t('apiUtils.sortSizePh')" input-width="78px" />
+			</view>
+			<view class="sort-algo">
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-bottom:6px;">{{ t('apiUtils.sortAlgo') }}</sn-text>
+				<sn-radio-group v-model="algoIndex" tag-type="primary" tag-level="second">
+					<sn-radio-tag v-for="(a, ai) in algoNames" :key="ai" :text="a" :disabled="isAlgoDisabled(ai)" />
+				</sn-radio-group>
+				<sn-text v-if="heavyAlgoBlocked" font-size="$11" color="$warning"
+					custom-style="margin-top:6px;">{{ t('apiUtils.sortAlgoLimit') }}</sn-text>
+			</view>
+		</utils-card>
+	</view>
+</template>
+
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import { runSort, terminateSort } from '@/uni_modules/sn-sort'
+import type { SnSortRunOptions, SnSortResult, SnSortFail } from '@/uni_modules/sn-sort'
+import UtilsCard from './utils-card.uvue'
+
+defineOptions({
+	name: 'group-sort'
+})
+
+const { t } = useI18n()
+
+const SIZE_MAX = 500000
+const HEAVY_ALGO_MAX = 20000
+
+const sortSignature = 'import { runSort } from \'@/uni_modules/sn-sort\'\nrunSort({ algo, data }) · 8 种排序算法在 Worker 子线程执行'
+
+const sizeValue = ref<number>(1000)
+const algoIndex = ref<number>(0)
+const sorting = ref<boolean>(false)
+const originalPreview = ref<string>('')
+const resultText = ref<string>('')
+
+const algoNames = computed<string[]>(() => [
+	t('apiUtils.algoBubble'), t('apiUtils.algoSelection'), t('apiUtils.algoInsertion'), t('apiUtils.algoQuick'),
+	t('apiUtils.algoMerge'), t('apiUtils.algoHeap'), t('apiUtils.algoShell'), t('apiUtils.algoBucket')
+])
+
+const heavyAlgoBlocked = computed<boolean>(() => sizeValue.value > HEAVY_ALGO_MAX)
+
+function isHeavyAlgo(index: number): boolean {
+	return index >= 0 && index <= 2
+}
+
+function isAlgoDisabled(index: number): boolean {
+	return heavyAlgoBlocked.value && isHeavyAlgo(index)
+}
+
+function preview(arr: number[]): string {
+	const n = Math.min(10, arr.length)
+	let s = '['
+	for (let i = 0; i < n; i++) {
+		if (i > 0) s += ', '
+		s += arr[i].toString()
+	}
+	if (arr.length > n) s += ', ...'
+	return s + ']'
+}
+
+function buildResult(algo: number, elapsed: number, sorted: number[], sortedOk: boolean, threadText: string): string {
+	const index = algo >= 0 && algo < algoNames.value.length ? algo : 0
+	const checkText = sortedOk ? t('apiUtils.sortCheckOk') : t('apiUtils.sortCheckFail')
+	return `${t('apiUtils.sortAlgoLabel')}${algoNames.value[index]}\n${t('apiUtils.sortOriginal')}${originalPreview.value}\n${t('apiUtils.sortSorted')}${preview(sorted)}\n${t('apiUtils.sortElapsed')}${elapsed} ms\n${t('apiUtils.sortCheckLabel')}${checkText}\n${threadText}`
+}
+
+function buildData(size: number): number[] {
+	const arr: number[] = []
+	for (let i = 0; i < size; i++) {
+		arr.push(snu.randint(0, 99999))
+	}
+	return arr
+}
+
+function onSort(): void {
+	if (sorting.value) {
+		snu.showToast({ text: t('apiUtils.sortBusy'), icon: 'none' })
+		return
+	}
+	const algo = algoIndex.value
+	let size = sizeValue.value
+	if (isHeavyAlgo(algo) && size > HEAVY_ALGO_MAX) {
+		size = HEAVY_ALGO_MAX
+	}
+	if (size != sizeValue.value) {
+		sizeValue.value = size
+	}
+	const data = buildData(size)
+	originalPreview.value = preview(data)
+	sorting.value = true
+	resultText.value = t('apiUtils.sortRunning')
+	runSort({
+		algo: algo,
+		data: data,
+		success: (res: SnSortResult) => {
+			sorting.value = false
+			resultText.value = buildResult(res.algo, res.elapsed, res.sortedPreview, res.sortedOk, t('apiUtils.sortThreadWorker'))
+		},
+		fail: (res: SnSortFail) => {
+			sorting.value = false
+			resultText.value = `${t('apiUtils.sortWorkerError')}${res.errMsg}`
+		}
+	} as SnSortRunOptions)
+}
+
+watch(sizeValue, (value: number) => {
+	if (value > HEAVY_ALGO_MAX && isHeavyAlgo(algoIndex.value)) {
+		algoIndex.value = 3
+		snu.showToast({ text: t('apiUtils.sortAlgoSwitched'), icon: 'none' })
+	}
+})
+
+onUnmounted(() => {
+	terminateSort()
+})
+</script>
+
+<style lang="scss">
+.group-sort {
+	flex-direction: column;
+}
+
+.sort-row {
+	flex-direction: row;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.sort-algo {
+	flex-direction: column;
+}
+</style>

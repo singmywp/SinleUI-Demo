@@ -1,0 +1,80 @@
+<template>
+	<view class="group-random">
+		<utils-card title="randomComId()" :desc="t('apiUtils.descRandomComId')" signature="snu.randomComId()"
+			:action-text="t('apiUtils.generate')" :result-text="comIdResult" result-type="success"
+			@action="onRandomComId" />
+		<utils-card title="randint(min, max)" :desc="t('apiUtils.descRandint')" :signature="randintSignature"
+			:result-text="randintResult" result-type="success">
+			<view class="random-row" flatten>
+				<sn-text font-size="$12" color="$textLight" custom-style="width:72px;">{{ t('apiUtils.paramMin') }}</sn-text>
+				<sn-stepper v-model="randMin" :min="0" :max="99999" :input-width="70" />
+			</view>
+			<view class="random-row" flatten>
+				<sn-text font-size="$12" color="$textLight" custom-style="width:72px;">{{ t('apiUtils.paramMax') }}</sn-text>
+				<sn-stepper v-model="randMax" :min="0" :max="99999" :input-width="70" />
+			</view>
+		</utils-card>
+		<utils-card title="randomNumber(digit)" :desc="t('apiUtils.descRandomNumber')" :signature="randomNumberSignature"
+			:result-text="randomNumberResult" result-type="success">
+			<view class="random-row" flatten>
+				<sn-text font-size="$12" color="$textLight" custom-style="width:72px;">{{ t('apiUtils.paramDigit') }}</sn-text>
+				<sn-stepper v-model="digit" :min="1" :max="10" :input-width="70" />
+			</view>
+		</utils-card>
+		<utils-card title="uuid()" :desc="t('apiUtils.descUuid')" signature="snu.uuid()"
+			:action-text="t('apiUtils.generate')" :result-text="uuidResult" result-type="success" @action="onUuid" />
+	</view>
+</template>
+
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import UtilsCard from './utils-card.uvue'
+
+defineOptions({
+	name: 'group-random'
+})
+
+const { t } = useI18n()
+
+const randMin = ref<number>(1)
+const randMax = ref<number>(100)
+const digit = ref<number>(6)
+const comIdResult = ref<string>(snu.randomComId())
+const uuidResult = ref<string>(snu.uuid())
+
+const randintSignature = computed<string>(() => `snu.randint(${randMin.value}, ${randMax.value})`)
+
+const randintResult = computed<string>(() => snu.randint(randMin.value, randMax.value).toString())
+
+const randomNumberSignature = computed<string>(() => `snu.randomNumber(${digit.value})`)
+
+const randomNumberResult = computed<string>(() => snu.randomNumber(digit.value).toString())
+
+watch(randMin, (value: number): void => {
+	if (randMax.value < value) {
+		randMax.value = value
+	}
+})
+
+function onRandomComId(): void {
+	comIdResult.value = snu.randomComId()
+}
+
+function onUuid(): void {
+	uuidResult.value = snu.uuid()
+}
+</script>
+
+<style lang="scss">
+.group-random {
+	flex-direction: column;
+}
+
+.random-row {
+	flex-direction: row;
+	align-items: center;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+</style>

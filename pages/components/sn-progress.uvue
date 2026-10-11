@@ -2,7 +2,7 @@
 	<sn-page :title="t('snProgress.title')" :show-back="true">
 		<demo-card :title="t('snProgress.basicTitle')" :subtitle="t('snProgress.basicSubtitle')">
 			<sn-progress v-model="v1" @change="onChange" custom-style="margin-bottom:14px;" />
-			<sn-text type="text-light" :font-size="13" :text="t('snProgress.currentProgress', { value: v1.toString(), change: changeCount.toString() } as UTSJSONObject)" custom-style="margin-bottom:12px;" flatten />
+			<sn-text type="text-light" :font-size="13" :text="t('snProgress.currentProgress', { value: v1.toString(), change: changeCount.toString() } as UTSJSONObject)" custom-style="margin-bottom:12px;"/>
 			<view class="row" flatten>
 				<sn-button :text="t('snProgress.add10')" type="primary" @click="addValue(1)" />
 				<sn-button :text="t('snProgress.subtract10')" level="second" @click="addValue(-1)" custom-style="margin-left:12px;" />
@@ -33,15 +33,15 @@
 		</demo-card>
 
 		<demo-card :title="t('snProgress.animDirTitle')" :subtitle="t('snProgress.animDirSubtitle')">
-			<sn-text flatten type="text-light" :font-size="13" :text="t('snProgress.forwardsFromCurrent')" custom-style="margin-bottom:6px;" />
+			<sn-text type="text-light" :font-size="13" :text="t('snProgress.forwardsFromCurrent')" custom-style="margin-bottom:6px;" />
 			<sn-progress v-model="v9" active-mode="forwards" custom-style="margin-bottom:14px;" />
-			<sn-text flatten type="text-light" :font-size="13" :text="t('snProgress.backwardsFromZero')" custom-style="margin-bottom:6px;" />
+			<sn-text type="text-light" :font-size="13" :text="t('snProgress.backwardsFromZero')" custom-style="margin-bottom:6px;" />
 			<sn-progress v-model="v9" active-mode="backwards" active-color="$success" custom-style="margin-bottom:14px;" />
 			<view class="row" flatten>
 				<sn-button :text="t('snProgress.add10')" type="primary" @click="addValue(9)" />
 				<sn-button :text="t('snProgress.subtract10')" level="second" @click="addValue(-9)" custom-style="margin-left:12px;" />
 			</view>
-			<sn-text flatten type="text-light" fontSize="$12" style="margin-top:10px;" :text="t('snProgress.sharedProgress')" />
+			<sn-text type="text-light" fontSize="$12" style="margin-top:10px;" :text="t('snProgress.sharedProgress')" />
 		</demo-card>
 
 		<demo-card :title="t('snProgress.valueTextTitle')" :subtitle="t('snProgress.valueTextSubtitle')">
@@ -77,7 +77,7 @@
 		<demo-card :title="t('snProgress.downloadTitle')" :subtitle="t('snProgress.downloadSubtitle')">
 			<sn-progress v-model="downloadValue" show-value-text value-text-position="inside"
 				active-color="$primary" custom-style="margin-bottom:10px;" />
-			<sn-text flatten type="text-light" :font-size="13" :text="downloadText" custom-style="margin-bottom:12px;" />
+			<sn-text type="text-light" :font-size="13" :text="downloadText" custom-style="margin-bottom:12px;" />
 			<view class="row" flatten>
 				<sn-button :text="t('snProgress.startDownload')" type="primary" :disabled="downloading" @click="onStartDownload" />
 				<sn-button :text="t('snProgress.pause')" level="second" :disabled="!downloading" @click="onPauseDownload" custom-style="margin-left:12px;" />
@@ -96,12 +96,12 @@
 			<view style="margin-top: 12px" flatten>
 				<sn-progress v-model="v2" show-value-text text-style="color: #f56c6c; font-weight: bold;" />
 			</view>
-			<sn-text flatten type="text-light" fontSize="$12" style="margin-top:10px;" :text="t('snProgress.externalTip')" />
+			<sn-text type="text-light" fontSize="$12" style="margin-top:10px;" :text="t('snProgress.externalTip')" />
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
 

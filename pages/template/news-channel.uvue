@@ -6,12 +6,12 @@
 		<template v-slot:default="slotProps">
 			<view class="news-item">
 				<view class="news-main" flatten>
-					<sn-text flatten font-size="$15" color="$title" :lines="2"
+					<sn-text font-size="$15" color="$title" :lines="2"
 						custom-style="line-height: 21px;">{{ newsOf(slotProps.item).title }}</sn-text>
 					<view class="news-meta" flatten>
-						<sn-text font-size="$11" color="$textLight" flatten>{{ newsOf(slotProps.item).source }}</sn-text>
-						<sn-text font-size="$11" color="$textLight" flatten custom-style="margin-left:8px;">{{ newsOf(slotProps.item).comments }}{{ t('tmplNewsChannel.comments') }}</sn-text>
-						<sn-text font-size="$11" color="$textLight" flatten custom-style="margin-left:8px;">{{ newsOf(slotProps.item).time }}</sn-text>
+						<sn-text font-size="$11" color="$textLight">{{ newsOf(slotProps.item).source }}</sn-text>
+						<sn-text font-size="$11" color="$textLight" custom-style="margin-left:8px;">{{ newsOf(slotProps.item).comments }}{{ t('tmplNewsChannel.comments') }}</sn-text>
+						<sn-text font-size="$11" color="$textLight" custom-style="margin-left:8px;">{{ newsOf(slotProps.item).time }}</sn-text>
 					</view>
 				</view>
 				<view v-if="newsOf(slotProps.item).image != ''" class="news-thumb" flatten>
@@ -26,7 +26,7 @@
 	</sn-list-view>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import type { ComponentPublicInstance } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { SnLoadmoreParams, SnRefresherParams } from '@/uni_modules/sinle-ui/core/types/index.uts'

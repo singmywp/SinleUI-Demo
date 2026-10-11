@@ -1,0 +1,136 @@
+<template>
+	<view class="group-system">
+		<utils-card v-for="(c, ci) in cards" :key="c.key" :title="c.title" :desc="c.desc" :signature="c.signature"
+			:action-text="c.actionText" :result-text="c.resultText" :result-type="c.resultType"
+			@action="runCard(ci)" />
+	</view>
+</template>
+
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import UtilsCard from './utils-card.uvue'
+import type { UtilsActionCard } from './types.uts'
+
+defineOptions({
+	name: 'group-system'
+})
+
+const { t } = useI18n()
+
+const cards = ref<UtilsActionCard[]>(buildCards())
+
+function buildCards(): UtilsActionCard[] {
+	return [
+		{
+			key: 'getOsTheme',
+			title: 'getOsTheme()',
+			desc: t('apiUtils.descGetOsTheme'),
+			signature: 'snu.getOsTheme()',
+			actionText: t('apiUtils.check'),
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'openLink',
+			title: 'openLink(href)',
+			desc: t('apiUtils.descOpenLink'),
+			signature: "snu.openLink('https://sinleui.pages.dev')",
+			actionText: t('apiUtils.open'),
+			resultText: '',
+			resultType: 'info'
+		},
+		{
+			key: 'viewUrlByWebview',
+			title: 'viewUrlByWebview(url)',
+			desc: t('apiUtils.descWebview'),
+			signature: "snu.viewUrlByWebview('https://sinleui.pages.dev')",
+			actionText: t('apiUtils.open'),
+			resultText: '',
+			resultType: 'info'
+		},
+		{
+			key: 'showSysToast',
+			title: 'showSysToast(params)',
+			desc: t('apiUtils.descSysToast'),
+			signature: "snu.showSysToast({ title: 'Hi', type: 'short' })",
+			actionText: t('apiUtils.show'),
+			resultText: '',
+			resultType: 'info'
+		},
+		{
+			key: 'setClipboardData',
+			title: 'setClipboardData(data)',
+			desc: t('apiUtils.descSetClipboard'),
+			signature: "snu.setClipboardData('SinleUI Utils Demo')",
+			actionText: t('apiUtils.copy'),
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'getClipboardData',
+			title: 'getClipboardData()',
+			desc: t('apiUtils.descGetClipboard'),
+			signature: 'snu.getClipboardData()',
+			actionText: t('apiUtils.read'),
+			resultText: '',
+			resultType: 'success'
+		}
+	]
+}
+
+function runCard(index: number): void {
+	const card = cards.value[index]
+	let text = ''
+	let type = 'info'
+	if (card.key == 'getOsTheme') {
+		text = `${t('apiUtils.osThemeLabel')}${snu.getOsTheme()}`
+		type = 'success'
+	} else if (card.key == 'openLink') {
+		snu.openLink('https://sinleui.pages.dev')
+		text = t('apiUtils.openedLink')
+	} else if (card.key == 'viewUrlByWebview') {
+		snu.viewUrlByWebview('https://sinleui.pages.dev')
+		text = t('apiUtils.openedLink')
+	} else if (card.key == 'showSysToast') {
+		snu.showSysToast({ title: t('apiUtils.sysToastTitle'), type: 'short', position: 'center' } as UTSJSONObject)
+		text = t('apiUtils.shownSysToast')
+	} else if (card.key == 'setClipboardData') {
+		snu.setClipboardData('SinleUI Utils Demo')
+		snu.showToast({ text: t('apiUtils.copied') })
+		text = t('apiUtils.copied')
+		type = 'success'
+	} else if (card.key == 'getClipboardData') {
+		snu.getClipboardData().then((data: string): void => {
+			snu.showToast({ text: t('apiUtils.clipboardRead') + data })
+			replaceCard(index, t('apiUtils.clipboardRead') + data, 'success')
+		})
+		return
+	}
+	replaceCard(index, text, type)
+}
+
+function replaceCard(index: number, text: string, type: string): void {
+	const c = cards.value[index]
+	const next: UtilsActionCard = {
+		key: c.key,
+		title: c.title,
+		desc: c.desc,
+		signature: c.signature,
+		actionText: c.actionText,
+		resultText: text,
+		resultType: type
+	}
+	cards.value.splice(index, 1, next)
+}
+
+onMounted((): void => {
+	runCard(0)
+})
+</script>
+
+<style lang="scss">
+.group-system {
+	flex-direction: column;
+}
+</style>

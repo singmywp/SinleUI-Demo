@@ -1,6 +1,5 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Sidebar Demo2"></sn-topbar>
+	<sn-page title="Sidebar Demo2" :show-back="true">
 		<sn-sidebar v-model="cur" active-item-bg-color="$dark" active-item-text-color="$front"
 			item-border-radius="$16" item-padding="10px" item-width="80px" anchor :show-line="false" :data="data">
 			<sn-view bg-color="$front" padding="10px">
@@ -14,7 +13,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
 import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'

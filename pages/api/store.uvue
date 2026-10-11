@@ -1,0 +1,542 @@
+<template>
+	<sn-page :title="t('apiStore.title')" :show-back="true">
+		<demo-card :title="t('apiStore.titleConsole')" :subtitle="t('apiStore.subConsole')">
+			<view class="field-row" flatten>
+				<view class="field" flatten>
+					<sn-text font-size="$11" color="$textLight" custom-style="margin-bottom:6px;">{{ t('apiStore.fieldKey') }}</sn-text>
+					<sn-input v-model="keyInput" placeholder="userName"
+						custom-style="width:100%;background-color:var(--sn-page);border-color:var(--sn-line);"
+						placeholder-style="color:rgba(127,127,127,0.75);" />
+				</view>
+				<view class="field field-gap" flatten>
+					<sn-text font-size="$11" color="$textLight" custom-style="margin-bottom:6px;">{{ t('apiStore.fieldValue') }}</sn-text>
+					<sn-input v-model="valueInput" placeholder="Aaron"
+						custom-style="width:100%;background-color:var(--sn-page);border-color:var(--sn-line);"
+						placeholder-style="color:rgba(127,127,127,0.75);" />
+				</view>
+			</view>
+			<view class="field-row field-row-top" flatten>
+				<view class="field" flatten>
+					<sn-text font-size="$11" color="$textLight" custom-style="margin-bottom:6px;">{{ t('apiStore.fieldExpire') }}</sn-text>
+					<sn-input v-model="expireInput" type="number" :maxlength="4" placeholder="0"
+						custom-style="width:100%;background-color:var(--sn-page);border-color:var(--sn-line);"
+						placeholder-style="color:rgba(127,127,127,0.75);" />
+				</view>
+			</view>
+
+			<view class="btn-row" flatten>
+				<sn-button :text="t('apiStore.btnSet')" @click="doSet" custom-style="flex:1;" />
+				<sn-button type="info" plain :text="t('apiStore.btnGet')" @click="doGet"
+					custom-style="flex:1;margin-left:8px;" />
+			</view>
+			<view class="btn-row" flatten>
+				<sn-button type="info" plain :text="t('apiStore.btnHas')" @click="doHas" custom-style="flex:1;" />
+				<sn-button type="error" plain :text="t('apiStore.btnDelete')" @click="doDelete"
+					custom-style="flex:1;margin-left:8px;" />
+			</view>
+			<view class="btn-row" flatten>
+				<sn-button type="warning" plain :text="t('apiStore.btnSetLasting')" @click="doSetLasting"
+					custom-style="flex:1;" />
+				<sn-button type="error" plain :text="t('apiStore.btnClear')" @click="doClear"
+					custom-style="flex:1;margin-left:8px;" />
+			</view>
+
+			<view class="result" flatten>
+				<sn-text font-size="$11" color="$textLight">{{ resultExpr }} →</sn-text>
+				<sn-text font-size="$11" :color="valueColor">{{ resultValue }}</sn-text>
+			</view>
+			<view class="note" flatten>
+				<sn-text font-size="$11" color="$primary">{{ t('apiStore.note') }}</sn-text>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiStore.titleSnapshot')" :subtitle="snapshotSub">
+			<view v-if="rows.length == 0" class="empty" flatten>
+				<sn-text font-size="$12" color="$textLight">{{ t('apiStore.empty') }}</sn-text>
+			</view>
+			<view v-else flatten>
+				<sn-cell v-for="(row, i) in rows" :key="row.key" :title="row.key" :label="row.value"
+					:border="i < rows.length - 1">
+					<template #value>
+						<view v-if="row.lasting" class="badge badge-persist" flatten>
+							<sn-text font-size="$9" color="$success">{{ t('apiStore.badgePersist') }}</sn-text>
+						</view>
+						<view v-else class="badge badge-memory" flatten>
+							<sn-text font-size="$9" color="$textLight">{{ t('apiStore.badgeMemory') }}</sn-text>
+						</view>
+						<view v-if="row.remaining >= 0" class="badge badge-expire" flatten>
+							<sn-text font-size="$9" color="$warning">{{ t('apiStore.badgeExpire', { sec: row.remaining } as UTSJSONObject) }}</sn-text>
+						</view>
+					</template>
+				</sn-cell>
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('apiStore.titleSubscribe')" :subtitle="t('apiStore.subSubscribe')">
+			<view class="btn-row btn-row-first" flatten>
+				<sn-button type="info" plain :text="t('apiStore.btnSubscribe')" @click="doSubscribe"
+					custom-style="flex:1;" />
+				<sn-button type="info" plain :text="t('apiStore.btnUnsubscribe')" @click="doUnsubscribe"
+					custom-style="flex:1;margin-left:8px;" />
+			</view>
+			<view class="chip-row" flatten>
+				<view v-if="subscribeKeys.length == 0" class="chip chip-empty" flatten>
+					<sn-text font-size="$10" color="$textLight">{{ t('apiStore.chipEmpty') }}</sn-text>
+				</view>
+				<view v-for="(k, ki) in subscribeKeys" :key="ki" class="chip" flatten>
+					<sn-text font-size="$10" color="$primary">{{ k }}</sn-text>
+				</view>
+			</view>
+			<scroll-view direction="vertical" class="log-box" :show-scrollbar="false">
+				<view v-if="logs.length == 0" flatten>
+					<sn-text font-size="$10" color="$textLight">{{ t('apiStore.logEmpty') }}</sn-text>
+				</view>
+				<view v-for="(lg, li) in logs" :key="li" class="log-line" flatten>
+					<sn-text font-size="$10" color="$textLight">{{ lg.time }}</sn-text>
+					<sn-text font-size="$10" color="$text" custom-style="margin-left:8px;flex:1;">{{ lg.text }}</sn-text>
+				</view>
+			</scroll-view>
+		</demo-card>
+
+		<demo-card :title="t('apiStore.titleApi')" :subtitle="t('apiStore.subApi')">
+			<sn-cell v-for="(item, i) in apiCells" :key="`a${i}`" :title="item.title" :label="item.label"
+				:border="i < apiCells.length - 1">
+				<template #value>
+					<sn-text font-size="$12" :color="valueColor">{{ item.value }}</sn-text>
+				</template>
+			</sn-cell>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import { demoStore } from './store-demo-lib.uts'
+
+const { t } = useI18n()
+const { isDark } = useTheme()
+
+type StoreRow = {
+	key: string
+	value: string
+	lasting: boolean
+	remaining: number
+}
+
+type LogItem = {
+	time: string
+	text: string
+}
+
+type ExpireItem = {
+	key: string
+	at: number
+}
+
+type ApiCell = {
+	title: string
+	label: string
+	value: string
+}
+
+const keyInput = ref<string>('userName')
+const valueInput = ref<string>('Aaron')
+const expireInput = ref<string>('0')
+const rows = ref<StoreRow[]>([])
+const logs = ref<LogItem[]>([])
+const lastingKeys = ref<string[]>([])
+const subscribeKeys = ref<string[]>([])
+const subscribeOffs = new Map<string, () => void>()
+const expireList = ref<ExpireItem[]>([])
+const resultExpr = ref<string>(t('apiStore.resultIdle'))
+const resultValue = ref<string>('—')
+
+let timer: number = 0
+
+const valueColor = computed<string>(() => isDark.value ? '#73a2ff' : '#4d82ff')
+
+const snapshotSub = computed<string>(() => {
+	return t('apiStore.subSnapshot', { count: rows.value.length } as UTSJSONObject)
+})
+
+const apiCells = computed<ApiCell[]>(() => [
+	{ title: 'set(key, value, lasting?, expire?)', label: t('apiStore.apiSet'), value: 'void' },
+	{ title: 'get(key, defaultValue?)', label: t('apiStore.apiGet'), value: 'any | null' },
+	{ title: 'has(key)', label: t('apiStore.apiHas'), value: 'boolean' },
+	{ title: 'delete(key)', label: t('apiStore.apiDelete'), value: 'void' },
+	{ title: 'keys() / size / clear()', label: t('apiStore.apiKeys'), value: 'string[] / number' },
+	{ title: 'subscribe(key, listener)', label: t('apiStore.apiSubscribe'), value: '() => void' },
+	{ title: 'unsubscribe(key, listener)', label: t('apiStore.apiUnsubscribe'), value: 'void' }
+])
+
+function pad2(n: number): string {
+	return n < 10 ? `0${n}` : `${n}`
+}
+
+function nowTime(): string {
+	const d = new Date()
+	return `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`
+}
+
+function addLog(text: string): void {
+	logs.value.unshift({ time: nowTime(), text: text })
+	if (logs.value.length > 60) logs.value.pop()
+}
+
+function setResult(expr: string, value: string): void {
+	resultExpr.value = expr
+	resultValue.value = value
+}
+
+function currentKey(): string {
+	return keyInput.value.trim()
+}
+
+function currentExpire(): number {
+	let sec = parseInt(expireInput.value)
+	if (isNaN(sec) || sec < 0) sec = 0
+	return sec
+}
+
+function valueToText(raw: any | null): string {
+	if (raw == null) return 'null'
+	if (typeof raw == 'string') return raw as string
+	return JSON.stringify(raw)
+}
+
+function isLasting(key: string): boolean {
+	return lastingKeys.value.indexOf(key) != -1
+}
+
+function addLasting(key: string): void {
+	if (!isLasting(key)) lastingKeys.value.push(key)
+}
+
+function removeLasting(key: string): void {
+	lastingKeys.value = lastingKeys.value.filter((x: string): boolean => x != key)
+}
+
+function setExpire(key: string, at: number): void {
+	for (let i = 0; i < expireList.value.length; i++) {
+		if (expireList.value[i].key == key) {
+			expireList.value[i].at = at
+			return
+		}
+	}
+	expireList.value.push({ key: key, at: at })
+}
+
+function removeExpire(key: string): void {
+	expireList.value = expireList.value.filter((e: ExpireItem): boolean => e.key != key)
+}
+
+function remainingOf(key: string): number {
+	for (let i = 0; i < expireList.value.length; i++) {
+		if (expireList.value[i].key == key) {
+			return Math.max(0, Math.ceil((expireList.value[i].at - Date.now()) / 1000))
+		}
+	}
+	return -1
+}
+
+function refresh(): void {
+	const keys = demoStore.keys()
+	const list: StoreRow[] = []
+	const present: string[] = []
+	for (let i = 0; i < keys.length; i++) {
+		const key = keys[i]
+		if (!demoStore.has(key)) continue
+		const text = valueToText(demoStore.get(key))
+		list.push({ key: key, value: text, lasting: isLasting(key), remaining: remainingOf(key) })
+		present.push(key)
+	}
+	rows.value = list
+	lastingKeys.value = lastingKeys.value.filter((k: string): boolean => present.indexOf(k) != -1)
+	expireList.value = expireList.value.filter((e: ExpireItem): boolean => present.indexOf(e.key) != -1)
+}
+
+function doSet(): void {
+	const key = currentKey()
+	if (key == '') {
+		setResult(t('apiStore.opSet'), t('apiStore.msgNeedKey'))
+		addLog(t('apiStore.msgNeedKey'))
+		return
+	}
+	const value = valueInput.value
+	const sec = currentExpire()
+	if (sec > 0) {
+		expireInput.value = sec.toString()
+		demoStore.set(key, value, false, sec)
+		setExpire(key, Date.now() + sec * 1000)
+		setResult(`store.set('${key}', '${value}', false, ${sec})`, t('apiStore.afterSec', { sec: sec } as UTSJSONObject))
+		addLog(t('apiStore.logSetExpire', { key: key, sec: sec } as UTSJSONObject))
+	} else {
+		demoStore.set(key, value, false, 0)
+		removeExpire(key)
+		setResult(`store.set('${key}', '${value}')`, 'void')
+		addLog(t('apiStore.logSet', { key: key, value: value } as UTSJSONObject))
+	}
+	refresh()
+}
+
+function doSetLasting(): void {
+	const key = currentKey()
+	if (key == '') {
+		setResult(t('apiStore.opSet'), t('apiStore.msgNeedKey'))
+		addLog(t('apiStore.msgNeedKey'))
+		return
+	}
+	const value = valueInput.value
+	const sec = currentExpire()
+	if (sec > 0) {
+		expireInput.value = sec.toString()
+		demoStore.set(key, value, true, sec)
+		addLasting(key)
+		setExpire(key, Date.now() + sec * 1000)
+		setResult(`store.set('${key}', '${value}', true, ${sec})`, t('apiStore.afterSec', { sec: sec } as UTSJSONObject))
+		addLog(t('apiStore.logSetLastingExpire', { key: key, sec: sec } as UTSJSONObject))
+	} else {
+		demoStore.set(key, value, true, 0)
+		addLasting(key)
+		removeExpire(key)
+		setResult(`store.set('${key}', '${value}', true)`, t('apiStore.donePersist'))
+		addLog(t('apiStore.logSetLasting', { key: key } as UTSJSONObject))
+	}
+	refresh()
+}
+
+function doGet(): void {
+	const key = currentKey()
+	if (key == '') {
+		setResult(t('apiStore.opGet'), t('apiStore.msgNeedKey'))
+		addLog(t('apiStore.msgNeedKey'))
+		return
+	}
+	const raw = demoStore.get(key)
+	const text = valueToText(raw)
+	setResult(`store.get('${key}')`, text)
+	addLog(t('apiStore.logGet', { key: key, value: text } as UTSJSONObject))
+	refresh()
+}
+
+function doHas(): void {
+	const key = currentKey()
+	if (key == '') {
+		setResult(t('apiStore.opHas'), t('apiStore.msgNeedKey'))
+		addLog(t('apiStore.msgNeedKey'))
+		return
+	}
+	const ok = demoStore.has(key)
+	setResult(`store.has('${key}')`, ok.toString())
+	addLog(t('apiStore.logHas', { key: key, value: ok.toString() } as UTSJSONObject))
+	refresh()
+}
+
+function doDelete(): void {
+	const key = currentKey()
+	if (key == '') {
+		setResult(t('apiStore.opDelete'), t('apiStore.msgNeedKey'))
+		addLog(t('apiStore.msgNeedKey'))
+		return
+	}
+	demoStore.delete(key)
+	removeLasting(key)
+	removeExpire(key)
+	setResult(`store.delete('${key}')`, 'void')
+	addLog(t('apiStore.logDelete', { key: key } as UTSJSONObject))
+	refresh()
+}
+
+function doClear(): void {
+	demoStore.clear()
+	lastingKeys.value = []
+	expireList.value = []
+	setResult('store.clear()', 'void')
+	addLog(t('apiStore.logClear'))
+	refresh()
+}
+
+function doSubscribe(): void {
+	const key = currentKey()
+	if (key == '') {
+		setResult(t('apiStore.opSubscribe'), t('apiStore.msgNeedKey'))
+		addLog(t('apiStore.msgNeedKey'))
+		return
+	}
+	if (subscribeOffs.has(key)) {
+		setResult(`store.subscribe('${key}')`, t('apiStore.alreadySubscribed'))
+		return
+	}
+	const listener = (value: any | null, changedKey: string): void => {
+		const text = value == null ? 'null' : (value as string)
+		addLog(t('apiStore.logCallback', { key: changedKey, value: text } as UTSJSONObject))
+	}
+	const off = demoStore.subscribe(key, listener)
+	subscribeOffs.set(key, off)
+	subscribeKeys.value.push(key)
+	setResult(`store.subscribe('${key}')`, t('apiStore.subscribed'))
+	addLog(t('apiStore.logSubscribe', { key: key } as UTSJSONObject))
+}
+
+function doUnsubscribe(): void {
+	const key = currentKey()
+	if (key == '') {
+		setResult(t('apiStore.opUnsubscribe'), t('apiStore.msgNeedKey'))
+		addLog(t('apiStore.msgNeedKey'))
+		return
+	}
+	const off = subscribeOffs.get(key)
+	if (off == null) {
+		setResult(`store.unsubscribe('${key}')`, t('apiStore.notSubscribed'))
+		return
+	}
+	off()
+	subscribeOffs.delete(key)
+	subscribeKeys.value = subscribeKeys.value.filter((x: string): boolean => x != key)
+	setResult(`store.unsubscribe('${key}')`, 'void')
+	addLog(t('apiStore.logUnsubscribe', { key: key } as UTSJSONObject))
+}
+
+function onTick(): void {
+	const now = Date.now()
+	const due: string[] = []
+	for (let i = 0; i < expireList.value.length; i++) {
+		if (expireList.value[i].at <= now) due.push(expireList.value[i].key)
+	}
+	for (let i = 0; i < due.length; i++) {
+		if (!demoStore.has(due[i])) {
+			removeExpire(due[i])
+			addLog(t('apiStore.logExpired', { key: due[i] } as UTSJSONObject))
+		}
+	}
+	refresh()
+}
+
+onMounted((): void => {
+	const existing = demoStore.keys()
+	for (let i = 0; i < existing.length; i++) {
+		addLasting(existing[i])
+	}
+	if (demoStore.size == 0) {
+		demoStore.set('userName', 'Aaron', true, 0)
+		demoStore.set('count', '10', false, 0)
+		addLasting('userName')
+	}
+	addLog(t('apiStore.logInit'))
+	refresh()
+	timer = setInterval((): void => {
+		onTick()
+	}, 1000)
+})
+
+onUnmounted((): void => {
+	if (timer != 0) {
+		clearInterval(timer)
+		timer = 0
+	}
+	subscribeOffs.forEach((off: () => void, key: string): void => {
+		off()
+	})
+	subscribeOffs.clear()
+})
+</script>
+
+<style lang="scss">
+.field-row {
+	flex-direction: row;
+}
+
+.field-row-top {
+	margin-top: 10px;
+}
+
+.field {
+	flex: 1;
+	flex-direction: column;
+}
+
+.field-gap {
+	margin-left: 8px;
+}
+
+.btn-row {
+	flex-direction: row;
+	margin-top: 10px;
+}
+
+.btn-row-first {
+	margin-top: 0px;
+}
+
+.result {
+	flex-direction: row;
+	align-items: center;
+	margin-top: 12px;
+	padding: 10px 12px;
+	border-radius: 8px;
+	background-color: var(--sn-page);
+}
+
+.note {
+	margin-top: 10px;
+	padding: 10px 12px;
+	border-radius: 8px;
+	background-color: var(--sn-primary-light);
+}
+
+.empty {
+	align-items: center;
+	padding: 24px 0;
+}
+
+.badge {
+	padding: 2px 6px;
+	border-radius: 5px;
+	margin-left: 6px;
+}
+
+.badge-persist {
+	background-color: var(--sn-success-light);
+}
+
+.badge-memory {
+	background-color: var(--sn-info);
+}
+
+.badge-expire {
+	background-color: var(--sn-warning-light);
+}
+
+.chip-row {
+	flex-direction: row;
+	flex-wrap: wrap;
+	margin-top: 10px;
+}
+
+.chip {
+	padding: 3px 8px;
+	border-radius: 6px;
+	margin-right: 6px;
+	margin-bottom: 6px;
+	background-color: var(--sn-primary-light);
+}
+
+.chip-empty {
+	background-color: var(--sn-info);
+}
+
+.log-box {
+	height: 180px;
+	margin-top: 10px;
+	padding: 8px 10px;
+	border-radius: 8px;
+	background-color: var(--sn-page);
+}
+
+.log-line {
+	flex-direction: row;
+	align-items: flex-start;
+	line-height: 1.6;
+}
+</style>

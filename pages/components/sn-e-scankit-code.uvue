@@ -12,7 +12,7 @@
 
 		<demo-card v-if="isApp" :title="t('snEScankitCode.contentTitle')" :subtitle="t('snEScankitCode.contentSubtitle')">
 			<sn-input v-model="content" :placeholder="t('snEScankitCode.contentPlaceholder')" clearable></sn-input>
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snEScankitCode.contentDesc') }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snEScankitCode.contentDesc') }}</sn-text>
 		</demo-card>
 
 		<demo-card v-if="isApp" :title="t('snEScankitCode.typeTitle')" :subtitle="t('snEScankitCode.typeSubtitle')">
@@ -24,7 +24,7 @@
 				<sn-button :type="codeType == 'PDF_417' ? 'primary' : 'info'" text="PDF_417" custom-style="flex:1;" @click="onSetType('PDF_417')" />
 				<sn-button :type="codeType == 'DATAMATRIX' ? 'primary' : 'info'" text="DATAMATRIX" custom-style="flex:1;margin-left:10px;" @click="onSetType('DATAMATRIX')" />
 			</view>
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snEScankitCode.multiFunctionTip') }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snEScankitCode.multiFunctionTip') }}</sn-text>
 		</demo-card>
 
 		<demo-card v-if="isApp" :title="t('snEScankitCode.colorTitle')" :subtitle="t('snEScankitCode.colorSubtitle')">
@@ -50,7 +50,7 @@
 				<sn-button :type="logoSrc == '' ? 'primary' : 'info'" :text="t('snEScankitCode.noLogo')" custom-style="flex:1;" @click="logoSrc = ''" />
 				<sn-button :type="logoSrc != '' ? 'primary' : 'info'" :text="t('snEScankitCode.embeddedLogo')" custom-style="flex:1;margin-left:10px;" @click="logoSrc = '/static/logo.png'" />
 			</view>
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snEScankitCode.logoDesc') }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snEScankitCode.logoDesc') }}</sn-text>
 		</demo-card>
 
 		<demo-card v-if="isApp" :title="t('snEScankitCode.sizeTitle')" :subtitle="t('snEScankitCode.sizeSubtitle')">
@@ -62,7 +62,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
 import type { ScanType } from '@/uni_modules/sn-e-scankit'
@@ -104,7 +104,7 @@ function isPreset(bg: string, front: string): boolean {
 onMounted(() => {
 	try {
 		const sysInfo = uni.getSystemInfoSync() as UTSJSONObject
-		const platform = sysInfo['uniPlatform'] as string
+		const platform = sysInfo.uniPlatform as string
 		isApp.value = platform == 'app'
 	} catch (e) {
 		isApp.value = false

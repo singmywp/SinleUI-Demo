@@ -2,19 +2,21 @@
 	<sn-page :fill-content="true">
 		<sn-topbar :title="t('tmplChat.title')" :back-button="true" :fixed="true" :status-bar="true"
 			:features="topbarFeatures" @featureclick="onFeatureClick" />
+		<sn-gap :height="$snui.topbarHeightResolved" />
+		<sn-gap mode="statusbar" />
 		<view class="chat-body">
 			<scroll-view class="chat-msgs" direction="vertical" :scroll-into-view="scrollAnchor"
 				:show-scrollbar="false">
 				<view class="chat-pad-top"></view>
 				<view v-for="(msg, i) in messages" :key="i" :id="`msg-${i}`">
 					<view v-if="msg.kind == 'time'" class="chat-time-row" flatten>
-						<sn-text font-size="$11" color="$textLight" flatten>{{ msg.text }}</sn-text>
+						<sn-text font-size="$11" color="$textLight">{{ msg.text }}</sn-text>
 					</view>
 					<view v-else-if="!msg.self" class="chat-msg-row">
 						<sn-avatar mode="text" :text="msg.avatarText" :size="36" :text-size="14"
 							:bg-color="msg.avatarColor" text-color="#FFFFFF" shape="circle" />
 						<view class="chat-msg-col">
-							<sn-text font-size="$11" color="$textLight" flatten custom-style="margin-bottom: 4px;">{{ msg.sender }}</sn-text>
+							<sn-text font-size="$11" color="$textLight" custom-style="margin-bottom: 4px;">{{ msg.sender }}</sn-text>
 							<view class="chat-bubble chat-bubble--peer">
 								<sn-text font-size="$14" color="$text" :custom-style="msgTextStyle">{{ msg.text }}</sn-text>
 							</view>
@@ -52,7 +54,7 @@
 		<sn-drawer-list ref="drawerRef" height="420px" :show-scrollbar="false" :backtop="false" :list="drawerItems">
 			<template v-slot:default="slotProps">
 				<view v-if="entryOf(slotProps.item).kind == 'header'" class="chat-mention-header" flatten>
-					<sn-text bold font-size="$15" color="$title" flatten>{{ entryOf(slotProps.item).label }}</sn-text>
+					<sn-text bold font-size="$15" color="$title">{{ entryOf(slotProps.item).label }}</sn-text>
 				</view>
 				<sn-cell v-else :title="entryOf(slotProps.item).label" icon="user-line" clickable :border="false"
 					custom-style="border-radius: 12px; margin-bottom: 8px;" bg-color="$infoLight"
@@ -62,8 +64,8 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
-import { snu } from '@/uni_modules/sinle-ui/index.uts'
+<script lang="ts" setup>
+import { $snui, snu } from '@/uni_modules/sinle-ui/index.uts'
 import { useI18n } from 'vue-i18n'
 import type { ComponentPublicInstance } from 'vue'
 import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
@@ -291,11 +293,11 @@ onMounted((): void => {
 	flex-direction: column;
 	align-items: flex-start;
 	margin-left: 8px;
-	/* #ifdef APP-HARMONY */
-	max-width: 280px;
-	/* #endif */
-	/* #ifndef APP-HARMONY */
+	/* #ifdef WEB */
 	max-width: 72%;
+	/* #endif */
+	/* #ifndef WEB */
+	max-width: 280px;
 	/* #endif */
 }
 
@@ -306,22 +308,22 @@ onMounted((): void => {
 }
 
 .chat-bubble--peer {
-	/* #ifdef APP-HARMONY */
-	max-width: 280px;
-	/* #endif */
-	/* #ifndef APP-HARMONY */
+	/* #ifdef WEB */
 	max-width: 100%;
+	/* #endif */
+	/* #ifndef WEB */
+	max-width: 280px;
 	/* #endif */
 	background-color: var(--sn-front);
 	border-bottom-left-radius: 4px;
 }
 
 .chat-bubble--self {
-	/* #ifdef APP-HARMONY */
-	max-width: 280px;
-	/* #endif */
-	/* #ifndef APP-HARMONY */
+	/* #ifdef WEB */
 	max-width: 72%;
+	/* #endif */
+	/* #ifndef WEB */
+	max-width: 280px;
 	/* #endif */
 	background-color: var(--sn-primary);
 	border-bottom-right-radius: 4px;
@@ -337,11 +339,11 @@ onMounted((): void => {
 	background-color: var(--sn-primary);
 	border-bottom-right-radius: 4px;
 	margin-left: 8px;
-	/* #ifdef APP-HARMONY */
-	max-width: 280px;
-	/* #endif */
-	/* #ifndef APP-HARMONY */
+	/* #ifdef WEB */
 	max-width: 72%;
+	/* #endif */
+	/* #ifndef WEB */
+	max-width: 280px;
 	/* #endif */
 }
 

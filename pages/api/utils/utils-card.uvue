@@ -1,0 +1,110 @@
+<template>
+	<view class="utils-card" :style="cardStyles">
+		<sn-text bold font-size="$16" color="$title">{{ title }}</sn-text>
+		<sn-text v-if="desc != ''" font-size="$12" color="$textLight" custom-style="margin-top:6px;line-height:18px;">{{ desc }}</sn-text>
+		<view v-if="signature != ''" class="utils-card-sign" :style="signStyles">
+			<sn-text font-size="$12" color="$primary">{{ signature }}</sn-text>
+		</view>
+		<view v-if="$slots['default'] != null" class="utils-card-slot">
+			<slot />
+		</view>
+		<view v-if="actionText != ''" class="utils-card-action">
+			<sn-button :text="actionText" @click="onAction" />
+		</view>
+		<sn-text v-if="resultText != ''" font-size="$12" :color="resultColor"
+			custom-style="margin-top:10px;line-height:18px;">{{ resultText }}</sn-text>
+	</view>
+</template>
+
+<script lang="ts" setup>
+import { useFactors, useResolve } from '@/uni_modules/sinle-ui/index.uts'
+
+defineOptions({
+	name: 'utils-card'
+})
+
+type Props = {
+	title?: string
+	desc?: string
+	signature?: string
+	actionText?: string
+	resultText?: string
+	resultType?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+	title: '',
+	desc: '',
+	signature: '',
+	actionText: '',
+	resultText: '',
+	resultType: 'success'
+})
+
+const emit = defineEmits<{
+	(e: 'action'): void
+}>()
+
+const { marginFactor, paddingFactor, radiusFactor } = useFactors()
+const resolver = useResolve()
+
+const cardStyles = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('backgroundColor', 'var(--sn-front)')
+	styles.set('borderRadius', `${Math.round(16 * radiusFactor.value)}px`)
+	styles.set('paddingTop', `${Math.round(16 * paddingFactor.value)}px`)
+	styles.set('paddingRight', `${Math.round(14 * paddingFactor.value)}px`)
+	styles.set('paddingBottom', `${Math.round(16 * paddingFactor.value)}px`)
+	styles.set('paddingLeft', `${Math.round(14 * paddingFactor.value)}px`)
+	styles.set('marginLeft', `${Math.round(16 * marginFactor.value)}px`)
+	styles.set('marginRight', `${Math.round(16 * marginFactor.value)}px`)
+	styles.set('marginBottom', `${Math.round(14 * marginFactor.value)}px`)
+	return styles
+})
+
+const signStyles = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('backgroundColor', resolver.resolveColor('$primaryLight'))
+	styles.set('borderRadius', `${Math.round(8 * radiusFactor.value)}px`)
+	styles.set('paddingTop', `${Math.round(8 * paddingFactor.value)}px`)
+	styles.set('paddingRight', `${Math.round(10 * paddingFactor.value)}px`)
+	styles.set('paddingBottom', `${Math.round(8 * paddingFactor.value)}px`)
+	styles.set('paddingLeft', `${Math.round(10 * paddingFactor.value)}px`)
+	styles.set('marginTop', `${Math.round(10 * marginFactor.value)}px`)
+	return styles
+})
+
+const resultColor = computed<string>(() => {
+	return props.resultType == 'fail' ? '$error' : '$text'
+})
+
+function onAction(): void {
+	emit('action')
+}
+</script>
+
+<style lang="scss">
+.utils-card {
+	flex-direction: column;
+	transition-property: background-color;
+	transition-duration: var(--ani-time-normal);
+}
+
+.utils-card-sign {
+	flex-direction: row;
+	align-items: center;
+	overflow: hidden;
+	transition-property: background-color;
+	transition-duration: var(--ani-time-normal);
+}
+
+.utils-card-slot {
+	flex-direction: column;
+	margin-top: 10px;
+}
+
+.utils-card-action {
+	flex-direction: row;
+	margin-top: 12px;
+}
+</style>

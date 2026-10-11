@@ -13,7 +13,7 @@
 		<demo-card :title="t('snArcProgress.dynamic')" :subtitle="t('snArcProgress.dynamicSub')">
 			<view class="arc-demo" flatten>
 				<sn-arc-progress v-model="dynamicValue" size="$190" ani-time="$800" stroke-color="$success" />
-				<sn-text flatten font-size="$13" color="$textLight" custom-style="margin-top:12px;">{{ t('snArcProgress.autoProgress', { value: dynamicValue } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$13" color="$textLight" custom-style="margin-top:12px;">{{ t('snArcProgress.autoProgress', { value: dynamicValue } as UTSJSONObject) }}</sn-text>
 			</view>
 		</demo-card>
 
@@ -23,15 +23,15 @@
 					trail-width="$16" stroke-color="$success">
 					<template v-slot:value="scope">
 						<view class="download-center" flatten>
-							<sn-text flatten :text="`${scope.percent}%`" font-size="$21" color="$success" bold />
-							<sn-text flatten :text="`${downloadLoadedText} / 50 MB`" font-size="$12" color="$textLight"
+							<sn-text :text="`${scope.percent}%`" font-size="$21" color="$success" bold />
+							<sn-text :text="`${downloadLoadedText} / 50 MB`" font-size="$12" color="$textLight"
 								custom-style="margin-top:4px;" />
-							<sn-text flatten :text="downloadSpeedText" font-size="$12" color="$textLight"
+							<sn-text :text="downloadSpeedText" font-size="$12" color="$textLight"
 								custom-style="margin-top:2px;" />
 						</view>
 					</template>
 				</sn-arc-progress>
-				<sn-text flatten font-size="$13" color="$textLight" custom-style="margin-top:12px;">{{ downloadText }}</sn-text>
+				<sn-text font-size="$13" color="$textLight" custom-style="margin-top:12px;">{{ downloadText }}</sn-text>
 				<view class="button-row" flatten>
 					<sn-button :text="t('snArcProgress.startDownload')" :disabled="downloading" @click="onStartDownload" />
 					<sn-button :text="t('snArcProgress.pause')" level="second" :disabled="!downloading" custom-style="margin-left:12px;"
@@ -46,7 +46,7 @@
 				<sn-arc-progress v-model="temperature" :min="16" :max="30" :start-angle="startAngleSemi" :end-angle="0"
 					size="$190" stroke-color="$warning">
 					<template v-slot:value="scope">
-						<sn-text flatten :text="`${scope.value} °C`" font-size="$18" color="$warning" bold />
+						<sn-text :text="`${scope.value} °C`" font-size="$18" color="$warning" bold />
 					</template>
 				</sn-arc-progress>
 			</view>
@@ -67,7 +67,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

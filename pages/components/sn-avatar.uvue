@@ -18,15 +18,15 @@
 			<view class="demo-row" flatten>
 				<view class="demo-item" flatten>
 					<sn-avatar mode="image" src="https://i03piccdn.sogoucdn.com/70e95b16d3488d9b" :size="48" shape="circle"/>
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>image</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">image</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-avatar mode="text" :text="t('snAvatar.avatarWang')" :size="48" shape="circle"/>
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>text</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">text</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-avatar mode="icon" icon="user-fill" :size="48" shape="circle"/>
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>icon</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">icon</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -35,15 +35,15 @@
 			<view class="demo-row" flatten>
 				<view class="demo-item" flatten>
 					<sn-avatar mode="text" text="A" :size="48"/>
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snAvatar.square') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snAvatar.square') }}</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-avatar mode="text" text="B" :size="48" :border-radius="10"/>
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snAvatar.radius10') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snAvatar.radius10') }}</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-avatar mode="text" text="C" :size="48" shape="circle"/>
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snAvatar.circle') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snAvatar.circle') }}</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -52,15 +52,15 @@
 			<view class="demo-row" flatten>
 				<view class="demo-item" flatten>
 					<sn-avatar mode="text" :text="t('snAvatar.avatarMain')" :size="48" shape="circle" bg-color="$primary" text-color="$primaryText"/>
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snAvatar.primary') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snAvatar.primary') }}</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-avatar mode="text" :text="t('snAvatar.avatarSuccess')" :size="48" shape="circle" bg-color="$successLight" text-color="$successDark"/>
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snAvatar.successLight') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snAvatar.successLight') }}</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-avatar mode="text" :text="t('snAvatar.avatarWarn')" :size="48" shape="circle" bg-color="#ff6600" text-color="#ffffff"/>
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snAvatar.anyColor') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snAvatar.anyColor') }}</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -69,15 +69,15 @@
 			<view class="demo-row" flatten>
 				<view class="demo-item" flatten>
 					<sn-avatar mode="text" :text="t('snAvatar.avatarSmall')" :size="32" shape="circle"/>
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>32</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">32</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-avatar mode="text" :text="t('snAvatar.avatarMedium')" :size="48" shape="circle"/>
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>48</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">48</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-avatar mode="text" :text="t('snAvatar.avatarLarge')" :size="64" shape="circle"/>
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>64</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">64</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -86,11 +86,11 @@
 			<view class="demo-row" flatten>
 				<view class="demo-item" flatten>
 					<sn-avatar src="https://ww3.sinaimg.cn/mw690/007QvzfIly1ho2zt8iyznj30sg0sgneb.jpg" :size="48" shape="circle" lazy-load/>
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snAvatar.lazyLoad') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snAvatar.lazyLoad') }}</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-avatar src="http://inews.gtimg.com/newsapp_bt/0/14745715096/1000" :size="48" shape="circle" lazy-load/>
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snAvatar.lazyLoad') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snAvatar.lazyLoad') }}</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -99,7 +99,7 @@
 			<view class="demo-row" flatten>
 				<view class="demo-item" flatten>
 					<sn-avatar src="https://i04piccdn.sogoucdn.com/67dfe1e38c115dab" :size="56" shape="circle" enable-preview />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snAvatar.clickPreview') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snAvatar.clickPreview') }}</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -110,7 +110,7 @@
 					<sn-avatar :size="56" shape="circle" bg-color="$primaryLight">
 						<sn-icon name="star-smile-fill" color="$primaryLightText" size="$20"></sn-icon>
 					</sn-avatar>
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snAvatar.customContent') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snAvatar.customContent') }}</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -119,19 +119,19 @@
 			<view class="demo-row" flatten>
 				<view class="demo-item" flatten>
 					<sn-avatar mode="text" text="A" :size="48" shape="circle" text-class="demo-text-class"/>
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snAvatar.textExternalClass') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snAvatar.textExternalClass') }}</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-avatar mode="text" text="B" :size="48" shape="circle" text-style="font-weight: bold; letter-spacing: 2px;"/>
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snAvatar.textExternalStyle') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snAvatar.textExternalStyle') }}</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-avatar mode="icon" icon="user-fill" :size="48" shape="circle" icon-class="demo-icon-class"/>
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snAvatar.iconExternalClass') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snAvatar.iconExternalClass') }}</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-avatar mode="icon" icon="star-fill" :size="48" shape="circle" icon-style="color: #ff6600;"/>
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snAvatar.iconExternalStyle') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snAvatar.iconExternalStyle') }}</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -144,15 +144,15 @@
 				</view>
 				<view class="demo-item" flatten>
 					<sn-avatar src="https://it.does.not.exsit/the-picture.png" :size="56" shape="circle" @error="onError" />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snAvatar.errorImage') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snAvatar.errorImage') }}</sn-text>
 				</view>
 			</view>
-			<sn-text font-size="$13" color="$primary" flatten>{{ t('snAvatar.recentEvent') }}{{ lastEvent }}</sn-text>
+			<sn-text font-size="$13" color="$primary">{{ t('snAvatar.recentEvent') }}{{ lastEvent }}</sn-text>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

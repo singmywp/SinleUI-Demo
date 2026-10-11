@@ -6,15 +6,15 @@
 			@refresherrefresh="onRefresh" @loadmore="onLoadmore">
 			<template v-slot:default="slotProps">
 				<view class="list-item-inner" flatten>
-					<sn-text font-size="$14" :color="itemColor" flatten>{{ slotProps.item }}</sn-text>
-					<sn-text font-size="$12" color="$textLight" custom-style="margin-top:4px;" flatten>{{ t('backtopList.tip') }}</sn-text>
+					<sn-text font-size="$14" :color="itemColor">{{ slotProps.item }}</sn-text>
+					<sn-text font-size="$12" color="$textLight" custom-style="margin-top:4px;">{{ t('backtopList.tip') }}</sn-text>
 				</view>
 			</template>
 		</sn-list-view>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 	import { useI18n } from 'vue-i18n'
 	import { $snui } from '@/uni_modules/sinle-ui'
 	import type { ComponentPublicInstance } from 'vue'

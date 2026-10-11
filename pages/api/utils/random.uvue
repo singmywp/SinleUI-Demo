@@ -1,0 +1,22 @@
+<template>
+	<sn-page :title="t('apiUtils.randomTitle')" :show-back="true">
+		<view class="utils-page-body">
+			<group-random />
+		</view>
+	</sn-page>
+</template>
+
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import GroupRandom from './group-random.uvue'
+
+const { t } = useI18n()
+</script>
+
+<style lang="scss">
+.utils-page-body {
+	flex-direction: column;
+	padding-top: 12px;
+	padding-bottom: 40px;
+}
+</style>

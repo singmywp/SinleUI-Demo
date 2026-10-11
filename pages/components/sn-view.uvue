@@ -4,10 +4,10 @@
 		
 		<demo-card :title="t('snView.basicTitle')" :subtitle="t('snView.basicSubtitle')">
 			<sn-view bg-color="$primaryLight" border-radius="$16" padding="14px">
-				<sn-text font-size="$14" bold color="$title" flatten>{{ t('snView.container') }}</sn-text>
-				<sn-text font-size="$12" color="$text" custom-style="margin-top:4px;" flatten>{{ t('snView.outerDesc') }}</sn-text>
+				<sn-text font-size="$14" bold color="$title">{{ t('snView.container') }}</sn-text>
+				<sn-text font-size="$12" color="$text" custom-style="margin-top:4px;">{{ t('snView.outerDesc') }}</sn-text>
 				<sn-view bg-color="$primary" border-radius="$10" padding="12px" custom-style="margin-top:12px;">
-					<sn-text font-size="$12" color="$primaryText" flatten>{{ t('snView.nestedContainer') }}</sn-text>
+					<sn-text font-size="$12" color="$primaryText">{{ t('snView.nestedContainer') }}</sn-text>
 				</sn-view>
 			</sn-view>
 		</demo-card>
@@ -27,7 +27,7 @@
 			</sn-view>
 			<sn-view custom-style="flex-direction:row;align-items:center;margin-top:12px;">
 				<sn-view bg-color="$primary" border-radius="3px" custom-style="width:6px;height:6px;margin-right:8px;"></sn-view>
-				<sn-text font-size="$11" color="$textLight" flatten>{{ t('snView.flattenTip') }}</sn-text>
+				<sn-text font-size="$11" color="$textLight">{{ t('snView.flattenTip') }}</sn-text>
 			</sn-view>
 		</demo-card>
 
@@ -36,40 +36,40 @@
 			<view class="hero-row" flatten>
 				<sn-view bg-color="$primary" border-radius="$14" custom-style="flex:1;margin-right:10px;padding:14px 0;">
 					<sn-view custom-style="flex-direction:column;align-items:center;">
-						<sn-text font-size="$13" bold color="$primaryText" flatten>PRIMARY</sn-text>
-						<sn-text font-size="$10" color="$primaryText" custom-style="opacity:0.75;margin-top:2px;" flatten>{{ t('snView.primaryColor') }}</sn-text>
+						<sn-text font-size="$13" bold color="$primaryText">PRIMARY</sn-text>
+						<sn-text font-size="$10" color="$primaryText" custom-style="opacity:0.75;margin-top:2px;">{{ t('snView.primaryColor') }}</sn-text>
 					</sn-view>
 				</sn-view>
 				<sn-view bg-color="$info" border-radius="$14" custom-style="flex:1;margin-right:10px;padding:14px 0;">
 					<sn-view custom-style="flex-direction:column;align-items:center;">
-						<sn-text font-size="$13" bold color="$infoText" flatten>INFO</sn-text>
-						<sn-text font-size="$10" color="$infoText" custom-style="opacity:0.75;margin-top:2px;" flatten>{{ t('snView.infoColor') }}</sn-text>
+						<sn-text font-size="$13" bold color="$infoText">INFO</sn-text>
+						<sn-text font-size="$10" color="$infoText" custom-style="opacity:0.75;margin-top:2px;">{{ t('snView.infoColor') }}</sn-text>
 					</sn-view>
 				</sn-view>
 				<sn-view bg-color="$success" border-radius="$14" custom-style="flex:1;padding:14px 0;">
 					<sn-view custom-style="flex-direction:column;align-items:center;">
-						<sn-text font-size="$13" bold color="$successText" flatten>OK</sn-text>
-						<sn-text font-size="$10" color="$successText" custom-style="opacity:0.75;margin-top:2px;" flatten>{{ t('snView.successColor') }}</sn-text>
+						<sn-text font-size="$13" bold color="$successText">OK</sn-text>
+						<sn-text font-size="$10" color="$successText" custom-style="opacity:0.75;margin-top:2px;">{{ t('snView.successColor') }}</sn-text>
 					</sn-view>
 				</sn-view>
 			</view>
 			<view class="hero-row offset-row" flatten>
 				<sn-view bg-color="$warningLight" border-radius="$14" custom-style="flex:1;margin-right:10px;padding:12px 0;border-width:1px;border-style:solid;border-color:rgba(255,255,255,0.35);">
 					<sn-view custom-style="flex-direction:column;align-items:center;">
-						<sn-text font-size="$13" bold color="$warningDark" flatten>WARN</sn-text>
-						<sn-text font-size="$10" color="$warningDark" custom-style="opacity:0.75;margin-top:2px;" flatten>{{ t('snView.warningLight') }}</sn-text>
+						<sn-text font-size="$13" bold color="$warningDark">WARN</sn-text>
+						<sn-text font-size="$10" color="$warningDark" custom-style="opacity:0.75;margin-top:2px;">{{ t('snView.warningLight') }}</sn-text>
 					</sn-view>
 				</sn-view>
 				<sn-view bg-color="$errorLight" border-radius="$14" custom-style="flex:1;padding:12px 0;">
 					<sn-view custom-style="flex-direction:column;align-items:center;">
-						<sn-text font-size="$13" bold color="$error" flatten>ERR</sn-text>
-						<sn-text font-size="$10" color="$error" custom-style="opacity:0.75;margin-top:2px;" flatten>{{ t('snView.errorLight') }}</sn-text>
+						<sn-text font-size="$13" bold color="$error">ERR</sn-text>
+						<sn-text font-size="$10" color="$error" custom-style="opacity:0.75;margin-top:2px;">{{ t('snView.errorLight') }}</sn-text>
 					</sn-view>
 				</sn-view>
 			</view>
 			<sn-view custom-style="flex-direction:row;align-items:center;margin-top:12px;">
 				<sn-view bg-color="$primaryDark" border-radius="3px" custom-style="width:6px;height:6px;margin-right:8px;"></sn-view>
-				<sn-text font-size="$11" color="$textLight" flatten>{{ t('snView.paletteTip') }}</sn-text>
+				<sn-text font-size="$11" color="$textLight">{{ t('snView.paletteTip') }}</sn-text>
 			</sn-view>
 		</demo-card>
 
@@ -80,11 +80,11 @@
 				<view class="hero-row" flatten>
 					<sn-view bg-color="$info" border-radius="$12"
 						custom-style="width:60px;height:60px;margin-right:12px;justify-content:center;align-items:center;transform:rotate(-3deg);">
-						<sn-text font-size="$20" bold color="$infoText" flatten>≡</sn-text>
+						<sn-text font-size="$20" bold color="$infoText">≡</sn-text>
 					</sn-view>
 					<view class="col" flatten>
-						<sn-text font-size="$15" bold color="$title" flatten>{{ t('snView.loadingDemo') }}</sn-text>
-						<sn-text font-size="$12" color="$textLight" custom-style="margin-top:4px;" flatten>{{ t('snView.loadingMask') }}</sn-text>
+						<sn-text font-size="$15" bold color="$title">{{ t('snView.loadingDemo') }}</sn-text>
+						<sn-text font-size="$12" color="$textLight" custom-style="margin-top:4px;">{{ t('snView.loadingMask') }}</sn-text>
 					</view>
 				</view>
 			</sn-view>
@@ -101,7 +101,7 @@
 					<sn-view bg-color="$primary" border-radius="4px"
 						custom-style="width:8px;height:8px;margin-left:10px;"></sn-view>
 				</view>
-				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snView.disabledTip') }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snView.disabledTip') }}</sn-text>
 			</sn-view>
 			<sn-button :text="viewDisabled ? t('snView.unDisable') : t('snView.disableArea')" :level="viewDisabled ? 'second' : 'first'"
 				@click="toggleDisabled"></sn-button>
@@ -115,8 +115,8 @@
 			 custom-style="flex-direction:row;align-items:center;margin-top:12px;">
 				<sn-view bg-color="$success" border-radius="4px"
 					custom-style="width:8px;height:8px;margin-right:12px;"></sn-view>
-				<sn-text font-size="$14" bold color="$successDark" custom-style="flex:1;" flatten>{{ t('snView.hoverScale') }}</sn-text>
-				<sn-text font-size="$16" color="$success" custom-style="font-weight:bold;" flatten>›</sn-text>
+				<sn-text font-size="$14" bold color="$successDark" custom-style="flex:1;">{{ t('snView.hoverScale') }}</sn-text>
+				<sn-text font-size="$16" color="$success" custom-style="font-weight:bold;">›</sn-text>
 			</sn-view>
 
 			
@@ -125,8 +125,8 @@
 			 custom-style="flex-direction:row;align-items:center;margin-top:12px;">
 				<sn-view bg-color="$warning" border-radius="4px"
 					custom-style="width:8px;height:8px;margin-right:12px;"></sn-view>
-				<sn-text font-size="$14" bold color="$warningDark" custom-style="flex:1;" flatten>{{ t('snView.hoverBg') }}</sn-text>
-				<sn-text font-size="$16" color="$warning" custom-style="font-weight:bold;" flatten>›</sn-text>
+				<sn-text font-size="$14" bold color="$warningDark" custom-style="flex:1;">{{ t('snView.hoverBg') }}</sn-text>
+				<sn-text font-size="$16" color="$warning" custom-style="font-weight:bold;">›</sn-text>
 			</sn-view>
 		</demo-card>
 
@@ -138,10 +138,10 @@
 				@touchend="onGestureTouchEnd" @touchcancel="onGestureTouchCancel" custom-style="margin-bottom:12px;">
 				<view class="gesture-live-row" flatten>
 					<sn-view bg-color="#ff4d4f" custom-style="width:8px;height:8px;border-radius:4px;margin-right:6px;"></sn-view>
-					<sn-text font-size="$10" bold color="$infoDarkText" custom-style="opacity:0.8;" flatten>LIVE</sn-text>
+					<sn-text font-size="$10" bold color="$infoDarkText" custom-style="opacity:0.8;">LIVE</sn-text>
 				</view>
-				<sn-text font-size="$16" bold color="$infoText" custom-style="margin-top:10px;" flatten>{{ t('snView.touchPad') }}</sn-text>
-				<sn-text font-size="$11" color="$infoDarkText" custom-style="margin-top:6px;opacity:0.7;" flatten>{{ t('snView.gestureHint') }}</sn-text>
+				<sn-text font-size="$16" bold color="$infoText" custom-style="margin-top:10px;">{{ t('snView.touchPad') }}</sn-text>
+				<sn-text font-size="$11" color="$infoDarkText" custom-style="margin-top:6px;opacity:0.7;">{{ t('snView.gestureHint') }}</sn-text>
 			</sn-view>
 			<view class="gesture-log" flatten>
 				<text v-if="gestureLogs.length == 0" class="gesture-log-empty" flatten>{{ t('snView.noGestureEvent') }}</text>
@@ -154,7 +154,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { $snui, snu } from '@/uni_modules/sinle-ui'
 import type { SnPointerEvent, SnTouchEvent } from '@/uni_modules/sinle-ui'

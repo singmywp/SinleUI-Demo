@@ -5,7 +5,7 @@
 				<view class="setting-row" flatten>
 					<view class="setting-label" flatten>
 						<sn-icon name="contrast-2-line" :size="18" color="$primary" />
-						<sn-text font-size="$14" color="$text" custom-style="margin-left:10px;" flatten>{{ t('settings.followSystem') }}</sn-text>
+						<sn-text font-size="$14" color="$text" custom-style="margin-left:10px;">{{ t('settings.followSystem') }}</sn-text>
 					</view>
 					<sn-switch :model-value="isAuto" active-bg-color="$primary" @change="onAutoChange" />
 				</view>
@@ -13,7 +13,7 @@
 				<view class="setting-row" flatten>
 					<view class="setting-label" flatten>
 						<sn-icon name="moon-line" :size="18" color="$primary" />
-						<sn-text font-size="$14" color="$text" custom-style="margin-left:10px;" flatten>{{ t('settings.darkMode') }}</sn-text>
+						<sn-text font-size="$14" color="$text" custom-style="margin-left:10px;">{{ t('settings.darkMode') }}</sn-text>
 					</view>
 					<sn-switch :model-value="isDark" active-bg-color="$primary" @change="onDarkChange" />
 				</view>
@@ -21,7 +21,7 @@
 				<view class="setting-row" flatten>
 					<view class="setting-label" flatten>
 						<sn-icon name="flower-line" :size="18" color="$primary" />
-						<sn-text font-size="$14" color="$text" custom-style="margin-left:10px;" flatten>{{ t('settings.grayMode') }}</sn-text>
+						<sn-text font-size="$14" color="$text" custom-style="margin-left:10px;">{{ t('settings.grayMode') }}</sn-text>
 					</view>
 					<sn-switch :model-value="isGray" active-bg-color="$primary" @change="onGrayChange" />
 				</view>
@@ -29,7 +29,7 @@
 				<view class="setting-row" flatten>
 					<view class="setting-label" flatten>
 						<sn-icon name="global-line" :size="18" color="$primary" />
-						<sn-text font-size="$14" color="$text" custom-style="margin-left:10px;" flatten>{{ t('settings.appLanguage') }}</sn-text>
+						<sn-text font-size="$14" color="$text" custom-style="margin-left:10px;">{{ t('settings.appLanguage') }}</sn-text>
 					</view>
 					<sn-select v-model="appLocaleIdx" :data="appLocaleOptions" width="132px" selected-mode="check"
 						@change="onAppLocaleChange" />
@@ -38,7 +38,7 @@
 				<view class="setting-row" flatten>
 					<view class="setting-label" flatten>
 						<sn-icon name="palette-line" :size="18" color="$primary" />
-						<sn-text font-size="$14" color="$text" custom-style="margin-left:10px;" flatten>{{ t('settings.style') }}</sn-text>
+						<sn-text font-size="$14" color="$text" custom-style="margin-left:10px;">{{ t('settings.style') }}</sn-text>
 					</view>
 					<sn-select v-model="styleIdx" :data="styleOptions" width="132px" selected-mode="check"
 						@change="onStyleChange" />
@@ -48,9 +48,9 @@
 					<view class="slider-label-row" flatten>
 						<view class="setting-label" flatten>
 							<sn-icon name="font-size" :size="18" color="$primary" />
-							<sn-text font-size="$13" color="$text" custom-style="margin-left:10px;" flatten>{{ t('settings.fontSize') }}</sn-text>
+							<sn-text font-size="$13" color="$text" custom-style="margin-left:10px;">{{ t('settings.fontSize') }}</sn-text>
 						</view>
-						<sn-text bold font-size="$13" color="$primary" flatten>{{ fontsizeFactorText }}×</sn-text>
+						<sn-text bold font-size="$13" color="$primary">{{ fontsizeFactorText }}×</sn-text>
 					</view>
 					<sn-slider :model-value="fontsizeFactorInt" :min="6" :max="16" :step="1"
 						active-color="$primary" inactive-color="$line" @change="onFontsizeChange" />
@@ -60,9 +60,9 @@
 					<view class="slider-label-row" flatten>
 						<view class="setting-label" flatten>
 							<sn-icon name="shape-line" :size="18" color="$primary" />
-							<sn-text font-size="$13" color="$text" custom-style="margin-left:10px;" flatten>{{ t('settings.radius') }}</sn-text>
+							<sn-text font-size="$13" color="$text" custom-style="margin-left:10px;">{{ t('settings.radius') }}</sn-text>
 						</view>
-						<sn-text bold font-size="$13" color="$primary" flatten>{{ radiusFactorText }}×</sn-text>
+						<sn-text bold font-size="$13" color="$primary">{{ radiusFactorText }}×</sn-text>
 					</view>
 					<sn-slider :model-value="radiusFactorInt" :min="0" :max="20" :step="1"
 						active-color="$primary" inactive-color="$line" @change="onRadiusChange" />
@@ -72,7 +72,7 @@
 					<view class="slider-label-row" flatten>
 						<view class="setting-label" flatten>
 							<sn-icon name="expand-left-right-line" :size="18" color="$primary" />
-							<sn-text font-size="$13" color="$text" custom-style="margin-left:10px;" flatten>{{ t('settings.margin') }}</sn-text>
+							<sn-text font-size="$13" color="$text" custom-style="margin-left:10px;">{{ t('settings.margin') }}</sn-text>
 						</view>
 						<sn-text bold font-size="$13" color="$primary">{{ marginFactorText }}×</sn-text>
 					</view>
@@ -108,7 +108,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { $snui, useTheme, useFactors, useStyle } from '@/uni_modules/sinle-ui/index.uts'

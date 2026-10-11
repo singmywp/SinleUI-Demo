@@ -750,9 +750,63 @@
 			}
 		},
 		{
-			"path": "pages/api/utils",
+			"path": "pages/api/utils/random",
 			"style": {
-				"navigationBarTitleText": "Utils 工具库"
+				"navigationBarTitleText": "Random 随机数"
+			}
+		},
+		{
+			"path": "pages/api/utils/basic",
+			"style": {
+				"navigationBarTitleText": "Basic 基础函数"
+			}
+		},
+		{
+			"path": "pages/api/utils/text",
+			"style": {
+				"navigationBarTitleText": "Text 文本处理"
+			}
+		},
+		{
+			"path": "pages/api/utils/verify",
+			"style": {
+				"navigationBarTitleText": "Verify 数据校验"
+			}
+		},
+		{
+			"path": "pages/api/utils/object",
+			"style": {
+				"navigationBarTitleText": "Object 对象工具"
+			}
+		},
+		{
+			"path": "pages/api/utils/sort",
+			"style": {
+				"navigationBarTitleText": "Sort 排序算法"
+			}
+		},
+		{
+			"path": "pages/api/utils/easing",
+			"style": {
+				"navigationBarTitleText": "Easing 缓动函数"
+			}
+		},
+		{
+			"path": "pages/api/utils/ui",
+			"style": {
+				"navigationBarTitleText": "UI 界面辅助"
+			}
+		},
+		{
+			"path": "pages/api/utils/system",
+			"style": {
+				"navigationBarTitleText": "System 系统能力"
+			}
+		},
+		{
+			"path": "pages/api/utils/perm",
+			"style": {
+				"navigationBarTitleText": "Perm 权限管理"
 			}
 		},
 		{
@@ -888,6 +942,12 @@
 			}
 		},
 		{
+			"path": "pages/template/popup-login",
+			"style": {
+				"navigationBarTitleText": "弹出式登录页面"
+			}
+		},
+		{
 			"path": "pages/template/agreement",
 			"style": {
 				"navigationBarTitleText": "协议详情"
@@ -918,9 +978,27 @@
 			}
 		},
 		{
+			"path": "pages/api/date",
+			"style": {
+				"navigationBarTitleText": "Date 日期库"
+			}
+		},
+		{
+			"path": "pages/api/store",
+			"style": {
+				"navigationBarTitleText": "Store 状态库"
+			}
+		},
+		{
 			"path": "pages/design/color",
 			"style": {
 				"navigationBarTitleText": "颜色设计"
+			}
+		},
+		{
+			"path": "pages/design/factors",
+			"style": {
+				"navigationBarTitleText": "乘数设计"
 			}
 		},
 		{

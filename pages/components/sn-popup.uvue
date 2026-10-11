@@ -6,7 +6,7 @@
 				<sn-button :text="t('snPopup.openPopup')" type="primary" custom-style="flex:1;" @click="openPopup" />
 				<sn-button :text="t('snPopup.closePopup')" type="info" custom-style="flex:1;margin-left:10px;" @click="closePopup" />
 			</view>
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snPopup.basicDesc') }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snPopup.basicDesc') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snPopup.positionTitle')" :subtitle="t('snPopup.positionSubtitle')">
@@ -23,19 +23,19 @@
 
 		<demo-card :title="t('snPopup.propsTitle')" :subtitle="t('snPopup.propsSubtitle')">
 			<view class="config-row" flatten>
-				<sn-text :text="t('snPopup.clickMaskClose')" custom-style="width:140px;" flatten />
+				<sn-text :text="t('snPopup.clickMaskClose')" custom-style="width:140px;"/>
 				<sn-switch v-model="configs.maskClose" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snPopup.maskOpacity')" custom-style="width:140px;" flatten />
+				<sn-text :text="t('snPopup.maskOpacity')" custom-style="width:140px;"/>
 				<sn-stepper v-model="configs.maskOpacity" :step="0.1" :min="0" :max="1" style="flex:1;" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snPopup.aniTime')" custom-style="width:140px;" flatten />
+				<sn-text :text="t('snPopup.aniTime')" custom-style="width:140px;"/>
 				<sn-stepper v-model="configs.aniTime" :step="100" :min="0" style="flex:1;" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snPopup.preventBack')" custom-style="width:140px;" flatten />
+				<sn-text :text="t('snPopup.preventBack')" custom-style="width:140px;"/>
 				<sn-switch v-model="configs.preventBack" />
 			</view>
 			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snPopup.propsDesc') }}</sn-text>
@@ -56,7 +56,7 @@
 
 		<demo-card :title="t('snPopup.externalTitle')" :subtitle="t('snPopup.externalSubtitle')">
 			<sn-button :text="t('snPopup.openClassPopup')" type="primary" custom-style="flex:1;" @click="openClassPopup" />
-			<sn-text flatten font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snPopup.externalDesc') }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snPopup.externalDesc') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snPopup.animTitle')" :subtitle="t('snPopup.animSubtitle')">
@@ -72,9 +72,9 @@
 		</demo-card>
 
 		<demo-card :title="t('snPopup.nestedTitle')" :subtitle="t('snPopup.nestedSubtitle')">
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-bottom:10px;" flatten>{{ nestedTip }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-bottom:10px;">{{ nestedTip }}</sn-text>
 			<sn-button :text="t('snPopup.openFirstLayer')" type="primary" custom-style="flex:1;" @click="openNestedFirst" />
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snPopup.nestedTip') }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snPopup.nestedTip') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snPopup.sceneTitle')" :subtitle="t('snPopup.sceneSubtitle')">
@@ -125,7 +125,7 @@
 			</sn-popup>
 
 		<sn-popup ref="bouncePopupRef" position="center" :ani-time="500" :open-animation="bounceOpenAnim"
-				:close-animation="bounceCloseAnim" @clickoverlay="closeBouncePopup">
+				:close-animation="bounceCloseAnim" custom-style="transform: scale(0.6); opacity: 1;" @clickoverlay="closeBouncePopup">
 			<view class="custom-popup">
 				<sn-text bold fontSize="$16" color="$title" :text="t('snPopup.bounceIn')" />
 				<sn-text fontSize="$13" color="$textLight" :text="t('snPopup.bounceContent')" custom-style="margin-top:8px;text-align:center;" />
@@ -134,7 +134,7 @@
 		</sn-popup>
 
 		<sn-popup ref="flipPopupRef" position="center" :ani-time="500" :open-animation="flipOpenAnim"
-				:close-animation="flipCloseAnim" @clickoverlay="closeFlipPopup">
+				:close-animation="flipCloseAnim" custom-style="transform: rotateX(80deg); opacity: 1;" @clickoverlay="closeFlipPopup">
 			<view class="custom-popup">
 				<sn-text bold fontSize="$16" color="$title" :text="t('snPopup.flipTitle')" />
 				<sn-text fontSize="$13" color="$textLight" :text="t('snPopup.flipContent')" custom-style="margin-top:8px;text-align:center;" />
@@ -143,7 +143,7 @@
 		</sn-popup>
 
 		<sn-popup ref="slidePopupRef" position="center" :ani-time="500" :open-animation="slideOpenAnim"
-				:close-animation="slideCloseAnim" @clickoverlay="closeSlidePopup">
+				:close-animation="slideCloseAnim" custom-style="transform: translateX(-340px); opacity: 1;" @clickoverlay="closeSlidePopup">
 			<view class="custom-popup">
 				<sn-text bold fontSize="$16" color="$title" :text="t('snPopup.slideTitle')" />
 				<sn-text fontSize="$13" color="$textLight" :text="t('snPopup.slideContent')" custom-style="margin-top:8px;text-align:center;" />
@@ -152,7 +152,7 @@
 		</sn-popup>
 
 		<sn-popup ref="zoomPopupRef" position="center" :ani-time="500" :open-animation="zoomOpenAnim"
-				:close-animation="zoomCloseAnim" @clickoverlay="closeZoomPopup">
+				:close-animation="zoomCloseAnim" custom-style="transform: scale(0.85); opacity: 0.3;" @clickoverlay="closeZoomPopup">
 			<view class="custom-popup">
 				<sn-text bold fontSize="$16" color="$title" :text="t('snPopup.zoomTitle')" />
 				<sn-text fontSize="$13" color="$textLight" :text="t('snPopup.zoomContent')" custom-style="margin-top:8px;text-align:center;" />
@@ -219,7 +219,7 @@
 				@afterenter="onNestedFormEnter" @afterleave="onNestedFormLeave">
 			<view class="nested-form">
 				<sn-text bold fontSize="$16" color="$title" :text="t('snPopup.addReceiptAddress')" />
-				<sn-text font-size="$12" :color="descColor" custom-style="margin-top:6px;" flatten>{{ t('snPopup.formLayerTip') }}</sn-text>
+				<sn-text font-size="$12" :color="descColor" custom-style="margin-top:6px;">{{ t('snPopup.formLayerTip') }}</sn-text>
 				<view class="nested-form-body" flatten>
 					<sn-input-field v-model="nestedForm.name" :label="t('snPopup.receiver')" label-width="60px" :placeholder="t('snPopup.inputName')" />
 					<sn-input-field v-model="nestedForm.phone" :label="t('snPopup.phoneLabel')" label-width="60px" type="number"
@@ -232,7 +232,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
 import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
@@ -284,7 +284,6 @@ const configs = ref<PopupConfigs>({
 })
 
 function openPopup(): void {
-	
 	posC.value = 'center'
 	popupRef.value?.$callMethod('open')
 }
@@ -411,21 +410,67 @@ function onNestedFormLeave(): void {
 }
 
 
+type DemoPopupAnimations = {
+	overlay: UniAnimation | null
+	content: UniAnimation | null
+}
+
+const bounceAnimations: DemoPopupAnimations = { overlay: null, content: null }
+const flipAnimations: DemoPopupAnimations = { overlay: null, content: null }
+const slideAnimations: DemoPopupAnimations = { overlay: null, content: null }
+const zoomAnimations: DemoPopupAnimations = { overlay: null, content: null }
+
+function playDemoAnimation(element: UniElement, frames: UniAnimationKeyframe[], duration: number, previous: UniAnimation | null, opening: boolean): UniAnimation | null {
+	let transform = element.style.getPropertyValue('transform')
+	let opacity = element.style.getPropertyValue('opacity')
+	// #ifdef WEB
+	const style = window.getComputedStyle(element)
+	transform = style.transform
+	opacity = style.opacity
+	// #endif
+	if (previous != null) {
+		previous.onfinish = null
+		previous.cancel()
+	}
+	if (!opening) {
+		frames[0] = { transform: transform == '' ? 'none' : transform, opacity: opacity == '' ? '1' : opacity } as UniAnimationKeyframe
+	}
+	const first = frames[0]
+	const last = frames[frames.length - 1]
+	element.style.setProperty('transform', first.transform ?? 'none')
+	element.style.setProperty('opacity', first.opacity ?? '1')
+	if (duration <= 0) {
+		element.style.setProperty('transform', last.transform ?? 'none')
+		element.style.setProperty('opacity', last.opacity ?? '1')
+		return null
+	}
+	const animation = element.animate(frames, { duration, easing: opening ? 'ease-out' : 'ease-in', fill: 'forwards' })
+	if (animation != null) {
+		animation.onfinish = (_event: UniAnimationPlaybackEvent): void => {
+			animation.onfinish = null
+			animation.cancel()
+			element.style.setProperty('transform', last.transform ?? 'none')
+			element.style.setProperty('opacity', last.opacity ?? '1')
+		}
+	}
+	return animation
+}
+
 const bounceOpenAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {
 	if (overlay != null) {
-		overlay.animate(
+		bounceAnimations.overlay = playDemoAnimation(overlay,
 			[{ opacity: '0' } as UniAnimationKeyframe, { opacity: '1' } as UniAnimationKeyframe],
-			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+			duration, bounceAnimations.overlay, true
 		)
 	}
 	if (content != null) {
-		content.animate(
+		bounceAnimations.content = playDemoAnimation(content,
 			[
 				{ transform: 'scale(0.6)' } as UniAnimationKeyframe,
 				{ transform: 'scale(1.08)' } as UniAnimationKeyframe,
 				{ transform: 'scale(1)' } as UniAnimationKeyframe
 			],
-			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+			duration, bounceAnimations.content, true
 		)
 	}
 }
@@ -433,19 +478,18 @@ const bounceOpenAnim = (overlay: UniElement | null, content: UniElement | null, 
 
 const bounceCloseAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {
 	if (overlay != null) {
-		overlay.animate(
+		bounceAnimations.overlay = playDemoAnimation(overlay,
 			[{ opacity: '1' } as UniAnimationKeyframe, { opacity: '0' } as UniAnimationKeyframe],
-			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+			duration, bounceAnimations.overlay, false
 		)
 	}
 	if (content != null) {
-		content.animate(
+		bounceAnimations.content = playDemoAnimation(content,
 			[
 				{ transform: 'scale(1)' } as UniAnimationKeyframe,
-				{ transform: 'scale(1.05)' } as UniAnimationKeyframe,
 				{ transform: 'scale(0.4)' } as UniAnimationKeyframe
 			],
-			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+			duration, bounceAnimations.content, false
 		)
 	}
 }
@@ -453,15 +497,15 @@ const bounceCloseAnim = (overlay: UniElement | null, content: UniElement | null,
 
 const flipOpenAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {
 	if (overlay != null) {
-		overlay.animate(
+		flipAnimations.overlay = playDemoAnimation(overlay,
 			[{ opacity: '0' } as UniAnimationKeyframe, { opacity: '1' } as UniAnimationKeyframe],
-			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+			duration, flipAnimations.overlay, true
 		)
 	}
 	if (content != null) {
-		content.animate(
+		flipAnimations.content = playDemoAnimation(content,
 			[{ transform: 'rotateX(80deg)' } as UniAnimationKeyframe, { transform: 'rotateX(0deg)' } as UniAnimationKeyframe],
-			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+			duration, flipAnimations.content, true
 		)
 	}
 }
@@ -469,15 +513,15 @@ const flipOpenAnim = (overlay: UniElement | null, content: UniElement | null, du
 
 const flipCloseAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {
 	if (overlay != null) {
-		overlay.animate(
+		flipAnimations.overlay = playDemoAnimation(overlay,
 			[{ opacity: '1' } as UniAnimationKeyframe, { opacity: '0' } as UniAnimationKeyframe],
-			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+			duration, flipAnimations.overlay, false
 		)
 	}
 	if (content != null) {
-		content.animate(
+		flipAnimations.content = playDemoAnimation(content,
 			[{ transform: 'rotateX(0deg)' } as UniAnimationKeyframe, { transform: 'rotateX(-80deg)' } as UniAnimationKeyframe],
-			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+			duration, flipAnimations.content, false
 		)
 	}
 }
@@ -485,20 +529,20 @@ const flipCloseAnim = (overlay: UniElement | null, content: UniElement | null, d
 
 const slideOpenAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {
 	if (overlay != null) {
-		overlay.animate(
+		slideAnimations.overlay = playDemoAnimation(overlay,
 			[{ opacity: '0' } as UniAnimationKeyframe, { opacity: '1' } as UniAnimationKeyframe],
-			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+			duration, slideAnimations.overlay, true
 		)
 	}
 	if (content != null) {
-		content.animate(
+		slideAnimations.content = playDemoAnimation(content,
 			[
 				{ transform: 'translateX(-340px)' } as UniAnimationKeyframe,
 				{ transform: 'translateX(0)' } as UniAnimationKeyframe,
 				{ transform: 'translateX(18px)' } as UniAnimationKeyframe,
 				{ transform: 'translateX(0)' } as UniAnimationKeyframe
 			],
-			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+			duration, slideAnimations.content, true
 		)
 	}
 }
@@ -506,19 +550,18 @@ const slideOpenAnim = (overlay: UniElement | null, content: UniElement | null, d
 
 const slideCloseAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {
 	if (overlay != null) {
-		overlay.animate(
+		slideAnimations.overlay = playDemoAnimation(overlay,
 			[{ opacity: '1' } as UniAnimationKeyframe, { opacity: '0' } as UniAnimationKeyframe],
-			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+			duration, slideAnimations.overlay, false
 		)
 	}
 	if (content != null) {
-		content.animate(
+		slideAnimations.content = playDemoAnimation(content,
 			[
 				{ transform: 'translateX(0)' } as UniAnimationKeyframe,
-				{ transform: 'translateX(12px)' } as UniAnimationKeyframe,
 				{ transform: 'translateX(-340px)' } as UniAnimationKeyframe
 			],
-			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+			duration, slideAnimations.content, false
 		)
 	}
 }
@@ -526,18 +569,18 @@ const slideCloseAnim = (overlay: UniElement | null, content: UniElement | null, 
 
 const zoomOpenAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {
 	if (overlay != null) {
-		overlay.animate(
+		zoomAnimations.overlay = playDemoAnimation(overlay,
 			[{ opacity: '0' } as UniAnimationKeyframe, { opacity: '1' } as UniAnimationKeyframe],
-			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+			duration, zoomAnimations.overlay, true
 		)
 	}
 	if (content != null) {
-		content.animate(
+		zoomAnimations.content = playDemoAnimation(content,
 			[
 				{ transform: 'scale(0.85)', opacity: '0.3' } as UniAnimationKeyframe,
 				{ transform: 'scale(1)', opacity: '1' } as UniAnimationKeyframe
 			],
-			{ duration: duration, easing: 'ease-out', fill: 'forwards' }
+			duration, zoomAnimations.content, true
 		)
 	}
 }
@@ -545,18 +588,18 @@ const zoomOpenAnim = (overlay: UniElement | null, content: UniElement | null, du
 
 const zoomCloseAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {
 	if (overlay != null) {
-		overlay.animate(
+		zoomAnimations.overlay = playDemoAnimation(overlay,
 			[{ opacity: '1' } as UniAnimationKeyframe, { opacity: '0' } as UniAnimationKeyframe],
-			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+			duration, zoomAnimations.overlay, false
 		)
 	}
 	if (content != null) {
-		content.animate(
+		zoomAnimations.content = playDemoAnimation(content,
 			[
 				{ transform: 'scale(1)', opacity: '1' } as UniAnimationKeyframe,
 				{ transform: 'scale(0.85)', opacity: '0.3' } as UniAnimationKeyframe
 			],
-			{ duration: duration, easing: 'ease-in', fill: 'forwards' }
+			duration, zoomAnimations.content, false
 		)
 	}
 }
@@ -584,6 +627,20 @@ function onClickOverlay(): void {
 function selectSpec(idx: number): void {
 	activeSpec.value = idx
 }
+
+onUnmounted((): void => {
+	const animations = [bounceAnimations, flipAnimations, slideAnimations, zoomAnimations]
+	animations.forEach((item: DemoPopupAnimations): void => {
+		if (item.overlay != null) {
+			item.overlay.onfinish = null
+			item.overlay.cancel()
+		}
+		if (item.content != null) {
+			item.content.onfinish = null
+			item.content.cancel()
+		}
+	})
+})
 
 function specTextColor(idx: number): string {
 	return activeSpec.value == idx ? '$primary' : '$text'

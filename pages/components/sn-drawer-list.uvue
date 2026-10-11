@@ -1,35 +1,34 @@
 <template>
-	<sn-page>
-		<sn-topbar :title="t('snDrawerList.title')"></sn-topbar>
+	<sn-page :title="t('snDrawerList.title')" :show-back="true">
 
 		<demo-card :title="t('snDrawerList.basicTitle')" :subtitle="t('snDrawerList.basicDesc')">
 			<sn-button :text="t('snDrawerList.openLong')" type="primary" custom-style="flex:1;" @click="openDrawer" />
-			<sn-text type="text-light" fontSize="$12" :text="t('snDrawerList.basicTip')" custom-style="margin-top:8px;" flatten />
+			<sn-text type="text-light" fontSize="$12" :text="t('snDrawerList.basicTip')" custom-style="margin-top:8px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snDrawerList.behaviorTitle')" :subtitle="t('snDrawerList.behaviorDesc')">
 			<view class="config-row" flatten>
-				<sn-text :text="t('snDrawerList.panelHeight')" custom-style="width:130px;" flatten />
+				<sn-text :text="t('snDrawerList.panelHeight')" custom-style="width:130px;"/>
 				<sn-stepper v-model="configs.height" :step="40" :min="200" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snDrawerList.closeThreshold')" custom-style="width:130px;" flatten />
+				<sn-text :text="t('snDrawerList.closeThreshold')" custom-style="width:130px;"/>
 				<sn-stepper v-model="configs.slideHeight" :step="20" :min="0" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snDrawerList.slideCloseLabel')" custom-style="width:130px;" flatten />
+				<sn-text :text="t('snDrawerList.slideCloseLabel')" custom-style="width:130px;"/>
 				<sn-switch v-model="configs.slideClose" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snDrawerList.maskCloseLabel')" custom-style="width:130px;" flatten />
+				<sn-text :text="t('snDrawerList.maskCloseLabel')" custom-style="width:130px;"/>
 				<sn-switch v-model="configs.maskClose" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snDrawerList.preventBackLabel')" custom-style="width:130px;" flatten />
+				<sn-text :text="t('snDrawerList.preventBackLabel')" custom-style="width:130px;"/>
 				<sn-switch v-model="configs.preventBack" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snDrawerList.showLineLabel')" custom-style="width:130px;" flatten />
+				<sn-text :text="t('snDrawerList.showLineLabel')" custom-style="width:130px;"/>
 				<sn-switch v-model="configs.showLine" />
 			</view>
 			<sn-button :text="t('snDrawerList.reopen')" type="info" custom-style="margin-top:12px;" @click="openDrawer" />
@@ -37,11 +36,11 @@
 
 		<demo-card :title="t('snDrawerList.colorTitle')" :subtitle="t('snDrawerList.colorDesc')">
 			<view flatten class="config-row">
-				<sn-text flatten :text="t('snDrawerList.bgColorLabel')" custom-style="width:130px;" />
+				<sn-text :text="t('snDrawerList.bgColorLabel')" custom-style="width:130px;" />
 				<sn-input v-model="configs.bgColor" :placeholder="t('snDrawerList.defaultFront')" style="flex:1;" />
 			</view>
 			<view flatten class="config-row">
-				<sn-text flatten :text="t('snDrawerList.lineColorLabel')" custom-style="width:130px;" />
+				<sn-text :text="t('snDrawerList.lineColorLabel')" custom-style="width:130px;" />
 				<sn-input v-model="configs.lineColor" :placeholder="t('snDrawerList.defaultLineText')" style="flex:1;" />
 			</view>
 			<sn-button :text="t('snDrawerList.reopen')" type="info" custom-style="margin-top:12px;" @click="openDrawer" />
@@ -53,22 +52,22 @@
 
 		<demo-card :title="t('snDrawerList.eventTitle')" :subtitle="t('snDrawerList.eventDesc')">
 			<view class="config-row" flatten>
-				<sn-text :text="t('snDrawerList.afterEnterLabel')" custom-style="width:140px;" flatten />
-				<sn-text flatten bold fontSize="$14" :text="t('snDrawerList.evAfterEnter', { c: enterCount } as UTSJSONObject)" />
+				<sn-text :text="t('snDrawerList.afterEnterLabel')" custom-style="width:140px;"/>
+				<sn-text bold fontSize="$14" :text="t('snDrawerList.evAfterEnter', { c: enterCount } as UTSJSONObject)" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snDrawerList.afterLeaveLabel')" custom-style="width:140px;" flatten />
-				<sn-text flatten bold fontSize="$14" :text="t('snDrawerList.evAfterLeave', { c: leaveCount } as UTSJSONObject)" />
+				<sn-text :text="t('snDrawerList.afterLeaveLabel')" custom-style="width:140px;"/>
+				<sn-text bold fontSize="$14" :text="t('snDrawerList.evAfterLeave', { c: leaveCount } as UTSJSONObject)" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snDrawerList.overlayLabel')" custom-style="width:140px;" flatten />
-				<sn-text flatten bold fontSize="$14" :text="t('snDrawerList.evOverlay', { c: overlayCount } as UTSJSONObject)" />
+				<sn-text :text="t('snDrawerList.overlayLabel')" custom-style="width:140px;"/>
+				<sn-text bold fontSize="$14" :text="t('snDrawerList.evOverlay', { c: overlayCount } as UTSJSONObject)" />
 			</view>
 		</demo-card>
 
 		<demo-card :title="t('snDrawerList.sceneTitle')" :subtitle="t('snDrawerList.sceneDesc')">
 			<sn-button :text="t('snDrawerList.viewPlaylist')" type="success" custom-style="flex:1;" @click="openSongDrawer" />
-			<sn-text type="text-light" fontSize="$12" :text="playingTip()" custom-style="margin-top:8px;" flatten />
+			<sn-text type="text-light" fontSize="$12" :text="playingTip()" custom-style="margin-top:8px;"/>
 		</demo-card>
 
 		<sn-drawer-list ref="drawerRef" :height="`${configs.height}px`" :slide-height="`${configs.slideHeight}px`"
@@ -103,8 +102,10 @@
 							<text class="playlist-sub" flatten>{{ t('snDrawerList.playlistSub', { c: songs.length } as UTSJSONObject) }}</text>
 						</view>
 						<sn-button :text="t('snDrawerList.playAll')" type="primary" custom-style="margin-right:10px;" @click="onPlayAll" />
-						<sn-icon :name="collected ? 'heart-fill' : 'heart-line'" :color="collected ? '$error' : '$textLight'"
-							:size="22" @click="onCollect" />
+						<view @click="onCollect">
+							<sn-icon :name="collected ? 'heart-fill' : 'heart-line'" :color="collected ? '$error' : '$textLight'"
+								:size="22" />
+						</view>
 					</view>
 					<view v-else class="song-row" @click="onSongClick(songEntryIndex(slotProps.item))">
 						<view class="song-cover" :style="`background-color: ${songEntryColor(slotProps.item)};`" flatten>
@@ -115,14 +116,14 @@
 							<text class="song-sub" flatten>{{ songEntryArtist(slotProps.item) }} · {{ songEntryAlbum(slotProps.item) }}</text>
 						</view>
 						<text :class="songEntryIndex(slotProps.item) == playingIndex ? 'song-duration-playing' : 'song-duration'" flatten>{{ songEntryIndex(slotProps.item) == playingIndex ? t('snDrawerList.playingNow') : songEntryDuration(slotProps.item) }}</text>
-						<sn-icon class="song-more" name="more-2-fill" color="$textLight" :size="16" flatten />
+						<sn-icon class="song-more" name="more-2-fill" color="$textLight" :size="16"/>
 					</view>
 			</template>
 		</sn-drawer-list>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
 import type { ComponentPublicInstance } from 'vue'

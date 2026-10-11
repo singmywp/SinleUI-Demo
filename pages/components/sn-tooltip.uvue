@@ -17,7 +17,7 @@
 				</template>
 				<sn-text text="Hello!"></sn-text>
 			</sn-tooltip>
-			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snTooltip.currentPosition') }}：{{ position }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snTooltip.currentPosition') }}：{{ position }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snTooltip.styleTitle')" :subtitle="t('snTooltip.styleSubtitle')">
@@ -48,7 +48,7 @@
 					</sn-button>
 				</template>
 				<view class="demo-slot-content" flatten>
-					<sn-text flatten font-size="$13" color="$primaryText">{{ t('snTooltip.slotContent') }}</sn-text>
+					<sn-text font-size="$13" color="$primaryText">{{ t('snTooltip.slotContent') }}</sn-text>
 					<sn-tooltip position="top" width="120px" bg-color="$primary">
 						<template #trigger>
 							<sn-button type="primary" level="second" size="normal" custom-style="margin-top:8px;">
@@ -122,7 +122,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
 

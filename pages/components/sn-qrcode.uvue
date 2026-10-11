@@ -15,14 +15,14 @@
 		</demo-card>
 
 		<demo-card :title="t('snQrcode.limitTitle')" :subtitle="t('snQrcode.limitSubtitle')">
-				<sn-text :text="t('snQrcode.limitText')" custom-style="font-size:12px;color:var(--sn-text-light);line-height:20px;" flatten />
+				<sn-text :text="t('snQrcode.limitText')" custom-style="font-size:12px;color:var(--sn-text-light);line-height:20px;"/>
 			</demo-card>
 
 			<demo-card :title="t('snQrcode.encodeTitle')">
-				<view class="config-row" flatten><sn-text :text="t('snQrcode.content')" custom-style="width:112px;" flatten /><sn-input v-model="content" custom-style="flex:1;" /></view>
-				<view class="config-row" flatten><sn-text :text="t('snQrcode.size')" custom-style="width:112px;" flatten /><sn-stepper v-model="size" :min="96" :max="360" :step="8" /></view>
-				<view class="config-row" flatten><sn-text :text="t('snQrcode.marginPadding')" custom-style="width:112px;" flatten /><sn-stepper v-model="padding" :min="0" :max="16" :step="1" /></view>
-				<view class="config-row" flatten><sn-text :text="t('snQrcode.ecLevel')" custom-style="width:112px;" flatten /><sn-select v-model="errorCorrectionLevelIndex" :data="errorCorrectionLevelOptions" width="168px" selected-mode="check" /></view>
+				<view class="config-row" flatten><sn-text :text="t('snQrcode.content')" custom-style="width:112px;"/><sn-input v-model="content" custom-style="flex:1;" /></view>
+				<view class="config-row" flatten><sn-text :text="t('snQrcode.size')" custom-style="width:112px;"/><sn-stepper v-model="size" :min="96" :max="360" :step="8" /></view>
+				<view class="config-row" flatten><sn-text :text="t('snQrcode.marginPadding')" custom-style="width:112px;"/><sn-stepper v-model="padding" :min="0" :max="16" :step="1" /></view>
+				<view class="config-row" flatten><sn-text :text="t('snQrcode.ecLevel')" custom-style="width:112px;"/><sn-select v-model="errorCorrectionLevelIndex" :data="errorCorrectionLevelOptions" width="168px" selected-mode="check" /></view>
 				<view class="config-row"><sn-text :text="t('snQrcode.qrVersion')" custom-style="width:112px;" /><sn-stepper v-model="qrVersion" :min="0" :max="40" :step="1" /></view>
 				<view class="config-row"><sn-text :text="t('snQrcode.maskPattern')" custom-style="width:112px;" /><sn-stepper v-model="maskPattern" :min="maskPatternMin" :max="7" :step="1" /></view>
 			</demo-card>
@@ -55,7 +55,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
 

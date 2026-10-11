@@ -1,14 +1,13 @@
 <template>
-	<sn-page>
-		<sn-topbar :title="t('snClipper.title')"></sn-topbar>
+	<sn-page :title="t('snClipper.title')" :show-back="true">
 
 		<demo-card :title="t('snClipper.basicTitle')" :subtitle="t('snClipper.basicDesc')">
 			<sn-clipper ref="clipperRef" image-url="/static/captcha/scenic-mountain.png" border-color="#FFD633" @confirm="onConfirm"
 				@change="onChange"></sn-clipper>
 			<view v-if="resultUrl != ''" class="clipper-result" :style="resultWrapStyles" flatten>
-				<sn-text :text="t('snClipper.result')" font-size="$13" color="$title" flatten></sn-text>
+				<sn-text :text="t('snClipper.result')" font-size="$13" color="$title"></sn-text>
 				<image :src="resultUrl" mode="aspectFit" :style="resultImageStyles"></image>
-				<sn-text :text="resultInfo" font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten></sn-text>
+				<sn-text :text="resultInfo" font-size="$12" color="$textLight" custom-style="margin-top:8px;"></sn-text>
 			</view>
 		</demo-card>
 
@@ -27,12 +26,12 @@
 				<sn-button :text="t('snClipper.flipV')" type="info" level="third" custom-style="flex:1;margin-right:8px;" @click="flipVertical"></sn-button>
 				<sn-button :text="t('snClipper.restore')" type="warning" level="least" custom-style="flex:1;" @click="restore"></sn-button>
 			</view>	
-			<sn-text :text="changeText" font-size="$12" color="$textLight" custom-style="margin-top:10px;" flatten></sn-text>
+			<sn-text :text="changeText" font-size="$12" color="$textLight" custom-style="margin-top:10px;"></sn-text>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type { ComponentPublicInstance } from 'vue'
 

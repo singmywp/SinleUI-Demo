@@ -2,7 +2,7 @@
 	<sn-page :title="t('snTextarea.title')" :show-back="true">
 		<demo-card :title="t('snTextarea.basicTitle')" :subtitle="t('snTextarea.basicSubtitle')">
 			<sn-textarea v-model="value1" :placeholder="t('snTextarea.placeholder')" />
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>{{ t('snTextarea.currentValue') }}：{{ value1 }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snTextarea.currentValue') }}：{{ value1 }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snTextarea.heightTitle')" :subtitle="t('snTextarea.heightSubtitle')">
@@ -47,7 +47,7 @@
 		<demo-card :title="t('snTextarea.eventTitle')" :subtitle="t('snTextarea.eventSubtitle')">
 			<sn-textarea v-model="valueEvent" :placeholder="t('snTextarea.inputHint')" @input="onInput" @focus="onFocus"
 				@blur="onBlur" @linechange="onLinechange" />
-			<sn-text font-size="$12" :color="eventColor" custom-style="margin-top:12px;" flatten>{{ eventLog }}</sn-text>
+			<sn-text font-size="$12" :color="eventColor" custom-style="margin-top:12px;">{{ eventLog }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snTextarea.externalTitle')" :subtitle="t('snTextarea.externalSubtitle')">
@@ -64,7 +64,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { $snui } from '@/uni_modules/sinle-ui'
 

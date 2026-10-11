@@ -1,0 +1,166 @@
+<template>
+	<view class="group-ui">
+		<utils-card v-for="(c, ci) in cards" :key="c.key" :title="c.title" :desc="c.desc" :signature="c.signature"
+			:action-text="c.actionText" :result-text="c.resultText" :result-type="c.resultType"
+			@action="runCard(ci)" />
+	</view>
+</template>
+
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu, useResolve } from '@/uni_modules/sinle-ui/index.uts'
+import UtilsCard from './utils-card.uvue'
+import type { UtilsActionCard } from './types.uts'
+
+defineOptions({
+	name: 'group-ui'
+})
+
+const { t } = useI18n()
+const resolver = useResolve()
+
+const cards = ref<UtilsActionCard[]>(buildCards())
+
+function buildCards(): UtilsActionCard[] {
+	return [
+		{
+			key: 'getPx',
+			title: 'getPx(value)',
+			desc: t('apiUtils.descGetPx'),
+			signature: "snu.getPx('32rpx')",
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'addUnit',
+			title: 'addUnit(value, unit)',
+			desc: t('apiUtils.descAddUnit'),
+			signature: "snu.addUnit(16) / snu.addUnit(2, 'rem')",
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'getInnerRadius',
+			title: 'getInnerRadius(outwidth, outradius, innerwidth)',
+			desc: t('apiUtils.descGetInnerRadius'),
+			signature: 'snu.getInnerRadius(100, 20, 80)',
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'getDistance',
+			title: 'getDistance(x1, y1, x2, y2)',
+			desc: t('apiUtils.descGetDistance'),
+			signature: 'snu.getDistance(0, 0, 3, 4)',
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'getRotateAngle',
+			title: 'getRotateAngle(x1, y1, x2, y2)',
+			desc: t('apiUtils.descGetRotateAngle'),
+			signature: 'snu.getRotateAngle(0, 0, 1, 1)',
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'findParent',
+			title: 'findParent(instance, parentNames)',
+			desc: t('apiUtils.descFindParent'),
+			signature: "snu.findParent(instance, ['sn-page'])",
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'findBrother',
+			title: 'findBrother(instance, brotherNames)',
+			desc: t('apiUtils.descFindBrother'),
+			signature: "snu.findBrother(instance, ['group-easing'])",
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'resolve',
+			title: 'useResolve() 尺寸 / 颜色解析',
+			desc: t('apiUtils.descResolve'),
+			signature: "resolver.resolveSize('$16', 'font') / resolveColor('$primaryTextDark')",
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		}
+	]
+}
+
+function runCard(index: number): void {
+	const card = cards.value[index]
+	let text = ''
+	let type = 'success'
+	if (card.key == 'getPx') {
+		text = `getPx('32rpx') = ${snu.getPx('32rpx')}\ngetPx('16px') = ${snu.getPx('16px')}`
+	} else if (card.key == 'addUnit') {
+		text = `addUnit(16) → '${snu.addUnit(16)}'\naddUnit(16, 'rpx') → '${snu.addUnit(16, 'rpx')}'\naddUnit('50%') → '${snu.addUnit('50%')}'`
+	} else if (card.key == 'getInnerRadius') {
+		text = `getInnerRadius(100, 20, 80) = ${snu.getInnerRadius(100, 20, 80)}`
+	} else if (card.key == 'getDistance') {
+		text = `getDistance(0, 0, 3, 4) = ${snu.getDistance(0, 0, 3, 4)}`
+	} else if (card.key == 'getRotateAngle') {
+		text = `getRotateAngle(0, 0, 1, 1) = ${snu.getRotateAngle(0, 0, 1, 1)}°`
+	} else if (card.key == 'findParent') {
+		text = findParentText()
+	} else if (card.key == 'findBrother') {
+		text = findBrotherText()
+	} else if (card.key == 'resolve') {
+		text = `resolveSize('$16', 'font') = ${resolver.resolveSize('$16', 'font')}\nresolveSize('16px', 'font') = ${resolver.resolveSize('16px', 'font')}\nresolveSizeNum('$16', 'font') = ${resolver.resolveSizeNum('$16', 'font')}\nresolveColor('$primaryTextDark') = ${resolver.resolveColor('$primaryTextDark')}\nresolveColor('#ff0000') = ${resolver.resolveColor('#ff0000')}`
+	}
+	replaceCard(index, text, type)
+}
+
+function findParentText(): string {
+	const instance = getCurrentInstance()
+	if (instance == null || instance.proxy == null) return t('apiUtils.notFound')
+	const parent = snu.findParent(instance.proxy, ['sn-page'])
+	if (parent == null) return t('apiUtils.notFound')
+	return t('apiUtils.found') + (parent.$options.name ?? 'sn-page')
+}
+
+function findBrotherText(): string {
+	const instance = getCurrentInstance()
+	if (instance == null || instance.proxy == null) return t('apiUtils.notFound')
+	const brother = snu.findBrother(instance.proxy, ['group-easing', 'group-system'])
+	if (brother == null) return t('apiUtils.notFound')
+	return t('apiUtils.found') + (brother.$options.name ?? '')
+}
+
+function replaceCard(index: number, text: string, type: string): void {
+	const c = cards.value[index]
+	const next: UtilsActionCard = {
+		key: c.key,
+		title: c.title,
+		desc: c.desc,
+		signature: c.signature,
+		actionText: c.actionText,
+		resultText: text,
+		resultType: type
+	}
+	cards.value.splice(index, 1, next)
+}
+
+onMounted((): void => {
+	for (let i = 0; i < cards.value.length; i++) {
+		runCard(i)
+	}
+})
+</script>
+
+<style lang="scss">
+.group-ui {
+	flex-direction: column;
+}
+</style>

@@ -97,7 +97,7 @@
 
 		<demo-card>
 			<template #title>
-				<sn-text type="title" font-size="$18" bold flatten>{{ t('snButton.loading') }}</sn-text>
+				<sn-text type="title" font-size="$18" bold>{{ t('snButton.loading') }}</sn-text>
 			</template>
 			<template #subtitle>
 				<sn-text type="text-light" font-size="$12">{{ t('snButton.loadingSub') }}</sn-text>
@@ -109,7 +109,7 @@
 			</view>
 			<sn-card>
 				<view class="switch-row" flatten>
-					<sn-text flatten type="text" font-size="$14">{{ t('snButton.isLoading') }}</sn-text>
+					<sn-text type="text" font-size="$14">{{ t('snButton.isLoading') }}</sn-text>
 					<sn-switch v-model="loadingOn" />
 				</view>
 			</sn-card>
@@ -129,7 +129,7 @@
 			</view>
 			<sn-card>
 				<view class="switch-row" flatten>
-					<sn-text type="text" flatten font-size="$14">{{ t('snButton.isDisabled') }}</sn-text>
+					<sn-text type="text" font-size="$14">{{ t('snButton.isDisabled') }}</sn-text>
 					<sn-switch v-model="disabledOn" />
 				</view>
 			</sn-card>
@@ -176,7 +176,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

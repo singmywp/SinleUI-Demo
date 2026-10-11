@@ -2,9 +2,9 @@
 	<sn-page :title="t('apiShowLoading.title')" :show-back="true">
 
 		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
-			<sn-text font-size="$12" color="$primary" flatten>{{ t('apiShowLoading.alert1') }}</sn-text>
-			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;" flatten>{{ t('apiShowLoading.alert2') }}</sn-text>
-			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;" flatten>{{ t('apiShowLoading.alert3') }}</sn-text>
+			<sn-text font-size="$12" color="$primary">{{ t('apiShowLoading.alert1') }}</sn-text>
+			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;">{{ t('apiShowLoading.alert2') }}</sn-text>
+			<sn-text font-size="$12" color="$primary" custom-style="margin-top:4px;">{{ t('apiShowLoading.alert3') }}</sn-text>
 		</sn-alert>
 
 		<demo-card :title="t('apiShowLoading.basic')" :subtitle="t('apiShowLoading.basicSub')">
@@ -34,7 +34,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
 import { snu } from '@/uni_modules/sinle-ui/index.uts'

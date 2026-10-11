@@ -1,0 +1,22 @@
+<template>
+	<sn-page :title="t('apiUtils.easingTitle')" :show-back="true">
+		<view class="utils-page-body">
+			<group-easing />
+		</view>
+	</sn-page>
+</template>
+
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import GroupEasing from './group-easing.uvue'
+
+const { t } = useI18n()
+</script>
+
+<style lang="scss">
+.utils-page-body {
+	flex-direction: column;
+	padding-top: 12px;
+	padding-bottom: 40px;
+}
+</style>

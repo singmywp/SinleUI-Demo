@@ -3,13 +3,13 @@
 		<demo-card :title="t('snCollapse.basicTitle')" :subtitle="t('snCollapse.basicDesc')">
 			<sn-collapse-group>
 				<sn-collapse-item :title="t('snCollapse.faqTitle1')" note="FAQ">
-					<sn-text type="text-light" :font-size="13" :text="t('snCollapse.faqText1')" flatten />
+					<sn-text type="text-light" :font-size="13" :text="t('snCollapse.faqText1')"/>
 				</sn-collapse-item>
 				<sn-collapse-item :title="t('snCollapse.faqTitle2')" note="FAQ">
-					<sn-text type="text-light" :font-size="13" :text="t('snCollapse.faqText2')" flatten />
+					<sn-text type="text-light" :font-size="13" :text="t('snCollapse.faqText2')"/>
 				</sn-collapse-item>
 				<sn-collapse-item :title="t('snCollapse.faqTitle3')" note="FAQ">
-					<sn-text type="text-light" :font-size="13" :text="t('snCollapse.faqText3')" flatten />
+					<sn-text type="text-light" :font-size="13" :text="t('snCollapse.faqText3')"/>
 				</sn-collapse-item>
 			</sn-collapse-group>
 		</demo-card>
@@ -17,13 +17,13 @@
 		<demo-card :title="t('snCollapse.accordionTitle')" :subtitle="t('snCollapse.accordionDesc')">
 			<sn-collapse-group accordion>
 				<sn-collapse-item :title="t('snCollapse.acc1Title')" icon="shield-check-line">
-					<sn-text type="text-light" :font-size="13" :text="t('snCollapse.acc1Text')" flatten />
+					<sn-text type="text-light" :font-size="13" :text="t('snCollapse.acc1Text')"/>
 				</sn-collapse-item>
 				<sn-collapse-item :title="t('snCollapse.acc2Title')" icon="lock-line">
-					<sn-text type="text-light" :font-size="13" :text="t('snCollapse.acc2Text')" flatten />
+					<sn-text type="text-light" :font-size="13" :text="t('snCollapse.acc2Text')"/>
 				</sn-collapse-item>
 				<sn-collapse-item :title="t('snCollapse.acc3Title')" icon="notification-3-line">
-					<sn-text type="text-light" :font-size="13" :text="t('snCollapse.acc3Text')" flatten />
+					<sn-text type="text-light" :font-size="13" :text="t('snCollapse.acc3Text')"/>
 				</sn-collapse-item>
 			</sn-collapse-group>
 		</demo-card>
@@ -32,10 +32,10 @@
 			<sn-collapse-group bg-color="$primaryLight" active-title-color="$primaryDark"
 				note-color="$primary" border-radius="$12">
 				<sn-collapse-item :title="t('snCollapse.giftTitle')" :note="t('snCollapse.giftNote')"> 
-					<sn-text type="text-light" :font-size="13" :text="t('snCollapse.giftText')" customStyle="margin: 0 15px;" flatten />
+					<sn-text type="text-light" :font-size="13" :text="t('snCollapse.giftText')" customStyle="margin: 0 15px;"/>
 				</sn-collapse-item>
 				<sn-collapse-item :title="t('snCollapse.vipTitle')" :note="t('snCollapse.vipNote')">
-					<sn-text type="text-light" :font-size="13" :text="t('snCollapse.vipText')" customStyle="margin: 0 15px;" flatten />
+					<sn-text type="text-light" :font-size="13" :text="t('snCollapse.vipText')" customStyle="margin: 0 15px;"/>
 				</sn-collapse-item>
 			</sn-collapse-group>
 		</demo-card>
@@ -43,10 +43,10 @@
 		<demo-card :title="t('snCollapse.disableTitle')" :subtitle="t('snCollapse.disableDesc')">
 			<sn-collapse-group>
 				<sn-collapse-item :title="t('snCollapse.orderTitle')" open>
-					<sn-text type="text-light" :font-size="13" :text="t('snCollapse.orderText')" flatten />
+					<sn-text type="text-light" :font-size="13" :text="t('snCollapse.orderText')"/>
 				</sn-collapse-item>
 				<sn-collapse-item :title="t('snCollapse.disabledTitle')" :note="t('snCollapse.disabledNote')" disabled>
-					<sn-text type="text-light" :font-size="13" :text="t('snCollapse.disabledText')" flatten />
+					<sn-text type="text-light" :font-size="13" :text="t('snCollapse.disabledText')"/>
 				</sn-collapse-item>
 			</sn-collapse-group>
 		</demo-card>
@@ -61,7 +61,7 @@
 				</sn-collapse-item>
 			</sn-collapse-group>
 			<view style="margin-top: 12px;" flatten>
-				<sn-text flatten font-size="$12" color="$textLight">{{ t('snCollapse.groupText') }}</sn-text>
+				<sn-text font-size="$12" color="$textLight">{{ t('snCollapse.groupText') }}</sn-text>
 				<sn-collapse-group title-class="demo-title-class" note-class="demo-note-class">
 					<sn-collapse-item :title="t('snCollapse.t1Title')" :note="t('snCollapse.t1Note')" open>
 						<sn-text type="text-light" :font-size="13" :text="t('snCollapse.t1Text')" />
@@ -93,7 +93,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

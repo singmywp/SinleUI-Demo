@@ -7,15 +7,15 @@
 			@refresh="onRefresh" @loadmore="onLoadmore">
 			<template v-slot:default="slotProps">
 				<view class="wf-card" :style="cardStyle(slotProps.item)" flatten>
-					<sn-text font-size="$14" color="#FFFFFF" bold flatten>{{ wfTitle(slotProps.item) }}</sn-text>
-					<sn-text font-size="$11" color="rgba(255,255,255,0.8)" custom-style="margin-top:4px;" flatten>{{ t('backtopWaterflow.tip') }}</sn-text>
+					<sn-text font-size="$14" color="#FFFFFF" bold>{{ wfTitle(slotProps.item) }}</sn-text>
+					<sn-text font-size="$11" color="rgba(255,255,255,0.8)" custom-style="margin-top:4px;">{{ t('backtopWaterflow.tip') }}</sn-text>
 				</view>
 			</template>
 		</sn-waterflow>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 	import { useI18n } from 'vue-i18n'
 	import { $snui } from '@/uni_modules/sinle-ui'
 	import type { ComponentPublicInstance } from 'vue'

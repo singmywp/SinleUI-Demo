@@ -2,8 +2,8 @@
 	<sn-page :title="t('snCalendar.title')" :show-back="true">
 		<view class="calendar-demo-content" flatten>
 			<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
-				<sn-text font-size="$12" color="$primary" flatten>{{ t('snCalendar.alertText1') }}</sn-text>
-				<sn-text font-size="$12" color="$primary" custom-style="margin-top:6px;" flatten>{{ t('snCalendar.alertText2') }}</sn-text>
+				<sn-text font-size="$12" color="$primary">{{ t('snCalendar.alertText1') }}</sn-text>
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:6px;">{{ t('snCalendar.alertText2') }}</sn-text>
 			</sn-alert>
 
 			<demo-card :title="t('snCalendar.selector')" :subtitle="t('snCalendar.selectorSub')">
@@ -12,7 +12,7 @@
 					<sn-button :text="t('snCalendar.rangeDraft')" type="warning" custom-style="flex:1;margin-right:8px;" @click="openRange" />
 					<sn-button :text="t('snCalendar.multipleInstant')" type="success" custom-style="flex:1;" @click="openMultiple" />
 				</view>
-				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;" flatten>{{ t('snCalendar.modelLbl', { text: formatValue(calendarValue) } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;">{{ t('snCalendar.modelLbl', { text: formatValue(calendarValue) } as UTSJSONObject) }}</sn-text>
 			</demo-card>
 
 			<demo-card :title="t('snCalendar.boundary')" :subtitle="t('snCalendar.boundarySub')">
@@ -36,7 +36,7 @@
 			</demo-card>
 
 			<demo-card :title="t('snCalendar.eventRecord')" :subtitle="t('snCalendar.eventRecordSub')">
-				<sn-text font-size="$12" color="$text" flatten>{{ eventResult }}</sn-text>
+				<sn-text font-size="$12" color="$text">{{ eventResult }}</sn-text>
 			</demo-card>
 		</view>
 
@@ -52,7 +52,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { createCalendarDayContent, dayuts } from '@/uni_modules/sinle-ui/index.uts'
 import type { ComponentPublicInstance } from 'vue'

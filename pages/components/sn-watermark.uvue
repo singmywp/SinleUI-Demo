@@ -5,8 +5,8 @@
 		<demo-card :title="t('snWatermark.basicTitle')" :subtitle="t('snWatermark.basicSubtitle')">
 			<sn-watermark content="SinleUI" custom-style="border-radius:16px;">
 				<view class="wm-card" :style="cardStyle" flatten>
-					<sn-text bold font-size="$16" color="$title" flatten>{{ t('snWatermark.contentExample') }}</sn-text>
-					<sn-text font-size="$13" color="$text" custom-style="margin-top:6px;line-height:20px;" flatten>{{ t('snWatermark.watermarkDesc') }}</sn-text>
+					<sn-text bold font-size="$16" color="$title">{{ t('snWatermark.contentExample') }}</sn-text>
+					<sn-text font-size="$13" color="$text" custom-style="margin-top:6px;line-height:20px;">{{ t('snWatermark.watermarkDesc') }}</sn-text>
 					<sn-button :text="t('snWatermark.clickableBtn')" type="primary" custom-style="margin-top:14px;" @click="onCardClick" />
 				</view>
 			</sn-watermark>
@@ -22,8 +22,8 @@
 			<sn-watermark :content="t('snWatermark.confidential')" color="rgba(239, 68, 68)" :font-size="16" :rotate="0"
 				custom-style="border-radius:16px;">
 				<view class="wm-card" :style="cardStyle" flatten>
-					<sn-text bold font-size="$16" color="$title" flatten>{{ t('snWatermark.internalData') }}</sn-text>
-					<sn-text font-size="$13" color="$text" custom-style="margin-top:6px;line-height:20px;" flatten>{{ t('snWatermark.multilineDesc') }}</sn-text>
+					<sn-text bold font-size="$16" color="$title">{{ t('snWatermark.internalData') }}</sn-text>
+					<sn-text font-size="$13" color="$text" custom-style="margin-top:6px;line-height:20px;">{{ t('snWatermark.multilineDesc') }}</sn-text>
 				</view>
 			</sn-watermark>
 		</demo-card>
@@ -31,19 +31,19 @@
 		
 		<demo-card :title="t('snWatermark.configTitle')" :subtitle="t('snWatermark.configSubtitle')">
 			<view class="config-row" flatten>
-				<sn-text :text="t('snWatermark.fontSizeLabel')" custom-style="width:140px;" flatten />
+				<sn-text :text="t('snWatermark.fontSizeLabel')" custom-style="width:140px;"/>
 				<sn-stepper v-model="configs.fontSize" :min="10" :max="28" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snWatermark.rowGapLabel')" custom-style="width:140px;" flatten />
+				<sn-text :text="t('snWatermark.rowGapLabel')" custom-style="width:140px;"/>
 				<sn-stepper v-model="configs.rowGap" :min="40" :max="200" :step="10" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snWatermark.colGapLabel')" custom-style="width:140px;" flatten />
+				<sn-text :text="t('snWatermark.colGapLabel')" custom-style="width:140px;"/>
 				<sn-stepper v-model="configs.colGap" :min="40" :max="240" :step="10" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snWatermark.rotateLabel')" custom-style="width:140px;" flatten />
+				<sn-text :text="t('snWatermark.rotateLabel')" custom-style="width:140px;"/>
 				<sn-stepper v-model="configs.rotate" :min="rotateMin" :max="90" :step="5" />
 			</view>
 			<view class="config-row">
@@ -54,8 +54,8 @@
 				:col-gap="configs.colGap" :rotate="configs.rotate" :opacity="configs.opacity"
 				custom-style="border-radius:16px;margin-top:8px;">
 				<view class="wm-card" :style="cardStyle">
-					<sn-text bold font-size="$15" color="$title" flatten>{{ t('snWatermark.dynamicWatermark') }}</sn-text>
-					<sn-text font-size="$12" color="$textLight" custom-style="margin-top:4px;" flatten>{{ t('snWatermark.previewHint') }}</sn-text>
+					<sn-text bold font-size="$15" color="$title">{{ t('snWatermark.dynamicWatermark') }}</sn-text>
+					<sn-text font-size="$12" color="$textLight" custom-style="margin-top:4px;">{{ t('snWatermark.previewHint') }}</sn-text>
 				</view>
 			</sn-watermark>
 		</demo-card>
@@ -65,15 +65,15 @@
 			<sn-watermark :content="t('snWatermark.externalContent')" custom-class="wm-custom-root" content-class="wm-custom-content"
 				layer-class="wm-custom-layer" text-class="wm-custom-text" custom-style="border-radius:16px;">
 				<view class="wm-card" :style="cardStyle">
-					<sn-text bold font-size="$16" color="$title" flatten>{{ t('snWatermark.externalNodeLabel') }}</sn-text>
-					<sn-text font-size="$13" color="$text" custom-style="margin-top:6px;line-height:20px;" flatten>{{ t('snWatermark.externalDesc') }}</sn-text>
+					<sn-text bold font-size="$16" color="$title">{{ t('snWatermark.externalNodeLabel') }}</sn-text>
+					<sn-text font-size="$13" color="$text" custom-style="margin-top:6px;line-height:20px;">{{ t('snWatermark.externalDesc') }}</sn-text>
 				</view>
 			</sn-watermark>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { snu } from '@/uni_modules/sinle-ui'
 

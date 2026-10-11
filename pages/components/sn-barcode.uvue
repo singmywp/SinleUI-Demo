@@ -11,24 +11,24 @@
 		</demo-card>
 
 		<demo-card :title="t('snBarcode.limit')" :subtitle="t('snBarcode.limitSub')">
-			<sn-text :text="t('snBarcode.limitDesc')" custom-style="font-size:12px;color:var(--sn-text-light);line-height:20px;" flatten />
+			<sn-text :text="t('snBarcode.limitDesc')" custom-style="font-size:12px;color:var(--sn-text-light);line-height:20px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snBarcode.form')" :subtitle="t('snBarcode.formSub')">
 			<view class="config-row" flatten>
-				<sn-text :text="t('snBarcode.content')" custom-style="width:104px;" flatten />
+				<sn-text :text="t('snBarcode.content')" custom-style="width:104px;"/>
 				<sn-input v-model="content" custom-style="flex:1;" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snBarcode.format')" custom-style="width:104px;" flatten />
+				<sn-text :text="t('snBarcode.format')" custom-style="width:104px;"/>
 				<sn-select v-model="codeTypeIndex" :data="codeTypeOptions" width="168px" selected-mode="check" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snBarcode.rotation')" custom-style="width:104px;" flatten />
+				<sn-text :text="t('snBarcode.rotation')" custom-style="width:104px;"/>
 				<sn-select v-model="rotationIndex" :data="rotationOptions" width="168px" selected-mode="check" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snBarcode.showValue')" custom-style="width:104px;" flatten />
+				<sn-text :text="t('snBarcode.showValue')" custom-style="width:104px;"/>
 				<sn-switch v-model="showValue" />
 			</view>
 			<view class="config-row">
@@ -93,7 +93,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
 import type { SnBarcodeFormat } from '@/uni_modules/sinle-ui'

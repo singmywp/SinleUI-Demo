@@ -1,59 +1,60 @@
 <template>
 	<sn-page :title="t('snText.title')" :show-back="true">
 		<demo-card :title="t('snText.basicTitle')" :subtitle="t('snText.basicSubtitle')">
-			<sn-text flatten>{{ t('snText.poem1') }}</sn-text>
-			<sn-text flatten :text="t('snText.poem2')"></sn-text>
+			<sn-text>{{ t('snText.poem1') }}</sn-text>
+			<sn-text :text="t('snText.poem2')"></sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snText.boldTitle')" :subtitle="t('snText.boldSubtitle')">
-			<sn-text flatten bold>{{ t('snText.poem3') }}</sn-text>
+			<sn-text bold>{{ t('snText.poem3') }}</sn-text>
+			<sn-text bold>{{ t('snText.poem2') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snText.typeTitle')" :subtitle="t('snText.typeSubtitle')">
 			<view class="text-line" flatten>
-				<sn-text flatten>{{ t('snText.normal') }}</sn-text>
+				<sn-text>{{ t('snText.normal') }}</sn-text>
 			</view>
 			<view class="text-line" flatten>
-				<sn-text flatten type="primary">{{ t('snText.primary') }}</sn-text>
+				<sn-text type="primary">{{ t('snText.primary') }}</sn-text>
 			</view>
 			<view class="text-line" flatten>
-				<sn-text flatten type="success">{{ t('snText.success') }}</sn-text>
+				<sn-text type="success">{{ t('snText.success') }}</sn-text>
 			</view>
 			<view class="text-line" flatten>
-				<sn-text flatten type="warning">{{ t('snText.warning') }}</sn-text>
+				<sn-text type="warning">{{ t('snText.warning') }}</sn-text>
 			</view>
 			<view class="text-line" flatten>
-				<sn-text flatten type="error">{{ t('snText.error') }}</sn-text>
+				<sn-text type="error">{{ t('snText.error') }}</sn-text>
 			</view>
 		</demo-card>
 
 		<demo-card :title="t('snText.sizeTitle')" :subtitle="t('snText.sizeSubtitle')">
 			<view class="text-line" flatten>
-				<sn-text flatten font-size="12px">{{ t('snText.mist') }}</sn-text>
+				<sn-text font-size="12px">{{ t('snText.mist') }}</sn-text>
 			</view>
 			<view class="text-line" flatten>
-				<sn-text flatten>{{ t('snText.merchant') }}</sn-text>
+				<sn-text>{{ t('snText.merchant') }}</sn-text>
 			</view>
 			<view class="text-line" flatten>
-				<sn-text flatten font-size="18px">{{ t('snText.mist') }}</sn-text>
+				<sn-text font-size="18px">{{ t('snText.mist') }}</sn-text>
 			</view>
 		</demo-card>
 
 		<demo-card :title="t('snText.ellipsisTitle')" :subtitle="t('snText.ellipsisSubtitle')">
-			<sn-text :lines="3" flatten>
+			<sn-text :lines="3">
 				{{ t('snText.memorialAddr') }}
 			</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snText.selectableTitle')" :subtitle="t('snText.selectableSubtitle')">
-			<sn-text selectable  flatten>
+			<sn-text selectable>
 				{{ t('snText.memorialAddrShort') }}
 			</sn-text>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

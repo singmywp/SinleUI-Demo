@@ -1,0 +1,195 @@
+<template>
+	<view class="group-object">
+		<utils-card v-for="(c, ci) in cards" :key="c.key" :title="c.title" :desc="c.desc" :signature="c.signature"
+			:action-text="c.actionText" :result-text="c.resultText"
+			:result-type="c.resultType" @action="runCard(ci)">
+			<view v-if="c.key == 'dataset'" id="utils-dataset-el" class="dataset-node" flatten>
+				<sn-text font-size="$12" color="$textLight">{{ t('apiUtils.datasetNode') }}</sn-text>
+			</view>
+		</utils-card>
+	</view>
+</template>
+
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import UtilsCard from './utils-card.uvue'
+import type { UtilsActionCard } from './types.uts'
+
+defineOptions({
+	name: 'group-object'
+})
+
+const { t } = useI18n()
+
+const cards = ref<UtilsActionCard[]>(buildCards())
+
+function arrayText(arr: number[]): string {
+	let s = '['
+	for (let i = 0; i < arr.length; i++) {
+		if (i > 0) s += ', '
+		s += arr[i].toString()
+	}
+	return s + ']'
+}
+
+function buildCards(): UtilsActionCard[] {
+	return [
+		{
+			key: 'formatNumber',
+			title: 'formatNumber(num)',
+			desc: t('apiUtils.descFormatNumber'),
+			signature: 'snu.formatNumber(3.14) / snu.formatNumber(3)',
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'deepClone',
+			title: 'deepClone(obj)',
+			desc: t('apiUtils.descDeepClone'),
+			signature: 'snu.deepClone([1, 2, 3])',
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'reArray',
+			title: 'reArray(oldArray)',
+			desc: t('apiUtils.descReArray'),
+			signature: 'snu.reArray([1, 2, 3])',
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'shuffle',
+			title: 'shuffle(arr)',
+			desc: t('apiUtils.descShuffle'),
+			signature: 'snu.shuffle([1, 2, 3, 4, 5])',
+			actionText: t('apiUtils.test'),
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'isNumber',
+			title: 'isNumber(value)',
+			desc: t('apiUtils.descIsNumberType'),
+			signature: "snu.isNumber(123) / snu.isNumber('abc')",
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		},
+		{
+			key: 'dataset',
+			title: 'setDataset / getDataset',
+			desc: t('apiUtils.descDataset'),
+			signature: "snu.setDataset(el, 'demo-key', 'sinleui-demo')",
+			actionText: '',
+			resultText: '',
+			resultType: 'success'
+		}
+	]
+}
+
+function runCard(index: number): void {
+	const card = cards.value[index]
+	let text = ''
+	let type = 'success'
+	if (card.key == 'formatNumber') {
+		text = `formatNumber(3.14) = ${snu.formatNumber(3.14)}\nformatNumber(3) = ${snu.formatNumber(3)}`
+	} else if (card.key == 'deepClone') {
+		const origin = [1, 2, 3]
+		const copy = snu.deepClone<number[]>(origin)
+		copy.push(999)
+		text = `${t('apiUtils.originArray')} ${arrayText(origin)}\n${t('apiUtils.copyArray')} ${arrayText(copy)}`
+	} else if (card.key == 'reArray') {
+		const origin = [1, 2, 3]
+		const copy = snu.reArray<number>(origin)
+		copy.push(4)
+		text = `${t('apiUtils.originArray')} ${arrayText(origin)}\n${t('apiUtils.copyArray')} ${arrayText(copy)}`
+	} else if (card.key == 'shuffle') {
+		const shuffled = snu.shuffle([1, 2, 3, 4, 5])
+		let s = '['
+		for (let i = 0; i < shuffled.length; i++) {
+			if (i > 0) s += ', '
+			s += shuffled[i].toString()
+		}
+		s += ']'
+		text = `shuffle([1, 2, 3, 4, 5]) = ${s}`
+	} else if (card.key == 'isNumber') {
+		text = `isNumber(123) = ${snu.isNumber(123)}\nisNumber('abc') = ${snu.isNumber('abc')}`
+	} else if (card.key == 'dataset') {
+		const el = uni.getElementById('utils-dataset-el')
+		if (el == null) {
+			text = t('apiUtils.nodeNotFound')
+			type = 'fail'
+		} else {
+			snu.setDataset(el, 'demo-key', 'sinleui-demo')
+			const readBack = snu.getDataset(el, 'demo-key')
+			text = `${t('apiUtils.datasetResultKey')}${readBack}`
+		}
+	}
+	replaceCard(index, text, type)
+}
+
+function replaceCard(index: number, text: string, type: string): void {
+	const c = cards.value[index]
+	const next: UtilsActionCard = {
+		key: c.key,
+		title: c.title,
+		desc: c.desc,
+		signature: c.signature,
+		actionText: c.actionText,
+		resultText: text,
+		resultType: type
+	}
+	cards.value.splice(index, 1, next)
+}
+
+function runDatasetCard(retry: number): void {
+	if (uni.getElementById('utils-dataset-el') == null) {
+		if (retry > 0) {
+			setTimeout((): void => {
+				runDatasetCard(retry - 1)
+			}, 50)
+		}
+		return
+	}
+	for (let i = 0; i < cards.value.length; i++) {
+		if (cards.value[i].key == 'dataset') {
+			runCard(i)
+			return
+		}
+	}
+}
+
+onMounted((): void => {
+	for (let i = 0; i < cards.value.length; i++) {
+		if (cards.value[i].key != 'dataset') {
+			runCard(i)
+		}
+	}
+	setTimeout((): void => {
+		runDatasetCard(3)
+	}, 0)
+})
+</script>
+
+<style lang="scss">
+.group-object {
+	flex-direction: column;
+}
+
+.dataset-node {
+	flex-direction: row;
+	align-items: center;
+	padding: 10px;
+	border-radius: 8px;
+	border-width: 1px;
+	border-style: dashed;
+	border-color: var(--sn-primary);
+	transition-property: border-color;
+	transition-duration: var(--ani-time-normal);
+}
+</style>

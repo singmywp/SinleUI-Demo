@@ -5,14 +5,14 @@
 			backtop :backtop-top="200" :backtop-right="16" :backtop-bottom="80"
 			@refresherrefresh="onRefresh" @loadmore="onLoadmore">
 			<view v-for="(item, index) in items" :key="item" class="scroll-item" flatten>
-				<sn-text font-size="$14" :color="itemColor" flatten>{{ item }}</sn-text>
-				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:4px;" flatten>{{ t('backtopScroll.tip') }}</sn-text>
+				<sn-text font-size="$14" :color="itemColor">{{ item }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:4px;">{{ t('backtopScroll.tip') }}</sn-text>
 			</view>
 		</sn-scroll-view>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 	import { useI18n } from 'vue-i18n'
 	import { $snui } from '@/uni_modules/sinle-ui'
 	import type { ComponentPublicInstance } from 'vue'

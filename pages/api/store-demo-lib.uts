@@ -1,0 +1,3 @@
+import { StoreLib } from '@/uni_modules/sinle-ui/index.uts'
+
+export const demoStore = new StoreLib('store_demo')

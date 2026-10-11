@@ -8,14 +8,14 @@
 			<sn-card v-for="e in searchResults" :key="e.name" border="none"
 				:title="t(e.name)" :box-shadow="`0 2px 15px 0px ${boxShadowColor}`" margin="10px"
 				:avatar-config="({ src: e.avatar } as SnAvatarConfig)">
-				<sn-text :text="t(e.description)" flatten />
+				<sn-text :text="t(e.description)"/>
 			</sn-card>
 			<sn-gap :height="50" />
 		</scroll-view>
 	</view>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
 import { $snui } from '@/uni_modules/sinle-ui'

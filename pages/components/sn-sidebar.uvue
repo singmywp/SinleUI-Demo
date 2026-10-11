@@ -1,6 +1,5 @@
 <template>
-	<sn-page>
-		<sn-topbar :title="t('snSidebar.title')"></sn-topbar>
+	<sn-page :title="t('snSidebar.title')" :show-back="true">
 		<demo-card :title="t('snSidebar.demoBasicTitle')" :subtitle="t('snSidebar.demoBasicSub')"
 			custom-style="margin:10px 10px 0 10px;">
 		</demo-card>
@@ -13,8 +12,8 @@
 					item-style="border-radius: 4px;" content-class="demo-sidebar-content"
 					content-style="border-width:1px;border-style:solid;border-color:var(--sn-primary);">
 					<sn-view bg-color="$front" padding="20px" style="flex: 1;">
-						<sn-text :text="t('snSidebar.currentSelected', { text: (data[extValue].text ?? '') } as UTSJSONObject)" flatten />
-						<sn-text flatten type="text-light" :font-size="12" :text="t('snSidebar.extTip')" custom-style="margin-top:8px;" />
+						<sn-text :text="t('snSidebar.currentSelected', { text: (data[extValue].text ?? '') } as UTSJSONObject)"/>
+						<sn-text type="text-light" :font-size="12" :text="t('snSidebar.extTip')" custom-style="margin-top:8px;" />
 					</sn-view>
 				</sn-sidebar>
 			</view>
@@ -22,8 +21,8 @@
 		<view style="height: 220px; margin: 10px;" flatten>
 			<sn-sidebar v-model="value" :data="data">
 				<sn-view bg-color="$front" padding="20px" style="flex: 1;">
-					<sn-text :text="t('snSidebar.currentSelected', { text: (data[value].text ?? '') } as UTSJSONObject)" flatten />
-					<sn-text type="text-light" :font-size="12" :text="t('snSidebar.contentTip')" custom-style="margin-top:8px;" flatten />
+					<sn-text :text="t('snSidebar.currentSelected', { text: (data[value].text ?? '') } as UTSJSONObject)"/>
+					<sn-text type="text-light" :font-size="12" :text="t('snSidebar.contentTip')" custom-style="margin-top:8px;"/>
 				</sn-view>
 			</sn-sidebar>
 		</view>
@@ -33,26 +32,26 @@
 					<sn-button custom-class="m-b-10" type="primary" shape="circle">
 						<sn-icon name="emotion-happy-fill" color="#fff"></sn-icon>
 					</sn-button>
-					<sn-text :text="t('snSidebar.demo1')" flatten></sn-text>
+					<sn-text :text="t('snSidebar.demo1')"></sn-text>
 				</sn-grid-item>
 				<sn-grid-item @click="gotoDemo(2)">
 					<sn-button custom-class="m-b-10" type="error" shape="circle">
 						<sn-icon name="meteor-fill" color="#fff"></sn-icon>
 					</sn-button>
-					<sn-text :text="t('snSidebar.demo2')" flatten></sn-text>
+					<sn-text :text="t('snSidebar.demo2')"></sn-text>
 				</sn-grid-item>
 				<sn-grid-item @click="gotoDemo(3)">
 					<sn-button custom-class="m-b-10" type="success" shape="circle">
 						<sn-icon name="skull-fill" color="#fff"></sn-icon>
 					</sn-button>
-					<sn-text :text="t('snSidebar.demo3')" flatten></sn-text>
+					<sn-text :text="t('snSidebar.demo3')"></sn-text>
 				</sn-grid-item>
 			</sn-grid-group>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'

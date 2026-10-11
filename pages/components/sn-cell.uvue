@@ -51,7 +51,7 @@
 					@click="onCellClick" :border="false" />
 			</view>
 			<view class="click-result" flatten v-if="clickResult != ''">
-				<sn-text type="text-light" font-size="$12" flatten>{{ clickResult }}</sn-text>
+				<sn-text type="text-light" font-size="$12">{{ clickResult }}</sn-text>
 			</view>
 		</demo-card>
 
@@ -109,7 +109,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

@@ -62,8 +62,8 @@
 			<view v-else class="demo-load-result" flatten>
 				<sn-avatar src="https://sinleui.pages.dev/logo.png" size="48px" border-radius="$24" />
 				<view class="demo-col" style="margin: 0 0 0 12px" flatten>
-					<sn-text bold font-size="$15" color="$title" flatten>SinleUI 2.0</sn-text>
-					<sn-text font-size="$12" color="$textLight" flatten>{{ t('snSkeleton.frameworkDesc') }}</sn-text>
+					<sn-text bold font-size="$15" color="$title">SinleUI 2.0</sn-text>
+					<sn-text font-size="$12" color="$textLight">{{ t('snSkeleton.frameworkDesc') }}</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -83,14 +83,14 @@
 		<demo-card :title="t('snSkeleton.demoSlotTitle')" :subtitle="t('snSkeleton.demoSlotSub')">
 			<sn-skeleton width="100%" height="56px" border-radius="$12">
 				<view class="demo-slot-content" flatten>
-					<sn-text font-size="$11" color="$textLight" flatten>{{ t('snSkeleton.slotTip') }}</sn-text>
+					<sn-text font-size="$11" color="$textLight">{{ t('snSkeleton.slotTip') }}</sn-text>
 				</view>
 			</sn-skeleton>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

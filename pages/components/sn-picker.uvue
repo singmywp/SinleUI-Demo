@@ -2,7 +2,7 @@
 	<sn-page :title="t('snPicker.title')" :show-back="true">
 
 		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
-			<sn-text font-size="$12" color="$primary" flatten>{{ t('snPicker.alert') }}</sn-text>
+			<sn-text font-size="$12" color="$primary">{{ t('snPicker.alert') }}</sn-text>
 		</sn-alert>
 
 		<demo-card :title="t('snPicker.basicTitle')" :subtitle="t('snPicker.basicSubtitle')">
@@ -10,7 +10,7 @@
 				<sn-button :text="t('snPicker.openPickerBtn')" type="primary" custom-style="flex:1;" @click="openPicker" />
 				<sn-button :text="t('snPicker.closePickerBtn')" type="info" custom-style="flex:1;margin-left:10px;" @click="closePicker" />
 			</view>
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snPicker.currentSelected', { value: pickerValueText } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snPicker.currentSelected', { value: pickerValueText } as UTSJSONObject) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snPicker.configTitle')" :subtitle="t('snPicker.configSubtitle')">
@@ -29,7 +29,7 @@
 				<sn-button type="primary" :text="t('snPicker.customTheme')" custom-style="margin-right:8px;flex:1;" @click="openCustomStyle" />
 				<sn-button type="info" :text="t('snPicker.disablePicker')" custom-style="flex:1;" @click="openDisabled" />
 			</view>
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snPicker.disabledTip') }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snPicker.disabledTip') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snPicker.maskTitle')" :subtitle="t('snPicker.maskSubtitle')">
@@ -44,8 +44,8 @@
 
 		<demo-card :title="t('snPicker.eventTitle')" :subtitle="t('snPicker.eventSubtitle')">
 			<view class="config-row" flatten>
-				<sn-text :text="t('snPicker.eventResult')" custom-style="width:80px;" flatten />
-				<sn-text bold font-size="$14" :text="eventResult" flatten />
+				<sn-text :text="t('snPicker.eventResult')" custom-style="width:80px;"/>
+				<sn-text bold font-size="$14" :text="eventResult"/>
 			</view>
 			<sn-button type="primary" :text="t('snPicker.triggerEventDemo')" custom-style="margin-top:10px;flex:1;" @click="openListen" />
 		</demo-card>
@@ -53,8 +53,8 @@
 		<demo-card :title="t('snPicker.sceneTitle')" :subtitle="t('snPicker.sceneSubtitle')">
 			<view class="scene-box" :style="sceneBoxStyle" flatten>
 				<sn-icon name="map-pin-line" :size="28" color="$primary" />
-				<sn-text bold font-size="$14" color="$title" :text="t('snPicker.selectCity')" custom-style="margin-top:8px;" flatten />
-				<sn-text font-size="$12" color="$textLight" :text="t('snPicker.sceneTip')" custom-style="margin-top:4px;" flatten />
+				<sn-text bold font-size="$14" color="$title" :text="t('snPicker.selectCity')" custom-style="margin-top:8px;"/>
+				<sn-text font-size="$12" color="$textLight" :text="t('snPicker.sceneTip')" custom-style="margin-top:4px;"/>
 			</view>
 			<sn-button type="primary" :text="t('snPicker.selectCityBtn')" custom-style="margin-top:12px;flex:1;" @click="openScene" />
 			<sn-text v-if="sceneResult != ''" bold font-size="$13" color="$primary" :text="sceneResult"
@@ -71,7 +71,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 	
 	import { useI18n } from 'vue-i18n'
 	import { useTheme } from '@/uni_modules/sinle-ui/index.uts'

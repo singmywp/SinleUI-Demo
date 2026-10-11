@@ -43,13 +43,13 @@
 				@linkclick="onLinkClick"
 				@logoclick="onLogoClick" />
 			<sn-text v-if="lastClick != ''" font-size="$12" :color="tipColor"
-				custom-style="margin-top:12px;" flatten>{{ lastClick }}</sn-text>
+				custom-style="margin-top:12px;">{{ lastClick }}</sn-text>
 		</demo-card>
 
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { $snui } from '@/uni_modules/sinle-ui/index.uts'
 import type { SnFooterLink, SnFooterLogo } from '@/uni_modules/sinle-ui/index.uts'

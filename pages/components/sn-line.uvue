@@ -2,11 +2,11 @@
 	<sn-page :title="t('snLine.title')" :show-back="true">
 		<demo-card :title="t('snLine.basicTitle')" :subtitle="t('snLine.basicDesc')">
 			<view class="demo-box" flatten>
-				<sn-text flatten>{{ t('snLine.regionA') }}</sn-text>
+				<sn-text>{{ t('snLine.regionA') }}</sn-text>
 			</view>
 			<sn-line margin="16" />
 			<view class="demo-box" flatten>
-				<sn-text flatten>{{ t('snLine.regionB') }}</sn-text>
+				<sn-text>{{ t('snLine.regionB') }}</sn-text>
 			</view>
 		</demo-card>
 
@@ -32,27 +32,27 @@
 
 		<demo-card :title="t('snLine.verticalTitle')" :subtitle="t('snLine.verticalDesc')">
 			<view class="h-row" flatten>
-				<sn-text flatten>{{ t('snLine.text') }}</sn-text>
+				<sn-text>{{ t('snLine.text') }}</sn-text>
 				<sn-line direction="vertical" :length="20" margin="12" />
-				<sn-text flatten>{{ t('snLine.text') }}</sn-text>
+				<sn-text>{{ t('snLine.text') }}</sn-text>
 				<sn-line direction="vertical" :length="20" margin="12" />
-				<sn-text flatten>{{ t('snLine.text') }}</sn-text>
+				<sn-text>{{ t('snLine.text') }}</sn-text>
 			</view>
 		</demo-card>
 
 		<demo-card :title="t('snLine.verticalDashedTitle')" :subtitle="t('snLine.verticalDashedDesc')">
 			<view class="h-row" flatten>
-				<sn-text flatten>A</sn-text>
+				<sn-text>A</sn-text>
 				<sn-line direction="vertical" :length="20" :dashed="true" margin="12" color="var(--sn-primary)" />
-				<sn-text flatten>B</sn-text>
+				<sn-text>B</sn-text>
 				<sn-line direction="vertical" :length="20" :dashed="true" margin="12" color="var(--sn-success)" />
-				<sn-text flatten>C</sn-text>
+				<sn-text>C</sn-text>
 			</view>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

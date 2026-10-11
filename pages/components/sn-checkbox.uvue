@@ -6,7 +6,7 @@
 				<sn-checkbox :text="t('snCheckbox.banana')" />
 				<sn-checkbox :text="t('snCheckbox.pineapple')" />
 			</sn-checkbox-group>
-			<sn-text flatten font-size="$12" color="$textLight">{{ t('snCheckbox.selectedIndex', { text: check1Text } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" color="$textLight">{{ t('snCheckbox.selectedIndex', { text: check1Text } as UTSJSONObject) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snCheckbox.defaultSelected')" :subtitle="t('snCheckbox.defaultSelectedSub')">
@@ -15,7 +15,7 @@
 				<sn-checkbox :text="t('snCheckbox.option2')" />
 				<sn-checkbox :text="t('snCheckbox.option3')" />
 			</sn-checkbox-group>
-			<sn-text flatten font-size="$12" color="$textLight">{{ t('snCheckbox.vmInit', { text: check2Text } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" color="$textLight">{{ t('snCheckbox.vmInit', { text: check2Text } as UTSJSONObject) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snCheckbox.vertical')" :subtitle="t('snCheckbox.verticalSub')">
@@ -35,13 +35,13 @@
 		</demo-card>
 
 		<demo-card :title="t('snCheckbox.customIcon')" :subtitle="t('snCheckbox.customIconSub')">
-			<sn-text flatten font-size="$12" color="$textLight">{{ t('snCheckbox.groupDot') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight">{{ t('snCheckbox.groupDot') }}</sn-text>
 			<sn-checkbox-group v-model="check5" box-icon="check-double-fill" box-icon-color="#fff"
 				box-active-bg-color="$success" box-active-border-color="$success">
 				<sn-checkbox :text="t('snCheckbox.selectAll')" />
 				<sn-checkbox :text="t('snCheckbox.batchOp')" />
 			</sn-checkbox-group>
-			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:12px;">{{ t('snCheckbox.singleOverride') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:12px;">{{ t('snCheckbox.singleOverride') }}</sn-text>
 			<sn-checkbox-group v-model="check6">
 				<sn-checkbox :text="t('snCheckbox.defaultIcon')" />
 				<sn-checkbox :text="t('snCheckbox.defaultToo')" />
@@ -67,12 +67,12 @@
 		</demo-card>
 
 		<demo-card :title="t('snCheckbox.tagTheme')" :subtitle="t('snCheckbox.tagThemeSub')">
-			<sn-text flatten font-size="$12" color="$textLight">{{ t('snCheckbox.groupSuccess') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight">{{ t('snCheckbox.groupSuccess') }}</sn-text>
 			<sn-checkbox-group v-model="check9" tag-type="success">
 				<sn-checkbox-tag :text="t('snCheckbox.basicMember')" />
 				<sn-checkbox-tag :text="t('snCheckbox.premiumMember')" />
 			</sn-checkbox-group>
-			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:12px;">{{ t('snCheckbox.singleOverrideWarning') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:12px;">{{ t('snCheckbox.singleOverrideWarning') }}</sn-text>
 			<sn-checkbox-group v-model="check10">
 				<sn-checkbox-tag text="primary" />
 				<sn-checkbox-tag text="info" />
@@ -108,7 +108,7 @@
 				<sn-checkbox-tag type="error" level="third" text="third" />
 				<sn-checkbox-tag type="error" level="least" text="least" />
 			</sn-checkbox-group>
-			<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:4px;">{{ t('snCheckbox.levelTip') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:4px;">{{ t('snCheckbox.levelTip') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snCheckbox.tagDisabled')" :subtitle="t('snCheckbox.tagDisabledSub')">
@@ -154,7 +154,7 @@
 				<sn-checkbox :text="t('snCheckbox.optionB')" />
 				<sn-checkbox :text="t('snCheckbox.optionC')" />
 			</sn-checkbox-group>
-			<sn-text flatten font-size="$13" color="$primary" custom-style="margin-top:12px;">{{ t('snCheckbox.recentEvent', { text: changeLog } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$13" color="$primary" custom-style="margin-top:12px;">{{ t('snCheckbox.recentEvent', { text: changeLog } as UTSJSONObject) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snCheckbox.externalStyle')" :subtitle="t('snCheckbox.externalStyleSub')">
@@ -165,7 +165,7 @@
 				<sn-checkbox :text="t('snCheckbox.textCustomStyle')" text-style="font-weight:bold;color:#ff6600;" />
 			</sn-checkbox-group>
 			<view style="margin-top: 12px;" flatten>
-				<sn-text flatten font-size="$12" color="$textLight">{{ t('snCheckbox.groupClassDesc') }}</sn-text>
+				<sn-text font-size="$12" color="$textLight">{{ t('snCheckbox.groupClassDesc') }}</sn-text>
 				<sn-checkbox-group v-model="check23" box-class="demo-box-big" text-class="demo-text-strong">
 					<sn-checkbox :text="t('snCheckbox.apple')" />
 					<sn-checkbox :text="t('snCheckbox.banana')" />
@@ -180,7 +180,7 @@
 				<sn-checkbox-tag :text="t('snCheckbox.textCustomStyle')" text-style="font-weight:bold;letter-spacing:1px;" />
 			</sn-checkbox-group>
 			<view style="margin-top: 12px;" flatten>
-				<sn-text flatten font-size="$12" color="$textLight">{{ t('snCheckbox.groupTagClassDesc') }}</sn-text>
+				<sn-text font-size="$12" color="$textLight">{{ t('snCheckbox.groupTagClassDesc') }}</sn-text>
 				<sn-checkbox-group v-model="check24" tag-class="demo-tag-scale">
 					<sn-checkbox-tag :text="t('snCheckbox.basketball')" />
 					<sn-checkbox-tag :text="t('snCheckbox.football')" />
@@ -190,7 +190,7 @@
 
 		<demo-card :title="t('snCheckbox.scene')" :subtitle="t('snCheckbox.sceneSub')">
 			<view class="scene-card" flatten>
-				<sn-text flatten bold font-size="$14" color="$text">{{ t('snCheckbox.chooseInterest') }}</sn-text>
+				<sn-text bold font-size="$14" color="$text">{{ t('snCheckbox.chooseInterest') }}</sn-text>
 				<sn-checkbox-group v-model="hobbies" custom-style="margin-top:12px;">
 					<sn-checkbox-tag :text="t('snCheckbox.programming')" />
 					<sn-checkbox-tag :text="t('snCheckbox.design')" />
@@ -199,13 +199,13 @@
 					<sn-checkbox-tag :text="t('snCheckbox.sports')" />
 					<sn-checkbox-tag :text="t('snCheckbox.reading')" />
 				</sn-checkbox-group>
-				<sn-text flatten font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snCheckbox.hobbiesCount', { count: hobbies.length, text: hobbiesText } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snCheckbox.hobbiesCount', { count: hobbies.length, text: hobbiesText } as UTSJSONObject) }}</sn-text>
 			</view>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { $snui } from '@/uni_modules/sinle-ui'
 

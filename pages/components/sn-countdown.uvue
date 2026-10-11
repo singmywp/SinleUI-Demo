@@ -2,7 +2,7 @@
 	<sn-page :title="t('snCountdown.title')" :show-back="true">
 		<demo-card :title="t('snCountdown.basicTitle')" :subtitle="t('snCountdown.basicDesc')">
 			<sn-countdown ref="cd1" :time="3600000" format="HH:mm:ss" @change="onChange1" @finish="onFinish1" />
-			<sn-text type="text-light" :font-size="13" :text="card1Text" custom-style="margin-top:8px;" flatten />
+			<sn-text type="text-light" :font-size="13" :text="card1Text" custom-style="margin-top:8px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snCountdown.msTitle')" :subtitle="t('snCountdown.msDesc')">
@@ -28,7 +28,7 @@
 		<demo-card :title="t('snCountdown.seckillTitle')" :subtitle="t('snCountdown.seckillDesc')">
 			<view class="cd-seckill" flatten>
 				<view class="cd-seckill-head" flatten>
-					<sn-text bold :font-size="16" color="#fff" :text="t('snCountdown.seckill')" flatten />
+					<sn-text bold :font-size="16" color="#fff" :text="t('snCountdown.seckill')"/>
 					<sn-countdown ref="cdKill" :time="7200000" format="HH:mm:ss" text-color="#fff" text-size="$16" @finish="onKillFinish" />
 				</view>
 				<view class="cd-seckill-body" flatten>
@@ -36,8 +36,8 @@
 						<sn-icon name="flashlight-line" :size="30" color="$error" />
 					</view>
 					<view class="cd-seckill-info" flatten>
-						<sn-text bold :font-size="15" :text="t('snCountdown.earphones')" flatten />
-						<sn-text type="text-light" :font-size="11" :text="t('snCountdown.price')" custom-style="margin-top:4px;" flatten />
+						<sn-text bold :font-size="15" :text="t('snCountdown.earphones')"/>
+						<sn-text type="text-light" :font-size="11" :text="t('snCountdown.price')" custom-style="margin-top:4px;"/>
 					</view>
 					<sn-button :text="killBtnText"  :type="isKilling ? 'error' : 'info'" :disabled="!isKilling" @click="onBuy" />
 				</view>
@@ -48,23 +48,23 @@
 			<sn-countdown :time="3661000" format="HH:mm:ss" @change="onSegChange"
 				custom-style="justify-content:center;padding-top:16px;padding-bottom:16px;">
 				<view class="cd-seg-cell" flatten>
-					<sn-text bold :font-size="24" color="#fff" :text="segArr[0]" flatten />
+					<sn-text bold :font-size="24" color="#fff" :text="segArr[0]"/>
 				</view>
-				<sn-text bold :font-size="18" color="$textLight" :text="t('snCountdown.hour')" custom-style="margin-left:5px;margin-right:5px;" flatten />
+				<sn-text bold :font-size="18" color="$textLight" :text="t('snCountdown.hour')" custom-style="margin-left:5px;margin-right:5px;"/>
 				<view class="cd-seg-cell cd-seg-cell-accent" flatten>
-					<sn-text bold :font-size="24" color="#fff" :text="segArr[1]" flatten />
+					<sn-text bold :font-size="24" color="#fff" :text="segArr[1]"/>
 				</view>
-				<sn-text bold :font-size="18" color="$textLight" :text="t('snCountdown.minute')" custom-style="margin-left:5px;margin-right:5px;" flatten />
+				<sn-text bold :font-size="18" color="$textLight" :text="t('snCountdown.minute')" custom-style="margin-left:5px;margin-right:5px;"/>
 				<view class="cd-seg-cell" flatten>
-					<sn-text bold :font-size="24" color="#fff" :text="segArr[2]" flatten />
+					<sn-text bold :font-size="24" color="#fff" :text="segArr[2]"/>
 				</view>
-				<sn-text bold :font-size="18" color="$textLight" :text="t('snCountdown.second')" custom-style="margin-left:5px;" flatten />
+				<sn-text bold :font-size="18" color="$textLight" :text="t('snCountdown.second')" custom-style="margin-left:5px;"/>
 			</sn-countdown>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { snu } from '@/uni_modules/sinle-ui'
  import type { SnTime } from '@/uni_modules/sinle-ui/core/types/index.uts'

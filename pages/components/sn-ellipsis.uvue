@@ -6,7 +6,7 @@
 
 		<demo-card :title="t('snEllipsis.multiTitle')" :subtitle="t('snEllipsis.multiDesc')">
 			<sn-ellipsis :content="longText" :rows="2" />
-			<sn-text flatten font-size="$13" color="$textLight" custom-style="margin-top:10px;">rows=3</sn-text>
+			<sn-text font-size="$13" color="$textLight" custom-style="margin-top:10px;">rows=3</sn-text>
 			<sn-ellipsis :content="longText" :rows="3" custom-style="margin-top:6px;" />
 		</demo-card>
 
@@ -16,18 +16,18 @@
 		</demo-card>
 
 		<demo-card :title="t('snEllipsis.posTitle')" :subtitle="t('snEllipsis.posDesc')">
-			<sn-text flatten font-size="$13" color="$textLight">end</sn-text>
+			<sn-text font-size="$13" color="$textLight">end</sn-text>
 			<sn-ellipsis :content="positionText" :rows="2" custom-style="margin-top:6px;" />
-			<sn-text flatten font-size="$13" color="$textLight" custom-style="margin-top:10px;">start</sn-text>
+			<sn-text font-size="$13" color="$textLight" custom-style="margin-top:10px;">start</sn-text>
 			<sn-ellipsis :content="positionText" :rows="2" position="start" custom-style="margin-top:6px;" />
-			<sn-text flatten font-size="$13" color="$textLight" custom-style="margin-top:10px;">middle</sn-text>
+			<sn-text font-size="$13" color="$textLight" custom-style="margin-top:10px;">middle</sn-text>
 			<sn-ellipsis :content="positionText" :rows="2" position="middle" custom-style="margin-top:6px;" />
 		</demo-card>
 
 		<demo-card :title="t('snEllipsis.expandTitle')" :subtitle="t('snEllipsis.expandDesc')">
 			<sn-ellipsis :content="longText" :rows="2" :expand-text="t('snEllipsis.expand')" :collapse-text="t('snEllipsis.collapse')"
 				@expand="onExpand" @collapse="onCollapse" />
-			<sn-text flatten font-size="$13" color="$textLight" custom-style="margin-top:10px;">{{ stateText }}</sn-text>
+			<sn-text font-size="$13" color="$textLight" custom-style="margin-top:10px;">{{ stateText }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snEllipsis.customTitle')" :subtitle="t('snEllipsis.customDesc')">
@@ -39,11 +39,11 @@
 			<sn-ellipsis :content="longText" :rows="2">
 				<template #expand>
 					<sn-icon name="arrow-down-s-line" :size="14" />
-					<sn-text flatten font-size="$13" color="$primary" custom-style="margin-left:2px;">{{ t('snEllipsis.viewAll') }}</sn-text>
+					<sn-text font-size="$13" color="$primary" custom-style="margin-left:2px;">{{ t('snEllipsis.viewAll') }}</sn-text>
 				</template>
 				<template #collapse>
 					<sn-icon name="arrow-up-s-line" :size="14" />
-					<sn-text flatten font-size="$13" color="$primary" custom-style="margin-left:2px;">{{ t('snEllipsis.collapse') }}</sn-text>
+					<sn-text font-size="$13" color="$primary" custom-style="margin-left:2px;">{{ t('snEllipsis.collapse') }}</sn-text>
 				</template>
 			</sn-ellipsis>
 		</demo-card>
@@ -52,7 +52,7 @@
 			<view class="goods-card">
 				<view class="goods-head">
 					<sn-text bold font-size="$15" color="$title">{{ t('snEllipsis.goodsName') }}</sn-text>
-					<sn-text flatten font-size="$12" color="$warning" custom-style="margin-top:2px;">{{ t('snEllipsis.discount') }}</sn-text>
+					<sn-text font-size="$12" color="$warning" custom-style="margin-top:2px;">{{ t('snEllipsis.discount') }}</sn-text>
 				</view>
 				<sn-ellipsis :rows="2" :expand-text="t('snEllipsis.expandFull')" :collapse-text="t('snEllipsis.collapseDesc')"
 					action-color="#2563EB" custom-style="margin-top:8px;">
@@ -63,7 +63,7 @@
 
 		<demo-card :title="t('snEllipsis.hiddenTitle')" :subtitle="t('snEllipsis.hiddenDesc')">
 			<sn-ellipsis :content="longText" :rows="2" :expand-text="t('snEllipsis.expandFull')" :collapse-text="t('snEllipsis.collapse')" :show-collapse="false" />
-			<sn-text flatten font-size="$13" color="$textLight" custom-style="margin-top:10px;">{{ t('snEllipsis.expandTips') }}</sn-text>
+			<sn-text font-size="$13" color="$textLight" custom-style="margin-top:10px;">{{ t('snEllipsis.expandTips') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snEllipsis.disabledTitle')" :subtitle="t('snEllipsis.disabledDesc')">
@@ -72,7 +72,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

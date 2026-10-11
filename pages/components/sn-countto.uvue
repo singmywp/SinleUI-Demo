@@ -2,7 +2,7 @@
 	<sn-page :title="t('snCountto.title')" :show-back="true">
 		<demo-card :title="t('snCountto.basicTitle')" :subtitle="t('snCountto.basicDesc')">
 			<sn-countto ref="ct1" :end-val="6666" @finish="onFinish1" />
-			<sn-text type="text-light" :font-size="13" :text="finishCountText" custom-style="margin-top:8px;" flatten />
+			<sn-text type="text-light" :font-size="13" :text="finishCountText" custom-style="margin-top:8px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snCountto.startTitle')" :subtitle="t('snCountto.startDesc')">
@@ -42,31 +42,31 @@
 		<demo-card :title="t('snCountto.boardTitle')" :subtitle="t('snCountto.boardDesc')">
 			<view class="ct-board" flatten>
 				<view class="ct-board-head" flatten>
-					<sn-text bold :font-size="15" color="$primaryText" :text="t('snCountto.yearlyData')" flatten />
-					<sn-text :font-size="11" color="$primaryLight" :text="t('snCountto.realtimeUpdate')" flatten />
+					<sn-text bold :font-size="15" color="$primaryText" :text="t('snCountto.yearlyData')"/>
+					<sn-text :font-size="11" color="$primaryLight" :text="t('snCountto.realtimeUpdate')"/>
 				</view>
 				<view class="ct-board-item" flatten>
 					<sn-icon name="funds-line" :size="22" color="$success" />
-					<sn-text :font-size="12" :text="t('snCountto.revenue')" custom-style="margin-left:8px;flex:1;" flatten />
+					<sn-text :font-size="12" :text="t('snCountto.revenue')" custom-style="margin-left:8px;flex:1;"/>
 					<sn-countto :start-val="0" :end-val="1860000" :duration="6000" :separate="3" text-size="$16" text-color="$text" />
 				</view>
 				<view class="ct-board-item ct-board-item-line" flatten>
 					<sn-icon name="bar-chart-line" :size="22" color="$warning" />
-					<sn-text :font-size="12" :text="t('snCountto.orders')" custom-style="margin-left:8px;flex:1;" flatten />
+					<sn-text :font-size="12" :text="t('snCountto.orders')" custom-style="margin-left:8px;flex:1;"/>
 					<sn-countto :start-val="0" :end-val="12876" :duration="6000" :separate="3" text-size="$16" text-color="$text" />
 				</view>
 				<view class="ct-board-item ct-board-item-line" flatten>
 					<sn-icon name="percent-line" :size="22" color="$error" />
-					<sn-text :font-size="12" :text="t('snCountto.growth')" custom-style="margin-left:8px;flex:1;" flatten />
+					<sn-text :font-size="12" :text="t('snCountto.growth')" custom-style="margin-left:8px;flex:1;"/>
 					<sn-countto :start-val="0" :end-val="88" :duration="6000" :easing="true" text-size="$16" text-color="$text" />
-					<sn-text bold :font-size="16" color="$text" text="%" flatten />
+					<sn-text bold :font-size="16" color="$text" text="%"/>
 				</view>
 			</view>
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type { ComponentPublicInstance } from 'vue'
 

@@ -1,7 +1,29 @@
 <template>
-	<sn-page :title="t('snTabbar.title')" :show-back="false">
+	<sn-page :title="t('snTabbar.title')" :show-back="true">
 		<demo-card :title="t('snTabbar.demoDefaultTitle')" :subtitle="t('snTabbar.demoDefaultSub')" />
-		<sn-tabbar v-model:height="inlineHeight" :data="basicData" :fixed="false" custom-contain-style="margin:0 16px;" @change="onBasicChange" @heightchange="onInlineHeightChange" />
+		<sn-tabbar v-model:height="inlineHeight" :data="basicData" :fixed="false" margin="0 16px" @change="onBasicChange" @heightchange="onInlineHeightChange" />
+
+		<sn-line margin="24" />
+
+		<demo-card :title="t('snTabbar.demoCustomTitle')" :subtitle="t('snTabbar.demoCustomSub')" />
+		<sn-tabbar
+			:data="customData"
+			:index="1"
+			:fixed="false"
+			margin="0 16px"
+			padding="$4"
+			bg-color="$front"
+			border="1px solid var(--sn-line)"
+			border-radius="$50"
+			item-padding="$4"
+			item-border-radius="$50"
+			item-active-bg-color="rgba(128,128,128,0.12)"
+			text-size="$13"
+			icon-size="$24"
+			active-text-color="$primary"
+			active-icon-color="$primary"
+			custom-style="box-shadow:0 8px 24px 0 rgba(0,0,0,0.12);"
+		/>
 
 		<sn-line margin="24" />
 
@@ -9,7 +31,7 @@
 		<sn-tabbar
 			:data="styleData"
 			:fixed="false"
-			margin="10px"
+			margin="10px 16px"
 			padding="$10"
 			border="1px solid var(--sn-line)"
 			border-radius="$18"
@@ -18,7 +40,6 @@
 			item-border-radius="$12"
 			item-active-bg-color="$primaryLight"
 			custom-style="box-shadow:0 8px 24px 0 rgba(0,0,0,0.06);"
-			custom-contain-style="margin:0 16px;padding:0 2px;"
 		/>
 
 		<sn-line margin="24" />
@@ -27,14 +48,14 @@
 		<sn-tabbar
 			:data="mediaData"
 			:fixed="false"
-			custom-contain-style="margin:0 16px;"
+			margin="0 16px"
 			:bg-color="colorDemoBg"
-			:item-bg-color="$transparent"
-			:item-active-bg-color="$infoLight"
-			:text-color="$textLight"
-			:active-text-color="$title"
-			:icon-color="$textLight"
-			:active-icon-color="$primary"
+			item-bg-color="$transparent"
+			item-active-bg-color="$infoLight"
+			text-color="$textLight"
+			active-text-color="$title"
+			icon-color="$textLight"
+			active-icon-color="$primary"
 			text-size="$12"
 			icon-size="$24"
 			image-size="$24"
@@ -43,12 +64,12 @@
 		<sn-line margin="24" />
 
 		<demo-card :title="t('snTabbar.demoTxtTitle')" :subtitle="t('snTabbar.demoTxtSub')" />
-		<sn-tabbar :data="textOnlyData" :fixed="false" custom-contain-style="margin:0 16px;" text-size="$13" />
+		<sn-tabbar :data="textOnlyData" :fixed="false" active-text-color="$errorDark" margin="0 16px" text-size="$16" />
 
 		<sn-line margin="24" />
 
 		<demo-card :title="t('snTabbar.demoIconTitle')" :subtitle="t('snTabbar.demoIconSub')" />
-		<sn-tabbar :data="iconOnlyData" :fixed="false" custom-contain-style="margin:0 16px;" icon-size="$24" />
+		<sn-tabbar :data="iconOnlyData" :fixed="false" margin="0 16px" icon-color="$successDark" active-icon-color="$successDark" icon-size="$24" />
 
 		<sn-line margin="24" />
 
@@ -56,7 +77,7 @@
 		<sn-tabbar
 			:data="featureData"
 			:fixed="false"
-			custom-contain-style="margin:0 16px;"
+			margin="0 16px"
 			:show-pages="false"
 			item-padding="$4"
 			hover-style="background-color: var(--sn-primary-light); transform: scale(0.985);"
@@ -70,26 +91,55 @@
 		<sn-line margin="24" />
 
 		<demo-card :title="t('snTabbar.demoDisabledTitle')" :subtitle="t('snTabbar.demoDisabledSub')" />
-		<sn-tabbar :data="disabledData" :fixed="false" custom-contain-style="margin:0 16px;" :disabled="true" />
+		<sn-tabbar :data="disabledData" :fixed="false" margin="0 16px" :disabled="true" />
 
 		<sn-line margin="24" />
 
 		<demo-card :title="t('snTabbar.demoHeightTitle')" :subtitle="t('snTabbar.demoHeightSub')">
 			<view class="event-log" flatten>
-				<sn-text v-if="eventLog != ''" font-size="$13" color="$primary" flatten>{{ eventLog }}</sn-text>
-				<sn-text v-else font-size="$13" type="text-light" flatten>{{ t('snTabbar.eventLogHint') }}</sn-text>
+				<sn-text v-if="eventLog != ''" font-size="$13" color="$primary">{{ eventLog }}</sn-text>
+				<sn-text v-else font-size="$13" type="text-light">{{ t('snTabbar.eventLogHint') }}</sn-text>
 			</view>
 			<view class="metric-row" flatten>
 				<view class="metric-chip" flatten>
-					<sn-text font-size="$12" type="text-light" flatten>{{ t('snTabbar.inlineHeightLabel') }}</sn-text>
-					<sn-text font-size="$13" bold custom-style="margin-top:4px;" flatten>{{ inlineHeight }}</sn-text>
+					<sn-text font-size="$12" type="text-light">{{ t('snTabbar.inlineHeightLabel') }}</sn-text>
+					<sn-text font-size="$13" bold custom-style="margin-top:4px;">{{ inlineHeight }}</sn-text>
 				</view>
 			</view>
 		</demo-card>
+
+		<sn-line margin="24" />
+
+		<demo-card :title="t('snTabbar.blurDemoTitle')" :subtitle="t('snTabbar.blurDemoSub')">
+			<sn-switch-button v-model="blurDemoVisible" :text="t('snTabbar.blurDemoToggle')" active-type="primary" active-level="second" />
+			<view class="glass-preview">
+				<sn-tabbar :data="basicData" :fixed="false" :blur="blurDemoVisible" :blur-radius="18"
+					:border-radius="18" :blur-opacity="0.58" />
+			</view>
+		</demo-card>
+		<sn-tabbar
+			v-if="blurDemoVisible"
+			v-model:height="blurTabbarHeight"
+			tabbar-key="demo-glass"
+			:data="customData"
+			:fixed="true"
+			:blur="true"
+			:blur-radius="18"
+			:blur-opacity="0.58"
+			margin="0 16px 16px"
+			padding="$4"
+			border="1px solid var(--sn-line)"
+			border-radius="$50"
+			item-padding="$4"
+			item-border-radius="$50"
+			item-active-bg-color="rgba(128, 128, 128, 0.16)"
+			:custom-style="blurTabbarStyleText"
+		/>
+		<sn-gap v-if="blurDemoVisible" :height="blurReserveHeight" />
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { $snui, snu } from '@/uni_modules/sinle-ui'
@@ -99,12 +149,34 @@ const { t } = useI18n()
 
 const eventLog = ref<string>('')
 const inlineHeight = ref<string>(t('snTabbar.inlineHeightInit'))
-
+const blurDemoVisible = ref<boolean>(false)
+const blurTabbarHeight = ref<string>('0px')
+const bottomSafeNum = computed<number>(() => {
+	try {
+		return uni.getWindowInfo().safeAreaInsets?.bottom ?? 0
+	} catch (e) {
+		return 0
+	}
+})
+const blurTabbarStyleText = computed<string>(() => {
+	return `bottom: ${bottomSafeNum.value}px; box-shadow: 0 8px 24px 0 rgba(0,0,0,0.12);`
+})
+const blurReserveHeight = computed<string>(() => {
+	return `${snu.getPx(blurTabbarHeight.value) + bottomSafeNum.value + 16}px`
+})
 const basicData = computed<SnTabbarItem[]>(() => [
 	{ icon: 'home-5-line', text: t('snTabbar.home'), activeIcon: 'home-5-fill' },
 	{ icon: 'apps-2-line', text: t('snTabbar.discover'), activeIcon: 'apps-2-fill' },
 	{ icon: 'message-3-line', text: t('snTabbar.message'), activeIcon: 'message-3-fill' },
 	{ icon: 'user-3-line', text: t('snTabbar.mine'), activeIcon: 'user-3-fill' }
+])
+
+const customData = computed<SnTabbarItem[]>(() => [
+	{ icon: 'arrow-up-line', text: t('snTabbar.customHome'), activeIcon: 'arrow-up-fill' },
+	{ icon: 'map-pin-line', text: t('snTabbar.customExplore'), activeIcon: 'map-pin-fill' },
+	{ icon: 'sparkling-2-line', text: t('snTabbar.customTalk'), activeIcon: 'sparkling-2-fill' },
+	{ icon: 'car-line', text: t('snTabbar.customRide'), activeIcon: 'car-fill' },
+	{ icon: 'user-3-line', text: t('snTabbar.customMine'), activeIcon: 'user-3-fill' }
 ])
 
 const pageData = computed<SnTabbarItem[]>(() => [
@@ -206,6 +278,11 @@ function onInlineHeightChange(height: number): void {
 </script>
 
 <style lang="scss">
+.glass-preview {
+	flex-direction: column;
+	margin-top: 16px;
+	border-radius: 18px;
+}
 .event-log {
 	margin-top: 4px;
 	padding: 14px 16px;

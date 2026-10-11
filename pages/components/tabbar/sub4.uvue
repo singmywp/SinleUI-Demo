@@ -6,7 +6,7 @@
 				<view class="user-row" flatten>
 					<sn-avatar src="http://img.wxcha.com/m00/bb/18/bc2167461f0ba311a992f3f00a45c58d.jpg"
 						custom-style="margin-right:10px;" />
-					<sn-text text="Toxic" font-size="$20" flatten />
+					<sn-text text="Toxic" font-size="$20"/>
 				</view>
 			</demo-card>
 			<demo-card>
@@ -14,7 +14,7 @@
 					<sn-grid-item v-for="(item, index) in features" :key="index">
 						<view class="grid-item" flatten>
 							<sn-icon :name="item.icon" />
-							<sn-text :text="t(item.text)" custom-style="text-align:center;" flatten />
+							<sn-text :text="t(item.text)" custom-style="text-align:center;"/>
 						</view>
 					</sn-grid-item>
 				</sn-grid-group>
@@ -23,7 +23,7 @@
 	</view>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
 

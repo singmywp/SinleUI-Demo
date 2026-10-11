@@ -1,10 +1,9 @@
 <template>
-	<sn-page>
-		<sn-topbar :title="t('snDrawer.title')"></sn-topbar>
+	<sn-page :title="t('snDrawer.title')" :show-back="true">
 
 		<demo-card :title="t('snDrawer.basicTitle')" :subtitle="t('snDrawer.basicDesc')">
 			<sn-button :text="t('snDrawer.openBottom')" type="primary" custom-style="flex:1;" @click="openDrawer" />
-			<sn-text type="text-light" fontSize="$12" :text="t('snDrawer.maskTip')" custom-style="margin-top:8px;" flatten />
+			<sn-text type="text-light" fontSize="$12" :text="t('snDrawer.maskTip')" custom-style="margin-top:8px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snDrawer.dirTitle')" :subtitle="t('snDrawer.dirDesc')">
@@ -20,61 +19,61 @@
 
 		<demo-card :title="t('snDrawer.sizeTitle')" :subtitle="t('snDrawer.sizeDesc')">
 			<view class="config-row" flatten>
-				<sn-text :text="t('snDrawer.panelHeight')" custom-style="width:130px;" flatten />
+				<sn-text :text="t('snDrawer.panelHeight')" custom-style="width:130px;"/>
 				<sn-stepper v-model="configs.height" :step="40" :min="120" style="flex:1;" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snDrawer.panelWidth')" custom-style="width:130px;" flatten />
+				<sn-text :text="t('snDrawer.panelWidth')" custom-style="width:130px;"/>
 				<sn-stepper v-model="configs.width" :step="40" :min="120" style="flex:1;" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text :text="t('snDrawer.slideHeightLabel')" custom-style="width:130px;" flatten />
+				<sn-text :text="t('snDrawer.slideHeightLabel')" custom-style="width:130px;"/>
 				<sn-stepper v-model="configs.slideHeight" :step="20" :min="0" style="flex:1;" />
 			</view>
 			<view class="config-row" flatten>
-				<sn-text flatten :text="t('snDrawer.slideWidthLabel')" custom-style="width:130px;" />
+				<sn-text :text="t('snDrawer.slideWidthLabel')" custom-style="width:130px;" />
 				<sn-stepper v-model="configs.slideWidth" :step="20" :min="0" style="flex:1;" />
 			</view>
 		</demo-card>
 
 		<demo-card :title="t('snDrawer.colorTitle')" :subtitle="t('snDrawer.colorDesc')">
 			<view flatten class="config-row">
-				<sn-text flatten :text="t('snDrawer.bgColorLabel')" custom-style="width:130px;" />
+				<sn-text :text="t('snDrawer.bgColorLabel')" custom-style="width:130px;" />
 				<sn-input v-model="configs.bgColor" :placeholder="t('snDrawer.defaultFront')" style="flex:1;" />
 			</view>
 			<view flatten class="config-row">
-				<sn-text flatten :text="t('snDrawer.lineColorLabel')" custom-style="width:130px;" />
+				<sn-text :text="t('snDrawer.lineColorLabel')" custom-style="width:130px;" />
 				<sn-input v-model="configs.lineColor" :placeholder="t('snDrawer.defaultLineText')" style="flex:1;" />
 			</view>
 		</demo-card>
 
 		<demo-card :title="t('snDrawer.behaviorTitle')" :subtitle="t('snDrawer.behaviorDesc')">
 			<view flatten class="config-row">
-				<sn-text flatten :text="t('snDrawer.slideCloseLabel')" custom-style="width:130px;" />
+				<sn-text :text="t('snDrawer.slideCloseLabel')" custom-style="width:130px;" />
 				<sn-switch v-model="configs.slideClose" />
 			</view>
 			<view flatten class="config-row">
-				<sn-text flatten :text="t('snDrawer.maskCloseLabel')" custom-style="width:130px;" />
+				<sn-text :text="t('snDrawer.maskCloseLabel')" custom-style="width:130px;" />
 				<sn-switch v-model="configs.maskClose" />
 			</view>
 			<view flatten class="config-row">
-				<sn-text flatten :text="t('snDrawer.preventBackLabel')" custom-style="width:130px;" />
+				<sn-text :text="t('snDrawer.preventBackLabel')" custom-style="width:130px;" />
 				<sn-switch v-model="configs.preventBack" />
 			</view>
 		</demo-card>
 
 		<demo-card :title="t('snDrawer.eventTitle')" :subtitle="t('snDrawer.eventDesc')">
 			<view flatten class="config-row">
-				<sn-text flatten :text="t('snDrawer.afterEnterLabel')" custom-style="width:140px;" />
-				<sn-text flatten bold fontSize="$14" :text="t('snDrawer.evAfterEnter', { c: enterCount } as UTSJSONObject)" />
+				<sn-text :text="t('snDrawer.afterEnterLabel')" custom-style="width:140px;" />
+				<sn-text bold fontSize="$14" :text="t('snDrawer.evAfterEnter', { c: enterCount } as UTSJSONObject)" />
 			</view>
 			<view flatten class="config-row">
-				<sn-text flatten :text="t('snDrawer.afterLeaveLabel')" custom-style="width:140px;" />
-				<sn-text flatten bold fontSize="$14" :text="t('snDrawer.evAfterLeave', { c: leaveCount } as UTSJSONObject)" />
+				<sn-text :text="t('snDrawer.afterLeaveLabel')" custom-style="width:140px;" />
+				<sn-text bold fontSize="$14" :text="t('snDrawer.evAfterLeave', { c: leaveCount } as UTSJSONObject)" />
 			</view>
 			<view flatten class="config-row">
-				<sn-text flatten :text="t('snDrawer.overlayLabel')" custom-style="width:140px;" />
-				<sn-text flatten bold fontSize="$14" :text="t('snDrawer.evOverlay', { c: overlayCount } as UTSJSONObject)" />
+				<sn-text :text="t('snDrawer.overlayLabel')" custom-style="width:140px;" />
+				<sn-text bold fontSize="$14" :text="t('snDrawer.evOverlay', { c: overlayCount } as UTSJSONObject)" />
 			</view>
 		</demo-card>
 
@@ -88,16 +87,16 @@
 				:bg-color="configs.bgColor" :line-color="configs.lineColor"
 				@afterenter="onAfterEnter" @afterleave="onAfterLeave" @clickoverlay="onOverlay">
 			<view class="drawer-body">
-				<sn-text flatten bold fontSize="$16" color="$title" :text="t('snDrawer.bottomDrawer')" />
-				<sn-text flatten fontSize="$13" color="$textLight" :text="t('snDrawer.bottomTip')" custom-style="margin-top:8px;" />
+				<sn-text bold fontSize="$16" color="$title" :text="t('snDrawer.bottomDrawer')" />
+				<sn-text fontSize="$13" color="$textLight" :text="t('snDrawer.bottomTip')" custom-style="margin-top:8px;" />
 				<sn-button :text="t('snDrawer.close')"  type="primary" custom-style="margin-top:16px;" @click="closeDrawer" />
 			</view>
 		</sn-drawer>
 
 		<sn-drawer ref="topDrawerRef" position="top" height="220px">
 			<view class="drawer-body">
-				<sn-text flatten bold fontSize="$16" color="$title" :text="t('snDrawer.topDrawer')" />
-				<sn-text flatten fontSize="$13" color="$textLight" :text="t('snDrawer.topTip')" custom-style="margin-top:8px;" />
+				<sn-text bold fontSize="$16" color="$title" :text="t('snDrawer.topDrawer')" />
+				<sn-text fontSize="$13" color="$textLight" :text="t('snDrawer.topTip')" custom-style="margin-top:8px;" />
 				<sn-button :text="t('snDrawer.close')"  type="primary" custom-style="margin-top:16px;" @click="closeTopDrawer" />
 			</view>
 		</sn-drawer>
@@ -105,8 +104,8 @@
 		<sn-drawer ref="leftDrawerRef" position="left" :width="`${configs.width}px`"
 				:slide-width="`${configs.slideWidth}px`" :bg-color="configs.bgColor" :line-color="configs.lineColor">
 			<view class="drawer-body">
-				<sn-text flatten bold fontSize="$16" color="$title" :text="t('snDrawer.leftDrawer')" />
-				<sn-text flatten fontSize="$13" color="$textLight" :text="t('snDrawer.leftTip')" custom-style="margin-top:8px;" />
+				<sn-text bold fontSize="$16" color="$title" :text="t('snDrawer.leftDrawer')" />
+				<sn-text fontSize="$13" color="$textLight" :text="t('snDrawer.leftTip')" custom-style="margin-top:8px;" />
 				<sn-button :text="t('snDrawer.close')"  type="primary" custom-style="margin-top:16px;" @click="closeLeftDrawer" />
 			</view>
 		</sn-drawer>
@@ -114,18 +113,18 @@
 		<sn-drawer ref="rightDrawerRef" position="right" :width="`${configs.width}px`"
 				:slide-width="`${configs.slideWidth}px`" :bg-color="configs.bgColor" :line-color="configs.lineColor">
 			<view class="drawer-body">
-				<sn-text flatten bold fontSize="$16" color="$title" :text="t('snDrawer.rightDrawer')" />
-				<sn-text flatten fontSize="$13" color="$textLight" :text="t('snDrawer.rightTip')" custom-style="margin-top:8px;" />
+				<sn-text bold fontSize="$16" color="$title" :text="t('snDrawer.rightDrawer')" />
+				<sn-text fontSize="$13" color="$textLight" :text="t('snDrawer.rightTip')" custom-style="margin-top:8px;" />
 				<sn-button :text="t('snDrawer.close')"  type="primary" custom-style="margin-top:16px;" @click="closeRightDrawer" />
 			</view>
 		</sn-drawer>
 
 		<sn-drawer ref="cartDrawerRef" position="bottom" height="360px" @clickoverlay="onOverlay">
 			<view class="drawer-body">
-				<sn-text flatten bold fontSize="$16" color="$title" :text="t('snDrawer.cartTitle')" />
+				<sn-text bold fontSize="$16" color="$title" :text="t('snDrawer.cartTitle')" />
 				<view class="cart-item" v-for="(g, i) in cartGoods" :key="i" flatten>
-					<sn-text flatten fontSize="$14" color="$text" :text="g.name" custom-style="flex:1;" />
-					<sn-text flatten fontSize="$14" color="$error" :text="g.price" />
+					<sn-text fontSize="$14" color="$text" :text="g.name" custom-style="flex:1;" />
+					<sn-text fontSize="$14" color="$error" :text="g.price" />
 				</view>
 				<sn-button :text="t('snDrawer.checkout')" type="primary" custom-style="margin-top:12px;" @click="closeCartDrawer" />
 			</view>
@@ -133,7 +132,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
 import type { ComponentPublicInstance } from 'vue'

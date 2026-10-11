@@ -1,35 +1,35 @@
 <template>
 	<sn-page :title="t('snKeyboard.title')" :show-back="true">
 		<sn-alert type="primary" custom-style="margin-left:16px;margin-right:16px;margin-bottom:16px;">
-			<sn-text font-size="$12" color="$primary" flatten>{{ t('snKeyboard.alert') }}</sn-text>
+			<sn-text font-size="$12" color="$primary">{{ t('snKeyboard.alert') }}</sn-text>
 		</sn-alert>
 
 		<demo-card :title="t('snKeyboard.numTitle')" :subtitle="t('snKeyboard.numDesc')">
 			<sn-button :text="t('snKeyboard.openNum')" @click="onOpenNumber" />
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snKeyboard.currentValue') }}{{ numValue }} · {{ t('snKeyboard.popupState') }}{{ numShow ? t('snKeyboard.on') : t('snKeyboard.off') }}</sn-text>
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:4px;" flatten>{{ t('snKeyboard.confirmResult') }}{{ numResult }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snKeyboard.currentValue') }}{{ numValue }} · {{ t('snKeyboard.popupState') }}{{ numShow ? t('snKeyboard.on') : t('snKeyboard.off') }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:4px;">{{ t('snKeyboard.confirmResult') }}{{ numResult }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snKeyboard.intTitle')" :subtitle="t('snKeyboard.intDesc')">
 			<sn-button :text="t('snKeyboard.openInt')" @click="onOpenInt" />
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snKeyboard.currentValue') }}{{ intValue }} · {{ t('snKeyboard.popupState') }}{{ intShow ? t('snKeyboard.on') : t('snKeyboard.off') }}</sn-text>
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:4px;" flatten>{{ t('snKeyboard.confirmResult') }}{{ intResult }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snKeyboard.currentValue') }}{{ intValue }} · {{ t('snKeyboard.popupState') }}{{ intShow ? t('snKeyboard.on') : t('snKeyboard.off') }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:4px;">{{ t('snKeyboard.confirmResult') }}{{ intResult }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snKeyboard.shuffleTitle')" :subtitle="t('snKeyboard.shuffleDesc')">
 			<sn-view custom-style="flex-direction:row;align-items:center;">
 				<sn-switch v-model="shuffleOn" />
-				<sn-text font-size="$12" :color="descColor" custom-style="margin-left:8px;" flatten>{{ t('snKeyboard.shuffleEnable') }}</sn-text>
+				<sn-text font-size="$12" :color="descColor" custom-style="margin-left:8px;">{{ t('snKeyboard.shuffleEnable') }}</sn-text>
 			</sn-view>
 			<sn-button :text="t('snKeyboard.openShuffle')" custom-style="margin-top:8px;" @click="onOpenShuffle" />
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snKeyboard.currentValue') }}{{ shuffleValue }}</sn-text>
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:4px;" flatten>{{ t('snKeyboard.confirmResult') }}{{ shuffleResult }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snKeyboard.currentValue') }}{{ shuffleValue }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:4px;">{{ t('snKeyboard.confirmResult') }}{{ shuffleResult }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snKeyboard.idTitle')" :subtitle="t('snKeyboard.idDesc')">
 			<sn-button :text="t('snKeyboard.openId')" @click="onOpenIdCard" />
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;" flatten>{{ t('snKeyboard.currentValue') }}{{ idValue }}</sn-text>
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:4px;" flatten>{{ t('snKeyboard.confirmResult') }}{{ idResult }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snKeyboard.currentValue') }}{{ idValue }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:4px;">{{ t('snKeyboard.confirmResult') }}{{ idResult }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snKeyboard.pwdTitle')" :subtitle="t('snKeyboard.pwdDesc')">
@@ -98,7 +98,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 
 import { useI18n } from 'vue-i18n'

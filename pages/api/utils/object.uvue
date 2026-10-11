@@ -1,0 +1,22 @@
+<template>
+	<sn-page :title="t('apiUtils.objectTitle')" :show-back="true">
+		<view class="utils-page-body">
+			<group-object />
+		</view>
+	</sn-page>
+</template>
+
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import GroupObject from './group-object.uvue'
+
+const { t } = useI18n()
+</script>
+
+<style lang="scss">
+.utils-page-body {
+	flex-direction: column;
+	padding-top: 12px;
+	padding-bottom: 40px;
+}
+</style>

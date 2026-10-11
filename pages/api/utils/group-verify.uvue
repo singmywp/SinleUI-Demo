@@ -1,0 +1,118 @@
+<template>
+	<view class="group-verify">
+		<utils-card v-for="(c, ci) in cards" :key="ci" :title="c.title" :desc="c.desc" :signature="c.signature"
+			:result-text="c.resultText" result-type="success" />
+	</view>
+</template>
+
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import UtilsCard from './utils-card.uvue'
+import type { UtilsVerifyCard } from './types.uts'
+
+defineOptions({
+	name: 'group-verify'
+})
+
+const { t } = useI18n()
+
+function verifyLines(name: string, inputs: string[], fn: (s: string) => boolean): string[] {
+	const lines: string[] = []
+	for (let i = 0; i < inputs.length; i++) {
+		lines.push(`${name}('${inputs[i]}') = ${fn(inputs[i])}`)
+	}
+	return lines
+}
+
+function verifyNumberLines(name: string, inputs: string[], fn: (n: number) => boolean): string[] {
+	const lines: string[] = []
+	for (let i = 0; i < inputs.length; i++) {
+		lines.push(`${name}(${inputs[i]}) = ${fn(parseFloat(inputs[i]))}`)
+	}
+	return lines
+}
+
+function joinLines(groups: string[][]): string {
+	const lines: string[] = []
+	for (let i = 0; i < groups.length; i++) {
+		const group = groups[i]
+		for (let j = 0; j < group.length; j++) {
+			lines.push(group[j])
+		}
+	}
+	return lines.join('\n')
+}
+
+const cards = ref<UtilsVerifyCard[]>(buildCards())
+
+function buildCards(): UtilsVerifyCard[] {
+	return [
+		{
+			title: t('apiUtils.verifyNetTitle'),
+			desc: t('apiUtils.verifyNetDesc'),
+			signature: 'snu.isURL / snu.isIPv4 / snu.isIPv6',
+			resultText: joinLines([
+				verifyLines('isURL', ['https://example.com', 'http://test.com/path?q=1', 'ftp://files.com', 'not-a-url'], (s: string): boolean => snu.isURL(s)),
+				verifyLines('isIPv4', ['192.168.1.1', '255.255.255.255', '256.1.1.1', '1.2.3'], (s: string): boolean => snu.isIPv4(s)),
+				verifyLines('isIPv6', ['2001:db8::1', '::1', 'fe80::1%eth0', '12345::'], (s: string): boolean => snu.isIPv6(s))
+			])
+		},
+		{
+			title: t('apiUtils.verifyContactTitle'),
+			desc: t('apiUtils.verifyContactDesc'),
+			signature: 'snu.isPhone / snu.isLandline / snu.isQQNumber / snu.isEmail',
+			resultText: joinLines([
+				verifyLines('isPhone', ['13812345678', '15912345678', '12345678901', '1381234567'], (s: string): boolean => snu.isPhone(s)),
+				verifyLines('isLandline', ['010-12345678', '0755-88888888', '1234567', '010-123456'], (s: string): boolean => snu.isLandline(s)),
+				verifyLines('isQQNumber', ['123456', '10001', '01234', '1234'], (s: string): boolean => snu.isQQNumber(s)),
+				verifyLines('isEmail', ['user@example.com', 'first.last@domain.co', 'user@@example', 'user@example'], (s: string): boolean => snu.isEmail(s))
+			])
+		},
+		{
+			title: t('apiUtils.verifyIdTitle'),
+			desc: t('apiUtils.verifyIdDesc'),
+			signature: 'snu.isIDCard / snu.isCarNumber',
+			resultText: joinLines([
+				verifyLines('isIDCard', ['110101199003077416', '11010119900307123X', '12345', '11010119900101123Y'], (s: string): boolean => snu.isIDCard(s)),
+				verifyLines('isCarNumber', ['京A12345', '粤B12345', '京A1234', 'ABC123'], (s: string): boolean => snu.isCarNumber(s))
+			])
+		},
+		{
+			title: t('apiUtils.verifyTextTitle'),
+			desc: t('apiUtils.verifyTextDesc'),
+			signature: 'snu.isAbc / snu.isChinese / snu.isNumberString',
+			resultText: joinLines([
+				verifyLines('isAbc', ['abc', 'AbC', 'abc1', '中文'], (s: string): boolean => snu.isAbc(s)),
+				verifyLines('isChinese', ['中文', '你好世界', 'hello', '中a'], (s: string): boolean => snu.isChinese(s)),
+				verifyLines('isNumberString', ['123.45', '-12.5e3', '12a', '  '], (s: string): boolean => snu.isNumberString(s))
+			])
+		},
+		{
+			title: t('apiUtils.verifyFileTitle'),
+			desc: t('apiUtils.verifyFileDesc'),
+			signature: 'snu.isImage / snu.isVideo',
+			resultText: joinLines([
+				verifyLines('isImage', ['avatar.png', 'photo.jpeg', 'image.webp', 'file.txt'], (s: string): boolean => snu.isImage(s)),
+				verifyLines('isVideo', ['movie.mp4', 'clip.mov', 'file.mkv', 'sound.mp3'], (s: string): boolean => snu.isVideo(s))
+			])
+		},
+		{
+			title: t('apiUtils.verifyDateTitle'),
+			desc: t('apiUtils.verifyDateDesc'),
+			signature: 'snu.isDate / snu.isInteger / snu.isFloat',
+			resultText: joinLines([
+				verifyLines('isDate', ['2024-01-01', '2025/01/01', 'not-a-date', '2025-13-01'], (s: string): boolean => snu.isDate(s)),
+				verifyNumberLines('isInteger', ['3', '-7', '3.5', '0.25'], (n: number): boolean => snu.isInteger(n)),
+				verifyNumberLines('isFloat', ['3.5', '-0.25', '3', '0'], (n: number): boolean => snu.isFloat(n))
+			])
+		}
+	]
+}
+</script>
+
+<style lang="scss">
+.group-verify {
+	flex-direction: column;
+}
+</style>

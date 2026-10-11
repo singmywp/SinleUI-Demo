@@ -1,30 +1,29 @@
 <template>
-	<sn-page>
-		<sn-topbar :title="t('snTabs.title')"></sn-topbar>
+	<sn-page :title="t('snTabs.title')" :show-back="true">
 
 		<demo-card :title="t('snTabs.demoBasicTitle')" :subtitle="t('snTabs.demoBasicSub')">
 			<sn-tabs v-model="v1" :data="d1"></sn-tabs>
-			<sn-text type="text-light" :font-size="12" :text="t('snTabs.currentSelected', { val: v1 } as UTSJSONObject)" custom-style="margin-top:12px;" flatten />
+			<sn-text type="text-light" :font-size="12" :text="t('snTabs.currentSelected', { val: v1 } as UTSJSONObject)" custom-style="margin-top:12px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snTabs.demoScrollTitle')" :subtitle="t('snTabs.demoScrollSub')">
 			<sn-tabs v-model="v2" scrollable :data="d2"></sn-tabs>
-			<sn-text type="text-light" :font-size="12" :text="t('snTabs.currentSelected', { val: v2 } as UTSJSONObject)" custom-style="margin-top:12px;" flatten />
+			<sn-text type="text-light" :font-size="12" :text="t('snTabs.currentSelected', { val: v2 } as UTSJSONObject)" custom-style="margin-top:12px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snTabs.demoAniTitle')" :subtitle="t('snTabs.demoAniSub')">
 			<sn-tabs v-model="v5" scrollable mode="push" :data="d5"></sn-tabs>
-			<sn-text type="text-light" :font-size="12" :text="t('snTabs.currentSelected', { val: v5 } as UTSJSONObject)" custom-style="margin-top:12px;" flatten />
+			<sn-text type="text-light" :font-size="12" :text="t('snTabs.currentSelected', { val: v5 } as UTSJSONObject)" custom-style="margin-top:12px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snTabs.demoDisabledTitle')" :subtitle="t('snTabs.demoDisabledSub')">
 			<sn-tabs v-model="v3" :data="d3"></sn-tabs>
-			<sn-text type="text-light" :font-size="12" :text="t('snTabs.currentSelected', { val: v3 } as UTSJSONObject)" custom-style="margin-top:12px;" flatten />
+			<sn-text type="text-light" :font-size="12" :text="t('snTabs.currentSelected', { val: v3 } as UTSJSONObject)" custom-style="margin-top:12px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snTabs.demoBadgeTitle')" :subtitle="t('snTabs.demoBadgeSub')">
 			<sn-tabs v-model="v4" :data="d4"></sn-tabs>
-			<sn-text type="text-light" :font-size="12" :text="t('snTabs.currentSelected', { val: v4 } as UTSJSONObject)" custom-style="margin-top:12px;" flatten />
+			<sn-text type="text-light" :font-size="12" :text="t('snTabs.currentSelected', { val: v4 } as UTSJSONObject)" custom-style="margin-top:12px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snTabs.demoExtTitle')" :subtitle="t('snTabs.demoExtSub')">
@@ -35,12 +34,12 @@
 				active-item-style="opacity: 0.55;"></sn-tabs>
 			<sn-tabs v-model="v1" :data="d1" text-class="demo-tabs-text-bold" style="margin-top: 12px;"></sn-tabs>
 			<sn-tabs v-model="v1" :data="d1" text-style="color: #f56c6c; font-weight: bold;" style="margin-top: 12px;"></sn-tabs>
-			<sn-text flatten type="text-light" :font-size="12" style="margin-top: 12px;" :text="t('snTabs.currentExt', { val: v1 } as UTSJSONObject)" />
+			<sn-text type="text-light" :font-size="12" style="margin-top: 12px;" :text="t('snTabs.currentExt', { val: v1 } as UTSJSONObject)" />
 		</demo-card>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'

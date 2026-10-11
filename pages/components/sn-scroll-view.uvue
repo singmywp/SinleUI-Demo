@@ -6,11 +6,11 @@
 					:refresher-config="refresherConfig" loadmore v-model:loadmore-status="loadmoreStatus"
 					:loadmore-config="loadmoreConfig" backtop @refresherrefresh="onRefresh" @loadmore="onLoadmore">
 					<view v-for="(item, index) in items" :key="item" class="scroll-item" flatten>
-						<sn-text font-size="$14" :color="itemColor" flatten>{{ item }}</sn-text>
+						<sn-text font-size="$14" :color="itemColor">{{ item }}</sn-text>
 					</view>
 				</sn-scroll-view>
 			</view>
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">
 				{{ t('snScrollView.tipCount', { count: items.length } as UTSJSONObject) }}
 			</sn-text>
 		</demo-card>
@@ -20,7 +20,7 @@
 				<sn-button type="primary" custom-style="margin-right:10px;" @click="onStartRefresh">{{ t('snScrollView.startRefresh') }}</sn-button>
 				<sn-button type="primary" level="second" @click="onStopRefresh">{{ t('snScrollView.stopRefresh') }}</sn-button>
 			</view>
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;" flatten>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">
 				{{ t('snScrollView.tipTriggered', { val: (refresherTriggered ? 'true' : 'false') } as UTSJSONObject) }}
 			</sn-text>
 		</demo-card>
@@ -30,7 +30,7 @@
 				<sn-scroll-view direction="horizontal" :refresher-enabled="false" :loadmore="false">
 					<view class="h-row" flatten>
 						<view v-for="(item, index) in hItems" :key="item" class="h-item" flatten>
-							<sn-text font-size="$14" :color="itemColor" flatten>{{ item }}</sn-text>
+							<sn-text font-size="$14" :color="itemColor">{{ item }}</sn-text>
 						</view>
 					</view>
 				</sn-scroll-view>
@@ -39,7 +39,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 	import { computed } from 'vue'
 	import { useI18n } from 'vue-i18n'
 	import { $snui } from '@/uni_modules/sinle-ui'

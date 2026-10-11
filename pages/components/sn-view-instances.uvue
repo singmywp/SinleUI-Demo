@@ -1,6 +1,5 @@
 <template>
-	<sn-page :show-back="true" fill-content>
-		<sn-topbar :title="t('snViewInstances.topbarTitle')" :show-back="true"></sn-topbar>
+	<sn-page :title="t('snViewInstances.topbarTitle')" :show-back="true" fill-content>
 		<sn-alert type="primary" :text="t('snViewInstances.alert')" icon="notification-fill"
 			custom-style="margin-left:16px;margin-right:16px;"></sn-alert>
 		<view ref="areaEle" class="instance-area" flatten>
@@ -12,7 +11,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type { SnTouch, SnTouchEvent } from '@/uni_modules/sinle-ui'
 

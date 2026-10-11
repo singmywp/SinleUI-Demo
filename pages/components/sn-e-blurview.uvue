@@ -1,6 +1,5 @@
 <template>
-	<sn-page :show-back="true">
-		<sn-topbar :title="t('snEBlurview.topbarTitle')"></sn-topbar>
+	<sn-page :title="t('snEBlurview.topbarTitle')" :show-back="true">
 
 		<demo-card :title="t('snEBlurview.basicTitle')" :subtitle="t('snEBlurview.basicSubtitle')">
 			<sn-alert type="primary" :text="t('snEBlurview.placeholder')" style="margin: 0 16px 12px;"></sn-alert>
@@ -22,18 +21,18 @@
 		</demo-card>
 
 		<sn-e-blurview custom-class="blur-fixed" custom-style="background-color:rgba(255,255,255,0.2);">
-			<sn-text :text="t('snEBlurview.innerText')" font-size="$15" color="$title" flatten></sn-text>
+			<sn-text :text="t('snEBlurview.innerText')" font-size="$15" color="$title"></sn-text>
 		</sn-e-blurview>
 
 		<view class="blur-round-wrap">
 			<sn-e-blurview custom-class="blur-round-view" custom-style="background-color:rgba(175,74,7,0.2);">
-				<sn-text :text="t('snEBlurview.roundText')" font-size="$14" color="$title" flatten></sn-text>
+				<sn-text :text="t('snEBlurview.roundText')" font-size="$14" color="$title"></sn-text>
 			</sn-e-blurview>
 		</view>
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

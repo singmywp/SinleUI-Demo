@@ -55,13 +55,13 @@
 
 		<demo-card :title="t('snFormField.vTitle')" :subtitle="t('snFormField.vDesc')">
 			<sn-form-field :label="t('snFormField.topLeft')" label-justify="top" label-width="100px">
-				<sn-text font-size="$13" color="$textLight" custom-style="flex:1;height:56px;line-height:56px;" flatten>{{ t('snFormField.content56') }}</sn-text>
+				<sn-text font-size="$13" color="$textLight" custom-style="flex:1;height:56px;line-height:56px;">{{ t('snFormField.content56') }}</sn-text>
 			</sn-form-field>
 			<sn-form-field :label="t('snFormField.vCenter')" label-justify="center" label-width="100px" custom-style="margin-top:12px;">
-				<sn-text font-size="$13" color="$textLight" custom-style="flex:1;height:56px;line-height:56px;" flatten>{{ t('snFormField.content56') }}</sn-text>
+				<sn-text font-size="$13" color="$textLight" custom-style="flex:1;height:56px;line-height:56px;">{{ t('snFormField.content56') }}</sn-text>
 			</sn-form-field>
 			<sn-form-field :label="t('snFormField.bottomRight')" label-justify="bottom" label-align="right" label-width="100px" custom-style="margin-top:12px;">
-				<sn-text font-size="$13" color="$textLight" custom-style="flex:1;height:56px;line-height:56px;" flatten>{{ t('snFormField.content56') }}</sn-text>
+				<sn-text font-size="$13" color="$textLight" custom-style="flex:1;height:56px;line-height:56px;">{{ t('snFormField.content56') }}</sn-text>
 			</sn-form-field>
 		</demo-card>
 
@@ -88,15 +88,15 @@
 
 		<demo-card :title="t('snFormField.pickerTitle')" :subtitle="t('snFormField.pickerDesc')">
 			<sn-form-field :label="t('snFormField.city')">
-				<sn-text font-size="$13" color="$textLight" custom-style="flex:1;" flatten>{{ cityText }}</sn-text>
+				<sn-text font-size="$13" color="$textLight" custom-style="flex:1;">{{ cityText }}</sn-text>
 				<sn-button type="info" level="first" :text="t('snFormField.chooseCity')" @click="openCityPicker" />
 			</sn-form-field>
 			<sn-form-field :label="t('snFormField.datetime')">
-				<sn-text font-size="$13" color="$textLight" custom-style="flex:1;" flatten>{{ dateText }}</sn-text>
+				<sn-text font-size="$13" color="$textLight" custom-style="flex:1;">{{ dateText }}</sn-text>
 				<sn-button type="info" level="first" :text="t('snFormField.chooseDate')" @click="openDatePicker" />
 			</sn-form-field>
 			<sn-form-field :label="t('snFormField.address')">
-				<sn-text font-size="$13" color="$textLight" custom-style="flex:1;" flatten>{{ regionText }}</sn-text>
+				<sn-text font-size="$13" color="$textLight" custom-style="flex:1;">{{ regionText }}</sn-text>
 				<sn-button type="info" level="first" :text="t('snFormField.chooseRegion')" @click="openRegionPicker" />
 			</sn-form-field>
 		</demo-card>
@@ -149,7 +149,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type { ComponentPublicInstance } from 'vue'
 import type { SnDataItem, SnDatetimePickerValue, SnRegionDetail, SnRegionValue } from '@/uni_modules/sinle-ui/core/types/index.uts'

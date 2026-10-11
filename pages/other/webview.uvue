@@ -4,13 +4,13 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 const title = ref<string>('')
 const url = ref<string>('')
 
 onLoad((options: OnLoadOptions): void => {
-	url.value = options['url'] ?? ''
-	title.value = options['title'] ?? ''
+	url.value = options.url ?? ''
+	title.value = options.title ?? ''
 })
 </script>
 

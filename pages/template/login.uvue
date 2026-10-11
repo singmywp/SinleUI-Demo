@@ -1,14 +1,16 @@
 <template>
 	<sn-page :fill-content="true">
 		<sn-topbar :back-button="true" :fixed="true" :status-bar="true" />
+		<sn-gap :height="$snui.topbarHeightResolved" />
+		<sn-gap mode="statusbar" />
 		<scroll-view class="login-scroll" direction="vertical" :show-scrollbar="false">
 			<view class="login-content">
 				<view class="login-logo" flatten>
 					<image class="login-logo-img" src="/static/logo.png" mode="aspectFill" />
 				</view>
-				<sn-text bold font-size="$24" color="$title" flatten
+				<sn-text bold font-size="$24" color="$title"
 					custom-style="text-align: center; margin-top: 16px;">{{ modeIdx == 0 ? t('tmplLogin.welcome') : t('tmplLogin.createAccount') }}</sn-text>
-				<sn-text font-size="$13" color="$textLight" flatten
+				<sn-text font-size="$13" color="$textLight"
 					custom-style="text-align: center; margin-top: 6px;">{{ modeIdx == 0 ? t('tmplLogin.welcomeSub') : t('tmplLogin.createSub') }}</sn-text>
 
 				<view class="login-card">
@@ -16,27 +18,29 @@
 					<view class="login-fields" flatten>
 						<sn-form ref="formRef" v-model="formData">
 							<template v-if="modeIdx == 0">
-								<sn-input-field field="account" :rule="accountRule" v-model="(formData['account'] as string)"
+								<sn-input-field field="account" :rule="accountRule" v-model="(formData.account as string)"
 									:error="getFieldError('account')" prefix-icon="user-3-line" :placeholder="t('tmplLogin.phAccount')"
 									label-justify="center" bg-color="$info" active-bg-color="$info" border-color="$line" :border-width="1"
 									:border-radius="12" clearable />
-								<sn-input-field field="password" :rule="pwdRule" v-model="(formData['password'] as string)"
+								<sn-input-field field="password" :rule="pwdRule" v-model="(formData.password as string)"
 									:error="getFieldError('password')" prefix-icon="lock-2-line" password :placeholder="t('tmplLogin.phPassword')"
 									label-justify="center" bg-color="$info" active-bg-color="$info" border-color="$line" :border-width="1"
 									:border-radius="12" clearable custom-style="margin-top: 12px;" />
-								<sn-text flatten font-size="$12" color="$primary"
-									custom-style="text-align: right; margin-top: 10px;" @click="onForgot">{{ t('tmplLogin.forgot') }}</sn-text>
+								<view style="margin-top: 10px;" @click="onForgot">
+									<sn-text font-size="$12" color="$primary"
+										custom-style="text-align: right;">{{ t('tmplLogin.forgot') }}</sn-text>
+								</view>
 							</template>
 							<template v-else>
-								<sn-input-field field="nickname" :rule="nicknameRule" v-model="(formData['nickname'] as string)"
+								<sn-input-field field="nickname" :rule="nicknameRule" v-model="(formData.nickname as string)"
 									:error="getFieldError('nickname')" prefix-icon="user-smile-line" :placeholder="t('tmplLogin.phNickname')"
 									label-justify="center" bg-color="$info" active-bg-color="$info" border-color="$line" :border-width="1"
 									:border-radius="12" clearable />
-								<sn-input-field field="phone" :rule="phoneRule" v-model="(formData['phone'] as string)"
+								<sn-input-field field="phone" :rule="phoneRule" v-model="(formData.phone as string)"
 									:error="getFieldError('phone')" prefix-icon="phone-line" type="number" :placeholder="t('tmplLogin.phPhone')"
 									label-justify="center" bg-color="$info" active-bg-color="$info" border-color="$line" :border-width="1"
 									:border-radius="12" clearable custom-style="margin-top: 12px;" />
-								<sn-input-field field="smsCode" :rule="codeRule" v-model="(formData['smsCode'] as string)"
+								<sn-input-field field="smsCode" :rule="codeRule" v-model="(formData.smsCode as string)"
 									:error="getFieldError('smsCode')" prefix-icon="shield-user-line" :placeholder="t('tmplLogin.phCode')"
 									label-justify="center" bg-color="$info" active-bg-color="$info" border-color="$line" :border-width="1"
 									:border-radius="12" custom-style="margin-top: 12px;">
@@ -46,7 +50,7 @@
 											@click="openCaptcha" />
 									</template>
 								</sn-input-field>
-								<sn-input-field field="regPassword" :rule="pwdRule" v-model="(formData['regPassword'] as string)"
+								<sn-input-field field="regPassword" :rule="pwdRule" v-model="(formData.regPassword as string)"
 									:error="getFieldError('regPassword')" prefix-icon="lock-2-line" password :placeholder="t('tmplLogin.phRegPassword')"
 									label-justify="center" bg-color="$info" active-bg-color="$info" border-color="$line" :border-width="1"
 									:border-radius="12" clearable custom-style="margin-top: 12px;" />
@@ -65,7 +69,7 @@
 
 				<view class="login-divider" flatten>
 					<view class="login-divider-line"></view>
-					<sn-text font-size="$11" color="$textLight" flatten
+					<sn-text font-size="$11" color="$textLight"
 						custom-style="margin: 0 12px 0 12px;">{{ t('tmplLogin.otherLogin') }}</sn-text>
 					<view class="login-divider-line"></view>
 				</view>
@@ -91,7 +95,7 @@
 					</sn-button>
 				</view>
 
-				<sn-text flatten font-size="$11" color="$textLight"
+				<sn-text font-size="$11" color="$textLight"
 					custom-style="text-align: center; margin-top: 24px;">{{ t('tmplLogin.autoCreate') }}</sn-text>
 			</view>
 		</scroll-view>
@@ -99,12 +103,12 @@
 		<sn-popup ref="captchaPopupRef" position="center" @clickoverlay="closeCaptchaPopup">
 			<view class="captcha-card">
 				<view class="captcha-header" flatten>
-					<sn-text bold font-size="$15" color="$title" flatten>{{ t('tmplLogin.captchaTitle') }}</sn-text>
+					<sn-text bold font-size="$15" color="$title">{{ t('tmplLogin.captchaTitle') }}</sn-text>
 					<view class="captcha-close" flatten @click="closeCaptchaPopup">
 						<sn-icon name="close-line" :size="16" color="$textLight" />
 					</view>
 				</view>
-				<sn-text font-size="$12" color="$textLight" flatten>{{ t('tmplLogin.captchaDesc') }}</sn-text>
+				<sn-text font-size="$12" color="$textLight">{{ t('tmplLogin.captchaDesc') }}</sn-text>
 				<view class="captcha-body" flatten>
 					<sn-slide-captcha ref="captchaRef" :hint-text="t('tmplLogin.captchaHint')" :success-text="t('tmplLogin.captchaSuccess')"
 						@success="onCaptchaSuccess" />
@@ -120,9 +124,9 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 	import type { ComponentPublicInstance } from 'vue'
-	import { snu } from '@/uni_modules/sinle-ui/index.uts'
+	import { $snui, snu } from '@/uni_modules/sinle-ui/index.uts'
 	import { useI18n } from 'vue-i18n'
 	import type {
 		SnNotificationParams,
@@ -241,7 +245,7 @@
 		if (countdown.value > 0) {
 			return
 		}
-		const phone = (formData.value['phone'] as string).trim()
+		const phone = (formData.value.phone as string).trim()
 		if (phone == '') {
 			snu.showToast({ text: t('tmplLogin.needPhone') })
 			return
@@ -270,7 +274,7 @@
 				type: 'primary',
 				duration: 15000,
 				showAction: true,
-				closable: true
+				closable: false
 			} as SnNotificationParams)
 			sendTimer = 0
 		}, 2000)

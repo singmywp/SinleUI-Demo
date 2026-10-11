@@ -1,7 +1,7 @@
 <template>
 	<view class="demo-card-shell" :style="shellStyle">
 		<view class="demo-card" :style="cardStyle">
-			<view v-if="hasHeader" class="demo-card-header">
+			<view v-if="hasHeader" class="demo-card-header" :style="headerStyle">
 				<slot name="title">
 					<text :style="titleStyle">{{ title }}</text>
 				</slot>
@@ -12,14 +12,14 @@
 					<text :style="subtitleStyle">{{ subtitle }}</text>
 				</slot>
 			</view>
-<view class="demo-card-body" v-if="$slots['default'] != null">
+<view class="demo-card-body" :style="bodyStyle" v-if="$slots['default'] != null">
 				<slot />
 			</view>
 		</view>
 	</view>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useTheme, useFactors } from '@/uni_modules/sinle-ui/index.uts'
 
 defineOptions({
@@ -27,7 +27,7 @@ defineOptions({
 })
 
 const { isDark } = useTheme()
-const { fontsizeFactor } = useFactors()
+const { fontsizeFactor, marginFactor, paddingFactor, radiusFactor } = useFactors()
 
 type Props = {
 	title?: string
@@ -66,43 +66,41 @@ const subtitleStyle = computed((): Map<string, any> => {
 	styles.set('color', subColor.value)
 	return styles
 })
-const glassBg = computed<string>(() => isDark.value ? 'rgba(30,41,59,0.5)' : 'rgba(255,255,255,0.6)')
 const glassBorder = computed<string>(() => isDark.value ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.9)')
 
 const shellStyle = computed((): Map<string, any> => {
 	const styles = new Map<string, any>()
-	styles.set('border-radius', '20px')
-	styles.set('marginBottom', '16px')
-	
-	styles.set('marginLeft', '16px')
-	styles.set('marginRight', '16px')
+	styles.set('borderRadius', `${Math.round(20 * radiusFactor.value)}px`)
+	styles.set('marginBottom', `${Math.round(16 * marginFactor.value)}px`)
+	styles.set('marginLeft', `${Math.round(16 * marginFactor.value)}px`)
+	styles.set('marginRight', `${Math.round(16 * marginFactor.value)}px`)
 	return styles
 })
 
 const cardStyle = computed((): Map<string, any> => {
 	const styles = new Map<string, any>()
-	styles.set('paddingTop', '20px')
-	styles.set('paddingRight', '16px')
-	styles.set('paddingBottom', '20px')
-	styles.set('paddingLeft', '16px')
+	styles.set('paddingTop', `${Math.round(20 * paddingFactor.value)}px`)
+	styles.set('paddingRight', `${Math.round(16 * paddingFactor.value)}px`)
+	styles.set('paddingBottom', `${Math.round(20 * paddingFactor.value)}px`)
+	styles.set('paddingLeft', `${Math.round(16 * paddingFactor.value)}px`)
 	styles.set('backgroundColor', 'var(--sn-front)')
 	styles.set('borderTopWidth', '1px')
 	styles.set('borderTopStyle', 'solid')
-	styles.set('borderRadius', '15px')
+	styles.set('borderRadius', `${Math.round(15 * radiusFactor.value)}px`)
 	styles.set('borderTopColor', glassBorder.value)
 	styles.set('flexDirection', 'column')
 	return styles
 })
 
-const glowStyle = computed((): Map<string, any> => {
+const headerStyle = computed((): Map<string, any> => {
 	const styles = new Map<string, any>()
-	styles.set('width', '120px')
-	styles.set('height', '120px')
-	styles.set('borderRadius', '60px')
-	styles.set('position', 'absolute')
-	styles.set('top', '-40px')
-	styles.set('right', '-30px')
-	styles.set('backgroundColor', isDark.value ? 'rgba(99,102,241,0.1)' : 'rgba(99,102,241,0.12)')
+	styles.set('marginBottom', `${Math.round(8 * marginFactor.value)}px`)
+	return styles
+})
+
+const bodyStyle = computed((): Map<string, any> => {
+	const styles = new Map<string, any>()
+	styles.set('marginTop', `${Math.round(16 * marginFactor.value)}px`)
 	return styles
 })
 </script>
@@ -127,14 +125,12 @@ const glowStyle = computed((): Map<string, any> => {
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
-	margin-bottom: 8px;
 	position: relative;
 }
 .demo-card-subtitle {
 	position: relative;
 }
 .demo-card-body {
-	margin-top: 16px;
 	flex-direction: column;
 	overflow: visible;
 }

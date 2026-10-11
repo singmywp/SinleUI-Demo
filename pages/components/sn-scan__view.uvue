@@ -1,34 +1,34 @@
 <template>
 	<!-- #ifdef APP-ANDROID -->
 	<sn-scan ref="scanEle"
-		:enable-ding="(data['enableDing'] as boolean)"
-		:show-torch="(data['showTorch'] as boolean)"
-		:ding-file-src="(data['dingFileSrc'] as string)"
-		:scan-type="(data['scanType'] as string)"
-		:continuous="(data['continuous'] as boolean)"
-		:scan-only-once="(data['scanOnlyOnce'] as boolean)"
-		:title="(data['title'] as string)"
-		:title-size="(data['titleSize'] as string)"
-		:title-color="(data['titleColor'] as string)"
-		:tip="(data['tip'] as string)"
-		:tip-size="(data['tipSize'] as string)"
-		:tip-color="(data['tipColor'] as string)"
-		:custom-title-style="(data['customTitleStyle'] as string)"
-		:custom-tip-style="(data['customTipStyle'] as string)"
-		:init-zoom-scale="(data['initZoomScale'] as number)"
-		:recognize-interval="(data['recognizeInterval'] as number)"
-		:continuous-sleep="(data['continuousSleep'] as number)"
-		:show-album="(data['showAlbum'] as boolean)"
-		:show-back-button="(data['showBackButton'] as boolean)"
-		:show-title="(data['showTitle'] as boolean)"
-		:show-tip="(data['showTip'] as boolean)"
-		:show-ani="(data['showAni'] as boolean)"
-		:enable-zoom="(data['enableZoom'] as boolean)"
+		:enable-ding="(data.enableDing as boolean)"
+		:show-torch="(data.showTorch as boolean)"
+		:ding-file-src="(data.dingFileSrc as string)"
+		:scan-type="(data.scanType as string)"
+		:continuous="(data.continuous as boolean)"
+		:scan-only-once="(data.scanOnlyOnce as boolean)"
+		:title="(data.title as string)"
+		:title-size="(data.titleSize as string)"
+		:title-color="(data.titleColor as string)"
+		:tip="(data.tip as string)"
+		:tip-size="(data.tipSize as string)"
+		:tip-color="(data.tipColor as string)"
+		:custom-title-style="(data.customTitleStyle as string)"
+		:custom-tip-style="(data.customTipStyle as string)"
+		:init-zoom-scale="(data.initZoomScale as number)"
+		:recognize-interval="(data.recognizeInterval as number)"
+		:continuous-sleep="(data.continuousSleep as number)"
+		:show-album="(data.showAlbum as boolean)"
+		:show-back-button="(data.showBackButton as boolean)"
+		:show-title="(data.showTitle as boolean)"
+		:show-tip="(data.showTip as boolean)"
+		:show-ani="(data.showAni as boolean)"
+		:enable-zoom="(data.enableZoom as boolean)"
 		@goin="goin"></sn-scan>
 	<!-- #endif -->
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 	import { snu, store } from '@/uni_modules/sinle-ui'
 	import { useI18n } from 'vue-i18n'
 	import type { ComponentPublicInstance } from 'vue'

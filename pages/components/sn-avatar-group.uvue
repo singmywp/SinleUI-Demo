@@ -16,11 +16,11 @@
 			<view class="demo-row" flatten>
 				<view class="demo-item" flatten>
 					<sn-avatar-group :data="avatarList" :max="3" />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>max=3</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">max=3</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-avatar-group :data="avatarList" :max="5" />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>max=5</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">max=5</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -29,7 +29,7 @@
 			<view class="demo-row" flatten>
 				<view class="demo-item" flatten>
 					<sn-avatar-group :data="avatarList" random-bg-color />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snAvatarGroup.heapRandom') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snAvatarGroup.heapRandom') }}</sn-text>
 				</view>
 				<view class="demo-item">
 					<sn-avatar-group :data="avatarList" mode="spread" random-bg-color />
@@ -82,7 +82,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type { SnAvatarGroupItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
 

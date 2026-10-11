@@ -60,7 +60,7 @@
 				<view class="h-gap" flatten></view>
 				<sn-button id="m-btn-overlay-style" type="primary" level="second" size="normal" @click="mOverlayStyle=true">{{ t('snMenu.overlayStyle') }}</sn-button>
 			</view>
-			<sn-text flatten type="text-light" font-size="$12" style="margin-top: 8px;">{{ t('snMenu.overlayClassHint') }}</sn-text>
+			<sn-text type="text-light" font-size="$12" style="margin-top: 8px;">{{ t('snMenu.overlayClassHint') }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snMenu.aniTitle')" :subtitle="t('snMenu.aniDesc')">
@@ -73,11 +73,11 @@
 
 		<demo-card :title="t('snMenu.smartTitle')" :subtitle="t('snMenu.smartDesc')" style="margin-bottom: 16px">
 			<sn-button id="m-btn-bottom" type="primary" size="normal" @click="mBottom=true">{{ t('snMenu.bottomBtn') }}</sn-button>
-			<sn-text type="text-light" font-size="$12" :text="t('snMenu.smartHint')" custom-style="margin-top:8px;" flatten />
+			<sn-text type="text-light" font-size="$12" :text="t('snMenu.smartHint')" custom-style="margin-top:8px;"/>
 		</demo-card>
 
-		<sn-text v-if="lastSelect != ''" type="primary" bold custom-style="margin-left:16px;margin-right:16px;" flatten>{{ t('snMenu.selectResult') }}{{ lastSelect }}</sn-text>
-		<sn-text v-if="eventLog != ''" type="text-light" font-size="$12" custom-style="margin-left:16px;margin-right:16px;" flatten>{{ eventLog }}</sn-text>
+		<sn-text v-if="lastSelect != ''" type="primary" bold custom-style="margin-left:16px;margin-right:16px;">{{ t('snMenu.selectResult') }}{{ lastSelect }}</sn-text>
+		<sn-text v-if="eventLog != ''" type="text-light" font-size="$12" custom-style="margin-left:16px;margin-right:16px;">{{ eventLog }}</sn-text>
 
 		<sn-menu :show="mLeft" target="#m-btn-left" align="left" :items="basicItems" @update:show="mLeft=$event" @select="onSelect" />
 		<sn-menu :show="mCenter" target="#m-btn-center" align="center" :items="basicItems" @update:show="mCenter=$event" @select="onSelect" />
@@ -103,7 +103,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

@@ -2,43 +2,43 @@
 	<sn-page :title="t('snMore.title')" :show-back="true">
 		<demo-card :title="t('snMore.basicTitle')" :subtitle="t('snMore.basicSubtitle')">
 			<sn-more :min-height="80" @fold="onFold" @unfold="onUnfold">
-				<sn-text font-size="$14" color="$text" custom-style="line-height:22px;" flatten>{{ longText1 }}</sn-text>
+				<sn-text font-size="$14" color="$text" custom-style="line-height:22px;">{{ longText1 }}</sn-text>
 			</sn-more>
-			<sn-text font-size="$12" color="$primary" flatten>{{ t('snMore.recentEvent', { value: eventLog } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" color="$primary">{{ t('snMore.recentEvent', { value: eventLog } as UTSJSONObject) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snMore.heightTitle')" :subtitle="t('snMore.heightSubtitle')">
 			<sn-more :min-height="120">
-				<sn-text font-size="$14" color="$text" custom-style="line-height:22px;" flatten>{{ longText2 }}</sn-text>
+				<sn-text font-size="$14" color="$text" custom-style="line-height:22px;">{{ longText2 }}</sn-text>
 			</sn-more>
 		</demo-card>
 
 		<demo-card :title="t('snMore.customTextTitle')" :subtitle="t('snMore.customTextSubtitle')">
 			<sn-more :min-height="80" :unfold-text="t('snMore.unfoldText')" :fold-text="t('snMore.foldText')">
-				<sn-text font-size="$14" color="$text" custom-style="line-height:22px;" flatten>{{ longText3 }}</sn-text>
+				<sn-text font-size="$14" color="$text" custom-style="line-height:22px;">{{ longText3 }}</sn-text>
 			</sn-more>
 		</demo-card>
 
 		<demo-card :title="t('snMore.iconTitle')" :subtitle="t('snMore.iconSubtitle')">
 			<sn-more :min-height="80" icon="add-line">
-				<sn-text font-size="$14" color="$text" custom-style="line-height:22px;" flatten>{{ longText4 }}</sn-text>
+				<sn-text font-size="$14" color="$text" custom-style="line-height:22px;">{{ longText4 }}</sn-text>
 			</sn-more>
 		</demo-card>
 
 		<demo-card :title="t('snMore.colorTitle')" :subtitle="t('snMore.colorSubtitle')">
 			<sn-more :min-height="80" text-color="$primary" bg-color="$primaryLight" contentStyle="border-radius: 16px;" wrapStyle="padding: 20px;">
-				<sn-text font-size="$14" color="$primaryDark" custom-style="line-height:22px;text-align: center;" flatten>{{ article1 }}</sn-text>
+				<sn-text font-size="$14" color="$primaryDark" custom-style="line-height:22px;text-align: center;">{{ article1 }}</sn-text>
 			</sn-more>
 		</demo-card>
 
 		<demo-card :title="t('snMore.aniTimeTitle')" :subtitle="t('snMore.aniTimeSubtitle')">
-			<sn-text font-size="$12" color="$textLight" flatten>{{ t('snMore.slowExpand') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight">{{ t('snMore.slowExpand') }}</sn-text>
 			<sn-more :min-height="80" :ani-time="10000">
-				<sn-text font-size="$14" color="$text" custom-style="line-height:22px;" flatten>{{ article2 }}</sn-text>
+				<sn-text font-size="$14" color="$text" custom-style="line-height:22px;">{{ article2 }}</sn-text>
 			</sn-more>
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:12px;" flatten>{{ t('snMore.noAni') }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:12px;">{{ t('snMore.noAni') }}</sn-text>
 			<sn-more :min-height="80" :ani-time="0">
-				<sn-text font-size="$14" color="$text" custom-style="line-height:22px;" flatten>{{ article2 }}</sn-text>
+				<sn-text font-size="$14" color="$text" custom-style="line-height:22px;">{{ article2 }}</sn-text>
 			</sn-more>
 		</demo-card>
 
@@ -56,7 +56,7 @@
 
 		<demo-card :title="t('snMore.externalTitle')" :subtitle="t('snMore.externalSubtitle')">
 			<view style="margin-top: 12px">
-				<sn-text font-size="$12" color="$textLight" flatten>{{ t('snMore.contentClassNote') }}</sn-text>
+				<sn-text font-size="$12" color="$textLight">{{ t('snMore.contentClassNote') }}</sn-text>
 			</view>
 			<view style="margin-top: 12px">
 				<sn-more :min-height="80" content-class="demo-more-content-class">
@@ -64,7 +64,7 @@
 				</sn-more>
 			</view>
 			<view style="margin-top: 12px">
-				<sn-text font-size="$12" color="$textLight" flatten>{{ t('snMore.contentStyleNote') }}</sn-text>
+				<sn-text font-size="$12" color="$textLight">{{ t('snMore.contentStyleNote') }}</sn-text>
 			</view>
 			<view style="margin-top: 12px">
 				<sn-more :min-height="80" content-style="border-radius: 16px;">
@@ -72,7 +72,7 @@
 				</sn-more>
 			</view>
 			<view style="margin-top: 12px">
-				<sn-text font-size="$12" color="$textLight" flatten>{{ t('snMore.wrapClassNote') }}</sn-text>
+				<sn-text font-size="$12" color="$textLight">{{ t('snMore.wrapClassNote') }}</sn-text>
 			</view>
 			<view style="margin-top: 12px">
 				<sn-more :min-height="80" wrap-class="demo-more-wrap-class">
@@ -80,7 +80,7 @@
 				</sn-more>
 			</view>
 			<view style="margin-top: 12px">
-				<sn-text font-size="$12" color="$textLight" flatten>{{ t('snMore.wrapStyleNote') }}</sn-text>
+				<sn-text font-size="$12" color="$textLight">{{ t('snMore.wrapStyleNote') }}</sn-text>
 			</view>
 			<view style="margin-top: 12px">
 				<sn-more :min-height="80" wrap-style="padding: 12px;">
@@ -88,7 +88,7 @@
 				</sn-more>
 			</view>
 			<view style="margin-top: 12px">
-				<sn-text font-size="$12" color="$textLight" flatten>{{ t('snMore.foldTextClassNote') }}</sn-text>
+				<sn-text font-size="$12" color="$textLight">{{ t('snMore.foldTextClassNote') }}</sn-text>
 			</view>
 			<view style="margin-top: 12px">
 				<sn-more :min-height="80" fold-text-class="demo-more-foldtext-class">
@@ -96,7 +96,7 @@
 				</sn-more>
 			</view>
 			<view style="margin-top: 12px">
-				<sn-text font-size="$12" color="$textLight" flatten>{{ t('snMore.foldTextStyleNote') }}</sn-text>
+				<sn-text font-size="$12" color="$textLight">{{ t('snMore.foldTextStyleNote') }}</sn-text>
 			</view>
 			<view style="margin-top: 12px">
 				<sn-more :min-height="80" fold-text-style="font-weight: bold;">
@@ -116,7 +116,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { longText1, longText2, longText3, longText4, article1, article2, article3, article5 } from '@/source/longtext.uts'
 import { $snui } from '@/uni_modules/sinle-ui'

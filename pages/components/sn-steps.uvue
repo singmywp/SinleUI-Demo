@@ -1,6 +1,5 @@
 <template>
-	<sn-page>
-		<sn-topbar :title="t('snSteps.title')"></sn-topbar>
+	<sn-page :title="t('snSteps.title')" :show-back="true">
 
 		<demo-card :title="t('snSteps.demoBasicTitle')" :subtitle="t('snSteps.demoBasicSub')">
 			<sn-steps v-model="current1" @change="onChange1">
@@ -10,7 +9,7 @@
 				<sn-step :title="t('snSteps.step4Title')" :content="t('snSteps.step4Content')"></sn-step>
 			</sn-steps>
 			<sn-text type="text-light" :font-size="12" :text="t('snSteps.currentStep', { cur: current1, cnt: changeCount1 } as UTSJSONObject)"
-				custom-style="margin-top:12px;" flatten />
+				custom-style="margin-top:12px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snSteps.demoDotTitle')" :subtitle="t('snSteps.demoDotSub')">
@@ -38,7 +37,7 @@
 				<sn-step :title="t('snSteps.vStep3')" :content="t('snSteps.vContent3')">
 					<template #extra>
 						<view class="demo-extra-box" flatten>
-							<sn-text font-size="$12" :color="extraColor" flatten>{{ t('snSteps.transTip') }}</sn-text>
+							<sn-text font-size="$12" :color="extraColor">{{ t('snSteps.transTip') }}</sn-text>
 						</view>
 					</template>
 				</sn-step>
@@ -78,7 +77,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
 import { useTheme } from '@/uni_modules/sinle-ui/index.uts'

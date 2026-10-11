@@ -4,7 +4,7 @@
 			<view class="demo-row" flatten>
 				<view class="demo-item" flatten>
 					<sn-rate v-model="rateValue" />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snRate.currentValue', { value: rateValue } as UTSJSONObject) }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snRate.currentValue', { value: rateValue } as UTSJSONObject) }}</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -13,23 +13,23 @@
 			<view class="demo-row" flatten>
 				<view class="demo-item" flatten>
 					<sn-rate :model-value="0" readonly />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>0</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">0</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-rate :model-value="3" readonly />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>3</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">3</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-rate :model-value="4.5" readonly />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>4.5</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">4.5</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-rate :model-value="5" readonly />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>5</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">5</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-rate :model-value="100" readonly />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snRate.overLimit') }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snRate.overLimit') }}</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -38,7 +38,7 @@
 			<view class="demo-row" flatten>
 				<view class="demo-item" flatten>
 					<sn-rate v-model="halfValue" allow-half />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>{{ t('snRate.currentValue', { value: halfValue } as UTSJSONObject) }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snRate.currentValue', { value: halfValue } as UTSJSONObject) }}</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -96,7 +96,7 @@
 			<view class="demo-row">
 				<view class="demo-item" flatten>
 					<sn-rate :model-value="3" icon-size="$24" />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight" flatten>icon-size=$24</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">icon-size=$24</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-rate :model-value="3" icon-size="14" spacing="10px" />
@@ -116,7 +116,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 const rateValue = ref<number>(3)

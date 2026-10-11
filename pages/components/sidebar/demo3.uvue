@@ -1,6 +1,5 @@
 <template>
-	<sn-page>
-		<sn-topbar title="Sidebar Demo3"></sn-topbar>
+	<sn-page title="Sidebar Demo3" :show-back="true">
 		<sn-sidebar v-model="value" :data="data">
 			<sn-view bg-color="$front" padding="10px" style="height: 100%;">
 				<template v-if="value == 0">
@@ -52,7 +51,7 @@
 	</sn-page>
 </template>
 
-<script lang="uts" setup>
+<script lang="ts" setup>
 
 
 import { useI18n } from 'vue-i18n'
