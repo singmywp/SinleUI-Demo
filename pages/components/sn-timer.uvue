@@ -2,7 +2,7 @@
 	<sn-page :title="t('snTimer.title')" :show-back="true">
 		<demo-card :title="t('snTimer.basicTitle')" :subtitle="t('snTimer.basicSubtitle')">
 			<sn-timer ref="timer1" format="HH:mm:ss" @change="onChange1" />
-			<sn-text type="text-light" :font-size="13" :text="t('snTimer.changeCount', { count: changeCount1 } as UTSJSONObject)" custom-style="margin-top:8px;"/>
+			<sn-text type="text-light" :font-size="13" :text="t('snTimer.changeCount', { count: changeCount1 })" custom-style="margin-top:8px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snTimer.focusTitle')" :subtitle="t('snTimer.focusSubtitle')">
@@ -76,7 +76,7 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import type { SnTime } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type { SnTime } from '@/uni_modules/sinle-ui/core/types/index.ts'
 import type { ComponentPublicInstance } from 'vue'
 
 const { t } = useI18n()

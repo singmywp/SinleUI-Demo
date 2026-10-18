@@ -70,9 +70,9 @@
 <script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
-import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import { useTheme } from '@/uni_modules/sinle-ui/index.ts'
 import type { ComponentPublicInstance } from 'vue'
-import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 const { isDark } = useTheme()
@@ -236,7 +236,7 @@ function resetAll(): void {
 
 
 function onClickItem(item: SnDataItem): void {
-	eventResult.value = t('snActionsheet.clickedItem', { text: item.text ?? '' } as UTSJSONObject)
+	eventResult.value = t('snActionsheet.clickedItem', { text: item.text ?? '' })
 }
 
 function onOverlay(): void {

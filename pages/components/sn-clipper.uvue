@@ -51,14 +51,14 @@ const clipperRef = ref<ComponentPublicInstance | null>(null)
 const resultUrl = ref<string>('')
 const resultInfo = ref<string>('')
 const changeCount = ref<number>(0)
-const changeText = computed<string>(() => t('snClipper.changeEnabled', { count: changeCount.value } as UTSJSONObject))
+const changeText = computed<string>(() => t('snClipper.changeEnabled', { count: changeCount.value }))
 
 function onConfirm(detail: ConfirmDetail): void {
 	resultUrl.value = detail.dataUrl
-	resultInfo.value = t('snClipper.resultInfo', { width: detail.width, height: detail.height, ratio: Math.round(detail.ratio * 100) / 100, rotation: detail.rotation } as UTSJSONObject)
+	resultInfo.value = t('snClipper.resultInfo', { width: detail.width, height: detail.height, ratio: Math.round(detail.ratio * 100) / 100, rotation: detail.rotation })
 }
 
-function onChange(_detail: UTSJSONObject): void {
+function onChange(): void {
 	changeCount.value = changeCount.value + 1
 }
 

@@ -35,7 +35,7 @@
 
 	const { t } = useI18n()
 
-	const data = ref<UTSJSONObject>({
+	const data = ref<Record<string, any>>({
 		enableDing: true,
 		showTorch: true,
 		dingFileSrc: '',
@@ -66,7 +66,7 @@
 	onLoad(() => {
 		const _data = store.get('demo-scan-params')
 		if (_data != null) {
-			data.value = _data as UTSJSONObject
+			data.value = _data
 		}
 	})
 

@@ -35,8 +35,8 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { dayuts, snu } from '@/uni_modules/sinle-ui/index.uts'
-import type { SnCalendarPunchDay, SnCalendarPanelChangeDetail, SnCalendarValue } from '@/uni_modules/sinle-ui/index.uts'
+import { dayuts, snu } from '@/uni_modules/sinle-ui/index.ts'
+import type { SnCalendarPunchDay, SnCalendarPanelChangeDetail, SnCalendarValue } from '@/uni_modules/sinle-ui/index.ts'
 
 const { t } = useI18n()
 
@@ -60,7 +60,7 @@ function describePunchDay(day: SnCalendarPunchDay): string {
 	if (day.signed) status = t('snCalendarPunch.signed')
 	else if (day.supplementable) status = t('snCalendarPunch.supplementable')
 	const todayTag = day.today ? t('snCalendarPunch.todayTag') : ''
-	return t('snCalendarPunch.dayDesc', { date: day.fullDate, status: status, today: todayTag } as UTSJSONObject)
+	return t('snCalendarPunch.dayDesc', { date: day.fullDate, status: status, today: todayTag })
 }
 
 function resetSignedDates(): void {
@@ -76,23 +76,23 @@ function clearSignedDates(): void {
 function onPunchSelect(day: SnCalendarPunchDay): void {
 	if (day.timestamp > dayuts().startOf('day').valueOf()) return
 	if (day.signed) {
-		eventResult.value = t('snCalendarPunch.selectEvent', { text: describePunchDay(day) } as UTSJSONObject)
+		eventResult.value = t('snCalendarPunch.selectEvent', { text: describePunchDay(day) })
 		return
 	}
 	const action = day.today ? t('snCalendarPunch.signIn') : t('snCalendarPunch.makeUp')
 	snu.showModal({
 		title: action,
-		content: t('snCalendarPunch.confirmSign', { action: action, date: day.fullDate } as UTSJSONObject),
+		content: t('snCalendarPunch.confirmSign', { action: action, date: day.fullDate }),
 		success: (confirm, cancel) => {
 			if (!confirm) return
 			if (!signedDates.value.includes(day.fullDate)) signedDates.value.push(day.fullDate)
-			eventResult.value = t('snCalendarPunch.signedSuccess', { date: day.fullDate, action: action } as UTSJSONObject)
+			eventResult.value = t('snCalendarPunch.signedSuccess', { date: day.fullDate, action: action })
 		}
 	})
 }
 
 function onPanelChange(detail: SnCalendarPanelChangeDetail): void {
-	eventResult.value = t('snCalendarPunch.panelChangeEvent', { year: `${detail.year}`, month: `${detail.month}` } as UTSJSONObject)
+	eventResult.value = t('snCalendarPunch.panelChangeEvent', { year: `${detail.year}`, month: `${detail.month}` })
 }
 </script>
 

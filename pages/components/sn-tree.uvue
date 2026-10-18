@@ -114,12 +114,7 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import type {
-	SnTreeData,
-	SnTreeItem,
-	SnTreeLoadResolve,
-	SnTreeLoadReject
-} from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type { SnTreeData, SnTreeItem, SnTreeLoadResolve, SnTreeLoadReject } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 const baseData: SnTreeData = [
@@ -241,7 +236,7 @@ function slotItemState(item: any): string {
 }
 
 function loadAsyncChildren(item: SnTreeItem, resolve: SnTreeLoadResolve, reject: SnTreeLoadReject): void {
-	asyncStatus.value = t('snTree.loading', { name: item.text } as UTSJSONObject)
+	asyncStatus.value = t('snTree.loading', { name: item.text })
 	setTimeout((): void => {
 		if (item.id != 'remote-docs') {
 			reject()
@@ -261,7 +256,7 @@ function loadAsyncChildren(item: SnTreeItem, resolve: SnTreeLoadResolve, reject:
 }
 
 function onLoadError(item: SnTreeItem): void {
-	asyncStatus.value = t('snTree.loadFail', { name: item.text } as UTSJSONObject)
+	asyncStatus.value = t('snTree.loadFail', { name: item.text })
 }
 </script>
 

@@ -206,7 +206,7 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 const iconFeatures: SnDataItem[] = [

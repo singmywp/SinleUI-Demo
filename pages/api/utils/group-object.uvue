@@ -12,9 +12,9 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import { snu } from '@/uni_modules/sinle-ui/index.ts'
 import UtilsCard from './utils-card.uvue'
-import type { UtilsActionCard } from './types.uts'
+import type { UtilsActionCard } from './types.ts'
 
 defineOptions({
 	name: 'group-object'

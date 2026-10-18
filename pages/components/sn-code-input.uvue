@@ -58,8 +58,8 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import type { ComponentPublicInstance } from 'vue'
-import { snu } from '@/uni_modules/sinle-ui/index.uts'
-import type { SnNotificationParams } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import { snu } from '@/uni_modules/sinle-ui/index.ts'
+import type { SnNotificationParams } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 
@@ -130,7 +130,7 @@ tickSend = () => {
 		countdownTimer = null
 		return
 	}
-	sendText.value = t('snCodeInput.resend', { s: remain } as UTSJSONObject)
+	sendText.value = t('snCodeInput.resend', { s: remain })
 	countdownTimer = setTimeout(tickSend, 1000)
 }
 
@@ -153,7 +153,7 @@ let ntfTimer: number | null = null
 function onSendCode(): void {
 	sending.value = true
 	remain = 60
-	sendText.value = t('snCodeInput.resend', { s: remain } as UTSJSONObject)
+	sendText.value = t('snCodeInput.resend', { s: remain })
 	countdownTimer = setTimeout(tickSend, 1000)
 	// "验证码已发送" toast
 	snu.showToast({
@@ -169,7 +169,7 @@ function onSendCode(): void {
 		ntfTimer = null
 		ntfRef.value?.$callMethod('show', {
 			title: t('snCodeInput.codeTitle'),
-			content: t('snCodeInput.codeContent', { code: lastCode } as UTSJSONObject),
+			content: t('snCodeInput.codeContent', { code: lastCode }),
 			type: 'primary',
 			duration: 10000,
 			// 不带关闭按钮，仅通过复制按钮关闭

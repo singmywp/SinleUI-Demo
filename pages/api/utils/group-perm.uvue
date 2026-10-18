@@ -24,10 +24,10 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { snu } from '@/uni_modules/sinle-ui/index.uts'
-import type { SnPermTipConfig } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import { snu } from '@/uni_modules/sinle-ui/index.ts'
+import type { SnPermTipConfig } from '@/uni_modules/sinle-ui/core/types/index.ts'
 import UtilsCard from './utils-card.uvue'
-import type { UtilsActionCard } from './types.uts'
+import type { UtilsActionCard } from './types.ts'
 
 defineOptions({
 	name: 'group-perm'
@@ -177,7 +177,7 @@ function onRegister(): void {
 		onConfirm: (_permissions: string[]): void => {
 			snu.showToast({ text: t('apiUtils.permOnConfirm') })
 		},
-		onComplete: (_res: UTSJSONObject): void => {
+		onComplete: (): void => {
 			snu.showToast({ text: t('apiUtils.permOnComplete') })
 		}
 	})

@@ -124,7 +124,7 @@
 	const replyPanelRef = ref<ComponentPublicInstance | null>(null)
 
 	const aniTimeNormalNum = computed<number>((): number => $snui.aniTimeNormal)
-	const aniTimeText = computed<string>((): string => aniTimeValue.value == '' ? t('snKeyboardTop.aniFollow') : t('snKeyboardTop.aniCustom', { time: aniTimeValue.value } as UTSJSONObject))
+	const aniTimeText = computed<string>((): string => aniTimeValue.value == '' ? t('snKeyboardTop.aniFollow') : t('snKeyboardTop.aniCustom', { time: aniTimeValue.value }))
 	const currentPanelLabel = computed<string>((): string => {
 		if (currentPanel.value == 'toolbar') {
 			return t('snKeyboardTop.panelToolbar')

@@ -65,7 +65,7 @@
 							<sn-text font-size="$9" color="$textLight">{{ t('apiStore.badgeMemory') }}</sn-text>
 						</view>
 						<view v-if="row.remaining >= 0" class="badge badge-expire" flatten>
-							<sn-text font-size="$9" color="$warning">{{ t('apiStore.badgeExpire', { sec: row.remaining } as UTSJSONObject) }}</sn-text>
+							<sn-text font-size="$9" color="$warning">{{ t('apiStore.badgeExpire', { sec: row.remaining }) }}</sn-text>
 						</view>
 					</template>
 				</sn-cell>
@@ -111,8 +111,8 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
-import { demoStore } from './store-demo-lib.uts'
+import { useTheme } from '@/uni_modules/sinle-ui/index.ts'
+import { demoStore } from './store-demo-lib.ts'
 
 const { t } = useI18n()
 const { isDark } = useTheme()
@@ -157,7 +157,7 @@ let timer: number = 0
 const valueColor = computed<string>(() => isDark.value ? '#73a2ff' : '#4d82ff')
 
 const snapshotSub = computed<string>(() => {
-	return t('apiStore.subSnapshot', { count: rows.value.length } as UTSJSONObject)
+	return t('apiStore.subSnapshot', { count: rows.value.length })
 })
 
 const apiCells = computed<ApiCell[]>(() => [
@@ -269,13 +269,13 @@ function doSet(): void {
 		expireInput.value = sec.toString()
 		demoStore.set(key, value, false, sec)
 		setExpire(key, Date.now() + sec * 1000)
-		setResult(`store.set('${key}', '${value}', false, ${sec})`, t('apiStore.afterSec', { sec: sec } as UTSJSONObject))
-		addLog(t('apiStore.logSetExpire', { key: key, sec: sec } as UTSJSONObject))
+		setResult(`store.set('${key}', '${value}', false, ${sec})`, t('apiStore.afterSec', { sec: sec }))
+		addLog(t('apiStore.logSetExpire', { key: key, sec: sec }))
 	} else {
 		demoStore.set(key, value, false, 0)
 		removeExpire(key)
 		setResult(`store.set('${key}', '${value}')`, 'void')
-		addLog(t('apiStore.logSet', { key: key, value: value } as UTSJSONObject))
+		addLog(t('apiStore.logSet', { key: key, value: value }))
 	}
 	refresh()
 }
@@ -294,14 +294,14 @@ function doSetLasting(): void {
 		demoStore.set(key, value, true, sec)
 		addLasting(key)
 		setExpire(key, Date.now() + sec * 1000)
-		setResult(`store.set('${key}', '${value}', true, ${sec})`, t('apiStore.afterSec', { sec: sec } as UTSJSONObject))
-		addLog(t('apiStore.logSetLastingExpire', { key: key, sec: sec } as UTSJSONObject))
+		setResult(`store.set('${key}', '${value}', true, ${sec})`, t('apiStore.afterSec', { sec: sec }))
+		addLog(t('apiStore.logSetLastingExpire', { key: key, sec: sec }))
 	} else {
 		demoStore.set(key, value, true, 0)
 		addLasting(key)
 		removeExpire(key)
 		setResult(`store.set('${key}', '${value}', true)`, t('apiStore.donePersist'))
-		addLog(t('apiStore.logSetLasting', { key: key } as UTSJSONObject))
+		addLog(t('apiStore.logSetLasting', { key: key }))
 	}
 	refresh()
 }
@@ -316,7 +316,7 @@ function doGet(): void {
 	const raw = demoStore.get(key)
 	const text = valueToText(raw)
 	setResult(`store.get('${key}')`, text)
-	addLog(t('apiStore.logGet', { key: key, value: text } as UTSJSONObject))
+	addLog(t('apiStore.logGet', { key: key, value: text }))
 	refresh()
 }
 
@@ -329,7 +329,7 @@ function doHas(): void {
 	}
 	const ok = demoStore.has(key)
 	setResult(`store.has('${key}')`, ok.toString())
-	addLog(t('apiStore.logHas', { key: key, value: ok.toString() } as UTSJSONObject))
+	addLog(t('apiStore.logHas', { key: key, value: ok.toString() }))
 	refresh()
 }
 
@@ -344,7 +344,7 @@ function doDelete(): void {
 	removeLasting(key)
 	removeExpire(key)
 	setResult(`store.delete('${key}')`, 'void')
-	addLog(t('apiStore.logDelete', { key: key } as UTSJSONObject))
+	addLog(t('apiStore.logDelete', { key: key }))
 	refresh()
 }
 
@@ -370,13 +370,13 @@ function doSubscribe(): void {
 	}
 	const listener = (value: any | null, changedKey: string): void => {
 		const text = value == null ? 'null' : (value as string)
-		addLog(t('apiStore.logCallback', { key: changedKey, value: text } as UTSJSONObject))
+		addLog(t('apiStore.logCallback', { key: changedKey, value: text }))
 	}
 	const off = demoStore.subscribe(key, listener)
 	subscribeOffs.set(key, off)
 	subscribeKeys.value.push(key)
 	setResult(`store.subscribe('${key}')`, t('apiStore.subscribed'))
-	addLog(t('apiStore.logSubscribe', { key: key } as UTSJSONObject))
+	addLog(t('apiStore.logSubscribe', { key: key }))
 }
 
 function doUnsubscribe(): void {
@@ -395,7 +395,7 @@ function doUnsubscribe(): void {
 	subscribeOffs.delete(key)
 	subscribeKeys.value = subscribeKeys.value.filter((x: string): boolean => x != key)
 	setResult(`store.unsubscribe('${key}')`, 'void')
-	addLog(t('apiStore.logUnsubscribe', { key: key } as UTSJSONObject))
+	addLog(t('apiStore.logUnsubscribe', { key: key }))
 }
 
 function onTick(): void {
@@ -407,7 +407,7 @@ function onTick(): void {
 	for (let i = 0; i < due.length; i++) {
 		if (!demoStore.has(due[i])) {
 			removeExpire(due[i])
-			addLog(t('apiStore.logExpired', { key: due[i] } as UTSJSONObject))
+			addLog(t('apiStore.logExpired', { key: due[i] }))
 		}
 	}
 	refresh()

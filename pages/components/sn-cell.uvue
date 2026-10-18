@@ -117,16 +117,16 @@ const clickResult = ref<string>('')
 
 const customBgStyle = {
 	backgroundColor: 'var(--sn-primary-light)'
-} as UTSJSONObject
+}
 
 const iconStyle1 = {
 	color: 'var(--sn-error)'
-} as UTSJSONObject
+}
 
 const titleStyle1 = {
 	color: 'var(--sn-primary)',
 	fontWeight: 'bold'
-} as UTSJSONObject
+}
 
 function onCellClick(name: string | number): void {
 	clickResult.value = t('snCell.clickCell') + name

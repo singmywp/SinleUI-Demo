@@ -25,9 +25,9 @@
 </template>
 
 <script lang="ts" setup>
-import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import { snu } from '@/uni_modules/sinle-ui/index.ts'
 import { useI18n } from 'vue-i18n'
-import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 
@@ -37,7 +37,7 @@ const compilerVersion = ref<string>('')
 const rightIconName = 'arrow-right-s-line'
 
 function onVersionClick(): void {
-	snu.showToast({ text: t('aboutApp.currentVersion', { version: version.value } as UTSJSONObject) })
+	snu.showToast({ text: t('aboutApp.currentVersion', { version: version.value }) })
 }
 
 function joinQQGroup(): void {
@@ -71,7 +71,7 @@ function website(): void {
 
 onLoad((): void => {
 	try {
-		const info = uni.getAppBaseInfo() as unknown as UTSJSONObject
+		const info = uni.getAppBaseInfo()
 		compilerVersion.value = `${(info.uniCompilerVersionCode as number) ?? ''}`
 		version.value = (info.appVersion as string) ?? ''
 	} catch (e) {

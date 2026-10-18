@@ -8,9 +8,9 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import { snu } from '@/uni_modules/sinle-ui/index.ts'
 import UtilsCard from './utils-card.uvue'
-import type { UtilsActionCard } from './types.uts'
+import type { UtilsActionCard } from './types.ts'
 
 defineOptions({
 	name: 'group-system'
@@ -93,7 +93,7 @@ function runCard(index: number): void {
 		snu.viewUrlByWebview('https://sinleui.pages.dev')
 		text = t('apiUtils.openedLink')
 	} else if (card.key == 'showSysToast') {
-		snu.showSysToast({ title: t('apiUtils.sysToastTitle'), type: 'short', position: 'center' } as UTSJSONObject)
+		snu.showSysToast({ title: t('apiUtils.sysToastTitle'), type: 'short', position: 'center' })
 		text = t('apiUtils.shownSysToast')
 	} else if (card.key == 'setClipboardData') {
 		snu.setClipboardData('SinleUI Utils Demo')

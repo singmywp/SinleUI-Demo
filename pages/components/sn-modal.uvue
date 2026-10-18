@@ -155,8 +155,8 @@
 <script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
-import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
-import { longText1, longText4 } from '@/source/longtext.uts'
+import { useTheme } from '@/uni_modules/sinle-ui/index.ts'
+import { longText1, longText4 } from '@/source/longtext.ts'
 import type { ComponentPublicInstance } from 'vue'
 
 const { isDark } = useTheme()
@@ -210,7 +210,7 @@ function openPos(position: string): void {
 	resetAll()
 	posC.value = position
 	basicTitle.value = t('snModal.positionDemo')
-	basicContent.value = t('snModal.positionContent', { position: position } as UTSJSONObject)
+	basicContent.value = t('snModal.positionContent', { position: position })
 	basicModalRef.value?.$callMethod('open')
 }
 
@@ -349,7 +349,7 @@ function resetAll(): void {
 
 
 function onEvent(name: string): void {
-	eventResult.value = t('snModal.event', { name: name } as UTSJSONObject)
+	eventResult.value = t('snModal.event', { name: name })
 }
 
 

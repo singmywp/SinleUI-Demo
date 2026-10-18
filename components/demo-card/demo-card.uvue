@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useTheme, useFactors } from '@/uni_modules/sinle-ui/index.uts'
+import { useTheme, useFactors } from '@/uni_modules/sinle-ui/index.ts'
 
 defineOptions({
 	name: 'DemoCard'

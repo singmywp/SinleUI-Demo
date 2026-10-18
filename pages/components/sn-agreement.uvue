@@ -72,7 +72,7 @@ function onChange(value: boolean): void {
 }
 
 function onOpenLink(detail: AgreementLinkDetail): void {
-	lastLink.value = t('snAgreement.linkDetail', { text: detail.text, index: detail.index + 1 } as UTSJSONObject)
+	lastLink.value = t('snAgreement.linkDetail', { text: detail.text, index: detail.index + 1 })
 }
 
 function onLogin(): void {

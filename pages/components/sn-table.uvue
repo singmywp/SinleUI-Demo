@@ -176,7 +176,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { $snui } from '@/uni_modules/sinle-ui/index.uts'
+import { $snui } from '@/uni_modules/sinle-ui/index.ts'
 
 const { t } = useI18n()
 
@@ -226,7 +226,7 @@ const employees = ref<Employee[]>([])
 for (let i = 1; i <= 12; i++) {
 	employees.value.push({
 		id: `2100${i}`,
-		name: t('snTable.empName', { n: i } as UTSJSONObject),
+		name: t('snTable.empName', { n: i }),
 		dept: i % 2 == 0 ? t('snTable.deptTech') : t('snTable.deptProduct')
 	})
 }
@@ -270,16 +270,16 @@ function onLoadMore(): void {
 	for (let i = len + 1; i <= end; i++) {
 		employees.value.push({
 			id: `2100${i}`,
-			name: t('snTable.empName', { n: i } as UTSJSONObject),
+			name: t('snTable.empName', { n: i }),
 			dept: i % 2 == 0 ? t('snTable.deptTech') : t('snTable.deptProduct')
 		})
 	}
-	loadTip.value = t('snTable.loadedCount', { n: end } as UTSJSONObject)
+	loadTip.value = t('snTable.loadedCount', { n: end })
 }
 
 function onOpClick(item: Order, action: string): void {
 	const actionText = action == 'edit' ? t('snTable.opEdit') : t('snTable.opDelete')
-	lastAction.value = t('snTable.actionTip', { action: actionText, id: item.id } as UTSJSONObject)
+	lastAction.value = t('snTable.actionTip', { action: actionText, id: item.id })
 }
 </script>
 

@@ -6,7 +6,7 @@
 			<sn-text type="text-light" :font-size="13"
 				:text="t('snMention.currentValue') + (value1 == '' ? t('snMention.empty') : value1)" custom-style="margin-top:12px;"/>
 			<sn-text type="text-light" :font-size="13"
-				:text="t('snMention.mentionCounts', { m: mentionCount1, r: removeCount1, c: changeCount1 } as UTSJSONObject)"
+				:text="t('snMention.mentionCounts', { m: mentionCount1, r: removeCount1, c: changeCount1 })"
 				custom-style="margin-top:6px;"/>
 		</demo-card>
 
@@ -168,7 +168,7 @@ function onMention1(): void {
 function onRemove1(tag: string): void {
 	removeCount1.value = removeCount1.value + 1
 	snu.showToast({
-		text: t('snMention.removedTag', { tag: tag } as UTSJSONObject)
+		text: t('snMention.removedTag', { tag: tag })
 	})
 }
 
@@ -193,19 +193,19 @@ function onMention2(): void {
 
 function beforeRemove2(tag: string): boolean {
 	if (findFriend(tag) >= 0) {
-		removeLog2.value = t('snMention.allowRemove', { tag: tag } as UTSJSONObject)
+		removeLog2.value = t('snMention.allowRemove', { tag: tag })
 		return true
 	}
-	removeLog2.value = t('snMention.blockRemove', { tag: tag } as UTSJSONObject)
+	removeLog2.value = t('snMention.blockRemove', { tag: tag })
 	return false
 }
 
 function onRemove2(tag: string): void {
-	removeLog2.value = t('snMention.removedWhole', { tag: tag } as UTSJSONObject)
+	removeLog2.value = t('snMention.removedWhole', { tag: tag })
 }
 
 function selectFriend2(idx: number): void {
-	removeLog2.value = t('snMention.inserted', { tag: friends[idx] } as UTSJSONObject)
+	removeLog2.value = t('snMention.inserted', { tag: friends[idx] })
 	drawer2Ref.value?.$callMethod('close')
 	mention2Ref.value?.$callMethod('insertMention', friends[idx])
 }
@@ -250,7 +250,7 @@ function onChatMention(): void {
 
 function onChatRemove(tag: string): void {
 	snu.showToast({
-		text: t('snMention.removedMention', { tag: tag } as UTSJSONObject)
+		text: t('snMention.removedMention', { tag: tag })
 	})
 }
 

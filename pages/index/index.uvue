@@ -22,8 +22,8 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
-import type { SnDataItem, SnTabbarItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import { useTheme } from '@/uni_modules/sinle-ui/index.ts'
+import type { SnDataItem, SnTabbarItem } from '@/uni_modules/sinle-ui/core/types/index.ts'
 import ComponentsPage from '@/pages/components/components.uvue'
 import ApiPage from '@/pages/api/API.uvue'
 import TemplatePage from '@/pages/template/template.uvue'

@@ -232,7 +232,7 @@ function onGestureTouchMove(e: SnTouchEvent): void {
 	e.event.preventDefault()
 	if (e.touches.length > 0) {
 		const t = e.touches[0]
-		pushLog(t('snView.touchmoveLog', { direction: t.direction, dx: Math.round(t.diffX).toString(), dy: Math.round(t.diffY).toString() } as UTSJSONObject))
+		pushLog(t('snView.touchmoveLog', { direction: t.direction, dx: Math.round(t.diffX).toString(), dy: Math.round(t.diffY).toString() }))
 	}
 }
 

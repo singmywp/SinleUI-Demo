@@ -75,8 +75,8 @@
 <script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
-import { $snui, snu } from '@/uni_modules/sinle-ui/index.uts'
-import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import { $snui, snu } from '@/uni_modules/sinle-ui/index.ts'
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 
@@ -134,7 +134,7 @@ const positionId = computed<string>(() => {
 
 
 const posText = computed<string>(() => {
-	return t('snFloatButton.pos', { x: Math.round(configs.value.model[0]), y: Math.round(configs.value.model[1]) } as UTSJSONObject)
+	return t('snFloatButton.pos', { x: Math.round(configs.value.model[0]), y: Math.round(configs.value.model[1]) })
 })
 
 

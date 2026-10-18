@@ -6,7 +6,7 @@
 				<sn-checkbox :text="t('snCheckbox.banana')" />
 				<sn-checkbox :text="t('snCheckbox.pineapple')" />
 			</sn-checkbox-group>
-			<sn-text font-size="$12" color="$textLight">{{ t('snCheckbox.selectedIndex', { text: check1Text } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" color="$textLight">{{ t('snCheckbox.selectedIndex', { text: check1Text }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snCheckbox.defaultSelected')" :subtitle="t('snCheckbox.defaultSelectedSub')">
@@ -15,7 +15,7 @@
 				<sn-checkbox :text="t('snCheckbox.option2')" />
 				<sn-checkbox :text="t('snCheckbox.option3')" />
 			</sn-checkbox-group>
-			<sn-text font-size="$12" color="$textLight">{{ t('snCheckbox.vmInit', { text: check2Text } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" color="$textLight">{{ t('snCheckbox.vmInit', { text: check2Text }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snCheckbox.vertical')" :subtitle="t('snCheckbox.verticalSub')">
@@ -154,7 +154,7 @@
 				<sn-checkbox :text="t('snCheckbox.optionB')" />
 				<sn-checkbox :text="t('snCheckbox.optionC')" />
 			</sn-checkbox-group>
-			<sn-text font-size="$13" color="$primary" custom-style="margin-top:12px;">{{ t('snCheckbox.recentEvent', { text: changeLog } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$13" color="$primary" custom-style="margin-top:12px;">{{ t('snCheckbox.recentEvent', { text: changeLog }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snCheckbox.externalStyle')" :subtitle="t('snCheckbox.externalStyleSub')">
@@ -199,7 +199,7 @@
 					<sn-checkbox-tag :text="t('snCheckbox.sports')" />
 					<sn-checkbox-tag :text="t('snCheckbox.reading')" />
 				</sn-checkbox-group>
-				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snCheckbox.hobbiesCount', { count: hobbies.length, text: hobbiesText } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snCheckbox.hobbiesCount', { count: hobbies.length, text: hobbiesText }) }}</sn-text>
 			</view>
 		</demo-card>
 	</sn-page>
@@ -243,7 +243,7 @@ const check2Text = computed<string>(() => '[' + check2.value.join(', ') + ']')
 const hobbiesText = computed<string>(() => '[' + hobbies.value.join(', ') + ']')
 
 function onChange(value: number[]): void {
-	changeLog.value = t('snCheckbox.changeLog', { text: '[' + value.join(', ') + ']' } as UTSJSONObject)
+	changeLog.value = t('snCheckbox.changeLog', { text: '[' + value.join(', ') + ']' })
 }
 </script>
 

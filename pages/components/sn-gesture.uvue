@@ -60,31 +60,31 @@ function goToViewInstances(): void {
 	})
 }
 
-function pointerEventToObj(type: string, e: SnPointerEvent): UTSJSONObject {
-	const obj = new UTSJSONObject()
-	obj.type = type
-	obj.x = e.x
-	obj.y = e.y
-	return obj
+function pointerEventToObj(type: string, e: SnPointerEvent): Record<string, any> {
+	return {
+		type: type,
+		x: e.x,
+		y: e.y
+	}
 }
 
-function touchEventToObj(type: string, e: SnTouchEvent): UTSJSONObject {
-	const obj = new UTSJSONObject()
-	obj.type = type
-	const touches: UTSJSONObject[] = []
+function touchEventToObj(type: string, e: SnTouchEvent): Record<string, any> {
+	const touches: Record<string, any>[] = []
 	for (let i = 0; i < e.touches.length; i++) {
 		const t = e.touches[i]
-		const item = new UTSJSONObject()
-		item.x = t.x
-		item.y = t.y
-		item.diffX = t.diffX
-		item.diffY = t.diffY
-		item.direction = t.direction
-		item.id = t.id
-		touches.push(item)
+		touches.push({
+			x: t.x,
+			y: t.y,
+			diffX: t.diffX,
+			diffY: t.diffY,
+			direction: t.direction,
+			id: t.id
+		})
 	}
-	obj.touches = touches
-	return obj
+	return {
+		type: type,
+		touches: touches
+	}
 }
 
 function onViewClick(e: SnPointerEvent): void {
@@ -119,23 +119,23 @@ function onViewTouchCancel(e: SnTouchEvent): void {
 	viewTouchText.value = JSON.stringify(touchEventToObj('touchcancel', e))
 }
 
-function scaleEventToObj(type: string, e: SnScaleEvent): UTSJSONObject {
-	const obj = new UTSJSONObject()
-	obj.type = type
-	obj.zoom = e.zoom
-	return obj
+function scaleEventToObj(type: string, e: SnScaleEvent): Record<string, any> {
+	return {
+		type: type,
+		zoom: e.zoom
+	}
 }
 
-function flingEventToObj(type: string, e: SnFlingEvent): UTSJSONObject {
-	const obj = new UTSJSONObject()
-	obj.type = type
-	obj.beginX = e.beginX
-	obj.beginY = e.beginY
-	obj.endX = e.endX
-	obj.endY = e.endY
-	obj.vX = e.vX
-	obj.vY = e.vY
-	return obj
+function flingEventToObj(type: string, e: SnFlingEvent): Record<string, any> {
+	return {
+		type: type,
+		beginX: e.beginX,
+		beginY: e.beginY,
+		endX: e.endX,
+		endY: e.endY,
+		vX: e.vX,
+		vY: e.vY
+	}
 }
 
 function onNativeClick(e: SnPointerEvent): void {

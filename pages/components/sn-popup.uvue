@@ -235,7 +235,7 @@
 <script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
-import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import { useTheme } from '@/uni_modules/sinle-ui/index.ts'
 import type { ComponentPublicInstance } from 'vue'
 
 const { isDark } = useTheme()
@@ -371,13 +371,13 @@ function closeNestedForm(): void {
 }
 
 function selectNestedAddress(name: string | number): void {
-	nestedAddress.value = t('snPopup.selected', { value: name } as UTSJSONObject)
+	nestedAddress.value = t('snPopup.selected', { value: name })
 	closeNestedAddress()
 }
 
 function saveNestedForm(): void {
 	if (nestedForm.value.name != '') {
-		nestedAddress.value = t('snPopup.selected', { value: nestedForm.value.name + ' ' + nestedForm.value.phone } as UTSJSONObject)
+		nestedAddress.value = t('snPopup.selected', { value: nestedForm.value.name + ' ' + nestedForm.value.phone })
 	} else {
 		nestedAddress.value = t('snPopup.selectedNewAddress')
 	}

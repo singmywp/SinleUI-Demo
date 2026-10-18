@@ -6,18 +6,18 @@
 			<view class="ud-row" style="margin-top:10px;" flatten>
 				<sn-button :text="t('snUploadMedia.upload')" type="primary" custom-style="flex:1; margin-right:8px;" @click="onUpload" />
 			</view>
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snUploadMedia.choseImages', { count: imageChoseCount, tip: uploadTip } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snUploadMedia.choseImages', { count: imageChoseCount, tip: uploadTip }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snUploadMedia.videoTitle')" :subtitle="t('snUploadMedia.videoSubtitle')">
 			<sn-upload-media ref="videoRef" mode="video" :url="uploadUrl" width="120px" height="120px"
 				@video-chose="onVideoChose" @uploaded="onVideoUploaded" @upload-error="onVideoUploadError" />
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snUploadMedia.choseVideos', { count: videoChoseCount, tip: videoUploadTip } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snUploadMedia.choseVideos', { count: videoChoseCount, tip: videoUploadTip }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snUploadMedia.mixTitle')" :subtitle="t('snUploadMedia.mixSubtitle')">
 			<sn-upload-media mode="all" :max-count="4" :auto-upload="false" @file-chose="onFileChose" />
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snUploadMedia.fileCount', { count: fileChoseCount } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snUploadMedia.fileCount', { count: fileChoseCount }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snUploadMedia.cloudTitle')" :subtitle="t('snUploadMedia.cloudSubtitle')">
@@ -49,7 +49,7 @@
 
 import { useI18n } from 'vue-i18n'
 import type { ComponentPublicInstance } from 'vue'
-import type { SnFile } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type { SnFile } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 
@@ -76,11 +76,11 @@ function onUploaded(): void {
 
 function onUploadError(err: UniError): void {
 	const detail = err.cause != null && err.cause.message != '' ? `：${err.cause.message}` : ''
-	uploadTip.value = t('snUploadMedia.uploadFail', { code: err.errCode, detail } as UTSJSONObject)
+	uploadTip.value = t('snUploadMedia.uploadFail', { code: err.errCode, detail })
 }
 
 function onChooseError(err: UniError): void {
-	uploadTip.value = t('snUploadMedia.chooseFail', { code: err.errCode } as UTSJSONObject)
+	uploadTip.value = t('snUploadMedia.chooseFail', { code: err.errCode })
 }
 
 
@@ -99,7 +99,7 @@ function onVideoUploaded(): void {
 
 function onVideoUploadError(err: UniError): void {
 	const detail = err.cause != null && err.cause.message != '' ? `：${err.cause.message}` : ''
-	videoUploadTip.value = t('snUploadMedia.uploadFail', { code: err.errCode, detail } as UTSJSONObject)
+	videoUploadTip.value = t('snUploadMedia.uploadFail', { code: err.errCode, detail })
 }
 
 
@@ -123,11 +123,11 @@ function onCloudUploaded(): void {
 
 function onCloudUploadError(err: UniError): void {
 	const detail = err.cause != null && err.cause.message != '' ? `：${err.cause.message}` : ''
-	cloudTip.value = t('snUploadMedia.uploadFail', { code: err.errCode, detail } as UTSJSONObject)
+	cloudTip.value = t('snUploadMedia.uploadFail', { code: err.errCode, detail })
 }
 
 function onCloudChooseError(err: UniError): void {
-	cloudTip.value = t('snUploadMedia.chooseFail', { code: err.errCode } as UTSJSONObject)
+	cloudTip.value = t('snUploadMedia.chooseFail', { code: err.errCode })
 }
 </script>
 

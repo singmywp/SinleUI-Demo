@@ -3,7 +3,7 @@
 		<demo-card :title="t('snPagination.basicTitle')" :subtitle="t('snPagination.basicSubtitle')">
 			<view class="demo-block" flatten>
 				<sn-pagination v-model:page="page1" :page-count="5" />
-				<sn-text font-size="$13" color="$textLight" custom-style="margin-top:10px;">{{ t('snPagination.currentPage', { page: page1.toString(), total: '5' } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$13" color="$textLight" custom-style="margin-top:10px;">{{ t('snPagination.currentPage', { page: page1.toString(), total: '5' }) }}</sn-text>
 			</view>
 		</demo-card>
 
@@ -38,7 +38,7 @@
 		<demo-card :title="t('snPagination.itemCountTitle')" :subtitle="t('snPagination.itemCountSubtitle')">
 			<view class="demo-block">
 				<sn-pagination v-model:page="pageAuto" :item-count="253" :page-size="10"  />
-				<sn-text font-size="$13" color="$textLight" custom-style="margin-top:10px;">{{ t('snPagination.itemCountAuto', { page: autoPageCount.toString() } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$13" color="$textLight" custom-style="margin-top:10px;">{{ t('snPagination.itemCountAuto', { page: autoPageCount.toString() }) }}</sn-text>
 			</view>
 		</demo-card>
 
@@ -78,7 +78,7 @@
 					show-quick-jumper>
 					<template #goto>{{ t('snPagination.goTo') }}</template>
 				</sn-pagination>
-				<sn-text font-size="$13" color="$textLight" custom-style="margin-top:10px;">{{ t('snPagination.currentOnly', { page: pageJump.toString() } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$13" color="$textLight" custom-style="margin-top:10px;">{{ t('snPagination.currentOnly', { page: pageJump.toString() }) }}</sn-text>
 			</view>
 		</demo-card>
 
@@ -142,7 +142,7 @@ const { t } = useI18n()
 function buildItems(): string[] {
 	const list: string[] = []
 	for (let i = 1; i <= 26; i++) {
-		list.push(t('snPagination.newsItem', { index: i } as UTSJSONObject))
+		list.push(t('snPagination.newsItem', { index: i }))
 	}
 	return list
 }

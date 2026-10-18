@@ -6,7 +6,7 @@
 
 		<demo-card :title="t('snColorPickerView.basicTitle')" :subtitle="t('snColorPickerView.basicDesc')">
 			<sn-color-picker-view v-model="value" @change="onChange" />
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:10px;">{{ t('snColorPickerView.currentColor', { v: value } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:10px;">{{ t('snColorPickerView.currentColor', { v: value }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snColorPickerView.hexTitle')" subtitle="HEX / RGBA / HSB / HSL">
@@ -17,7 +17,7 @@
 				<sn-button type="info" text="HSL" custom-style="flex:1;" @click="format = 'hsl'" />
 			</view>
 			<sn-color-picker-view v-model="formatValue" :format="format" :show-alpha="true" :show-presets="false" panel-height="220px" custom-style="margin-top:12px;" />
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:10px;">{{ t('snColorPickerView.formatDesc', { f: format, v: formatValue } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:10px;">{{ t('snColorPickerView.formatDesc', { f: format, v: formatValue }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snColorPickerView.presetTitle')" :subtitle="t('snColorPickerView.presetDesc')">
@@ -32,7 +32,7 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { $snui } from '@/uni_modules/sinle-ui/index.uts'
+import { $snui } from '@/uni_modules/sinle-ui/index.ts'
 
 const { t } = useI18n()
 

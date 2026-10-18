@@ -106,7 +106,12 @@
 import { useI18n } from 'vue-i18n'
 import { $snui, snu } from '@/uni_modules/sinle-ui'
 import type { ComponentPublicInstance } from 'vue'
-import type { SnFormItemRule, SnFormItemVerifyResult, SnFormValidResult } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type {
+	SnFormItemRule,
+	SnFormItemVerifyResult,
+	SnFormValidResult,
+	SnFormData
+} from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 const value1 = ref<string>('')
@@ -192,10 +197,10 @@ function onLogin(): void {
 	snu.showToast({ text: t('snInputField.loginSuccess'), icon: 'checkbox-circle-fill' })
 }
 
-const formData = ref<UTSJSONObject>({
+const formData = ref<SnFormData>({
 	username: '',
 	phone: ''
-} as UTSJSONObject)
+})
 const failResults = ref<SnFormItemVerifyResult[]>([])
 const formRef = ref<ComponentPublicInstance | null>(null)
 

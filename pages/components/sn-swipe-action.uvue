@@ -102,7 +102,7 @@
 				</template>
 			</sn-swipe-action>
 			<sn-text font-size="$12" color="$textLight" custom-style="margin-top: 10px; margin-left: 4px;">
-				{{ t('snSwipeAction.openEvtCount', { count: openCount } as UTSJSONObject) }}
+				{{ t('snSwipeAction.openEvtCount', { count: openCount }) }}
 			</sn-text>
 		</demo-card>
 
@@ -234,7 +234,7 @@ function beforeActionClose(direction: string): Promise<boolean> {
 	return new Promise((resolve) => {
 		snu.showModal({
 			title: t('snSwipeAction.confirmTitle'),
-			content: t('snSwipeAction.closeConfirm', { side: (direction == 'right' ? t('snSwipeAction.right') : t('snSwipeAction.left')) } as UTSJSONObject),
+			content: t('snSwipeAction.closeConfirm', { side: (direction == 'right' ? t('snSwipeAction.right') : t('snSwipeAction.left')) }),
 			success: (confirm, cancel) => {
 				resolve(confirm)
 			},
@@ -263,7 +263,7 @@ function onEdit(): void {
 }
 
 function onDelete(index: number): void {
-	snu.showToast({ text: t('snSwipeAction.toastDelete', { n: index + 1 } as UTSJSONObject) })
+	snu.showToast({ text: t('snSwipeAction.toastDelete', { n: index + 1 }) })
 }
 
 

@@ -104,8 +104,8 @@
 		<sn-popover ref="animRef" :z-index="1000" close-on-click-overlay
 			:animation="currentAnim" :ani-time="aniTimeVal">
 			<view class="pop-card pop-anim">
-				<sn-text font-size="$14" bold custom-style="padding: 14px; color: var(--sn-primary);" :text="t('snPopover.animType', { value: currentAnim } as UTSJSONObject)"/>
-				<sn-text font-size="$12" type="text-light" custom-style="padding: 0 14px 14px;">{{ t('snPopover.animDuration', { value: aniTimeVal } as UTSJSONObject) }} ms</sn-text>
+				<sn-text font-size="$14" bold custom-style="padding: 14px; color: var(--sn-primary);" :text="t('snPopover.animType', { value: currentAnim })"/>
+				<sn-text font-size="$12" type="text-light" custom-style="padding: 0 14px 14px;">{{ t('snPopover.animDuration', { value: aniTimeVal }) }} ms</sn-text>
 			</view>
 		</sn-popover>
 
@@ -251,7 +251,7 @@ function onItem(name: string, instance: PopoverInstance | null): void {
 	if (instance != null) {
 		instance.$callMethod('close')
 	}
-	lastEvent.value = t('snPopover.selected', { name: name } as UTSJSONObject)
+	lastEvent.value = t('snPopover.selected', { name: name })
 }
 
 function onOverlayClick(): void {
@@ -265,7 +265,7 @@ function onUpdateShow(v: boolean): void {
 }
 
 function onEvt(name: string): void {
-	lastEvent.value = t('snPopover.event', { name: name } as UTSJSONObject)
+	lastEvent.value = t('snPopover.event', { name: name })
 }
 
 const flipOpenAnim = (overlay: UniElement | null, content: UniElement | null, duration: number): void => {

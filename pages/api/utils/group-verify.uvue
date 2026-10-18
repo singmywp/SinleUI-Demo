@@ -7,9 +7,9 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import { snu } from '@/uni_modules/sinle-ui/index.ts'
 import UtilsCard from './utils-card.uvue'
-import type { UtilsVerifyCard } from './types.uts'
+import type { UtilsVerifyCard } from './types.ts'
 
 defineOptions({
 	name: 'group-verify'

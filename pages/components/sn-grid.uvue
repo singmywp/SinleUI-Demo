@@ -30,7 +30,7 @@
 			<sn-grid-group :col="3" gutter="20px">
 				<sn-grid-item v-for="(item, idx) in bgList" :key="'bg' + idx" :bg-color="item.bg">
 					<view class="grid-tile" flatten>
-						<sn-text bold :font-size="16" color="#fff" :text="t('snGrid.number', { n: idx + 1 } as UTSJSONObject)"/>
+						<sn-text bold :font-size="16" color="#fff" :text="t('snGrid.number', { n: idx + 1 })"/>
 					</view>
 				</sn-grid-item>
 			</sn-grid-group>

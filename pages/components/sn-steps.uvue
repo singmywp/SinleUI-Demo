@@ -8,7 +8,7 @@
 				<sn-step :title="t('snSteps.step3Title')" :content="t('snSteps.step3Content')"></sn-step>
 				<sn-step :title="t('snSteps.step4Title')" :content="t('snSteps.step4Content')"></sn-step>
 			</sn-steps>
-			<sn-text type="text-light" :font-size="12" :text="t('snSteps.currentStep', { cur: current1, cnt: changeCount1 } as UTSJSONObject)"
+			<sn-text type="text-light" :font-size="12" :text="t('snSteps.currentStep', { cur: current1, cnt: changeCount1 })"
 				custom-style="margin-top:12px;"/>
 		</demo-card>
 
@@ -56,7 +56,7 @@
 				<sn-step :title="t('snSteps.sel2')"></sn-step>
 				<sn-step :title="t('snSteps.sel3')"></sn-step>
 			</sn-steps>
-			<sn-text type="text-light" :font-size="12" :text="t('snSteps.currentStepHint', { cur: current5 } as UTSJSONObject)" custom-style="margin-top:12px;" />
+			<sn-text type="text-light" :font-size="12" :text="t('snSteps.currentStepHint', { cur: current5 })" custom-style="margin-top:12px;" />
 		</demo-card>
 
 		<demo-card :title="t('snSteps.demoStyleTitle')" :subtitle="t('snSteps.demoStyleSub')">
@@ -80,7 +80,7 @@
 <script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
-import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import { useTheme } from '@/uni_modules/sinle-ui/index.ts'
 
 const { t } = useI18n()
 const { isDark } = useTheme()

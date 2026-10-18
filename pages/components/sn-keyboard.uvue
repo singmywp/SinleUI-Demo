@@ -102,7 +102,7 @@
 
 
 import { useI18n } from 'vue-i18n'
-import { useTheme, snu } from '@/uni_modules/sinle-ui/index.uts'
+import { useTheme, snu } from '@/uni_modules/sinle-ui/index.ts'
 
 const { t } = useI18n()
 const { isDark } = useTheme()
@@ -209,7 +209,7 @@ function onCarConfirm(): void {
 
 function onCustomConfirm(): void {
 	
-	snu.showToast({ text: t('snKeyboard.confirmValue', { v: customValue.value } as UTSJSONObject) })
+	snu.showToast({ text: t('snKeyboard.confirmValue', { v: customValue.value }) })
 }
 
 function onNoInputConfirm(): void {

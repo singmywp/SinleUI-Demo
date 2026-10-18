@@ -8,7 +8,7 @@
 
 			<demo-card :title="t('snCalendarView.modeModel')" :subtitle="t('snCalendarView.modeModelSub')">
 				<sn-subsection v-model="modeIndex" :data="modeOptions" @change="onModeChange" />
-				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;">{{ t('snCalendarView.modelLbl', { text: formatValue(calendarValue) } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;">{{ t('snCalendarView.modelLbl', { text: formatValue(calendarValue) }) }}</sn-text>
 			</demo-card>
 
 			<demo-card :title="t('snCalendarView.renderRange')" :subtitle="t('snCalendarView.renderRangeSub')">
@@ -52,9 +52,9 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { createCalendarDayContent, dayuts } from '@/uni_modules/sinle-ui/index.uts'
+import { createCalendarDayContent, dayuts } from '@/uni_modules/sinle-ui/index.ts'
 import type { ComponentPublicInstance } from 'vue'
-import type { SnCalendarDay, SnCalendarDayFormatter, SnCalendarDayPaintInput, SnCalendarPanelChangeDetail, SnCalendarSwitchMode, SnCalendarType, SnCalendarValue } from '@/uni_modules/sinle-ui/index.uts'
+import type { SnCalendarDay, SnCalendarDayFormatter, SnCalendarDayPaintInput, SnCalendarPanelChangeDetail, SnCalendarSwitchMode, SnCalendarType, SnCalendarValue } from '@/uni_modules/sinle-ui/index.ts'
 
 const { t } = useI18n()
 
@@ -116,7 +116,7 @@ const demoFormatter: SnCalendarDayFormatter = (day: SnCalendarDay) => {
 }
 
 const calendarFormatter = computed<SnCalendarDayFormatter | null>(() => customRender.value ? demoFormatter : null)
-const calendarSubtitle = computed<string>(() => `${calendarType.value} · ${switchMode.value} · ${t('snCalendarView.subtitleRange', { min: dayuts(minDate.value as number).format('YYYY-MM-DD'), max: dayuts(maxDate.value as number).format('YYYY-MM-DD') } as UTSJSONObject)}`)
+const calendarSubtitle = computed<string>(() => `${calendarType.value} · ${switchMode.value} · ${t('snCalendarView.subtitleRange', { min: dayuts(minDate.value as number).format('YYYY-MM-DD'), max: dayuts(maxDate.value as number).format('YYYY-MM-DD') })}`)
 
 function formatValue(value: SnCalendarValue): string {
 	if (value == null) return 'null'
@@ -199,15 +199,15 @@ function scrollToTarget(): void {
 }
 
 function onSelect(value: SnCalendarValue): void {
-	eventResult.value = t('snCalendarView.selectEvent', { value: formatValue(value) } as UTSJSONObject)
+	eventResult.value = t('snCalendarView.selectEvent', { value: formatValue(value) })
 }
 
 function onChange(value: SnCalendarValue): void {
-	eventResult.value = t('snCalendarView.changeEvent', { value: formatValue(value) } as UTSJSONObject)
+	eventResult.value = t('snCalendarView.changeEvent', { value: formatValue(value) })
 }
 
 function onPanelChange(detail: SnCalendarPanelChangeDetail): void {
-	eventResult.value = t('snCalendarView.panelChangeEvent', { year: `${detail.year}`, month: `${detail.month}` } as UTSJSONObject)
+	eventResult.value = t('snCalendarView.panelChangeEvent', { year: `${detail.year}`, month: `${detail.month}` })
 }
 </script>
 

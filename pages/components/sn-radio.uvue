@@ -6,7 +6,7 @@
 				<sn-radio :text="t('snRadio.cancelRadio')" />
 				<sn-radio :text="t('snRadio.laterRadio')" />
 			</sn-radio-group>
-			<sn-text font-size="$12" color="$textLight">{{ t('snRadio.currentSelected', { value: radio1.toString() } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" color="$textLight">{{ t('snRadio.currentSelected', { value: radio1.toString() }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snRadio.defaultSelectedTitle')" :subtitle="t('snRadio.defaultSelectedSubtitle')">
@@ -15,7 +15,7 @@
 				<sn-radio :text="t('snRadio.option2')" />
 				<sn-radio :text="t('snRadio.option3')" />
 			</sn-radio-group>
-			<sn-text font-size="$12" color="$textLight">{{ t('snRadio.defaultSelectedTip', { value: radio2.toString() } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" color="$textLight">{{ t('snRadio.defaultSelectedTip', { value: radio2.toString() }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snRadio.verticalTitle')" :subtitle="t('snRadio.verticalSubtitle')">
@@ -139,7 +139,7 @@
 				<sn-radio :text="t('snRadio.optB')" />
 				<sn-radio :text="t('snRadio.optC')" />
 			</sn-radio-group>
-			<sn-text font-size="$13" color="$primary" custom-style="margin-top:12px;">{{ t('snRadio.recentEvent', { value: changeLog } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$13" color="$primary" custom-style="margin-top:12px;">{{ t('snRadio.recentEvent', { value: changeLog }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snRadio.externalTitle')" :subtitle="t('snRadio.externalSubtitle')">
@@ -180,7 +180,7 @@
 					<sn-radio :text="t('snRadio.nextDay')" />
 					<sn-radio-tag :text="t('snRadio.expressQuick')" />
 				</sn-radio-group>
-				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snRadio.deliveryIndex', { value: delivery.toString() } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snRadio.deliveryIndex', { value: delivery.toString() }) }}</sn-text>
 			</view>
 		</demo-card>
 	</sn-page>
@@ -218,7 +218,7 @@ const delivery = ref<number>(0)
 const changeLog = ref<string>(t('snRadio.noEvent'))
 
 function onChange(value: number): void {
-	changeLog.value = t('snRadio.change', { value: value.toString() } as UTSJSONObject)
+	changeLog.value = t('snRadio.change', { value: value.toString() })
 }
 </script>
 

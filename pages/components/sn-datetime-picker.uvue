@@ -10,7 +10,7 @@
 				<sn-button :text="t('snDatetimePicker.open')" type="primary" custom-style="flex:1;" @click="openPicker" />
 				<sn-button :text="t('snDatetimePicker.close')" type="info" custom-style="flex:1;margin-left:10px;" @click="closePicker" />
 			</view>
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snDatetimePicker.current', { v: pickerValue } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snDatetimePicker.current', { v: pickerValue }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snDatetimePicker.modeTitle')" :subtitle="t('snDatetimePicker.modeDesc')">
@@ -59,9 +59,9 @@
 <script lang="ts" setup>
 	
 	import { useI18n } from 'vue-i18n'
-	import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+	import { useTheme } from '@/uni_modules/sinle-ui/index.ts'
 	import type { ComponentPublicInstance } from 'vue'
-	import type { SnDatetimePickerValue } from '@/uni_modules/sinle-ui/core/types/index.uts'
+	import type { SnDatetimePickerValue } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 	const { t } = useI18n()
 
@@ -196,7 +196,7 @@
 	}
 
 	function onChange(v: SnDatetimePickerValue): void {
-		eventResult.value = t('snDatetimePicker.evChange', { v: v.toString() } as UTSJSONObject)
+		eventResult.value = t('snDatetimePicker.evChange', { v: v.toString() })
 	}
 </script>
 

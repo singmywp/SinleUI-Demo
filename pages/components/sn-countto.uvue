@@ -80,7 +80,7 @@ const finishCount1 = ref<number>(0)
 const isRunning = ref<boolean>(false)
 const runningText = ref<string>(t('snCountto.start'))
 
-const finishCountText = computed<string>(() => t('snCountto.finishCount', { c: finishCount1.value } as UTSJSONObject))
+const finishCountText = computed<string>(() => t('snCountto.finishCount', { c: finishCount1.value }))
 
 function onFinish1(): void {
 	finishCount1.value = finishCount1.value + 1

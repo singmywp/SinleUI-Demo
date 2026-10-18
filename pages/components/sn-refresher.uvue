@@ -27,7 +27,7 @@
 				:refresh-text="t('snRefresher.clickToRefresh')" @refresh="onRefresh" />
 			<sn-text font-size="$12" :color="triggered ? $snui.colors.primary : $snui.colors.textLight"
 				custom-style="margin-top:12px;margin-bottom:10px;">
-					{{ t('snRefresher.currentTriggered', { value: triggered ? 'true' : 'false' } as UTSJSONObject) }}
+					{{ t('snRefresher.currentTriggered', { value: triggered ? 'true' : 'false' }) }}
 			</sn-text>
 			<view class="btn-row" flatten>
 				<sn-button type="primary" custom-style="margin-right:10px;" @click="onStart">{{ t('snRefresher.start') }}</sn-button>

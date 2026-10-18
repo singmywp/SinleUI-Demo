@@ -84,7 +84,7 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import type { SnAvatarGroupItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type { SnAvatarGroupItem } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 
@@ -141,11 +141,11 @@ const customColorList = computed<SnAvatarGroupItem[]>(() => [
 const lastEvent = ref<string>(t('snAvatarGroup.noEvent'))
 
 function onGroupClick(item: SnAvatarGroupItem): void {
-	lastEvent.value = t('snAvatarGroup.clickEvent', { name: item.text != null && item.text != '' ? item.text : item.src } as UTSJSONObject)
+	lastEvent.value = t('snAvatarGroup.clickEvent', { name: item.text != null && item.text != '' ? item.text : item.src })
 }
 
 function onGroupDbClick(item: SnAvatarGroupItem): void {
-	lastEvent.value = t('snAvatarGroup.dbclickEvent', { name: item.text != null && item.text != '' ? item.text : item.src } as UTSJSONObject)
+	lastEvent.value = t('snAvatarGroup.dbclickEvent', { name: item.text != null && item.text != '' ? item.text : item.src })
 }
 </script>
 

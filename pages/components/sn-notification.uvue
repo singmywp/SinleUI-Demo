@@ -39,7 +39,7 @@
 			<view class="btn-row btn-gap" flatten>
 				<sn-button type="primary" :text="t('snNotification.withCloseBtn')" custom-style="flex:1;" @click="onShowClosable" />
 			</view>
-			<sn-text font-size="$12" color="$textLight" :text="t('snNotification.closeCount', { count: closeCount } as UTSJSONObject)" custom-style="margin-top:10px;"/>
+			<sn-text font-size="$12" color="$textLight" :text="t('snNotification.closeCount', { count: closeCount })" custom-style="margin-top:10px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snNotification.groupTitle')" :subtitle="t('snNotification.groupSubtitle')">
@@ -69,7 +69,7 @@
 				<sn-button type="primary" :text="t('snNotification.createNotice')" custom-style="flex:1;" @click="onCreateNotice" />
 				<sn-button type="error" :text="t('snNotification.closeLast')" custom-style="flex:1;margin-left:10px;" @click="onCloseLast" />
 			</view>
-			<sn-text font-size="$12" color="$textLight" :text="t('snNotification.createdCount', { count: createdCount } as UTSJSONObject)" custom-style="margin-top:10px;"/>
+			<sn-text font-size="$12" color="$textLight" :text="t('snNotification.createdCount', { count: createdCount })" custom-style="margin-top:10px;"/>
 		</demo-card>
 
 		<sn-notification ref="notificationRef" @close="onNotificationClose">
@@ -85,12 +85,8 @@
 
 import { useI18n } from 'vue-i18n'
 import type { ComponentPublicInstance } from 'vue'
-import { snu } from '@/uni_modules/sinle-ui/index.uts'
-import type {
-	SnNotificationParams,
-	SnNotificationType,
-	SnNotificationPosition
-} from '@/uni_modules/sinle-ui/core/types/index.uts'
+import { snu } from '@/uni_modules/sinle-ui/index.ts'
+import type { SnNotificationParams, SnNotificationType, SnNotificationPosition } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 
@@ -147,8 +143,8 @@ function onShowBasic(): void {
 
 function onShowType(type: SnNotificationType): void {
 	notificationRef.value?.$callMethod('show', {
-		title: t('snNotification.typeNotice', { type: type } as UTSJSONObject),
-		content: t('snNotification.typeNoteContent', { type: type } as UTSJSONObject),
+		title: t('snNotification.typeNotice', { type: type }),
+		content: t('snNotification.typeNoteContent', { type: type }),
 		type: type
 	} as SnNotificationParams)
 }

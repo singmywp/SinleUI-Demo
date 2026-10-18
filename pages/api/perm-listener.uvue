@@ -48,7 +48,7 @@
 
 	onMounted(() => {
 		try {
-			const sysInfo = uni.getSystemInfoSync() as UTSJSONObject
+			const sysInfo = uni.getSystemInfoSync()
 			const platform = sysInfo.uniPlatform as string
 			isApp.value = platform == 'app'
 		} catch (e) {
@@ -67,13 +67,15 @@
 		})
 		applyTips()
 		snu.registerPermListener({
-			onComplete: (res: UTSJSONObject): void => {
+			onComplete: (result): void => {
+				const results = result as unknown as Record<string, string>
 				const denied: string[] = []
-				res.forEach((v: any | null, k: string): void => {
-					if (`${v}` == 'denied') {
-						denied.push(k)
+				const keys = Object.keys(results)
+				for (let i = 0; i < keys.length; i++) {
+					if (results[keys[i]] == 'denied') {
+						denied.push(keys[i])
 					}
-				})
+				}
 				if (denied.length > 0) {
 					snu.showToast({ text: t('apiPermListener.denyToast'), icon: 'warning' })
 				}

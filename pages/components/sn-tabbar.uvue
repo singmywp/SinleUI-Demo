@@ -143,7 +143,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { $snui, snu } from '@/uni_modules/sinle-ui'
-import type { SnBadgeParams, SnTabbarItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type { SnBadgeParams, SnTabbarItem } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 
@@ -261,15 +261,15 @@ function updateEventLog(text: string): void {
 }
 
 function onBasicChange(index: number): void {
-	updateEventLog(t('snTabbar.eventBasic', { index: index } as UTSJSONObject))
+	updateEventLog(t('snTabbar.eventBasic', { index: index }))
 }
 
 function onPageChange(index: number): void {
-	updateEventLog(t('snTabbar.eventPage', { index: index } as UTSJSONObject))
+	updateEventLog(t('snTabbar.eventPage', { index: index }))
 }
 
 function onFeatureChange(index: number): void {
-	updateEventLog(t('snTabbar.eventFeature', { index: index } as UTSJSONObject))
+	updateEventLog(t('snTabbar.eventFeature', { index: index }))
 }
 
 function onInlineHeightChange(height: number): void {

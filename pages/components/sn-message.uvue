@@ -54,7 +54,7 @@
 				<sn-button type="primary" :text="t('snMessage.withClose')" custom-style="flex:1;" @click="onShowClosable" />
 				<sn-button type="warning" :text="t('snMessage.groupingOpen')" custom-style="flex:1;margin-left:10px;" @click="onShowGroup" />
 			</view>
-			<sn-text font-size="$12" color="$textLight" :text="t('snMessage.closeCount', { count: closeCount } as UTSJSONObject)" custom-style="margin-top:10px;"/>
+			<sn-text font-size="$12" color="$textLight" :text="t('snMessage.closeCount', { count: closeCount })" custom-style="margin-top:10px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snMessage.shadowTitle')" :subtitle="t('snMessage.shadowSubtitle')">
@@ -73,7 +73,7 @@
 				<sn-button type="primary" :text="t('snMessage.createMsg')" custom-style="flex:1;" @click="onCreateMsg" />
 				<sn-button type="error" :text="t('snMessage.closeLast')" custom-style="flex:1;margin-left:10px;" @click="onCloseLast" />
 			</view>
-			<sn-text font-size="$12" color="$textLight" :text="t('snMessage.createdCount', { count: createdCount } as UTSJSONObject)" custom-style="margin-top:10px;"/>
+			<sn-text font-size="$12" color="$textLight" :text="t('snMessage.createdCount', { count: createdCount })" custom-style="margin-top:10px;"/>
 		</demo-card>
 
 		<sn-message ref="messageRef" @close="onMessageClose" />
@@ -84,8 +84,8 @@
 
 import { useI18n } from 'vue-i18n'
 import type { ComponentPublicInstance } from 'vue'
-import { snu } from '@/uni_modules/sinle-ui/index.uts'
-import type { SnMessageParams, SnMessageType, SnMessageLevel, SnMessagePosition } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import { snu } from '@/uni_modules/sinle-ui/index.ts'
+import type { SnMessageParams, SnMessageType, SnMessageLevel, SnMessagePosition } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 
@@ -123,14 +123,14 @@ function onShowBasic(): void {
 
 function onShowType(type: SnMessageType): void {
 	messageRef.value?.$callMethod('show', {
-		text: t('snMessage.typeMsg', { type: type } as UTSJSONObject),
+		text: t('snMessage.typeMsg', { type: type }),
 		type: type
 	} as SnMessageParams)
 }
 
 function onShowLevel(type: SnMessageType, level: SnMessageLevel): void {
 	messageRef.value?.$callMethod('show', {
-		text: t('snMessage.levelMsg', { type: type, level: level } as UTSJSONObject),
+		text: t('snMessage.levelMsg', { type: type, level: level }),
 		type: type,
 		level: level,
 		duration:5000
@@ -139,7 +139,7 @@ function onShowLevel(type: SnMessageType, level: SnMessageLevel): void {
 
 function onShowPosition(position: SnMessagePosition): void {
 	messageRef.value?.$callMethod('show', {
-		text: t('snMessage.positionMsg', { position: position } as UTSJSONObject),
+		text: t('snMessage.positionMsg', { position: position }),
 		position: position
 	} as SnMessageParams)
 }

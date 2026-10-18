@@ -19,7 +19,7 @@
 	import { useI18n } from 'vue-i18n'
 	import { $snui } from '@/uni_modules/sinle-ui'
 	import type { ComponentPublicInstance } from 'vue'
-	import type { SnLoadmoreParams, SnRefresherParams } from '@/uni_modules/sinle-ui/core/types/index.uts'
+	import type { SnLoadmoreParams, SnRefresherParams } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 	const { t } = useI18n()
 
@@ -59,7 +59,7 @@
 			const idx = start + i
 			arr.push({
 				id: `f${idx}`,
-				title: t('backtopWaterflow.item', { index: idx + 1 } as UTSJSONObject),
+				title: t('backtopWaterflow.item', { index: idx + 1 }),
 				height: seq[idx % seq.length]
 			})
 		}

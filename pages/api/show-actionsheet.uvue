@@ -60,8 +60,8 @@
 <script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
-import { snu, useTheme } from '@/uni_modules/sinle-ui/index.uts'
-import type { SnShowActionsheetConfig } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import { snu, useTheme } from '@/uni_modules/sinle-ui/index.ts'
+import type { SnShowActionsheetConfig } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 const { isDark } = useTheme()
@@ -167,7 +167,7 @@ function onShowWithCallback(): void {
 			{ text: t('apiShowActionsheet.option2'), color: '$warning' }
 		],
 		success: (tapIndex: number): void => {
-			callbackResult.value = t('apiShowActionsheet.callbackResource', { index: tapIndex + 1 } as UTSJSONObject)
+			callbackResult.value = t('apiShowActionsheet.callbackResource', { index: tapIndex + 1 })
 		},
 		fail: (error: any): void => {
 			callbackResult.value = t('apiShowActionsheet.callbackFail')

@@ -41,7 +41,7 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { $snui } from '@/uni_modules/sinle-ui/index.uts'
+import { $snui } from '@/uni_modules/sinle-ui/index.ts'
 
 const { t } = useI18n()
 
@@ -110,7 +110,7 @@ const clickTip = ref<string>('')
 const tipColor = computed<string>(() => $snui.colors.textLight)
 
 function onClick(index: number): void {
-	clickTip.value = t('snAlbum.clicked', { index: index + 1 } as UTSJSONObject)
+	clickTip.value = t('snAlbum.clicked', { index: index + 1 })
 }
 </script>
 

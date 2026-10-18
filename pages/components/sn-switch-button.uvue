@@ -5,7 +5,7 @@
 				<sn-switch-button v-model="basicValue" :text="t('snSwitchButton.basicText')" />
 			</view>
 			<sn-text custom-style="margin-top:10px;" font-size="$12" color="$textLight">
-				{{ t('snSwitchButton.currentValue', { val: basicValue.toString() } as UTSJSONObject) }}
+				{{ t('snSwitchButton.currentValue', { val: basicValue.toString() }) }}
 			</sn-text>
 		</demo-card>
 
@@ -105,7 +105,7 @@
 					:text="t('snSwitchButton.tapMe')" custom-style="margin-left:12px;" />
 			</view>
 			<sn-text custom-style="margin-top:10px;" font-size="$12" color="$textLight">
-				{{ t('snSwitchButton.latestEvent', { val: changeLog } as UTSJSONObject) }}
+				{{ t('snSwitchButton.latestEvent', { val: changeLog }) }}
 			</sn-text>
 		</demo-card>
 	</sn-page>

@@ -4,7 +4,7 @@
 			<view class="demo-row" flatten>
 				<view class="demo-item" flatten>
 					<sn-rate v-model="rateValue" />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snRate.currentValue', { value: rateValue } as UTSJSONObject) }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snRate.currentValue', { value: rateValue }) }}</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -38,7 +38,7 @@
 			<view class="demo-row" flatten>
 				<view class="demo-item" flatten>
 					<sn-rate v-model="halfValue" allow-half />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snRate.currentValue', { value: halfValue } as UTSJSONObject) }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snRate.currentValue', { value: halfValue }) }}</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -56,7 +56,7 @@
 			<view class="demo-row">
 				<view class="demo-item" flatten>
 					<sn-rate v-model="countValue" :count="10" />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snRate.tenStars', { value: countValue } as UTSJSONObject) }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snRate.tenStars', { value: countValue }) }}</sn-text>
 				</view>
 			</view>
 		</demo-card>
@@ -82,7 +82,7 @@
 			<view class="demo-row">
 				<view class="demo-item" flatten>
 					<sn-rate v-model="heartValue" icon="heart-3-fill" active-color="$error" />
-					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snRate.heart', { value: heartValue } as UTSJSONObject) }}</sn-text>
+					<sn-text text-class="demo-label" font-size="$12" color="$textLight">{{ t('snRate.heart', { value: heartValue }) }}</sn-text>
 				</view>
 				<view class="demo-item" flatten>
 					<sn-rate :model-value="3.5" allow-half icon="star-line" active-icon="star-fill"
@@ -111,7 +111,7 @@
 					<sn-rate v-model="rateEventValue" @change="onRateChange" />
 				</view>
 			</view>
-			<sn-text font-size="$13" color="$primary">{{ t('snRate.recentEvent', { value: changeLog } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$13" color="$primary">{{ t('snRate.recentEvent', { value: changeLog }) }}</sn-text>
 		</demo-card>
 	</sn-page>
 </template>
@@ -128,7 +128,7 @@ const heartValue = ref<number>(2)
 const changeLog = ref<string>(t('snRate.noEvent'))
 
 function onRateChange(v: number): void {
-	changeLog.value = t('snRate.change', { value: v } as UTSJSONObject)
+	changeLog.value = t('snRate.change', { value: v })
 }
 </script>
 

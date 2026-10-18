@@ -126,14 +126,15 @@
 
 <script lang="ts" setup>
 	import type { ComponentPublicInstance } from 'vue'
-	import { $snui, snu } from '@/uni_modules/sinle-ui/index.uts'
+	import { $snui, snu } from '@/uni_modules/sinle-ui/index.ts'
 	import { useI18n } from 'vue-i18n'
 	import type {
 		SnNotificationParams,
 		SnFormItemRule,
 		SnFormItemVerifyResult,
-		SnFormValidResult
-	} from '@/uni_modules/sinle-ui/core/types/index.uts'
+		SnFormValidResult,
+		SnFormData
+	} from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 	type AgreementLinkDetail = {
 		text : string
@@ -155,14 +156,14 @@
 	const captchaRef = ref<ComponentPublicInstance | null>(null)
 	const notificationRef = ref<ComponentPublicInstance | null>(null)
 
-	const formData = ref<UTSJSONObject>({
+	const formData = ref<SnFormData>({
 		account: '',
 		password: '',
 		nickname: '',
 		phone: '',
 		smsCode: '',
 		regPassword: ''
-	} as UTSJSONObject)
+	})
 
 	const formErrors = ref<SnFormItemVerifyResult[]>([])
 
@@ -170,7 +171,7 @@
 	let sendTimer = 0
 
 	const codeBtnText = computed<string>(() : string => {
-		return countdown.value > 0 ? t('tmplLogin.resendAfter', { s: countdown.value } as UTSJSONObject) : t('tmplLogin.getCode')
+		return countdown.value > 0 ? t('tmplLogin.resendAfter', { s: countdown.value }) : t('tmplLogin.getCode')
 	})
 
 	function getFieldError(field : string) : string {
@@ -270,7 +271,7 @@
 		sendTimer = setTimeout(() : void => {
 			notificationRef.value?.$callMethod('show', {
 				title: t('tmplLogin.smsTitle'),
-				content: t('tmplLogin.smsContent', { code: code } as UTSJSONObject),
+				content: t('tmplLogin.smsContent', { code: code }),
 				type: 'primary',
 				duration: 15000,
 				showAction: true,
@@ -302,7 +303,7 @@
 			snu.showToast({ text: t('tmplLogin.needAgree') })
 			return
 		}
-		snu.showToast({ text: t('tmplLogin.thirdLogin', { name: name } as UTSJSONObject) })
+		snu.showToast({ text: t('tmplLogin.thirdLogin', { name: name }) })
 	}
 
 	function onSubmit() : void {

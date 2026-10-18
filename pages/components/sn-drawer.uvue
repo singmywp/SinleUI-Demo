@@ -65,15 +65,15 @@
 		<demo-card :title="t('snDrawer.eventTitle')" :subtitle="t('snDrawer.eventDesc')">
 			<view flatten class="config-row">
 				<sn-text :text="t('snDrawer.afterEnterLabel')" custom-style="width:140px;" />
-				<sn-text bold fontSize="$14" :text="t('snDrawer.evAfterEnter', { c: enterCount } as UTSJSONObject)" />
+				<sn-text bold fontSize="$14" :text="t('snDrawer.evAfterEnter', { c: enterCount })" />
 			</view>
 			<view flatten class="config-row">
 				<sn-text :text="t('snDrawer.afterLeaveLabel')" custom-style="width:140px;" />
-				<sn-text bold fontSize="$14" :text="t('snDrawer.evAfterLeave', { c: leaveCount } as UTSJSONObject)" />
+				<sn-text bold fontSize="$14" :text="t('snDrawer.evAfterLeave', { c: leaveCount })" />
 			</view>
 			<view flatten class="config-row">
 				<sn-text :text="t('snDrawer.overlayLabel')" custom-style="width:140px;" />
-				<sn-text bold fontSize="$14" :text="t('snDrawer.evOverlay', { c: overlayCount } as UTSJSONObject)" />
+				<sn-text bold fontSize="$14" :text="t('snDrawer.evOverlay', { c: overlayCount })" />
 			</view>
 		</demo-card>
 

@@ -27,7 +27,7 @@ function onCancel(): void {
 
 function onConfirm(detail: ConfirmDetail): void {
 	snu.showToast({
-		text: t('snClipperFullscreen.cropped', { width: detail.width, height: detail.height } as UTSJSONObject),
+		text: t('snClipperFullscreen.cropped', { width: detail.width, height: detail.height }),
 		icon: 'none'
 	})
 }

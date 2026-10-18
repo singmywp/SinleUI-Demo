@@ -80,8 +80,13 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { snu } from '@/uni_modules/sinle-ui/index.uts'
-import type { SnAvatarConfig, SnPostCardAction, SnPostCardComment, SnShowActionsheetConfig } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import { snu } from '@/uni_modules/sinle-ui/index.ts'
+import type {
+	SnAvatarConfig,
+	SnPostCardAction,
+	SnPostCardComment,
+	SnShowActionsheetConfig
+} from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 
@@ -147,7 +152,7 @@ const customComments: SnPostCardComment[] = [
 ]
 
 function onPartClick(name: string): void {
-	snu.showToast({ text: t('snPostCard.clicked', { name: name } as UTSJSONObject) })
+	snu.showToast({ text: t('snPostCard.clicked', { name: name }) })
 }
 
 function onMore(): void {
@@ -168,7 +173,7 @@ function onActionClick(action: SnPostCardAction, index: number): void {
 		action.icon = isActive ? 'heart-3-fill' : 'heart-3-line'
 		action.text = `${parseInt(action.text ?? '0') + (isActive ? 1 : -1)}`
 	}
-	snu.showToast({ text: t('snPostCard.clickedItem', { value: action.text ?? '' } as UTSJSONObject) })
+	snu.showToast({ text: t('snPostCard.clickedItem', { value: action.text ?? '' }) })
 }
 
 function onStateActionClick(action: SnPostCardAction, index: number): void {
@@ -181,15 +186,15 @@ function onStateActionClick(action: SnPostCardAction, index: number): void {
 }
 
 function onStyleActionClick(action: SnPostCardAction, index: number): void {
-	snu.showToast({ text: t('snPostCard.clickedItem', { value: action.text ?? '' } as UTSJSONObject) })
+	snu.showToast({ text: t('snPostCard.clickedItem', { value: action.text ?? '' }) })
 }
 
 function onCommentUserClick(comment: SnPostCardComment, name: string): void {
-	snu.showToast({ text: t('snPostCard.clickedUser', { name: name } as UTSJSONObject) })
+	snu.showToast({ text: t('snPostCard.clickedUser', { name: name }) })
 }
 
 function onCommentClick(comment: SnPostCardComment, index: number): void {
-	snu.showToast({ text: t('snPostCard.clickedComment', { content: comment.content ?? '' } as UTSJSONObject) })
+	snu.showToast({ text: t('snPostCard.clickedComment', { content: comment.content ?? '' }) })
 }
 
 function onCommentMoreClick(): void {
@@ -198,9 +203,9 @@ function onCommentMoreClick(): void {
 
 function getCustomCommentText(comment: SnPostCardComment): string {
 	if (comment.replyTo != null && comment.replyTo != '') {
-		return t('snPostCard.replyFormat', { name: comment.replyTo!, content: comment.content ?? '' } as UTSJSONObject)
+		return t('snPostCard.replyFormat', { name: comment.replyTo!, content: comment.content ?? '' })
 	}
-	return t('snPostCard.commentFormat', { content: comment.content ?? '' } as UTSJSONObject)
+	return t('snPostCard.commentFormat', { content: comment.content ?? '' })
 }
 </script>
 

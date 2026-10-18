@@ -15,7 +15,7 @@ import Sub1 from './sub1.uvue'
 import Sub2 from './sub2.uvue'
 import Sub3 from './sub3.uvue'
 import Sub4 from './sub4.uvue'
-import type { SnTabbarItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type { SnTabbarItem } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 

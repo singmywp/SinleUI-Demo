@@ -33,7 +33,7 @@
 				<sn-textarea-field field="remark" :rule="remarkRule" v-model="(formData.remark as string)" :label="t('snForm.remark')" :error="getFieldError('remark')" :placeholder="t('snForm.remarkPh')" :auto-height="true" />
 			</sn-form>
 			<sn-button :text="t('snForm.submit')" type="primary" custom-style="margin-top:16px;" @click="onSubmit" />
-			<sn-text v-if="submitCount > 0" font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snForm.submitCount', { c: submitCount } as UTSJSONObject) }}</sn-text>
+			<sn-text v-if="submitCount > 0" font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snForm.submitCount', { c: submitCount }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snForm.typeTitle')" :subtitle="t('snForm.typeDesc')">
@@ -59,7 +59,7 @@
 				<sn-input-field field="vipCode" :rule="vipRule" v-model="(customFormData.vipCode as string)" :label="t('snForm.vipCode')" :error="getCustomFieldError('vipCode')" :placeholder="t('snForm.vipPh')" clearable />
 			</sn-form>
 			<sn-button :text="t('snForm.validateOnly')" type="primary" custom-style="margin-top:16px;" @click="onValidateOnly" />
-			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snForm.validateResultText', { v: validateResult } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snForm.validateResultText', { v: validateResult }) }}</sn-text>
 		</demo-card>
 	</sn-page>
 </template>
@@ -69,13 +69,19 @@
 
 import { useI18n } from 'vue-i18n'
 import type { ComponentPublicInstance } from 'vue'
-import { snu } from '@/uni_modules/sinle-ui/index.uts'
-import type { SnDataItem, SnFormItemRule, SnFormItemVerifyResult, SnFormValidResult } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import { snu } from '@/uni_modules/sinle-ui/index.ts'
+import type {
+	SnDataItem,
+	SnFormItemRule,
+	SnFormItemVerifyResult,
+	SnFormValidResult,
+	SnFormData
+} from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 
 
-const formData = ref<UTSJSONObject>({
+const formData = ref<SnFormData>({
 	name: '',
 	password: '',
 	phone: '',
@@ -86,7 +92,7 @@ const formData = ref<UTSJSONObject>({
 	volume: 30,
 	city: 0,
 	remark: ''
-} as UTSJSONObject)
+})
 const failResults = ref<SnFormItemVerifyResult[]>([])
 const submitCount = ref<number>(0)
 
@@ -190,12 +196,12 @@ function onSubmit(): void {
 }
 
 
-const typeFormData = ref<UTSJSONObject>({
+const typeFormData = ref<SnFormData>({
 	email: '',
 	url: '',
 	idcard: '',
 	age: ''
-} as UTSJSONObject)
+})
 const typeFailResults = ref<SnFormItemVerifyResult[]>([])
 
 function getTypeFieldError(field: string): string {
@@ -256,10 +262,10 @@ function onTypeSubmit(): void {
 }
 
 
-const liveFormData = ref<UTSJSONObject>({
+const liveFormData = ref<SnFormData>({
 	username: '',
 	qq: ''
-} as UTSJSONObject)
+})
 const liveFailResults = ref<SnFormItemVerifyResult[]>([])
 
 function getLiveFieldError(field: string): string {
@@ -293,10 +299,10 @@ const qqRule = ref<SnFormItemRule>({
 } as SnFormItemRule)
 
 
-const customFormData = ref<UTSJSONObject>({
+const customFormData = ref<SnFormData>({
 	age2: '',
 	vipCode: ''
-} as UTSJSONObject)
+})
 const customFailResults = ref<SnFormItemVerifyResult[]>([])
 const validateResult = ref<string>('')
 
@@ -345,7 +351,7 @@ function onValidateOnly(): void {
 		},
 		fail: (results: SnFormItemVerifyResult[]) => {
 			customFailResults.value = results
-			validateResult.value = t('snForm.validateFail', { c: results.length } as UTSJSONObject)
+			validateResult.value = t('snForm.validateFail', { c: results.length })
 		}
 	} as SnFormValidResult)
 }

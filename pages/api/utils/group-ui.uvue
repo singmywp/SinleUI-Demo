@@ -8,9 +8,9 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { snu, useResolve } from '@/uni_modules/sinle-ui/index.uts'
+import { snu, useResolve } from '@/uni_modules/sinle-ui/index.ts'
 import UtilsCard from './utils-card.uvue'
-import type { UtilsActionCard } from './types.uts'
+import type { UtilsActionCard } from './types.ts'
 
 defineOptions({
 	name: 'group-ui'
@@ -117,7 +117,7 @@ function runCard(index: number): void {
 	} else if (card.key == 'findBrother') {
 		text = findBrotherText()
 	} else if (card.key == 'resolve') {
-		text = `resolveSize('$16', 'font') = ${resolver.resolveSize('$16', 'font')}\nresolveSize('16px', 'font') = ${resolver.resolveSize('16px', 'font')}\nresolveSizeNum('$16', 'font') = ${resolver.resolveSizeNum('$16', 'font')}\nresolveColor('$primaryTextDark') = ${resolver.resolveColor('$primaryTextDark')}\nresolveColor('#ff0000') = ${resolver.resolveColor('#ff0000')}`
+		text = `resolveSize('$16', 'font') = ${resolver.resolveSize('$16', 'font')}\nresolveSize('16', 'font') = ${resolver.resolveSize('16', 'font')}\nresolveSize('16px', 'font') = ${resolver.resolveSize('16px', 'font')}\nresolveSize('10', 'radius') = ${resolver.resolveSize('10', 'radius')}\nresolveSizeNum('$16', 'font') = ${resolver.resolveSizeNum('$16', 'font')}\nresolveColor('$primaryTextDark') = ${resolver.resolveColor('$primaryTextDark')}\nresolveColor('#ff0000') = ${resolver.resolveColor('#ff0000')}`
 	}
 	replaceCard(index, text, type)
 }

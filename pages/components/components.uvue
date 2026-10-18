@@ -121,7 +121,7 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { $snui, snu, useTheme, useTabbarHeights } from '@/uni_modules/sinle-ui/index.uts'
+import { $snui, snu, useTheme, useTabbarHeights } from '@/uni_modules/sinle-ui/index.ts'
 import type { ComponentPublicInstance } from 'vue'
 
 type Props = {
@@ -439,7 +439,7 @@ const platformName = ref<string>('Web')
 
 onMounted((): void => {
 	try {
-		const sysInfo = uni.getSystemInfoSync() as unknown as UTSJSONObject
+		const sysInfo = uni.getSystemInfoSync()
 		const platform = sysInfo.uniPlatform as string
 		if (platform == 'web') {
 			platformName.value = 'Web'

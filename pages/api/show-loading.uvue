@@ -37,8 +37,8 @@
 <script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
-import { snu } from '@/uni_modules/sinle-ui/index.uts'
-import type { SnShowLoadingConfig } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import { snu } from '@/uni_modules/sinle-ui/index.ts'
+import type { SnShowLoadingConfig } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 

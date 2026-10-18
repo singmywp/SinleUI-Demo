@@ -3,7 +3,7 @@
 		<view class="calendar-week-demo-content" flatten>
 			<demo-card :title="t('snCalendarWeek.basic')" :subtitle="t('snCalendarWeek.basicSub')">
 				<sn-calendar-week v-model="baseValue" :show-switch="false" @select="onBaseSelect" @change="onBaseChange" @week-change="onWeekChange" />
-				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;">{{ t('snCalendarWeek.selected', { text: formatDay(baseValue) } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;">{{ t('snCalendarWeek.selected', { text: formatDay(baseValue) }) }}</sn-text>
 			</demo-card>
 
 			<demo-card :title="t('snCalendarWeek.switchBtn')" :subtitle="t('snCalendarWeek.switchBtnSub')">
@@ -12,18 +12,18 @@
 					<sn-switch v-model="showSwitch" />
 				</view>
 				<sn-calendar-week v-model="switchValue" :show-switch="showSwitch" custom-style="margin-top:10px;" />
-				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;">{{ t('snCalendarWeek.selected', { text: formatDay(switchValue) } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;">{{ t('snCalendarWeek.selected', { text: formatDay(switchValue) }) }}</sn-text>
 			</demo-card>
 
 			<demo-card :title="t('snCalendarWeek.weekStartTitle')" :subtitle="t('snCalendarWeek.weekStartSub')">
 				<sn-subsection v-model="weekStartIndex" :data="weekStartOptions" />
 				<sn-calendar-week v-model="weekStartValue" :show-switch="false" :week-start="weekStart" :week-titles="fullWeekTitles" custom-style="margin-top:10px;" />
-				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;">{{ t('snCalendarWeek.selected', { text: formatDay(weekStartValue) } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;">{{ t('snCalendarWeek.selected', { text: formatDay(weekStartValue) }) }}</sn-text>
 			</demo-card>
 
 			<demo-card :title="t('snCalendarWeek.rangeTitle')" :subtitle="t('snCalendarWeek.rangeSub')">
 				<sn-calendar-week v-model="rangeValue" :show-switch="false" :min-date="rangeMin" :max-date="rangeMax" :disabled-dates="disabledDates" />
-				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;">{{ t('snCalendarWeek.rangeText', { min: formatDay(rangeMin), max: formatDay(rangeMax) } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;">{{ t('snCalendarWeek.rangeText', { min: formatDay(rangeMin), max: formatDay(rangeMax) }) }}</sn-text>
 			</demo-card>
 
 			<demo-card :title="t('snCalendarWeek.markTitle')" :subtitle="t('snCalendarWeek.markSub')">
@@ -70,8 +70,8 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { createCalendarDayContent, dayuts } from '@/uni_modules/sinle-ui/index.uts'
-import type { SnCalendarDay, SnCalendarDayFormatter, SnCalendarWeekChangeDetail, SnCalendarWeekStartDay } from '@/uni_modules/sinle-ui/index.uts'
+import { createCalendarDayContent, dayuts } from '@/uni_modules/sinle-ui/index.ts'
+import type { SnCalendarDay, SnCalendarDayFormatter, SnCalendarWeekChangeDetail, SnCalendarWeekStartDay } from '@/uni_modules/sinle-ui/index.ts'
 
 const { t } = useI18n()
 
@@ -114,15 +114,15 @@ function formatDay(value: number | null): string {
 }
 
 function onBaseSelect(value: number): void {
-	eventLog.value = t('snCalendarWeek.selectEvent', { value: formatDay(value) } as UTSJSONObject)
+	eventLog.value = t('snCalendarWeek.selectEvent', { value: formatDay(value) })
 }
 
 function onBaseChange(value: number): void {
-	eventLog.value = t('snCalendarWeek.changeEvent', { value: formatDay(value) } as UTSJSONObject)
+	eventLog.value = t('snCalendarWeek.changeEvent', { value: formatDay(value) })
 }
 
 function onWeekChange(detail: SnCalendarWeekChangeDetail): void {
-	eventLog.value = t('snCalendarWeek.weekChangeEvent', { value: formatDay(detail.timestamp), year: `${detail.year}`, month: `${detail.month}` } as UTSJSONObject)
+	eventLog.value = t('snCalendarWeek.weekChangeEvent', { value: formatDay(detail.timestamp), year: `${detail.year}`, month: `${detail.month}` })
 }
 </script>
 

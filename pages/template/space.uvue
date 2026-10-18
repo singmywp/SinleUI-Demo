@@ -78,9 +78,14 @@
 </template>
 
 <script lang="ts" setup>
-import { snu } from '@/uni_modules/sinle-ui/index.uts'
+import { snu } from '@/uni_modules/sinle-ui/index.ts'
 import { useI18n } from 'vue-i18n'
-import type { SnAvatarConfig, SnPostCardAction, SnPostCardComment, SnShowActionsheetConfig } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type {
+	SnAvatarConfig,
+	SnPostCardAction,
+	SnPostCardComment,
+	SnShowActionsheetConfig
+} from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 
@@ -260,10 +265,10 @@ function onActionClick(name: string, action: SnPostCardAction): void {
 		return
 	}
 	if (action.id == 'comment') {
-		snu.showToast({ text: t('tmplSpace.commentAction', { name: name } as UTSJSONObject) })
+		snu.showToast({ text: t('tmplSpace.commentAction', { name: name }) })
 		return
 	}
-	snu.showToast({ text: t('tmplSpace.shareAction', { name: name } as UTSJSONObject) })
+	snu.showToast({ text: t('tmplSpace.shareAction', { name: name }) })
 }
 
 function onMoreClick(): void {
@@ -278,11 +283,11 @@ function onMoreClick(): void {
 }
 
 function onCommentClick(comment: SnPostCardComment, index: number): void {
-	snu.showToast({ text: t('tmplSpace.commentClicked', { content: comment.content ?? '' } as UTSJSONObject) })
+	snu.showToast({ text: t('tmplSpace.commentClicked', { content: comment.content ?? '' }) })
 }
 
 function onCommentUserClick(comment: SnPostCardComment, name: string): void {
-	snu.showToast({ text: t('tmplSpace.userClicked', { name: name } as UTSJSONObject) })
+	snu.showToast({ text: t('tmplSpace.userClicked', { name: name }) })
 }
 
 function onMoreComments(): void {

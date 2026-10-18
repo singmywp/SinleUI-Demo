@@ -19,7 +19,7 @@
 
 import { useI18n } from 'vue-i18n'
 import { $snui } from '@/uni_modules/sinle-ui'
-import type { SnAvatarConfig } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type { SnAvatarConfig } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 

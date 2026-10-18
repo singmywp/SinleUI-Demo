@@ -16,8 +16,8 @@
 <script lang="ts" setup>
 import NewsChannel from './news-channel.uvue'
 import { useI18n } from 'vue-i18n'
-import type { SnTabParams } from '@/uni_modules/sinle-ui/core/types/index.uts'
-import type { NewsItem } from './news.uts'
+import type { SnTabParams } from '@/uni_modules/sinle-ui/core/types/index.ts'
+import type { NewsItem } from './news.ts'
 
 const { t } = useI18n()
 

@@ -13,7 +13,7 @@
 		<demo-card :title="t('snArcProgress.dynamic')" :subtitle="t('snArcProgress.dynamicSub')">
 			<view class="arc-demo" flatten>
 				<sn-arc-progress v-model="dynamicValue" size="$190" ani-time="$800" stroke-color="$success" />
-				<sn-text font-size="$13" color="$textLight" custom-style="margin-top:12px;">{{ t('snArcProgress.autoProgress', { value: dynamicValue } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$13" color="$textLight" custom-style="margin-top:12px;">{{ t('snArcProgress.autoProgress', { value: dynamicValue }) }}</sn-text>
 			</view>
 		</demo-card>
 
@@ -118,7 +118,7 @@ function onStartDownload(): void {
 		const nextLoaded = Math.min(50, downloadLoaded.value + downloadSpeed * 0.1)
 		downloadLoaded.value = nextLoaded
 		downloadPercent.value = Math.round(nextLoaded / 50 * 100)
-		downloadText.value = t('snArcProgress.downloaded', { loaded: nextLoaded.toFixed(1), speed: downloadSpeed.toFixed(1) } as UTSJSONObject)
+		downloadText.value = t('snArcProgress.downloaded', { loaded: nextLoaded.toFixed(1), speed: downloadSpeed.toFixed(1) })
 		if (nextLoaded >= 50) {
 			downloading.value = false
 			clearInterval(downloadTimer)
@@ -137,7 +137,7 @@ function onPauseDownload(): void {
 		clearInterval(downloadTimer)
 		downloadTimer = -1
 	}
-	downloadText.value = t('snArcProgress.paused', { loaded: downloadLoaded.value.toFixed(1) } as UTSJSONObject)
+	downloadText.value = t('snArcProgress.paused', { loaded: downloadLoaded.value.toFixed(1) })
 }
 
 function onResetDownload(): void {

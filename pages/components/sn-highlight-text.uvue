@@ -54,7 +54,7 @@ const eventText = ref<string>(t('snHighlightText.eventNone'))
 const searchKeyword = ref<string>('uni-app x')
 
 function onHighlightClick(detail: HighlightClickDetail): void {
-	eventText.value = t('snHighlightText.eventInfo', { text: detail.text, index: detail.index + 1, start: detail.start, end: detail.end } as UTSJSONObject)
+	eventText.value = t('snHighlightText.eventInfo', { text: detail.text, index: detail.index + 1, start: detail.start, end: detail.end })
 }
 </script>
 

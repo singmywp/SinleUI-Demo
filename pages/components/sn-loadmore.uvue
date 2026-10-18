@@ -42,7 +42,7 @@
 			<view class="scene-card" flatten>
 				<sn-text bold font-size="$14" color="$text">{{ t('snLoadmore.listBottom') }}</sn-text>
 				<sn-loadmore :status="loadStatus" custom-style="margin-top:10px;" @loadmore="onSimulateLoad" />
-				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:4px;">{{ t('snLoadmore.currentStatus', { status: loadStatus } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:4px;">{{ t('snLoadmore.currentStatus', { status: loadStatus }) }}</sn-text>
 			</view>
 		</demo-card>
 	</sn-page>

@@ -93,9 +93,9 @@
 <script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
-import { snu, useTheme } from '@/uni_modules/sinle-ui/index.uts'
-import { longText1, longText4 } from '@/source/longtext.uts'
-import type { SnShowModalConfig } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import { snu, useTheme } from '@/uni_modules/sinle-ui/index.ts'
+import { longText1, longText4 } from '@/source/longtext.ts'
+import type { SnShowModalConfig } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 const { isDark } = useTheme()
@@ -124,7 +124,7 @@ function onShowPos(position: string): void {
 	}
 	snu.showModal({
 		title: t('apiShowModal.posTitle'),
-		content: t('apiShowModal.posContent', { position: position } as UTSJSONObject),
+		content: t('apiShowModal.posContent', { position: position }),
 		position: pos
 	})
 }

@@ -67,7 +67,7 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import { snu } from '@/uni_modules/sinle-ui'
- import type { SnTime } from '@/uni_modules/sinle-ui/core/types/index.uts'
+ import type { SnTime } from '@/uni_modules/sinle-ui/core/types/index.ts'
 import type { ComponentPublicInstance } from 'vue'
 
 const { t } = useI18n()
@@ -85,7 +85,7 @@ const segArr = ref<string[]>(['01', '01', '01'])
 const isKilling = ref<boolean>(true)
 const killBtnText = ref<string>(t('snCountdown.killBtn'))
 
-const card1Text = computed<string>(() => t('snCountdown.changeCounts', { c1: changeCount1.value, c2: finishCount1.value } as UTSJSONObject))
+const card1Text = computed<string>(() => t('snCountdown.changeCounts', { c1: changeCount1.value, c2: finishCount1.value }))
 
 function onChange1(v: SnTime): void {
 	changeCount1.value = changeCount1.value + 1

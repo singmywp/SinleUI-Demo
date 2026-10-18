@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useFactors, useResolve } from '@/uni_modules/sinle-ui/index.uts'
+import { useFactors, useResolve } from '@/uni_modules/sinle-ui/index.ts'
 
 defineOptions({
 	name: 'utils-card'

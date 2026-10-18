@@ -50,7 +50,7 @@
 			<view class="scene-card" flatten>
 				<sn-text bold font-size="$14" color="$text">{{ t('snLabelCheckbox.selectCategory') }}</sn-text>
 				<sn-label-checkbox v-model="filter" :data="filterData" custom-style="margin-top:10px;" />
-				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLabelCheckbox.selectedCount', { n: filter.length } as UTSJSONObject) }}{{ filterText }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">{{ t('snLabelCheckbox.selectedCount', { n: filter.length }) }}{{ filterText }}</sn-text>
 			</view>
 		</demo-card>
 	</sn-page>
@@ -58,7 +58,7 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 const hobbyData = computed<SnDataItem[]>(() => [

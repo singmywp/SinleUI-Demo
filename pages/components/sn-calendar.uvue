@@ -12,7 +12,7 @@
 					<sn-button :text="t('snCalendar.rangeDraft')" type="warning" custom-style="flex:1;margin-right:8px;" @click="openRange" />
 					<sn-button :text="t('snCalendar.multipleInstant')" type="success" custom-style="flex:1;" @click="openMultiple" />
 				</view>
-				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;">{{ t('snCalendar.modelLbl', { text: formatValue(calendarValue) } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$primary" custom-style="margin-top:10px;">{{ t('snCalendar.modelLbl', { text: formatValue(calendarValue) }) }}</sn-text>
 			</demo-card>
 
 			<demo-card :title="t('snCalendar.boundary')" :subtitle="t('snCalendar.boundarySub')">
@@ -54,9 +54,9 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { createCalendarDayContent, dayuts } from '@/uni_modules/sinle-ui/index.uts'
+import { createCalendarDayContent, dayuts } from '@/uni_modules/sinle-ui/index.ts'
 import type { ComponentPublicInstance } from 'vue'
-import type { SnCalendarDay, SnCalendarDayFormatter, SnCalendarDayPaintInput, SnCalendarPanelChangeDetail, SnCalendarSwitchMode, SnCalendarType, SnCalendarValue } from '@/uni_modules/sinle-ui/index.uts'
+import type { SnCalendarDay, SnCalendarDayFormatter, SnCalendarDayPaintInput, SnCalendarPanelChangeDetail, SnCalendarSwitchMode, SnCalendarType, SnCalendarValue } from '@/uni_modules/sinle-ui/index.ts'
 
 const { t } = useI18n()
 
@@ -247,23 +247,23 @@ function recordEvent(text: string): void {
 }
 
 function onSelect(value: SnCalendarValue): void {
-	recordEvent(t('snCalendar.selectEvent', { value: formatValue(value) } as UTSJSONObject))
+	recordEvent(t('snCalendar.selectEvent', { value: formatValue(value) }))
 }
 
 function onChange(value: SnCalendarValue): void {
-	recordEvent(t('snCalendar.changeEvent', { value: formatValue(value) } as UTSJSONObject))
+	recordEvent(t('snCalendar.changeEvent', { value: formatValue(value) }))
 }
 
 function onConfirm(value: SnCalendarValue): void {
-	recordEvent(t('snCalendar.confirmEvent', { value: formatValue(value) } as UTSJSONObject))
+	recordEvent(t('snCalendar.confirmEvent', { value: formatValue(value) }))
 }
 
 function onCancel(): void {
-		recordEvent(t('snCalendar.cancelEvent', { value: formatValue(calendarValue.value) } as UTSJSONObject))
+		recordEvent(t('snCalendar.cancelEvent', { value: formatValue(calendarValue.value) }))
 }
 
 function onPanelChange(detail: SnCalendarPanelChangeDetail): void {
-	recordEvent(t('snCalendar.panelChangeEvent', { year: `${detail.year}`, month: `${detail.month}` } as UTSJSONObject))
+	recordEvent(t('snCalendar.panelChangeEvent', { year: `${detail.year}`, month: `${detail.month}` }))
 }
 
 function onOpen(): void {
@@ -271,7 +271,7 @@ function onOpen(): void {
 }
 
 function onClose(): void {
-	recordEvent(t('snCalendar.closeEvent', { value: formatValue(calendarValue.value) } as UTSJSONObject))
+	recordEvent(t('snCalendar.closeEvent', { value: formatValue(calendarValue.value) }))
 }
 </script>
 

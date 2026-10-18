@@ -101,11 +101,11 @@ const modeItems: ImageModeItem[] = [
 const lastEvent = ref<string>(t('snImage.noneEvent'))
 
 function onLoad(event: UniImageLoadEvent): void {
-	lastEvent.value = t('snImage.eventLoad', { w: event.detail.width, h: event.detail.height } as UTSJSONObject)
+	lastEvent.value = t('snImage.eventLoad', { w: event.detail.width, h: event.detail.height })
 }
 
 function onError(event: UniImageErrorEvent): void {
-	lastEvent.value = t('snImage.eventError', { msg: event.detail.errMsg } as UTSJSONObject)
+	lastEvent.value = t('snImage.eventError', { msg: event.detail.errMsg })
 }
 
 function onClick(event: UniPointerEvent): void {

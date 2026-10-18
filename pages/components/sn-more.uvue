@@ -4,7 +4,7 @@
 			<sn-more :min-height="80" @fold="onFold" @unfold="onUnfold">
 				<sn-text font-size="$14" color="$text" custom-style="line-height:22px;">{{ longText1 }}</sn-text>
 			</sn-more>
-			<sn-text font-size="$12" color="$primary">{{ t('snMore.recentEvent', { value: eventLog } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" color="$primary">{{ t('snMore.recentEvent', { value: eventLog }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snMore.heightTitle')" :subtitle="t('snMore.heightSubtitle')">
@@ -118,7 +118,7 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { longText1, longText2, longText3, longText4, article1, article2, article3, article5 } from '@/source/longtext.uts'
+import { longText1, longText2, longText3, longText4, article1, article2, article3, article5 } from '@/source/longtext.ts'
 import { $snui } from '@/uni_modules/sinle-ui'
 
 const { t } = useI18n()

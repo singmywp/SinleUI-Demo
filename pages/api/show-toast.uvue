@@ -78,7 +78,7 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { snu, useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import { snu, useTheme } from '@/uni_modules/sinle-ui/index.ts'
 
 const { t } = useI18n()
 const { isDark } = useTheme()
@@ -183,11 +183,11 @@ function onShowNoPassThrough(): void {
 function onShowCustomColor(): void {
 	snu.showToast({
 		text: t('apiShowToast.customColorText'),
-		bgColor: '#4d82ff',
-		textColor: '#FFFFFF',
+		bgColor: '$primary',
+		textColor: '$primaryText',
 		icon: 'information-fill',
-		iconColor: '#FFFFFF',
-		borderRadius: '16px'
+		iconColor: '$primaryText',
+		borderRadius: '$16'
 	})
 }
 
@@ -206,14 +206,14 @@ function onShowLightCard(): void {
 function onShowBig(): void {
 	snu.showToast({
 		text: t('apiShowToast.bigFontText'),
-		textSize: '18px'
+		textSize: '$18'
 	})
 }
 
 function onShowPadding(): void {
 	snu.showToast({
 		text: t('apiShowToast.customPaddingText'),
-		padding: '24px 32px'
+		padding: '$24px $32px'
 	})
 }
 

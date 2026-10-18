@@ -14,8 +14,9 @@
 </template>
 
 <script lang="ts" setup>
-import { $snui, useTheme, useFactors } from '@/uni_modules/sinle-ui/index.uts'
-import { useExternalStyle } from '@/uni_modules/sinle-ui/core/private/use-external-style.uts'
+import { $snui, useTheme, useFactors } from '@/uni_modules/sinle-ui/index.ts'
+import { useExternalStyle } from '@/uni_modules/sinle-ui/core/private/use-external-style.ts'
+import type { SnStyleValue } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 
 
@@ -37,7 +38,7 @@ type Props = {
 	
 	error?: string
 	
-	customStyle?: UTSJSONObject | string
+	customStyle?: SnStyleValue
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -47,7 +48,7 @@ const props = withDefaults(defineProps<Props>(), {
 	customStyle: ''
 })
 
-const customStyleText = useExternalStyle((): UTSJSONObject | string => props.customStyle)
+const customStyleText = useExternalStyle((): SnStyleValue => props.customStyle)
 
 
 const labelColorC = computed<string>(() => {

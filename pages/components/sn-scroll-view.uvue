@@ -11,7 +11,7 @@
 				</sn-scroll-view>
 			</view>
 			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">
-				{{ t('snScrollView.tipCount', { count: items.length } as UTSJSONObject) }}
+				{{ t('snScrollView.tipCount', { count: items.length }) }}
 			</sn-text>
 		</demo-card>
 
@@ -21,7 +21,7 @@
 				<sn-button type="primary" level="second" @click="onStopRefresh">{{ t('snScrollView.stopRefresh') }}</sn-button>
 			</view>
 			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">
-				{{ t('snScrollView.tipTriggered', { val: (refresherTriggered ? 'true' : 'false') } as UTSJSONObject) }}
+				{{ t('snScrollView.tipTriggered', { val: (refresherTriggered ? 'true' : 'false') }) }}
 			</sn-text>
 		</demo-card>
 
@@ -44,7 +44,7 @@
 	import { useI18n } from 'vue-i18n'
 	import { $snui } from '@/uni_modules/sinle-ui'
 	import type { ComponentPublicInstance } from 'vue'
-	import type { SnLoadmoreParams, SnRefresherParams } from '@/uni_modules/sinle-ui/core/types/index.uts'
+	import type { SnLoadmoreParams, SnRefresherParams } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 	const { t } = useI18n()
 
@@ -73,7 +73,7 @@
 	function initItems(): void {
 		const arr: string[] = []
 		for (let i = 1; i <= 30; i++) {
-			arr.push(t('snScrollView.itemText', { n: i } as UTSJSONObject))
+			arr.push(t('snScrollView.itemText', { n: i }))
 		}
 		items.value = arr
 	}
@@ -81,7 +81,7 @@
 	function initHItems(): void {
 		const arr: string[] = []
 		for (let i = 1; i <= 12; i++) {
-			arr.push(t('snScrollView.hItemText', { n: i } as UTSJSONObject))
+			arr.push(t('snScrollView.hItemText', { n: i }))
 		}
 		hItems.value = arr
 	}
@@ -114,7 +114,7 @@
 		refreshTimer = setTimeout(() => {
 			const current = items.value.length
 			for (let i = 1; i <= 10; i++) {
-				items.value.push(t('snScrollView.itemText', { n: current + i } as UTSJSONObject))
+				items.value.push(t('snScrollView.itemText', { n: current + i }))
 			}
 			if (items.value.length >= 80) {
 				loadmoreStatus.value = 'nomore'

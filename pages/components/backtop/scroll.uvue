@@ -16,7 +16,7 @@
 	import { useI18n } from 'vue-i18n'
 	import { $snui } from '@/uni_modules/sinle-ui'
 	import type { ComponentPublicInstance } from 'vue'
-	import type { SnLoadmoreParams, SnRefresherParams } from '@/uni_modules/sinle-ui/core/types/index.uts'
+	import type { SnLoadmoreParams, SnRefresherParams } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 	const { t } = useI18n()
 
@@ -47,7 +47,7 @@
 	function initItems(): void {
 		const arr: string[] = []
 		for (let i = 1; i <= 60; i++) {
-			arr.push(t('backtopScroll.item', { index: i } as UTSJSONObject))
+			arr.push(t('backtopScroll.item', { index: i }))
 		}
 		items.value = arr
 	}
@@ -73,7 +73,7 @@
 		refreshTimer = setTimeout(() => {
 			const current = items.value.length
 			for (let i = 1; i <= 10; i++) {
-				items.value.push(t('backtopScroll.item', { index: current + i } as UTSJSONObject))
+				items.value.push(t('backtopScroll.item', { index: current + i }))
 			}
 			if (items.value.length >= 120) {
 				loadmoreStatus.value = 'nomore'

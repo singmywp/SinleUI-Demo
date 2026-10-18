@@ -171,11 +171,11 @@ function onLongpress(e: UniEvent): void {
 }
 
 function onLoad(e: UniImageLoadEvent): void {
-	lastEvent.value = t('snAvatar.eventLoad', { width: e.detail.width, height: e.detail.height } as UTSJSONObject)
+	lastEvent.value = t('snAvatar.eventLoad', { width: e.detail.width, height: e.detail.height })
 }
 
 function onError(e: UniImageErrorEvent): void {
-	lastEvent.value = t('snAvatar.eventError', { msg: e.detail.errMsg } as UTSJSONObject)
+	lastEvent.value = t('snAvatar.eventError', { msg: e.detail.errMsg })
 }
 </script>
 

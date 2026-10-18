@@ -53,15 +53,15 @@
 		<demo-card :title="t('snDrawerList.eventTitle')" :subtitle="t('snDrawerList.eventDesc')">
 			<view class="config-row" flatten>
 				<sn-text :text="t('snDrawerList.afterEnterLabel')" custom-style="width:140px;"/>
-				<sn-text bold fontSize="$14" :text="t('snDrawerList.evAfterEnter', { c: enterCount } as UTSJSONObject)" />
+				<sn-text bold fontSize="$14" :text="t('snDrawerList.evAfterEnter', { c: enterCount })" />
 			</view>
 			<view class="config-row" flatten>
 				<sn-text :text="t('snDrawerList.afterLeaveLabel')" custom-style="width:140px;"/>
-				<sn-text bold fontSize="$14" :text="t('snDrawerList.evAfterLeave', { c: leaveCount } as UTSJSONObject)" />
+				<sn-text bold fontSize="$14" :text="t('snDrawerList.evAfterLeave', { c: leaveCount })" />
 			</view>
 			<view class="config-row" flatten>
 				<sn-text :text="t('snDrawerList.overlayLabel')" custom-style="width:140px;"/>
-				<sn-text bold fontSize="$14" :text="t('snDrawerList.evOverlay', { c: overlayCount } as UTSJSONObject)" />
+				<sn-text bold fontSize="$14" :text="t('snDrawerList.evOverlay', { c: overlayCount })" />
 			</view>
 		</demo-card>
 
@@ -99,7 +99,7 @@
 						</view>
 						<view class="playlist-info">
 							<text class="playlist-title" flatten>{{ t('snDrawerList.playlistTitle') }}</text>
-							<text class="playlist-sub" flatten>{{ t('snDrawerList.playlistSub', { c: songs.length } as UTSJSONObject) }}</text>
+							<text class="playlist-sub" flatten>{{ t('snDrawerList.playlistSub', { c: songs.length }) }}</text>
 						</view>
 						<sn-button :text="t('snDrawerList.playAll')" type="primary" custom-style="margin-right:10px;" @click="onPlayAll" />
 						<view @click="onCollect">
@@ -181,12 +181,12 @@ const configs = ref<Configs>({
 
 const basicItems: string[] = []
 for (let i = 1; i <= 50; i++) {
-	basicItems.push(t('snDrawerList.listItem', { i: i } as UTSJSONObject))
+	basicItems.push(t('snDrawerList.listItem', { i: i }))
 }
 
 const halfItems: string[] = []
 for (let i = 1; i <= 20; i++) {
-	halfItems.push(t('snDrawerList.halfListItem', { i: i } as UTSJSONObject))
+	halfItems.push(t('snDrawerList.halfListItem', { i: i }))
 }
 
 const songNames: string[] = [t('snDrawerList.song1'), t('snDrawerList.song2'), t('snDrawerList.song3'), t('snDrawerList.song4'), t('snDrawerList.song5'), t('snDrawerList.song6'), t('snDrawerList.song7'), t('snDrawerList.song8'), t('snDrawerList.song9'), t('snDrawerList.song10'), t('snDrawerList.song11'), t('snDrawerList.song12'), t('snDrawerList.song13'), t('snDrawerList.song14'), t('snDrawerList.song15'), t('snDrawerList.song16'), t('snDrawerList.song17'), t('snDrawerList.song18'), t('snDrawerList.song19'), t('snDrawerList.song20'), t('snDrawerList.song21'), t('snDrawerList.song22'), t('snDrawerList.song23'), t('snDrawerList.song24'), t('snDrawerList.song25'), t('snDrawerList.song26'), t('snDrawerList.song27'), t('snDrawerList.song28'), t('snDrawerList.song29'), t('snDrawerList.song30')]
@@ -265,7 +265,7 @@ function songEntryColor(item: any): string {
 
 function playingTip(): string {
 	if (playingIndex.value >= 0 && playingIndex.value < songs.length) {
-		return t('snDrawerList.playing', { name: songs[playingIndex.value].name, artist: songs[playingIndex.value].artist } as UTSJSONObject)
+		return t('snDrawerList.playing', { name: songs[playingIndex.value].name, artist: songs[playingIndex.value].artist })
 	}
 	return t('snDrawerList.notPlaying')
 }

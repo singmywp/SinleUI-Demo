@@ -6,7 +6,7 @@
 
 		<demo-card :title="t('snPickerView.basicTitle')" :subtitle="t('snPickerView.basicSubtitle')">
 			<sn-picker-view v-model="pickerValue" :data="cityData" />
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snPickerView.selectedValue', { value: pickerValueText } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snPickerView.selectedValue', { value: pickerValueText }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snPickerView.disabledTitle')" :subtitle="t('snPickerView.disabledSubtitle')">
@@ -34,8 +34,8 @@
 <script lang="ts" setup>
 	
 	import { useI18n } from 'vue-i18n'
-	import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
-	import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+	import { useTheme } from '@/uni_modules/sinle-ui/index.ts'
+	import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 	const { isDark } = useTheme()
 	const { t } = useI18n()

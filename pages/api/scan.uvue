@@ -46,7 +46,7 @@
 import { useI18n } from 'vue-i18n'
 import { scan } from '@/uni_modules/sn-e-scankit'
 import type { ScanResult } from '@/uni_modules/sn-e-scankit'
-import { snu, useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import { snu, useTheme } from '@/uni_modules/sinle-ui/index.ts'
 
 const { t } = useI18n()
 const { isDark } = useTheme()
@@ -60,7 +60,7 @@ function handleResult(res: ScanResult): void {
 	scanData.value = res.data
 	snu.showModal({
 		title: t('apiScan.success'),
-		content: t('apiScan.format', { format: res.format, content: res.data } as UTSJSONObject),
+		content: t('apiScan.format', { format: res.format, content: res.data }),
 		showCancel: false
 	})
 }

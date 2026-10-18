@@ -109,7 +109,7 @@ function onBlur(e: UniTextareaBlurEvent): void {
 }
 
 function onLinechange(e: UniTextareaLineChangeEvent): void {
-	setLog(`linechange: ${t('snTextarea.lineCount', { count: e.detail.lineCount } as UTSJSONObject)}`, $snui.colors.warning)
+	setLog(`linechange: ${t('snTextarea.lineCount', { count: e.detail.lineCount })}`, $snui.colors.warning)
 }
 </script>
 

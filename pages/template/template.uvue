@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-import { $snui, useTheme, useTabbarHeights } from '@/uni_modules/sinle-ui/index.uts'
+import { $snui, useTheme, useTabbarHeights } from '@/uni_modules/sinle-ui/index.ts'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -127,7 +127,7 @@ const platformName = ref<string>('Web')
 
 onMounted((): void => {
 	try {
-		const sysInfo = uni.getSystemInfoSync() as unknown as UTSJSONObject
+		const sysInfo = uni.getSystemInfoSync()
 		const platform = sysInfo.uniPlatform as string
 		if (platform == 'web') {
 			platformName.value = 'Web'

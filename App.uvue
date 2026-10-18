@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import { i18n } from './i18n.uts'
+	import { i18n } from './i18n.ts'
 	// #ifdef WEB
 	import { useTheme } from '@/uni_modules/sinle-ui'
 	// #endif

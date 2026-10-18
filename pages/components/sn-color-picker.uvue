@@ -7,9 +7,9 @@
 		<demo-card :title="t('snColorPicker.basicTitle')" :subtitle="t('snColorPicker.basicDesc')">
 			<sn-button type="primary" :text="t('snColorPicker.open')" custom-style="flex:1;" @click="openPicker" />
 			<view class="color-result" :style="resultStyle" flatten>
-				<sn-text font-size="$13" color="$text">{{ t('snColorPicker.confirmed', { v: pickerValue } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$13" color="$text">{{ t('snColorPicker.confirmed', { v: pickerValue }) }}</sn-text>
 			</view>
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snColorPicker.event', { v: eventResult } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snColorPicker.event', { v: eventResult }) }}</sn-text>
 		</demo-card>
 
 		<sn-color-picker ref="pickerRef" v-model="pickerValue" :title="t('snColorPicker.pickerTitle')" :show-alpha="true" :show-presets="true" @open="onOpen" @close="onClose" @confirm="onConfirm" @cancel="onCancel" @change="onPickerChange" />
@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { $snui } from '@/uni_modules/sinle-ui/index.uts'
+import { $snui } from '@/uni_modules/sinle-ui/index.ts'
 import type { ComponentPublicInstance } from 'vue'
 
 const { t } = useI18n()
@@ -54,7 +54,7 @@ function onClose(): void {
 }
 
 function onConfirm(value: string): void {
-	eventResult.value = t('snColorPicker.confirm', { v: value } as UTSJSONObject)
+	eventResult.value = t('snColorPicker.confirm', { v: value })
 }
 
 function onCancel(): void {
@@ -62,7 +62,7 @@ function onCancel(): void {
 }
 
 function onPickerChange(value: string): void {
-	eventResult.value = t('snColorPicker.change', { v: value } as UTSJSONObject)
+	eventResult.value = t('snColorPicker.change', { v: value })
 }
 </script>
 

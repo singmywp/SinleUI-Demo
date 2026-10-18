@@ -18,7 +18,7 @@
 				<sn-button :text="t('snSignature.clear')" size="normal" type="warning" plain custom-style="flex:1;margin-right:8px;" @click="doClear" />
 				<sn-button :text="t('snSignature.export')" size="normal" type="primary" plain custom-style="flex:1;" @click="doExport" />
 			</view>
-			<sn-text type="text-light" font-size="$12">{{ t('snSignature.changeCountTip', { count: changeCount } as UTSJSONObject) }}</sn-text>
+			<sn-text type="text-light" font-size="$12">{{ t('snSignature.changeCountTip', { count: changeCount }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snSignature.demoBrushTitle')" :subtitle="t('snSignature.demoBrushSub')">
@@ -44,7 +44,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { ComponentPublicInstance } from 'vue'
-import type { SnSignatureBrush } from '@/uni_modules/sinle-ui/index.uts'
+import type { SnSignatureBrush } from '@/uni_modules/sinle-ui/index.ts'
 
 const { t } = useI18n()
 

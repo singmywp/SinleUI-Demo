@@ -88,8 +88,8 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { DateLib, dayuts, isDayuts, dayutsIntl } from '@/uni_modules/sinle-ui/index.uts'
-import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import { DateLib, dayuts, isDayuts, dayutsIntl } from '@/uni_modules/sinle-ui/index.ts'
+import { useTheme } from '@/uni_modules/sinle-ui/index.ts'
 
 const { t } = useI18n()
 const { isDark } = useTheme()
@@ -145,7 +145,7 @@ const libCells = computed<Cell[]>(() => {
 		{ title: 'now()', label: t('apiDate.fnNow'), value: lib.now() },
 		{ title: 'today() · today(-1) · today(7)', label: t('apiDate.fnToday'), value: `${lib.today()} · ${lib.today(-1)} · ${lib.today(7)}` },
 		{ title: "weekName(1, '星期')", label: t('apiDate.fnWeekName'), value: lib.weekName(1, '星期') },
-		{ title: 'weeks()', label: t('apiDate.fnWeeks'), value: t('apiDate.weekCount', { count: lib.weeks().length } as UTSJSONObject) }
+		{ title: 'weeks()', label: t('apiDate.fnWeeks'), value: t('apiDate.weekCount', { count: lib.weeks().length }) }
 	]
 })
 

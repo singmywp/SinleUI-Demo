@@ -6,7 +6,7 @@
 				<sn-select v-model="basicValue" :data="basicOptions" width="200px" />
 			</view>
 			<sn-text type="text-light" fontSize="$12"
-				:text="t('snSelect.currentSelected', { text: getSelectedText(basicOptions, basicValue), idx: basicValue } as UTSJSONObject)"
+				:text="t('snSelect.currentSelected', { text: getSelectedText(basicOptions, basicValue), idx: basicValue })"
 				custom-style="margin-top:10px;text-align:center;"/>
 		</demo-card>
 
@@ -59,7 +59,7 @@
 				<sn-select v-model="sortValue" :data="sortOptions" width="220px" />
 			</view>
 			<sn-text type="text-light" fontSize="$12"
-				:text="t('snSelect.currentSort', { text: getSelectedText(sortOptions, sortValue) } as UTSJSONObject)"
+				:text="t('snSelect.currentSort', { text: getSelectedText(sortOptions, sortValue) })"
 				custom-style="margin-top:10px;text-align:center;" />
 		</demo-card>
 
@@ -68,7 +68,7 @@
 				<sn-select v-model="longValue" :data="longOptions" width="200px" />
 			</view>
 			<sn-text type="text-light" fontSize="$12"
-				:text="t('snSelect.currentSelected', { text: getSelectedText(longOptions, longValue), idx: longValue } as UTSJSONObject)"
+				:text="t('snSelect.currentSelected', { text: getSelectedText(longOptions, longValue), idx: longValue })"
 				custom-style="margin-top:10px;text-align:center;" />
 		</demo-card>
 	</sn-page>
@@ -79,7 +79,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useTheme } from '@/uni_modules/sinle-ui'
-import type { SnSelectItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type { SnSelectItem } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 const { isDark } = useTheme()
@@ -146,7 +146,7 @@ const sortOptions = computed<SnSelectItem[]>(() => [
 const longOptions = computed<SnSelectItem[]>(() => {
 	const arr: SnSelectItem[] = []
 	for (let i = 0; i < 30; i++) {
-		arr.push({ id: `opt-${i}`, text: t('snSelect.optionText', { n: i + 1 } as UTSJSONObject) })
+		arr.push({ id: `opt-${i}`, text: t('snSelect.optionText', { n: i + 1 }) })
 	}
 	return arr
 })

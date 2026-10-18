@@ -15,7 +15,7 @@
 				</sn-waterflow>
 			</view>
 			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">
-				{{ t('snWaterflow.totalDesc', { count: items.length } as UTSJSONObject) }}
+				{{ t('snWaterflow.totalDesc', { count: items.length }) }}
 			</sn-text>
 		</demo-card>
 
@@ -55,7 +55,7 @@
 		import { useI18n } from 'vue-i18n'
 		import { $snui } from '@/uni_modules/sinle-ui'
 		import type { ComponentPublicInstance } from 'vue'
-		import type { SnLoadmoreParams, SnRefresherParams } from '@/uni_modules/sinle-ui/core/types/index.uts'
+		import type { SnLoadmoreParams, SnRefresherParams } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 		const { t } = useI18n()
 		type DemoFlowItem = {
@@ -99,7 +99,7 @@
 			const idx = start + i
 			arr.push({
 				id: `f${idx}`,
-				title: t('snWaterflow.flowItem', { index: idx + 1 } as UTSJSONObject),
+				title: t('snWaterflow.flowItem', { index: idx + 1 }),
 				height: seq[idx % seq.length]
 			})
 		}
@@ -117,7 +117,7 @@
 	}
 	function flowSubText(item: any): string {
 		const h = (item as DemoFlowItem).height
-		return t('snWaterflow.height', { value: h } as UTSJSONObject)
+		return t('snWaterflow.height', { value: h })
 	}
 	function flowCardStyle(item: any): Map<string, any> {
 		const styles = new Map<string, any>()

@@ -55,7 +55,7 @@
 </template>
 
 <script lang="ts" setup>
-import { snu, useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import { snu, useTheme } from '@/uni_modules/sinle-ui/index.ts'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -79,7 +79,7 @@ function onNotifChange(val: boolean): void {
 }
 
 function onCellClick(name: string): void {
-	snu.showToast({ text: t('tmplSettings.openItem', { name: name } as UTSJSONObject) })
+	snu.showToast({ text: t('tmplSettings.openItem', { name: name }) })
 }
 
 function onClearCache(): void {
@@ -89,7 +89,7 @@ function onClearCache(): void {
 	}
 	snu.showModal({
 		title: t('tmplSettings.cacheModalTitle'),
-		content: t('tmplSettings.cacheContent', { size: cacheSize.value } as UTSJSONObject),
+		content: t('tmplSettings.cacheContent', { size: cacheSize.value }),
 		confirmText: t('tmplSettings.cacheConfirm'),
 		success: (confirm: boolean, _cancel: boolean): void => {
 			if (confirm) {

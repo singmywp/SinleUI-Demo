@@ -14,7 +14,7 @@
 				</sn-list-view>
 			</view>
 			<sn-text font-size="$12" color="$textLight" custom-style="margin-top:8px;">
-				{{ t('snListView.totalCount', { n: items.length } as UTSJSONObject) }}
+				{{ t('snListView.totalCount', { n: items.length }) }}
 			</sn-text>
 		</demo-card>
 
@@ -34,7 +34,7 @@
 	import { useI18n } from 'vue-i18n'
 	import { $snui } from '@/uni_modules/sinle-ui'
 	import type { ComponentPublicInstance } from 'vue'
-	import type { SnLoadmoreParams, SnRefresherParams } from '@/uni_modules/sinle-ui/core/types/index.uts'
+	import type { SnLoadmoreParams, SnRefresherParams } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 	const { t } = useI18n()
 	const listRef = ref<ComponentPublicInstance | null>(null)
@@ -61,7 +61,7 @@
 	function initItems(): void {
 		const arr: string[] = []
 		for (let i = 1; i <= 50; i++) {
-			arr.push(t('snListView.listItem', { n: i } as UTSJSONObject))
+			arr.push(t('snListView.listItem', { n: i }))
 		}
 		items.value = arr
 	}
@@ -88,7 +88,7 @@
 		refreshTimer = setTimeout(() => {
 			const current = items.value.length
 			for (let i = 1; i <= 20; i++) {
-				items.value.push(t('snListView.listItem', { n: current + i } as UTSJSONObject))
+				items.value.push(t('snListView.listItem', { n: current + i }))
 			}
 			if (items.value.length >= 120) {
 				loadmoreStatus.value = 'nomore'

@@ -10,7 +10,7 @@
 				<sn-button :text="t('snRegionPicker.selectAddress')" type="primary" custom-style="flex:1;" @click="openPicker" />
 				<sn-button :text="t('snRegionPicker.close')" type="info" custom-style="flex:1;margin-left:10px;" @click="closePicker" />
 			</view>
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snRegionPicker.currentSelected', { value: pickerText } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snRegionPicker.currentSelected', { value: pickerText }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snRegionPicker.levelTitle')" :subtitle="t('snRegionPicker.levelSubtitle')">
@@ -54,9 +54,9 @@
 <script lang="ts" setup>
 	
 	import { useI18n } from 'vue-i18n'
-	import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+	import { useTheme } from '@/uni_modules/sinle-ui/index.ts'
 	import type { ComponentPublicInstance } from 'vue'
-	import type { SnDataItem, SnRegionDetail, SnRegionLevel, SnRegionValue } from '@/uni_modules/sinle-ui/core/types/index.uts'
+	import type { SnDataItem, SnRegionDetail, SnRegionLevel, SnRegionValue } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 	const { isDark } = useTheme()
 	const { t } = useI18n()
@@ -185,7 +185,7 @@
 			s += n
 		}
 		pickerText.value = s
-		eventResult.value = t('snRegionPicker.eventChange', { value: s } as UTSJSONObject)
+		eventResult.value = t('snRegionPicker.eventChange', { value: s })
 	}
 </script>
 

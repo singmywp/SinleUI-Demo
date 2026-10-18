@@ -10,7 +10,7 @@
 				<sn-button :text="t('snPicker.openPickerBtn')" type="primary" custom-style="flex:1;" @click="openPicker" />
 				<sn-button :text="t('snPicker.closePickerBtn')" type="info" custom-style="flex:1;margin-left:10px;" @click="closePicker" />
 			</view>
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snPicker.currentSelected', { value: pickerValueText } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snPicker.currentSelected', { value: pickerValueText }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snPicker.configTitle')" :subtitle="t('snPicker.configSubtitle')">
@@ -74,9 +74,9 @@
 <script lang="ts" setup>
 	
 	import { useI18n } from 'vue-i18n'
-	import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+	import { useTheme } from '@/uni_modules/sinle-ui/index.ts'
 	import type { ComponentPublicInstance } from 'vue'
-	import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+	import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 	const { isDark } = useTheme()
 	const { t } = useI18n()
@@ -266,8 +266,8 @@
 		if (value.length > 1 && value[1] >= 0 && value[1] < list[1].length) {
 			text += ' · ' + (list[1][value[1]].text ?? '')
 		}
-		sceneResult.value = t('snPicker.selected', { value: text } as UTSJSONObject)
-		eventResult.value = t('snPicker.eventChange', { value: value.join(', ') } as UTSJSONObject)
+		sceneResult.value = t('snPicker.selected', { value: text })
+		eventResult.value = t('snPicker.eventChange', { value: value.join(', ') })
 	}
 
 	const sceneBoxStyle = computed((): Map<string, any> => {

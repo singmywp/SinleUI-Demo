@@ -37,15 +37,15 @@
 		<demo-card :title="t('snOverlay.eventTitle')" :subtitle="t('snOverlay.eventSubtitle')">
 			<view class="config-row">
 				<sn-text :text="t('snOverlay.openEvent')" custom-style="width:140px;" />
-				<sn-text bold fontSize="$14" :text="t('snOverlay.triggeredCount', { value: openCount } as UTSJSONObject)" />
+				<sn-text bold fontSize="$14" :text="t('snOverlay.triggeredCount', { value: openCount })" />
 			</view>
 			<view class="config-row">
 				<sn-text :text="t('snOverlay.closeEvent')" custom-style="width:140px;" />
-				<sn-text bold fontSize="$14" :text="t('snOverlay.triggeredCount', { value: closeCount } as UTSJSONObject)" />
+				<sn-text bold fontSize="$14" :text="t('snOverlay.triggeredCount', { value: closeCount })" />
 			</view>
 			<view class="config-row">
 				<sn-text :text="t('snOverlay.clickMaskEvent')" custom-style="width:140px;" />
-				<sn-text bold fontSize="$14" :text="t('snOverlay.triggeredCount', { value: clickCount } as UTSJSONObject)" />
+				<sn-text bold fontSize="$14" :text="t('snOverlay.triggeredCount', { value: clickCount })" />
 			</view>
 		</demo-card>
 		<sn-overlay ref="overlayRef" :mask-close="configs.maskClose" :opacity="configs.opacity" :ani-time="configs.aniTime" @open="onOpen" @close="onClose" @click-mask="onClickMask">

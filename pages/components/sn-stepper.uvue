@@ -3,22 +3,22 @@
 		<demo-card :title="t('snStepper.demoBasicTitle')" :subtitle="t('snStepper.demoBasicSub')">
 			<view class="demo-row" flatten>
 				<sn-stepper v-model="value1" />
-				<sn-text font-size="$14" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.currentValue', { val: value1 } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$14" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.currentValue', { val: value1 }) }}</sn-text>
 			</view>
 		</demo-card>
 
 		<demo-card :title="t('snStepper.demoRangeTitle')" :subtitle="t('snStepper.demoRangeSub')">
 			<view class="demo-row" flatten>
 				<sn-stepper v-model="value2" :min="5" :max="25" :step="5" />
-				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.stepTip1', { val: value2 } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.stepTip1', { val: value2 }) }}</sn-text>
 			</view>
 			<view class="demo-row" flatten>
 				<sn-stepper v-model="value3" :min="0" :max="10" :step="0.5" />
-				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.stepTip2', { val: value3 } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.stepTip2', { val: value3 }) }}</sn-text>
 			</view>
 			<view class="demo-row" flatten>
 				<sn-stepper v-model="value4" :min="0" />
-				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.stepTip3', { val: value4 } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.stepTip3', { val: value4 }) }}</sn-text>
 			</view>
 		</demo-card>
 
@@ -67,7 +67,7 @@
 		<demo-card :title="t('snStepper.demoDisabledTitle')" :subtitle="t('snStepper.demoDisabledSub')">
 			<view class="demo-row">
 				<sn-stepper v-model="value12" disabled />
-				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.disabledTip', { val: value12 } as UTSJSONObject) }}</sn-text>
+				<sn-text font-size="$12" color="$textLight" custom-style="margin-left:16px;">{{ t('snStepper.disabledTip', { val: value12 }) }}</sn-text>
 			</view>
 		</demo-card>
 
@@ -75,7 +75,7 @@
 			<view class="demo-row" style="margin-bottom: 12px">
 				<sn-stepper v-model="value13" @change="onChange" />
 			</view>
-			<sn-text font-size="$13" color="$primary">{{ t('snStepper.latestEvent', { val: changeLog } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$13" color="$primary">{{ t('snStepper.latestEvent', { val: changeLog }) }}</sn-text>
 		</demo-card>
 	</sn-page>
 </template>

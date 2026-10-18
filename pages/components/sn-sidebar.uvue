@@ -12,7 +12,7 @@
 					item-style="border-radius: 4px;" content-class="demo-sidebar-content"
 					content-style="border-width:1px;border-style:solid;border-color:var(--sn-primary);">
 					<sn-view bg-color="$front" padding="20px" style="flex: 1;">
-						<sn-text :text="t('snSidebar.currentSelected', { text: (data[extValue].text ?? '') } as UTSJSONObject)"/>
+						<sn-text :text="t('snSidebar.currentSelected', { text: (data[extValue].text ?? '') })"/>
 						<sn-text type="text-light" :font-size="12" :text="t('snSidebar.extTip')" custom-style="margin-top:8px;" />
 					</sn-view>
 				</sn-sidebar>
@@ -21,7 +21,7 @@
 		<view style="height: 220px; margin: 10px;" flatten>
 			<sn-sidebar v-model="value" :data="data">
 				<sn-view bg-color="$front" padding="20px" style="flex: 1;">
-					<sn-text :text="t('snSidebar.currentSelected', { text: (data[value].text ?? '') } as UTSJSONObject)"/>
+					<sn-text :text="t('snSidebar.currentSelected', { text: (data[value].text ?? '') })"/>
 					<sn-text type="text-light" :font-size="12" :text="t('snSidebar.contentTip')" custom-style="margin-top:8px;"/>
 				</sn-view>
 			</sn-sidebar>
@@ -55,7 +55,7 @@
 
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 

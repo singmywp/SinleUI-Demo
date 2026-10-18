@@ -29,8 +29,8 @@
 <script lang="ts" setup>
 import type { ComponentPublicInstance } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { SnLoadmoreParams, SnRefresherParams } from '@/uni_modules/sinle-ui/core/types/index.uts'
-import type { NewsItem } from './news.uts'
+import type { SnLoadmoreParams, SnRefresherParams } from '@/uni_modules/sinle-ui/core/types/index.ts'
+import type { NewsItem } from './news.ts'
 
 const { t } = useI18n()
 

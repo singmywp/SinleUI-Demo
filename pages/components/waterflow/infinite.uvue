@@ -10,7 +10,7 @@
 					</view>
 					<view class="wf-desc" flatten>
 						<sn-text font-size="$12" color="$title" bold>{{ wfTitle(slotProps.item) }}</sn-text>
-						<sn-text font-size="$11" color="$textLight" custom-style="margin-top:4px;">{{ t('waterflowInfinite.heightDesc', { height: wfHeight(slotProps.item) } as UTSJSONObject) }}</sn-text>
+						<sn-text font-size="$11" color="$textLight" custom-style="margin-top:4px;">{{ t('waterflowInfinite.heightDesc', { height: wfHeight(slotProps.item) }) }}</sn-text>
 					</view>
 				</view>
 			</template>
@@ -61,7 +61,7 @@ function genItems(start: number, count: number): InfiniteItem[] {
 		const s = loadSeq[idx % loadSeq.length]
 		arr.push({
 			id: `w${idx}`,
-			title: t('waterflowInfinite.item', { index: idx + 1 } as UTSJSONObject),
+			title: t('waterflowInfinite.item', { index: idx + 1 }),
 			height: s.height + 58,
 			coverHeight: s.height,
 			color: s.color

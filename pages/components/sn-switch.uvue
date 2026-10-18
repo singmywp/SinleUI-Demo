@@ -108,7 +108,7 @@
 					<sn-switch v-model="eventSwitch" @change="onSwitchChange" />
 				</view>
 			</view>
-			<sn-text font-size="$13" color="$primary">{{ t('snSwitch.latestEvent', { val: changeLog } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$13" color="$primary">{{ t('snSwitch.latestEvent', { val: changeLog }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snSwitch.demoSceneTitle')" :subtitle="t('snSwitch.demoSceneSub')">

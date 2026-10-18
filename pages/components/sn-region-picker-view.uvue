@@ -7,24 +7,24 @@
 
 		<demo-card :title="t('snRegionPickerView.basicTitle')" :subtitle="t('snRegionPickerView.basicSubtitle')">
 			<sn-region-picker-view v-model="basicValue" @change="onChange" />
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snRegionPickerView.currentWithChange', { value: basicText, change: changeResult } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snRegionPickerView.currentWithChange', { value: basicText, change: changeResult }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snRegionPickerView.directTitle')" :subtitle="t('snRegionPickerView.directSubtitle')">
 			<sn-region-picker-view v-model="directValue" height="220px" />
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snRegionPickerView.currentValue', { value: directText } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snRegionPickerView.currentValue', { value: directText }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snRegionPickerView.levelTitle')" :subtitle="t('snRegionPickerView.levelSubtitle')">
 			<sn-region-picker-view v-model="provinceValue" :mode="1" height="200px" @change="onProvinceChange" />
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snRegionPickerView.provinceMode', { value: provinceText } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snRegionPickerView.provinceMode', { value: provinceText }) }}</sn-text>
 			<sn-region-picker-view v-model="cityValue" mode="省市" height="200px" custom-style="margin-top:14px;" @change="onCityChange" />
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snRegionPickerView.cityAliasMode', { value: cityText } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snRegionPickerView.cityAliasMode', { value: cityText }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snRegionPickerView.filterTitle')" :subtitle="t('snRegionPickerView.filterSubtitle')">
 			<sn-region-picker-view v-model="filterValue" :custom-filter="filterFn" height="220px" @change="onFilterChange" />
-			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snRegionPickerView.currentValue', { value: filterText } as UTSJSONObject) }}</sn-text>
+			<sn-text font-size="$12" :color="descColor" custom-style="margin-top:8px;">{{ t('snRegionPickerView.currentValue', { value: filterText }) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snRegionPickerView.styleTitle')" :subtitle="t('snRegionPickerView.styleSubtitle')">
@@ -37,8 +37,8 @@
 <script lang="ts" setup>
 	
 	import { useI18n } from 'vue-i18n'
-	import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
-	import type { SnDataItem, SnRegionDetail, SnRegionLevel, SnRegionValue } from '@/uni_modules/sinle-ui/core/types/index.uts'
+	import { useTheme } from '@/uni_modules/sinle-ui/index.ts'
+	import type { SnDataItem, SnRegionDetail, SnRegionLevel, SnRegionValue } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 	const { isDark } = useTheme()
 	const { t } = useI18n()

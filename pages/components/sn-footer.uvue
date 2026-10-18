@@ -51,8 +51,8 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { $snui } from '@/uni_modules/sinle-ui/index.uts'
-import type { SnFooterLink, SnFooterLogo } from '@/uni_modules/sinle-ui/index.uts'
+import { $snui } from '@/uni_modules/sinle-ui/index.ts'
+import type { SnFooterLink, SnFooterLogo } from '@/uni_modules/sinle-ui/index.ts'
 
 const { t } = useI18n()
 
@@ -83,7 +83,7 @@ const lastClick = ref<string>('')
 const tipColor = computed<string>(() => $snui.colors.textLight)
 
 function onLinkClick(link: SnFooterLink, _index: number): void {
-	lastClick.value = t('snFooter.clickedLink', { name: link.name ?? '' } as UTSJSONObject)
+	lastClick.value = t('snFooter.clickedLink', { name: link.name ?? '' })
 }
 
 function onLogoClick(): void {

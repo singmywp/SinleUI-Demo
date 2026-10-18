@@ -2,7 +2,7 @@
 	<sn-page :title="t('snProgress.title')" :show-back="true">
 		<demo-card :title="t('snProgress.basicTitle')" :subtitle="t('snProgress.basicSubtitle')">
 			<sn-progress v-model="v1" @change="onChange" custom-style="margin-bottom:14px;" />
-			<sn-text type="text-light" :font-size="13" :text="t('snProgress.currentProgress', { value: v1.toString(), change: changeCount.toString() } as UTSJSONObject)" custom-style="margin-bottom:12px;"/>
+			<sn-text type="text-light" :font-size="13" :text="t('snProgress.currentProgress', { value: v1.toString(), change: changeCount.toString() })" custom-style="margin-bottom:12px;"/>
 			<view class="row" flatten>
 				<sn-button :text="t('snProgress.add10')" type="primary" @click="addValue(1)" />
 				<sn-button :text="t('snProgress.subtract10')" level="second" @click="addValue(-1)" custom-style="margin-left:12px;" />
@@ -179,7 +179,7 @@ function onStartDownload(): void {
 		downloadValue.value = next
 		
 		const doneMb = next
-		downloadText.value = t('snProgress.downloadedProgress', { done: doneMb.toFixed(1), speed: dlSpeed.toFixed(1) } as UTSJSONObject)
+		downloadText.value = t('snProgress.downloadedProgress', { done: doneMb.toFixed(1), speed: dlSpeed.toFixed(1) })
 		if (next >= 100) {
 			downloading.value = false
 			clearInterval(downloadTimer)
@@ -198,7 +198,7 @@ function onPauseDownload(): void {
 		clearInterval(downloadTimer)
 		downloadTimer = -1
 	}
-	downloadText.value = t('snProgress.downloadPaused', { done: downloadValue.value.toFixed(1) } as UTSJSONObject)
+	downloadText.value = t('snProgress.downloadPaused', { done: downloadValue.value.toFixed(1) })
 }
 
 function onResetDownload(): void {

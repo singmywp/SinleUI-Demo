@@ -64,7 +64,7 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { useTheme } from '@/uni_modules/sinle-ui/index.uts'
+import { useTheme } from '@/uni_modules/sinle-ui/index.ts'
 import type { ScanType } from '@/uni_modules/sn-e-scankit'
 
 const { t } = useI18n()
@@ -103,7 +103,7 @@ function isPreset(bg: string, front: string): boolean {
 
 onMounted(() => {
 	try {
-		const sysInfo = uni.getSystemInfoSync() as UTSJSONObject
+		const sysInfo = uni.getSystemInfoSync()
 		const platform = sysInfo.uniPlatform as string
 		isApp.value = platform == 'app'
 	} catch (e) {

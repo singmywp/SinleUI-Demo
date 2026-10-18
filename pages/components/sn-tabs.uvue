@@ -3,27 +3,27 @@
 
 		<demo-card :title="t('snTabs.demoBasicTitle')" :subtitle="t('snTabs.demoBasicSub')">
 			<sn-tabs v-model="v1" :data="d1"></sn-tabs>
-			<sn-text type="text-light" :font-size="12" :text="t('snTabs.currentSelected', { val: v1 } as UTSJSONObject)" custom-style="margin-top:12px;"/>
+			<sn-text type="text-light" :font-size="12" :text="t('snTabs.currentSelected', { val: v1 })" custom-style="margin-top:12px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snTabs.demoScrollTitle')" :subtitle="t('snTabs.demoScrollSub')">
 			<sn-tabs v-model="v2" scrollable :data="d2"></sn-tabs>
-			<sn-text type="text-light" :font-size="12" :text="t('snTabs.currentSelected', { val: v2 } as UTSJSONObject)" custom-style="margin-top:12px;"/>
+			<sn-text type="text-light" :font-size="12" :text="t('snTabs.currentSelected', { val: v2 })" custom-style="margin-top:12px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snTabs.demoAniTitle')" :subtitle="t('snTabs.demoAniSub')">
 			<sn-tabs v-model="v5" scrollable mode="push" :data="d5"></sn-tabs>
-			<sn-text type="text-light" :font-size="12" :text="t('snTabs.currentSelected', { val: v5 } as UTSJSONObject)" custom-style="margin-top:12px;"/>
+			<sn-text type="text-light" :font-size="12" :text="t('snTabs.currentSelected', { val: v5 })" custom-style="margin-top:12px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snTabs.demoDisabledTitle')" :subtitle="t('snTabs.demoDisabledSub')">
 			<sn-tabs v-model="v3" :data="d3"></sn-tabs>
-			<sn-text type="text-light" :font-size="12" :text="t('snTabs.currentSelected', { val: v3 } as UTSJSONObject)" custom-style="margin-top:12px;"/>
+			<sn-text type="text-light" :font-size="12" :text="t('snTabs.currentSelected', { val: v3 })" custom-style="margin-top:12px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snTabs.demoBadgeTitle')" :subtitle="t('snTabs.demoBadgeSub')">
 			<sn-tabs v-model="v4" :data="d4"></sn-tabs>
-			<sn-text type="text-light" :font-size="12" :text="t('snTabs.currentSelected', { val: v4 } as UTSJSONObject)" custom-style="margin-top:12px;"/>
+			<sn-text type="text-light" :font-size="12" :text="t('snTabs.currentSelected', { val: v4 })" custom-style="margin-top:12px;"/>
 		</demo-card>
 
 		<demo-card :title="t('snTabs.demoExtTitle')" :subtitle="t('snTabs.demoExtSub')">
@@ -34,7 +34,7 @@
 				active-item-style="opacity: 0.55;"></sn-tabs>
 			<sn-tabs v-model="v1" :data="d1" text-class="demo-tabs-text-bold" style="margin-top: 12px;"></sn-tabs>
 			<sn-tabs v-model="v1" :data="d1" text-style="color: #f56c6c; font-weight: bold;" style="margin-top: 12px;"></sn-tabs>
-			<sn-text type="text-light" :font-size="12" style="margin-top: 12px;" :text="t('snTabs.currentExt', { val: v1 } as UTSJSONObject)" />
+			<sn-text type="text-light" :font-size="12" style="margin-top: 12px;" :text="t('snTabs.currentExt', { val: v1 })" />
 		</demo-card>
 	</sn-page>
 </template>
@@ -43,7 +43,7 @@
 
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { SnTabParams } from '@/uni_modules/sinle-ui/core/types/index.uts'
+import type { SnTabParams } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
 
@@ -54,15 +54,15 @@ const v4 = ref<number>(0)
 const v5 = ref<number>(0)
 
 const d1 = computed<SnTabParams[]>(() => [
-	{ id: 'd1tab1', text: t('snTabs.optionText', { n: 1 } as UTSJSONObject) },
-	{ id: 'd1tab2', text: t('snTabs.optionText', { n: 2 } as UTSJSONObject) },
-	{ id: 'd1tab3', text: t('snTabs.optionText', { n: 3 } as UTSJSONObject) }
+	{ id: 'd1tab1', text: t('snTabs.optionText', { n: 1 }) },
+	{ id: 'd1tab2', text: t('snTabs.optionText', { n: 2 }) },
+	{ id: 'd1tab3', text: t('snTabs.optionText', { n: 3 }) }
 ])
 
 const d2 = computed<SnTabParams[]>(() => {
 	const arr: SnTabParams[] = []
 	for (let i = 1; i <= 8; i++) {
-		arr.push({ id: `d2tab${i}`, text: t('snTabs.optionText', { n: i } as UTSJSONObject) })
+		arr.push({ id: `d2tab${i}`, text: t('snTabs.optionText', { n: i }) })
 	}
 	return arr
 })
@@ -79,17 +79,17 @@ const d5 = computed<SnTabParams[]>(() => [
 ])
 
 const d3 = computed<SnTabParams[]>(() => [
-	{ id: 'd3tab1', text: t('snTabs.optionText', { n: 1 } as UTSJSONObject) },
-	{ id: 'd3tab2', text: t('snTabs.optionText', { n: 2 } as UTSJSONObject), disabled: true },
-	{ id: 'd3tab3', text: t('snTabs.optionText', { n: 3 } as UTSJSONObject) },
-	{ id: 'd3tab4', text: t('snTabs.optionText', { n: 4 } as UTSJSONObject) }
+	{ id: 'd3tab1', text: t('snTabs.optionText', { n: 1 }) },
+	{ id: 'd3tab2', text: t('snTabs.optionText', { n: 2 }), disabled: true },
+	{ id: 'd3tab3', text: t('snTabs.optionText', { n: 3 }) },
+	{ id: 'd3tab4', text: t('snTabs.optionText', { n: 4 }) }
 ])
 
 const d4 = computed<SnTabParams[]>(() => [
-	{ id: 'd4tab1', text: t('snTabs.optionText', { n: 1 } as UTSJSONObject) },
+	{ id: 'd4tab1', text: t('snTabs.optionText', { n: 1 }) },
 	{
 		id: 'd4tab2',
-		text: t('snTabs.optionText', { n: 2 } as UTSJSONObject),
+		text: t('snTabs.optionText', { n: 2 }),
 		badgeConfig: {
 			mode: 'text',
 			text: t('snTabs.badgeHot')
@@ -97,14 +97,14 @@ const d4 = computed<SnTabParams[]>(() => [
 	},
 	{
 		id: 'd4tab3',
-		text: t('snTabs.optionText', { n: 3 } as UTSJSONObject),
+		text: t('snTabs.optionText', { n: 3 }),
 		badgeConfig: {
 			value: 66
 		}
 	},
 	{
 		id: 'd4tab4',
-		text: t('snTabs.optionText', { n: 4 } as UTSJSONObject),
+		text: t('snTabs.optionText', { n: 4 }),
 		badgeConfig: {
 			mode: 'dot',
 			size: '7px',
