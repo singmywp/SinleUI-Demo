@@ -56,7 +56,7 @@ const { t } = useI18n()
 
 
 
-const uploadUrl = 'http://www.test.com/upload'
+const uploadUrl = 'http://www.test.com/upload/'
 const mediaRef = ref<ComponentPublicInstance | null>(null)
 const imageChoseCount = ref<number>(0)
 const uploadTip = ref<string>(t('snUploadMedia.notUploaded'))
