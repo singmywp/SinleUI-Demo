@@ -22,14 +22,12 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { useTheme } from '@/uni_modules/sinle-ui/index.ts'
 import type { SnDataItem, SnTabbarItem } from '@/uni_modules/sinle-ui/core/types/index.ts'
 import ComponentsPage from '@/pages/components/components.uvue'
 import ApiPage from '@/pages/api/API.uvue'
 import TemplatePage from '@/pages/template/template.uvue'
 
 const { t } = useI18n()
-const { isDark } = useTheme()
 
 const tabbarData = computed<SnTabbarItem[]>(() => [
 	{
@@ -73,7 +71,7 @@ const bottomSafeNum = computed<number>(() => {
 
 const tabbarStyleText = computed<string>(() => `bottom: ${bottomSafeNum.value}px;`)
 
-const titleColor = computed<string>(() => isDark.value ? '#FFFFFF' : '#1E293B')
+const titleColor = 'var(--sn-title)'
 
 function goTo(url: string): void {
 	uni.navigateTo({

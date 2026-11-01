@@ -880,6 +880,11 @@
 			"style": {
 				"navigationBarTitleText": "Signature 签名"
 			}
+		},		{
+			"path": "pages/components/sn-sketchpad",
+			"style": {
+				"navigationBarTitleText": "Sketchpad 画板"
+			}
 		},
 		{
 			"path": "pages/components/sn-scan",
@@ -1047,6 +1052,7 @@
 	"globalStyle": {
 		"navigationStyle": "custom",
 		"navigationBarTitleText": "SinleUI",
+		"navigationBarTextStyle": "@navigationBarTextStyle",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	},

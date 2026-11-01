@@ -99,13 +99,12 @@
 </template>
 
 <script lang="ts" setup>
-import { $snui, useFactors, useResolve, useTheme } from '@/uni_modules/sinle-ui/index.ts'
+import { $snui, useFactors, useResolve } from '@/uni_modules/sinle-ui/index.ts'
 import { useI18n } from 'vue-i18n'
 import type { ComponentPublicInstance } from 'vue'
 import type { SnDataItem } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 const { t } = useI18n()
-const { isDark } = useTheme()
 const resolver = useResolve()
 const { marginFactor, paddingFactor, radiusFactor, fontsizeFactor, aniTimeFactor } = useFactors()
 
@@ -114,10 +113,10 @@ type FactorItem = {
 	value: string
 }
 
-const titleColor = computed<string>(() => isDark.value ? '#FFFFFF' : '#1E293B')
-const textColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#475569')
-const codeText = computed<string>(() => isDark.value ? '#BAE6FD' : '#0F4C5C')
-const previewText = computed<string>(() => isDark.value ? '#F8FAFC' : '#0F172A')
+const titleColor = 'var(--sn-title)'
+const textColor = 'var(--sn-text)'
+const codeText = 'var(--sn-primary)'
+const previewText = 'var(--sn-title)'
 
 // ---- 顶部栏 ----
 const topbarFeatures = computed<SnDataItem[]>(() => {
@@ -211,7 +210,7 @@ onMounted((): void => {
 
 const jsExample = 'const gap = 12 * $snui.marginFactor\nconst radius = 8 * $snui.radiusFactor\nconst fontSize = 14 * $snui.fontsizeFactor'
 const resolveExample = 'resolver.resolveSize("$12", "padding")\nresolver.resolveSizeNum("$8", "radius")\nresolver.resolveColor("$primary")'
-const cssExample = '.card {\n  padding: calc(var(--paddingFactor) * 12px);\n  border-radius: calc(var(--radiusFactor) * 8px);\n  font-size: calc(var(--fontsizeFactor) * 14px);\n}'
+const cssExample = '.card {\n  padding: calc(var(--paddingFactor) * 12px);\n  margin-bottom: calc(var(--mf) * 12px);\n  border-radius: calc(var(--radiusFactor) * 8px);\n  font-size: calc(var(--fontsizeFactor) * 14px);\n}'
 
 const resolvePreviewStyle = computed((): Map<string, any> => {
 	const styles = new Map<string, any>()
@@ -255,7 +254,7 @@ const resolvePreviewStyle = computed((): Map<string, any> => {
 	border-radius: calc(var(--radiusFactor) * 8px);
 	background-color: var(--sn-primary-light);
 	flex-direction: column;
-	margin-bottom: 12px;
+	margin-bottom: calc(var(--mf) * 12px);
 }
 
 .drawer-body {

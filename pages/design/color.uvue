@@ -81,9 +81,9 @@ const topbarFeatures = computed<SnDataItem[]>(() => {
 	return [{ icon: isDark.value ? 'sun-line' : 'moon-line' }]
 })
 
-const titleColor = computed<string>(() => isDark.value ? '#FFFFFF' : '#1E293B')
+const titleColor = 'var(--sn-title)'
 
-const groupTitleColor = computed<string>(() => isDark.value ? '#E2E8F0' : '#334155')
+const groupTitleColor = 'var(--sn-title)'
 
 function onThemeBtnClick(_item: SnDataItem, _idx: number): void {
 	themeToggle()

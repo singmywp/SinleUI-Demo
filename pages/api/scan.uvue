@@ -46,12 +46,11 @@
 import { useI18n } from 'vue-i18n'
 import { scan } from '@/uni_modules/sn-e-scankit'
 import type { ScanResult } from '@/uni_modules/sn-e-scankit'
-import { snu, useTheme } from '@/uni_modules/sinle-ui/index.ts'
+import { snu } from '@/uni_modules/sinle-ui/index.ts'
 
 const { t } = useI18n()
-const { isDark } = useTheme()
 
-const descColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+const descColor = 'var(--sn-text)'
 const scanFormat = ref<string>('—')
 const scanData = ref<string>('—')
 

@@ -1,0 +1,119 @@
+<template>
+	<sn-page title="Sketchpad 画板" :show-back="true" fill-content>
+		<sn-sketchpad ref="padRef" height="fill" @exported="onExported" @orientationchange="onOrientationChange" />
+		<sn-popup ref="exportPopupRef" position="center" custom-style="width:84%;max-width:calc(var(--pf) * 360px);"
+			@afterleave="onExportPopupClosed">
+			<view class="sketchpad-export">
+				<view class="sketchpad-export-header">
+					<view class="sketchpad-export-title">
+						<sn-icon name="checkbox-circle-line" :size="22" color="$success" />
+						<sn-text :text="t('snSketchpad.exportSuccess')" font-size="$16" color="$title" bold
+							custom-style="margin-left:8px;" />
+					</view>
+					<view class="sketchpad-export-close" @click="closeExportPopup">
+						<sn-icon name="close-line" :size="20" color="$textLight" />
+					</view>
+				</view>
+				<image v-if="exportPath != ''" class="sketchpad-export-image" :src="exportPath" mode="aspectFit" />
+			</view>
+		</sn-popup>
+	</sn-page>
+</template>
+
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import type { ComponentPublicInstance } from 'vue'
+
+defineOptions({
+	name: 'sn-sketchpad-demo'
+})
+
+type ExportResult = {
+	dataUrl: string
+	width: number
+	height: number
+}
+
+const { t } = useI18n()
+const padRef = ref<ComponentPublicInstance | null>(null)
+const exportPopupRef = ref<ComponentPublicInstance | null>(null)
+const exportPath = ref<string>('')
+let landscape = false
+let openAfterExit = false
+
+function openExportPopup(): void {
+	nextTick((): void => {
+		exportPopupRef.value?.$callMethod('open')
+	})
+}
+
+function onExported(data: ExportResult): void {
+	if (data.dataUrl == '') return
+	exportPath.value = data.dataUrl
+	if (landscape) {
+		openAfterExit = true
+		padRef.value?.$callMethod('setLandscape', false)
+		return
+	}
+	openExportPopup()
+}
+
+function onOrientationChange(isLandscape: boolean): void {
+	landscape = isLandscape
+	if (isLandscape || !openAfterExit) return
+	openAfterExit = false
+	openExportPopup()
+}
+
+function closeExportPopup(): void {
+	exportPopupRef.value?.$callMethod('close')
+}
+
+function onExportPopupClosed(): void {
+	exportPath.value = ''
+}
+</script>
+
+<style lang="scss">
+.sketchpad-export {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	padding: calc(var(--pf) * 16px);
+	background-color: var(--sn-front);
+	border-radius: calc(var(--rf) * 8px);
+}
+
+.sketchpad-export-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.sketchpad-export-title {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex: 1;
+	min-width: 0px;
+}
+
+.sketchpad-export-close {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: calc(var(--pf) * 36px);
+	height: calc(var(--pf) * 36px);
+}
+
+.sketchpad-export-image {
+	width: 100%;
+	height: calc(var(--pf) * 220px);
+	margin-top: calc(var(--mf) * 12px);
+	background-color: var(--sn-page);
+	border-radius: calc(var(--rf) * 4px);
+}
+</style>

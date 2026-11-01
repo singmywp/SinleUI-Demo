@@ -111,7 +111,7 @@ type WeekDay = {
 	isToday: boolean
 }
 
-const valueColor = computed<string>(() => isDark.value ? '#73a2ff' : '#4d82ff')
+const valueColor = 'var(--sn-primary)'
 
 function dayCellClass(idx: number, len: number, isToday: boolean): string {
 	let cls = 'day-cell'

@@ -2,8 +2,8 @@
 	"name": "SinleUI",
 	"appid": "__UNI__B140C8B",
 	"description": "一个简洁、轻巧的现代移动应用UI框架。",
-	"versionName": "2.0.4",
-	"versionCode": "204",
+	"versionName": "2.0.5",
+	"versionCode": "205",
 	"uni-app-x": {
 		"styleIsolationVersion": "2",
 		"vapor": true,

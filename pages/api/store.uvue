@@ -154,7 +154,7 @@ const resultValue = ref<string>('—')
 
 let timer: number = 0
 
-const valueColor = computed<string>(() => isDark.value ? '#73a2ff' : '#4d82ff')
+const valueColor = 'var(--sn-primary)'
 
 const snapshotSub = computed<string>(() => {
 	return t('apiStore.subSnapshot', { count: rows.value.length })

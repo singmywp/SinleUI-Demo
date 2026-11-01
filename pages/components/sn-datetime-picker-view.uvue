@@ -43,14 +43,12 @@
 <script lang="ts" setup>
 	
 	import { useI18n } from 'vue-i18n'
-	import { useTheme } from '@/uni_modules/sinle-ui/index.ts'
 	import type { SnDatetimePickerValue } from '@/uni_modules/sinle-ui/core/types/index.ts'
 
 	const { t } = useI18n()
 
-	const { isDark } = useTheme()
-
-	const descColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+	
+	const descColor = 'var(--sn-text)'
 
 	const dateValue = ref<SnDatetimePickerValue>('2026-08-18')
 	const datetimeValue = ref<SnDatetimePickerValue>('2026-08-18 12:30:00')

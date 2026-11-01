@@ -235,13 +235,11 @@
 <script lang="ts" setup>
 
 import { useI18n } from 'vue-i18n'
-import { useTheme } from '@/uni_modules/sinle-ui/index.ts'
 import type { ComponentPublicInstance } from 'vue'
 
-const { isDark } = useTheme()
 const { t } = useI18n()
 
-const descColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+const descColor = 'var(--sn-text)'
 
 type PopupConfigs = {
 	maskClose: boolean

@@ -78,12 +78,11 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { snu, useTheme } from '@/uni_modules/sinle-ui/index.ts'
+import { snu } from '@/uni_modules/sinle-ui/index.ts'
 
 const { t } = useI18n()
-const { isDark } = useTheme()
 
-const descColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+const descColor = 'var(--sn-text)'
 const callbackResult = ref<string>(t('apiShowToast.emptyCallback'))
 
 function onShowBase(): void {

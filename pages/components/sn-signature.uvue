@@ -18,7 +18,7 @@
 				<sn-button :text="t('snSignature.clear')" size="normal" type="warning" plain custom-style="flex:1;margin-right:8px;" @click="doClear" />
 				<sn-button :text="t('snSignature.export')" size="normal" type="primary" plain custom-style="flex:1;" @click="doExport" />
 			</view>
-			<sn-text type="text-light" font-size="$12">{{ t('snSignature.changeCountTip', { count: changeCount }) }}</sn-text>
+			<sn-text type="text-light" font-size="$12">{{ t('snSignature.changeCountTip', { count: changeCount } as UTSJSONObject) }}</sn-text>
 		</demo-card>
 
 		<demo-card :title="t('snSignature.demoBrushTitle')" :subtitle="t('snSignature.demoBrushSub')">

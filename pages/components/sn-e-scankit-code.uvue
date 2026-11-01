@@ -64,15 +64,13 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { useTheme } from '@/uni_modules/sinle-ui/index.ts'
 import type { ScanType } from '@/uni_modules/sn-e-scankit'
 
 const { t } = useI18n()
-const { isDark } = useTheme()
 
 const isApp = ref<boolean>(true)
 
-const descColor = computed<string>(() => isDark.value ? '#CBD5E1' : '#334155')
+const descColor = 'var(--sn-text)'
 
 const content = ref<string>('https://sinleui.pages.dev')
 const codeType = ref<ScanType>('QRCODE')

@@ -341,6 +341,7 @@ const categories: CategoryItem[] = [
 			{ name: 'comps.item.fullscreen', url: '/pages/components/sn-fullscreen', icon: 'fullscreen-line' },
 			{ name: 'comps.item.clipper', url: '/pages/components/sn-clipper', icon: 'crop-line' },
 			{ name: 'comps.item.signature', url: '/pages/components/sn-signature', icon: 'ball-pen-line' },
+			{ name: 'comps.item.sketchpad', url: '/pages/components/sn-sketchpad', icon: 'pencil-ruler-2-line' },
 			{ name: 'comps.item.calendarPunch', url: '/pages/components/sn-calendar-punch', icon: 'calendar-check-line' },
 		]
 	},
