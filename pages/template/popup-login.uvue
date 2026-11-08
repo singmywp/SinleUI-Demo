@@ -89,7 +89,7 @@
 	const notificationEle = ref<ComponentPublicInstance | null>(null)
 	const drawerHeightNum = ref<number>(748)
 	const safeBottomNum = ref<number>(16)
-	const phone = ref<string>('17613358468')
+	const phone = ref<string>('18788888888')
 	const code = ref<string>('')
 	const password = ref<string>('')
 	const passwordMode = ref<boolean>(false)

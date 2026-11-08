@@ -57,7 +57,7 @@
 					<sn-text bold :font-size="16" color="$title" :text="mentionLabel(slotProps.item)" custom-style="padding:4px 4px 12px 4px;" />
 				</view>
 				<sn-cell v-else :title="mentionLabel(slotProps.item)" :icon="'user-line'" :clickable="true" :border="false"
-					:custom-style="drawerCellStyle" :bg-color="drawerCellBg" @click="selectFriend1(mentionIndex(slotProps.item))" />
+					:custom-style="drawerCellStyle" :bg-color="drawerCellBg" hover-style="background-color: var(--sn-info-light-active);" @click="selectFriend1(mentionIndex(slotProps.item))" />
 			</template>
 		</sn-drawer-list>
 
@@ -67,7 +67,7 @@
 					<sn-text bold :font-size="16" color="$title" :text="mentionLabel(slotProps.item)" custom-style="padding:4px 4px 12px 4px;" />
 				</view>
 				<sn-cell v-else :title="mentionLabel(slotProps.item)" :icon="'user-line'" :clickable="true" :border="false"
-					:custom-style="drawerCellStyle" :bg-color="drawerCellBg" @click="selectFriend2(mentionIndex(slotProps.item))" />
+					:custom-style="drawerCellStyle" :bg-color="drawerCellBg" hover-style="background-color: var(--sn-info-light-active);" @click="selectFriend2(mentionIndex(slotProps.item))" />
 			</template>
 		</sn-drawer-list>
 
@@ -87,7 +87,7 @@
 					<sn-text bold :font-size="16" color="$title" :text="mentionLabel(slotProps.item)" custom-style="padding:4px 4px 12px 4px;" />
 				</view>
 				<sn-cell v-else :title="mentionLabel(slotProps.item)" :icon="'user-line'" :clickable="true" :border="false"
-					:custom-style="drawerCellStyle" :bg-color="drawerCellBg" @click="insertChatFriend(mentionIndex(slotProps.item))" />
+					:custom-style="drawerCellStyle" :bg-color="drawerCellBg" hover-style="background-color: var(--sn-info-light-active);" @click="insertChatFriend(mentionIndex(slotProps.item))" />
 			</template>
 		</sn-drawer-list>
 	</sn-page>
