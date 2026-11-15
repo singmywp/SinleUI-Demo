@@ -242,7 +242,8 @@ const categories: CategoryItem[] = [
 			{ name: 'comps.item.colorPicker', url: '/pages/components/sn-color-picker', icon: 'palette-line' },
 			{ name: 'comps.item.colorPickerView', url: '/pages/components/sn-color-picker-view', icon: 'contrast-2-line' },
 			{ name: 'comps.item.form', url: '/pages/components/sn-form', icon: 'file-list-3-line' },
-			{ name: 'comps.item.uploadMedia', url: '/pages/components/sn-upload-media', icon: 'upload-2-line' }
+			{ name: 'comps.item.uploadMedia', url: '/pages/components/sn-upload-media', icon: 'upload-2-line' },
+			{ name: 'comps.item.uploadFile', url: '/pages/components/sn-upload-file', icon: 'file-upload-line' }
 		]
 	},
 	{
@@ -300,6 +301,7 @@ const categories: CategoryItem[] = [
 			{ name: 'comps.item.page', url: '/pages/components/sn-page', icon: 'file-text-line' },
 			{ name: 'comps.item.scrollView', url: '/pages/components/sn-scroll-view', icon: 'scroll-to-bottom-line' },
 			{ name: 'comps.item.listView', url: '/pages/components/sn-list-view', icon: 'file-list-2-line' },
+			{ name: 'comps.item.indexList', url: '/pages/components/sn-index-list', icon: 'file-list-3-line' },
 			{ name: 'comps.item.refresher', url: '/pages/components/sn-refresher', icon: 'refresh-line' },
 			{ name: 'comps.item.backtop', url: '/pages/components/sn-backtop', icon: 'skip-up-line' },
 			{ name: 'comps.item.grid', url: '/pages/components/sn-grid', icon: 'layout-grid-line' },

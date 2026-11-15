@@ -1,0 +1,296 @@
+<template>
+	<sn-page :title="t('snIndexList.title')" :show-back="true">
+		<demo-card :title="t('snIndexList.basicTitle')" :subtitle="t('snIndexList.basicDesc')">
+			<view class="index-demo-option" flatten>
+				<sn-text font-size="$14">{{ t('snIndexList.sortLabel') }}</sn-text>
+				<sn-switch v-model="sorted" />
+			</view>
+			<sn-index-list v-model="basicIndex" :list="names" :sort="sorted" height="$320" />
+			<text class="index-demo-caption" flatten>{{ t('snIndexList.current', { index: basicIndex || t('snIndexList.none') }) }}</text>
+		</demo-card>
+
+		<demo-card :title="t('snIndexList.contactsTitle')" :subtitle="t('snIndexList.contactsDesc')">
+			<sn-search v-model="keyword" :placeholder="t('snIndexList.searchPlaceholder')" clearable />
+			<text class="index-demo-caption" flatten>{{ t('snIndexList.contactCount', { count: filteredContacts.length }) }}</text>
+			<sn-index-list v-model="contactIndex" :list="filteredContacts" :index-list="contactIndexes"
+				height="$380" item-height="$64" header-height="$30" @select="onSelect" @item-click="onItemClick">
+				<template #default="{ item, label, group }">
+					<view class="index-demo-contact" flatten>
+						<view class="index-demo-avatar" flatten>
+							<text class="index-demo-initial" flatten>{{ label.charAt(0) }}</text>
+						</view>
+						<view class="index-demo-contact-info" flatten>
+							<text class="index-demo-name" :max-lines="1" flatten>{{ label }}</text>
+							<text class="index-demo-phone" flatten>{{ getPhone(item) }}</text>
+						</view>
+						<text class="index-demo-group" flatten>{{ group }}</text>
+					</view>
+				</template>
+				<template #header="{ index, items, sticky }">
+					<view class="index-demo-header" :class="{ 'index-demo-header-sticky': sticky }" flatten>
+						<text class="index-demo-group" flatten>{{ index }}</text>
+						<text class="index-demo-phone" flatten>{{ t('snIndexList.groupCount', { count: items.length }) }}</text>
+					</view>
+				</template>
+				<template #indicator="{ index }">
+					<text class="index-demo-indicator" flatten>{{ index }}</text>
+				</template>
+				<template #empty>
+					<view class="index-demo-empty" flatten>
+						<sn-icon name="search-line" size="$32" color="$textLight" />
+						<text class="index-demo-caption" flatten>{{ t('snIndexList.noResults') }}</text>
+					</view>
+				</template>
+			</sn-index-list>
+			<text class="index-demo-caption" flatten>{{ selectText }}</text>
+			<text class="index-demo-caption" flatten>{{ clickText }}</text>
+		</demo-card>
+
+		<demo-card :title="t('snIndexList.largeTitle')" :subtitle="t('snIndexList.largeDesc')">
+			<view class="index-demo-actions" flatten>
+				<sn-button :level="largeList.length === 500 ? 'first' : 'second'" :custom-style="actionStyle" @click="setLargeCount(500)">{{ t('snIndexList.sizeButton', { count: 500 }) }}</sn-button>
+				<sn-button :level="largeList.length === 5000 ? 'first' : 'second'" :custom-style="actionStyle" @click="setLargeCount(5000)">{{ t('snIndexList.sizeButton', { count: 5000 }) }}</sn-button>
+			</view>
+			<view class="index-demo-actions" flatten>
+				<sn-button :custom-style="actionStyle" @click="jumpToZ">{{ t('snIndexList.scrollToZ') }}</sn-button>
+				<sn-button level="second" :custom-style="actionStyle" @click="modelToM">{{ t('snIndexList.modelToM') }}</sn-button>
+				<sn-button level="second" :custom-style="actionStyle" @click="resizeAndRefresh">{{ t('snIndexList.resizeRefresh') }}</sn-button>
+			</view>
+			<sn-index-list ref="largeRef" v-model="largeIndex" :list="largeList" :height="expanded ? '$440' : '$300'"
+				@change="onChange" @scroll="onScroll" />
+			<text class="index-demo-caption" flatten>{{ t('snIndexList.largeStatus', { count: largeList.length, index: largeIndex || t('snIndexList.none'), top: scrollTop }) }}</text>
+			<text class="index-demo-caption" flatten>{{ changeText }}</text>
+			<text class="index-demo-caption" flatten>{{ methodText }}</text>
+		</demo-card>
+
+		<demo-card :title="t('snIndexList.statesTitle')" :subtitle="t('snIndexList.statesDesc')">
+			<view class="index-demo-option" flatten>
+				<sn-text font-size="$14">{{ t('snIndexList.emptyLabel') }}</sn-text>
+				<sn-switch v-model="empty" />
+			</view>
+			<view class="index-demo-option" flatten>
+				<sn-text font-size="$14">{{ t('snIndexList.indexLabel') }}</sn-text>
+				<sn-switch v-model="showIndex" />
+			</view>
+			<view class="index-demo-option" flatten>
+				<sn-text font-size="$14">{{ t('snIndexList.stickyLabel') }}</sn-text>
+				<sn-switch v-model="sticky" />
+			</view>
+			<view class="index-demo-option" flatten>
+				<sn-text font-size="$14">{{ t('snIndexList.indicatorLabel') }}</sn-text>
+				<sn-switch v-model="showIndicator" />
+			</view>
+			<view class="index-demo-container" flatten>
+				<sn-index-list :list="empty ? emptyList : names" :show-index="showIndex" :sticky="sticky" :show-indicator="showIndicator" />
+			</view>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="ts" setup>
+import { computed, nextTick, ref, shallowRef } from 'vue'
+import { useI18n } from 'vue-i18n'
+import type { SnIndexListChange, SnIndexListClick, SnIndexListInstance, SnIndexListItem } from '@/uni_modules/sinle-ui/index.ts'
+
+const { t } = useI18n()
+const actionStyle = 'margin-right:calc(var(--mf) * 10px);margin-bottom:calc(var(--mf) * 10px);'
+const names = ['张三', 'Alice', '陈一', 'Bob', '陈二', '安宁', 'Zoe', '北京', 'Anna', '赵六', '广州', '深圳', '李四', '王五', '123 服务台']
+const contacts: SnIndexListItem[] = [
+	{ id: 'alice', name: 'Alice', index: '☆', phone: '138 0000 1001' },
+	{ id: 'zeng', name: '曾宁', pinyin: 'zengning', phone: '138 0000 1002' },
+	{ id: 'shan', name: '单明', pinyin: 'shanming', phone: '138 0000 1003' },
+	{ id: 'chongqing', name: '重庆服务中心', pinyin: 'chongqingfuwuzhongxin', phone: '023 6000 1004' },
+	{ id: 'beijing', name: '北京办事处', pinyin: 'beijingbanshichu', phone: '010 6000 1005' },
+	{ id: 'bob', name: 'Bob', phone: '138 0000 1006' },
+	{ id: 'chen', name: '陈晨', pinyin: 'chenchen', phone: '138 0000 1007' },
+	{ id: 'david', name: 'David', phone: '138 0000 1008' },
+	{ id: 'guangzhou', name: '广州办事处', pinyin: 'guangzhoubanshichu', phone: '020 6000 1009' },
+	{ id: 'li', name: '李四', pinyin: 'lisi', phone: '138 0000 1010' },
+	{ id: 'maria', name: 'Maria', phone: '138 0000 1011' },
+	{ id: 'service', name: '24h 服务台', pinyin: '24hfuwutai', index: '#', phone: '400 600 1012' }
+]
+const contactIndexes = ['☆', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'L', 'M', 'Z', '#']
+const largeSeeds = ['安宁', '北京', '陈晨', 'David', 'Emma', '方明', '广州', '杭州', 'Ivy', 'Jack', '昆明', '李四', 'Maria', '南京', 'Oscar', 'Peter', '青岛', 'Rose', '深圳', 'Tina', 'Una', 'Victor', '王五', 'Xavier', 'Yuki', '张三']
+const emptyList: string[] = []
+const largeCache = new Map<number, SnIndexListItem[]>()
+const largeRef = ref<SnIndexListInstance | null>(null)
+const basicIndex = ref<string>('')
+const sorted = ref<boolean>(true)
+const keyword = ref<string>('')
+const contactIndex = ref<string>('')
+const lastSelect = ref<SnIndexListChange | null>(null)
+const lastClick = ref<SnIndexListClick | null>(null)
+const largeList = shallowRef<SnIndexListItem[]>([])
+const largeIndex = ref<string>('A')
+const expanded = ref<boolean>(false)
+const lastChange = ref<SnIndexListChange | null>(null)
+const changeCount = ref<number>(0)
+const scrollTop = ref<number>(0)
+const methodResult = ref<'Found' | 'Missing' | 'Refreshed' | 'Ready'>('Ready')
+const empty = ref<boolean>(false)
+const showIndex = ref<boolean>(true)
+const sticky = ref<boolean>(true)
+const showIndicator = ref<boolean>(true)
+
+const filteredContacts = computed<SnIndexListItem[]>(() => {
+	const query = keyword.value.trim().toLowerCase().replace(/\s+/g, '')
+	if (query === '') return contacts
+	return contacts.filter(item => `${item.name}${item.pinyin ?? ''}${item.phone ?? ''}`.toLowerCase().replace(/\s+/g, '').includes(query))
+})
+
+const selectText = computed<string>(() => {
+	const detail = lastSelect.value
+	return detail == null ? t('snIndexList.noEvent') : t('snIndexList.lastSelect', { index: detail.index, groupIndex: detail.groupIndex, source: detail.source })
+})
+
+const clickText = computed<string>(() => {
+	const detail = lastClick.value
+	if (detail == null) return t('snIndexList.noEvent')
+	const name = typeof detail.item === 'string' ? detail.item : detail.item.name
+	return t('snIndexList.clicked', { name, index: detail.index, group: detail.group })
+})
+
+const changeText = computed<string>(() => {
+	const detail = lastChange.value
+	return detail == null ? t('snIndexList.noEvent') : t('snIndexList.changeStatus', { index: detail.index, groupIndex: detail.groupIndex, source: detail.source, count: changeCount.value })
+})
+
+const methodText = computed<string>(() => t(`snIndexList.method${methodResult.value}`))
+
+function getPhone(item: string | SnIndexListItem): string {
+	return typeof item === 'string' ? '' : String(item.phone ?? '')
+}
+
+function onSelect(detail: SnIndexListChange): void {
+	lastSelect.value = detail
+}
+
+function onItemClick(detail: SnIndexListClick): void {
+	lastClick.value = detail
+}
+
+function setLargeCount(count: number): void {
+	let items = largeCache.get(count)
+	if (items == null) {
+		items = []
+		for (let index = 0; index < count; index++) {
+			items.push({ id: index + 1, name: `${largeSeeds[index % largeSeeds.length]} ${String(index + 1).padStart(4, '0')}` })
+		}
+		largeCache.set(count, items)
+	}
+	largeList.value = items
+}
+
+function jumpToZ(): void {
+	methodResult.value = largeRef.value?.scrollTo('Z') === true ? 'Found' : 'Missing'
+}
+
+function modelToM(): void {
+	largeIndex.value = 'M'
+}
+
+async function resizeAndRefresh(): Promise<void> {
+	expanded.value = !expanded.value
+	await nextTick()
+	largeRef.value?.refresh()
+	methodResult.value = 'Refreshed'
+}
+
+function onChange(detail: SnIndexListChange): void {
+	lastChange.value = detail
+	changeCount.value++
+}
+
+function onScroll(event: UniScrollEvent): void {
+	scrollTop.value = Math.round(event.detail.scrollTop)
+}
+
+setLargeCount(500)
+</script>
+
+<style lang="scss">
+.index-demo-option {
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: calc(var(--mf) * 12px);
+}
+.index-demo-actions {
+	flex-direction: row;
+	flex-wrap: wrap;
+	margin-bottom: calc(var(--mf) * 2px);
+}
+.index-demo-caption {
+	font-size: calc(var(--ff) * 12px);
+	color: var(--sn-text-light);
+	margin-top: calc(var(--mf) * 8px);
+	margin-bottom: calc(var(--mf) * 8px);
+}
+.index-demo-contact {
+	flex: 1;
+	align-self: stretch;
+	flex-direction: row;
+	align-items: center;
+	padding: 0 calc(var(--pf) * 12px);
+}
+.index-demo-avatar {
+	width: calc(var(--pf) * 36px);
+	height: calc(var(--pf) * 36px);
+	border-radius: calc(var(--rf) * 12px);
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--sn-primary-light);
+}
+.index-demo-initial {
+	font-size: calc(var(--ff) * 18px);
+	color: var(--sn-primary);
+	font-weight: bold;
+}
+.index-demo-contact-info {
+	flex: 1;
+	min-width: 0;
+	margin-left: calc(var(--mf) * 10px);
+	margin-right: calc(var(--mf) * 10px);
+}
+.index-demo-name {
+	font-size: calc(var(--ff) * 15px);
+	color: var(--sn-text);
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.index-demo-phone {
+	font-size: calc(var(--ff) * 12px);
+	color: var(--sn-text-light);
+}
+.index-demo-header {
+	height: calc(var(--pf) * 30px);
+	align-self: stretch;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 calc(var(--pf) * 12px);
+	background-color: var(--sn-page);
+}
+.index-demo-header-sticky {
+	background-color: var(--sn-primary-light);
+}
+.index-demo-group {
+	font-size: calc(var(--ff) * 13px);
+	color: var(--sn-primary);
+	font-weight: bold;
+}
+.index-demo-indicator {
+	font-size: calc(var(--ff) * 28px);
+	color: var(--sn-primary);
+	font-weight: bold;
+}
+.index-demo-empty {
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+}
+.index-demo-container {
+	height: calc(var(--pf) * 240px);
+}
+</style>

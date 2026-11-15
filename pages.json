@@ -120,6 +120,12 @@
 			}
 		},
 		{
+			"path": "pages/components/sn-upload-file",
+			"style": {
+				"navigationBarTitleText": "UploadFile 文件上传"
+			}
+		},
+		{
 			"path": "pages/components/sn-footer",
 			"style": {
 				"navigationBarTitleText": "Footer 页脚"
@@ -339,6 +345,12 @@
 			"path": "pages/components/sn-list-view",
 			"style": {
 				"navigationBarTitleText": "ListView 长列表"
+			}
+		},
+		{
+			"path": "pages/components/sn-index-list",
+			"style": {
+				"navigationBarTitleText": "IndexList 索引列表"
 			}
 		},
 		{

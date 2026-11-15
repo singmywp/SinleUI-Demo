@@ -1,0 +1,148 @@
+<template>
+	<sn-page :title="t('snUploadFile.title')" :show-back="true">
+		<demo-card :title="t('snUploadFile.basicTitle')" :subtitle="t('snUploadFile.basicSubtitle')">
+			<sn-upload-file v-model="basicFiles" :auto-upload="false" :max-count="5"
+				@file-chose="onChoose" @delete="onDelete" @choose-error="onChooseError" @exceed="onExceed" />
+			<view class="uf-demo-note" flatten>
+				<sn-text :text="t('snUploadFile.count', { count: basicFiles.length })" font-size="$12" color="$textLight" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snUploadFile.limitsTitle')" :subtitle="t('snUploadFile.limitsSubtitle')">
+			<sn-upload-file v-model="limitedFiles" :auto-upload="false" :max-count="3" :max-size="1024 * 1024"
+				:accept="['.pdf', '.txt', '.zip']" @oversize="onOversize" @invalid-type="onInvalidType"
+				@exceed="onExceed" @choose-error="onChooseError" />
+		</demo-card>
+
+		<demo-card :title="t('snUploadFile.uploadTitle')" :subtitle="t('snUploadFile.uploadSubtitle')">
+			<sn-input v-model="uploadUrl" :placeholder="t('snUploadFile.urlPlaceholder')" :clearable="true" />
+			<view class="uf-demo-option" flatten>
+				<sn-text :text="t('snUploadFile.autoUpload')" font-size="$13" />
+				<sn-switch v-model="autoUpload" />
+			</view>
+			<sn-upload-file ref="uploader" v-model="uploadFiles" :url="uploadUrl" :auto-upload="autoUpload"
+				:timeout="8000" name="file" :form-data="{ scene: 'attachment-demo' }" :max-count="5"
+				@uploaded="onUploaded" @upload-error="onUploadError" @choose-error="onChooseError" @exceed="onExceed" />
+			<view class="uf-demo-toolbar" flatten>
+				<sn-button :text="t('snUploadFile.upload')" icon="upload-2-line"
+					custom-style="margin-right:calc(var(--mf) * 10px);margin-bottom:calc(var(--mf) * 6px);" @click="uploader?.upload()" />
+				<sn-button :text="t('snUploadFile.clear')" type="info" level="second"
+					custom-style="margin-bottom:calc(var(--mf) * 6px);" @click="clearUploads" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snUploadFile.cloudTitle')" :subtitle="t('snUploadFile.cloudSubtitle')">
+			<sn-upload-file v-model="cloudFiles" upload-mode="unicloud" directory="demoUpload/files/"
+				:max-count="3" :max-size="10 * 1024 * 1024" @uploaded="onCloudUploaded" @upload-error="onUploadError"
+				@choose-error="onChooseError" @oversize="onCloudOversize" @exceed="onExceed" />
+			<view v-if="cloudFileId != ''" class="uf-demo-note" flatten>
+				<sn-text :text="t('snUploadFile.cloudFileId', { id: cloudFileId })" font-size="$12" color="$textLight" :lines="2" />
+			</view>
+		</demo-card>
+
+		<demo-card :title="t('snUploadFile.statesTitle')" :subtitle="t('snUploadFile.statesSubtitle')">
+			<sn-upload-file v-model="stateFiles" disabled :max-count="4" :auto-upload="false" />
+		</demo-card>
+
+		<demo-card :title="t('snUploadFile.customTitle')" :subtitle="t('snUploadFile.customSubtitle')">
+			<sn-upload-file v-model="customFiles" :auto-upload="false" :clearable="false" :item-border="false"
+				:choose-text="t('snUploadFile.addMaterial')" item-text-style="font-weight:bold;"
+				@choose-error="onChooseError" @exceed="onExceed">
+				<template #default="{ choose, disabled }">
+					<sn-button :text="t('snUploadFile.addMaterial')" icon="folder-add-line" type="success"
+						level="second" :disabled="disabled" @click="choose" />
+				</template>
+			</sn-upload-file>
+		</demo-card>
+	</sn-page>
+</template>
+
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import { snu } from '@/uni_modules/sinle-ui/index.ts'
+import type { SnUploadFile, SnUploadFileResponse, SnUploadFileInstance } from '@/uni_modules/sinle-ui/index.ts'
+
+const { t } = useI18n()
+const basicFiles = ref<SnUploadFile[]>([])
+const limitedFiles = ref<SnUploadFile[]>([])
+const uploadFiles = ref<SnUploadFile[]>([])
+const uploader = ref<SnUploadFileInstance | null>(null)
+const uploadUrl = ref('')
+const autoUpload = ref(false)
+const cloudFiles = ref<SnUploadFile[]>([])
+const cloudFileId = ref('')
+const stateFiles = ref<SnUploadFile[]>([
+	{ id: 'state-1', name: 'Project-report.pdf', path: '', size: 245760, status: 'uploaded', progress: 100 },
+	{ id: 'state-2', name: 'Presentation.pptx', path: '', size: 1258291, status: 'uploading', progress: 46 },
+	{ id: 'state-3', name: 'Source-code.zip', path: '', size: 838861, status: 'error', progress: 23 },
+	{ id: 'state-4', name: 'Meeting-notes.docx', path: '', size: 32768, status: 'unuploaded', progress: 0 }
+])
+const customFiles = ref<SnUploadFile[]>([
+	{ id: 'material-1', name: 'Budget.xlsx', path: '', size: 98304, status: 'uploaded', progress: 100 }
+])
+
+function onChoose(files: SnUploadFile[]): void {
+	snu.showToast({ text: t('snUploadFile.chosen', { count: files.length }) })
+}
+
+function onDelete(file: SnUploadFile): void {
+	snu.showToast({ text: t('snUploadFile.deleted', { name: file.name }) })
+}
+
+function onChooseError(error: UniError): void {
+	snu.showToast({ text: t('snUploadFile.chooseError', { message: error.cause?.message ?? error.errMsg }) })
+}
+
+function onOversize(file: SnUploadFile): void {
+	snu.showToast({ text: t('snUploadFile.oversize', { name: file.name }) })
+}
+
+function onInvalidType(file: SnUploadFile): void {
+	snu.showToast({ text: t('snUploadFile.invalidType', { name: file.name }) })
+}
+
+function onExceed(files: SnUploadFile[]): void {
+	snu.showToast({ text: t('snUploadFile.exceed', { count: files.length }) })
+}
+
+function onUploaded(_response: SnUploadFileResponse, file: SnUploadFile): void {
+	snu.showToast({ text: t('snUploadFile.uploaded', { name: file.name }) })
+}
+
+function onCloudUploaded(response: SnUploadFileResponse, file: SnUploadFile): void {
+	if ('fileID' in response) cloudFileId.value = response.fileID
+	onUploaded(response, file)
+}
+
+function onCloudOversize(file: SnUploadFile): void {
+	snu.showToast({ text: t('snUploadFile.cloudOversize', { name: file.name }) })
+}
+
+function onUploadError(error: UniError, file: SnUploadFile | null): void {
+	snu.showToast({ text: t('snUploadFile.uploadError', {
+		name: file?.name ?? '', code: error.errCode, message: error.cause?.message ?? error.errMsg
+	}) })
+}
+
+function clearUploads(): void {
+	uploadFiles.value = []
+}
+</script>
+
+<style lang="scss">
+.uf-demo-note {
+	margin-top: calc(var(--mf) * 10px);
+	flex-direction: column;
+}
+.uf-demo-option {
+	margin-top: calc(var(--mf) * 12px);
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+.uf-demo-toolbar {
+	margin-top: calc(var(--mf) * 12px);
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+</style>
